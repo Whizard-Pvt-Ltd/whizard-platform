@@ -115,6 +115,18 @@ pnpm prisma:migrate:deploy
   - cross-context/API/event contracts under `tests/contract`
 - Keep docs in sync: update architecture notes/ADR/domain docs when boundaries or contracts change.
 
+## AI Notes Convention
+
+To keep AI-generated work traceable without process overhead, use one short note per Codex task:
+
+- Folder: `docs/ai-notes/`
+- File format: `YYYY-MM-DD-short-name.md`
+- Template: `docs/ai-notes/TEMPLATE.md`
+
+Rule:
+- No Codex-driven code change without a matching `docs/ai-notes/*.md` note.
+- In PR description, link the note file.
+
 ## Next Milestones
 
 - Implement Fastify IAM modules in BFF/core API.
