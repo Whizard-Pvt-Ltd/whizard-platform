@@ -1,0 +1,69 @@
+<main class="login-shell">
+  <section class="form-pane">
+    <div class="brand-mark">
+      <span class="logo-icon">W</span>
+      <span class="logo-text">hizard</span>
+    </div>
+
+    <h1>Sign in</h1>
+    <p class="signup-copy">
+      Don't have an account?
+      <a href="#" (click)="$event.preventDefault()">Create now</a>
+    </p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="submit()" novalidate>
+      <label for="email">E-mail</label>
+      <input id="email" type="email" formControlName="email" placeholder="example@gmail.com" />
+      <small *ngIf="loginForm.controls.email.touched && loginForm.controls.email.invalid">
+        Enter a valid work email address.
+      </small>
+
+      <label for="password">Password</label>
+      <div class="password-field">
+        <input
+          id="password"
+          [type]="showPassword() ? 'text' : 'password'"
+          formControlName="password"
+          placeholder="@#*%"
+        />
+        <button type="button" (click)="togglePasswordVisibility()">
+          {{ showPassword() ? 'Hide' : 'Show' }}
+        </button>
+      </div>
+      <small *ngIf="loginForm.controls.password.touched && loginForm.controls.password.invalid">
+        Password must be at least 8 characters.
+      </small>
+
+      <div class="form-row">
+        <label class="checkbox">
+          <input type="checkbox" formControlName="rememberMe" />
+          <span>Remember me</span>
+        </label>
+        <a href="#" (click)="$event.preventDefault()">Forgot Password?</a>
+      </div>
+
+      <button class="submit" type="submit" [disabled]="isSubmitting()">
+        {{ isSubmitting() ? 'Signing in...' : 'Sign in' }}
+      </button>
+    </form>
+
+    <div class="sso-divider">
+      <span></span>
+      <p>or</p>
+      <span></span>
+    </div>
+
+    <button class="sso" type="button">
+      <span class="google-g">G</span>
+      <span>Sign in with Google</span>
+    </button>
+  </section>
+
+  <section class="image-pane" aria-hidden="true">
+    <div class="image-overlay"></div>
+    <div class="image-placeholder">
+      <p>Replace with final Figma hero image in</p>
+      <code>apps/web/admin-portal/src/assets/login-hero.jpg</code>
+    </div>
+  </section>
+</main>

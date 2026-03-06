@@ -1,0 +1,67 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "apps/web",
+  "projects": {
+    "admin-portal": {
+      "projectType": "application",
+      "root": "apps/web/admin-portal",
+      "sourceRoot": "apps/web/admin-portal/src",
+      "prefix": "whizard",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": "dist/apps/web/admin-portal",
+            "index": "apps/web/admin-portal/src/index.html",
+            "browser": "apps/web/admin-portal/src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "apps/web/admin-portal/tsconfig.app.json",
+            "inlineStyleLanguage": "css",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "apps/web/admin-portal/src/assets",
+                "output": "assets"
+              }
+            ],
+            "styles": [
+              "apps/web/admin-portal/src/styles.css"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractLicenses": true
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "admin-portal:build:production"
+            },
+            "development": {
+              "buildTarget": "admin-portal:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": false
+  }
+}

@@ -3,6 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "packageManager": "pnpm@10.6.0",
+  "pnpm": {
+    "overrides": {
+      "typescript": "5.8.2"
+    }
+  },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "postinstall": "prisma generate",
@@ -16,7 +21,9 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate:dev": "prisma migrate dev",
     "prisma:migrate:deploy": "prisma migrate deploy",
-    "prisma:migrate:reset": "prisma migrate reset"
+    "prisma:migrate:reset": "prisma migrate reset",
+    "start:web-admin": "ng serve admin-portal",
+    "build:web-admin": "ng build admin-portal"
   },
   "devDependencies": {
     "@types/node": "^22.13.10",
@@ -25,10 +32,22 @@
     "eslint": "^9.22.0",
     "only-allow": "^1.2.1",
     "prisma": "^6.4.1",
-    "typescript": "^5.8.2",
-    "vitest": "^3.0.8"
+    "typescript": "5.8.2",
+    "vitest": "^3.0.8",
+    "@angular-devkit/build-angular": "^19.2.0",
+    "@angular/cli": "^19.2.0",
+    "@angular/compiler-cli": "^19.2.0"
   },
   "dependencies": {
-    "@prisma/client": "^6.4.1"
+    "@prisma/client": "^6.4.1",
+    "@angular/animations": "^19.2.0",
+    "@angular/common": "^19.2.0",
+    "@angular/compiler": "^19.2.0",
+    "@angular/core": "^19.2.0",
+    "@angular/forms": "^19.2.0",
+    "@angular/platform-browser": "^19.2.0",
+    "@angular/router": "^19.2.0",
+    "rxjs": "^7.8.1",
+    "zone.js": "^0.15.0"
   }
 }
