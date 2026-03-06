@@ -1,0 +1,7 @@
+{
+  "name": "shared-infrastructure",
+  "root": "libs/shared/infrastructure",
+  "sourceRoot": "libs/shared/infrastructure/src",
+  "projectType": "library",
+  "tags": ["type:shared", "scope:infrastructure"]
+}

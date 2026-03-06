@@ -1,0 +1,7 @@
+{
+  "name": "identity-access",
+  "root": "libs/contexts/identity-access",
+  "sourceRoot": "libs/contexts/identity-access/src",
+  "projectType": "library",
+  "tags": ["type:context", "scope:identity-access"]
+}

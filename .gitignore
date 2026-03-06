@@ -1,0 +1,8 @@
+node_modules
+.pnpm-store
+dist
+coverage
+.env
+.env.*
+prisma/dev.db
+prisma/dev.db-journal

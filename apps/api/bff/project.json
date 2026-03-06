@@ -1,0 +1,7 @@
+{
+  "name": "api-bff",
+  "root": "apps/api/bff",
+  "sourceRoot": "apps/api/bff/src",
+  "projectType": "application",
+  "tags": ["type:app", "scope:api"]
+}

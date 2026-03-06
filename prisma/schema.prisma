@@ -1,0 +1,123 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model UserAccount {
+  id               String            @id @default(cuid())
+  primaryLoginId   String            @unique
+  primaryEmail     String            @unique
+  authMode         String
+  status           String
+  mfaRequired      Boolean           @default(true)
+  tenantType       String
+  tenantId         String
+  createdAt        DateTime          @default(now())
+  activatedAt      DateTime?
+  lastLoginAt      DateTime?
+  version          Int               @default(1)
+  accessPrincipals AccessPrincipal[]
+  sessions         UserSession[]
+
+  @@map("iam_user_accounts")
+  @@index([tenantType, tenantId])
+  @@index([status])
+}
+
+model AccessPrincipal {
+  id                String              @id @default(cuid())
+  userAccountId     String
+  tenantType        String
+  tenantId          String
+  status            String
+  createdAt         DateTime            @default(now())
+  version           Int                 @default(1)
+  userAccount       UserAccount         @relation(fields: [userAccountId], references: [id], onDelete: Restrict)
+  roleAssignments   RoleAssignment[]
+  permissionGrants  PermissionGrant[]
+  scopeRestrictions ScopeRestriction[]
+
+  @@map("iam_access_principals")
+  @@unique([userAccountId, tenantType, tenantId])
+  @@index([tenantType, tenantId, status])
+}
+
+model RoleAssignment {
+  id                String          @id @default(cuid())
+  accessPrincipalId String
+  roleCode          String
+  assignedBy        String
+  assignedAt        DateTime        @default(now())
+  validFrom         DateTime?
+  validTo           DateTime?
+  status            String
+  accessPrincipal   AccessPrincipal @relation(fields: [accessPrincipalId], references: [id], onDelete: Restrict)
+
+  @@map("iam_role_assignments")
+  @@index([accessPrincipalId, status])
+  @@index([roleCode])
+}
+
+model PermissionGrant {
+  id                String          @id @default(cuid())
+  accessPrincipalId String
+  permissionCode    String
+  grantSource       String
+  scopeType         String?
+  scopeValue        String?
+  grantedAt         DateTime        @default(now())
+  revokedAt         DateTime?
+  accessPrincipal   AccessPrincipal @relation(fields: [accessPrincipalId], references: [id], onDelete: Restrict)
+
+  @@map("iam_permission_grants")
+  @@index([accessPrincipalId, permissionCode])
+  @@index([permissionCode, revokedAt])
+}
+
+model ScopeRestriction {
+  id                String          @id @default(cuid())
+  accessPrincipalId String
+  resourceType      String
+  restrictionType   String
+  scopeExpression   String
+  createdAt         DateTime        @default(now())
+  accessPrincipal   AccessPrincipal @relation(fields: [accessPrincipalId], references: [id], onDelete: Restrict)
+
+  @@map("iam_scope_restrictions")
+  @@index([accessPrincipalId, resourceType])
+}
+
+model UserSession {
+  id               String      @id @default(cuid())
+  userAccountId    String
+  status           String
+  issuedAt         DateTime    @default(now())
+  lastActivityAt   DateTime    @default(now())
+  expiresAt        DateTime
+  refreshExpiresAt DateTime
+  clientContext    String
+  userAccount      UserAccount @relation(fields: [userAccountId], references: [id], onDelete: Restrict)
+
+  @@map("iam_user_sessions")
+  @@index([userAccountId, status])
+  @@index([expiresAt])
+}
+
+model OutboxEvent {
+  id            String   @id @default(cuid())
+  aggregateType String
+  aggregateId   String
+  eventType     String
+  payload       Json
+  status        String   @default("PENDING")
+  occurredAt    DateTime @default(now())
+  publishedAt   DateTime?
+
+  @@map("iam_outbox_events")
+  @@index([eventType, publishedAt])
+  @@index([status, occurredAt])
+}

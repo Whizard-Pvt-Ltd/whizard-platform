@@ -1,0 +1,710 @@
+I want to generate this repository with DDD design
+1. DDD + Angular + Fastify + PostgreSQL + Kafka
+2. 
+Frontend
+Angular in Nx apps plus shared UI libraries
+Backend
+Fastify BFF plus Fastify domain APIs and workers
+Persistence
+PostgreSQL with context-owned schema slices and migrations
+Messaging
+Kafka for integration events, async workflows, and projections
+
+3. Following Folder structure 
+whizard-platform/
+  apps/
+    web/
+      admin-portal/
+      student-portal/
+      college-portal/
+      company-portal/
+    api/
+      bff/
+      core-api/
+    workers/
+      async-orchestrator/
+      projection-updater/
+      scheduler/
+  libs/
+    contexts/
+      identity-access/
+      governance/
+      capability-framework/
+      certification-progression/
+      student-lifecycle/
+      internship-hiring/
+      college-operations/
+      company-organization/
+      enterprise-workforce/
+      communication-social/
+      billing-subscription/
+      analytics-readiness/
+    shared/
+      kernel/
+      application/
+      domain/
+      infrastructure/
+      contracts/
+      ui/
+  integrations/
+    external/
+      erp/
+      hrms/
+      payment/
+      email/
+      sms/
+      storage/
+      search/
+    internal/
+      kafka/
+      auth/
+      webhooks/
+  data/
+    postgres/
+      migrations/
+      seeds/
+      fixtures/
+    kafka/
+      topics/
+      schemas/
+    local/
+      docker/
+      dev-volumes/
+  docs/
+    architecture/
+    adr/
+    domain/
+    api/
+    product/
+    engineering/
+    runbooks/
+    pr/
+    decisions/
+    diagrams/
+  tools/
+    scripts/
+    generators/
+    lint/
+    test/
+    ci/
+    quality-gates/
+  tests/
+    e2e/
+    contract/
+    performance/
+    smoke/
+    fixtures/
+  .github/
+    workflows/
+    pull_request_template.md
+    ISSUE_TEMPLATE/
+  nx.json
+  package.json
+  pnpm-workspace.yaml
+  tsconfig.base.json
+
+for now we want to just focus on identity and access context boundary
+
+4. Web apps
+apps/web/
+  admin-portal/
+    src/
+      app/
+        app.config.ts
+        app.routes.ts
+        layout/
+        pages/
+        features/
+        state/
+        api-clients/
+        guards/
+        interceptors/
+        resolvers/
+      assets/
+      environments/
+    project.json
+  student-portal/
+  college-portal/
+  company-portal/
+
+5.  Backend entry points
+apps/api/
+  bff/
+    src/
+      main.ts
+      app/
+        bootstrap/
+        plugins/
+        routes/
+        modules/
+        auth/
+        serializers/
+        validators/
+        error-handling/
+        config/
+    project.json
+  core-api/
+    src/
+      main.ts
+      app/
+        bootstrap/
+        plugins/
+        routes/
+        health/
+        admin/
+        config/
+    project.json
+
+    6. Async workers
+apps/workers/
+  async-orchestrator/
+    src/
+      main.ts
+      consumers/
+      handlers/
+      retries/
+      dead-letter/
+      config/
+  projection-updater/
+    src/
+      main.ts
+      projectors/
+      subscriptions/
+      checkpoints/
+  scheduler/
+    src/
+      main.ts
+      jobs/
+      triggers/
+      locks/
+
+7.  Bounded context library structure
+Each bounded context should have the same internal shape so contributors can move between contexts without relearning the codebase.
+libs/contexts/<bounded-context>/
+  README.md
+  project.json
+  src/
+    index.ts
+    public-api.ts
+    presentation/
+      http/
+        routes/
+        controllers/
+        request-dto/
+        response-dto/
+        mappers/
+        schemas/
+      messaging/
+        consumers/
+        publishers/
+        message-mappers/
+    application/
+      commands/
+      command-handlers/
+      queries/
+      query-handlers/
+      use-cases/
+      services/
+      workflows/
+        process-managers/
+        sagas/
+      policies/
+      ports/
+        repositories/
+        gateways/
+        event-bus/
+        clock/
+      dto/
+      mappers/
+      validators/
+      authorization/
+      tenancy/
+    domain/
+      aggregates/
+      entities/
+      value-objects/
+      services/
+      events/
+      specifications/
+      factories/
+      repositories/
+      exceptions/
+      policies/
+    infrastructure/
+      persistence/
+        postgres/
+          schemas/
+          orm/
+          repositories/
+          mappers/
+          migrations/
+          queries/
+      messaging/
+        kafka/
+          producers/
+          consumers/
+          serializers/
+          topic-bindings/
+      integrations/
+      config/
+      observability/
+      cache/
+      files/
+    contracts/
+      events/
+      api/
+      integration/
+    tests/
+      unit/
+      integration/
+      fixtures/
+      builders/
+
+
+
+      Domain layer placement rules
+This is the layer you protect hardest. It must remain framework-agnostic so it can be tested in isolation and survive infrastructure changes.
+domain/
+  aggregates/
+    <aggregate-name>/
+      <aggregate-root>.ts
+      entities/
+      value-objects/
+      events/
+      invariants/
+  entities/
+    <entity-name>.ts
+  value-objects/
+    <value-object-name>.ts
+  services/
+    <domain-service-name>.ts
+  events/
+    <domain-event-name>.ts
+  specifications/
+    <specification-name>.ts
+  factories/
+    <factory-name>.ts
+  repositories/
+    <repository-port>.ts
+  exceptions/
+    <domain-error>.ts
+  policies/
+    <domain-policy>.ts
+aggregates/<aggregate-name>/ gets first-class folders because aggregates are the primary consistency boundary. Nesting aggregate-specific entities and value objects inside the aggregate folder makes invariants discoverable and prevents accidental re-use of internals across aggregates.
+domain/entities/ is only for entities shared by more than one aggregate inside the same bounded context. If an entity only makes sense inside one aggregate, keep it inside that aggregate folder.
+domain/value-objects/ is only for context-wide value objects. Aggregate-private value objects stay in the aggregate. This avoids fake reuse that later weakens boundaries.
+domain/events/ stores pure domain events emitted by aggregates or domain services. These are internal business facts. They are not Kafka payloads yet.
+domain/repositories/ contains repository interfaces only. Infrastructure implements them.
+6. Application layer placement rules
+The application layer is where use cases live. Every state-changing use case gets a command and a handler. Every read use case gets a query and a handler. Longer flows get workflows or sagas.
+application/
+  commands/
+    create-<thing>.command.ts
+    update-<thing>.command.ts
+  command-handlers/
+    create-<thing>.handler.ts
+    update-<thing>.handler.ts
+  queries/
+    get-<view>.query.ts
+    list-<view>.query.ts
+  query-handlers/
+    get-<view>.handler.ts
+    list-<view>.handler.ts
+  use-cases/
+    <verb>-<noun>/
+      request.ts
+      response.ts
+      handler.ts
+  services/
+    <context>-application-service.ts
+  workflows/
+    process-managers/
+    sagas/
+  policies/
+  ports/
+    repositories/
+    gateways/
+    event-bus/
+    storage/
+    identity/
+  dto/
+  mappers/
+  validators/
+  authorization/
+  tenancy/
+If the team prefers explicit use-case folders over command-query split, keep both by letting use-cases/<verb-noun>/ re-export the command, DTO, and handler for discoverability. The important point is one predictable home for every use case.
+application/services/ should stay thin. These are orchestration facades for a group of related use cases, not giant transaction scripts.
+application/ports/ defines what the application needs from the outside: repositories, event bus, email, object storage, clock, identity context, or upstream context gateways.
+7. Infrastructure layer placement rules
+infrastructure/
+  persistence/
+    postgres/
+      schemas/
+      orm/
+      repositories/
+      mappers/
+      migrations/
+      queries/
+      transactions/
+  messaging/
+    kafka/
+      producers/
+      consumers/
+      serializers/
+      deserializers/
+      topic-bindings/
+      outbox/
+  integrations/
+    <external-system>/
+      client/
+      mappers/
+      dto/
+      auth/
+      retries/
+  config/
+  observability/
+    logging/
+    metrics/
+    tracing/
+  cache/
+  files/
+  security/
+persistence/postgres/schemas/ holds table or schema declarations. orm/ holds query-builder or ORM setup if you use one. repositories/ contains concrete repository implementations. mappers/ translates persistence rows to domain objects. queries/ is for optimized read SQL that should not leak into aggregate repositories.
+messaging/kafka/outbox/ is critical. Domain events should first be stored transactionally, then converted into integration events for Kafka publication. This protects you from lost events.
+integrations/<external-system>/ keeps each upstream or downstream dependency isolated. Every integration gets its own client, mappers, auth strategy, and retry policy so failures stay local.
+8. Shared libraries structure
+libs/shared/
+  kernel/
+    src/
+      ids/
+      result/
+      errors/
+      guards/
+      primitives/
+      enums/
+  application/
+    src/
+      auth/
+      tenancy/
+      transactions/
+      idempotency/
+      outbox/
+      notifications/
+      workflow/
+      cqrs/
+  domain/
+    src/
+      events/
+      specifications/
+      testing/
+  infrastructure/
+    src/
+      postgres/
+      kafka/
+      config/
+      logging/
+      telemetry/
+      security/
+  contracts/
+    src/
+      common/
+      event-envelope/
+      pagination/
+      problem-details/
+  ui/
+    src/
+      design-system/
+      layout/
+      form-controls/
+      data-display/
+      auth/
+shared/kernel/ is the smallest allowed shared surface: IDs, Result or Either types, base errors, guard helpers, and simple primitives. If you put business language here, you will create a hidden distributed monolith.
+shared/application/ holds platform patterns reused by many contexts: transaction helpers, outbox helpers, idempotency guards, common notification ports, common CQRS abstractions.
+shared/ui/ is the Angular design system and cross-app UI primitives. Keep domain-specific feature components out of it.
+9. Integrations folder structure
+Use a dedicated top-level integrations/ folder in addition to context-local infrastructure/integrations/ folders. The top-level folder is for platform-wide adapters, templates, shared connectors, and integration documentation that multiple contexts rely on.
+integrations/
+  external/
+    erp/
+      docs/
+      schemas/
+      mock-server/
+      shared-client/
+      contract-tests/
+    hrms/
+    payment/
+    email/
+    sms/
+    storage/
+    search/
+  internal/
+    kafka/
+      topic-catalog/
+      shared-producers/
+      shared-consumers/
+      schema-registry/
+      retry-policies/
+      dead-letter/
+    auth/
+      token-verification/
+      jwks/
+    webhooks/
+      signature-validation/
+      relay/
+This folder is a platform integration hub. Use it for contracts and reusable integration tooling. Use context-local infrastructure/integrations/ when an adapter is specific to one bounded context.
+10. Data and persistence assets
+data/
+  postgres/
+    migrations/
+      baseline/
+      contexts/
+        identity-access/
+        governance/
+        capability-framework/
+      shared/
+    seeds/
+      reference/
+      dev/
+      test/
+    fixtures/
+      minimal/
+      demo/
+      load/
+  kafka/
+    topics/
+      domain-events/
+      integration-events/
+      retries/
+      dead-letter/
+    schemas/
+      avro/
+      json/
+  local/
+    docker/
+      compose/
+      env/
+      init/
+    dev-volumes/
+Keep migration ownership visible. When possible, each bounded context owns its own migration files under data/postgres/migrations/contexts/<context> even if the database is shared. That preserves accountability and makes later schema extraction easier.
+Kafka topic and schema catalogs deserve source control because event contracts are part of architecture, not runtime trivia.
+11. Docs folder structure
+docs/
+  README.md
+  architecture/
+    system-overview.md
+    context-map.md
+    deployment-view.md
+    runtime-view.md
+    data-flow.md
+  adr/
+    ADR-0001-monorepo.md
+    ADR-0002-shared-postgres.md
+    ADR-0003-kafka-outbox.md
+  domain/
+    ubiquitous-language/
+    bounded-contexts/
+    aggregates/
+    events/
+    invariants/
+  api/
+    bff/
+    core-api/
+    event-contracts/
+    webhooks/
+  product/
+    srs/
+    workflows/
+    permissions/
+    personas/
+  engineering/
+    coding-standards.md
+    branching-strategy.md
+    testing-strategy.md
+    release-strategy.md
+    local-development.md
+  runbooks/
+    incident-response.md
+    replay-kafka-consumer.md
+    rebuild-projections.md
+  pr/
+    templates/
+    checklists/
+    notable-prs/
+  decisions/
+    trade-offs.md
+    rejected-options.md
+  diagrams/
+    c4/
+    sequence/
+    data-model/
+    event-flow/
+    ui-flow/
+docs/ is not just for requirements. It should capture architecture, ADRs, domain language, API contracts, operational runbooks, and PR process. This makes the repo self-explanatory and lowers dependence on oral knowledge.
+pr/ is worth its own folder because design review tends to decay into scattered comment threads. Keep review checklists, key PR references, and decisions discoverable.
+12. Tests strategy and test folder placement
+Within each context:
+  tests/
+    unit/
+    integration/
+    fixtures/
+    builders/
+
+At repository root:
+tests/
+  e2e/
+    web/
+    api/
+  contract/
+    api/
+    events/
+    integrations/
+  performance/
+    k6/
+    scenarios/
+  smoke/
+  fixtures/
+Put narrow tests close to the code, and broad tests at the repository root. Aggregate tests should sit beside the aggregate root or in the context unit-test folder. Contract tests for BFF, Kafka schemas, and external integrations belong in tests/contract/.
+13. Kafka and event flow structure
+Use two event concepts: domain events inside the bounded context and integration events published to Kafka. Never publish raw domain objects directly.
+Flow:
+  domain aggregate emits DomainEvent
+    -> application handler persists state
+    -> outbox record created in same transaction
+    -> worker reads outbox
+    -> integration event mapper builds event contract
+    -> kafka producer publishes
+    -> consumer in another app or context handles it
+    -> projection or workflow updated
+Location
+Contents
+Why
+domain/events/
+Pure business facts
+Keeps domain language clean and testable.
+contracts/events/
+Versioned integration payloads
+Stable cross-context and cross-service contracts.
+infrastructure/messaging/kafka/
+Producers, consumers, serializers, topic bindings
+Concrete transport mechanics isolated from business code.
+data/kafka/schemas/
+Avro or JSON schema definitions
+Governed compatibility and reviewable event evolution.
+
+14. PostgreSQL structure and ownership
+Even with one shared Postgres cluster and a shared database, act as if each bounded context owns its own schema slice. The easiest practical version is one database with schema namespaces per context, or at minimum naming conventions and migration folders per context.
+Recommended logical ownership:
+  whizard_identity_access.*
+  whizard_governance.*
+  whizard_capability_framework.*
+  whizard_certification_progression.*
+  whizard_shared.*   (only truly cross-cutting technical tables such as outbox, migration metadata, idempotency)
+Repository implementations live inside each bounded context. Cross-context reads for dashboards should use read models or query services, not direct writes into another context schema.
+15. Example of one bounded context in full
+libs/contexts/certification-progression/
+  src/
+    presentation/
+      http/
+        routes/
+          certification.routes.ts
+        controllers/
+          certification.controller.ts
+        request-dto/
+          enroll-student.request.ts
+          approve-upgrade.request.ts
+        response-dto/
+          certification-status.response.ts
+        mappers/
+          certification-http.mapper.ts
+      messaging/
+        consumers/
+          capability-instance-certified.consumer.ts
+        publishers/
+          certification-awarded.publisher.ts
+    application/
+      commands/
+        enroll-student.command.ts
+        validate-upgrade.command.ts
+        approve-upgrade.command.ts
+        issue-certification-record.command.ts
+      command-handlers/
+        enroll-student.handler.ts
+        validate-upgrade.handler.ts
+        approve-upgrade.handler.ts
+        issue-certification-record.handler.ts
+      queries/
+        get-student-certification-status.query.ts
+      query-handlers/
+        get-student-certification-status.handler.ts
+      workflows/
+        process-managers/
+          certification-upgrade.pm.ts
+      ports/
+        repositories/
+          certification-record.repository.ts
+          certification-level.repository.ts
+        gateways/
+          notification.gateway.ts
+          student-profile.gateway.ts
+      authorization/
+        certification.authorization.ts
+      tenancy/
+        certification.tenant-scope.ts
+    domain/
+      aggregates/
+        certification-level/
+          certification-level.ts
+          entities/
+            level-requirement-profile.ts
+          value-objects/
+            level-number.vo.ts
+            minimum-thresholds.vo.ts
+        certification-record/
+          certification-record.ts
+          events/
+            certification-awarded.event.ts
+      value-objects/
+        version-reference.vo.ts
+      repositories/
+        certification-record.repository.ts
+    infrastructure/
+      persistence/
+        postgres/
+          repositories/
+            pg-certification-record.repository.ts
+          mappers/
+            certification-record.persistence.mapper.ts
+          queries/
+            certification-status.sql.ts
+      messaging/
+        kafka/
+          producers/
+            certification-awarded.producer.ts
+          topic-bindings/
+            certification.topic-bindings.ts
+    contracts/
+      events/
+        certification-awarded.v1.ts
+This example shows the intended separation: transport contracts and Kafka payloads are not mixed with domain events; repository ports appear in domain or application, while repository implementations appear in infrastructure.
+16. Naming conventions
+Use kebab-case for folders, file names, and Nx project names.
+Use singular names for aggregates and entities (certification-record, not certification-records).
+Use explicit suffixes for adapters: .repository.ts, .producer.ts, .consumer.ts, .gateway.ts, .mapper.ts, .handler.ts.
+Use version suffixes for published contracts: customer-created.v1.ts.
+Keep public entry points in src/index.ts and src/public-api.ts only.
+17. Guardrails for vibe coding
+Nx project tags and enforced dependency constraints so presentation depends on application, not private internals of another context.
+ESLint import boundaries to block cross-context private imports.
+Template generators for new bounded contexts, aggregates, commands, and handlers.
+PR checklist requiring correct location, ports before adapters, versioned contracts, tests, and docs updates.
+Architecture tests that fail if infrastructure imports appear inside domain folders.
+18. First implementation sequence
+Create the top-level folders and Nx projects first, before writing business logic.
+Establish shared/kernel, shared/application, and shared/infrastructure packages.
+Generate one bounded context template and copy the structure consistently.
+Implement transaction, outbox, idempotency, auth context, and tenancy context before feature work.
+Add one vertical slice end to end (for example: create certification level) to validate the structure.
+Only then scale to the remaining bounded contexts.
+
+Here we have made an attempt to optimize the structure for predictability, enforceability, and change safety. The right compromise for this platform is a modular monolith with strict bounded-context folders, explicit application use cases, pure domain models, Postgres ownership by context, and Kafka only through outbox-backed integration events. That gives us enough structure to move fast without turning the repo into a maze.
+

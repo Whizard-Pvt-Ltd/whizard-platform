@@ -1,0 +1,7 @@
+{
+  "name": "web-admin-portal",
+  "root": "apps/web/admin-portal",
+  "sourceRoot": "apps/web/admin-portal/src",
+  "projectType": "application",
+  "tags": ["type:app", "scope:web"]
+}

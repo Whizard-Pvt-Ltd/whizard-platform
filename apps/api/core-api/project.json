@@ -1,0 +1,7 @@
+{
+  "name": "api-core-api",
+  "root": "apps/api/core-api",
+  "sourceRoot": "apps/api/core-api/src",
+  "projectType": "application",
+  "tags": ["type:app", "scope:api"]
+}
