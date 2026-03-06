@@ -13,6 +13,7 @@
     "postinstall": "prisma generate",
     "build": "tsc -p tsconfig.base.json --noEmit",
     "lint": "eslint .",
+    "ai:check-notes": "tools/scripts/check-ai-notes.sh",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:unit": "vitest run --dir libs",
