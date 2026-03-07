@@ -2,6 +2,8 @@ import { DomainEvent } from '../../events/domain-event';
 import { IamDomainError } from '../../exceptions/iam-domain.error';
 import { SessionId } from '../../value-objects/session-id.vo';
 import { UserAccountId } from '../../value-objects/user-account-id.vo';
+import type { SessionDevice } from './entities/session-device.entity';
+import type { SessionToken } from './entities/session-token.entity';
 
 export type SessionStatus = 'ACTIVE' | 'REVOKED' | 'EXPIRED';
 
@@ -14,6 +16,8 @@ interface UserSessionState {
   expiresAt: Date;
   refreshExpiresAt: Date;
   clientContext: string;
+  tokens: SessionToken[];
+  devices: SessionDevice[];
 }
 
 export class UserSession {
@@ -38,7 +42,9 @@ export class UserSession {
       lastActivityAt: now,
       expiresAt: new Date(now.getTime() + input.ttlMinutes * 60_000),
       refreshExpiresAt: new Date(now.getTime() + input.refreshTtlMinutes * 60_000),
-      clientContext: input.clientContext
+      clientContext: input.clientContext,
+      tokens: [],
+      devices: []
     });
 
     session.raise({
@@ -63,6 +69,8 @@ export class UserSession {
     expiresAt: Date;
     refreshExpiresAt: Date;
     clientContext: string;
+    tokens?: SessionToken[];
+    devices?: SessionDevice[];
   }): UserSession {
     return new UserSession({
       id: SessionId.create(input.id),
@@ -72,7 +80,20 @@ export class UserSession {
       lastActivityAt: input.lastActivityAt,
       expiresAt: input.expiresAt,
       refreshExpiresAt: input.refreshExpiresAt,
-      clientContext: input.clientContext
+      clientContext: input.clientContext,
+      tokens: input.tokens ?? [],
+      devices: input.devices ?? []
+    });
+  }
+
+  denyConcurrentSession(now: Date = new Date()): void {
+    this.raise({
+      type: 'iam.concurrent-session-denied.v1',
+      occurredAt: now,
+      payload: {
+        sessionId: this.id.value,
+        userAccountId: this.userAccountId.value
+      }
     });
   }
 
@@ -96,6 +117,14 @@ export class UserSession {
         refreshExpiresAt: this.refreshExpiresAt.toISOString()
       }
     });
+  }
+
+  attachToken(token: SessionToken): void {
+    this.state.tokens.push(token);
+  }
+
+  registerDevice(device: SessionDevice): void {
+    this.state.devices.push(device);
   }
 
   revoke(reason: string, now: Date = new Date()): void {

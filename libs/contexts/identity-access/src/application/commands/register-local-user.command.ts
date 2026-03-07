@@ -1,8 +1,5 @@
-import type { TenantType } from '../../domain';
+import type { RegisterLocalUserRequestDto } from '../dto/requests/register-local-user.request.dto';
 
 export interface RegisterLocalUserCommand {
-  email: string;
-  tenantType: TenantType;
-  tenantId: string;
-  mfaRequired?: boolean;
+  readonly request: RegisterLocalUserRequestDto;
 }

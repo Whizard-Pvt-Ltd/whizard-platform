@@ -1,6 +1,4 @@
-export * from './aggregates/user-identity/user-account.aggregate';
-export * from './aggregates/user-session/user-session.aggregate';
-export * from './aggregates/access-policy/access-principal.aggregate';
+export * from './aggregates';
 export * from './events/domain-event';
 export * from './exceptions/iam-domain.error';
 export * from './value-objects/email-address.vo';

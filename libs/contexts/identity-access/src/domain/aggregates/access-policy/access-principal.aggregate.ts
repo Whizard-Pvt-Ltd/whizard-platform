@@ -1,4 +1,5 @@
 import { DomainEvent } from '../../events/domain-event';
+import { AccessDecision } from '../../value-objects/access-decision';
 import { IamDomainError } from '../../exceptions/iam-domain.error';
 import { TenantRef } from '../../value-objects/tenant-ref.vo';
 import { UserAccountId } from '../../value-objects/user-account-id.vo';
@@ -108,6 +109,48 @@ export class AccessPrincipal {
     });
   }
 
+  evaluateAccess(input: {
+    tenantType: 'SYSTEM' | 'PARENT_CLUB' | 'COLLEGE' | 'COMPANY';
+    tenantId: string;
+    permissionCode: string;
+    resourceType?: string;
+    resourceId?: string;
+  }): AccessDecision {
+    const sameTenant =
+      this.tenant.tenantType === input.tenantType && this.tenant.tenantId === input.tenantId;
+
+    if (!sameTenant || this.state.status !== 'ACTIVE') {
+      return AccessDecision.deny();
+    }
+
+    const hasPermission = this.state.permissions.some(
+      (grant) => grant.permissionCode === input.permissionCode && !grant.revokedAt
+    );
+
+    if (!hasPermission) {
+      return AccessDecision.deny();
+    }
+
+    if (!input.resourceType || !input.resourceId) {
+      return AccessDecision.allow();
+    }
+
+    const hasBlockingRestriction = this.state.restrictions.some((restriction) => {
+      if (restriction.resourceType !== input.resourceType) {
+        return false;
+      }
+
+      if (restriction.restrictionType !== 'ALLOW_LIST') {
+        return false;
+      }
+
+      const allowList = restriction.scopeExpression.split(',').map((value) => value.trim());
+      return !allowList.includes(input.resourceId!);
+    });
+
+    return hasBlockingRestriction ? AccessDecision.deny() : AccessDecision.allow();
+  }
+
   assignRole(input: {
     roleId: string;
     roleCode: string;
@@ -143,6 +186,29 @@ export class AccessPrincipal {
     this.raise({
       type: 'iam.role-assigned.v1',
       occurredAt: assignedAt,
+      payload: {
+        accessPrincipalId: this.id,
+        roleCode: input.roleCode
+      }
+    });
+  }
+
+  revokeRole(input: { roleCode: string; revokedAt?: Date }): void {
+    const revokedAt = input.revokedAt ?? new Date();
+    const role = this.state.roles.find(
+      (item) => item.roleCode === input.roleCode && item.status === 'ACTIVE'
+    );
+
+    if (!role) {
+      return;
+    }
+
+    role.status = 'REVOKED';
+    role.validTo = revokedAt;
+
+    this.raise({
+      type: 'iam.role-revoked.v1',
+      occurredAt: revokedAt,
       payload: {
         accessPrincipalId: this.id,
         roleCode: input.roleCode

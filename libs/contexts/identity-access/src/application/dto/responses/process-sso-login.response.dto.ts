@@ -1,0 +1,5 @@
+export interface ProcessSsoLoginResponseDto {
+  readonly success: boolean;
+  readonly message: string;
+  readonly data: Record<string, unknown>;
+}

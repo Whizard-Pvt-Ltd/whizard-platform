@@ -3,6 +3,10 @@ import { IamDomainError } from '../../exceptions/iam-domain.error';
 import { EmailAddress } from '../../value-objects/email-address.vo';
 import { TenantRef } from '../../value-objects/tenant-ref.vo';
 import { UserAccountId } from '../../value-objects/user-account-id.vo';
+import type { ActorLink } from './entities/actor-link.entity';
+import type { Credential } from './entities/credential.entity';
+import type { MfaEnrollment } from './entities/mfa-enrollment.entity';
+import type { TenantMembership } from './entities/tenant-membership.entity';
 
 export type AccountStatus = 'PENDING' | 'ACTIVE' | 'SUSPENDED';
 
@@ -15,6 +19,10 @@ interface UserAccountState {
   createdAt: Date;
   activatedAt: Date | null;
   lastLoginAt: Date | null;
+  credentials: Credential[];
+  mfaEnrollments: MfaEnrollment[];
+  tenantMemberships: TenantMembership[];
+  actorLinks: ActorLink[];
 }
 
 export class UserAccount {
@@ -38,7 +46,11 @@ export class UserAccount {
       mfaRequired: input.mfaRequired,
       createdAt: now,
       activatedAt: null,
-      lastLoginAt: null
+      lastLoginAt: null,
+      credentials: [],
+      mfaEnrollments: [],
+      tenantMemberships: [],
+      actorLinks: []
     });
 
     account.raise({
@@ -66,6 +78,10 @@ export class UserAccount {
     createdAt: Date;
     activatedAt: Date | null;
     lastLoginAt: Date | null;
+    credentials?: Credential[];
+    mfaEnrollments?: MfaEnrollment[];
+    tenantMemberships?: TenantMembership[];
+    actorLinks?: ActorLink[];
   }): UserAccount {
     return new UserAccount({
       id: UserAccountId.create(input.id),
@@ -75,7 +91,11 @@ export class UserAccount {
       mfaRequired: input.mfaRequired,
       createdAt: input.createdAt,
       activatedAt: input.activatedAt,
-      lastLoginAt: input.lastLoginAt
+      lastLoginAt: input.lastLoginAt,
+      credentials: input.credentials ?? [],
+      mfaEnrollments: input.mfaEnrollments ?? [],
+      tenantMemberships: input.tenantMemberships ?? [],
+      actorLinks: input.actorLinks ?? []
     });
   }
 
@@ -91,6 +111,142 @@ export class UserAccount {
       type: 'iam.user-account-activated.v1',
       occurredAt: now,
       payload: { userAccountId: this.id.value }
+    });
+  }
+
+  changeEmail(nextEmail: EmailAddress, now: Date = new Date()): void {
+    if (this.state.email.value === nextEmail.value) {
+      return;
+    }
+
+    const previousEmail = this.state.email.value;
+    this.state.email = nextEmail;
+
+    this.raise({
+      type: 'iam.user-email-changed.v1',
+      occurredAt: now,
+      payload: {
+        userAccountId: this.id.value,
+        previousEmail,
+        newEmail: nextEmail.value
+      }
+    });
+  }
+
+  enrollMfa(input: {
+    enrollmentId: string;
+    factorType: 'TOTP' | 'SMS' | 'EMAIL' | 'WEBAUTHN';
+    secretRef: string;
+    now?: Date;
+  }): void {
+    const now = input.now ?? new Date();
+
+    const existsActive = this.state.mfaEnrollments.some(
+      (mfa) => mfa.factorType === input.factorType && mfa.status === 'ACTIVE'
+    );
+
+    if (existsActive) {
+      return;
+    }
+
+    this.state.mfaEnrollments.push({
+      enrollmentId: input.enrollmentId,
+      factorType: input.factorType,
+      secretRef: input.secretRef,
+      status: 'ACTIVE',
+      enrolledAt: now,
+      revokedAt: null
+    });
+
+    this.raise({
+      type: 'iam.mfa-enrolled.v1',
+      occurredAt: now,
+      payload: {
+        userAccountId: this.id.value,
+        enrollmentId: input.enrollmentId,
+        factorType: input.factorType
+      }
+    });
+  }
+
+  revokeMfaFactor(enrollmentId: string, now: Date = new Date()): void {
+    const enrollment = this.state.mfaEnrollments.find((item) => item.enrollmentId === enrollmentId);
+
+    if (!enrollment || enrollment.status === 'REVOKED') {
+      return;
+    }
+
+    enrollment.status = 'REVOKED';
+    enrollment.revokedAt = now;
+
+    this.raise({
+      type: 'iam.mfa-factor-revoked.v1',
+      occurredAt: now,
+      payload: {
+        userAccountId: this.id.value,
+        enrollmentId
+      }
+    });
+  }
+
+  addTenantMembership(input: {
+    membershipId: string;
+    tenantType: 'SYSTEM' | 'PARENT_CLUB' | 'COLLEGE' | 'COMPANY';
+    tenantId: string;
+    now?: Date;
+  }): void {
+    const now = input.now ?? new Date();
+    const exists = this.state.tenantMemberships.some(
+      (membership) =>
+        membership.tenantType === input.tenantType &&
+        membership.tenantId === input.tenantId &&
+        membership.status === 'ACTIVE'
+    );
+
+    if (exists) {
+      return;
+    }
+
+    this.state.tenantMemberships.push({
+      membershipId: input.membershipId,
+      tenantType: input.tenantType,
+      tenantId: input.tenantId,
+      status: 'ACTIVE',
+      joinedAt: now,
+      revokedAt: null
+    });
+
+    this.raise({
+      type: 'iam.tenant-membership-added.v1',
+      occurredAt: now,
+      payload: {
+        userAccountId: this.id.value,
+        membershipId: input.membershipId,
+        tenantType: input.tenantType,
+        tenantId: input.tenantId
+      }
+    });
+  }
+
+  linkActor(input: {
+    actorLinkId: string;
+    actorType: 'STUDENT' | 'COLLEGE_USER' | 'COMPANY_USER' | 'SYSTEM_USER';
+    actorEntityId: string;
+    isPrimary?: boolean;
+    now?: Date;
+  }): void {
+    const now = input.now ?? new Date();
+
+    if (input.isPrimary) {
+      this.state.actorLinks = this.state.actorLinks.map((link) => ({ ...link, isPrimary: false }));
+    }
+
+    this.state.actorLinks.push({
+      actorLinkId: input.actorLinkId,
+      actorType: input.actorType,
+      actorEntityId: input.actorEntityId,
+      isPrimary: input.isPrimary ?? false,
+      linkedAt: now
     });
   }
 

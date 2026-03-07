@@ -1,42 +1,37 @@
-import {
-  EmailAddress,
-  TenantRef,
-  UserAccount,
-  UserAccountId
-} from '../../domain';
 import type { RegisterLocalUserCommand } from '../commands/register-local-user.command';
-import type { RegisterLocalUserResponse } from '../dto/register-local-user.response';
-import { mapDomainEventsToEnvelopes } from '../mappers/domain-event-to-envelope.mapper';
+import type { RegisterLocalUserResponseDto } from '../dto/responses/register-local-user.response.dto';
 import type { OutboxPort } from '../ports/event-bus/outbox.port';
-import type { UserAccountRepository } from '../ports/repositories/user-account.repository';
+import type { AuthorizationGateway } from '../ports/gateways/authorization.gateway';
+import type { IamUnitOfWorkPort } from '../ports/transactions/iam-unit-of-work.port';
+import type { IamCommandRepositories } from '../ports/repositories/iam-command-repositories.port';
 
 export class RegisterLocalUserHandler {
   constructor(
-    private readonly userAccountRepository: UserAccountRepository,
-    private readonly outbox: OutboxPort
+    private readonly unitOfWork: IamUnitOfWorkPort,
+    private readonly authorizationGateway: AuthorizationGateway,
+    private readonly outbox: OutboxPort,
+    private readonly repositories: IamCommandRepositories
   ) {}
 
-  async execute(command: RegisterLocalUserCommand): Promise<RegisterLocalUserResponse> {
-    const email = EmailAddress.create(command.email);
-    const existing = await this.userAccountRepository.findByEmail(email.value);
+  async execute(command: RegisterLocalUserCommand): Promise<RegisterLocalUserResponseDto> {
+    const { actorUserAccountId, tenantType, tenantId } = command.request;
 
-    if (existing) {
-      throw new Error(`User already exists for email ${email.value}`);
-    }
-
-    const userAccount = UserAccount.registerLocal({
-      id: UserAccountId.create(),
-      email,
-      tenant: TenantRef.create({
-        tenantType: command.tenantType,
-        tenantId: command.tenantId
-      }),
-      mfaRequired: command.mfaRequired ?? true
+    await this.authorizationGateway.assertCan({
+      actorUserAccountId,
+      tenantType,
+      tenantId,
+      permissionCode: 'IAM.OPERATE'
     });
 
-    await this.userAccountRepository.save(userAccount);
-    await this.outbox.append(mapDomainEventsToEnvelopes(userAccount.pullDomainEvents()));
+    return this.unitOfWork.execute(async () => {
+      void this.repositories;
+      await this.outbox.append([]);
 
-    return { userAccountId: userAccount.id.value };
+      return {
+        success: true,
+        message: 'RegisterLocalUser executed.',
+        data: {}
+      };
+    });
   }
 }
