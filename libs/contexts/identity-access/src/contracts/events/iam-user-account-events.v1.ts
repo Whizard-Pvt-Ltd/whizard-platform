@@ -1,4 +1,4 @@
-import type { TenantType } from '../api';
+import type { TenantType } from '../api/shared/transport-enums';
 
 export interface IamUserAccountCreatedPayloadV1 {
   userAccountId: string;

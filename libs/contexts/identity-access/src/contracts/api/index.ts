@@ -1,4 +1,3 @@
-export * from './shared/transport-enums';
 export * from './shared/api-meta.v1';
 export * from './shared/api-envelope.v1';
 export * from './requests';

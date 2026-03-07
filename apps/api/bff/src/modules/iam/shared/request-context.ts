@@ -1,4 +1,6 @@
-import type { ApiMetaV1, TenantType } from '@whizard/identity-access';
+import type { ApiMetaV1 } from '@whizard/identity-access';
+
+type TenantType = 'SYSTEM' | 'PARENT_CLUB' | 'COLLEGE' | 'COMPANY';
 
 export interface FastifyRequestLike {
   readonly headers: Record<string, string | string[] | undefined>;

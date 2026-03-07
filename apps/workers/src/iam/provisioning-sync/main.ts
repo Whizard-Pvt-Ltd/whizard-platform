@@ -20,6 +20,6 @@ export const startIamProvisioningSync = async (): Promise<void> => {
   );
 };
 
-if (isDirectExecution(import.meta.url)) {
+if (isDirectExecution()) {
   void startIamProvisioningSync();
 }

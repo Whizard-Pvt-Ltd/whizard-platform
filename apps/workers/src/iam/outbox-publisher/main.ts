@@ -24,6 +24,6 @@ export const startIamOutboxPublisher = async (): Promise<void> => {
   );
 };
 
-if (isDirectExecution(import.meta.url)) {
+if (isDirectExecution()) {
   void startIamOutboxPublisher();
 }

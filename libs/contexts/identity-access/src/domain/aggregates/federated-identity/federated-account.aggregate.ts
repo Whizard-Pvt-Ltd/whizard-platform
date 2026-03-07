@@ -44,9 +44,9 @@ export class FederatedAccount {
       type: 'iam.federated-account-linked.v1',
       occurredAt: now,
       payload: {
-        federatedAccountId: account.id,
-        userAccountId: account.userAccountId,
-        identityProviderId: account.identityProviderId
+        federatedAccountId: account.state.id,
+        userAccountId: account.state.userAccountId,
+        identityProviderId: account.state.identityProviderId
       }
     });
 

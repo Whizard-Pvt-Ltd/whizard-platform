@@ -1,7 +1,7 @@
-import type { Credential as CredentialRow } from '@prisma/client';
 import type { Credential } from '../../../../domain/entities/credential.entity';
+import type { CredentialRecord } from '../orm/records';
 
-export const toCredentialDomain = (row: CredentialRow): Credential => {
+export const toCredentialDomain = (row: CredentialRecord): Credential => {
   return {
     userAccountId: row.userAccountId,
     passwordHash: row.passwordHash,

@@ -1,4 +1,11 @@
-import type { DeprovisionAccessCommand } from '@whizard/identity-access';
+interface DeprovisionAccessCommandLike {
+  readonly request: {
+    readonly actorUserAccountId: string;
+    readonly tenantType: 'SYSTEM' | 'PARENT_CLUB' | 'COLLEGE' | 'COMPANY';
+    readonly tenantId: string;
+    readonly payload: Record<string, unknown>;
+  };
+}
 
 export interface DeactivationFeedRecord {
   readonly externalUserId: string;
@@ -13,7 +20,7 @@ export interface DeactivationFeedClient {
 }
 
 export interface ProvisioningCommandExecutor {
-  deprovision(command: DeprovisionAccessCommand): Promise<void>;
+  deprovision(command: DeprovisionAccessCommandLike): Promise<void>;
 }
 
 export interface SyncCheckpointStore {

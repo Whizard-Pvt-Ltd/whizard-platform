@@ -11,7 +11,8 @@ export * from './contracts/events/iam-event-envelope';
 export * from './contracts/events/iam-integration-event.v1';
 export * from './contracts/events/iam-user-account-created.v1';
 export * from './contracts/events/iam-session-started.v1';
-export * from './contracts';
+export * from './contracts/api';
+export * from './contracts/events';
 
 export * from './infrastructure/config/identity-access.bootstrap';
 export * from './infrastructure/security';

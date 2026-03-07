@@ -1,8 +1,10 @@
-export const isDirectExecution = (metaUrl: string): boolean => {
-  const entry = process.argv[1];
-  if (!entry) {
+declare const require: NodeRequire | undefined;
+declare const module: NodeModule | undefined;
+
+export const isDirectExecution = (): boolean => {
+  if (typeof require === 'undefined' || typeof module === 'undefined') {
     return false;
   }
 
-  return metaUrl.endsWith(entry);
+  return require.main === module;
 };
