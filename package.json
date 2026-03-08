@@ -24,7 +24,14 @@
     "prisma:migrate:deploy": "prisma migrate deploy",
     "prisma:migrate:reset": "prisma migrate reset",
     "start:web-admin": "ng serve admin-portal",
-    "build:web-admin": "ng build admin-portal"
+    "build:web-admin": "ng build admin-portal",
+    "bootstrap": "bash tools/scripts/bootstrap.sh",
+    "verify:env": "bash tools/scripts/verify-env.sh",
+    "db:setup": "bash tools/scripts/db-setup.sh",
+    "build:iam": "bash tools/scripts/build-iam.sh",
+    "dev:all": "bash tools/scripts/dev-all.sh",
+    "dev:bff": "pnpm tsx apps/api/bff/src/server.ts",
+    "dev:core-api": "pnpm tsx apps/api/core-api/src/server.ts"
   },
   "devDependencies": {
     "@types/node": "^22.13.10",
@@ -37,7 +44,10 @@
     "vitest": "^3.0.8",
     "@angular-devkit/build-angular": "^19.2.0",
     "@angular/cli": "^19.2.0",
-    "@angular/compiler-cli": "^19.2.0"
+    "@angular/compiler-cli": "^19.2.0",
+    "tsx": "^4.19.2",
+    "ts-node": "^10.9.2",
+    "@types/bcrypt": "^5.0.2"
   },
   "dependencies": {
     "@prisma/client": "^6.4.1",
@@ -49,6 +59,12 @@
     "@angular/platform-browser": "^19.2.0",
     "@angular/router": "^19.2.0",
     "rxjs": "^7.8.1",
-    "zone.js": "^0.15.0"
+    "zone.js": "^0.15.0",
+    "fastify": "^5.3.0",
+    "@fastify/cors": "^10.0.2",
+    "@fastify/helmet": "^12.0.1",
+    "pino": "^9.6.0",
+    "pino-pretty": "^13.0.0",
+    "bcrypt": "^5.1.1"
   }
 }

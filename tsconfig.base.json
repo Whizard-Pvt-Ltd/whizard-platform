@@ -13,7 +13,8 @@
     "paths": {
       "@whizard/identity-access": ["libs/contexts/identity-access/src/index.ts"],
       "@whizard/shared-kernel": ["libs/shared/kernel/src/index.ts"],
-      "@whizard/shared-infrastructure": ["libs/shared/infrastructure/src/index.ts"]
+      "@whizard/shared-infrastructure": ["libs/shared/infrastructure/src/index.ts"],
+      "@whizard/shared-ui": ["libs/shared/ui/src/index.ts"]
     }
   },
   "include": ["apps", "libs", "tests", "tools", "vitest.config.ts"]

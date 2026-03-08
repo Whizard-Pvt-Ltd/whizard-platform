@@ -25,6 +25,11 @@
                 "glob": "**/*",
                 "input": "apps/web/admin-portal/src/assets",
                 "output": "assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "libs/shared/ui/src/assets",
+                "output": "assets"
               }
             ],
             "styles": [

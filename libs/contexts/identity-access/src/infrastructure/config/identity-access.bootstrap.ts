@@ -1,3 +1,4 @@
+import { AuthenticateWithPasswordHandler } from '../../application/command-handlers/authenticate-with-password.handler';
 import { RegisterLocalUserHandler } from '../../application/command-handlers/register-local-user.handler';
 import { StartUserSessionHandler } from '../../application/command-handlers/start-user-session.handler';
 import type { IamCommandRepositories } from '../../application/ports/repositories/iam-command-repositories.port';
@@ -6,18 +7,26 @@ import type { IamUnitOfWorkPort } from '../../application/ports/transactions/iam
 import type { AuthorizationGateway } from '../../application/ports/gateways/authorization.gateway';
 import { PrismaOutboxPort } from '../messaging/kafka/outbox/prisma-outbox.port';
 import { PrismaAccessPrincipalRepository } from '../persistence/postgres/repositories/prisma-access-principal.repository';
+import { PrismaCredentialRepository } from '../persistence/postgres/repositories/prisma-credential.repository';
 import { PrismaUserAccountRepository } from '../persistence/postgres/repositories/prisma-user-account.repository';
 import { PrismaUserSessionRepository } from '../persistence/postgres/repositories/prisma-user-session.repository';
+import { BcryptPasswordVerifierGateway } from '../security/bcrypt-password-verifier.gateway';
+import { JwtTokenIssuerGateway } from '../security/jwt-token-issuer.gateway';
 
 export const bootstrapIdentityAccess = (): {
   registerLocalUserHandler: RegisterLocalUserHandler;
   startUserSessionHandler: StartUserSessionHandler;
+  authenticateWithPasswordHandler: AuthenticateWithPasswordHandler;
   accessPrincipalRepository: PrismaAccessPrincipalRepository;
 } => {
   const userAccountRepository = new PrismaUserAccountRepository();
   const userSessionRepository = new PrismaUserSessionRepository();
+  const credentialRepository = new PrismaCredentialRepository();
   const accessPrincipalRepository = new PrismaAccessPrincipalRepository();
   const outbox = new PrismaOutboxPort();
+  const passwordVerifier = new BcryptPasswordVerifierGateway();
+  const tokenIssuer = new JwtTokenIssuerGateway();
+
   const unitOfWork: IamUnitOfWorkPort = {
     execute: async <T>(work: (tx: IamTransactionContext) => Promise<T>): Promise<T> =>
       work({ transactionId: 'bootstrap-transaction' })
@@ -29,11 +38,7 @@ export const bootstrapIdentityAccess = (): {
   };
   const repositories = {
     userAccounts: userAccountRepository,
-    credentials: {
-      async findActiveByUserAccountId(): Promise<null> {
-        return null;
-      }
-    },
+    credentials: credentialRepository,
     sessions: userSessionRepository,
     accessPrincipals: accessPrincipalRepository,
     identityProviders: {
@@ -70,6 +75,12 @@ export const bootstrapIdentityAccess = (): {
     }
   } satisfies IamCommandRepositories;
 
+  const startUserSessionHandler = new StartUserSessionHandler(
+    userAccountRepository,
+    userSessionRepository,
+    outbox
+  );
+
   return {
     registerLocalUserHandler: new RegisterLocalUserHandler(
       unitOfWork,
@@ -77,10 +88,15 @@ export const bootstrapIdentityAccess = (): {
       outbox,
       repositories
     ),
-    startUserSessionHandler: new StartUserSessionHandler(
-      userAccountRepository,
-      userSessionRepository,
-      outbox
+    startUserSessionHandler,
+    authenticateWithPasswordHandler: new AuthenticateWithPasswordHandler(
+      unitOfWork,
+      authorizationGateway,
+      outbox,
+      repositories,
+      passwordVerifier,
+      tokenIssuer,
+      startUserSessionHandler
     ),
     accessPrincipalRepository
   };

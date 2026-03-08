@@ -1,22 +1,27 @@
 import { getPrisma } from '@whizard/shared-infrastructure';
 import type { CredentialRepository } from '../../../../application/ports/repositories/credential.repository';
 import type { Credential } from '../../../../domain/entities/credential.entity';
-import { toCredentialDomain } from '../mappers/credential.persistence.mapper';
-import type { CredentialRecord } from '../orm/records';
 
 export class PrismaCredentialRepository implements CredentialRepository {
   private readonly prisma = getPrisma();
 
   async findActiveByUserAccountId(userAccountId: string): Promise<Credential | null> {
-    const rows = await this.prisma.$queryRawUnsafe<CredentialRecord[]>(
-      `select id, user_account_id as "userAccountId", password_hash as "passwordHash", hash_algo as "hashAlgo", status, failed_attempts as "failedAttempts", locked_until as "lockedUntil", password_changed_at as "passwordChangedAt"
-       from iam.credentials
-       where user_account_id = $1 and status = 'ACTIVE'
-       order by password_changed_at desc
-       limit 1`,
-      userAccountId
-    );
+    const record = await this.prisma.userCredential.findUnique({
+      where: { userAccountId }
+    });
 
-    return rows[0] ? toCredentialDomain(rows[0]) : null;
+    if (!record) {
+      return null;
+    }
+
+    // Map UserCredential table to Credential domain interface
+    return {
+      userAccountId: record.userAccountId,
+      passwordHash: record.passwordHash,
+      hashAlgorithm: 'scrypt', // Default to scrypt as per our password hasher
+      status: 'ACTIVE', // Simplified - we just check if record exists
+      failedAttempts: 0, // Not tracked in current schema
+      lockedUntil: null // Not tracked in current schema
+    };
   }
 }
