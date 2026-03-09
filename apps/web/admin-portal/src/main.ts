@@ -3,5 +3,7 @@ import { AppComponent } from './app/app.component';
 import { appConfig } from './app/app.config';
 
 bootstrapApplication(AppComponent, appConfig).catch((err) => {
-  console.error(err);
+  if (typeof reportError === 'function') {
+    reportError(err);
+  }
 });

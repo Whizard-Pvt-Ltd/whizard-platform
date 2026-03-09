@@ -1,3 +1,5 @@
+import { createAppLogger, type AppLogger } from '@whizard/shared-infrastructure';
+
 export interface WorkerLogger {
   info(message: string, details?: Record<string, unknown>): void;
   warn(message: string, details?: Record<string, unknown>): void;
@@ -5,17 +7,24 @@ export interface WorkerLogger {
 }
 
 export class ConsoleWorkerLogger implements WorkerLogger {
-  constructor(private readonly workerName: string) {}
+  private readonly logger: AppLogger;
+
+  constructor(private readonly workerName: string) {
+    this.logger = createAppLogger({
+      service: 'workers',
+      component: this.workerName
+    }).child({ worker: this.workerName });
+  }
 
   info(message: string, details?: Record<string, unknown>): void {
-    console.info(JSON.stringify({ level: 'info', worker: this.workerName, message, ...(details ?? {}) }));
+    this.logger.info(message, details);
   }
 
   warn(message: string, details?: Record<string, unknown>): void {
-    console.warn(JSON.stringify({ level: 'warn', worker: this.workerName, message, ...(details ?? {}) }));
+    this.logger.warn(message, details);
   }
 
   error(message: string, details?: Record<string, unknown>): void {
-    console.error(JSON.stringify({ level: 'error', worker: this.workerName, message, ...(details ?? {}) }));
+    this.logger.error(message, details);
   }
 }

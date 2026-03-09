@@ -1,6 +1,7 @@
 import { AuthenticateWithPasswordHandler } from '../../application/command-handlers/authenticate-with-password.handler';
 import { RegisterLocalUserHandler } from '../../application/command-handlers/register-local-user.handler';
 import { StartUserSessionHandler } from '../../application/command-handlers/start-user-session.handler';
+import { createAppLogger } from '@whizard/shared-infrastructure';
 import type { IamCommandRepositories } from '../../application/ports/repositories/iam-command-repositories.port';
 import type { IamTransactionContext } from '../../application/ports/transactions/iam-unit-of-work.port';
 import type { IamUnitOfWorkPort } from '../../application/ports/transactions/iam-unit-of-work.port';
@@ -26,6 +27,10 @@ export const bootstrapIdentityAccess = (): {
   const outbox = new PrismaOutboxPort();
   const passwordVerifier = new BcryptPasswordVerifierGateway();
   const tokenIssuer = new JwtTokenIssuerGateway();
+  const authLogger = createAppLogger({
+    service: 'iam',
+    component: 'authenticate-with-password'
+  });
 
   const unitOfWork: IamUnitOfWorkPort = {
     execute: async <T>(work: (tx: IamTransactionContext) => Promise<T>): Promise<T> =>
@@ -96,7 +101,8 @@ export const bootstrapIdentityAccess = (): {
       repositories,
       passwordVerifier,
       tokenIssuer,
-      startUserSessionHandler
+      startUserSessionHandler,
+      authLogger
     ),
     accessPrincipalRepository
   };

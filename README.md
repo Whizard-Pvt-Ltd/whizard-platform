@@ -21,6 +21,8 @@ pnpm run db:setup
 
 # 3. Start everything
 pnpm run dev:all
+# Logs automatically stream to your terminal!
+# Press Ctrl+C to stop all services
 ```
 
 **Open:** http://localhost:4200
@@ -28,6 +30,8 @@ pnpm run dev:all
 **Login with:**
 - Email: `test@whizard.com`
 - Password: `Test@123`
+
+**📖 New to logging?** Check the [Logging Quick Start Guide](./LOGGING-QUICKSTART.md)
 
 ---
 
@@ -360,8 +364,13 @@ pnpm run lint:fix           # Auto-fix linting issues
 
 ### View Logs
 
+When running `pnpm dev:all`, logs are **automatically streamed** to your terminal. You can also view them separately:
+
 ```bash
-# Real-time logs (when using dev:all)
+# Real-time logs from all services
+tail -f logs/bff.log logs/core-api.log logs/angular.log
+
+# Individual service logs
 tail -f logs/bff.log
 tail -f logs/core-api.log
 tail -f logs/angular.log
@@ -369,6 +378,17 @@ tail -f logs/angular.log
 # Or use less for scrolling
 less logs/bff.log
 ```
+
+**Configure Log Verbosity:**
+```bash
+# Edit .env
+LOG_LEVEL="debug"  # Options: debug, info, warn, error
+
+# Then restart services
+pnpm dev:all
+```
+
+📖 **See [Logging Quick Start Guide](./LOGGING-QUICKSTART.md)** for complete logging documentation.
 
 ### Hot Reload
 
@@ -718,6 +738,22 @@ For AI-generated work traceability:
 - **Use Cases**: `libs/contexts/identity-access/src/application/command-handlers/`
 - **API Routes**: `apps/api/bff/src/modules/iam/`
 - **Database Schema**: `prisma/schema.prisma`
+- **Logging Infrastructure**: `libs/shared/infrastructure/src/logging.ts`
+
+---
+
+## Documentation
+
+### Quick Guides
+- 📋 **[Logging Quick Start](./LOGGING-QUICKSTART.md)** - How to use logging in your code
+- 📊 **[Viewing Logs](./docs/runbooks/VIEWING-LOGS.md)** - Log viewing and troubleshooting
+- 🏗️ **[Logging Architecture](./docs/architecture/LOGGING.md)** - Complete implementation guide
+
+### Architecture Docs
+- **Domain Documentation**: `docs/domain/`
+- **Architecture Decisions**: `docs/adr/`
+- **API Documentation**: `docs/api/`
+- **Runbooks**: `docs/runbooks/`
 
 ---
 
@@ -725,7 +761,8 @@ For AI-generated work traceability:
 
 - **Documentation**: `docs/` folder
 - **Scripts**: `tools/scripts/`
-- **Issues**: Check logs in `logs/` folder
+- **Logs**: `logs/` folder (automatically created by `dev:all`)
+- **Issues**: Check service logs for error details
 
 ---
 

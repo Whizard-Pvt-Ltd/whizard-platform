@@ -3,9 +3,9 @@ import type { ApiMetaV1 } from '@whizard/identity-access';
 type TenantType = 'SYSTEM' | 'PARENT_CLUB' | 'COLLEGE' | 'COMPANY';
 
 export interface FastifyRequestLike {
-  readonly headers: Record<string, string | string[] | undefined>;
-  readonly params?: Record<string, string | undefined>;
-  readonly query?: Record<string, string | undefined>;
+  readonly headers: Record<string, any>;
+  readonly params?: any;
+  readonly query?: any;
   readonly body?: unknown;
 }
 
@@ -20,18 +20,15 @@ export type FastifyPreHandlerLike = (
 ) => Promise<void> | void;
 
 export interface FastifyRouteLike {
-  readonly method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+  readonly method: string;
   readonly url: string;
-  readonly preHandler?: FastifyPreHandlerLike | readonly FastifyPreHandlerLike[];
+  readonly preHandler?: FastifyPreHandlerLike | FastifyPreHandlerLike[];
   readonly handler: (request: FastifyRequestLike, reply: FastifyReplyLike) => Promise<void> | void;
 }
 
 export interface FastifyInstanceLike {
-  route(route: FastifyRouteLike): void;
-  register(
-    plugin: (app: FastifyInstanceLike) => Promise<void> | void,
-    opts?: { prefix?: string }
-  ): Promise<void> | void;
+  route(route: FastifyRouteLike): any;
+  register(plugin: any, opts?: { prefix?: string }): any;
 }
 
 export interface IamRequestContext {

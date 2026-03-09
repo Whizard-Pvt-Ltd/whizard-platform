@@ -101,7 +101,9 @@ export class LoginPageComponent {
       },
       error: (error: any) => {
         this.isSubmitting.set(false);
-        console.error('Login error:', error);
+        if (typeof reportError === 'function') {
+          reportError(error);
+        }
         this.errorMessage.set(
           error.error?.message || 'Login failed. Please check your credentials and try again.'
         );

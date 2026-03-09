@@ -31,7 +31,9 @@ export class DashboardComponent implements OnInit {
           this.tokenExpiry = new Date(expiresAt).toLocaleString();
         }
       } catch (e) {
-        console.error('Failed to decode token', e);
+        if (typeof reportError === 'function') {
+          reportError(e);
+        }
       }
     }
   }
