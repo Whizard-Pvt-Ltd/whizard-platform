@@ -21,7 +21,7 @@ jobs:
 
       - name: Extract image tag
         run: |
-          TAG=${GITHUB_REF_NAME#whizard-courses-}
+          TAG=${GITHUB_REF_NAME#api-}
           echo "IMAGE_TAG=$TAG" >> $GITHUB_ENV
 
       - name: Build Docker image (courses)
@@ -33,4 +33,4 @@ jobs:
 
       - name: Push Docker image
         run: |
-          docker push lilcom/whizard-courses:${IMAGE_TAG}
+          docker push lilcom/whizard-platform-api:${IMAGE_TAG}
