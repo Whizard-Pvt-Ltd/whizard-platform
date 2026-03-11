@@ -4,8 +4,8 @@ type TenantType = 'SYSTEM' | 'PARENT_CLUB' | 'COLLEGE' | 'COMPANY';
 
 export interface FastifyRequestLike {
   readonly headers: Record<string, string | string[] | undefined>;
-  readonly params?: Record<string, string>;
-  readonly query?: Record<string, string | string[]>;
+  readonly params?: unknown;
+  readonly query?: unknown;
   readonly body?: unknown;
 }
 

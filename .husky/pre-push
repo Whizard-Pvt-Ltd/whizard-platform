@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run full lint and type checking before push
+echo "Running pre-push checks..."
+
+echo "1. Running ESLint..."
+pnpm lint || {
+  echo "❌ ESLint failed. Fix the errors before pushing."
+  exit 1
+}
+
+echo "2. Running TypeScript type checking..."
+pnpm build || {
+  echo "❌ TypeScript type checking failed. Fix the errors before pushing."
+  exit 1
+}
+
+echo "✅ All pre-push checks passed!"

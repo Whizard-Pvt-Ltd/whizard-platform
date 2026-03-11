@@ -12,9 +12,10 @@
   },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "postinstall": "prisma generate",
+    "postinstall": "prisma generate && husky install",
     "build": "tsc -p tsconfig.base.json --noEmit",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "ai:check-notes": "tools/scripts/check-ai-notes.sh",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -47,7 +48,13 @@
     "docker:logs": "docker compose logs -f",
     "docker:logs:bff": "docker compose logs -f bff",
     "docker:logs:core-api": "docker compose logs -f core-api",
-    "validate": "pnpm lint && pnpm test && pnpm build:all"
+    "validate": "pnpm lint && pnpm test && pnpm build:all",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix"
+    ]
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^19.2.0",
@@ -60,6 +67,8 @@
     "@typescript-eslint/parser": "^8.26.0",
     "esbuild": "^0.24.2",
     "eslint": "^9.22.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.11",
     "nx": "^22.5.4",
     "only-allow": "^1.2.1",
     "prisma": "^6.4.1",

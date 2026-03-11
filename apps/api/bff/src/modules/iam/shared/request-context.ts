@@ -27,9 +27,9 @@ export interface FastifyRequestLike {
   /** HTTP headers from the request */
   readonly headers: Record<string, string | string[] | undefined>;
   /** URL path parameters (e.g., /users/:id) */
-  readonly params?: Record<string, string>;
+  readonly params?: unknown;
   /** Query string parameters (e.g., ?page=1&limit=10) */
-  readonly query?: Record<string, string | string[]>;
+  readonly query?: unknown;
   /** Request body payload */
   readonly body?: unknown;
 }
