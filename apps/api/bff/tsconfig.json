@@ -1,19 +1,13 @@
 {
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "target": "ES2022",
-    "lib": ["ES2022"],
-    "outDir": "../../../dist/apps/api/bff",
-    "rootDir": "src",
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "outDir": "../../../dist/apps/api/bff"
   },
+  "references": [
+    { "path": "../../../libs/shared/kernel" },
+    { "path": "../../../libs/shared/infrastructure" },
+    { "path": "../../../libs/contexts/identity-access" }
+  ],
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }

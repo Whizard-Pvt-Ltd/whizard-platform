@@ -1,19 +1,12 @@
 {
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "target": "ES2022",
-    "lib": ["ES2022"],
-    "outDir": "../../../dist/apps/api/core-api",
-    "rootDir": "src",
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "outDir": "../../../dist/apps/api/core-api"
   },
+  "references": [
+    { "path": "../../../libs/shared/infrastructure" },
+    { "path": "../../../libs/contexts/identity-access" }
+  ],
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }

@@ -1,7 +1,18 @@
 {
   "name": "shared-infrastructure",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "root": "libs/shared/infrastructure",
   "sourceRoot": "libs/shared/infrastructure/src",
   "projectType": "library",
-  "tags": ["type:shared", "scope:infrastructure"]
+  "tags": ["type:shared", "scope:infrastructure"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/dist"],
+      "options": {
+        "command": "tsc -p libs/shared/infrastructure/tsconfig.json",
+        "cwd": "{workspaceRoot}"
+      }
+    }
+  }
 }

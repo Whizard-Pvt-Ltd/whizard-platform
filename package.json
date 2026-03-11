@@ -5,7 +5,9 @@
   "packageManager": "pnpm@10.6.0",
   "pnpm": {
     "overrides": {
-      "typescript": "5.8.2"
+      "typescript": "5.8.2",
+      "prisma": "6.19.2",
+      "@prisma/client": "6.19.2"
     }
   },
   "scripts": {
@@ -30,27 +32,44 @@
     "db:setup": "bash tools/scripts/db-setup.sh",
     "build:iam": "bash tools/scripts/build-iam.sh",
     "dev:all": "bash tools/scripts/dev-all.sh",
-    "dev:bff": "pnpm tsx apps/api/bff/src/server.ts",
-    "dev:core-api": "pnpm tsx apps/api/core-api/src/server.ts"
+    "dev:bff": "tsx watch apps/api/bff/src/server.ts",
+    "dev:core-api": "tsx watch apps/api/core-api/src/server.ts",
+    "build:bff": "nx build bff",
+    "build:core-api": "nx build core-api",
+    "build:all": "nx run-many --target=build --all",
+    "start:bff": "node apps/api/bff/dist/server.js",
+    "start:core-api": "node apps/api/core-api/dist/server.js",
+    "docker:build": "docker compose build bff core-api",
+    "docker:build:nocache": "docker compose build --no-cache bff core-api",
+    "docker:up": "docker compose up -d postgres && pnpm prisma:migrate:deploy && docker compose up bff core-api",
+    "docker:up:d": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f",
+    "docker:logs:bff": "docker compose logs -f bff",
+    "docker:logs:core-api": "docker compose logs -f core-api",
+    "validate": "pnpm lint && pnpm test && pnpm build:all"
   },
   "devDependencies": {
-    "@types/node": "^22.13.10",
-    "@typescript-eslint/eslint-plugin": "^8.26.0",
-    "@typescript-eslint/parser": "^8.26.0",
-    "eslint": "^9.22.0",
-    "only-allow": "^1.2.1",
-    "prisma": "^6.4.1",
-    "typescript": "5.8.2",
-    "vitest": "^3.0.8",
     "@angular-devkit/build-angular": "^19.2.0",
     "@angular/cli": "^19.2.0",
     "@angular/compiler-cli": "^19.2.0",
-    "tsx": "^4.19.2",
+    "@nx/vite": "^22.5.4",
+    "@types/bcrypt": "^5.0.2",
+    "@types/node": "^22.13.10",
+    "@typescript-eslint/eslint-plugin": "^8.26.0",
+    "@typescript-eslint/parser": "^8.26.0",
+    "esbuild": "^0.24.2",
+    "eslint": "^9.22.0",
+    "nx": "^22.5.4",
+    "only-allow": "^1.2.1",
+    "prisma": "^6.4.1",
     "ts-node": "^10.9.2",
-    "@types/bcrypt": "^5.0.2"
+    "tsx": "^4.19.2",
+    "typescript": "5.8.2",
+    "vite": "^6.0.0",
+    "vitest": "^3.0.8"
   },
   "dependencies": {
-    "@prisma/client": "^6.4.1",
     "@angular/animations": "^19.2.0",
     "@angular/common": "^19.2.0",
     "@angular/compiler": "^19.2.0",
@@ -58,13 +77,10 @@
     "@angular/forms": "^19.2.0",
     "@angular/platform-browser": "^19.2.0",
     "@angular/router": "^19.2.0",
-    "rxjs": "^7.8.1",
-    "zone.js": "^0.15.0",
-    "fastify": "^5.3.0",
-    "@fastify/cors": "^10.0.2",
-    "@fastify/helmet": "^12.0.1",
+    "@prisma/client": "^6.4.1",
     "pino": "^9.6.0",
     "pino-pretty": "^13.0.0",
-    "bcrypt": "^5.1.1"
+    "rxjs": "^7.8.1",
+    "zone.js": "^0.15.0"
   }
 }

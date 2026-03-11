@@ -1,7 +1,43 @@
 {
-  "name": "api-core-api",
+  "name": "core-api",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "root": "apps/api/core-api",
   "sourceRoot": "apps/api/core-api/src",
   "projectType": "application",
-  "tags": ["type:app", "scope:api"]
+  "tags": ["type:app", "scope:api"],
+  "targets": {
+    "build": {
+      "executor": "@nx/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "apps/api/core-api/dist",
+        "configFile": "apps/api/core-api/vite.config.ts"
+      },
+      "configurations": {
+        "production": {
+          "mode": "production"
+        },
+        "development": {
+          "mode": "development"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@nx/vite:dev-server",
+      "options": {
+        "buildTarget": "core-api:build:development",
+        "port": 3001
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "core-api:build:production"
+        },
+        "development": {
+          "buildTarget": "core-api:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    }
+  }
 }

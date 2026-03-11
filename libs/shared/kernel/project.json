@@ -1,7 +1,18 @@
 {
   "name": "shared-kernel",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "root": "libs/shared/kernel",
   "sourceRoot": "libs/shared/kernel/src",
   "projectType": "library",
-  "tags": ["type:shared", "scope:kernel"]
+  "tags": ["type:shared", "scope:kernel"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/dist"],
+      "options": {
+        "command": "tsc -p libs/shared/kernel/tsconfig.json",
+        "cwd": "{workspaceRoot}"
+      }
+    }
+  }
 }

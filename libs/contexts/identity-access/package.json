@@ -1,0 +1,30 @@
+{
+  "name": "@whizard/identity-access",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Identity and Access Management bounded context",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.4.1",
+    "bcrypt": "^5.1.1",
+    "@whizard/shared-infrastructure": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/node": "^22.13.10",
+    "typescript": "5.8.2"
+  }
+}

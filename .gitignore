@@ -8,3 +8,7 @@ prisma/dev.db
 prisma/dev.db-journal
 .angular/
 logs/
+
+# NX
+.nx/cache
+.nx/workspace-data

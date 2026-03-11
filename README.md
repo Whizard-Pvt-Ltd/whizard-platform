@@ -749,6 +749,10 @@ For AI-generated work traceability:
 - 📊 **[Viewing Logs](./docs/runbooks/VIEWING-LOGS.md)** - Log viewing and troubleshooting
 - 🏗️ **[Logging Architecture](./docs/architecture/LOGGING.md)** - Complete implementation guide
 
+### Developer Guides
+- 🚀 **[Local Development & Testing](./docs/engineering/local-development.md)** - Complete guide to local development, building, and testing workflows
+- 🏗️ **[Build Process](./docs/engineering/build-process.md)** - Deep dive into NX + Vite build system and Docker multi-stage builds
+
 ### Architecture Docs
 - **Domain Documentation**: `docs/domain/`
 - **Architecture Decisions**: `docs/adr/`

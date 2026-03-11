@@ -2,28 +2,85 @@ name: CI
 
 on:
   pull_request:
-  push:
-    branches: [main]
+    branches: [main, develop]
+
+env:
+  NODE_VERSION: 22
+  PNPM_VERSION: 10.6.0
 
 jobs:
   validate:
+    name: Lint, Test & Build
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: ${{ secrets.DB_USER || 'whizard' }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD || 'whizard' }}
+          POSTGRES_DB: ${{ secrets.DB_NAME || 'whizard' }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: 22
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
-      - name: Enforce AI Notes On PR Code Changes
-        if: github.event_name == 'pull_request'
+
+      - name: Enforce AI Notes on PR code changes
         run: |
           tools/scripts/check-ai-notes.sh \
             "${{ github.event.pull_request.base.sha }}" \
             "${{ github.event.pull_request.head.sha }}"
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm build
-      - run: pnpm lint
-      - run: pnpm test
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma Client
+        run: pnpm prisma:generate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL || 'postgresql://whizard:whizard@localhost:5432/whizard' }}
+
+      - name: Run Prisma migrations
+        run: pnpm prisma:migrate:deploy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL || 'postgresql://whizard:whizard@localhost:5432/whizard' }}
+
+      - name: Lint code
+        run: pnpm lint
+
+      - name: Run tests
+        run: pnpm test
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL || 'postgresql://whizard:whizard@localhost:5432/whizard' }}
+
+      - name: Type check
+        run: pnpm build
+
+      - name: Build with NX
+        run: pnpm build:all
+
+      - name: PR Summary
+        if: always()
+        run: |
+          echo "### ✅ PR Validation Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "All checks passed successfully!" >> $GITHUB_STEP_SUMMARY

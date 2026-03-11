@@ -1,7 +1,43 @@
 {
-  "name": "api-bff",
+  "name": "bff",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "root": "apps/api/bff",
   "sourceRoot": "apps/api/bff/src",
   "projectType": "application",
-  "tags": ["type:app", "scope:api"]
+  "tags": ["type:app", "scope:api"],
+  "targets": {
+    "build": {
+      "executor": "@nx/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "apps/api/bff/dist",
+        "configFile": "apps/api/bff/vite.config.ts"
+      },
+      "configurations": {
+        "production": {
+          "mode": "production"
+        },
+        "development": {
+          "mode": "development"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@nx/vite:dev-server",
+      "options": {
+        "buildTarget": "bff:build:development",
+        "port": 3000
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "bff:build:production"
+        },
+        "development": {
+          "buildTarget": "bff:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    }
+  }
 }

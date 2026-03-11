@@ -1,0 +1,107 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: whizard-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: whizard
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - whizard-network
+
+  # Core API Service
+  core-api:
+    build:
+      context: .
+      dockerfile: apps/api/core-api/Dockerfile
+    container_name: whizard-core-api
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/whizard
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - whizard-network
+
+  # BFF API Service
+  bff:
+    build:
+      context: .
+      dockerfile: apps/api/bff/Dockerfile
+    container_name: whizard-bff
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/whizard
+      CORE_API_URL: http://core-api:3001
+      # JWT Token secrets (32+ characters required)
+      IAM_ACCESS_TOKEN_SECRET: "whizard-access-token-secret-change-in-production-minimum-32-chars"
+      IAM_REFRESH_TOKEN_SECRET: "whizard-refresh-token-secret-change-in-production-minimum-32-chars"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      core-api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - whizard-network
+
+  # Admin Portal (Angular)
+  admin-portal:
+    build:
+      context: .
+      dockerfile: apps/web/admin-portal/Dockerfile
+    container_name: whizard-admin-portal
+    restart: unless-stopped
+    ports:
+      - "4200:80"
+    depends_on:
+      - bff
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - whizard-network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  whizard-network:
+    driver: bridge

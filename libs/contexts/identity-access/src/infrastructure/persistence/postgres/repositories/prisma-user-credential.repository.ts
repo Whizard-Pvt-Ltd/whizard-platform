@@ -1,9 +1,11 @@
-import { PrismaClient } from '@prisma/client';
+import pkg from '@prisma/client';
+const { PrismaClient } = pkg;
+type PrismaClientType = InstanceType<typeof PrismaClient>;
 import type { IUserCredentialRepository } from '../../../../application/ports/repositories/user-credential.repository';
 import { UserCredential } from '../../../../domain/entities/user-credential.entity';
 
 export class PrismaUserCredentialRepository implements IUserCredentialRepository {
-  constructor(private readonly prisma: PrismaClient) {}
+  constructor(private readonly prisma: PrismaClientType) {}
 
   async findByUserAccountId(userAccountId: string): Promise<UserCredential | null> {
     const record = await this.prisma.userCredential.findUnique({

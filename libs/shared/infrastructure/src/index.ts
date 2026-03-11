@@ -5,7 +5,9 @@
  * - Logging: Centralized logging infrastructure with singleton support
  * - Database: Singleton Prisma client for database access
  */
-import { PrismaClient } from '@prisma/client';
+import pkg from '@prisma/client';
+const { PrismaClient } = pkg;
+type PrismaClientType = InstanceType<typeof PrismaClient>;
 
 // Export logging utilities
 export {
@@ -21,7 +23,7 @@ export {
  * Singleton Prisma client instance.
  * Ensures only one database connection pool is created per application.
  */
-let prismaClient: PrismaClient | null = null;
+let prismaClient: PrismaClientType | null = null;
 
 /**
  * Gets or creates a singleton Prisma client instance.
@@ -37,7 +39,7 @@ let prismaClient: PrismaClient | null = null;
  * const users = await prisma.user.findMany();
  * ```
  */
-export const getPrisma = (): PrismaClient => {
+export const getPrisma = (): PrismaClientType => {
   if (!prismaClient) {
     prismaClient = new PrismaClient();
   }

@@ -1,7 +1,18 @@
 {
   "name": "identity-access",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "root": "libs/contexts/identity-access",
   "sourceRoot": "libs/contexts/identity-access/src",
   "projectType": "library",
-  "tags": ["type:context", "scope:identity-access"]
+  "tags": ["type:context", "scope:identity-access"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/dist"],
+      "options": {
+        "command": "tsc -p libs/contexts/identity-access/tsconfig.json",
+        "cwd": "{workspaceRoot}"
+      }
+    }
+  }
 }
