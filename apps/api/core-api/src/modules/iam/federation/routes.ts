@@ -42,7 +42,7 @@ export const registerIamFederationRoutes = (
           tenantType: context.tenantType,
           tenantId: context.tenantId,
           payload: {
-            id: request.params?.id,
+            id: (request.params as Record<string, string> | undefined)?.id,
             ...((request.body ?? {}) as Record<string, unknown>)
           }
         }

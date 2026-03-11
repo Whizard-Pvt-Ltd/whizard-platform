@@ -27,8 +27,9 @@ export interface FastifyRouteLike {
 }
 
 export interface FastifyInstanceLike {
-  route(route: FastifyRouteLike): FastifyInstanceLike;
-  register(plugin: (instance: FastifyInstanceLike, opts?: { prefix?: string }) => void | Promise<void>, opts?: { prefix?: string }): Promise<void>;
+  route(route: FastifyRouteLike): this;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  register(plugin: (instance: any, opts?: any) => void | Promise<void>, opts?: any): any;
 }
 
 export interface IamRequestContext {

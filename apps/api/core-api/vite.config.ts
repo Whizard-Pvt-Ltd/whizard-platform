@@ -32,7 +32,7 @@ export default defineConfig({
     },
   },
   ssr: {
-    // Keep node_modules external (only bundle our code)
-    noExternal: false,
+    // Bundle @whizard packages, keep everything else external
+    noExternal: /^@whizard\//,
   },
 });

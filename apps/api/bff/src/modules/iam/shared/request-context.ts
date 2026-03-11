@@ -76,9 +76,10 @@ export interface FastifyRouteLike {
  */
 export interface FastifyInstanceLike {
   /** Register a new route */
-  route(route: FastifyRouteLike): FastifyInstanceLike;
+  route(route: FastifyRouteLike): this;
   /** Register a plugin with optional configuration */
-  register(plugin: (instance: FastifyInstanceLike, opts?: { prefix?: string }) => void | Promise<void>, opts?: { prefix?: string }): Promise<void>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  register(plugin: (instance: any, opts?: any) => void | Promise<void>, opts?: any): any;
 }
 
 /**
