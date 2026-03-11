@@ -3,9 +3,9 @@ import type { ApiMetaV1 } from '@whizard/identity-access';
 type TenantType = 'SYSTEM' | 'PARENT_CLUB' | 'COLLEGE' | 'COMPANY';
 
 export interface FastifyRequestLike {
-  readonly headers: Record<string, any>;
-  readonly params?: any;
-  readonly query?: any;
+  readonly headers: Record<string, string | string[] | undefined>;
+  readonly params?: Record<string, string>;
+  readonly query?: Record<string, string | string[]>;
   readonly body?: unknown;
 }
 
@@ -27,8 +27,8 @@ export interface FastifyRouteLike {
 }
 
 export interface FastifyInstanceLike {
-  route(route: FastifyRouteLike): any;
-  register(plugin: any, opts?: { prefix?: string }): any;
+  route(route: FastifyRouteLike): FastifyInstanceLike;
+  register(plugin: (instance: FastifyInstanceLike, opts?: { prefix?: string }) => void | Promise<void>, opts?: { prefix?: string }): Promise<void>;
 }
 
 export interface IamRequestContext {

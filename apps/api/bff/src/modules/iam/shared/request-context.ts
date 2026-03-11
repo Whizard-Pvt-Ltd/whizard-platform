@@ -25,11 +25,11 @@ type TenantType = 'SYSTEM' | 'PARENT_CLUB' | 'COLLEGE' | 'COMPANY';
  */
 export interface FastifyRequestLike {
   /** HTTP headers from the request */
-  readonly headers: Record<string, any>;
+  readonly headers: Record<string, string | string[] | undefined>;
   /** URL path parameters (e.g., /users/:id) */
-  readonly params?: any;
+  readonly params?: Record<string, string>;
   /** Query string parameters (e.g., ?page=1&limit=10) */
-  readonly query?: any;
+  readonly query?: Record<string, string | string[]>;
   /** Request body payload */
   readonly body?: unknown;
 }
@@ -76,9 +76,9 @@ export interface FastifyRouteLike {
  */
 export interface FastifyInstanceLike {
   /** Register a new route */
-  route(route: FastifyRouteLike): any;
+  route(route: FastifyRouteLike): FastifyInstanceLike;
   /** Register a plugin with optional configuration */
-  register(plugin: any, opts?: { prefix?: string }): any;
+  register(plugin: (instance: FastifyInstanceLike, opts?: { prefix?: string }) => void | Promise<void>, opts?: { prefix?: string }): Promise<void>;
 }
 
 /**

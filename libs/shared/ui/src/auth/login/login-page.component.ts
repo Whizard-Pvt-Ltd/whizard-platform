@@ -2,13 +2,22 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+
+/**
+ * Response from authentication login request
+ */
+export interface AuthLoginResponse {
+  success: boolean;
+  message?: string;
+}
 
 /**
  * Interface for authentication service that login component depends on.
  * Consumer applications must provide an implementation of this interface.
  */
 export interface IAuthService {
-  login(email: string, password: string): any;
+  login(email: string, password: string): Observable<AuthLoginResponse>;
 }
 
 /**
@@ -90,7 +99,7 @@ export class LoginPageComponent {
     const { email, password } = this.loginForm.getRawValue();
 
     this.authService.login(email, password).subscribe({
-      next: (response: any) => {
+      next: (response) => {
         this.isSubmitting.set(false);
         if (response.success) {
           // Navigate to dashboard or home page
@@ -99,7 +108,7 @@ export class LoginPageComponent {
           this.errorMessage.set('Login failed. Please try again.');
         }
       },
-      error: (error: any) => {
+      error: (error: Error & { error?: { message?: string } }) => {
         this.isSubmitting.set(false);
         if (typeof reportError === 'function') {
           reportError(error);

@@ -15,7 +15,7 @@ export const createIamBffRuntimeDependencies = (): IamBffRuntimeDependencies => 
     auth: {
       authenticateWithPassword: {
         async execute(input: { request: Record<string, unknown> }) {
-          const result = await authenticateWithPasswordHandler.execute({ request: input.request as any });
+          const result = await authenticateWithPasswordHandler.execute({ request: input.request });
           return { data: result.data };
         }
       },
