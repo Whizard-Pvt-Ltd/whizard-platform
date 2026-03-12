@@ -89,15 +89,15 @@ jobs:
           - name: bff
             dockerfile: apps/api/bff/Dockerfile
             context: .
-            image: whizard-bff
+            image: whizard-club-bff
           - name: core-api
             dockerfile: apps/api/core-api/Dockerfile
             context: .
-            image: whizard-core-api
+            image: whizard-club-api
           - name: admin-portal
             dockerfile: apps/web/admin-portal/Dockerfile
             context: .
-            image: whizard-admin-portal
+            image: whizard-club-web
 
     steps:
       - name: Checkout code
