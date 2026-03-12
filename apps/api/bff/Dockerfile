@@ -41,7 +41,13 @@ RUN pnpm prisma generate
 
 # Build with NX (builds libs first with TypeScript, then app with Vite)
 # Force rebuild in Docker to avoid cache issues
-RUN pnpm nx build bff --skip-nx-cache
+RUN echo "=== DEBUG: Current working directory before build ===" && \
+    pwd && \
+    echo "=== DEBUG: Checking if dist exists before build ===" && \
+    ls -la /app/apps/api/bff/ && \
+    pnpm nx build bff --skip-nx-cache && \
+    echo "=== DEBUG: Build completed, checking immediately ===" && \
+    ls -la /app/apps/api/bff/dist/ || echo "dist not created!"
 
 # DEBUG: Check what was built - look in multiple possible locations
 RUN echo "=== DEBUG: Contents of /app/apps/api/bff/dist after build ===" && \
