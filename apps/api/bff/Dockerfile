@@ -43,9 +43,13 @@ RUN pnpm prisma generate
 # Force rebuild in Docker to avoid cache issues
 RUN pnpm nx build bff --skip-nx-cache
 
-# DEBUG: Check what was built
+# DEBUG: Check what was built - look in multiple possible locations
 RUN echo "=== DEBUG: Contents of /app/apps/api/bff/dist after build ===" && \
-    ls -la /app/apps/api/bff/dist/
+    ls -la /app/apps/api/bff/dist/ && \
+    echo "=== DEBUG: Check workspace root dist ===" && \
+    ls -la /app/dist/apps/api/bff/ 2>/dev/null || echo "Not in /app/dist/" && \
+    echo "=== DEBUG: Find all server.js files ===" && \
+    find /app -name "server.js" -type f 2>/dev/null || echo "No server.js found"
 
 # ============================================
 # Stage 4: Deploy (Create pruned production package)
