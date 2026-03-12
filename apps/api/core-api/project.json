@@ -7,11 +7,12 @@
   "tags": ["type:app", "scope:api"],
   "targets": {
     "build": {
-      "executor": "@nx/vite:build",
-      "outputs": ["{options.outputPath}"],
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/dist"],
+      "dependsOn": ["^build"],
       "options": {
-        "outputPath": "apps/api/core-api/dist",
-        "configFile": "apps/api/core-api/vite.config.ts"
+        "command": "vite build -c apps/api/core-api/vite.config.ts",
+        "cwd": "{workspaceRoot}"
       },
       "configurations": {
         "production": {
