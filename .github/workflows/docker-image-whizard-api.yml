@@ -134,8 +134,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha,scope=${{ matrix.service.name }}
-          cache-to: type=gha,mode=max,scope=${{ matrix.service.name }}
+          no-cache: true
           platforms: linux/amd64,linux/arm64
           build-args: |
             NODE_VERSION=22

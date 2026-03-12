@@ -40,8 +40,8 @@ COPY . .
 RUN pnpm prisma generate
 
 # Build with NX (builds libs first with TypeScript, then app with Vite)
-# NX will use caching to skip unchanged libraries
-RUN pnpm nx build core-api
+# Force rebuild in Docker to avoid cache issues
+RUN pnpm nx build core-api --skip-nx-cache
 
 # ============================================
 # Stage 4: Deploy (Create pruned production package)
