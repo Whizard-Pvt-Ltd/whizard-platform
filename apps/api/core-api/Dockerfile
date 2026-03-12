@@ -44,21 +44,28 @@ RUN pnpm prisma generate
 RUN pnpm nx build core-api --skip-nx-cache
 
 # ============================================
-# Stage 4: Deploy (Create pruned production package)
+# Stage 4: Deploy (Prepare production package)
 # ============================================
-FROM builder AS deployer
+FROM base AS deployer
 
-# Use pnpm deploy to create a standalone production bundle
-# This creates a clean copy with ONLY production dependencies
-# force-legacy-deploy is enabled in .npmrc for pnpm v10 compatibility
-RUN pnpm deploy --filter=@whizard/core-api --prod /prod/core-api
+# Copy only production dependencies
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
+COPY .npmrc ./
+COPY apps/api/core-api/package.json ./apps/api/core-api/
 
-# Copy bundled output to deploy directory (from app-specific dist folder)
-RUN cp -r /app/apps/api/core-api/dist /prod/core-api/
+# Install ONLY production dependencies
+RUN pnpm install --frozen-lockfile --prod --ignore-scripts
+
+# Copy Prisma schema and generate client
+COPY prisma ./prisma/
+RUN pnpm prisma generate
+
+# Copy the built dist folder from builder stage
+COPY --from=builder /app/apps/api/core-api/dist ./apps/api/core-api/dist
 
 # Copy docker entrypoint script
-COPY apps/api/core-api/docker-entrypoint.sh /prod/core-api/docker-entrypoint.sh
-RUN chmod +x /prod/core-api/docker-entrypoint.sh
+COPY apps/api/core-api/docker-entrypoint.sh ./docker-entrypoint.sh
+RUN chmod +x ./docker-entrypoint.sh
 
 # Note: Libs are bundled into the server.js file by Vite
 # Only runtime dependencies (Prisma, Fastify, etc.) are needed from node_modules
@@ -76,8 +83,8 @@ RUN addgroup -g 1001 -S nodejs && adduser -S nodejs -u 1001
 
 WORKDIR /app
 
-# Copy the entire pruned production bundle from deployer
-COPY --from=deployer --chown=nodejs:nodejs /prod/core-api ./
+# Copy the entire production bundle from deployer
+COPY --from=deployer --chown=nodejs:nodejs /app ./
 
 # Switch to non-root user
 USER nodejs
