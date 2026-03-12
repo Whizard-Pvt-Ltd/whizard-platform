@@ -53,6 +53,14 @@ FROM builder AS deployer
 # force-legacy-deploy is enabled in .npmrc for pnpm v10 compatibility
 RUN pnpm deploy --filter=@whizard/core-api --prod /prod/core-api
 
+# Copy Prisma schema to production directory (needed for client generation)
+RUN cp -r /app/prisma /prod/core-api/
+
+# Switch to production directory and generate Prisma client using npx
+# This generates the client in the production node_modules without modifying package.json
+WORKDIR /prod/core-api
+RUN npx prisma@6.19.2 generate
+
 # Copy bundled output to deploy directory (from app-specific dist folder)
 RUN cp -r /app/apps/api/core-api/dist /prod/core-api/
 
