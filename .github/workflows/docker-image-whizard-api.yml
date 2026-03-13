@@ -135,7 +135,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           no-cache: true
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           build-args: |
             NODE_VERSION=22
             PNPM_VERSION=10.6.0
