@@ -4,7 +4,7 @@
 # ============================================
 # Stage 1: Base Dependencies
 # ============================================
-FROM node:22-alpine AS base
+FROM --platform=$TARGETPLATFORM node:22-alpine AS base
 
 # Install pnpm
 RUN corepack enable && corepack prepare pnpm@10.6.0 --activate
@@ -14,7 +14,7 @@ WORKDIR /app
 # ============================================
 # Stage 2: Dependencies Installation (All deps for build)
 # ============================================
-FROM base AS deps
+FROM --platform=$TARGETPLATFORM base AS deps
 
 # Copy workspace files
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
@@ -30,7 +30,7 @@ RUN pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
 # ============================================
 # Stage 3: Build (with all deps including dev)
 # ============================================
-FROM deps AS builder
+FROM --platform=$TARGETPLATFORM deps AS builder
 
 # Copy source code
 COPY . .
@@ -46,7 +46,7 @@ RUN pnpm nx build core-api --skip-nx-cache
 # ============================================
 # Stage 4: Deploy (Create pruned production package)
 # ============================================
-FROM builder AS deployer
+FROM --platform=$TARGETPLATFORM builder AS deployer
 
 # Use pnpm deploy to create a standalone production bundle
 # This creates a clean copy with ONLY production dependencies
@@ -74,7 +74,7 @@ RUN chmod +x /prod/core-api/docker-entrypoint.sh
 # ============================================
 # Stage 5: Production Runtime (Optimized)
 # ============================================
-FROM node:22-alpine AS runtime
+FROM --platform=$TARGETPLATFORM node:22-alpine AS runtime
 
 # Install dependencies for healthcheck and signal handling
 RUN apk add --no-cache dumb-init curl
