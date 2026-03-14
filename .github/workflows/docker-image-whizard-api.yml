@@ -73,6 +73,9 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL || 'postgresql://whizard:whizard@localhost:5432/whizard' }}
 
+      - name: Clean build cache
+        run: find . -name "*.tsbuildinfo" -type f -delete && rm -rf .nx/cache
+
       - name: Build with NX
         run: pnpm build:all
 
