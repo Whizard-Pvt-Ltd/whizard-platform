@@ -142,6 +142,9 @@ jobs:
           build-args: |
             NODE_VERSION=22
             PNPM_VERSION=10.6.0
+            VITE_BFF_API_URL=https://bfftest.whizard.club
+            VITE_STACK_AUTH_PROJECT_ID=a3f5b8a7-22d3-49d5-9f56-76e0489e8d51
+            VITE_STACK_AUTH_PUBLISHABLE_CLIENT_KEY=pck_pd36qj7jeyemw01c5a7k1s1bfvkbm7servsmxrnkav8z8
 
       - name: Image Summary
         run: |
