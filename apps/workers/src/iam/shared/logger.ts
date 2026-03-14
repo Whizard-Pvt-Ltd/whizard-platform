@@ -1,4 +1,4 @@
-import { createAppLogger, type AppLogger } from '@whizard/shared-infrastructure';
+import { createAppLogger, type AppLogger } from '@whizard/shared-logging';
 
 export interface WorkerLogger {
   info(message: string, details?: Record<string, unknown>): void;

@@ -101,14 +101,19 @@ export class StackAuthLoginUseCase {
   }
 
   private async authenticateWithStackAuth(email: string, password: string): Promise<StackAuthResponse> {
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+      'x-stack-project-id': this.stackAuthConfig.projectId,
+      'x-stack-access-type': 'client'
+    };
+
+    if (this.stackAuthConfig.publishableClientKey) {
+      headers['x-stack-publishable-client-key'] = this.stackAuthConfig.publishableClientKey;
+    }
+
     const response = await fetch('https://api.stack-auth.com/api/v1/auth/password/sign-in', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-stack-publishable-client-key': this.stackAuthConfig.publishableClientKey,
-        'x-stack-project-id': this.stackAuthConfig.projectId,
-        'x-stack-access-type': 'client'
-      },
+      headers,
       body: JSON.stringify({ email, password })
     });
 

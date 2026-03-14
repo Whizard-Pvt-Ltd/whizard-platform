@@ -33,7 +33,7 @@ const createCoreApiProxyUseCase = (path: string, method: 'GET' | 'POST' = 'POST'
       throw new Error(response.error?.message ?? 'Core-API request failed');
     }
 
-    return { data: response.data };
+    return { data: response.data as Record<string, unknown> };
   }
 });
 
