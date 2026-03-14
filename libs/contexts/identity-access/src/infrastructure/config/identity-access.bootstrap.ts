@@ -1,7 +1,7 @@
 import { AuthenticateWithPasswordHandler } from '../../application/command-handlers/authenticate-with-password.handler';
 import { RegisterLocalUserHandler } from '../../application/command-handlers/register-local-user.handler';
 import { StartUserSessionHandler } from '../../application/command-handlers/start-user-session.handler';
-import { createAppLogger } from '@whizard/shared-infrastructure';
+import { createAppLogger } from '@whizard/shared-logging';
 import type { IamCommandRepositories } from '../../application/ports/repositories/iam-command-repositories.port';
 import type { IamTransactionContext } from '../../application/ports/transactions/iam-unit-of-work.port';
 import type { IamUnitOfWorkPort } from '../../application/ports/transactions/iam-unit-of-work.port';

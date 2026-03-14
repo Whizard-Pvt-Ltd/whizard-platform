@@ -9,6 +9,7 @@ export const toUserAccountDomain = (row: UserAccountRow): UserAccount => {
     tenantId: row.tenantId,
     status: row.status as 'PENDING' | 'ACTIVE' | 'SUSPENDED',
     mfaRequired: row.mfaRequired,
+    stackAuthUserId: row.stackAuthUserId,
     createdAt: row.createdAt,
     activatedAt: row.activatedAt,
     lastLoginAt: row.lastLoginAt

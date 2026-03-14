@@ -3,7 +3,6 @@ node_modules
 dist
 coverage
 .env
-.env.*
 prisma/dev.db
 prisma/dev.db-journal
 .angular/
@@ -12,3 +11,8 @@ logs/
 # NX
 .nx/cache
 .nx/workspace-data
+
+# Nx dependency graph generated files
+static/
+dependency-graph.html
+*.tsbuildinfo

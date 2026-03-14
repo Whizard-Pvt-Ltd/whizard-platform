@@ -10,7 +10,7 @@
  * The module acts as an HTTP adapter layer for access control administration,
  * delegating to domain-level command handlers from the identity-access context.
  */
-import { getOrCreateAppLogger } from '@whizard/shared-infrastructure';
+import { getOrCreateAppLogger } from '@whizard/shared-logging';
 import { registerIamAccessAdminRoutes } from './routes';
 import type { FastifyInstanceLike } from '../shared/request-context';
 

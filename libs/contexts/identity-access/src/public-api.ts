@@ -17,6 +17,8 @@ export * from './contracts/events';
 // Explicit exports to help TypeScript resolution
 export type { ApiMetaV1, ApiErrorV1 } from './contracts/api/shared/api-meta.v1';
 
+export * from './application/services';
+
 export * from './infrastructure/config/identity-access.bootstrap';
 export * from './infrastructure/security';
 export * from './infrastructure/integrations/sso';

@@ -1,5 +1,5 @@
 {
-  "name": "shared-infrastructure",
+  "name": "@whizard/shared-infrastructure",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "root": "libs/shared/infrastructure",
   "sourceRoot": "libs/shared/infrastructure/src",
@@ -12,7 +12,8 @@
       "options": {
         "command": "tsc -p libs/shared/infrastructure/tsconfig.json",
         "cwd": "{workspaceRoot}"
-      }
+      },
+      "dependsOn": ["@whizard/shared-logging:build"]
     }
   }
 }

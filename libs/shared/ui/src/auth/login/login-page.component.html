@@ -7,7 +7,7 @@
     <h1>Sign in</h1>
     <p class="signup-copy">
       Don't have an account?
-      <a href="#" (click)="$event.preventDefault()">Create now</a>
+      <a routerLink="/signup">Create now</a>
     </p>
 
     <form [formGroup]="loginForm" (ngSubmit)="submit()" novalidate>

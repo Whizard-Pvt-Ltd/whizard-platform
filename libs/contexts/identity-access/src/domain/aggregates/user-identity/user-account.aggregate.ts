@@ -16,6 +16,7 @@ interface UserAccountState {
   tenant: TenantRef;
   status: AccountStatus;
   mfaRequired: boolean;
+  stackAuthUserId: string | null;
   createdAt: Date;
   activatedAt: Date | null;
   lastLoginAt: Date | null;
@@ -35,6 +36,7 @@ export class UserAccount {
     email: EmailAddress;
     tenant: TenantRef;
     mfaRequired: boolean;
+    stackAuthUserId?: string | null;
     now?: Date;
   }): UserAccount {
     const now = input.now ?? new Date();
@@ -44,6 +46,7 @@ export class UserAccount {
       tenant: input.tenant,
       status: 'PENDING',
       mfaRequired: input.mfaRequired,
+      stackAuthUserId: input.stackAuthUserId ?? null,
       createdAt: now,
       activatedAt: null,
       lastLoginAt: null,
@@ -75,6 +78,7 @@ export class UserAccount {
     tenantId: string;
     status: AccountStatus;
     mfaRequired: boolean;
+    stackAuthUserId?: string | null;
     createdAt: Date;
     activatedAt: Date | null;
     lastLoginAt: Date | null;
@@ -89,6 +93,7 @@ export class UserAccount {
       tenant: TenantRef.create({ tenantType: input.tenantType, tenantId: input.tenantId }),
       status: input.status,
       mfaRequired: input.mfaRequired,
+      stackAuthUserId: input.stackAuthUserId ?? null,
       createdAt: input.createdAt,
       activatedAt: input.activatedAt,
       lastLoginAt: input.lastLoginAt,
@@ -267,6 +272,7 @@ export class UserAccount {
     tenantId: string;
     status: AccountStatus;
     mfaRequired: boolean;
+    stackAuthUserId: string | null;
     createdAt: Date;
     activatedAt: Date | null;
     lastLoginAt: Date | null;
@@ -278,6 +284,7 @@ export class UserAccount {
       tenantId: this.tenant.tenantId,
       status: this.state.status,
       mfaRequired: this.state.mfaRequired,
+      stackAuthUserId: this.state.stackAuthUserId,
       createdAt: this.state.createdAt,
       activatedAt: this.state.activatedAt,
       lastLoginAt: this.state.lastLoginAt

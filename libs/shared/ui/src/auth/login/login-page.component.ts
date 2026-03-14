@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Router, RouterLink } from '@angular/router';
+import { Observable, from } from 'rxjs';
 
 /**
  * Response from authentication login request
@@ -15,9 +15,12 @@ export interface AuthLoginResponse {
 /**
  * Interface for authentication service that login component depends on.
  * Consumer applications must provide an implementation of this interface.
+ *
+ * Supports both Observable-based (legacy) and Promise-based (Stack Auth) auth services.
  */
 export interface IAuthService {
-  login(email: string, password: string): Observable<AuthLoginResponse>;
+  login(email: string, password: string): Observable<AuthLoginResponse> | Promise<void>;
+  signIn?(email: string, password: string): Promise<void>;
 }
 
 /**
@@ -49,7 +52,7 @@ export interface IAuthService {
 @Component({
   selector: 'whizard-login-page',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css'
 })
@@ -82,7 +85,7 @@ export class LoginPageComponent {
     this.showPassword.update((value) => !value);
   }
 
-  protected submit(): void {
+  protected async submit(): Promise<void> {
     if (this.loginForm.invalid || this.isSubmitting()) {
       this.loginForm.markAllAsTouched();
       return;
@@ -98,25 +101,67 @@ export class LoginPageComponent {
 
     const { email, password } = this.loginForm.getRawValue();
 
-    this.authService.login(email, password).subscribe({
-      next: (response) => {
+    try {
+      // Check if this is a Stack Auth service (has signIn method) or legacy service
+      if (this.authService.signIn) {
+        // Stack Auth service - uses Promise-based signIn
+        await this.authService.signIn(email, password);
         this.isSubmitting.set(false);
-        if (response.success) {
-          // Navigate to dashboard or home page
-          this.router.navigate(['/']);
+        // Stack Auth service handles navigation internally
+      } else {
+        // Legacy Observable-based auth service
+        const loginResult = this.authService.login(email, password);
+
+        // Handle both Promise and Observable
+        if (loginResult instanceof Promise) {
+          // Convert Promise to Observable
+          from(loginResult).subscribe({
+            next: () => {
+              this.isSubmitting.set(false);
+              this.router.navigate(['/']);
+            },
+            error: (error: Error & { error?: { message?: string } }) => {
+              this.isSubmitting.set(false);
+              if (typeof reportError === 'function') {
+                reportError(error);
+              }
+              this.errorMessage.set(
+                error.error?.message || 'Login failed. Please check your credentials and try again.'
+              );
+            }
+          });
         } else {
-          this.errorMessage.set('Login failed. Please try again.');
+          // It's an Observable
+          (loginResult as Observable<AuthLoginResponse>).subscribe({
+            next: (response: AuthLoginResponse) => {
+              this.isSubmitting.set(false);
+              if (response?.success !== false) {
+                this.router.navigate(['/']);
+              } else {
+                this.errorMessage.set('Login failed. Please try again.');
+              }
+            },
+            error: (error: Error & { error?: { message?: string } }) => {
+              this.isSubmitting.set(false);
+              if (typeof reportError === 'function') {
+                reportError(error);
+              }
+              this.errorMessage.set(
+                error.error?.message || 'Login failed. Please check your credentials and try again.'
+              );
+            }
+          });
         }
-      },
-      error: (error: Error & { error?: { message?: string } }) => {
-        this.isSubmitting.set(false);
-        if (typeof reportError === 'function') {
-          reportError(error);
-        }
-        this.errorMessage.set(
-          error.error?.message || 'Login failed. Please check your credentials and try again.'
-        );
       }
-    });
+    } catch (error: unknown) {
+      this.isSubmitting.set(false);
+      if (typeof reportError === 'function') {
+        reportError(error);
+      }
+      const errorMessage = error instanceof Error
+        ? error.message
+        : 'Login failed. Please check your credentials and try again.';
+      this.errorMessage.set(errorMessage);
+    }
   }
 }

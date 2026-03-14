@@ -11,7 +11,7 @@
  * The module acts as a thin HTTP adapter layer that delegates to domain-level
  * query and command handlers from the identity-access context.
  */
-import { getOrCreateAppLogger } from '@whizard/shared-infrastructure';
+import { getOrCreateAppLogger } from '@whizard/shared-logging';
 import { registerIamAccessRoutes } from './routes';
 import type { FastifyInstanceLike } from '../shared/request-context';
 

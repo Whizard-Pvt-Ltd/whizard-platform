@@ -5,7 +5,7 @@
  */
 
 // Authentication Components
-export * from './auth';
+export * from './auth/index.js';
 
 // Future exports:
 // export * from './layout';

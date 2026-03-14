@@ -22,6 +22,9 @@ export type FastifyPreHandlerLike = (
 export interface FastifyRouteLike {
   readonly method: string;
   readonly url: string;
+  readonly config?: {
+    skipStackAuth?: boolean;
+  };
   readonly preHandler?: FastifyPreHandlerLike | FastifyPreHandlerLike[];
   readonly handler: (request: FastifyRequestLike, reply: FastifyReplyLike) => Promise<void> | void;
 }

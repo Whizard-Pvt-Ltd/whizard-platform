@@ -7,7 +7,8 @@
         <span class="platform-name">Admin Portal</span>
       </div>
       <div class="user-menu">
-        <span class="user-email">{{ userEmail }}</span>
+        <span class="user-name">{{ userName || userEmail || 'User' }}</span>
+        <a routerLink="/profile" class="profile-btn">Profile</a>
         <button class="logout-btn" (click)="logout()">Logout</button>
       </div>
     </div>
@@ -32,15 +33,15 @@
         <div class="stat-icon">🔐</div>
         <div class="stat-content">
           <h3>Authentication</h3>
-          <p>LOCAL_PASSWORD</p>
+          <p>Stack Auth</p>
         </div>
       </div>
 
       <div class="stat-card">
-        <div class="stat-icon">⏰</div>
+        <div class="stat-icon">👤</div>
         <div class="stat-content">
-          <h3>Session Expires</h3>
-          <p>{{ tokenExpiry || 'N/A' }}</p>
+          <h3>Display Name</h3>
+          <p>{{ userName || 'Not set' }}</p>
         </div>
       </div>
 

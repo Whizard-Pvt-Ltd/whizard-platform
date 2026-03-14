@@ -33,8 +33,25 @@ services:
       - "3001:3001"
     environment:
       NODE_ENV: production
-      PORT: 3001
+      CORE_API_PORT: 3001
+      HOST: 0.0.0.0
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/whizard
+
+      # CORS Configuration
+      CORS_ORIGIN: http://core-api:3001,http://bff:3000,http://admin-portal:80
+
+      # Stack Auth Configuration
+      STACK_AUTH_PROJECT_ID: "a3f5b8a7-22d3-49d5-9f56-76e0489e8d51"
+      STACK_AUTH_SECRET_SERVER_KEY: "ssk_r3h4wxtrgpezgbzsvtned8t6mehvj6vew9hq2b49rvv68"
+      STACK_AUTH_PUBLISHABLE_CLIENT_KEY: "pck_pd36qj7jeyemw01c5a7k1s1bfvkbm7servsmxrnkav8z8"
+
+      # Stack Auth User Sync Configuration
+      STACK_AUTH_DEFAULT_TENANT_TYPE: SYSTEM
+      STACK_AUTH_DEFAULT_TENANT_ID: system
+      STACK_AUTH_MFA_REQUIRED: "false"
+
+      # Logging
+      LOG_LEVEL: info
     depends_on:
       postgres:
         condition: service_healthy
@@ -58,15 +75,18 @@ services:
       - "3000:3000"
     environment:
       NODE_ENV: production
-      PORT: 3000
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/whizard
+      BFF_PORT: 3000
+      HOST: 0.0.0.0
+
+      # Core API Connection
       CORE_API_URL: http://core-api:3001
-      # JWT Token secrets (32+ characters required)
-      IAM_ACCESS_TOKEN_SECRET: "whizard-access-token-secret-change-in-production-minimum-32-chars"
-      IAM_REFRESH_TOKEN_SECRET: "whizard-refresh-token-secret-change-in-production-minimum-32-chars"
+
+      # CORS Configuration
+      CORS_ORIGIN: http://localhost:4200,http://admin-portal:80
+
+      # Logging
+      LOG_LEVEL: info
     depends_on:
-      postgres:
-        condition: service_healthy
       core-api:
         condition: service_healthy
     healthcheck:
@@ -83,6 +103,11 @@ services:
     build:
       context: .
       dockerfile: apps/web/admin-portal/Dockerfile
+      args:
+        # Build-time environment variables for Angular/Vite
+        VITE_BFF_API_URL: http://localhost:3000
+        VITE_STACK_AUTH_PROJECT_ID: "a3f5b8a7-22d3-49d5-9f56-76e0489e8d51"
+        VITE_STACK_AUTH_PUBLISHABLE_CLIENT_KEY: "pck_pd36qj7jeyemw01c5a7k1s1bfvkbm7servsmxrnkav8z8"
     container_name: whizard-admin-portal
     restart: unless-stopped
     ports:

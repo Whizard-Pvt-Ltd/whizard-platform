@@ -11,16 +11,14 @@
     "dev": "tsx src/server.ts"
   },
   "dependencies": {
-    "@prisma/client": "^6.4.1",
     "fastify": "^5.3.0",
     "@fastify/cors": "^10.0.2",
     "@fastify/helmet": "^12.0.1",
     "pino": "^9.6.0",
     "pino-pretty": "^13.0.0",
-    "bcrypt": "^5.1.1",
-    "@whizard/identity-access": "workspace:*",
-    "@whizard/shared-infrastructure": "workspace:*",
-    "@whizard/shared-kernel": "workspace:*"
+    "@whizard/core-api-client": "workspace:*",
+    "@whizard/shared-kernel": "workspace:*",
+    "@whizard/shared-logging": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.13.10",

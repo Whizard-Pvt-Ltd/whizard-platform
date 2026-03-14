@@ -15,7 +15,7 @@
  */
 import type { AuthenticateWithPasswordCommand } from '../commands/authenticate-with-password.command';
 import type { AuthenticateWithPasswordResponseDto } from '../dto/responses/authenticate-with-password.response.dto';
-import type { AppLogger } from '@whizard/shared-infrastructure';
+import type { AppLogger } from '@whizard/shared-logging';
 import type { OutboxPort } from '../ports/event-bus/outbox.port';
 import type { AuthorizationGateway } from '../ports/gateways/authorization.gateway';
 import type { PasswordVerifierGateway } from '../ports/gateways/password-verifier.gateway';

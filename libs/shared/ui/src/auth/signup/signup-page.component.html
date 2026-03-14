@@ -1,0 +1,92 @@
+<main class="signup-shell">
+  <section class="form-pane">
+    <div class="brand-mark">
+      <img src="assets/images/whizard-logo.png" alt="Whizard Logo" class="logo-image" />
+    </div>
+
+    <h1>Create Account</h1>
+    <p class="login-copy">
+      Already have an account?
+      <a routerLink="/login">Sign in</a>
+    </p>
+
+    <form [formGroup]="signupForm" (ngSubmit)="submit()" novalidate>
+      <div *ngIf="errorMessage()" class="error-alert">
+        {{ errorMessage() }}
+      </div>
+
+      <div *ngIf="successMessage()" class="success-alert">
+        {{ successMessage() }}
+      </div>
+
+      <label for="displayName">Full Name</label>
+      <input id="displayName" type="text" formControlName="displayName" placeholder="John Doe" />
+      <small *ngIf="signupForm.controls.displayName.touched && signupForm.controls.displayName.invalid">
+        Name must be at least 2 characters.
+      </small>
+
+      <label for="email">E-mail</label>
+      <input id="email" type="email" formControlName="email" placeholder="example@gmail.com" />
+      <small *ngIf="signupForm.controls.email.touched && signupForm.controls.email.invalid">
+        Enter a valid email address.
+      </small>
+
+      <label for="password">Password</label>
+      <div class="password-field">
+        <input
+          id="password"
+          [type]="showPassword() ? 'text' : 'password'"
+          formControlName="password"
+          placeholder="@#*%"
+        />
+        <button type="button" (click)="togglePasswordVisibility()">
+          {{ showPassword() ? 'Hide' : 'Show' }}
+        </button>
+      </div>
+      <small *ngIf="signupForm.controls.password.touched && signupForm.controls.password.invalid">
+        Password must be at least 8 characters.
+      </small>
+
+      <label for="confirmPassword">Confirm Password</label>
+      <div class="password-field">
+        <input
+          id="confirmPassword"
+          [type]="showConfirmPassword() ? 'text' : 'password'"
+          formControlName="confirmPassword"
+          placeholder="@#*%"
+        />
+        <button type="button" (click)="toggleConfirmPasswordVisibility()">
+          {{ showConfirmPassword() ? 'Hide' : 'Show' }}
+        </button>
+      </div>
+      <small *ngIf="signupForm.controls.confirmPassword.touched && signupForm.controls.confirmPassword.invalid">
+        Please confirm your password.
+      </small>
+
+      <label class="checkbox">
+        <input type="checkbox" formControlName="agreeToTerms" />
+        <span>I agree to the <a href="#" (click)="$event.preventDefault()">Terms and Conditions</a></span>
+      </label>
+      <small *ngIf="signupForm.controls.agreeToTerms.touched && signupForm.controls.agreeToTerms.invalid">
+        You must agree to the terms and conditions.
+      </small>
+
+      <button class="submit" type="submit" [disabled]="isSubmitting()">
+        {{ isSubmitting() ? 'Creating account...' : 'Create Account' }}
+      </button>
+    </form>
+  </section>
+
+  <aside class="info-pane">
+    <div class="info-content">
+      <h2>Welcome to Whizard Platform</h2>
+      <p>Create an account to access our comprehensive sports management system.</p>
+      <ul>
+        <li>Manage student athletes and teams</li>
+        <li>Track performance and analytics</li>
+        <li>Coordinate with colleges and companies</li>
+        <li>Access powerful administrative tools</li>
+      </ul>
+    </div>
+  </aside>
+</main>

@@ -19,8 +19,9 @@
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
-import { getOrCreateAppLogger, createPinoLoggerOptions } from '@whizard/shared-infrastructure';
+import { getOrCreateAppLogger, createPinoLoggerOptions } from '@whizard/shared-logging';
 import { startCoreApi } from './main';
+import stackAuthPlugin from './plugins/stack-auth.plugin';
 
 // Server configuration from environment variables
 const PORT = parseInt(process.env.CORE_API_PORT || '3001', 10);
@@ -70,33 +71,47 @@ async function bootstrap() {
     allowedOrigins: Array.isArray(corsOrigins) ? corsOrigins : [corsOrigins]
   });
 
+  // Register Stack Auth authentication plugin
+  // This adds JWT token verification to all routes
+  bootstrapLogger.debug('Registering Stack Auth authentication plugin');
+  await fastify.register(stackAuthPlugin);
+  bootstrapLogger.info('Stack Auth authentication plugin registered');
+
   // Health check endpoint - used by monitoring systems and load balancers
   // to verify the service is running and responsive
-  fastify.get('/health', async () => {
-    const response = {
-      status: 'ok',
-      service: 'core-api',
-      timestamp: new Date().toISOString()
-    };
-    fastify.log.debug(response, 'Health check requested');
-    return response;
-  });
+  fastify.get(
+    '/health',
+    { config: { skipStackAuth: true } },
+    async () => {
+      const response = {
+        status: 'ok',
+        service: 'core-api',
+        timestamp: new Date().toISOString()
+      };
+      fastify.log.debug(response, 'Health check requested');
+      return response;
+    }
+  );
 
   // Root endpoint - provides service information and available API endpoints
-  fastify.get('/', async () => {
-    const response = {
-      service: 'Whizard Platform - Core API',
-      version: '0.1.0',
-      endpoints: {
-        health: '/health',
-        admin: {
-          iam: '/admin/iam/*'
+  fastify.get(
+    '/',
+    { config: { skipStackAuth: true } },
+    async () => {
+      const response = {
+        service: 'Whizard Platform - Core API',
+        version: '0.1.0',
+        endpoints: {
+          health: '/health',
+          admin: {
+            iam: '/admin/iam/*'
+          }
         }
-      }
-    };
-    fastify.log.debug(response, 'Root endpoint requested');
-    return response;
-  });
+      };
+      fastify.log.debug(response, 'Root endpoint requested');
+      return response;
+    }
+  );
 
   bootstrapLogger.debug('Health and info endpoints registered');
 

@@ -34,6 +34,16 @@ RUN pnpm install --frozen-lockfile --prefer-offline
 # ============================================
 FROM deps AS builder
 
+# Accept build arguments for environment variables
+ARG VITE_BFF_API_URL=http://localhost:3000
+ARG VITE_STACK_AUTH_PROJECT_ID
+ARG VITE_STACK_AUTH_PUBLISHABLE_CLIENT_KEY
+
+# Set as environment variables for Vite build
+ENV VITE_BFF_API_URL=${VITE_BFF_API_URL}
+ENV VITE_STACK_AUTH_PROJECT_ID=${VITE_STACK_AUTH_PROJECT_ID}
+ENV VITE_STACK_AUTH_PUBLISHABLE_CLIENT_KEY=${VITE_STACK_AUTH_PUBLISHABLE_CLIENT_KEY}
+
 # Copy source code
 COPY . .
 

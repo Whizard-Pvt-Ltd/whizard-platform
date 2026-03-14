@@ -1,0 +1,17 @@
+/**
+ * Stack Auth Initializer
+ *
+ * Angular APP_INITIALIZER that initializes Stack Auth SDK on app startup.
+ */
+
+import { inject } from '@angular/core';
+import { StackAuthService } from '../services/stack-auth.service';
+import { environment } from '../../../environments/environment';
+
+export function initializeStackAuth(): () => Promise<void> {
+  const stackAuthService = inject(StackAuthService);
+
+  return () => {
+    return stackAuthService.initialize(environment.stackAuth);
+  };
+}

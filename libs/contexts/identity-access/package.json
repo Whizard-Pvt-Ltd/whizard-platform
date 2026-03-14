@@ -19,8 +19,10 @@
   },
   "dependencies": {
     "@prisma/client": "^6.4.1",
+    "@whizard/shared-infrastructure": "workspace:*",
+    "@whizard/shared-logging": "workspace:*",
     "bcrypt": "^5.1.1",
-    "@whizard/shared-infrastructure": "workspace:*"
+    "jose": "^6.2.1"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

@@ -19,7 +19,7 @@
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
-import { getOrCreateAppLogger, createPinoLoggerOptions } from '@whizard/shared-infrastructure';
+import { getOrCreateAppLogger, createPinoLoggerOptions } from '@whizard/shared-logging';
 import { startBff } from './main';
 
 // Server configuration from environment variables
@@ -61,12 +61,13 @@ async function bootstrap() {
   bootstrapLogger.debug('Helmet security plugin registered');
 
   // CORS enables cross-origin requests from the frontend application
-  const corsOrigin = process.env.CORS_ORIGIN || 'http://localhost:4200';
+  const corsOriginEnv = process.env.CORS_ORIGIN || 'http://localhost:4200';
+  const corsOrigins = corsOriginEnv.split(',').map(origin => origin.trim());
   await fastify.register(cors, {
-    origin: corsOrigin,
+    origin: corsOrigins,
     credentials: true
   });
-  bootstrapLogger.debug('CORS plugin registered', { allowedOrigin: corsOrigin });
+  bootstrapLogger.debug('CORS plugin registered', { allowedOrigins: corsOrigins });
 
   // Health check endpoint - used by monitoring systems and load balancers
   // to verify the service is running and responsive

@@ -12,7 +12,8 @@
       "options": {
         "command": "tsc -p libs/contexts/identity-access/tsconfig.json",
         "cwd": "{workspaceRoot}"
-      }
+      },
+      "dependsOn": ["@whizard/shared-logging:build", "@whizard/shared-infrastructure:build"]
     }
   }
 }

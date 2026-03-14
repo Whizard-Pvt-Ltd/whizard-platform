@@ -18,6 +18,7 @@ model UserAccount {
   mfaRequired      Boolean           @default(true)
   tenantType       String
   tenantId         String
+  stackAuthUserId  String?           @unique
   createdAt        DateTime          @default(now())
   activatedAt      DateTime?
   lastLoginAt      DateTime?
@@ -29,6 +30,7 @@ model UserAccount {
   @@map("iam_user_accounts")
   @@index([tenantType, tenantId])
   @@index([status])
+  @@index([stackAuthUserId])
 }
 
 model AccessPrincipal {

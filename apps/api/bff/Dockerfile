@@ -1,5 +1,6 @@
 # Dockerfile for BFF API Service
 # Multi-stage build with production-only dependencies
+# BFF is now a thin HTTP gateway - no database access needed
 
 # ============================================
 # Stage 1: Base Dependencies
@@ -24,7 +25,7 @@ COPY .npmrc ./
 COPY apps/api/bff/package.json ./apps/api/bff/
 
 # Install ALL dependencies (needed for build)
-# --ignore-scripts because prisma schema not copied yet
+# Use --ignore-scripts because BFF doesn't need Prisma (the workspace postinstall runs prisma generate)
 RUN pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
 
 # ============================================
@@ -35,12 +36,9 @@ FROM --platform=$TARGETPLATFORM deps AS builder
 # Copy source code
 COPY . .
 
-# Generate Prisma Client (needs prisma CLI from devDependencies)
-# Must run from workspace root where schema.prisma is located
-RUN pnpm prisma generate
-
 # Build with NX (builds libs first with TypeScript, then app with Vite)
 # Force rebuild in Docker to avoid cache issues
+# NOTE: BFF no longer needs Prisma - it calls Core-API via HTTP
 RUN pnpm nx build bff --skip-nx-cache
 
 # ============================================
@@ -51,25 +49,19 @@ FROM --platform=$TARGETPLATFORM builder AS deployer
 # Use pnpm deploy to create a standalone production bundle
 # This creates a clean copy with ONLY production dependencies
 # force-legacy-deploy is enabled in .npmrc for pnpm v10 compatibility
-RUN pnpm deploy --filter=@whizard/bff --prod /prod/bff
-
-# Copy Prisma schema to production directory (needed for client generation)
-RUN cp -r /app/prisma /prod/bff/
-
-# Switch to production directory and generate Prisma client using npx
-# This generates the client in the production node_modules without modifying package.json
-WORKDIR /prod/bff
-RUN npx prisma@6.19.2 generate
+# BFF doesn't need Prisma, so skip postinstall scripts (which run prisma generate)
+RUN pnpm deploy --filter=@whizard/bff --prod --ignore-scripts /prod/bff
 
 # Copy bundled output to deploy directory (from app-specific dist folder)
-RUN cp -r /app/apps/api/bff/dist /prod/bff/
+WORKDIR /prod/bff
+RUN cp -r /app/apps/api/bff/dist ./
 
 # Copy docker entrypoint script
 COPY apps/api/bff/docker-entrypoint.sh /prod/bff/docker-entrypoint.sh
 RUN chmod +x /prod/bff/docker-entrypoint.sh
 
-# Note: Libs are bundled into the server.js file by Vite
-# Only runtime dependencies (Prisma, Fastify, etc.) are needed from node_modules
+# Note: BFF is now a thin HTTP proxy
+# Only runtime dependencies (Fastify, HTTP client, etc.) are needed from node_modules
 
 # ============================================
 # Stage 5: Production Runtime (Optimized)

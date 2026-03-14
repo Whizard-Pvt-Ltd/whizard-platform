@@ -6,7 +6,7 @@
   "files": [],
   "references": [
     {
-      "path": "./apps/web/admin-portal/tsconfig.app.json"
+      "path": "./apps/web/admin-portal/tsconfig.app.json",
     }
   ]
 }

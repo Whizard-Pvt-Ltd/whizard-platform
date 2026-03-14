@@ -26,16 +26,16 @@ export default defineConfig({
         preserveModules: false,
       },
       external: (id) => {
-        // Keep all node_modules external except our libs
-        if (id.startsWith('@whizard/')) return false;
+        // Keep all node_modules external (including @whizard/* workspace libs)
+        // BFF only does HTTP proxying, no need to bundle libs
         if (id.startsWith('.') || id.startsWith('/')) return false;
         return true;
       },
     },
   },
   ssr: {
-    // Keep node_modules external (only bundle our code)
-    // But bundle @whizard/* libs
-    noExternal: [/^@whizard\//],
+    // Keep all node_modules external (BFF now only does HTTP proxying)
+    // No need to bundle @whizard/* libs anymore since we call Core-API via HTTP
+    noExternal: [],
   },
 });

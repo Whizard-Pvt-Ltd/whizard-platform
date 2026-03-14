@@ -1,0 +1,9 @@
+{
+  "name": "core-api-client",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "root": "libs/shared/core-api-client",
+  "sourceRoot": "libs/shared/core-api-client/src",
+  "projectType": "library",
+  "tags": ["type:lib", "scope:shared"],
+  "targets": {}
+}

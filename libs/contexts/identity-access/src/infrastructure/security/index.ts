@@ -9,3 +9,5 @@ export * from './in-memory-mfa.gateway';
 export * from './invitation-token.gateway';
 export * from './static-authorization.gateway';
 export * from './system-clock.gateway';
+export * from './stack-auth.config';
+export * from './stack-auth-token-verifier.gateway';

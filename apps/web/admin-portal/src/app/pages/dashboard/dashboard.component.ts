@@ -1,44 +1,32 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { AuthService } from '../../core/services/auth.service';
-import { TokenStorageService } from '../../core/services/token-storage.service';
+import { Router, RouterLink } from '@angular/router';
+import { StackAuthService } from '../../core/services/stack-auth.service';
 
 @Component({
   selector: 'whizard-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
-  private readonly authService = inject(AuthService);
-  private readonly tokenStorage = inject(TokenStorageService);
+  private readonly stackAuthService = inject(StackAuthService);
   private readonly router = inject(Router);
 
+  protected userName: string | null = null;
   protected userEmail: string | null = null;
-  protected tokenExpiry: string | null = null;
 
   ngOnInit(): void {
-    // Decode JWT to get user info (simplified - in production use a JWT library)
-    const token = this.tokenStorage.getAccessToken();
-    if (token) {
-      try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        this.userEmail = payload.sub || 'Unknown';
-        const expiresAt = this.tokenStorage.getExpiresAt();
-        if (expiresAt) {
-          this.tokenExpiry = new Date(expiresAt).toLocaleString();
-        }
-      } catch (e) {
-        if (typeof reportError === 'function') {
-          reportError(e);
-        }
-      }
+    // Get user info from Stack Auth
+    const user = this.stackAuthService.currentUser();
+    if (user) {
+      this.userName = user.displayName;
+      this.userEmail = user.email;
     }
   }
 
   protected logout(): void {
-    this.authService.logout();
+    this.stackAuthService.signOut();
   }
 }

@@ -31,6 +31,7 @@ export class PrismaUserAccountRepository implements UserAccountRepository {
         tenantId: model.tenantId,
         status: model.status,
         mfaRequired: model.mfaRequired,
+        stackAuthUserId: model.stackAuthUserId,
         activatedAt: model.activatedAt,
         lastLoginAt: model.lastLoginAt,
         version: { increment: 1 }
@@ -44,6 +45,7 @@ export class PrismaUserAccountRepository implements UserAccountRepository {
         tenantId: model.tenantId,
         status: model.status,
         mfaRequired: model.mfaRequired,
+        stackAuthUserId: model.stackAuthUserId,
         createdAt: model.createdAt,
         activatedAt: model.activatedAt,
         lastLoginAt: model.lastLoginAt
