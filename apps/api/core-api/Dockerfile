@@ -23,6 +23,12 @@ COPY .npmrc ./
 # Copy app-specific package.json
 COPY apps/api/core-api/package.json ./apps/api/core-api/
 
+# Copy all library package.json files (needed for workspace dependency resolution)
+COPY libs/contexts/identity-access/package.json ./libs/contexts/identity-access/
+COPY libs/shared/infrastructure/package.json ./libs/shared/infrastructure/
+COPY libs/shared/logging/package.json ./libs/shared/logging/
+COPY libs/shared/core-api-client/package.json ./libs/shared/core-api-client/
+
 # Install ALL dependencies (needed for build)
 # --ignore-scripts because prisma schema not copied yet
 RUN pnpm install --frozen-lockfile --prefer-offline --ignore-scripts

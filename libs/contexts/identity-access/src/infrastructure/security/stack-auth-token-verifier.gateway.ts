@@ -73,7 +73,8 @@ export class StackAuthTokenVerifierGateway {
         throw new Error('Stack Auth token has expired');
       }
       if (error instanceof jose.errors.JWTClaimValidationFailed) {
-        throw new Error(`Stack Auth token validation failed: ${error.message}`);
+        const message = error instanceof Error ? error.message : 'Validation failed';
+        throw new Error(`Stack Auth token validation failed: ${message}`);
       }
       if (error instanceof jose.errors.JWSSignatureVerificationFailed) {
         throw new Error('Stack Auth token signature verification failed');
