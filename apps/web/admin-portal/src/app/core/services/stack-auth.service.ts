@@ -164,7 +164,7 @@ export class StackAuthService {
       console.log('Signing in via BFF...', { email });
 
       const response = await firstValueFrom(
-        this.http.post<LoginResponse>(`${import.meta.env.VITE_BFF_API_URL}/iam/auth/login`, {
+        this.http.post<LoginResponse>(`${environment.bffApiUrl}/iam/auth/login`, {
           email,
           password
         }, {
