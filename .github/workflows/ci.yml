@@ -67,10 +67,16 @@ jobs:
       - name: Lint code
         run: pnpm lint
 
-      - name: Run tests
-        run: pnpm test
+      - name: Run unit tests
+        run: pnpm test:unit
+        env:
+          NODE_ENV: test
+
+      - name: Run integration tests
+        run: pnpm test:integration
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL || 'postgresql://whizard:whizard@localhost:5432/whizard' }}
+          NODE_ENV: test
 
       - name: Type check
         run: pnpm build

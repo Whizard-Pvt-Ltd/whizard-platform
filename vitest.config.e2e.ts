@@ -3,13 +3,20 @@ import path from 'node:path';
 
 export default defineConfig({
   test: {
-    globals: true,
+    name: 'e2e',
+    include: ['tests/e2e/**/*.spec.ts'],
+    exclude: ['**/node_modules/**', '**/dist/**'],
     environment: 'node',
-    include: [
-      'libs/**/*.spec.ts',
-      'tests/**/*.spec.ts',
-      'apps/**/__tests__/**/*.spec.ts'
-    ]
+    globals: true,
+    testTimeout: 30000, // E2E tests can be slow
+    hookTimeout: 30000,
+    // Serial execution for E2E tests
+    poolOptions: {
+      threads: {
+        singleThread: true
+      }
+    },
+    setupFiles: ['./tests/setup/e2e-setup.ts']
   },
   resolve: {
     alias: {

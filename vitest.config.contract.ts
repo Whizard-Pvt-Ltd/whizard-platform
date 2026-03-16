@@ -3,13 +3,12 @@ import path from 'node:path';
 
 export default defineConfig({
   test: {
-    globals: true,
+    name: 'contract',
+    include: ['tests/contract/**/*.spec.ts'],
+    exclude: ['**/node_modules/**', '**/dist/**'],
     environment: 'node',
-    include: [
-      'libs/**/*.spec.ts',
-      'tests/**/*.spec.ts',
-      'apps/**/__tests__/**/*.spec.ts'
-    ]
+    globals: true,
+    testTimeout: 5000
   },
   resolve: {
     alias: {
