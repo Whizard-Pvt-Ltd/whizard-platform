@@ -77,7 +77,7 @@ jobs:
         run: find . -name "*.tsbuildinfo" -type f -delete && rm -rf .nx/cache
 
       - name: Build with NX
-        run: pnpm build:all
+        run: pnpm build:all --verbose
 
   # Build and push Docker images
   docker-build-push:
