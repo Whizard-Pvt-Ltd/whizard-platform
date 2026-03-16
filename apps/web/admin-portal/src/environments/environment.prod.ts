@@ -10,7 +10,7 @@ export const environment = {
   production: true,
 
   // BFF API URL
-  bffApiUrl: 'http://bff:3000',
+  bffApiUrl: 'https://bfftest.whizard.club',
 
   // Stack Auth Configuration
   stackAuth: {
