@@ -22,7 +22,8 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { TokenStorageService } from './token-storage.service';
-import { environment } from '../../../environments/environment';
+// import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment.prod';
 
 export interface StackAuthUser {
   id: string;
