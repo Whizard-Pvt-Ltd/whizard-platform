@@ -8,7 +8,7 @@ export const environment = {
   production: false,
 
   // BFF API URL
-  bffApiUrl: process.env['VITE_BFF_API_URL'] || 'http://localhost:3000',
+  bffApiUrl: process.env['VITE_BFF_API_URL'] || 'http://localhost:3000'
 
   // Stack Auth Configuration
   stackAuth: {
