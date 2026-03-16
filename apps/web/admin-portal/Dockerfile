@@ -50,7 +50,7 @@ ENV VITE_STACK_AUTH_PUBLISHABLE_CLIENT_KEY=${VITE_STACK_AUTH_PUBLISHABLE_CLIENT_
 COPY . .
 
 # Build admin portal for production
-RUN pnpm build:web-admin
+RUN pnpm build:web-admin --configuration=production
 
 # ============================================
 # Stage 4: Production Runtime with Nginx
