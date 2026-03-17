@@ -1,5 +1,8 @@
 import { defineConfig } from 'vitest/config';
 import path from 'node:path';
+import { config } from 'dotenv';
+
+config({ path: '.env.test' });
 
 export default defineConfig({
   test: {
@@ -34,7 +37,6 @@ export default defineConfig({
         statements: 70
       }
     },
-    envFile: '.env.test',
     // Parallel execution for fast unit tests
     poolOptions: {
       threads: {

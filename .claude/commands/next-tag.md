@@ -14,13 +14,13 @@ This command helps you create the next semantic version tag following [Semantic 
 
 ## Steps to execute:
 
-### 1. Fetch all tags from remote
-Run: `git fetch --tags`
+### 1. Fetch all tags and get the latest
+Always fetch from remote first, then list tags sorted by version to get the true latest:
+```bash
+git fetch --tags && git tag --sort=-version:refname | head -10
+```
 
-### 2. Get the latest tag
-Run: `git describe --tags --abbrev=0 2>/dev/null || echo "No tags found"`
-
-If no tags exist, the first tag should be `v0.1.0`.
+Use the highest version from the sorted list as the current tag. If no tags exist, the first tag should be `v0.1.0`.
 
 ### 3. Show recent commits since last tag
 Run: `git log <last-tag>..HEAD --oneline` (or `git log --oneline -10` if no tags exist)
@@ -74,9 +74,10 @@ Show success message:
 ## Example workflow:
 
 ```bash
-# Get latest tag
-$ git describe --tags --abbrev=0
+# Fetch and get latest tag
+$ git fetch --tags && git tag --sort=-version:refname | head -10
 v0.1.1
+...
 
 # Show commits since last tag
 $ git log v0.1.1..HEAD --oneline
