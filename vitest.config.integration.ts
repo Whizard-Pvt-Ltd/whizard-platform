@@ -8,6 +8,7 @@ export default defineConfig({
     exclude: ['**/node_modules/**', '**/dist/**'],
     environment: 'node',
     globals: true,
+    passWithNoTests: true,
     testTimeout: 10000, // Integration tests can be slower
     hookTimeout: 10000,
     coverage: {
