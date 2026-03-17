@@ -34,6 +34,7 @@ export default defineConfig({
         statements: 70
       }
     },
+    envFile: '.env.test',
     // Parallel execution for fast unit tests
     poolOptions: {
       threads: {
