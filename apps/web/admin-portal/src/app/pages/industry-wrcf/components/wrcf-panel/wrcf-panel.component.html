@@ -1,0 +1,86 @@
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-title">{{ title }}</span>
+    <div class="panel-actions">
+      @if (state.mode === 'edit') {
+        <button class="action-btn delete-btn" (click)="onDelete()" title="Delete">🗑</button>
+      }
+      <button class="action-btn save-btn" (click)="onSave()" title="Save">✓</button>
+      <button class="action-btn close-btn" (click)="close.emit()" title="Close">✕</button>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <div class="field">
+      <label class="field-label">Name <span class="required">*</span></label>
+      <input
+        class="field-input"
+        type="text"
+        placeholder="Enter Name..."
+        [(ngModel)]="formName"
+      />
+    </div>
+
+    <div class="field">
+      <label class="field-label">Description</label>
+      <textarea
+        class="field-textarea"
+        placeholder="Enter Description..."
+        [(ngModel)]="formDescription"
+        rows="4"
+      ></textarea>
+    </div>
+
+    @if (state.entityType === 'SWO') {
+      <div class="attributes-section">
+        <span class="attributes-label">Attributes</span>
+
+        <div class="field">
+          <label class="field-label">Strategic Importance Level</label>
+          <select class="field-select" [(ngModel)]="formStrategicImportance">
+            @for (opt of strategicOptions; track opt) {
+              <option [value]="opt">{{ opt }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="field-label">Production Revenue Linkage</label>
+          <select class="field-select" [(ngModel)]="formRevenueLink">
+            @for (opt of revenueLinkOptions; track opt) {
+              <option [value]="opt">{{ opt }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="field-label">Operational Downtime Sensitivity</label>
+          <select class="field-select" [(ngModel)]="formDowntimeSensitivity">
+            @for (opt of downtimeOptions; track opt) {
+              <option [value]="opt">{{ opt }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="field-label">Risk Aggregation Weight</label>
+          <select class="field-select" [(ngModel)]="formRiskWeight">
+            @for (opt of riskWeightOptions; track opt) {
+              <option [value]="opt">{{ opt }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="field-label">Inter-PWO Dependency Links</label>
+          <input
+            class="field-input"
+            type="text"
+            placeholder="Enter Inter-PWO Dependency Links"
+            [(ngModel)]="formDependencyLinks"
+          />
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,115 @@
+<div class="page">
+  <header class="page-header">
+    <div class="header-left">
+      <span class="menu-icon">☰</span>
+      <h1 class="page-title">Manage Industry WRCF</h1>
+    </div>
+    <div class="header-right">
+      <span class="user-name">{{ userName || 'Admin' }}</span>
+      <a routerLink="/profile" class="avatar-link">
+        <span class="avatar">{{ (userName || 'A').charAt(0).toUpperCase() }}</span>
+      </a>
+    </div>
+  </header>
+
+  <div class="filter-bar">
+    <div class="filter-group">
+      <label class="filter-label">Industry Sector</label>
+      <select class="filter-select" [ngModel]="selectedSectorId()" (ngModelChange)="onSectorChange($event)">
+        <option value="">Select Sector...</option>
+        @for (s of sectors; track s.id) {
+          <option [value]="s.id">{{ s.name }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">Industry</label>
+      <select
+        class="filter-select"
+        [ngModel]="selectedIndustryId()"
+        (ngModelChange)="onIndustryChange($event)"
+        [disabled]="!selectedSectorId()"
+      >
+        <option value="">Select Industry...</option>
+        @for (i of industries(); track i.id) {
+          <option [value]="i.id">{{ i.name }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="filter-actions">
+      <button class="btn-teal">↓ Template</button>
+      <button class="btn-teal">↓ Template</button>
+      <button class="btn-teal">+ Add Skills</button>
+      <button class="btn-teal btn-badge">
+        ⬡ Mappings
+        <span class="badge">5</span>
+      </button>
+    </div>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="error-banner">
+      <span>⚠ {{ errorMessage() }}</span>
+      <button class="error-close" (click)="errorMessage.set('')">✕</button>
+    </div>
+  }
+
+  <div class="workspace">
+    <div class="columns-grid">
+      <whizard-wrcf-column
+        title="Functional Group"
+        [items]="fgList()"
+        [selectedId]="selectedFG()?.id ?? null"
+        (itemSelected)="onFGSelect($event)"
+        (addClicked)="openPanel('create', 'FG')"
+        (editClicked)="openPanel('edit', 'FG', $event)"
+      />
+
+      <whizard-wrcf-column
+        title="Primary Work Obj."
+        [items]="pwoList()"
+        [selectedId]="selectedPWO()?.id ?? null"
+        (itemSelected)="onPWOSelect($event)"
+        (addClicked)="selectedFG() ? openPanel('create', 'PWO') : null"
+        (editClicked)="openPanel('edit', 'PWO', $event)"
+      />
+
+      <whizard-wrcf-column
+        title="Secondary Work Obj."
+        [items]="swoList()"
+        [selectedId]="selectedSWO()?.id ?? null"
+        (itemSelected)="onSWOSelect($event)"
+        (addClicked)="selectedPWO() ? openPanel('create', 'SWO') : null"
+        (editClicked)="openPanel('edit', 'SWO', $event)"
+      />
+
+      <whizard-wrcf-column
+        title="Capabilities"
+        [items]="capabilities"
+        [selectedId]="selectedCapabilityId()"
+        [readonly]="true"
+        (itemSelected)="onCapabilitySelect($event)"
+      />
+
+      <whizard-wrcf-column
+        title="Proficiency Level"
+        [items]="proficiencyLevels"
+        [selectedId]="selectedProficiencyId()"
+        [readonly]="true"
+        (itemSelected)="onProficiencySelect($event)"
+      />
+    </div>
+  </div>
+
+  @if (panel().open) {
+    <div class="panel-backdrop" (click)="closePanel()"></div>
+    <whizard-wrcf-panel
+      [state]="panel()"
+      (save)="onPanelSave($event)"
+      (delete)="onPanelDelete($event)"
+      (close)="closePanel()"
+    />
+  }
+</div>

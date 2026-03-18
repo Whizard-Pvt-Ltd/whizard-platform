@@ -1,0 +1,32 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "CMD=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r '.command'); if echo \"$CMD\" | grep -qE '^(npm|yarn) '; then echo 'Use pnpm. npm and yarn are not allowed in this repo.' >&2; exit 2; fi"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r '.file_path // empty'); if [[ \"$FILE\" == *\"schema.prisma\"* ]]; then pnpm prisma:generate; fi",
+            "async": true
+          },
+          {
+            "type": "command",
+            "command": "FILE=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r '.file_path // empty'); if [[ \"$FILE\" == *.ts ]]; then pnpm eslint --fix \"$FILE\" 2>&1 || true; fi",
+            "async": true
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -45,6 +45,7 @@
     "clean": "find . -name 'dist' -type d -prune -exec rm -rf {} + && find . -name 'node_modules' -type d -prune -exec rm -rf {} + && find . -name '*.tsbuildinfo' -type f -delete && rm -rf .nx",
     "clean:dist": "find . -name 'dist' -type d -prune -exec rm -rf {} + && find . -name '*.tsbuildinfo' -type f -delete && rm -rf .nx",
     "clean:modules": "find . -name 'node_modules' -type d -prune -exec rm -rf {} +",
+    "setup": "pnpm install --frozen-lockfile && pnpm build:all",
     "fresh": "pnpm clean && pnpm install && pnpm build:all",
     "fresh:quick": "pnpm clean:dist && pnpm build:all",
     "docker:build": "rm -rf apps/api/bff/dist apps/api/core-api/dist && docker compose build bff core-api",

@@ -25,7 +25,7 @@ export class LoginPageComponent implements OnInit {
     // Redirect to dashboard if already authenticated
     effect(() => {
       if (this.stackAuthService.isAuthenticated() && !this.stackAuthService.isLoading()) {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/']);
       }
     });
   }
@@ -33,7 +33,7 @@ export class LoginPageComponent implements OnInit {
   ngOnInit(): void {
     // Check authentication status on component init
     if (this.stackAuthService.isAuthenticated()) {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/']);
     }
   }
 }

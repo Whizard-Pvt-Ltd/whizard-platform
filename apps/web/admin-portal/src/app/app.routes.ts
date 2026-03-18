@@ -3,6 +3,7 @@ import { LoginPageComponent } from './pages/login/login-page.component';
 import { SignupPageComponent } from './pages/signup/signup-page.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { EnhancedProfilePageComponent } from './pages/profile/enhanced-profile-page.component';
+import { IndustryWrcfComponent } from './pages/industry-wrcf/industry-wrcf.component';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
@@ -23,10 +24,15 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
-    path: '',
-    component: DashboardComponent,
-    title: 'Whizard Dashboard',
+    path: 'industry-wrcf',
+    component: IndustryWrcfComponent,
+    title: 'Manage Industry WRCF',
     canActivate: [authGuard]
+  },
+  {
+    path: '',
+    redirectTo: 'industry-wrcf',
+    pathMatch: 'full'
   },
   {
     path: '**',
