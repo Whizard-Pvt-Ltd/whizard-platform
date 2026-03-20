@@ -6,6 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - Do not create documentation files unless explicitly asked.
 - Use comments sparingly — only for genuinely complex or non-obvious code.
+- Always include `userId` and `tenantId` in log context wherever they are available.
 
 ## Package Manager
 
@@ -122,6 +123,42 @@ Coverage thresholds: 70% lines/functions/statements, 60% branches.
 ### Import Aliases
 
 TypeScript path aliases are defined in `tsconfig.base.json` under the `@whizard/` namespace (e.g., `@whizard/shared-kernel`, `@whizard/shared-logging`). Always use these aliases instead of relative cross-package paths.
+
+## WRCF Design System (v3.2)
+
+All admin portal pages must use this system. Font: **Poppins** only (no Roboto/Inter).
+
+### Color Tokens
+| Token | Value | Usage |
+|---|---|---|
+| `bg.primary` | `#0F172A` | Page background, header |
+| `bg.secondary` | `#0F253F` | Filter bar, dropdown bg, item hover |
+| `bg.card` | `#1E293B` | Column/panel background |
+| `bg.selected` | `#2D2A5A` | Selected item background |
+| `text.primary` | `#E8F0FA` | Body text, titles |
+| `text.secondary` | `#7F94AE` | Labels, muted text |
+| `text.tertiary` | `#8AB4F8` | Item codes, helper text |
+| `border` | `#484E5D` | All borders and dividers |
+| `action` | `#314DDF` | Primary buttons, column/panel headers |
+| `action.hover` | `#263FCC` | Button hover |
+| `accent` | `#00BFFF` | Secondary buttons, selected left border, focus rings |
+
+### Typography
+| Style | Size | Weight | Line Height |
+|---|---|---|---|
+| h2 | 24px | 600 | 32px |
+| h3 | 20px | 500 | 28px |
+| bodyMd | 15px | 400 | 22px |
+| label | 13px | 400 | 18px |
+| caption | 12px | 400 | 16px |
+
+### Component Specs
+- **Header**: height 64px, paddingX 32px, bg `bg.primary`, title h2
+- **Dropdown**: height 40px, paddingX 12px, radius 10px, bg `bg.secondary`, border `border`
+- **Button primary**: height 40px, paddingX 16px, radius 10px, bg `action`, text `text.primary`
+- **Button secondary**: height 40px, paddingX 16px, radius 10px, bg `accent`, text `bg.primary`
+- **Selection column**: width 260px, radius 14px, bg `bg.card`; header height 56px bg `action` title h3; item height 48px bodyMd; selected: bg `bg.selected` + 4px left border `accent`
+- **Badge**: 20×20px, radius 10px, bg `action`, caption text
 
 ### Key Entry Points
 

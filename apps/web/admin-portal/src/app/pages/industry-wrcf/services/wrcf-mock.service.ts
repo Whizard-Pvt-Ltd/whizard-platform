@@ -3,6 +3,7 @@ import {
   IndustrySector, Industry, FunctionalGroup, PrimaryWorkObject,
   SecondaryWorkObject, Capability, ProficiencyLevel, DeleteResult
 } from '../models/wrcf.models';
+import { CRITICALITY_LEVELS, COMPLEXITY_LEVELS, FREQUENCY_LEVELS } from '../models/wrcf-impact-levels';
 
 @Injectable({ providedIn: 'root' })
 export class WrcfMockService {
@@ -18,51 +19,29 @@ export class WrcfMockService {
   ];
 
   private fgs: FunctionalGroup[] = [
-    { id: 'fg1', name: 'Production / Generation', industryId: 'i1' },
-    { id: 'fg2', name: 'Quality Assurance & Control', industryId: 'i1' },
-    { id: 'fg3', name: 'CHP', industryId: 'i1', description: 'Coal Handling Plant' },
-    { id: 'fg4', name: 'Operations & Plant Management', industryId: 'i1' },
-    { id: 'fg5', name: 'Maintenance (Mechanical & Electrical)', industryId: 'i1' },
+    { id: 'fg1', name: 'Production / Generation', industryId: 'i1', domainType: 'Operations' },
+    { id: 'fg2', name: 'Quality Assurance & Control', industryId: 'i1', domainType: 'Quality' },
+    { id: 'fg3', name: 'CHP', industryId: 'i1', description: 'Coal Handling Plant', domainType: 'Operations' },
+    { id: 'fg4', name: 'Operations & Plant Management', industryId: 'i1', domainType: 'Operations' },
+    { id: 'fg5', name: 'Maintenance (Mechanical & Electrical)', industryId: 'i1', domainType: 'Maintenance' },
   ];
 
   private pwos: PrimaryWorkObject[] = [
-    { id: 'pwo1', name: 'Stacking & Reclaiming Systems', functionalGroupId: 'fg3' },
-    { id: 'pwo2', name: 'Coal Receiving System', functionalGroupId: 'fg3' },
-    { id: 'pwo3', name: 'Coal Crushing & Screening System', functionalGroupId: 'fg3' },
-    { id: 'pwo4', name: 'Conveyor Belt Network Management', functionalGroupId: 'fg3' },
-    { id: 'pwo5', name: 'Monitoring & Exception Detection', functionalGroupId: 'fg3' },
-    { id: 'pwo6', name: 'Stacker Reclaimer Operations', functionalGroupId: 'fg3' },
-    { id: 'pwo7', name: 'Coal Storage Yard Management', functionalGroupId: 'fg3' },
+    { id: 'pwo1', name: 'Stacking & Reclaiming Systems', functionalGroupId: 'fg3', strategicImportance: 4, revenueImpact: CRITICALITY_LEVELS[2], downtimeSensitivity: CRITICALITY_LEVELS[2] },
+    { id: 'pwo2', name: 'Coal Receiving System', functionalGroupId: 'fg3', strategicImportance: 3, revenueImpact: CRITICALITY_LEVELS[1], downtimeSensitivity: CRITICALITY_LEVELS[1] },
+    { id: 'pwo3', name: 'Coal Crushing & Screening System', functionalGroupId: 'fg3', strategicImportance: 3, revenueImpact: CRITICALITY_LEVELS[1], downtimeSensitivity: CRITICALITY_LEVELS[1] },
+    { id: 'pwo4', name: 'Conveyor Belt Network Management', functionalGroupId: 'fg3', strategicImportance: 4, revenueImpact: CRITICALITY_LEVELS[2], downtimeSensitivity: CRITICALITY_LEVELS[2] },
+    { id: 'pwo5', name: 'Monitoring & Exception Detection', functionalGroupId: 'fg3', strategicImportance: 2, revenueImpact: CRITICALITY_LEVELS[0], downtimeSensitivity: CRITICALITY_LEVELS[0] },
+    { id: 'pwo6', name: 'Stacker Reclaimer Operations', functionalGroupId: 'fg3', strategicImportance: 5, revenueImpact: CRITICALITY_LEVELS[2], downtimeSensitivity: CRITICALITY_LEVELS[2] },
+    { id: 'pwo7', name: 'Coal Storage Yard Management', functionalGroupId: 'fg3', strategicImportance: 3, revenueImpact: CRITICALITY_LEVELS[1], downtimeSensitivity: CRITICALITY_LEVELS[0] },
   ];
 
   private swos: SecondaryWorkObject[] = [
-    {
-      id: 'swo1', name: 'Vibrating Screen Maintenance', primaryWorkObjectId: 'pwo1',
-      strategicImportance: 'High', revenueLink: 'High Impact',
-      downtimeSensitivity: 'High', riskWeight: '1.00', dependencyLinks: '',
-    },
-    {
-      id: 'swo2', name: 'Dust Suppression System', primaryWorkObjectId: 'pwo1',
-      description: 'Automated dust control system used in material handling zones to reduce airborne particulate matter, ensure worker safety, and maintain compliance with environmental regulations.',
-      strategicImportance: 'High', revenueLink: 'High Impact',
-      downtimeSensitivity: 'Medium', riskWeight: '0.75',
-      dependencyLinks: 'Material Handling System, Conveyor Belt System',
-    },
-    {
-      id: 'swo3', name: 'Transfer Point Optimization', primaryWorkObjectId: 'pwo1',
-      strategicImportance: 'Medium', revenueLink: 'Low Impact',
-      downtimeSensitivity: 'Low', riskWeight: '0.50', dependencyLinks: '',
-    },
-    {
-      id: 'swo4', name: 'Coal Sampling & Quality Analysis', primaryWorkObjectId: 'pwo1',
-      strategicImportance: 'High', revenueLink: 'High Impact',
-      downtimeSensitivity: 'Medium', riskWeight: '0.75', dependencyLinks: '',
-    },
-    {
-      id: 'swo5', name: 'Water Sprinkler System Calibration', primaryWorkObjectId: 'pwo1',
-      strategicImportance: 'Low', revenueLink: 'No Impact',
-      downtimeSensitivity: 'Low', riskWeight: '0.25', dependencyLinks: '',
-    },
+    { id: 'swo1', name: 'Vibrating Screen Maintenance', pwoId: 'pwo1', operationalComplexity: COMPLEXITY_LEVELS[2], assetCriticality: CRITICALITY_LEVELS[2], failureFrequency: FREQUENCY_LEVELS[1] },
+    { id: 'swo2', name: 'Dust Suppression System', pwoId: 'pwo1', description: 'Automated dust control system', operationalComplexity: COMPLEXITY_LEVELS[1], assetCriticality: CRITICALITY_LEVELS[2], failureFrequency: FREQUENCY_LEVELS[0] },
+    { id: 'swo3', name: 'Transfer Point Optimization', pwoId: 'pwo1', operationalComplexity: COMPLEXITY_LEVELS[0], assetCriticality: CRITICALITY_LEVELS[1], failureFrequency: FREQUENCY_LEVELS[0] },
+    { id: 'swo4', name: 'Coal Sampling & Quality Analysis', pwoId: 'pwo1', operationalComplexity: COMPLEXITY_LEVELS[1], assetCriticality: CRITICALITY_LEVELS[2], failureFrequency: FREQUENCY_LEVELS[1] },
+    { id: 'swo5', name: 'Water Sprinkler System Calibration', pwoId: 'pwo1', operationalComplexity: COMPLEXITY_LEVELS[0], assetCriticality: CRITICALITY_LEVELS[0], failureFrequency: FREQUENCY_LEVELS[0] },
   ];
 
   private readonly capabilities: Capability[] = [
@@ -100,7 +79,7 @@ export class WrcfMockService {
   }
 
   getSWOs(pwoId: string): SecondaryWorkObject[] {
-    return this.swos.filter(s => s.primaryWorkObjectId === pwoId);
+    return this.swos.filter(s => s.pwoId === pwoId);
   }
 
   getCapabilities(): Capability[] { return this.capabilities; }
@@ -149,7 +128,7 @@ export class WrcfMockService {
   }
 
   deletePWO(id: string): DeleteResult {
-    if (this.swos.some(s => s.primaryWorkObjectId === id)) {
+    if (this.swos.some(s => s.pwoId === id)) {
       return { success: false, reason: 'Cannot delete: Secondary Work Objects exist under this Primary Work Object.' };
     }
     this.pwos = this.pwos.filter(p => p.id !== id);

@@ -113,9 +113,10 @@ async function stackAuthPlugin(fastify: FastifyInstance) {
       const localUser = await userSyncService.syncUser(stackAuthUser);
 
       logger.debug('User synced to local database', {
-        stackAuthUserId: stackAuthUser.userId,
-        localUserAccountId: localUser.id.value,
-        email: localUser.email.value
+        userId: localUser.id.value,
+        tenantId: localUser.tenant.tenantId,
+        tenantType: localUser.tenant.tenantType,
+        stackAuthUserId: stackAuthUser.userId
       });
 
       // Set request context headers for downstream handlers
@@ -124,20 +125,28 @@ async function stackAuthPlugin(fastify: FastifyInstance) {
       request.headers['x-tenant-type'] = localUser.tenant.tenantType;
       request.headers['x-tenant-id'] = localUser.tenant.tenantId;
 
+      // Bind userId and tenantId to the per-request logger so all subsequent
+      // log calls on this request automatically carry this context
+      request.log = request.log.child({
+        userId: localUser.id.value,
+        tenantId: localUser.tenant.tenantId
+      });
+
       // TODO: Fetch user permissions from database and set X-Permissions header
       // For now, grant minimal permissions
       request.headers['x-permissions'] = '';
 
       logger.debug('Request context set from Stack Auth user', {
-        actorUserAccountId: localUser.id.value,
-        tenantType: localUser.tenant.tenantType,
-        tenantId: localUser.tenant.tenantId
+        userId: localUser.id.value,
+        tenantId: localUser.tenant.tenantId,
+        tenantType: localUser.tenant.tenantType
       });
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Token verification failed';
       logger.error('Stack Auth token verification failed', {
         error: errorMessage,
-        url: request.url
+        url: request.url,
+        requestId: request.headers['x-request-id'] ? String(request.headers['x-request-id']) : undefined
       });
 
       return reply.status(401).send({

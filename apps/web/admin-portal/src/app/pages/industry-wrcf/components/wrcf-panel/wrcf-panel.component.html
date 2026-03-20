@@ -31,54 +31,83 @@
       ></textarea>
     </div>
 
+    @if (state.entityType === 'FG') {
+      <div class="attributes-section">
+        <span class="attributes-label">Attributes</span>
+
+        <div class="field">
+          <label class="field-label">Domain Type</label>
+          <select class="field-select" [(ngModel)]="formDomainType">
+            @for (opt of domainTypeOptions; track opt) {
+              <option [value]="opt">{{ opt }}</option>
+            }
+          </select>
+        </div>
+      </div>
+    }
+
+    @if (state.entityType === 'PWO') {
+      <div class="attributes-section">
+        <span class="attributes-label">Attributes</span>
+
+        <div class="field">
+          <label class="field-label">Strategic Importance</label>
+          <select class="field-select" [(ngModel)]="formStrategicImportance">
+            @for (opt of strategicImportanceOptions; track opt) {
+              <option [value]="opt">{{ opt }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="field-label">Revenue Impact</label>
+          <select class="field-select" [(ngModel)]="formRevenueImpact">
+            @for (opt of criticalityLevelOptions; track opt.label) {
+              <option [ngValue]="opt">{{ opt.label }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="field-label">Downtime Sensitivity</label>
+          <select class="field-select" [(ngModel)]="formDowntimeSensitivity">
+            @for (opt of criticalityLevelOptions; track opt.label) {
+              <option [ngValue]="opt">{{ opt.label }}</option>
+            }
+          </select>
+        </div>
+      </div>
+    }
+
     @if (state.entityType === 'SWO') {
       <div class="attributes-section">
         <span class="attributes-label">Attributes</span>
 
         <div class="field">
-          <label class="field-label">Strategic Importance Level</label>
-          <select class="field-select" [(ngModel)]="formStrategicImportance">
-            @for (opt of strategicOptions; track opt) {
-              <option [value]="opt">{{ opt }}</option>
+          <label class="field-label">Operational Complexity</label>
+          <select class="field-select" [(ngModel)]="formOperationalComplexity">
+            @for (opt of complexityLevelOptions; track opt.label) {
+              <option [ngValue]="opt">{{ opt.label }}</option>
             }
           </select>
         </div>
 
         <div class="field">
-          <label class="field-label">Production Revenue Linkage</label>
-          <select class="field-select" [(ngModel)]="formRevenueLink">
-            @for (opt of revenueLinkOptions; track opt) {
-              <option [value]="opt">{{ opt }}</option>
+          <label class="field-label">Asset Criticality</label>
+          <select class="field-select" [(ngModel)]="formAssetCriticality">
+            @for (opt of criticalityLevelOptions; track opt.label) {
+              <option [ngValue]="opt">{{ opt.label }}</option>
             }
           </select>
         </div>
 
         <div class="field">
-          <label class="field-label">Operational Downtime Sensitivity</label>
-          <select class="field-select" [(ngModel)]="formDowntimeSensitivity">
-            @for (opt of downtimeOptions; track opt) {
-              <option [value]="opt">{{ opt }}</option>
+          <label class="field-label">Failure Frequency</label>
+          <select class="field-select" [(ngModel)]="formFailureFrequency">
+            @for (opt of frequencyLevelOptions; track opt.label) {
+              <option [ngValue]="opt">{{ opt.label }}</option>
             }
           </select>
-        </div>
-
-        <div class="field">
-          <label class="field-label">Risk Aggregation Weight</label>
-          <select class="field-select" [(ngModel)]="formRiskWeight">
-            @for (opt of riskWeightOptions; track opt) {
-              <option [value]="opt">{{ opt }}</option>
-            }
-          </select>
-        </div>
-
-        <div class="field">
-          <label class="field-label">Inter-PWO Dependency Links</label>
-          <input
-            class="field-input"
-            type="text"
-            placeholder="Enter Inter-PWO Dependency Links"
-            [(ngModel)]="formDependencyLinks"
-          />
         </div>
       </div>
     }

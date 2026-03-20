@@ -57,8 +57,8 @@ export class StackAuthLoginUseCase {
       }
 
       logger.info('Stack Auth authentication successful', {
-        email,
-        userId: stackAuthResponse.user_id
+        userId: stackAuthResponse.user_id,
+        email
       });
 
       // Step 2: Verify the token
@@ -74,8 +74,8 @@ export class StackAuthLoginUseCase {
       const localUser = await this.deps.userSyncService.syncUser(stackAuthUser);
 
       logger.info('User synced to local database', {
+        userId: localUser.id.value,
         stackAuthUserId: stackAuthUser.userId,
-        localUserId: localUser.id.value,
         email: localUser.email.value
       });
 

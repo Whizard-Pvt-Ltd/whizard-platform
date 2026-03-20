@@ -1,8 +1,12 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-  PanelState, EntityType, FunctionalGroup, PrimaryWorkObject, SecondaryWorkObject
+  PanelState, EntityType, FunctionalGroup, PrimaryWorkObject, SecondaryWorkObject,
+  DomainType, StrategicImportance
 } from '../../models/wrcf.models';
+import {
+  ImpactLevelOption, CRITICALITY_LEVELS, COMPLEXITY_LEVELS, FREQUENCY_LEVELS
+} from '../../models/wrcf-impact-levels';
 
 @Component({
   selector: 'whizard-wrcf-panel',
@@ -19,16 +23,25 @@ export class WrcfPanelComponent implements OnChanges {
 
   protected formName = '';
   protected formDescription = '';
-  protected formStrategicImportance = 'Medium';
-  protected formRevenueLink = 'No Impact';
-  protected formDowntimeSensitivity = 'Low';
-  protected formRiskWeight = '0.50';
-  protected formDependencyLinks = '';
 
-  protected readonly strategicOptions = ['Low', 'Medium', 'High', 'Critical'];
-  protected readonly revenueLinkOptions = ['No Impact', 'Low Impact', 'High Impact'];
-  protected readonly downtimeOptions = ['Low', 'Medium', 'High'];
-  protected readonly riskWeightOptions = ['0.25', '0.50', '0.75', '1.00'];
+  // FG fields
+  protected formDomainType: DomainType = 'Operations';
+
+  // PWO fields
+  protected formStrategicImportance: StrategicImportance = 3;
+  protected formRevenueImpact: ImpactLevelOption = CRITICALITY_LEVELS[1];
+  protected formDowntimeSensitivity: ImpactLevelOption = CRITICALITY_LEVELS[1];
+
+  // SWO fields
+  protected formOperationalComplexity: ImpactLevelOption = COMPLEXITY_LEVELS[1];
+  protected formAssetCriticality: ImpactLevelOption = CRITICALITY_LEVELS[1];
+  protected formFailureFrequency: ImpactLevelOption = FREQUENCY_LEVELS[0];
+
+  protected readonly domainTypeOptions: DomainType[] = ['Operations', 'Maintenance', 'Quality'];
+  protected readonly strategicImportanceOptions: StrategicImportance[] = [1, 2, 3, 4, 5];
+  protected readonly criticalityLevelOptions = CRITICALITY_LEVELS;
+  protected readonly complexityLevelOptions = COMPLEXITY_LEVELS;
+  protected readonly frequencyLevelOptions = FREQUENCY_LEVELS;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['state']) {
@@ -49,20 +62,24 @@ export class WrcfPanelComponent implements OnChanges {
     if (!this.formName.trim()) return;
 
     const base = { name: this.formName.trim(), description: this.formDescription.trim() };
-
     let payload: Partial<FunctionalGroup | PrimaryWorkObject | SecondaryWorkObject>;
 
-    if (this.state.entityType === 'SWO') {
+    if (this.state.entityType === 'FG') {
+      payload = { ...base, domainType: this.formDomainType } as Partial<FunctionalGroup>;
+    } else if (this.state.entityType === 'PWO') {
       payload = {
         ...base,
         strategicImportance: this.formStrategicImportance,
-        revenueLink: this.formRevenueLink,
-        downtimeSensitivity: this.formDowntimeSensitivity,
-        riskWeight: this.formRiskWeight,
-        dependencyLinks: this.formDependencyLinks.trim(),
-      } as Partial<SecondaryWorkObject>;
+        revenueImpact: this.formRevenueImpact,
+        downtimeSensitivity: this.formDowntimeSensitivity
+      } as Partial<PrimaryWorkObject>;
     } else {
-      payload = base;
+      payload = {
+        ...base,
+        operationalComplexity: this.formOperationalComplexity,
+        assetCriticality: this.formAssetCriticality,
+        failureFrequency: this.formFailureFrequency
+      } as Partial<SecondaryWorkObject>;
     }
 
     if (this.state.mode === 'edit' && this.state.data) {
@@ -84,22 +101,30 @@ export class WrcfPanelComponent implements OnChanges {
       this.formName = d.name;
       this.formDescription = d.description ?? '';
 
-      if (this.state.entityType === 'SWO') {
+      if (this.state.entityType === 'FG') {
+        const fg = d as FunctionalGroup;
+        this.formDomainType = fg.domainType ?? 'Operations';
+      } else if (this.state.entityType === 'PWO') {
+        const pwo = d as PrimaryWorkObject;
+        this.formStrategicImportance = pwo.strategicImportance ?? 3;
+        this.formRevenueImpact = CRITICALITY_LEVELS.find(o => o.label === pwo.revenueImpact?.label) ?? CRITICALITY_LEVELS[1];
+        this.formDowntimeSensitivity = CRITICALITY_LEVELS.find(o => o.label === pwo.downtimeSensitivity?.label) ?? CRITICALITY_LEVELS[1];
+      } else {
         const swo = d as SecondaryWorkObject;
-        this.formStrategicImportance = swo.strategicImportance ?? 'Medium';
-        this.formRevenueLink = swo.revenueLink ?? 'No Impact';
-        this.formDowntimeSensitivity = swo.downtimeSensitivity ?? 'Low';
-        this.formRiskWeight = swo.riskWeight ?? '0.50';
-        this.formDependencyLinks = swo.dependencyLinks ?? '';
+        this.formOperationalComplexity = COMPLEXITY_LEVELS.find(o => o.label === swo.operationalComplexity?.label) ?? COMPLEXITY_LEVELS[1];
+        this.formAssetCriticality = CRITICALITY_LEVELS.find(o => o.label === swo.assetCriticality?.label) ?? CRITICALITY_LEVELS[1];
+        this.formFailureFrequency = FREQUENCY_LEVELS.find(o => o.label === swo.failureFrequency?.label) ?? FREQUENCY_LEVELS[0];
       }
     } else {
       this.formName = '';
       this.formDescription = '';
-      this.formStrategicImportance = 'Medium';
-      this.formRevenueLink = 'No Impact';
-      this.formDowntimeSensitivity = 'Low';
-      this.formRiskWeight = '0.50';
-      this.formDependencyLinks = '';
+      this.formDomainType = 'Operations';
+      this.formStrategicImportance = 3;
+      this.formRevenueImpact = CRITICALITY_LEVELS[1];
+      this.formDowntimeSensitivity = CRITICALITY_LEVELS[1];
+      this.formOperationalComplexity = COMPLEXITY_LEVELS[1];
+      this.formAssetCriticality = CRITICALITY_LEVELS[1];
+      this.formFailureFrequency = FREQUENCY_LEVELS[0];
     }
   }
 }

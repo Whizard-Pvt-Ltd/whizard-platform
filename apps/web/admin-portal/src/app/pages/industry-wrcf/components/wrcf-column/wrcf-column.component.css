@@ -1,17 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
 
 .column {
-  background: #0c1428;
-  border: 1px solid #1e2f52;
-  border-radius: 0.5rem;
+  background: #1E293B;
+  border: 1px solid #484E5D;
+  border-radius: 14px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
 .column-header {
-  background: #3b40e8;
-  padding: 0.875rem 1rem;
+  background: #314DDF;
+  height: 56px;
+  padding: 0 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -20,18 +21,19 @@
 
 .column-title {
   font-family: 'Poppins', sans-serif;
-  font-weight: 700;
-  font-size: 19px;
-  color: #fff;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 28px;
+  color: #E8F0FA;
 }
 
 .add-btn {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   border: 2px solid rgba(255, 255, 255, 0.6);
   background: transparent;
-  color: #fff;
+  color: #E8F0FA;
   font-size: 1rem;
   line-height: 1;
   cursor: pointer;
@@ -43,7 +45,7 @@
 }
 
 .add-btn:hover {
-  border-color: #fff;
+  border-color: #E8F0FA;
 }
 
 .item-list {
@@ -58,25 +60,27 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.875rem 1rem;
-  border-bottom: 1px solid #162040;
+  min-height: 48px;
+  padding: 0 16px;
+  border-bottom: 1px solid #484E5D;
   cursor: pointer;
-  border-left: 3px solid transparent;
+  border-left: 4px solid transparent;
   transition: background 0.15s;
   font-family: 'Poppins', sans-serif;
   font-size: 15px;
   font-weight: 400;
-  color: #ffffff;
-  gap: 0.5rem;
+  line-height: 22px;
+  color: #E8F0FA;
+  gap: 8px;
 }
 
 .item:hover {
-  background: rgba(124, 58, 237, 0.12);
+  background: #0F253F;
 }
 
 .item.selected {
-  background: #1e1b4b;
-  border-left-color: #7c3aed;
+  background: #2D2A5A;
+  border-left-color: #00BFFF;
 }
 
 .item-name {
@@ -86,19 +90,19 @@
 
 .item-code {
   display: block;
-  font-size: 15px;
+  font-size: 12px;
   font-weight: 400;
-  color: #ffffff;
-  margin-top: 0;
+  color: #8AB4F8;
+  margin-top: 2px;
 }
 
 .edit-btn {
   background: transparent;
   border: none;
-  color: rgba(255, 255, 255, 0.65);
+  color: #7F94AE;
   cursor: pointer;
-  padding: 0.2rem;
-  border-radius: 0.25rem;
+  padding: 2px;
+  border-radius: 4px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -107,13 +111,13 @@
 }
 
 .edit-btn:hover {
-  color: #ffffff;
+  color: #E8F0FA;
 }
 
 .item-empty {
-  padding: 1.5rem 1rem;
-  font-size: 0.8125rem;
-  color: #8ea0c6;
+  padding: 24px 16px;
+  font-size: 13px;
+  color: #7F94AE;
   text-align: center;
   font-style: italic;
 }

@@ -1,8 +1,9 @@
-import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 import { StackAuthService } from '../../core/services/stack-auth.service';
-import { WrcfMockService } from './services/wrcf-mock.service';
+import { WrcfApiService } from './services/wrcf-api.service';
 import { WrcfColumnComponent } from './components/wrcf-column/wrcf-column.component';
 import { WrcfPanelComponent } from './components/wrcf-panel/wrcf-panel.component';
 import {
@@ -10,6 +11,7 @@ import {
   SecondaryWorkObject, Capability, ProficiencyLevel,
   EntityType, PanelState, WrcfEntity
 } from './models/wrcf.models';
+import { CRITICALITY_LEVELS, COMPLEXITY_LEVELS, FREQUENCY_LEVELS } from './models/wrcf-impact-levels';
 
 @Component({
   selector: 'whizard-industry-wrcf',
@@ -19,9 +21,8 @@ import {
   styleUrl: './industry-wrcf.component.css',
 })
 export class IndustryWrcfComponent implements OnInit {
-  private readonly mockService = inject(WrcfMockService);
+  private readonly apiService = inject(WrcfApiService);
   private readonly stackAuthService = inject(StackAuthService);
-  private readonly router = inject(Router);
 
   protected sectors: IndustrySector[] = [];
   protected capabilities: Capability[] = [];
@@ -42,42 +43,66 @@ export class IndustryWrcfComponent implements OnInit {
 
   protected panel = signal<PanelState>({ open: false, mode: 'create', entityType: 'FG' });
   protected errorMessage = signal<string>('');
+  protected userMenuOpen = signal<boolean>(false);
 
   protected get userName(): string | null {
     return this.stackAuthService.currentUser()?.displayName ?? null;
   }
 
   ngOnInit(): void {
-    this.sectors = this.mockService.getSectors();
-    this.capabilities = this.mockService.getCapabilities();
-    this.proficiencyLevels = this.mockService.getProficiencyLevels();
+    this.apiService.listSectors().subscribe({
+      next: sectors => { this.sectors = sectors; },
+      error: () => { this.sectors = []; }
+    });
+
+    this.apiService.listCapabilities().subscribe({
+      next: caps => { this.capabilities = caps; },
+      error: () => { this.capabilities = []; }
+    });
+
+    this.apiService.listProficiencies().subscribe({
+      next: profs => { this.proficiencyLevels = profs; },
+      error: () => { this.proficiencyLevels = []; }
+    });
   }
 
   protected onSectorChange(sectorId: string): void {
     this.selectedSectorId.set(sectorId);
     this.selectedIndustryId.set('');
     this.resetFromIndustry();
-    this.industries.set(this.mockService.getIndustries(sectorId));
+    this.apiService.listIndustries(sectorId).subscribe({
+      next: industries => this.industries.set(industries),
+      error: () => this.industries.set([])
+    });
   }
 
   protected onIndustryChange(industryId: string): void {
     this.selectedIndustryId.set(industryId);
     this.resetFromIndustry();
-    this.fgList.set(this.mockService.getFGs(industryId));
+    this.apiService.listFGs(industryId).subscribe({
+      next: fgs => this.fgList.set(fgs),
+      error: () => this.fgList.set([])
+    });
   }
 
   protected onFGSelect(item: WrcfEntity): void {
     this.selectedFG.set(item as FunctionalGroup);
     this.selectedPWO.set(null);
     this.selectedSWO.set(null);
-    this.pwoList.set(this.mockService.getPWOs(item.id));
     this.swoList.set([]);
+    this.apiService.listPWOs(item.id).subscribe({
+      next: pwos => this.pwoList.set(pwos),
+      error: () => this.pwoList.set([])
+    });
   }
 
   protected onPWOSelect(item: WrcfEntity): void {
     this.selectedPWO.set(item as PrimaryWorkObject);
     this.selectedSWO.set(null);
-    this.swoList.set(this.mockService.getSWOs(item.id));
+    this.apiService.listSWOs(item.id).subscribe({
+      next: swos => this.swoList.set(swos),
+      error: () => this.swoList.set([])
+    });
   }
 
   protected onSWOSelect(item: WrcfEntity): void {
@@ -107,82 +132,188 @@ export class IndustryWrcfComponent implements OnInit {
 
   protected onPanelSave(payload: Partial<FunctionalGroup | PrimaryWorkObject | SecondaryWorkObject>): void {
     const { entityType, mode } = this.panel();
-
     if (mode === 'create') {
       this.handleCreate(entityType, payload);
     } else {
       this.handleUpdate(entityType, payload);
     }
-
-    this.closePanel();
   }
 
   protected onPanelDelete(id: string): void {
     const { entityType } = this.panel();
-    let result;
 
     if (entityType === 'FG') {
-      result = this.mockService.deleteFG(id);
-      if (result.success) {
-        this.fgList.set(this.mockService.getFGs(this.selectedIndustryId()));
-        if (this.selectedFG()?.id === id) {
-          this.selectedFG.set(null);
-          this.pwoList.set([]);
-          this.swoList.set([]);
+      this.apiService.deleteFG(id).subscribe({
+        next: () => {
+          this.apiService.listFGs(this.selectedIndustryId()).subscribe({
+            next: fgs => {
+              this.fgList.set(fgs);
+              if (this.selectedFG()?.id === id) {
+                this.selectedFG.set(null);
+                this.pwoList.set([]);
+                this.swoList.set([]);
+              }
+              this.closePanel();
+            }
+          });
+        },
+        error: (err: HttpErrorResponse) => {
+          const msg = err.error?.error?.message ?? 'Delete failed.';
+          this.showError(msg);
         }
-      }
+      });
     } else if (entityType === 'PWO') {
-      result = this.mockService.deletePWO(id);
-      if (result.success) {
-        this.pwoList.set(this.mockService.getPWOs(this.selectedFG()!.id));
-        if (this.selectedPWO()?.id === id) {
-          this.selectedPWO.set(null);
-          this.swoList.set([]);
+      this.apiService.deletePWO(id).subscribe({
+        next: () => {
+          this.apiService.listPWOs(this.selectedFG()!.id).subscribe({
+            next: pwos => {
+              this.pwoList.set(pwos);
+              if (this.selectedPWO()?.id === id) {
+                this.selectedPWO.set(null);
+                this.swoList.set([]);
+              }
+              this.closePanel();
+            }
+          });
+        },
+        error: (err: HttpErrorResponse) => {
+          const msg = err.error?.error?.message ?? 'Delete failed.';
+          this.showError(msg);
         }
-      }
+      });
     } else {
-      result = this.mockService.deleteSWO(id);
-      if (result.success) {
-        this.swoList.set(this.mockService.getSWOs(this.selectedPWO()!.id));
-        if (this.selectedSWO()?.id === id) this.selectedSWO.set(null);
-      }
+      this.apiService.deleteSWO(id).subscribe({
+        next: () => {
+          this.apiService.listSWOs(this.selectedPWO()!.id).subscribe({
+            next: swos => {
+              this.swoList.set(swos);
+              if (this.selectedSWO()?.id === id) this.selectedSWO.set(null);
+              this.closePanel();
+            }
+          });
+        },
+        error: (err: HttpErrorResponse) => {
+          const msg = err.error?.error?.message ?? 'Delete failed.';
+          this.showError(msg);
+        }
+      });
     }
+  }
 
-    if (result?.success) {
-      this.closePanel();
-    } else {
-      this.showError(result?.reason ?? 'Delete failed.');
+  protected toggleUserMenu(): void {
+    this.userMenuOpen.update(v => !v);
+  }
+
+  @HostListener('document:click', ['$event.target'])
+  onDocumentClick(target: HTMLElement): void {
+    if (this.userMenuOpen() && !target.closest('.avatar-wrapper')) {
+      this.userMenuOpen.set(false);
     }
   }
 
   protected logout(): void {
+    this.userMenuOpen.set(false);
     this.stackAuthService.signOut();
   }
 
   private handleCreate(entityType: EntityType, payload: Partial<FunctionalGroup | PrimaryWorkObject | SecondaryWorkObject>): void {
     if (entityType === 'FG') {
-      this.mockService.createFG({ ...(payload as Omit<FunctionalGroup, 'id'>), industryId: this.selectedIndustryId() });
-      this.fgList.set(this.mockService.getFGs(this.selectedIndustryId()));
+      const fg = payload as Partial<FunctionalGroup>;
+      this.apiService.createFG({
+        industryId: this.selectedIndustryId(),
+        name: fg.name!,
+        description: fg.description,
+        domainType: fg.domainType ?? 'Operations'
+      }).subscribe({
+        next: () => {
+          this.apiService.listFGs(this.selectedIndustryId()).subscribe({
+            next: fgs => { this.fgList.set(fgs); this.closePanel(); }
+          });
+        },
+        error: () => this.showError('Failed to create Functional Group.')
+      });
     } else if (entityType === 'PWO') {
-      this.mockService.createPWO({ ...(payload as Omit<PrimaryWorkObject, 'id'>), functionalGroupId: this.selectedFG()!.id });
-      this.pwoList.set(this.mockService.getPWOs(this.selectedFG()!.id));
+      const pwo = payload as Partial<PrimaryWorkObject>;
+      this.apiService.createPWO({
+        functionalGroupId: this.selectedFG()!.id,
+        name: pwo.name!,
+        description: pwo.description,
+        strategicImportance: pwo.strategicImportance ?? 3,
+        revenueImpact: pwo.revenueImpact ?? CRITICALITY_LEVELS[1],
+        downtimeSensitivity: pwo.downtimeSensitivity ?? CRITICALITY_LEVELS[1]
+      }).subscribe({
+        next: () => {
+          this.apiService.listPWOs(this.selectedFG()!.id).subscribe({
+            next: pwos => { this.pwoList.set(pwos); this.closePanel(); }
+          });
+        },
+        error: () => this.showError('Failed to create Primary Work Object.')
+      });
     } else {
-      this.mockService.createSWO({ ...(payload as Omit<SecondaryWorkObject, 'id'>), primaryWorkObjectId: this.selectedPWO()!.id });
-      this.swoList.set(this.mockService.getSWOs(this.selectedPWO()!.id));
+      const swo = payload as Partial<SecondaryWorkObject>;
+      this.apiService.createSWO({
+        pwoId: this.selectedPWO()!.id,
+        name: swo.name!,
+        description: swo.description,
+        operationalComplexity: swo.operationalComplexity ?? COMPLEXITY_LEVELS[1],
+        assetCriticality: swo.assetCriticality ?? CRITICALITY_LEVELS[1],
+        failureFrequency: swo.failureFrequency ?? FREQUENCY_LEVELS[0]
+      }).subscribe({
+        next: () => {
+          this.apiService.listSWOs(this.selectedPWO()!.id).subscribe({
+            next: swos => { this.swoList.set(swos); this.closePanel(); }
+          });
+        },
+        error: () => this.showError('Failed to create Secondary Work Object.')
+      });
     }
   }
 
   private handleUpdate(entityType: EntityType, payload: Partial<FunctionalGroup | PrimaryWorkObject | SecondaryWorkObject>): void {
     const id = (payload as { id?: string }).id!;
+
     if (entityType === 'FG') {
-      this.mockService.updateFG(id, payload as Partial<FunctionalGroup>);
-      this.fgList.set(this.mockService.getFGs(this.selectedIndustryId()));
+      const fg = payload as Partial<FunctionalGroup>;
+      this.apiService.updateFG(id, { name: fg.name, description: fg.description, domainType: fg.domainType }).subscribe({
+        next: () => {
+          this.apiService.listFGs(this.selectedIndustryId()).subscribe({
+            next: fgs => { this.fgList.set(fgs); this.closePanel(); }
+          });
+        },
+        error: () => this.showError('Failed to update Functional Group.')
+      });
     } else if (entityType === 'PWO') {
-      this.mockService.updatePWO(id, payload as Partial<PrimaryWorkObject>);
-      this.pwoList.set(this.mockService.getPWOs(this.selectedFG()!.id));
+      const pwo = payload as Partial<PrimaryWorkObject>;
+      this.apiService.updatePWO(id, {
+        name: pwo.name,
+        description: pwo.description,
+        strategicImportance: pwo.strategicImportance,
+        revenueImpact: pwo.revenueImpact,
+        downtimeSensitivity: pwo.downtimeSensitivity
+      }).subscribe({
+        next: () => {
+          this.apiService.listPWOs(this.selectedFG()!.id).subscribe({
+            next: pwos => { this.pwoList.set(pwos); this.closePanel(); }
+          });
+        },
+        error: () => this.showError('Failed to update Primary Work Object.')
+      });
     } else {
-      this.mockService.updateSWO(id, payload as Partial<SecondaryWorkObject>);
-      this.swoList.set(this.mockService.getSWOs(this.selectedPWO()!.id));
+      const swo = payload as Partial<SecondaryWorkObject>;
+      this.apiService.updateSWO(id, {
+        name: swo.name,
+        description: swo.description,
+        operationalComplexity: swo.operationalComplexity,
+        assetCriticality: swo.assetCriticality,
+        failureFrequency: swo.failureFrequency
+      }).subscribe({
+        next: () => {
+          this.apiService.listSWOs(this.selectedPWO()!.id).subscribe({
+            next: swos => { this.swoList.set(swos); this.closePanel(); }
+          });
+        },
+        error: () => this.showError('Failed to update Secondary Work Object.')
+      });
     }
   }
 

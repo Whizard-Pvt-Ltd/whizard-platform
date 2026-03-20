@@ -21,6 +21,7 @@ import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import { getOrCreateAppLogger, createPinoLoggerOptions } from '@whizard/shared-logging';
 import { startCoreApi } from './main';
+import { registerWrcfCoreApiRuntime } from './modules/wrcf/runtime';
 import stackAuthPlugin from './plugins/stack-auth.plugin';
 
 // Server configuration from environment variables
@@ -124,6 +125,20 @@ async function bootstrap() {
   } catch (error) {
     fastify.log.error({ error }, 'Failed to register IAM Admin runtime');
     bootstrapLogger.error('Failed to register IAM Admin runtime', {
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+    throw error;
+  }
+
+  // Register WRCF routes (capability framework)
+  bootstrapLogger.info('Registering WRCF runtime');
+  try {
+    await registerWrcfCoreApiRuntime(fastify);
+    fastify.log.info('WRCF runtime registered successfully');
+    bootstrapLogger.info('WRCF runtime registered successfully');
+  } catch (error) {
+    fastify.log.error({ error }, 'Failed to register WRCF runtime');
+    bootstrapLogger.error('Failed to register WRCF runtime', {
       error: error instanceof Error ? error.message : 'Unknown error'
     });
     throw error;

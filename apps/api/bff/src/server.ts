@@ -21,6 +21,7 @@ import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import { getOrCreateAppLogger, createPinoLoggerOptions } from '@whizard/shared-logging';
 import { startBff } from './main';
+import { registerWrcfBffModule } from './modules/wrcf/wrcf.module';
 
 // Server configuration from environment variables
 const PORT = parseInt(process.env.BFF_PORT || '3000', 10);
@@ -107,6 +108,20 @@ async function bootstrap() {
   } catch (error) {
     fastify.log.error({ error }, 'Failed to register IAM BFF runtime');
     bootstrapLogger.error('Failed to register IAM BFF runtime', {
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+    throw error;
+  }
+
+  // Register WRCF proxy routes
+  bootstrapLogger.info('Registering WRCF BFF module');
+  try {
+    await registerWrcfBffModule(fastify);
+    fastify.log.info('WRCF BFF module registered successfully');
+    bootstrapLogger.info('WRCF BFF module registered successfully');
+  } catch (error) {
+    fastify.log.error({ error }, 'Failed to register WRCF BFF module');
+    bootstrapLogger.error('Failed to register WRCF BFF module', {
       error: error instanceof Error ? error.message : 'Unknown error'
     });
     throw error;

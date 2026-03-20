@@ -1,3 +1,11 @@
+export type DomainType = 'Operations' | 'Maintenance' | 'Quality';
+export type StrategicImportance = 1 | 2 | 3 | 4 | 5;
+
+export interface ImpactLevelValue {
+  label: string;
+  value: number;
+}
+
 export interface WrcfEntity {
   id: string;
   name: string;
@@ -13,19 +21,21 @@ export interface Industry extends WrcfEntity {
 
 export interface FunctionalGroup extends WrcfEntity {
   industryId: string;
+  domainType: DomainType;
 }
 
 export interface PrimaryWorkObject extends WrcfEntity {
   functionalGroupId: string;
+  strategicImportance: StrategicImportance;
+  revenueImpact: ImpactLevelValue;
+  downtimeSensitivity: ImpactLevelValue;
 }
 
 export interface SecondaryWorkObject extends WrcfEntity {
-  primaryWorkObjectId: string;
-  strategicImportance: string;
-  revenueLink: string;
-  downtimeSensitivity: string;
-  riskWeight: string;
-  dependencyLinks: string;
+  pwoId: string;
+  operationalComplexity: ImpactLevelValue;
+  assetCriticality: ImpactLevelValue;
+  failureFrequency: ImpactLevelValue;
 }
 
 export interface Capability extends WrcfEntity {}

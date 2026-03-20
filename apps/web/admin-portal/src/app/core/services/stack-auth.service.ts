@@ -201,8 +201,7 @@ export class StackAuthService {
         });
       }
 
-      // Navigate to dashboard after successful login
-      await this.router.navigate(['/dashboard']);
+      await this.router.navigate(['/']);
     } catch (error: unknown) {
       console.error('Sign in failed:', error);
       if (error && typeof error === 'object' && 'error' in error) {
@@ -268,8 +267,7 @@ export class StackAuthService {
         });
       }
 
-      // Navigate to dashboard after successful signup
-      await this.router.navigate(['/dashboard']);
+      await this.router.navigate(['/']);
     } catch (error) {
       console.error('Sign up failed:', error);
       throw error;

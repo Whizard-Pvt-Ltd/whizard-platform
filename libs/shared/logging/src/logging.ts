@@ -36,9 +36,14 @@ import pino, { type LoggerOptions } from 'pino';
 
 /**
  * Context object for structured logging.
- * Can include any metadata relevant to the log entry (e.g., userId, tenantId, requestId).
+ * Named fields are included in log output when provided.
  */
-export type LogContext = Record<string, unknown>;
+export interface LogContext {
+  userId?: string;
+  tenantId?: string;
+  requestId?: string;
+  [key: string]: unknown;
+}
 
 /**
  * Core logger interface used throughout the platform.

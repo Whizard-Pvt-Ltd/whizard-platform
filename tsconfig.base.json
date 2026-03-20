@@ -16,7 +16,8 @@
       "@whizard/shared-infrastructure": ["libs/shared/infrastructure/src/index.ts"],
       "@whizard/shared-logging": ["libs/shared/logging/src/index.ts"],
       "@whizard/shared-ui": ["libs/shared/ui/src/index.ts"],
-      "@whizard/core-api-client": ["libs/shared/core-api-client/src/index.ts"]
+      "@whizard/core-api-client": ["libs/shared/core-api-client/src/index.ts"],
+      "@whizard/capability-framework": ["libs/contexts/capability-framework/src/index.ts"]
     }
   },
   "include": ["apps", "libs", "tests", "tools", "vitest.config.ts"]

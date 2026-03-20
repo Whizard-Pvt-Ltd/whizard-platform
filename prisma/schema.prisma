@@ -139,3 +139,117 @@ model OutboxEvent {
   @@index([eventType, publishedAt])
   @@index([status, occurredAt])
 }
+
+// ─── Capability Framework ────────────────────────────────────────────────────
+
+model IndustrySector {
+  id         String     @id @default(uuid())
+  name       String
+  isActive   Boolean    @default(true)
+  industries Industry[]
+
+  @@map("industry_sectors")
+}
+
+model Industry {
+  id               String            @id @default(uuid())
+  sectorId         String
+  sector           IndustrySector    @relation(fields: [sectorId], references: [id])
+  name             String
+  isActive         Boolean           @default(true)
+  functionalGroups FunctionalGroup[]
+
+  @@map("industries")
+}
+
+model FunctionalGroup {
+  id                  String               @id @default(uuid())
+  tenantId            String
+  versionId           String?
+  industryId          String
+  industry            Industry             @relation(fields: [industryId], references: [id])
+  name                String
+  description         String?
+  domainType          String
+  isActive            Boolean              @default(true)
+  pwos                PrimaryWorkObject[]
+  capabilityInstances CapabilityInstance[]
+
+  @@map("functional_groups")
+}
+
+model PrimaryWorkObject {
+  id                  String               @id @default(uuid())
+  tenantId            String
+  versionId           String?
+  functionalGroupId   String
+  functionalGroup     FunctionalGroup      @relation(fields: [functionalGroupId], references: [id])
+  name                String
+  description         String?
+  strategicImportance Int
+  revenueImpact       String
+  downtimeSensitivity String
+  isActive            Boolean              @default(true)
+  swos                SecondaryWorkObject[]
+  capabilityInstances CapabilityInstance[]
+
+  @@map("primary_work_objects")
+}
+
+model SecondaryWorkObject {
+  id                    String               @id @default(uuid())
+  tenantId              String
+  versionId             String?
+  pwoId                 String
+  pwo                   PrimaryWorkObject    @relation(fields: [pwoId], references: [id])
+  name                  String
+  description           String?
+  operationalComplexity String
+  assetCriticality      String
+  failureFrequency      String
+  isActive              Boolean              @default(true)
+  capabilityInstances   CapabilityInstance[]
+
+  @@map("secondary_work_objects")
+}
+
+model Capability {
+  id                  String               @id @default(uuid())
+  code                String               @unique
+  name                String
+  type                String
+  isActive            Boolean              @default(true)
+  capabilityInstances CapabilityInstance[]
+
+  @@map("capabilities")
+}
+
+model Proficiency {
+  id                  String               @id @default(uuid())
+  level               Int
+  label               String
+  description         String?
+  independenceLevel   String?
+  capabilityInstances CapabilityInstance[]
+
+  @@map("proficiencies")
+}
+
+model CapabilityInstance {
+  id                String              @id @default(uuid())
+  tenantId          String
+  versionId         String?
+  functionalGroupId String
+  pwoId             String
+  swoId             String
+  capabilityId      String
+  proficiencyId     String
+  functionalGroup   FunctionalGroup     @relation(fields: [functionalGroupId], references: [id])
+  pwo               PrimaryWorkObject   @relation(fields: [pwoId], references: [id])
+  swo               SecondaryWorkObject @relation(fields: [swoId], references: [id])
+  capability        Capability          @relation(fields: [capabilityId], references: [id])
+  proficiency       Proficiency         @relation(fields: [proficiencyId], references: [id])
+
+  @@unique([tenantId, versionId, functionalGroupId, pwoId, swoId, capabilityId, proficiencyId])
+  @@map("capability_instances")
+}

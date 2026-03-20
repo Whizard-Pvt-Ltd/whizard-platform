@@ -63,6 +63,18 @@ export const getRequestContext = (request: FastifyRequestLike): IamRequestContex
   };
 };
 
+export const getLogContext = (request: FastifyRequestLike) => ({
+  userId: request.headers['x-actor-user-account-id']
+    ? String(request.headers['x-actor-user-account-id'])
+    : undefined,
+  tenantId: request.headers['x-tenant-id']
+    ? String(request.headers['x-tenant-id'])
+    : undefined,
+  requestId: request.headers['x-request-id']
+    ? String(request.headers['x-request-id'])
+    : undefined
+});
+
 export const toApiMeta = (request: FastifyRequestLike): ApiMetaV1 => ({
   requestId: request.headers['x-request-id'] ? String(request.headers['x-request-id']) : undefined,
   timestamp: new Date().toISOString()
