@@ -76,7 +76,9 @@ RUN cd /app && node_modules/.bin/tsc \
     --skipLibCheck true \
     --target es2020 \
     --outDir /prod/core-api/prisma/seeds \
-    prisma/seeds/wrcf-reference.seed.ts
+    prisma/seeds/wrcf-reference.seed.ts && \
+    mv /prod/core-api/prisma/seeds/wrcf-reference.seed.js \
+       /prod/core-api/prisma/seeds/wrcf-reference.seed.cjs
 
 # Copy bundled output to deploy directory (from app-specific dist folder)
 RUN cp -r /app/apps/api/core-api/dist /prod/core-api/
