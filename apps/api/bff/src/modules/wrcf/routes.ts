@@ -3,7 +3,6 @@ import type { FastifyInstanceLike, FastifyRequestLike, FastifyReplyLike } from '
 const CORE_API_URL = (process.env.CORE_API_URL || 'http://localhost:3001').replace(/\/$/, '');
 
 const buildCoreApiHeaders = (request: FastifyRequestLike): Record<string, string> => ({
-  'Content-Type': 'application/json',
   'X-Actor-User-Account-Id': String(request.headers['x-actor-user-account-id'] ?? 'anonymous'),
   'X-Tenant-Type': String(request.headers['x-tenant-type'] ?? 'SYSTEM'),
   'X-Tenant-Id': String(request.headers['x-tenant-id'] ?? 'system')
@@ -26,6 +25,7 @@ const forwardToCore = async (
 
   const fetchOptions: RequestInit = { method, headers };
   if (method !== 'GET' && method !== 'DELETE') {
+    headers['Content-Type'] = 'application/json';
     fetchOptions.body = JSON.stringify(request.body ?? {});
   }
 
