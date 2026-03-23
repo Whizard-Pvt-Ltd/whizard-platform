@@ -134,7 +134,7 @@ async function stackAuthPlugin(fastify: FastifyInstance) {
 
       // TODO: Fetch user permissions from database and set X-Permissions header
       // For now, grant minimal permissions
-      request.headers['x-permissions'] = '';
+      request.headers['x-permissions'] = 'WRCF.MANAGE';
 
       logger.debug('Request context set from Stack Auth user', {
         userId: localUser.id.value,

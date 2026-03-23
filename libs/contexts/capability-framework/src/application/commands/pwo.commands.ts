@@ -2,6 +2,7 @@ import type { ImpactLevelValue } from '../../domain/value-objects/impact-level.v
 import type { StrategicImportance } from '../../domain/value-objects/strategic-importance.vo';
 
 export interface CreatePWOCommand {
+  actorUserId?: string;
   tenantId: string;
   functionalGroupId: string;
   name: string;
@@ -12,6 +13,7 @@ export interface CreatePWOCommand {
 }
 
 export interface UpdatePWOCommand {
+  actorUserId?: string;
   id: string;
   tenantId: string;
   name?: string;
@@ -22,6 +24,7 @@ export interface UpdatePWOCommand {
 }
 
 export interface DeactivatePWOCommand {
+  actorUserId?: string;
   id: string;
   tenantId: string;
 }

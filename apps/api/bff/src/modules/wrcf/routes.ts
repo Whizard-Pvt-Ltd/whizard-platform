@@ -2,11 +2,16 @@ import type { FastifyInstanceLike, FastifyRequestLike, FastifyReplyLike } from '
 
 const CORE_API_URL = (process.env.CORE_API_URL || 'http://localhost:3001').replace(/\/$/, '');
 
-const buildCoreApiHeaders = (request: FastifyRequestLike): Record<string, string> => ({
-  'X-Actor-User-Account-Id': String(request.headers['x-actor-user-account-id'] ?? 'anonymous'),
-  'X-Tenant-Type': String(request.headers['x-tenant-type'] ?? 'SYSTEM'),
-  'X-Tenant-Id': String(request.headers['x-tenant-id'] ?? 'system')
-});
+const buildCoreApiHeaders = (request: FastifyRequestLike): Record<string, string> => {
+  const headers: Record<string, string> = {
+    'X-Tenant-Type': String(request.headers['x-tenant-type'] ?? 'SYSTEM'),
+    'X-Tenant-Id': String(request.headers['x-tenant-id'] ?? 'system')
+  };
+  if (request.headers['authorization']) {
+    headers['Authorization'] = String(request.headers['authorization']);
+  }
+  return headers;
+};
 
 const forwardToCore = async (
   method: string,

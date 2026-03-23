@@ -1,6 +1,7 @@
 import type { DomainType } from '../../domain/value-objects/domain-type.vo';
 
 export interface CreateFGCommand {
+  actorUserId?: string;
   tenantId: string;
   industryId: string;
   name: string;
@@ -9,6 +10,7 @@ export interface CreateFGCommand {
 }
 
 export interface UpdateFGCommand {
+  actorUserId?: string;
   id: string;
   tenantId: string;
   name?: string;
@@ -17,6 +19,7 @@ export interface UpdateFGCommand {
 }
 
 export interface DeactivateFGCommand {
+  actorUserId?: string;
   id: string;
   tenantId: string;
 }

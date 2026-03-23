@@ -1,12 +1,16 @@
 import type { IPwoRepository } from '../../domain/repositories/pwo.repository';
 import type { PwoDto } from '../dto/pwo.dto';
+import { getOrCreateAppLogger } from '@whizard/shared-logging';
+
+const logger = getOrCreateAppLogger({ service: 'capability-framework' }).child({ component: 'primary-work-object' });
 
 export class ListPWOsQueryHandler {
   constructor(private readonly pwoRepo: IPwoRepository) {}
 
-  async execute(fgId: string, tenantId: string): Promise<PwoDto[]> {
+  async execute(fgId: string, tenantId: string, actorUserId?: string): Promise<PwoDto[]> {
+    logger.debug('Listing PWOs', { userId: actorUserId, tenantId, fgId });
     const pwos = await this.pwoRepo.findByFG(fgId, tenantId);
-    return pwos.filter(p => p.isActive).map(pwo => ({
+    const result = pwos.filter(p => p.isActive).map(pwo => ({
       id: pwo.id,
       tenantId: pwo.tenantId,
       functionalGroupId: pwo.functionalGroupId,
@@ -17,5 +21,7 @@ export class ListPWOsQueryHandler {
       downtimeSensitivity: pwo.downtimeSensitivity,
       isActive: pwo.isActive
     }));
+    logger.debug('Listed PWOs', { userId: actorUserId, tenantId, fgId, count: result.length });
+    return result;
   }
 }

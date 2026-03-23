@@ -1,12 +1,16 @@
 import type { IFunctionalGroupRepository } from '../../domain/repositories/functional-group.repository';
 import type { FunctionalGroupDto } from '../dto/functional-group.dto';
+import { getOrCreateAppLogger } from '@whizard/shared-logging';
+
+const logger = getOrCreateAppLogger({ service: 'capability-framework' }).child({ component: 'functional-group' });
 
 export class ListFGsQueryHandler {
   constructor(private readonly fgRepo: IFunctionalGroupRepository) {}
 
-  async execute(industryId: string, tenantId: string): Promise<FunctionalGroupDto[]> {
+  async execute(industryId: string, tenantId: string, actorUserId?: string): Promise<FunctionalGroupDto[]> {
+    logger.debug('Listing functional groups', { userId: actorUserId, tenantId, industryId });
     const fgs = await this.fgRepo.findByIndustry(industryId, tenantId);
-    return fgs.filter(fg => fg.isActive).map(fg => ({
+    const result = fgs.filter(fg => fg.isActive).map(fg => ({
       id: fg.id,
       tenantId: fg.tenantId,
       industryId: fg.industryId,
@@ -15,5 +19,7 @@ export class ListFGsQueryHandler {
       domainType: fg.domainType,
       isActive: fg.isActive
     }));
+    logger.debug('Listed functional groups', { userId: actorUserId, tenantId, industryId, count: result.length });
+    return result;
   }
 }
