@@ -10,7 +10,8 @@
     "skipLibCheck": true
   },
   "references": [
-    { "path": "../../shared/infrastructure" }
+    { "path": "../../shared/infrastructure" },
+    { "path": "../../shared/logging" }
   ],
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "**/*.spec.ts", "**/*.test.ts"]
