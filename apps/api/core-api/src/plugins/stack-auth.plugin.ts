@@ -126,11 +126,15 @@ async function stackAuthPlugin(fastify: FastifyInstance) {
       request.headers['x-tenant-id'] = localUser.tenant.tenantId;
 
       // Bind userId and tenantId to the per-request logger so all subsequent
-      // log calls on this request automatically carry this context
+      // log calls on this request (including onResponse) automatically carry this context
       request.log = request.log.child({
         userId: localUser.id.value,
         tenantId: localUser.tenant.tenantId
       });
+
+      // Log at info level now that userId is bound — Fastify's built-in "incoming request"
+      // fires before auth so it lacks userId; this entry fills that gap
+      request.log.info({ method: request.method, url: request.url }, 'Authenticated request received');
 
       // TODO: Fetch user permissions from database and set X-Permissions header
       // For now, grant minimal permissions
@@ -160,6 +164,16 @@ async function stackAuthPlugin(fastify: FastifyInstance) {
   });
 
   logger.info('Stack Auth preHandler hook registered');
+
+  fastify.addHook('onResponse', (request, reply, done) => {
+    if (request.routeOptions.config.skipStackAuth !== true) {
+      request.log.info(
+        { method: request.method, url: request.url, statusCode: reply.statusCode, responseTime: Math.round(reply.elapsedTime) },
+        'Request completed'
+      );
+    }
+    done();
+  });
 }
 
 /**
