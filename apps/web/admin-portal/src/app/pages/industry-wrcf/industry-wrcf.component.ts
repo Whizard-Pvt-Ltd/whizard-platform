@@ -11,7 +11,7 @@ import { ManageCIMappingsComponent } from './components/manage-ci-mappings/manag
 import {
   IndustrySector, Industry, FunctionalGroup, PrimaryWorkObject,
   SecondaryWorkObject, Capability, ProficiencyLevel,
-  EntityType, PanelState, WrcfEntity, CIPendingEntry
+  EntityType, PanelState, WrcfEntity, CIPendingEntry, CapabilityInstance
 } from './models/wrcf.models';
 import { CRITICALITY_LEVELS, COMPLEXITY_LEVELS, FREQUENCY_LEVELS } from './models/wrcf-impact-levels';
 
@@ -48,6 +48,7 @@ export class IndustryWrcfComponent implements OnInit {
   protected userMenuOpen = signal<boolean>(false);
 
   protected ciCache = signal<CIPendingEntry[]>([]);
+  protected existingCIs = signal<CapabilityInstance[]>([]);
   protected toastMessage = signal<string>('');
   protected mappingDialogOpen = signal<boolean>(false);
 
@@ -58,6 +59,15 @@ export class IndustryWrcfComponent implements OnInit {
     return this.ciCache()
       .filter(e => e.swoId === swoId && e.capabilityId === capId)
       .map(e => e.proficiencyId);
+  }
+
+  protected get savedProficiencyIds(): string[] {
+    const swoId = this.selectedSWO()?.id;
+    const capId = this.selectedCapabilityId();
+    if (!swoId || !capId) return [];
+    return this.existingCIs()
+      .filter(ci => ci.swoId === swoId && ci.capabilityId === capId)
+      .map(ci => ci.proficiencyId);
   }
 
   protected get profCheckboxMode(): boolean {
@@ -109,6 +119,11 @@ export class IndustryWrcfComponent implements OnInit {
     this.selectedPWO.set(null);
     this.selectedSWO.set(null);
     this.swoList.set([]);
+    this.existingCIs.set([]);
+    this.apiService.listCIs(this.selectedIndustryId(), item.id).subscribe({
+      next: cis => this.existingCIs.set(cis),
+      error: () => this.existingCIs.set([])
+    });
     this.apiService.listPWOs(item.id).subscribe({
       next: pwos => this.pwoList.set(pwos),
       error: () => this.pwoList.set([])
@@ -145,6 +160,11 @@ export class IndustryWrcfComponent implements OnInit {
 
     const cap = this.capabilities.find(c => c.id === capId);
     if (!cap) return;
+
+    if (this.savedProficiencyIds.includes(item.id)) {
+      this.showToast('This capability instance already exists in the saved mappings.');
+      return;
+    }
 
     const existing = this.ciCache().find(
       e => e.swoId === swo.id && e.capabilityId === capId && e.proficiencyId === item.id
@@ -195,6 +215,13 @@ export class IndustryWrcfComponent implements OnInit {
       next: () => {
         this.ciCache.set([]);
         this.mappingDialogOpen.set(false);
+        const fg = this.selectedFG();
+        if (fg) {
+          this.apiService.listCIs(this.selectedIndustryId(), fg.id).subscribe({
+            next: cis => this.existingCIs.set(cis),
+            error: () => {}
+          });
+        }
       },
       error: () => this.showError('Failed to save some capability instances.')
     });
@@ -418,6 +445,7 @@ export class IndustryWrcfComponent implements OnInit {
     this.fgList.set([]);
     this.pwoList.set([]);
     this.swoList.set([]);
+    this.existingCIs.set([]);
   }
 
   private showError(message: string): void {

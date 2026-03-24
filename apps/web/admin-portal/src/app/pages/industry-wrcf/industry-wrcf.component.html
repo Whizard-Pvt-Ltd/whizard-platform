@@ -116,6 +116,7 @@
         [readonly]="true"
         [checkboxMode]="profCheckboxMode"
         [checkedIds]="checkedProficiencyIds"
+        [savedIds]="savedProficiencyIds"
         (itemSelected)="onProficiencySelect($event)"
         (checkboxToggled)="onProficiencyToggle($event)"
       />
@@ -136,6 +137,7 @@
     <whizard-manage-ci-mappings
       [cache]="ciCache()"
       [sectors]="sectors"
+      [initialSectorId]="selectedSectorId()"
       [initialIndustryId]="selectedIndustryId()"
       [initialFgId]="selectedFG()?.id ?? ''"
       (closed)="mappingDialogOpen.set(false)"

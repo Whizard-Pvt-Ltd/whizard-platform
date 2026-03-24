@@ -22,6 +22,7 @@ export class ManageCIMappingsComponent implements OnInit {
 
   @Input() cache: CIPendingEntry[] = [];
   @Input() sectors: IndustrySector[] = [];
+  @Input() initialSectorId = '';
   @Input() initialIndustryId = '';
   @Input() initialFgId = '';
   @Output() closed = new EventEmitter<void>();
@@ -39,6 +40,13 @@ export class ManageCIMappingsComponent implements OnInit {
   protected expandedPwoIds = signal<Set<string>>(new Set());
 
   ngOnInit(): void {
+    if (this.initialSectorId) {
+      this.selectedSectorId.set(this.initialSectorId);
+      this.apiService.listIndustries(this.initialSectorId).subscribe({
+        next: industries => this.industries.set(industries),
+        error: () => this.industries.set([])
+      });
+    }
     if (this.initialIndustryId) {
       this.selectedIndustryId.set(this.initialIndustryId);
       this.apiService.listFGs(this.initialIndustryId).subscribe({
@@ -56,30 +64,37 @@ export class ManageCIMappingsComponent implements OnInit {
     this.selectedSectorId.set(sectorId);
     this.selectedIndustryId.set('');
     this.selectedFgId.set('');
+    this.industries.set([]);
     this.fgList.set([]);
     this.savedCIs.set([]);
-    this.apiService.listIndustries(sectorId).subscribe({
-      next: industries => this.industries.set(industries),
-      error: () => this.industries.set([])
-    });
+    if (sectorId) {
+      this.apiService.listIndustries(sectorId).subscribe({
+        next: industries => this.industries.set(industries),
+        error: () => this.industries.set([])
+      });
+    }
+    this.loadSavedCIs();
   }
 
   protected onIndustryChange(industryId: string): void {
     this.selectedIndustryId.set(industryId);
     this.selectedFgId.set('');
+    this.fgList.set([]);
     this.savedCIs.set([]);
-    this.apiService.listFGs(industryId).subscribe({
-      next: fgs => this.fgList.set(fgs),
-      error: () => this.fgList.set([])
-    });
+    if (industryId) {
+      this.apiService.listFGs(industryId).subscribe({
+        next: fgs => this.fgList.set(fgs),
+        error: () => this.fgList.set([])
+      });
+    }
+    this.loadSavedCIs();
   }
 
   protected onFgChange(fgId: string): void {
     this.selectedFgId.set(fgId);
     this.savedCIs.set([]);
     this.expandedPwoIds.set(new Set());
-    if (fgId) this.loadSavedCIs();
-    else this.autoExpandAll();
+    this.loadSavedCIs();
   }
 
   private loadSavedCIs(): void {
