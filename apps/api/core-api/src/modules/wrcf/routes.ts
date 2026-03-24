@@ -332,4 +332,75 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
       reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
     }
   });
+
+  app.route({
+    method: 'GET',
+    url: '/capability-instances',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const ctx = getRequestContext(request);
+      const query = request.query as Record<string, string>;
+      const industryId = query['industryId'];
+      const fgId = query['fgId'];
+      logger.debug('Listing capability instances', { ...getLogContext(request), industryId, fgId });
+      const data = await deps.listCIs.execute(ctx.tenantId, industryId, fgId);
+      logger.debug('Listed capability instances', { ...getLogContext(request), count: data.length });
+      reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
+    }
+  });
+
+  app.route({
+    method: 'POST',
+    url: '/capability-instances',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const ctx = getRequestContext(request);
+      const body = request.body as Record<string, unknown>;
+      logger.debug('Creating capability instance', {
+        ...getLogContext(request),
+        functionalGroupId: String(body['functionalGroupId']),
+        swoId: String(body['swoId']),
+        capabilityId: String(body['capabilityId']),
+        proficiencyId: String(body['proficiencyId'])
+      });
+      try {
+        await deps.createCI.execute({
+          tenantId: ctx.tenantId,
+          functionalGroupId: String(body['functionalGroupId']),
+          pwoId: String(body['pwoId']),
+          swoId: String(body['swoId']),
+          capabilityId: String(body['capabilityId']),
+          proficiencyId: String(body['proficiencyId'])
+        });
+        logger.info('Capability instance created', { ...getLogContext(request) });
+        reply.status(201).send({ success: true, meta: toApiMeta(request) });
+      } catch (err) {
+        if (isDomainException(err)) {
+          logger.warn('Capability instance creation failed', { ...getLogContext(request), error: (err as Error).message });
+          reply.status(409).send({ success: false, error: { message: (err as Error).message }, meta: toApiMeta(request) });
+        } else { throw err; }
+      }
+    }
+  });
+
+  app.route({
+    method: 'DELETE',
+    url: '/capability-instances/:id',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const { id } = (request.params as { id: string });
+      const ctx = getRequestContext(request);
+      logger.debug('Deleting capability instance', { ...getLogContext(request), ciId: id });
+      try {
+        await deps.deleteCI.execute({ id, tenantId: ctx.tenantId });
+        logger.info('Capability instance deleted', { ...getLogContext(request), ciId: id });
+        reply.status(204).send(null);
+      } catch (err) {
+        if (isDomainException(err)) {
+          logger.warn('Capability instance not found', { ...getLogContext(request), ciId: id, error: (err as Error).message });
+          reply.status(404).send({ success: false, error: { message: (err as Error).message }, meta: toApiMeta(request) });
+        } else { throw err; }
+      }
+    }
+  });
 };

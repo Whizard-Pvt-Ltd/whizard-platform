@@ -121,3 +121,27 @@
   text-align: center;
   font-style: italic;
 }
+
+.checkbox-btn {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #484E5D;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.checkbox-btn:hover {
+  border-color: #00BFFF;
+}
+
+.checkbox-btn.checked {
+  background: #00BFFF;
+  border-color: #00BFFF;
+}

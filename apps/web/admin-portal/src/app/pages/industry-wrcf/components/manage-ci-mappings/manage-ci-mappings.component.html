@@ -1,0 +1,88 @@
+<div class="dialog-backdrop" (click)="closed.emit()"></div>
+<div class="dialog-panel">
+  <div class="dialog-header">
+    <h2 class="dialog-title">Manage CI Mappings</h2>
+    <button class="close-btn" (click)="closed.emit()">✕</button>
+  </div>
+
+  <div class="dialog-filters">
+    <div class="filter-group">
+      <label class="filter-label">Industry Sector</label>
+      <select class="filter-select" [ngModel]="selectedSectorId()" (ngModelChange)="onSectorChange($event)">
+        <option value="">All Sectors</option>
+        @for (s of sectors; track s.id) {
+          <option [value]="s.id">{{ s.name }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">Industry</label>
+      <select class="filter-select" [ngModel]="selectedIndustryId()" (ngModelChange)="onIndustryChange($event)" [disabled]="!selectedSectorId()">
+        <option value="">All Industries</option>
+        @for (i of industries(); track i.id) {
+          <option [value]="i.id">{{ i.name }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">Functional Group</label>
+      <select class="filter-select" [ngModel]="selectedFgId()" (ngModelChange)="onFgChange($event)" [disabled]="!selectedIndustryId()">
+        <option value="">All Groups</option>
+        @for (fg of fgList(); track fg.id) {
+          <option [value]="fg.id">{{ fg.name }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <div class="dialog-body">
+    @if (pwoGroups.length === 0) {
+      <p class="empty-msg">No capability instances found.</p>
+    }
+    @for (group of pwoGroups; track group.pwoId) {
+      <div class="pwo-group">
+        <button class="pwo-header" (click)="togglePwo(group.pwoId)">
+          <span class="pwo-name">PWO: {{ group.pwoName }}</span>
+          <span class="pwo-badge">{{ group.items.length }}</span>
+          <span class="chevron">{{ isPwoExpanded(group.pwoId) ? '▲' : '▼' }}</span>
+        </button>
+        @if (isPwoExpanded(group.pwoId)) {
+          <ul class="ci-list">
+            @for (item of group.items; track $index) {
+              <li class="ci-item">
+                <span class="ci-label" [class.pending]="isPending(item)">
+                  {{ getItemLabel(item) }}
+                  @if (isPending(item)) {
+                    <span class="pending-badge">pending</span>
+                  }
+                </span>
+                @if (isPending(item)) {
+                  <button class="trash-btn" (click)="onDeletePending(item.localId)" title="Remove pending">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
+                    </svg>
+                  </button>
+                } @else {
+                  <button class="trash-btn" (click)="onDeleteSaved(item.id)" title="Delete">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
+                    </svg>
+                  </button>
+                }
+              </li>
+            }
+          </ul>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="dialog-footer">
+    <button class="btn-cancel" (click)="closed.emit()">Cancel</button>
+    <button class="btn-save" (click)="onSave()" [disabled]="cache.length === 0">
+      Save {{ cache.length > 0 ? '(' + cache.length + ' pending)' : '' }}
+    </button>
+  </div>
+</div>

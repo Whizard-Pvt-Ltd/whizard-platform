@@ -259,6 +259,16 @@
   padding: 0;
 }
 
+.toast-banner {
+  background: #1E293B;
+  border-left: 4px solid #00BFFF;
+  margin: 12px 32px 0;
+  padding: 12px 20px;
+  font-size: 14px;
+  color: #E8F0FA;
+  border-radius: 0 6px 6px 0;
+}
+
 /* ── Workspace / columns ── */
 .workspace {
   flex: 1;

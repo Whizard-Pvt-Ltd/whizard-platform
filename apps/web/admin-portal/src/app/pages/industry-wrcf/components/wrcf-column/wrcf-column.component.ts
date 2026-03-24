@@ -14,7 +14,10 @@ export class WrcfColumnComponent {
   @Input() selectedId: string | null = null;
   @Input() showAdd = true;
   @Input() readonly = false;
+  @Input() checkboxMode = false;
+  @Input() checkedIds: string[] = [];
   @Output() itemSelected = new EventEmitter<WrcfEntity>();
   @Output() addClicked = new EventEmitter<void>();
   @Output() editClicked = new EventEmitter<WrcfEntity>();
+  @Output() checkboxToggled = new EventEmitter<WrcfEntity>();
 }

@@ -13,6 +13,12 @@ const buildCoreApiHeaders = (request: FastifyRequestLike): Record<string, string
   return headers;
 };
 
+const getQueryString = (request: FastifyRequestLike): string => {
+  const raw = (request as unknown as { url?: string }).url ?? '';
+  const idx = raw.indexOf('?');
+  return idx >= 0 ? raw.slice(idx) : '';
+};
+
 const forwardToCore = async (
   method: string,
   corePath: string,
@@ -25,7 +31,8 @@ const forwardToCore = async (
     resolvedPath = resolvedPath.replace(`:${key}`, val);
   }
 
-  const url = `${CORE_API_URL}${resolvedPath}`;
+  const qs = method === 'GET' ? getQueryString(request) : '';
+  const url = `${CORE_API_URL}${resolvedPath}${qs}`;
   const headers = buildCoreApiHeaders(request);
 
   const fetchOptions: RequestInit = { method, headers };
@@ -58,4 +65,7 @@ export const registerWrcfBffRoutes = (app: FastifyInstanceLike): void => {
   app.route({ method: 'DELETE', url: '/swos/:id', handler: (req, rep) => forwardToCore('DELETE', '/api/wrcf/swos/:id', req, rep) });
   app.route({ method: 'GET', url: '/capabilities', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/capabilities', req, rep) });
   app.route({ method: 'GET', url: '/proficiencies', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/proficiencies', req, rep) });
+  app.route({ method: 'GET', url: '/capability-instances', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/capability-instances', req, rep) });
+  app.route({ method: 'POST', url: '/capability-instances', handler: (req, rep) => forwardToCore('POST', '/api/wrcf/capability-instances', req, rep) });
+  app.route({ method: 'DELETE', url: '/capability-instances/:id', handler: (req, rep) => forwardToCore('DELETE', '/api/wrcf/capability-instances/:id', req, rep) });
 };

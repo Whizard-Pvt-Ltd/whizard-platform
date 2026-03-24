@@ -54,9 +54,9 @@
       <button class="btn-teal">↓ Template</button>
       <button class="btn-teal">↓ Template</button>
       <button class="btn-teal">+ Add Skills</button>
-      <button class="btn-teal btn-badge">
+      <button class="btn-teal btn-badge" (click)="mappingDialogOpen.set(true)">
         ⬡ Mappings
-        <span class="badge">5</span>
+        <span class="badge">{{ ciCache().length }}</span>
       </button>
     </div>
   </div>
@@ -66,6 +66,10 @@
       <span>⚠ {{ errorMessage() }}</span>
       <button class="error-close" (click)="errorMessage.set('')">✕</button>
     </div>
+  }
+
+  @if (toastMessage()) {
+    <div class="toast-banner">{{ toastMessage() }}</div>
   }
 
   <div class="workspace">
@@ -110,7 +114,10 @@
         [items]="proficiencyLevels"
         [selectedId]="selectedProficiencyId()"
         [readonly]="true"
+        [checkboxMode]="profCheckboxMode"
+        [checkedIds]="checkedProficiencyIds"
         (itemSelected)="onProficiencySelect($event)"
+        (checkboxToggled)="onProficiencyToggle($event)"
       />
     </div>
   </div>
@@ -122,6 +129,19 @@
       (save)="onPanelSave($event)"
       (delete)="onPanelDelete($event)"
       (close)="closePanel()"
+    />
+  }
+
+  @if (mappingDialogOpen()) {
+    <whizard-manage-ci-mappings
+      [cache]="ciCache()"
+      [sectors]="sectors"
+      [initialIndustryId]="selectedIndustryId()"
+      [initialFgId]="selectedFG()?.id ?? ''"
+      (closed)="mappingDialogOpen.set(false)"
+      (pendingRemoved)="onPendingCIRemoved($event)"
+      (saved)="onCISave($event)"
+      (savedDeleted)="onCISavedDeleted($event)"
     />
   }
 </div>

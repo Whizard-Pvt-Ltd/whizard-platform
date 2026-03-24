@@ -15,6 +15,6 @@ export const environment = {
   // Stack Auth Configuration
   stackAuth: {
     projectId: 'a3f5b8a7-22d3-49d5-9f56-76e0489e8d51',
-    publishableClientKey: 'pck_pd36qj7jeyemw01c5a7k1s1bfvkbm7servsmxrnkav8z8'
+    publishableClientKey: 'pck_emn3m14ezqavtsp7b0bbv91swt0cpkazqy9ax83pfcmp8'
   }
 };

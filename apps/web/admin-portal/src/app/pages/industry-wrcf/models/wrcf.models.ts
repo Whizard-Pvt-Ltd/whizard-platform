@@ -55,3 +55,35 @@ export interface DeleteResult {
   success: boolean;
   reason?: string;
 }
+
+export interface CapabilityInstance {
+  id: string;
+  functionalGroupId: string;
+  pwoId: string;
+  pwoName: string;
+  swoId: string;
+  swoName: string;
+  capabilityId: string;
+  capabilityCode: string;
+  capabilityName: string;
+  proficiencyId: string;
+  proficiencyLevel: number;
+  proficiencyLabel: string;
+}
+
+export interface CIPendingEntry {
+  localId: string;
+  industryId: string;
+  fgId: string;
+  fgName: string;
+  pwoId: string;
+  pwoName: string;
+  swoId: string;
+  swoName: string;
+  capabilityId: string;
+  capabilityCode: string;
+  capabilityName: string;
+  proficiencyId: string;
+  proficiencyLevel: number;
+  proficiencyLabel: string;
+}

@@ -1,0 +1,267 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 100;
+}
+
+.dialog-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 101;
+  background: #0F172A;
+  border: 1px solid #484E5D;
+  border-radius: 14px;
+  width: min(900px, 95vw);
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Poppins', sans-serif;
+  color: #E8F0FA;
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 28px;
+  border-bottom: 1px solid #484E5D;
+  flex-shrink: 0;
+}
+
+.dialog-title {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
+  margin: 0;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: #7F94AE;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: color 0.15s;
+}
+
+.close-btn:hover {
+  color: #E8F0FA;
+}
+
+.dialog-filters {
+  display: flex;
+  gap: 16px;
+  padding: 16px 28px;
+  border-bottom: 1px solid #484E5D;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 180px;
+}
+
+.filter-label {
+  font-size: 13px;
+  font-weight: 400;
+  color: #7F94AE;
+}
+
+.filter-select {
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid #484E5D;
+  background: #0F253F;
+  color: #E8F0FA;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.filter-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dialog-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 28px;
+}
+
+.empty-msg {
+  color: #7F94AE;
+  font-size: 14px;
+  text-align: center;
+  padding: 40px 0;
+}
+
+.pwo-group {
+  margin-bottom: 8px;
+  border: 1px solid #484E5D;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.pwo-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 16px;
+  background: #0F253F;
+  border: none;
+  color: #E8F0FA;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s;
+}
+
+.pwo-header:hover {
+  background: #1a3050;
+}
+
+.pwo-name {
+  flex: 1;
+}
+
+.pwo-badge {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background: #314DDF;
+  font-size: 12px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.chevron {
+  font-size: 11px;
+  color: #7F94AE;
+}
+
+.ci-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ci-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  padding: 0 16px;
+  border-top: 1px solid #484E5D;
+  gap: 12px;
+}
+
+.ci-label {
+  flex: 1;
+  font-size: 14px;
+  color: #E8F0FA;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ci-label.pending {
+  color: #8AB4F8;
+}
+
+.pending-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: #1a3050;
+  font-size: 11px;
+  color: #00BFFF;
+  vertical-align: middle;
+}
+
+.trash-btn {
+  background: transparent;
+  border: none;
+  color: #7F94AE;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s;
+}
+
+.trash-btn:hover {
+  color: #fca5a5;
+}
+
+.dialog-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 28px;
+  border-top: 1px solid #484E5D;
+  flex-shrink: 0;
+}
+
+.btn-cancel {
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 10px;
+  border: 1px solid #484E5D;
+  background: transparent;
+  color: #E8F0FA;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.btn-cancel:hover {
+  border-color: #7F94AE;
+}
+
+.btn-save {
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 10px;
+  border: none;
+  background: #314DDF;
+  color: #E8F0FA;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-save:hover:not(:disabled) {
+  background: #263FCC;
+}
+
+.btn-save:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

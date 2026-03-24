@@ -24,7 +24,7 @@ export class DeleteCapabilityInstanceCommandHandler {
   constructor(private readonly ciRepo: ICapabilityInstanceRepository) {}
 
   async execute(cmd: DeleteCapabilityInstanceCommand): Promise<void> {
-    const [ci] = await this.ciRepo.findByContext(cmd.tenantId);
+    const ci = await this.ciRepo.findById(cmd.id);
     if (!ci) throw new DomainException(`CapabilityInstance ${cmd.id} not found`);
     ci.delete();
     await this.ciRepo.delete(cmd.id);

@@ -42,8 +42,8 @@ services:
 
       # Stack Auth Configuration
       STACK_AUTH_PROJECT_ID: "a3f5b8a7-22d3-49d5-9f56-76e0489e8d51"
-      STACK_AUTH_SECRET_SERVER_KEY: "ssk_r3h4wxtrgpezgbzsvtned8t6mehvj6vew9hq2b49rvv68"
-      STACK_AUTH_PUBLISHABLE_CLIENT_KEY: "pck_pd36qj7jeyemw01c5a7k1s1bfvkbm7servsmxrnkav8z8"
+      STACK_AUTH_SECRET_SERVER_KEY: "ssk_bjnjrd1szrzvy3mrs308bphmg5teh4ebc54gz2cgxfn1r"
+      STACK_AUTH_PUBLISHABLE_CLIENT_KEY: "pck_emn3m14ezqavtsp7b0bbv91swt0cpkazqy9ax83pfcmp8"
 
       # Stack Auth User Sync Configuration
       STACK_AUTH_DEFAULT_TENANT_TYPE: SYSTEM
@@ -107,7 +107,7 @@ services:
         # Build-time environment variables for Angular/Vite
         VITE_BFF_API_URL: http://localhost:3000
         VITE_STACK_AUTH_PROJECT_ID: "a3f5b8a7-22d3-49d5-9f56-76e0489e8d51"
-        VITE_STACK_AUTH_PUBLISHABLE_CLIENT_KEY: "pck_pd36qj7jeyemw01c5a7k1s1bfvkbm7servsmxrnkav8z8"
+        VITE_STACK_AUTH_PUBLISHABLE_CLIENT_KEY: "pck_emn3m14ezqavtsp7b0bbv91swt0cpkazqy9ax83pfcmp8"
     container_name: whizard-admin-portal
     restart: unless-stopped
     ports:

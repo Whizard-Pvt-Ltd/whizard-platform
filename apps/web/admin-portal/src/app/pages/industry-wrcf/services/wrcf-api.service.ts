@@ -4,7 +4,8 @@ import { Observable, map } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import type {
   IndustrySector, Industry, FunctionalGroup, PrimaryWorkObject, SecondaryWorkObject,
-  Capability, ProficiencyLevel, DomainType, ImpactLevelValue, StrategicImportance
+  Capability, ProficiencyLevel, DomainType, ImpactLevelValue, StrategicImportance,
+  CapabilityInstance
 } from '../models/wrcf.models';
 
 interface ApiEnvelope<T> {
@@ -99,5 +100,21 @@ export class WrcfApiService {
     return this.http.get<ApiEnvelope<{ id: string; level: number; label: string; description?: string }[]>>(`${this.base}/proficiencies`).pipe(
       map(r => r.data.map(p => ({ id: p.id, name: `L${p.level} ${p.label}`, description: p.description })))
     );
+  }
+
+  listCIs(industryId?: string, fgId?: string): Observable<CapabilityInstance[]> {
+    const params: string[] = [];
+    if (industryId) params.push(`industryId=${industryId}`);
+    if (fgId) params.push(`fgId=${fgId}`);
+    const qs = params.length ? `?${params.join('&')}` : '';
+    return this.http.get<ApiEnvelope<CapabilityInstance[]>>(`${this.base}/capability-instances${qs}`).pipe(map(r => r.data));
+  }
+
+  createCI(data: { functionalGroupId: string; pwoId: string; swoId: string; capabilityId: string; proficiencyId: string }): Observable<void> {
+    return this.http.post<void>(`${this.base}/capability-instances`, data);
+  }
+
+  deleteCI(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.base}/capability-instances/${id}`);
   }
 }

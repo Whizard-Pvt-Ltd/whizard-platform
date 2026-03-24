@@ -2,21 +2,23 @@ import { Component, inject, signal, OnInit, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { forkJoin } from 'rxjs';
 import { StackAuthService } from '../../core/services/stack-auth.service';
 import { WrcfApiService } from './services/wrcf-api.service';
 import { WrcfColumnComponent } from './components/wrcf-column/wrcf-column.component';
 import { WrcfPanelComponent } from './components/wrcf-panel/wrcf-panel.component';
+import { ManageCIMappingsComponent } from './components/manage-ci-mappings/manage-ci-mappings.component';
 import {
   IndustrySector, Industry, FunctionalGroup, PrimaryWorkObject,
   SecondaryWorkObject, Capability, ProficiencyLevel,
-  EntityType, PanelState, WrcfEntity
+  EntityType, PanelState, WrcfEntity, CIPendingEntry
 } from './models/wrcf.models';
 import { CRITICALITY_LEVELS, COMPLEXITY_LEVELS, FREQUENCY_LEVELS } from './models/wrcf-impact-levels';
 
 @Component({
   selector: 'whizard-industry-wrcf',
   standalone: true,
-  imports: [FormsModule, RouterLink, WrcfColumnComponent, WrcfPanelComponent],
+  imports: [FormsModule, RouterLink, WrcfColumnComponent, WrcfPanelComponent, ManageCIMappingsComponent],
   templateUrl: './industry-wrcf.component.html',
   styleUrl: './industry-wrcf.component.css',
 })
@@ -44,6 +46,23 @@ export class IndustryWrcfComponent implements OnInit {
   protected panel = signal<PanelState>({ open: false, mode: 'create', entityType: 'FG' });
   protected errorMessage = signal<string>('');
   protected userMenuOpen = signal<boolean>(false);
+
+  protected ciCache = signal<CIPendingEntry[]>([]);
+  protected toastMessage = signal<string>('');
+  protected mappingDialogOpen = signal<boolean>(false);
+
+  protected get checkedProficiencyIds(): string[] {
+    const swoId = this.selectedSWO()?.id;
+    const capId = this.selectedCapabilityId();
+    if (!swoId || !capId) return [];
+    return this.ciCache()
+      .filter(e => e.swoId === swoId && e.capabilityId === capId)
+      .map(e => e.proficiencyId);
+  }
+
+  protected get profCheckboxMode(): boolean {
+    return !!(this.selectedSWO() && this.selectedCapabilityId());
+  }
 
   protected get userName(): string | null {
     return this.stackAuthService.currentUser()?.displayName ?? null;
@@ -115,6 +134,81 @@ export class IndustryWrcfComponent implements OnInit {
 
   protected onProficiencySelect(item: WrcfEntity): void {
     this.selectedProficiencyId.set(item.id);
+  }
+
+  protected onProficiencyToggle(item: WrcfEntity): void {
+    const swo = this.selectedSWO();
+    const fg = this.selectedFG();
+    const pwo = this.selectedPWO();
+    const capId = this.selectedCapabilityId();
+    if (!swo || !fg || !pwo || !capId) return;
+
+    const cap = this.capabilities.find(c => c.id === capId);
+    if (!cap) return;
+
+    const existing = this.ciCache().find(
+      e => e.swoId === swo.id && e.capabilityId === capId && e.proficiencyId === item.id
+    );
+
+    if (existing) {
+      this.ciCache.update(cache => cache.filter(e => e.localId !== existing.localId));
+    } else {
+      const prof = this.proficiencyLevels.find(p => p.id === item.id);
+      if (!prof) return;
+      const levelMatch = prof.name.match(/^L(\d+)/);
+      const entry: CIPendingEntry = {
+        localId: crypto.randomUUID(),
+        industryId: this.selectedIndustryId(),
+        fgId: fg.id,
+        fgName: fg.name,
+        pwoId: pwo.id,
+        pwoName: pwo.name,
+        swoId: swo.id,
+        swoName: swo.name,
+        capabilityId: cap.id,
+        capabilityCode: cap.code ?? '',
+        capabilityName: cap.name,
+        proficiencyId: item.id,
+        proficiencyLevel: levelMatch ? Number(levelMatch[1]) : 0,
+        proficiencyLabel: prof.name
+      };
+      this.ciCache.update(cache => [...cache, entry]);
+      this.showToast('New capability instance is added to cached map.');
+    }
+  }
+
+  protected onPendingCIRemoved(localId: string): void {
+    this.ciCache.update(cache => cache.filter(e => e.localId !== localId));
+  }
+
+  protected onCISave(pending: CIPendingEntry[]): void {
+    const calls = pending.map(e =>
+      this.apiService.createCI({
+        functionalGroupId: e.fgId,
+        pwoId: e.pwoId,
+        swoId: e.swoId,
+        capabilityId: e.capabilityId,
+        proficiencyId: e.proficiencyId
+      })
+    );
+    forkJoin(calls).subscribe({
+      next: () => {
+        this.ciCache.set([]);
+        this.mappingDialogOpen.set(false);
+      },
+      error: () => this.showError('Failed to save some capability instances.')
+    });
+  }
+
+  protected onCISavedDeleted(id: string): void {
+    this.apiService.deleteCI(id).subscribe({
+      error: () => this.showError('Failed to delete capability instance.')
+    });
+  }
+
+  private showToast(message: string): void {
+    this.toastMessage.set(message);
+    setTimeout(() => this.toastMessage.set(''), 3000);
   }
 
   protected openPanel(mode: 'create' | 'edit', entityType: EntityType, data?: WrcfEntity): void {

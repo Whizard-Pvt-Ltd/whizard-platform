@@ -7,6 +7,7 @@ import {
   PrismaProficiencyRepository,
   PrismaIndustrySectorRepository,
   PrismaIndustryRepository,
+  PrismaCapabilityInstanceRepository,
   ListSectorsQueryHandler,
   ListIndustriesQueryHandler,
   ListFGsQueryHandler,
@@ -14,6 +15,7 @@ import {
   ListSWOsQueryHandler,
   ListCapabilitiesQueryHandler,
   ListProficienciesQueryHandler,
+  ListCapabilityInstancesQueryHandler,
   CreateFGCommandHandler,
   UpdateFGCommandHandler,
   DeactivateFGCommandHandler,
@@ -22,7 +24,9 @@ import {
   DeactivatePWOCommandHandler,
   CreateSWOCommandHandler,
   UpdateSWOCommandHandler,
-  DeactivateSWOCommandHandler
+  DeactivateSWOCommandHandler,
+  CreateCapabilityInstanceCommandHandler,
+  DeleteCapabilityInstanceCommandHandler
 } from '@whizard/capability-framework';
 import { registerWrcfModule } from './wrcf.module';
 
@@ -34,6 +38,7 @@ export interface WrcfModuleDependencies {
   readonly listSWOs: ListSWOsQueryHandler;
   readonly listCapabilities: ListCapabilitiesQueryHandler;
   readonly listProficiencies: ListProficienciesQueryHandler;
+  readonly listCIs: ListCapabilityInstancesQueryHandler;
   readonly createFG: CreateFGCommandHandler;
   readonly updateFG: UpdateFGCommandHandler;
   readonly deactivateFG: DeactivateFGCommandHandler;
@@ -43,6 +48,8 @@ export interface WrcfModuleDependencies {
   readonly createSWO: CreateSWOCommandHandler;
   readonly updateSWO: UpdateSWOCommandHandler;
   readonly deactivateSWO: DeactivateSWOCommandHandler;
+  readonly createCI: CreateCapabilityInstanceCommandHandler;
+  readonly deleteCI: DeleteCapabilityInstanceCommandHandler;
 }
 
 export const registerWrcfCoreApiRuntime = async (app: FastifyInstanceLike): Promise<void> => {
@@ -53,6 +60,7 @@ export const registerWrcfCoreApiRuntime = async (app: FastifyInstanceLike): Prom
   const profRepo = new PrismaProficiencyRepository();
   const sectorRepo = new PrismaIndustrySectorRepository();
   const industryRepo = new PrismaIndustryRepository();
+  const ciRepo = new PrismaCapabilityInstanceRepository();
 
   const deps: WrcfModuleDependencies = {
     listSectors: new ListSectorsQueryHandler(sectorRepo),
@@ -62,6 +70,7 @@ export const registerWrcfCoreApiRuntime = async (app: FastifyInstanceLike): Prom
     listSWOs: new ListSWOsQueryHandler(swoRepo),
     listCapabilities: new ListCapabilitiesQueryHandler(capRepo),
     listProficiencies: new ListProficienciesQueryHandler(profRepo),
+    listCIs: new ListCapabilityInstancesQueryHandler(ciRepo),
     createFG: new CreateFGCommandHandler(fgRepo),
     updateFG: new UpdateFGCommandHandler(fgRepo),
     deactivateFG: new DeactivateFGCommandHandler(fgRepo),
@@ -70,7 +79,9 @@ export const registerWrcfCoreApiRuntime = async (app: FastifyInstanceLike): Prom
     deactivatePWO: new DeactivatePWOCommandHandler(pwoRepo),
     createSWO: new CreateSWOCommandHandler(swoRepo),
     updateSWO: new UpdateSWOCommandHandler(swoRepo),
-    deactivateSWO: new DeactivateSWOCommandHandler(swoRepo)
+    deactivateSWO: new DeactivateSWOCommandHandler(swoRepo),
+    createCI: new CreateCapabilityInstanceCommandHandler(ciRepo),
+    deleteCI: new DeleteCapabilityInstanceCommandHandler(ciRepo)
   };
 
   await registerWrcfModule(app, deps);

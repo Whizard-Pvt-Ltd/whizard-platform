@@ -44,6 +44,9 @@ export * from './application/command-handlers/pwo.handlers';
 export * from './application/command-handlers/swo.handlers';
 export * from './application/command-handlers/capability-instance.handlers';
 
+// Application — Ports
+export * from './application/ports/repositories/capability-instance-query.port';
+
 // Application — Query Handlers
 export * from './application/query-handlers/list-sectors.handler';
 export * from './application/query-handlers/list-industries.handler';
@@ -52,6 +55,7 @@ export * from './application/query-handlers/list-pwos.handler';
 export * from './application/query-handlers/list-swos.handler';
 export * from './application/query-handlers/list-capabilities.handler';
 export * from './application/query-handlers/list-proficiencies.handler';
+export * from './application/query-handlers/list-capability-instances.handler';
 
 // Application — DTOs
 export * from './application/dto/industry-sector.dto';
@@ -61,6 +65,7 @@ export * from './application/dto/pwo.dto';
 export * from './application/dto/swo.dto';
 export * from './application/dto/capability.dto';
 export * from './application/dto/proficiency.dto';
+export * from './application/dto/capability-instance.dto';
 
 // Infrastructure — Repositories (for DI wiring)
 export * from './infrastructure/persistence/postgres/repositories/prisma-functional-group.repository';
