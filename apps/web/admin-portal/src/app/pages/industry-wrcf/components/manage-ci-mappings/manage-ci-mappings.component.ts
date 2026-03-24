@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, signal, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import type { CIPendingEntry, CapabilityInstance, IndustrySector, Industry, FunctionalGroup } from '../../models/wrcf.models';
 import { WrcfApiService } from '../../services/wrcf-api.service';
 
@@ -19,6 +20,7 @@ interface PwoGroup {
 })
 export class ManageCIMappingsComponent implements OnInit {
   private readonly apiService = inject(WrcfApiService);
+  private readonly router = inject(Router);
 
   @Input() cache: CIPendingEntry[] = [];
   @Input() sectors: IndustrySector[] = [];
@@ -166,5 +168,10 @@ export class ManageCIMappingsComponent implements OnInit {
 
   protected onSave(): void {
     this.saved.emit(this.cache);
+  }
+
+  protected onSkillPlusClick(ci: CapabilityInstance): void {
+    this.router.navigate(['/wrcf-skills'], { queryParams: { ciId: ci.id } });
+    this.closed.emit();
   }
 }

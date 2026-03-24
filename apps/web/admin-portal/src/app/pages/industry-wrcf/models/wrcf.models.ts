@@ -40,7 +40,9 @@ export interface SecondaryWorkObject extends WrcfEntity {
 
 export interface Capability extends WrcfEntity {}
 
-export interface ProficiencyLevel extends WrcfEntity {}
+export interface ProficiencyLevel extends WrcfEntity {
+  level: number;
+}
 
 export type EntityType = 'FG' | 'PWO' | 'SWO';
 

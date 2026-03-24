@@ -4,6 +4,7 @@ import { SignupPageComponent } from './pages/signup/signup-page.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { EnhancedProfilePageComponent } from './pages/profile/enhanced-profile-page.component';
 import { IndustryWrcfComponent } from './pages/industry-wrcf/industry-wrcf.component';
+import { WrcfSkillsComponent } from './pages/wrcf-skills/wrcf-skills.component';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
@@ -27,6 +28,12 @@ export const routes: Routes = [
     path: 'industry-wrcf',
     component: IndustryWrcfComponent,
     title: 'Manage Industry WRCF',
+    canActivate: [authGuard]
+  },
+  {
+    path: 'wrcf-skills',
+    component: WrcfSkillsComponent,
+    title: 'Manage WRCF Skills',
     canActivate: [authGuard]
   },
   {

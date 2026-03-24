@@ -47,6 +47,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@whizard/identity-access': path.resolve(__dirname, 'libs/contexts/identity-access/src/index.ts'),
+      '@whizard/capability-framework': path.resolve(__dirname, 'libs/contexts/capability-framework/src/index.ts'),
       '@whizard/shared-kernel': path.resolve(__dirname, 'libs/shared/kernel/src/index.ts'),
       '@whizard/shared-infrastructure': path.resolve(__dirname, 'libs/shared/infrastructure/src/index.ts'),
       '@whizard/shared-logging': path.resolve(__dirname, 'libs/shared/logging/src/index.ts'),

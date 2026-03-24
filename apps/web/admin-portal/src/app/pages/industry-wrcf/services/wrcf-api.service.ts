@@ -98,7 +98,7 @@ export class WrcfApiService {
 
   listProficiencies(): Observable<ProficiencyLevel[]> {
     return this.http.get<ApiEnvelope<{ id: string; level: number; label: string; description?: string }[]>>(`${this.base}/proficiencies`).pipe(
-      map(r => r.data.map(p => ({ id: p.id, name: `L${p.level} ${p.label}`, description: p.description })))
+      map(r => r.data.map(p => ({ id: p.id, name: `L${p.level} ${p.label}`, level: p.level, description: p.description })))
     );
   }
 

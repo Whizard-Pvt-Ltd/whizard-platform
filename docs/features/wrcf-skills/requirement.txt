@@ -1,0 +1,59 @@
+# WRCF-Skills
+
+This feature needs to be implemented from frontend to backend.
+
+This is the screen which will allow user to add skills agains a capability instance (CI). The capability
+instance oonce created then it has Skill+ button which should land user to skills screen (refer screenshots in ./UX-screenshots/)
+
+The skills are also cascaded items with three column layout (Skills - Tasks - Control Point )
+
+
+
+Skills 
+- Skills will have have many to one  mapping with CI (One CI can have multiple skills), 
+    which also means in DB CI Id can be stored against skill record.
+- Skills will have following attriutes
+    - Name* - Text field
+    - Description - Text area
+    - Cognitive Type - Drop down (Procedural / Decision / Diagnostic)
+    - Skills criticality  - Drop down (Low, Medium, High)
+    - Recertification cycle - Drop down ( dropdown, numbers 1-12)
+    - AI Impact* - drop down (Low / Medium / High)
+    (* means the fields should be mandatory in order to create a record)
+
+Tasks
+- Tasks can be created agains a skill, which means tasks can be associated with skill ID in db 
+(a skill can =have many tasks but a task cannot be shared between skills)
+- Tasks will have following attributes
+    - Name *
+    - Description 
+    - Frequency  - Drop down (Daily / Weekly / Rare)
+    - Complexity  - Drop down (Low / Medium / High)
+    - Standard Duration - Number field (in mins)
+    - Required Proficiency Level (Proficiency levels in drop down)
+
+Control Point
+- Control Points are again cascaded items and comes under task
+
+- Control Point will have following attributes
+    - Name* - Text field
+    - Description - Text area
+    - Risk Level  - Drop down (Low / Medium / High / Critical)
+    - Failure Impact Type  - Drop down (Safety / Compliance / Financial)
+    - KPI Threshold  - Drop down (optional)
+    - Escalation Required  - Drop down (Yes / No)
+    - Evidance Type  - Drop down (Log, Email, Picture, Consent Of Validator)
+
+
+Things To be implemented
+1. Refer screen shots and Design system to understand and implement the Angular Components
+    a. This should include all kinds of check and ballances for mandatory fields and cascading restrictions
+    b. make sure the add , edit and delete works 
+2. build required APIs in BFF and Core - APIs
+3. Write migration scripts for new tables
+
+
+Notes:
+1.  make sure the add , edit and delete works 
+2. Low / Medium / High follow what we did for CI implementation and converting those in backend
+

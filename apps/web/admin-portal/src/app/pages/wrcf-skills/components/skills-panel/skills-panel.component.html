@@ -1,0 +1,144 @@
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-title">{{ title }}</span>
+    <div class="panel-actions">
+      @if (state.mode === 'edit') {
+        <button class="action-btn delete-btn" (click)="onDelete()" title="Delete">🗑</button>
+      }
+      <button class="action-btn save-btn" (click)="onSave()" title="Save">✓</button>
+      <button class="action-btn close-btn" (click)="close.emit()" title="Close">✕</button>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    @if (errorMsg) {
+      <div class="error-msg">{{ errorMsg }}</div>
+    }
+
+    @if (state.entity === 'Skill') {
+      <div class="field">
+        <label class="field-label">Name <span class="required">*</span></label>
+        <input class="field-input" type="text" placeholder="Enter skill name..." [(ngModel)]="skillName" />
+      </div>
+      <div class="field">
+        <label class="field-label">Description</label>
+        <textarea class="field-textarea" placeholder="Enter description..." [(ngModel)]="skillDescription" rows="3"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">Cognitive Type <span class="required">*</span></label>
+        <select class="field-select" [(ngModel)]="skillCognitiveType">
+          @for (opt of cognitiveTypeOptions; track opt) {
+            <option [value]="opt">{{ opt }}</option>
+          }
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label">Skill Criticality <span class="required">*</span></label>
+        <select class="field-select" [(ngModel)]="skillCriticality">
+          @for (opt of criticalityOptions; track opt) {
+            <option [value]="opt">{{ opt }}</option>
+          }
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label">Recertification Cycle (months) <span class="required">*</span></label>
+        <input class="field-input" type="number" min="1" max="12" [(ngModel)]="skillRecertificationCycle" />
+      </div>
+      <div class="field">
+        <label class="field-label">AI Impact <span class="required">*</span></label>
+        <select class="field-select" [(ngModel)]="skillAiImpact">
+          @for (opt of aiImpactOptions; track opt) {
+            <option [value]="opt">{{ opt }}</option>
+          }
+        </select>
+      </div>
+    }
+
+    @if (state.entity === 'Task') {
+      <div class="field">
+        <label class="field-label">Name <span class="required">*</span></label>
+        <input class="field-input" type="text" placeholder="Enter task name..." [(ngModel)]="taskName" />
+      </div>
+      <div class="field">
+        <label class="field-label">Description <span class="required">*</span></label>
+        <textarea class="field-textarea" placeholder="Enter description..." [(ngModel)]="taskDescription" rows="3"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">Frequency <span class="required">*</span></label>
+        <select class="field-select" [(ngModel)]="taskFrequency">
+          @for (opt of frequencyOptions; track opt) {
+            <option [value]="opt">{{ opt }}</option>
+          }
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label">Complexity <span class="required">*</span></label>
+        <select class="field-select" [(ngModel)]="taskComplexity">
+          @for (opt of complexityOptions; track opt) {
+            <option [value]="opt">{{ opt }}</option>
+          }
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label">Standard Duration (minutes)</label>
+        <input class="field-input" type="number" min="0" placeholder="Optional" [(ngModel)]="taskStandardDuration" />
+      </div>
+      <div class="field">
+        <label class="field-label">Required Proficiency Level</label>
+        <select class="field-select" [(ngModel)]="taskRequiredProficiencyId">
+          <option value="">Select level...</option>
+          @for (p of proficiencyLevels; track p.id) {
+            <option [value]="p.id">{{ p.name }}</option>
+          }
+        </select>
+      </div>
+    }
+
+    @if (state.entity === 'ControlPoint') {
+      <div class="field">
+        <label class="field-label">Name <span class="required">*</span></label>
+        <input class="field-input" type="text" placeholder="Enter control point name..." [(ngModel)]="cpName" />
+      </div>
+      <div class="field">
+        <label class="field-label">Description</label>
+        <textarea class="field-textarea" placeholder="Enter description..." [(ngModel)]="cpDescription" rows="3"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">Risk Level <span class="required">*</span></label>
+        <select class="field-select" [(ngModel)]="cpRiskLevel">
+          @for (opt of riskLevelOptions; track opt) {
+            <option [value]="opt">{{ opt }}</option>
+          }
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label">Failure Impact Type <span class="required">*</span></label>
+        <select class="field-select" [(ngModel)]="cpFailureImpactType">
+          @for (opt of failureImpactTypeOptions; track opt) {
+            <option [value]="opt">{{ opt }}</option>
+          }
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label">KPI Threshold</label>
+        <input class="field-input" type="text" placeholder="Optional" [(ngModel)]="cpKpiThreshold" />
+      </div>
+      <div class="field">
+        <label class="field-label">Escalation Required <span class="required">*</span></label>
+        <select class="field-select" [(ngModel)]="cpEscalationRequired">
+          @for (opt of escalationOptions; track opt) {
+            <option [value]="opt">{{ opt }}</option>
+          }
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label">Evidence Type <span class="required">*</span></label>
+        <select class="field-select" [(ngModel)]="cpEvidenceType">
+          @for (opt of evidenceTypeOptions; track opt) {
+            <option [value]="opt">{{ opt }}</option>
+          }
+        </select>
+      </div>
+    }
+  </div>
+</div>

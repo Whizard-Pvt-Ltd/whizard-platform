@@ -1,6 +1,6 @@
 import { Component, inject, signal, OnInit, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { forkJoin } from 'rxjs';
 import { StackAuthService } from '../../core/services/stack-auth.service';
@@ -25,6 +25,7 @@ import { CRITICALITY_LEVELS, COMPLEXITY_LEVELS, FREQUENCY_LEVELS } from './model
 export class IndustryWrcfComponent implements OnInit {
   private readonly apiService = inject(WrcfApiService);
   private readonly stackAuthService = inject(StackAuthService);
+  private readonly router = inject(Router);
 
   protected sectors: IndustrySector[] = [];
   protected capabilities: Capability[] = [];
@@ -225,6 +226,15 @@ export class IndustryWrcfComponent implements OnInit {
       },
       error: () => this.showError('Failed to save some capability instances.')
     });
+  }
+
+  protected onAddSkillsClick(): void {
+    const industryId = this.selectedIndustryId();
+    if (!industryId) {
+      this.showError('Please select an Industry Sector and Industry first.');
+      return;
+    }
+    this.router.navigate(['/wrcf-skills'], { queryParams: { industryId } });
   }
 
   protected onCISavedDeleted(id: string): void {

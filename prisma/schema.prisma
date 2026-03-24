@@ -249,7 +249,59 @@ model CapabilityInstance {
   swo               SecondaryWorkObject @relation(fields: [swoId], references: [id])
   capability        Capability          @relation(fields: [capabilityId], references: [id])
   proficiency       Proficiency         @relation(fields: [proficiencyId], references: [id])
+  skills            Skill[]
 
   @@unique([tenantId, versionId, functionalGroupId, pwoId, swoId, capabilityId, proficiencyId])
   @@map("capability_instances")
+}
+
+model Skill {
+  id                   String             @id @default(uuid())
+  tenantId             String
+  ciId                 String
+  ci                   CapabilityInstance @relation(fields: [ciId], references: [id])
+  name                 String
+  description          String?
+  cognitiveType        String
+  skillCriticality     String
+  recertificationCycle Int
+  aiImpact             String
+  isActive             Boolean            @default(true)
+  tasks                Task[]
+
+  @@map("skills")
+}
+
+model Task {
+  id                       String         @id @default(uuid())
+  tenantId                 String
+  skillId                  String
+  skill                    Skill          @relation(fields: [skillId], references: [id])
+  name                     String
+  description              String?
+  frequency                String
+  complexity               String
+  standardDuration         Int?
+  requiredProficiencyLevel Int?
+  isActive                 Boolean        @default(true)
+  controlPoints            ControlPoint[]
+
+  @@map("tasks")
+}
+
+model ControlPoint {
+  id                 String   @id @default(uuid())
+  tenantId           String
+  taskId             String
+  task               Task     @relation(fields: [taskId], references: [id])
+  name               String
+  description        String?
+  riskLevel          String
+  failureImpactType  String
+  kpiThreshold       String?
+  escalationRequired String
+  evidenceType       String
+  isActive           Boolean  @default(true)
+
+  @@map("control_points")
 }

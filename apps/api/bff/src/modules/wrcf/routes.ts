@@ -68,4 +68,16 @@ export const registerWrcfBffRoutes = (app: FastifyInstanceLike): void => {
   app.route({ method: 'GET', url: '/capability-instances', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/capability-instances', req, rep) });
   app.route({ method: 'POST', url: '/capability-instances', handler: (req, rep) => forwardToCore('POST', '/api/wrcf/capability-instances', req, rep) });
   app.route({ method: 'DELETE', url: '/capability-instances/:id', handler: (req, rep) => forwardToCore('DELETE', '/api/wrcf/capability-instances/:id', req, rep) });
+  app.route({ method: 'GET', url: '/skills', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/skills', req, rep) });
+  app.route({ method: 'POST', url: '/skills', handler: (req, rep) => forwardToCore('POST', '/api/wrcf/skills', req, rep) });
+  app.route({ method: 'PATCH', url: '/skills/:id', handler: (req, rep) => forwardToCore('PATCH', '/api/wrcf/skills/:id', req, rep) });
+  app.route({ method: 'DELETE', url: '/skills/:id', handler: (req, rep) => forwardToCore('DELETE', '/api/wrcf/skills/:id', req, rep) });
+  app.route({ method: 'GET', url: '/tasks', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/tasks', req, rep) });
+  app.route({ method: 'POST', url: '/tasks', handler: (req, rep) => forwardToCore('POST', '/api/wrcf/tasks', req, rep) });
+  app.route({ method: 'PATCH', url: '/tasks/:id', handler: (req, rep) => forwardToCore('PATCH', '/api/wrcf/tasks/:id', req, rep) });
+  app.route({ method: 'DELETE', url: '/tasks/:id', handler: (req, rep) => forwardToCore('DELETE', '/api/wrcf/tasks/:id', req, rep) });
+  app.route({ method: 'GET', url: '/control-points', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/control-points', req, rep) });
+  app.route({ method: 'POST', url: '/control-points', handler: (req, rep) => forwardToCore('POST', '/api/wrcf/control-points', req, rep) });
+  app.route({ method: 'PATCH', url: '/control-points/:id', handler: (req, rep) => forwardToCore('PATCH', '/api/wrcf/control-points/:id', req, rep) });
+  app.route({ method: 'DELETE', url: '/control-points/:id', handler: (req, rep) => forwardToCore('DELETE', '/api/wrcf/control-points/:id', req, rep) });
 };

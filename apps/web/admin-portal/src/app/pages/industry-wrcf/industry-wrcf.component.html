@@ -53,7 +53,7 @@
     <div class="filter-actions">
       <button class="btn-teal">↓ Template</button>
       <button class="btn-teal">↓ Template</button>
-      <button class="btn-teal">+ Add Skills</button>
+      <button class="btn-teal" (click)="onAddSkillsClick()">+ Add Skills</button>
       <button class="btn-teal btn-badge" (click)="mappingDialogOpen.set(true)">
         ⬡ Mappings
         <span class="badge">{{ ciCache().length }}</span>

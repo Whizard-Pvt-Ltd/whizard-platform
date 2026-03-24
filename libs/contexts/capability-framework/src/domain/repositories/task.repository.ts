@@ -1,0 +1,19 @@
+import type { Task } from '../aggregates/task.aggregate';
+
+export interface ITaskRepository {
+  findBySkillId(tenantId: string, skillId: string): Promise<Task[]>;
+  findAllDtos(tenantId: string, skillId: string): Promise<{
+    id: string;
+    skillId: string;
+    name: string;
+    description?: string;
+    frequency: string;
+    complexity: string;
+    standardDuration?: number;
+    requiredProficiencyLevel?: number;
+  }[]>;
+  findById(id: string): Promise<Task | null>;
+  save(task: Task): Promise<void>;
+  update(task: Task): Promise<void>;
+  delete(id: string): Promise<void>;
+}

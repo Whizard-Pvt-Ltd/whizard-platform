@@ -8,6 +8,9 @@ import {
   PrismaIndustrySectorRepository,
   PrismaIndustryRepository,
   PrismaCapabilityInstanceRepository,
+  PrismaSkillRepository,
+  PrismaTaskRepository,
+  PrismaControlPointRepository,
   ListSectorsQueryHandler,
   ListIndustriesQueryHandler,
   ListFGsQueryHandler,
@@ -16,6 +19,9 @@ import {
   ListCapabilitiesQueryHandler,
   ListProficienciesQueryHandler,
   ListCapabilityInstancesQueryHandler,
+  ListSkillsQueryHandler,
+  ListTasksQueryHandler,
+  ListControlPointsQueryHandler,
   CreateFGCommandHandler,
   UpdateFGCommandHandler,
   DeactivateFGCommandHandler,
@@ -26,7 +32,16 @@ import {
   UpdateSWOCommandHandler,
   DeactivateSWOCommandHandler,
   CreateCapabilityInstanceCommandHandler,
-  DeleteCapabilityInstanceCommandHandler
+  DeleteCapabilityInstanceCommandHandler,
+  CreateSkillCommandHandler,
+  UpdateSkillCommandHandler,
+  DeleteSkillCommandHandler,
+  CreateTaskCommandHandler,
+  UpdateTaskCommandHandler,
+  DeleteTaskCommandHandler,
+  CreateControlPointCommandHandler,
+  UpdateControlPointCommandHandler,
+  DeleteControlPointCommandHandler
 } from '@whizard/capability-framework';
 import { registerWrcfModule } from './wrcf.module';
 
@@ -50,6 +65,18 @@ export interface WrcfModuleDependencies {
   readonly deactivateSWO: DeactivateSWOCommandHandler;
   readonly createCI: CreateCapabilityInstanceCommandHandler;
   readonly deleteCI: DeleteCapabilityInstanceCommandHandler;
+  readonly listSkills: ListSkillsQueryHandler;
+  readonly createSkill: CreateSkillCommandHandler;
+  readonly updateSkill: UpdateSkillCommandHandler;
+  readonly deleteSkill: DeleteSkillCommandHandler;
+  readonly listTasks: ListTasksQueryHandler;
+  readonly createTask: CreateTaskCommandHandler;
+  readonly updateTask: UpdateTaskCommandHandler;
+  readonly deleteTask: DeleteTaskCommandHandler;
+  readonly listControlPoints: ListControlPointsQueryHandler;
+  readonly createControlPoint: CreateControlPointCommandHandler;
+  readonly updateControlPoint: UpdateControlPointCommandHandler;
+  readonly deleteControlPoint: DeleteControlPointCommandHandler;
 }
 
 export const registerWrcfCoreApiRuntime = async (app: FastifyInstanceLike): Promise<void> => {
@@ -61,6 +88,9 @@ export const registerWrcfCoreApiRuntime = async (app: FastifyInstanceLike): Prom
   const sectorRepo = new PrismaIndustrySectorRepository();
   const industryRepo = new PrismaIndustryRepository();
   const ciRepo = new PrismaCapabilityInstanceRepository();
+  const skillRepo = new PrismaSkillRepository();
+  const taskRepo = new PrismaTaskRepository();
+  const cpRepo = new PrismaControlPointRepository();
 
   const deps: WrcfModuleDependencies = {
     listSectors: new ListSectorsQueryHandler(sectorRepo),
@@ -81,7 +111,19 @@ export const registerWrcfCoreApiRuntime = async (app: FastifyInstanceLike): Prom
     updateSWO: new UpdateSWOCommandHandler(swoRepo),
     deactivateSWO: new DeactivateSWOCommandHandler(swoRepo),
     createCI: new CreateCapabilityInstanceCommandHandler(ciRepo),
-    deleteCI: new DeleteCapabilityInstanceCommandHandler(ciRepo)
+    deleteCI: new DeleteCapabilityInstanceCommandHandler(ciRepo),
+    listSkills: new ListSkillsQueryHandler(skillRepo),
+    createSkill: new CreateSkillCommandHandler(skillRepo),
+    updateSkill: new UpdateSkillCommandHandler(skillRepo),
+    deleteSkill: new DeleteSkillCommandHandler(skillRepo),
+    listTasks: new ListTasksQueryHandler(taskRepo),
+    createTask: new CreateTaskCommandHandler(taskRepo),
+    updateTask: new UpdateTaskCommandHandler(taskRepo),
+    deleteTask: new DeleteTaskCommandHandler(taskRepo),
+    listControlPoints: new ListControlPointsQueryHandler(cpRepo),
+    createControlPoint: new CreateControlPointCommandHandler(cpRepo),
+    updateControlPoint: new UpdateControlPointCommandHandler(cpRepo),
+    deleteControlPoint: new DeleteControlPointCommandHandler(cpRepo)
   };
 
   await registerWrcfModule(app, deps);

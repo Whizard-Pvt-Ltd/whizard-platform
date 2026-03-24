@@ -403,4 +403,276 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
       }
     }
   });
+
+  app.route({
+    method: 'GET',
+    url: '/skills',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const ctx = getRequestContext(request);
+      const query = request.query as Record<string, string>;
+      const ciId = query['ciId'] ?? '';
+      logger.debug('Listing skills', { ...getLogContext(request), ciId });
+      const data = await deps.listSkills.execute(ctx.tenantId, ciId);
+      logger.debug('Listed skills', { ...getLogContext(request), ciId, count: data.length });
+      reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
+    }
+  });
+
+  app.route({
+    method: 'POST',
+    url: '/skills',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const ctx = getRequestContext(request);
+      const body = request.body as Record<string, unknown>;
+      logger.debug('Creating skill', { ...getLogContext(request), ciId: String(body['ciId']), name: String(body['name']) });
+      await deps.createSkill.execute({
+        tenantId: ctx.tenantId,
+        ciId: String(body['ciId']),
+        name: String(body['name']),
+        description: body['description'] ? String(body['description']) : undefined,
+        cognitiveType: String(body['cognitiveType']),
+        skillCriticality: String(body['skillCriticality']),
+        recertificationCycle: Number(body['recertificationCycle']),
+        aiImpact: String(body['aiImpact'])
+      });
+      logger.info('Skill created', { ...getLogContext(request), ciId: String(body['ciId']) });
+      reply.status(201).send({ success: true, meta: toApiMeta(request) });
+    }
+  });
+
+  app.route({
+    method: 'PATCH',
+    url: '/skills/:id',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const { id } = (request.params as { id: string });
+      const ctx = getRequestContext(request);
+      const body = request.body as Record<string, unknown>;
+      logger.debug('Updating skill', { ...getLogContext(request), skillId: id });
+      try {
+        await deps.updateSkill.execute({
+          id,
+          tenantId: ctx.tenantId,
+          name: body['name'] ? String(body['name']) : undefined,
+          description: body['description'] ? String(body['description']) : undefined,
+          cognitiveType: body['cognitiveType'] ? String(body['cognitiveType']) : undefined,
+          skillCriticality: body['skillCriticality'] ? String(body['skillCriticality']) : undefined,
+          recertificationCycle: body['recertificationCycle'] !== undefined ? Number(body['recertificationCycle']) : undefined,
+          aiImpact: body['aiImpact'] ? String(body['aiImpact']) : undefined
+        });
+        logger.info('Skill updated', { ...getLogContext(request), skillId: id });
+        reply.status(200).send({ success: true, meta: toApiMeta(request) });
+      } catch (err) {
+        if (isDomainException(err)) {
+          logger.warn('Skill not found', { ...getLogContext(request), skillId: id, error: (err as Error).message });
+          reply.status(404).send({ success: false, error: { message: (err as Error).message }, meta: toApiMeta(request) });
+        } else { throw err; }
+      }
+    }
+  });
+
+  app.route({
+    method: 'DELETE',
+    url: '/skills/:id',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const { id } = (request.params as { id: string });
+      const ctx = getRequestContext(request);
+      logger.debug('Deleting skill', { ...getLogContext(request), skillId: id });
+      try {
+        await deps.deleteSkill.execute({ id, tenantId: ctx.tenantId });
+        logger.info('Skill deleted', { ...getLogContext(request), skillId: id });
+        reply.status(204).send(null);
+      } catch (err) {
+        if (isDomainException(err)) {
+          logger.warn('Skill not found', { ...getLogContext(request), skillId: id, error: (err as Error).message });
+          reply.status(404).send({ success: false, error: { message: (err as Error).message }, meta: toApiMeta(request) });
+        } else { throw err; }
+      }
+    }
+  });
+
+  app.route({
+    method: 'GET',
+    url: '/tasks',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const ctx = getRequestContext(request);
+      const query = request.query as Record<string, string>;
+      const skillId = query['skillId'] ?? '';
+      logger.debug('Listing tasks', { ...getLogContext(request), skillId });
+      const data = await deps.listTasks.execute(ctx.tenantId, skillId);
+      logger.debug('Listed tasks', { ...getLogContext(request), skillId, count: data.length });
+      reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
+    }
+  });
+
+  app.route({
+    method: 'POST',
+    url: '/tasks',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const ctx = getRequestContext(request);
+      const body = request.body as Record<string, unknown>;
+      logger.debug('Creating task', { ...getLogContext(request), skillId: String(body['skillId']), name: String(body['name']) });
+      await deps.createTask.execute({
+        tenantId: ctx.tenantId,
+        skillId: String(body['skillId']),
+        name: String(body['name']),
+        description: body['description'] ? String(body['description']) : undefined,
+        frequency: String(body['frequency']),
+        complexity: String(body['complexity']),
+        standardDuration: body['standardDuration'] !== undefined ? Number(body['standardDuration']) : undefined,
+        requiredProficiencyLevel: body['requiredProficiencyLevel'] !== undefined ? Number(body['requiredProficiencyLevel']) : undefined
+      });
+      logger.info('Task created', { ...getLogContext(request), skillId: String(body['skillId']) });
+      reply.status(201).send({ success: true, meta: toApiMeta(request) });
+    }
+  });
+
+  app.route({
+    method: 'PATCH',
+    url: '/tasks/:id',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const { id } = (request.params as { id: string });
+      const ctx = getRequestContext(request);
+      const body = request.body as Record<string, unknown>;
+      logger.debug('Updating task', { ...getLogContext(request), taskId: id });
+      try {
+        await deps.updateTask.execute({
+          id,
+          tenantId: ctx.tenantId,
+          name: body['name'] ? String(body['name']) : undefined,
+          description: body['description'] ? String(body['description']) : undefined,
+          frequency: body['frequency'] ? String(body['frequency']) : undefined,
+          complexity: body['complexity'] ? String(body['complexity']) : undefined,
+          standardDuration: body['standardDuration'] !== undefined ? Number(body['standardDuration']) : undefined,
+          requiredProficiencyLevel: body['requiredProficiencyLevel'] !== undefined ? Number(body['requiredProficiencyLevel']) : undefined
+        });
+        logger.info('Task updated', { ...getLogContext(request), taskId: id });
+        reply.status(200).send({ success: true, meta: toApiMeta(request) });
+      } catch (err) {
+        if (isDomainException(err)) {
+          logger.warn('Task not found', { ...getLogContext(request), taskId: id, error: (err as Error).message });
+          reply.status(404).send({ success: false, error: { message: (err as Error).message }, meta: toApiMeta(request) });
+        } else { throw err; }
+      }
+    }
+  });
+
+  app.route({
+    method: 'DELETE',
+    url: '/tasks/:id',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const { id } = (request.params as { id: string });
+      const ctx = getRequestContext(request);
+      logger.debug('Deleting task', { ...getLogContext(request), taskId: id });
+      try {
+        await deps.deleteTask.execute({ id, tenantId: ctx.tenantId });
+        logger.info('Task deleted', { ...getLogContext(request), taskId: id });
+        reply.status(204).send(null);
+      } catch (err) {
+        if (isDomainException(err)) {
+          logger.warn('Task not found', { ...getLogContext(request), taskId: id, error: (err as Error).message });
+          reply.status(404).send({ success: false, error: { message: (err as Error).message }, meta: toApiMeta(request) });
+        } else { throw err; }
+      }
+    }
+  });
+
+  app.route({
+    method: 'GET',
+    url: '/control-points',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const ctx = getRequestContext(request);
+      const query = request.query as Record<string, string>;
+      const taskId = query['taskId'] ?? '';
+      logger.debug('Listing control points', { ...getLogContext(request), taskId });
+      const data = await deps.listControlPoints.execute(ctx.tenantId, taskId);
+      logger.debug('Listed control points', { ...getLogContext(request), taskId, count: data.length });
+      reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
+    }
+  });
+
+  app.route({
+    method: 'POST',
+    url: '/control-points',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const ctx = getRequestContext(request);
+      const body = request.body as Record<string, unknown>;
+      logger.debug('Creating control point', { ...getLogContext(request), taskId: String(body['taskId']), name: String(body['name']) });
+      await deps.createControlPoint.execute({
+        tenantId: ctx.tenantId,
+        taskId: String(body['taskId']),
+        name: String(body['name']),
+        description: body['description'] ? String(body['description']) : undefined,
+        riskLevel: String(body['riskLevel']),
+        failureImpactType: String(body['failureImpactType']),
+        kpiThreshold: body['kpiThreshold'] ? String(body['kpiThreshold']) : undefined,
+        escalationRequired: String(body['escalationRequired']),
+        evidenceType: String(body['evidenceType'])
+      });
+      logger.info('Control point created', { ...getLogContext(request), taskId: String(body['taskId']) });
+      reply.status(201).send({ success: true, meta: toApiMeta(request) });
+    }
+  });
+
+  app.route({
+    method: 'PATCH',
+    url: '/control-points/:id',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const { id } = (request.params as { id: string });
+      const ctx = getRequestContext(request);
+      const body = request.body as Record<string, unknown>;
+      logger.debug('Updating control point', { ...getLogContext(request), controlPointId: id });
+      try {
+        await deps.updateControlPoint.execute({
+          id,
+          tenantId: ctx.tenantId,
+          name: body['name'] ? String(body['name']) : undefined,
+          description: body['description'] ? String(body['description']) : undefined,
+          riskLevel: body['riskLevel'] ? String(body['riskLevel']) : undefined,
+          failureImpactType: body['failureImpactType'] ? String(body['failureImpactType']) : undefined,
+          kpiThreshold: body['kpiThreshold'] ? String(body['kpiThreshold']) : undefined,
+          escalationRequired: body['escalationRequired'] ? String(body['escalationRequired']) : undefined,
+          evidenceType: body['evidenceType'] ? String(body['evidenceType']) : undefined
+        });
+        logger.info('Control point updated', { ...getLogContext(request), controlPointId: id });
+        reply.status(200).send({ success: true, meta: toApiMeta(request) });
+      } catch (err) {
+        if (isDomainException(err)) {
+          logger.warn('Control point not found', { ...getLogContext(request), controlPointId: id, error: (err as Error).message });
+          reply.status(404).send({ success: false, error: { message: (err as Error).message }, meta: toApiMeta(request) });
+        } else { throw err; }
+      }
+    }
+  });
+
+  app.route({
+    method: 'DELETE',
+    url: '/control-points/:id',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const { id } = (request.params as { id: string });
+      const ctx = getRequestContext(request);
+      logger.debug('Deleting control point', { ...getLogContext(request), controlPointId: id });
+      try {
+        await deps.deleteControlPoint.execute({ id, tenantId: ctx.tenantId });
+        logger.info('Control point deleted', { ...getLogContext(request), controlPointId: id });
+        reply.status(204).send(null);
+      } catch (err) {
+        if (isDomainException(err)) {
+          logger.warn('Control point not found', { ...getLogContext(request), controlPointId: id, error: (err as Error).message });
+          reply.status(404).send({ success: false, error: { message: (err as Error).message }, meta: toApiMeta(request) });
+        } else { throw err; }
+      }
+    }
+  });
 };
