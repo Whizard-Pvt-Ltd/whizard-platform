@@ -90,6 +90,26 @@ export class SignupPageComponent {
     this.showConfirmPassword.update((value) => !value);
   }
 
+  get passwordStrength(): number {
+    const v = this.signupForm.controls.password.value;
+    let s = 0;
+    if (v.length >= 8) s++;
+    if (v.length >= 12) s++;
+    if (/[A-Z]/.test(v)) s++;
+    if (/[0-9]/.test(v)) s++;
+    if (/[^A-Za-z0-9]/.test(v)) s++;
+    return Math.min(s, 4);
+  }
+
+  get strengthLabel(): string {
+    return ['', 'Weak', 'Fair', 'Good', 'Strong'][this.passwordStrength];
+  }
+
+  get passwordsMatch(): boolean {
+    const { password, confirmPassword } = this.signupForm.controls;
+    return password.value.length > 0 && password.value === confirmPassword.value;
+  }
+
   protected async submit(): Promise<void> {
     if (this.signupForm.invalid || this.isSubmitting()) {
       this.signupForm.markAllAsTouched();
