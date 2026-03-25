@@ -5,6 +5,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { EnhancedProfilePageComponent } from './pages/profile/enhanced-profile-page.component';
 import { IndustryWrcfComponent } from './pages/industry-wrcf/industry-wrcf.component';
 import { WrcfSkillsComponent } from './pages/wrcf-skills/wrcf-skills.component';
+import { WrcfRolesComponent } from './pages/wrcf-roles/wrcf-roles.component';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
@@ -17,6 +18,12 @@ export const routes: Routes = [
     path: 'signup',
     component: SignupPageComponent,
     title: 'Whizard Admin Signup'
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    title: 'Dashboard',
+    canActivate: [authGuard]
   },
   {
     path: 'profile',
@@ -37,8 +44,14 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'wrcf-roles',
+    component: WrcfRolesComponent,
+    title: 'Manage WRCF Roles',
+    canActivate: [authGuard]
+  },
+  {
     path: '',
-    redirectTo: 'industry-wrcf',
+    redirectTo: 'dashboard',
     pathMatch: 'full'
   },
   {

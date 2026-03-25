@@ -158,6 +158,7 @@ model Industry {
   name             String
   isActive         Boolean           @default(true)
   functionalGroups FunctionalGroup[]
+  departments      Department[]
 
   @@map("industries")
 }
@@ -174,6 +175,7 @@ model FunctionalGroup {
   isActive            Boolean              @default(true)
   pwos                PrimaryWorkObject[]
   capabilityInstances CapabilityInstance[]
+  fgMappings          DepartmentFGMapping[]
 
   @@map("functional_groups")
 }
@@ -250,6 +252,7 @@ model CapabilityInstance {
   capability        Capability          @relation(fields: [capabilityId], references: [id])
   proficiency       Proficiency         @relation(fields: [proficiencyId], references: [id])
   skills            Skill[]
+  roleCiMappings    RoleCIMapping[]
 
   @@unique([tenantId, versionId, functionalGroupId, pwoId, swoId, capabilityId, proficiencyId])
   @@map("capability_instances")
@@ -304,4 +307,68 @@ model ControlPoint {
   isActive           Boolean  @default(true)
 
   @@map("control_points")
+}
+
+model Department {
+  id                          String                @id @default(uuid())
+  tenantId                    String
+  industryId                  String
+  industry                    Industry              @relation(fields: [industryId], references: [id])
+  name                        String
+  operationalCriticalityScore Float?
+  revenueContributionWeight   Float?
+  regulatoryExposureLevel     Float?
+  isActive                    Boolean               @default(true)
+  createdBy                   String
+  createdOn                   DateTime              @default(now())
+  updatedBy                   String?
+  updatedOn                   DateTime?             @updatedAt
+  fgMappings                  DepartmentFGMapping[]
+  roles                       IndustryRole[]
+
+  @@map("departments")
+}
+
+model DepartmentFGMapping {
+  id              String          @id @default(uuid())
+  departmentId    String
+  department      Department      @relation(fields: [departmentId], references: [id])
+  fgId            String
+  functionalGroup FunctionalGroup @relation(fields: [fgId], references: [id])
+
+  @@unique([departmentId, fgId])
+  @@map("department_fg_mappings")
+}
+
+model IndustryRole {
+  id                   String          @id @default(uuid())
+  tenantId             String
+  departmentId         String
+  department           Department      @relation(fields: [departmentId], references: [id])
+  industryId           String
+  name                 String
+  seniorityLevel       String
+  reportingTo          String?
+  roleCriticalityScore Float?
+  isActive             Boolean         @default(true)
+  createdBy            String
+  createdOn            DateTime        @default(now())
+  updatedBy            String?
+  updatedOn            DateTime?       @updatedAt
+  ciMappings           RoleCIMapping[]
+
+  @@map("industry_roles")
+}
+
+model RoleCIMapping {
+  id        String             @id @default(uuid())
+  roleId    String
+  role      IndustryRole       @relation(fields: [roleId], references: [id])
+  ciId      String
+  ci        CapabilityInstance @relation(fields: [ciId], references: [id])
+  createdBy String
+  createdOn DateTime           @default(now())
+
+  @@unique([roleId, ciId])
+  @@map("role_ci_mappings")
 }

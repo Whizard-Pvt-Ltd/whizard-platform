@@ -1,7 +1,7 @@
 <div class="page">
   <header class="page-header">
     <div class="header-left">
-      <span class="menu-icon">☰</span>
+      <span class="menu-icon" (click)="drawerOpen.set(true)">☰</span>
       <h1 class="page-title">Manage Industry WRCF</h1>
     </div>
     <div class="header-right">
@@ -146,4 +146,6 @@
       (savedDeleted)="onCISavedDeleted($event)"
     />
   }
+
+  <whizard-nav-drawer [open]="drawerOpen()" (closed)="drawerOpen.set(false)" />
 </div>

@@ -135,11 +135,12 @@ export class StackAuthService {
         return;
       }
 
-      // If we don't have user data in signal, set basic info from token
+      // Set basic info from token + stored email
       if (!this.currentUserSignal()) {
+        const storedEmail = this.tokenStorage.getUserEmail();
         this.currentUserSignal.set({
           id: payload.user_id || payload.sub,
-          email: null, // Will be set during sign-in
+          email: storedEmail,
           displayName: null,
           profileImageUrl: null,
           emailVerified: false
@@ -186,7 +187,8 @@ export class StackAuthService {
         this.tokenStorage.saveTokens({
           accessToken: data.accessToken,
           refreshToken: data.refreshToken,
-          expiresAt: data.expiresAt || this.calculateExpiresAt(data.accessToken)
+          expiresAt: data.expiresAt || this.calculateExpiresAt(data.accessToken),
+          email: data.email || email
         });
       }
 
@@ -194,7 +196,7 @@ export class StackAuthService {
       if (data.userAccountId) {
         this.currentUserSignal.set({
           id: data.userAccountId,
-          email: email,
+          email: data.email || email,
           displayName: null,
           profileImageUrl: null,
           emailVerified: false
@@ -295,6 +297,38 @@ export class StackAuthService {
    */
   getAccessToken(): string | null {
     return this.tokenStorage.getAccessToken();
+  }
+
+  /**
+   * Fetch the current user profile from the BFF and update the signal
+   */
+  async refreshUserProfile(): Promise<void> {
+    const accessToken = this.tokenStorage.getAccessToken();
+    if (!accessToken) return;
+
+    try {
+      const headers = new HttpHeaders({ 'Authorization': `Bearer ${accessToken}` });
+
+      const response = await firstValueFrom(
+        this.http.get<{ success: boolean; data: { userAccountId: string; email: string } }>(
+          `${environment.bffApiUrl}/iam/me`,
+          { headers }
+        )
+      );
+
+      if (response.success && response.data) {
+        const current = this.currentUserSignal();
+        this.currentUserSignal.set({
+          id: response.data.userAccountId ?? current?.id ?? '',
+          email: response.data.email || current?.email || null,
+          displayName: current?.displayName ?? null,
+          profileImageUrl: current?.profileImageUrl ?? null,
+          emailVerified: current?.emailVerified ?? false
+        });
+      }
+    } catch (error) {
+      console.error('Failed to refresh user profile:', error);
+    }
   }
 
   /**

@@ -8,6 +8,7 @@ import { WrcfApiService } from './services/wrcf-api.service';
 import { WrcfColumnComponent } from './components/wrcf-column/wrcf-column.component';
 import { WrcfPanelComponent } from './components/wrcf-panel/wrcf-panel.component';
 import { ManageCIMappingsComponent } from './components/manage-ci-mappings/manage-ci-mappings.component';
+import { NavDrawerComponent } from '../../shared/nav-drawer/nav-drawer.component';
 import {
   IndustrySector, Industry, FunctionalGroup, PrimaryWorkObject,
   SecondaryWorkObject, Capability, ProficiencyLevel,
@@ -18,7 +19,7 @@ import { CRITICALITY_LEVELS, COMPLEXITY_LEVELS, FREQUENCY_LEVELS } from './model
 @Component({
   selector: 'whizard-industry-wrcf',
   standalone: true,
-  imports: [FormsModule, RouterLink, WrcfColumnComponent, WrcfPanelComponent, ManageCIMappingsComponent],
+  imports: [FormsModule, RouterLink, WrcfColumnComponent, WrcfPanelComponent, ManageCIMappingsComponent, NavDrawerComponent],
   templateUrl: './industry-wrcf.component.html',
   styleUrl: './industry-wrcf.component.css',
 })
@@ -47,6 +48,7 @@ export class IndustryWrcfComponent implements OnInit {
   protected panel = signal<PanelState>({ open: false, mode: 'create', entityType: 'FG' });
   protected errorMessage = signal<string>('');
   protected userMenuOpen = signal<boolean>(false);
+  protected drawerOpen = signal(false);
 
   protected ciCache = signal<CIPendingEntry[]>([]);
   protected existingCIs = signal<CapabilityInstance[]>([]);
@@ -76,7 +78,8 @@ export class IndustryWrcfComponent implements OnInit {
   }
 
   protected get userName(): string | null {
-    return this.stackAuthService.currentUser()?.displayName ?? null;
+    const user = this.stackAuthService.currentUser();
+    return user?.displayName ?? user?.email?.split('@')[0] ?? null;
   }
 
   ngOnInit(): void {

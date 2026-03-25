@@ -1,7 +1,7 @@
 <div class="page">
   <header class="page-header">
     <div class="header-left">
-      <span class="menu-icon">☰</span>
+      <span class="menu-icon" (click)="drawerOpen.set(true)">☰</span>
       <h1 class="page-title">Manage WRCF Skills</h1>
     </div>
     <div class="header-right">
@@ -132,5 +132,7 @@
   <whizard-skills-panel [state]="panel()" [proficiencyLevels]="allProficienciesPublic" (save)="onPanelSave($event)"
     (delete)="onPanelDelete($event)" (close)="closePanel()" />
   }
+
+  <whizard-nav-drawer [open]="drawerOpen()" (closed)="drawerOpen.set(false)" />
   }
 </div>

@@ -80,4 +80,15 @@ export const registerWrcfBffRoutes = (app: FastifyInstanceLike): void => {
   app.route({ method: 'POST', url: '/control-points', handler: (req, rep) => forwardToCore('POST', '/api/wrcf/control-points', req, rep) });
   app.route({ method: 'PATCH', url: '/control-points/:id', handler: (req, rep) => forwardToCore('PATCH', '/api/wrcf/control-points/:id', req, rep) });
   app.route({ method: 'DELETE', url: '/control-points/:id', handler: (req, rep) => forwardToCore('DELETE', '/api/wrcf/control-points/:id', req, rep) });
+  app.route({ method: 'GET', url: '/departments', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/departments', req, rep) });
+  app.route({ method: 'POST', url: '/departments', handler: (req, rep) => forwardToCore('POST', '/api/wrcf/departments', req, rep) });
+  app.route({ method: 'PATCH', url: '/departments/:id', handler: (req, rep) => forwardToCore('PATCH', '/api/wrcf/departments/:id', req, rep) });
+  app.route({ method: 'DELETE', url: '/departments/:id', handler: (req, rep) => forwardToCore('DELETE', '/api/wrcf/departments/:id', req, rep) });
+  app.route({ method: 'GET', url: '/industry-roles', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/industry-roles', req, rep) });
+  app.route({ method: 'POST', url: '/industry-roles', handler: (req, rep) => forwardToCore('POST', '/api/wrcf/industry-roles', req, rep) });
+  app.route({ method: 'PATCH', url: '/industry-roles/:id', handler: (req, rep) => forwardToCore('PATCH', '/api/wrcf/industry-roles/:id', req, rep) });
+  app.route({ method: 'DELETE', url: '/industry-roles/:id', handler: (req, rep) => forwardToCore('DELETE', '/api/wrcf/industry-roles/:id', req, rep) });
+  app.route({ method: 'GET', url: '/role-ci-mappings', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/role-ci-mappings', req, rep) });
+  app.route({ method: 'POST', url: '/role-ci-mappings', handler: (req, rep) => forwardToCore('POST', '/api/wrcf/role-ci-mappings', req, rep) });
+  app.route({ method: 'DELETE', url: '/role-ci-mappings/:id', handler: (req, rep) => forwardToCore('DELETE', '/api/wrcf/role-ci-mappings/:id', req, rep) });
 };

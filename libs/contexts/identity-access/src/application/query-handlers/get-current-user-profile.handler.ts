@@ -19,12 +19,18 @@ export class GetCurrentUserProfileHandler {
       permissionCode: 'IAM.READ'
     });
 
-    void this.readModelRepository;
+    const profile = await this.readModelRepository.getCurrentUserProfile(actorUserAccountId);
 
     return {
       success: true,
       message: 'GetCurrentUserProfile fetched.',
-      data: {}
+      data: {
+        userAccountId: profile?.id ?? actorUserAccountId,
+        email: profile?.primary_email ?? '',
+        status: profile?.status ?? 'ACTIVE',
+        tenantType: profile?.tenant_type ?? tenantType,
+        tenantId: profile?.tenant_id ?? tenantId
+      }
     };
   }
 }

@@ -1,32 +1,39 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { Component, inject, signal, HostListener } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { StackAuthService } from '../../core/services/stack-auth.service';
+import { NavDrawerComponent } from '../../shared/nav-drawer/nav-drawer.component';
 
 @Component({
   selector: 'whizard-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [RouterLink, NavDrawerComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
   private readonly stackAuthService = inject(StackAuthService);
-  private readonly router = inject(Router);
 
-  protected userName: string | null = null;
-  protected userEmail: string | null = null;
+  protected drawerOpen = signal(false);
+  protected userMenuOpen = signal(false);
 
-  ngOnInit(): void {
-    // Get user info from Stack Auth
+  protected get userName(): string | null {
     const user = this.stackAuthService.currentUser();
-    if (user) {
-      this.userName = user.displayName;
-      this.userEmail = user.email;
-    }
+    return user?.displayName ?? user?.email?.split('@')[0] ?? null;
+  }
+
+  protected toggleUserMenu(): void {
+    this.userMenuOpen.update(v => !v);
   }
 
   protected logout(): void {
+    this.userMenuOpen.set(false);
     this.stackAuthService.signOut();
+  }
+
+  @HostListener('document:click', ['$event.target'])
+  onDocumentClick(target: HTMLElement): void {
+    if (this.userMenuOpen() && !target.closest('.avatar-wrapper')) {
+      this.userMenuOpen.set(false);
+    }
   }
 }

@@ -1,0 +1,74 @@
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-title">{{ title }}</span>
+    <div class="panel-actions">
+      @if (state.mode === 'edit') {
+        <button class="action-btn delete-btn" (click)="onDelete()" title="Delete">🗑</button>
+      }
+      <button class="action-btn save-btn" (click)="onSave()" title="Save">✓</button>
+      <button class="action-btn close-btn" (click)="close.emit()" title="Close">✕</button>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    @if (errorMsg) {
+      <div class="error-msg">{{ errorMsg }}</div>
+    }
+
+    @if (state.entity === 'Department') {
+      <div class="field">
+        <label class="field-label">Name <span class="required">*</span></label>
+        <input class="field-input" type="text" placeholder="Enter department name..." [(ngModel)]="deptName" />
+      </div>
+      <div class="field">
+        <label class="field-label">FG Mapping</label>
+        <div class="fg-checkbox-list">
+          @for (fg of availableFGs; track fg.id) {
+            <label class="fg-checkbox-item">
+              <input type="checkbox" [checked]="isFgChecked(fg.id)" (change)="toggleFg(fg.id)" />
+              <span>{{ fg.name }}</span>
+            </label>
+          }
+          @if (availableFGs.length === 0) {
+            <span class="empty-hint">No functional groups available</span>
+          }
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">Operational Criticality Score</label>
+        <input class="field-input" type="number" step="0.1" placeholder="Optional" [(ngModel)]="deptOperationalScore" />
+      </div>
+      <div class="field">
+        <label class="field-label">Revenue Contribution Weight</label>
+        <input class="field-input" type="number" step="0.1" placeholder="Optional" [(ngModel)]="deptRevenueWeight" />
+      </div>
+      <div class="field">
+        <label class="field-label">Regulatory Exposure Level</label>
+        <input class="field-input" type="number" step="0.1" placeholder="Optional" [(ngModel)]="deptRegulatoryLevel" />
+      </div>
+    }
+
+    @if (state.entity === 'Role') {
+      <div class="field">
+        <label class="field-label">Name <span class="required">*</span></label>
+        <input class="field-input" type="text" placeholder="Enter role name..." [(ngModel)]="roleName" />
+      </div>
+      <div class="field">
+        <label class="field-label">Seniority Level <span class="required">*</span></label>
+        <select class="field-select" [(ngModel)]="roleSeniorityLevel">
+          @for (opt of seniorityOptions; track opt) {
+            <option [value]="opt">{{ opt }}</option>
+          }
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label">Reporting To</label>
+        <input class="field-input" type="text" placeholder="Optional" [(ngModel)]="roleReportingTo" />
+      </div>
+      <div class="field">
+        <label class="field-label">Role Criticality Score</label>
+        <input class="field-input" type="number" step="0.1" placeholder="Optional" [(ngModel)]="roleCriticalityScore" />
+      </div>
+    }
+  </div>
+</div>

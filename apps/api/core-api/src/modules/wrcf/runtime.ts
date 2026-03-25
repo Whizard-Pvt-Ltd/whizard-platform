@@ -11,6 +11,9 @@ import {
   PrismaSkillRepository,
   PrismaTaskRepository,
   PrismaControlPointRepository,
+  PrismaDepartmentRepository,
+  PrismaIndustryRoleRepository,
+  PrismaRoleCIMappingRepository,
   ListSectorsQueryHandler,
   ListIndustriesQueryHandler,
   ListFGsQueryHandler,
@@ -22,6 +25,9 @@ import {
   ListSkillsQueryHandler,
   ListTasksQueryHandler,
   ListControlPointsQueryHandler,
+  ListDepartmentsQueryHandler,
+  ListIndustryRolesQueryHandler,
+  ListRoleCIMappingsQueryHandler,
   CreateFGCommandHandler,
   UpdateFGCommandHandler,
   DeactivateFGCommandHandler,
@@ -41,7 +47,15 @@ import {
   DeleteTaskCommandHandler,
   CreateControlPointCommandHandler,
   UpdateControlPointCommandHandler,
-  DeleteControlPointCommandHandler
+  DeleteControlPointCommandHandler,
+  CreateDepartmentCommandHandler,
+  UpdateDepartmentCommandHandler,
+  DeleteDepartmentCommandHandler,
+  CreateIndustryRoleCommandHandler,
+  UpdateIndustryRoleCommandHandler,
+  DeleteIndustryRoleCommandHandler,
+  SaveRoleCIMappingsCommandHandler,
+  DeleteRoleCIMappingCommandHandler
 } from '@whizard/capability-framework';
 import { registerWrcfModule } from './wrcf.module';
 
@@ -77,6 +91,17 @@ export interface WrcfModuleDependencies {
   readonly createControlPoint: CreateControlPointCommandHandler;
   readonly updateControlPoint: UpdateControlPointCommandHandler;
   readonly deleteControlPoint: DeleteControlPointCommandHandler;
+  readonly listDepartments: ListDepartmentsQueryHandler;
+  readonly createDepartment: CreateDepartmentCommandHandler;
+  readonly updateDepartment: UpdateDepartmentCommandHandler;
+  readonly deleteDepartment: DeleteDepartmentCommandHandler;
+  readonly listIndustryRoles: ListIndustryRolesQueryHandler;
+  readonly createIndustryRole: CreateIndustryRoleCommandHandler;
+  readonly updateIndustryRole: UpdateIndustryRoleCommandHandler;
+  readonly deleteIndustryRole: DeleteIndustryRoleCommandHandler;
+  readonly listRoleCIMappings: ListRoleCIMappingsQueryHandler;
+  readonly saveRoleCIMappings: SaveRoleCIMappingsCommandHandler;
+  readonly deleteRoleCIMapping: DeleteRoleCIMappingCommandHandler;
 }
 
 export const registerWrcfCoreApiRuntime = async (app: FastifyInstanceLike): Promise<void> => {
@@ -91,6 +116,9 @@ export const registerWrcfCoreApiRuntime = async (app: FastifyInstanceLike): Prom
   const skillRepo = new PrismaSkillRepository();
   const taskRepo = new PrismaTaskRepository();
   const cpRepo = new PrismaControlPointRepository();
+  const deptRepo = new PrismaDepartmentRepository();
+  const roleRepo = new PrismaIndustryRoleRepository();
+  const roleCiRepo = new PrismaRoleCIMappingRepository();
 
   const deps: WrcfModuleDependencies = {
     listSectors: new ListSectorsQueryHandler(sectorRepo),
@@ -123,7 +151,18 @@ export const registerWrcfCoreApiRuntime = async (app: FastifyInstanceLike): Prom
     listControlPoints: new ListControlPointsQueryHandler(cpRepo),
     createControlPoint: new CreateControlPointCommandHandler(cpRepo),
     updateControlPoint: new UpdateControlPointCommandHandler(cpRepo),
-    deleteControlPoint: new DeleteControlPointCommandHandler(cpRepo)
+    deleteControlPoint: new DeleteControlPointCommandHandler(cpRepo),
+    listDepartments: new ListDepartmentsQueryHandler(deptRepo),
+    createDepartment: new CreateDepartmentCommandHandler(deptRepo),
+    updateDepartment: new UpdateDepartmentCommandHandler(deptRepo),
+    deleteDepartment: new DeleteDepartmentCommandHandler(deptRepo),
+    listIndustryRoles: new ListIndustryRolesQueryHandler(roleRepo),
+    createIndustryRole: new CreateIndustryRoleCommandHandler(roleRepo),
+    updateIndustryRole: new UpdateIndustryRoleCommandHandler(roleRepo),
+    deleteIndustryRole: new DeleteIndustryRoleCommandHandler(roleRepo),
+    listRoleCIMappings: new ListRoleCIMappingsQueryHandler(roleCiRepo),
+    saveRoleCIMappings: new SaveRoleCIMappingsCommandHandler(roleCiRepo),
+    deleteRoleCIMapping: new DeleteRoleCIMappingCommandHandler(roleCiRepo)
   };
 
   await registerWrcfModule(app, deps);

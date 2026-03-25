@@ -675,4 +675,237 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
       }
     }
   });
+
+  app.route({
+    method: 'GET',
+    url: '/departments',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const ctx = getRequestContext(request);
+      const query = request.query as Record<string, string>;
+      const industryId = query['industryId'] ?? '';
+      logger.debug('Listing departments', { ...getLogContext(request), industryId });
+      const data = await deps.listDepartments.execute(ctx.tenantId, industryId);
+      logger.debug('Listed departments', { ...getLogContext(request), industryId, count: data.length });
+      reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
+    }
+  });
+
+  app.route({
+    method: 'POST',
+    url: '/departments',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const ctx = getRequestContext(request);
+      const body = request.body as Record<string, unknown>;
+      logger.debug('Creating department', { ...getLogContext(request), industryId: String(body['industryId']), name: String(body['name']) });
+      try {
+        const data = await deps.createDepartment.execute({
+          tenantId: ctx.tenantId,
+          industryId: String(body['industryId']),
+          name: String(body['name']),
+          fgIds: Array.isArray(body['fgIds']) ? (body['fgIds'] as string[]) : [],
+          operationalCriticalityScore: body['operationalCriticalityScore'] !== undefined ? Number(body['operationalCriticalityScore']) : undefined,
+          revenueContributionWeight: body['revenueContributionWeight'] !== undefined ? Number(body['revenueContributionWeight']) : undefined,
+          regulatoryExposureLevel: body['regulatoryExposureLevel'] !== undefined ? Number(body['regulatoryExposureLevel']) : undefined,
+          createdBy: ctx.actorUserAccountId
+        });
+        logger.info('Department created', { ...getLogContext(request), departmentId: data.id, name: data.name });
+        reply.status(201).send({ success: true, data, meta: toApiMeta(request) });
+      } catch (err) {
+        if (isDomainException(err)) {
+          reply.status(409).send({ success: false, error: { message: (err as Error).message }, meta: toApiMeta(request) });
+        } else { throw err; }
+      }
+    }
+  });
+
+  app.route({
+    method: 'PATCH',
+    url: '/departments/:id',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const { id } = (request.params as { id: string });
+      const ctx = getRequestContext(request);
+      const body = request.body as Record<string, unknown>;
+      logger.debug('Updating department', { ...getLogContext(request), departmentId: id });
+      try {
+        const data = await deps.updateDepartment.execute({
+          id,
+          tenantId: ctx.tenantId,
+          name: body['name'] ? String(body['name']) : undefined,
+          fgIds: Array.isArray(body['fgIds']) ? (body['fgIds'] as string[]) : undefined,
+          operationalCriticalityScore: body['operationalCriticalityScore'] !== undefined ? Number(body['operationalCriticalityScore']) : undefined,
+          revenueContributionWeight: body['revenueContributionWeight'] !== undefined ? Number(body['revenueContributionWeight']) : undefined,
+          regulatoryExposureLevel: body['regulatoryExposureLevel'] !== undefined ? Number(body['regulatoryExposureLevel']) : undefined,
+          updatedBy: ctx.actorUserAccountId
+        });
+        logger.info('Department updated', { ...getLogContext(request), departmentId: id });
+        reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
+      } catch (err) {
+        if (isDomainException(err)) {
+          reply.status(404).send({ success: false, error: { message: (err as Error).message }, meta: toApiMeta(request) });
+        } else { throw err; }
+      }
+    }
+  });
+
+  app.route({
+    method: 'DELETE',
+    url: '/departments/:id',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const { id } = (request.params as { id: string });
+      const ctx = getRequestContext(request);
+      logger.debug('Deleting department', { ...getLogContext(request), departmentId: id });
+      try {
+        await deps.deleteDepartment.execute({ id, tenantId: ctx.tenantId });
+        logger.info('Department deleted', { ...getLogContext(request), departmentId: id });
+        reply.status(204).send(null);
+      } catch (err) {
+        if (isDomainException(err)) {
+          reply.status(404).send({ success: false, error: { message: (err as Error).message }, meta: toApiMeta(request) });
+        } else { throw err; }
+      }
+    }
+  });
+
+  app.route({
+    method: 'GET',
+    url: '/industry-roles',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const ctx = getRequestContext(request);
+      const query = request.query as Record<string, string>;
+      const departmentId = query['departmentId'] ?? '';
+      logger.debug('Listing industry roles', { ...getLogContext(request), departmentId });
+      const data = await deps.listIndustryRoles.execute(ctx.tenantId, departmentId);
+      logger.debug('Listed industry roles', { ...getLogContext(request), departmentId, count: data.length });
+      reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
+    }
+  });
+
+  app.route({
+    method: 'POST',
+    url: '/industry-roles',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const ctx = getRequestContext(request);
+      const body = request.body as Record<string, unknown>;
+      logger.debug('Creating industry role', { ...getLogContext(request), departmentId: String(body['departmentId']), name: String(body['name']) });
+      try {
+        const data = await deps.createIndustryRole.execute({
+          tenantId: ctx.tenantId,
+          departmentId: String(body['departmentId']),
+          industryId: String(body['industryId']),
+          name: String(body['name']),
+          seniorityLevel: String(body['seniorityLevel']),
+          reportingTo: body['reportingTo'] ? String(body['reportingTo']) : undefined,
+          roleCriticalityScore: body['roleCriticalityScore'] !== undefined ? Number(body['roleCriticalityScore']) : undefined,
+          createdBy: ctx.actorUserAccountId
+        });
+        logger.info('Industry role created', { ...getLogContext(request), roleId: data.id, name: data.name });
+        reply.status(201).send({ success: true, data, meta: toApiMeta(request) });
+      } catch (err) {
+        if (isDomainException(err)) {
+          reply.status(409).send({ success: false, error: { message: (err as Error).message }, meta: toApiMeta(request) });
+        } else { throw err; }
+      }
+    }
+  });
+
+  app.route({
+    method: 'PATCH',
+    url: '/industry-roles/:id',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const { id } = (request.params as { id: string });
+      const ctx = getRequestContext(request);
+      const body = request.body as Record<string, unknown>;
+      logger.debug('Updating industry role', { ...getLogContext(request), roleId: id });
+      try {
+        const data = await deps.updateIndustryRole.execute({
+          id,
+          tenantId: ctx.tenantId,
+          name: body['name'] ? String(body['name']) : undefined,
+          seniorityLevel: body['seniorityLevel'] ? String(body['seniorityLevel']) : undefined,
+          reportingTo: body['reportingTo'] ? String(body['reportingTo']) : undefined,
+          roleCriticalityScore: body['roleCriticalityScore'] !== undefined ? Number(body['roleCriticalityScore']) : undefined,
+          updatedBy: ctx.actorUserAccountId
+        });
+        logger.info('Industry role updated', { ...getLogContext(request), roleId: id });
+        reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
+      } catch (err) {
+        if (isDomainException(err)) {
+          reply.status(404).send({ success: false, error: { message: (err as Error).message }, meta: toApiMeta(request) });
+        } else { throw err; }
+      }
+    }
+  });
+
+  app.route({
+    method: 'DELETE',
+    url: '/industry-roles/:id',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const { id } = (request.params as { id: string });
+      const ctx = getRequestContext(request);
+      logger.debug('Deleting industry role', { ...getLogContext(request), roleId: id });
+      try {
+        await deps.deleteIndustryRole.execute({ id, tenantId: ctx.tenantId });
+        logger.info('Industry role deleted', { ...getLogContext(request), roleId: id });
+        reply.status(204).send(null);
+      } catch (err) {
+        if (isDomainException(err)) {
+          reply.status(404).send({ success: false, error: { message: (err as Error).message }, meta: toApiMeta(request) });
+        } else { throw err; }
+      }
+    }
+  });
+
+  app.route({
+    method: 'GET',
+    url: '/role-ci-mappings',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const query = request.query as Record<string, string>;
+      const roleId = query['roleId'] ?? '';
+      logger.debug('Listing role CI mappings', { ...getLogContext(request), roleId });
+      const data = await deps.listRoleCIMappings.execute(roleId);
+      logger.debug('Listed role CI mappings', { ...getLogContext(request), roleId, count: data.length });
+      reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
+    }
+  });
+
+  app.route({
+    method: 'POST',
+    url: '/role-ci-mappings',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const ctx = getRequestContext(request);
+      const body = request.body as Record<string, unknown>;
+      const roleId = String(body['roleId']);
+      logger.debug('Saving role CI mappings', { ...getLogContext(request), roleId });
+      await deps.saveRoleCIMappings.execute({
+        roleId,
+        ciIds: Array.isArray(body['ciIds']) ? (body['ciIds'] as string[]) : [],
+        createdBy: ctx.actorUserAccountId
+      });
+      logger.info('Role CI mappings saved', { ...getLogContext(request), roleId });
+      reply.status(201).send({ success: true, meta: toApiMeta(request) });
+    }
+  });
+
+  app.route({
+    method: 'DELETE',
+    url: '/role-ci-mappings/:id',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const { id } = (request.params as { id: string });
+      logger.debug('Deleting role CI mapping', { ...getLogContext(request), roleCiMappingId: id });
+      await deps.deleteRoleCIMapping.execute({ id });
+      logger.info('Role CI mapping deleted', { ...getLogContext(request), roleCiMappingId: id });
+      reply.status(204).send(null);
+    }
+  });
 };

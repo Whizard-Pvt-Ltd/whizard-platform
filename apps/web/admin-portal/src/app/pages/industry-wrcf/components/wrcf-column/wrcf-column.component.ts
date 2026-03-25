@@ -13,6 +13,7 @@ export class WrcfColumnComponent {
   @Input() items: WrcfEntity[] = [];
   @Input() selectedId: string | null = null;
   @Input() showAdd = true;
+  @Input() showEdit = true;
   @Input() readonly = false;
   @Input() checkboxMode = false;
   @Input() checkedIds: string[] = [];

@@ -6,13 +6,14 @@ import { WrcfApiService } from '../industry-wrcf/services/wrcf-api.service';
 import { WrcfSkillsApiService } from './services/wrcf-skills-api.service';
 import { WrcfColumnComponent } from '../industry-wrcf/components/wrcf-column/wrcf-column.component';
 import { SkillsPanelComponent } from './components/skills-panel/skills-panel.component';
+import { NavDrawerComponent } from '../../shared/nav-drawer/nav-drawer.component';
 import type { FunctionalGroup, PrimaryWorkObject, SecondaryWorkObject, Capability, ProficiencyLevel, WrcfEntity, CapabilityInstance } from '../industry-wrcf/models/wrcf.models';
 import type { SkillItem, TaskItem, ControlPointItem, SkillsPanelState } from './models/wrcf-skills.models';
 
 @Component({
   selector: 'whizard-wrcf-skills',
   standalone: true,
-  imports: [FormsModule, RouterLink, WrcfColumnComponent, SkillsPanelComponent],
+  imports: [FormsModule, RouterLink, WrcfColumnComponent, SkillsPanelComponent, NavDrawerComponent],
   templateUrl: './wrcf-skills.component.html',
   styleUrl: './wrcf-skills.component.css'
 })
@@ -53,10 +54,12 @@ export class WrcfSkillsComponent implements OnInit {
   protected errorMessage = signal('');
   protected toastMessage = signal('');
   protected userMenuOpen = signal(false);
+  protected drawerOpen = signal(false);
   protected noIndustry = signal(false);
 
   protected get userName(): string | null {
-    return this.stackAuthService.currentUser()?.displayName ?? null;
+    const user = this.stackAuthService.currentUser();
+    return user?.displayName ?? user?.email?.split('@')[0] ?? null;
   }
 
   protected get availableCapabilities(): Capability[] {

@@ -1,0 +1,64 @@
+<div class="dialog-backdrop" (click)="close.emit()"></div>
+<div class="dialog-panel">
+  <div class="dialog-header">
+    <h2 class="dialog-title">Manage CI Mappings</h2>
+    <button class="close-btn" (click)="close.emit()">✕</button>
+  </div>
+
+  <div class="dialog-filters">
+    <div class="filter-group">
+      <label class="filter-label">Industry</label>
+      <div class="filter-display">{{ industryName || '—' }}</div>
+    </div>
+    <div class="filter-group">
+      <label class="filter-label">Department</label>
+      <div class="filter-display">{{ departmentName || '—' }}</div>
+    </div>
+    <div class="filter-group">
+      <label class="filter-label">Role</label>
+      <div class="filter-display">{{ roleName || '—' }}</div>
+    </div>
+    <div class="filter-save">
+      <button class="btn-save" (click)="save.emit()" [disabled]="mappings.length === 0">
+        Save {{ mappings.length > 0 ? '(' + mappings.length + ')' : '' }}
+      </button>
+    </div>
+  </div>
+
+  <div class="dialog-body">
+    @if (pwoGroups.length === 0) {
+      <p class="empty-msg">No pending CI mappings. Select proficiency levels from the columns.</p>
+    }
+    @for (group of pwoGroups; track group.pwoName) {
+      <div class="pwo-group">
+        <button class="pwo-header" (click)="togglePwo(group.pwoName)">
+          <span class="pwo-name">PWO: {{ group.pwoName }}</span>
+          <span class="pwo-badge">{{ group.items.length }}</span>
+          <span class="chevron">{{ isPwoExpanded(group.pwoName) ? '▲' : '▼' }}</span>
+        </button>
+        @if (isPwoExpanded(group.pwoName)) {
+          <ul class="ci-list">
+            @for (item of group.items; track item.index) {
+              <li class="ci-item">
+                <span class="ci-num">{{ $index + 1 }}.</span>
+                <span class="ci-label">{{ item.swoName }} · {{ item.capabilityName }} · {{ item.proficiencyLabel }}</span>
+                <button class="trash-btn" (click)="remove.emit(item.index)" title="Remove">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
+                  </svg>
+                </button>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="dialog-footer">
+    <button class="btn-cancel" (click)="close.emit()">Cancel</button>
+    <button class="btn-save" (click)="save.emit()" [disabled]="mappings.length === 0">
+      Save {{ mappings.length > 0 ? '(' + mappings.length + ' pending)' : '' }}
+    </button>
+  </div>
+</div>

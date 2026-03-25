@@ -1,7 +1,7 @@
 <div class="column">
   <div class="column-header">
     <span class="column-title">{{ title }}</span>
-    @if (!readonly) {
+    @if (!readonly && showAdd) {
       <button class="add-btn" (click)="addClicked.emit()" title="Add">+</button>
     }
   </div>
@@ -19,7 +19,7 @@
             <br /><span class="item-code">({{ item.code }})</span>
           }
         </span>
-        @if (!readonly && item.id === selectedId) {
+        @if (!readonly && showEdit && item.id === selectedId) {
           <button
             class="edit-btn"
             (click)="$event.stopPropagation(); editClicked.emit(item)"

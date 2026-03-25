@@ -33,7 +33,10 @@ export class EnhancedProfilePageComponent implements OnInit {
   protected readonly createdAt = signal<string | null>(null);
 
   ngOnInit(): void {
-    // Calculate account creation date from token if available
+    // Fetch fresh user profile from Stack Auth every time this page loads
+    this.stackAuthService.refreshUserProfile();
+
+    // Derive account creation date from the JWT iat claim
     const token = this.stackAuthService.getAccessToken();
     if (token) {
       try {

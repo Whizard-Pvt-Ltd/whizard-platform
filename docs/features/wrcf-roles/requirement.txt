@@ -1,0 +1,51 @@
+WRCF Roles feature
+
+Mange Roles features has two primary responsibilities
+This Screen will have all Industry populated in drop down to be selected ( Select the first one by default).
+then there will be Department and Role drop downs which will come from DB master tables for the the selected industryId (select the first entries in the dropdowns by default).
+
+
+
+1. Allowing user to create/edit department and roles.
+2. Allowing user to assign existing capability instance to the Department -> Roles
+
+1. Create/Edit Department and roles
+    a. Department - Department will have following attributes
+        i Name* - Varchar/Text 
+        ii Functional group mapping* - Multi select of all Unique functional group from Capability Instance (CI). (Note: this is not master list but FGs which are part of any CI for this industry)
+        iii OPerational Criticality Score - Number field
+        iv Revenue Contribution Weight - Number field
+        v Regulatory Exposure Level - Number field
+        Department will be a separate table in DB, which will have department information and industryId. We can have separate Department and FG mapping.
+        Creation of department will be allowed if a industry is selected.
+        Once department is selected the FG column should populate all the FGs that were used or mapped to that department while creation
+    b. Role - role will have following attribute (roles can be created or added if a department is selected)
+        i Name* - Varchar/Text
+        ii Seniority Level* - dropdown (Intern, Trainee, Associate, Team lead, Manager, Director)
+        iii Reporting To - Text 
+        iv Role Criticality Score - Number
+        Role will be separate table  with Role information, DepartmentId, IndustryId
+        Creation of Role should be allowed if a department is already selected
+
+
+2. Assigning Capability Instance to department -> Role
+This feature will follow the same pattern of saving CI in our WRCF industry screen. Once a department is selected
+system will populate all the FGs associated with that department and its respective CI mapping in PWO and SWO.
+System should select the first FG -> First PWO under that FG -> First PWO under that PWO.
+The capabilities will be populated as per the PWO selction for that capability Instance.
+
+then once capability is selected by user and respective proficiency level is checked , 
+it goes into local cache mapping, which can be viewed on mapping button (refer screenshot for mapping).
+
+# DB
+
+this should get saved in a separete DB table once final mapping are saved for that Department role (Role CI Mapping)
+the table record will contain CIId, roleId, created_by, created_on , 
+
+
+Notes:
+- if User has already selected any mapping in local cache for a role, do not allow user to change role (show prompt to save/discard mapping to change role)
+- If dropdowns or any panel has entry (except capability and proficiency level) then select the first enry by default
+- the tables should have created_by, created_on fields (add updated by and updated on for Department and roles )
+
+

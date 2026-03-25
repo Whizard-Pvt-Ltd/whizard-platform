@@ -1,0 +1,185 @@
+<div class="page">
+  <header class="page-header">
+    <div class="header-left">
+      <span class="menu-icon" (click)="drawerOpen.set(true)">☰</span>
+      <h1 class="page-title">Manage WRCF Roles</h1>
+    </div>
+    <div class="header-right">
+      <span class="user-name">{{ userName || 'Admin' }}</span>
+      <div class="avatar-wrapper">
+        <span class="avatar" (click)="toggleUserMenu()">{{ (userName || 'A').charAt(0).toUpperCase() }}</span>
+        @if (userMenuOpen()) {
+          <div class="user-menu">
+            <a routerLink="/profile" class="user-menu-item" (click)="userMenuOpen.set(false)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+              </svg>
+              Profile
+            </a>
+            <button class="user-menu-item user-menu-logout" (click)="logout()">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+              </svg>
+              Logout
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  </header>
+
+  <div class="filter-bar">
+    <div class="filter-group">
+      <label class="filter-label">Industry</label>
+      <select class="filter-select" [ngModel]="selectedIndustryId()" (ngModelChange)="onIndustryChange($event)">
+        <option [value]="null">Select Industry...</option>
+        @for (ind of industries(); track ind.id) {
+          <option [value]="ind.id">{{ ind.name }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">Department</label>
+      <select class="filter-select" [ngModel]="selectedDepartmentId()" (ngModelChange)="onDepartmentChange($event)" [disabled]="!selectedIndustryId()">
+        <option [value]="null">Select Department...</option>
+        @for (dept of departments(); track dept.id) {
+          <option [value]="dept.id">{{ dept.name }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">Role</label>
+      <select class="filter-select" [ngModel]="selectedRoleId()" (ngModelChange)="onRoleChange($event)" [disabled]="!selectedDepartmentId()">
+        <option [value]="null">Select Role...</option>
+        @for (role of roles(); track role.id) {
+          <option [value]="role.id">{{ role.name }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="filter-inline-actions">
+      <div class="add-split-btn">
+        <button class="btn-action" (click)="openAddDepartment()">+ Add</button>
+        <button class="btn-action-caret" (click)="openAddDropdown()">▾</button>
+        @if (addDropdownOpen()) {
+          <div class="add-dropdown">
+            <button class="add-dropdown-item" (click)="openAddDepartment()">Add Department</button>
+            <button class="add-dropdown-item" [disabled]="!selectedDepartmentId()" (click)="openAddRole()">Add Role</button>
+          </div>
+        }
+      </div>
+
+      <div class="add-split-btn">
+        <button class="btn-action" (click)="openEditDepartment()" [disabled]="!selectedDepartmentId()">Edit</button>
+        <button class="btn-action-caret" (click)="openEditDropdown()" [disabled]="!selectedDepartmentId()">▾</button>
+        @if (editDropdownOpen()) {
+          <div class="add-dropdown">
+            <button class="add-dropdown-item" [disabled]="!selectedDepartmentId()" (click)="openEditDepartment()">Edit Department</button>
+            <button class="add-dropdown-item" [disabled]="!selectedRoleId()" (click)="openEditRole()">Edit Role</button>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="filter-actions-right">
+      <button class="btn-mappings" (click)="openMappingsDialog()" [disabled]="!selectedRoleId()">
+        Mappings
+        @if (mappingCount() > 0) {
+          <span class="badge">{{ mappingCount() }}</span>
+        }
+      </button>
+    </div>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="error-banner">
+      <span>⚠ {{ errorMessage() }}</span>
+      <button class="error-close" (click)="errorMessage.set(null)">✕</button>
+    </div>
+  }
+
+  <div class="workspace">
+    <div class="columns-grid">
+      <whizard-wrcf-column
+        title="Functional Group"
+        [items]="deptFGsAsEntities"
+        [selectedId]="selectedFGId()"
+        [readonly]="!selectedDepartmentId()"
+        [showAdd]="false"
+        [showEdit]="false"
+        (itemSelected)="onFGSelect($event.id)"
+      />
+
+      <whizard-wrcf-column
+        title="Primary Work Obj."
+        [items]="pwoListAsEntities"
+        [selectedId]="selectedPWOId()"
+        [readonly]="!selectedFGId()"
+        [showAdd]="false"
+        [showEdit]="false"
+        (itemSelected)="onPWOSelect($event.id)"
+      />
+
+      <whizard-wrcf-column
+        title="Secondary Work Obj."
+        [items]="swoListAsEntities"
+        [selectedId]="selectedSWOId()"
+        [readonly]="!selectedPWOId()"
+        [showAdd]="false"
+        [showEdit]="false"
+        (itemSelected)="onSWOSelect($event.id)"
+      />
+
+      <whizard-wrcf-column
+        title="Capabilities"
+        [items]="capabilitiesAsEntities"
+        [selectedId]="selectedCapabilityId()"
+        [readonly]="!selectedSWOId()"
+        [showAdd]="false"
+        [showEdit]="false"
+        (itemSelected)="onCapabilitySelect($event.id)"
+      />
+
+      <whizard-wrcf-column
+        title="Proficiency Level"
+        [items]="proficienciesAsEntities"
+        [selectedId]="null"
+        [readonly]="!selectedCapabilityId()"
+        [checkboxMode]="true"
+        [checkedIds]="checkedProficiencyIds()"
+        [showAdd]="false"
+        (checkboxToggled)="toggleProficiency($event.id)"
+      />
+    </div>
+  </div>
+
+  @if (panel().open) {
+    <div class="panel-backdrop" (click)="closePanel()"></div>
+    <whizard-roles-panel
+      [state]="panel()"
+      [availableFGs]="allFGs()"
+      (save)="onPanelSave($event)"
+      (delete)="onPanelDelete($event)"
+      (close)="closePanel()"
+    />
+  }
+
+  @if (mappingsDialogOpen()) {
+    <whizard-ci-mappings-dialog
+      [mappings]="pendingMappings()"
+      [industryName]="selectedIndustryName"
+      [departmentName]="selectedDepartmentName"
+      [roleName]="selectedRoleName"
+      (remove)="onRemoveMapping($event)"
+      (save)="onSaveMappings()"
+      (close)="closeMappingsDialog()"
+    />
+  }
+
+  <whizard-nav-drawer [open]="drawerOpen()" (closed)="drawerOpen.set(false)" />
+</div>
