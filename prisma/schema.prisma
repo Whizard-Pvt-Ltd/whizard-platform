@@ -195,7 +195,7 @@ model PrimaryWorkObject {
   swos                SecondaryWorkObject[]
   capabilityInstances CapabilityInstance[]
 
-  @@map("primary_work_objects")
+  @@map("pwos")
 }
 
 model SecondaryWorkObject {
@@ -212,7 +212,7 @@ model SecondaryWorkObject {
   isActive              Boolean              @default(true)
   capabilityInstances   CapabilityInstance[]
 
-  @@map("secondary_work_objects")
+  @@map("swos")
 }
 
 model Capability {
@@ -337,7 +337,7 @@ model DepartmentFGMapping {
   functionalGroup FunctionalGroup @relation(fields: [fgId], references: [id])
 
   @@unique([departmentId, fgId])
-  @@map("department_fg_mappings")
+  @@map("departments_functional_groups")
 }
 
 model IndustryRole {
@@ -370,5 +370,5 @@ model RoleCIMapping {
   createdOn DateTime           @default(now())
 
   @@unique([roleId, ciId])
-  @@map("role_ci_mappings")
+  @@map("capability_instances_industry_roles")
 }

@@ -8,6 +8,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Use comments sparingly — only for genuinely complex or non-obvious code.
 - Always include `userId` and `tenantId` in log context wherever they are available.
 
+## Database Table Naming Convention
+
+All Prisma `@@map` table names must follow these rules:
+
+- **Entities**: plural, lowercase, snake_case — e.g. `tenants`, `functional_groups`, `industry_roles`
+- **Mapping tables**: `entity1_entity2` in alphabetical order, no `_mappings` suffix — e.g. `departments_functional_groups`, `capability_instances_industry_roles`
+- **Abbreviations**: only when the entity name is longer than 2 words
+  - `secondary_work_objects` (3 words) → `swos` ✓
+  - `primary_work_objects` (3 words) → `pwos` ✓
+  - `functional_groups` (2 words) → never `fg` ✗
+  - `capability_instances` (2 words) → never `ci` ✗
+- **Avoid**: camelCase, PascalCase, abbreviations for ≤2-word names, `_mappings` suffix on join tables
+
 ## Package Manager
 
 Use **pnpm** exclusively. Never use npm or yarn.
