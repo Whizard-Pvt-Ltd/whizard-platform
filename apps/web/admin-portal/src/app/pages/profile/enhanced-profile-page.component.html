@@ -12,199 +12,206 @@
     </div>
 
     <!-- Alerts -->
-    <div *ngIf="errorMessage()" class="error-alert">
-      {{ errorMessage() }}
-    </div>
-
-    <div *ngIf="successMessage()" class="success-alert">
-      {{ successMessage() }}
-    </div>
-
-    <div *ngIf="user()" class="profile-content">
-      <!-- Profile Picture Section -->
-      <div class="profile-picture-section">
-        <div class="avatar">
-          <div *ngIf="!user()?.profileImageUrl" class="avatar-placeholder">
-            {{ (user()?.displayName || user()?.email || 'U').charAt(0).toUpperCase() }}
-          </div>
-          <img *ngIf="user()?.profileImageUrl" [src]="user()!.profileImageUrl" [alt]="user()?.displayName || 'User'" />
-        </div>
-        <div class="avatar-info">
-          <h2>{{ user()?.displayName || 'No name set' }}</h2>
-          <p class="user-email">{{ user()?.email }}</p>
-          <span class="status-badge" [class.verified]="user()?.emailVerified">
-            {{ user()?.emailVerified ? '✓ Email Verified' : '⚠ Email Not Verified' }}
-          </span>
-        </div>
+    @if (errorMessage()) {
+      <div class="error-alert">
+        {{ errorMessage() }}
       </div>
+    }
 
-      <!-- Profile Information Grid -->
-      <div class="info-grid">
-        <!-- User ID -->
-        <div class="info-section">
-          <h3 class="section-title">User ID</h3>
-          <div class="info-card">
-            <label>User ID</label>
-            <div class="readonly-value">{{ user()?.id }}</div>
-            <p class="help-text">Your unique user identifier</p>
+    @if (successMessage()) {
+      <div class="success-alert">
+        {{ successMessage() }}
+      </div>
+    }
+
+    @if (user()) {
+      <div class="profile-content">
+        <!-- Profile Picture Section -->
+        <div class="profile-picture-section">
+          <div class="avatar">
+            @if (!user()?.profileImageUrl) {
+              <div class="avatar-placeholder">
+                {{ (user()?.displayName || user()?.email || 'U').charAt(0).toUpperCase() }}
+              </div>
+            }
+            @if (user()?.profileImageUrl) {
+              <img [src]="user()!.profileImageUrl" [alt]="user()?.displayName || 'User'" />
+            }
+          </div>
+          <div class="avatar-info">
+            <h2>{{ user()?.displayName || 'No name set' }}</h2>
+            <p class="user-email">{{ user()?.email }}</p>
+            <span class="status-badge" [class.verified]="user()?.emailVerified">
+              {{ user()?.emailVerified ? '✓ Email Verified' : '⚠ Email Not Verified' }}
+            </span>
           </div>
         </div>
-
-        <!-- Primary Email -->
-        <div class="info-section">
-          <h3 class="section-title">Primary Email</h3>
-          <div class="info-card">
-            <label>Email Address</label>
-            <div class="readonly-value email-row">
-              <span>{{ user()?.email }}</span>
-              <span class="badge-small primary">Primary</span>
-              <span class="badge-small" [class.verified]="user()?.emailVerified" [class.unverified]="!user()?.emailVerified">
-                {{ user()?.emailVerified ? 'Verified' : 'Unverified' }}
-              </span>
+        <!-- Profile Information Grid -->
+        <div class="info-grid">
+          <!-- User ID -->
+          <div class="info-section">
+            <h3 class="section-title">User ID</h3>
+            <div class="info-card">
+              <label>User ID</label>
+              <div class="readonly-value">{{ user()?.id }}</div>
+              <p class="help-text">Your unique user identifier</p>
             </div>
-            <p class="help-text">Used for sign-in and notifications</p>
-            <button
-              *ngIf="!user()?.emailVerified"
-              type="button"
-              class="btn-link"
-              (click)="sendVerificationEmail()"
-            >
-              Send Verification Email
-            </button>
           </div>
-        </div>
-
-        <!-- Display Name -->
-        <div class="info-section">
-          <h3 class="section-title">Display Name</h3>
-          <div class="info-card">
-            <label>Full Name</label>
-            <div *ngIf="!isEditing()" class="readonly-value">
-              {{ user()?.displayName || 'Not set' }}
-            </div>
-            <input
-              *ngIf="isEditing()"
-              type="text"
-              class="form-input"
-              [value]="editedDisplayName()"
-              (input)="editedDisplayName.set($any($event.target).value)"
-              placeholder="Enter your full name"
-            />
-            <p class="help-text">Your name as it appears to others</p>
-
-            <div class="action-buttons">
-              <button
-                *ngIf="!isEditing()"
-                type="button"
-                class="btn-secondary"
-                (click)="startEditing()"
-              >
-                Edit Name
-              </button>
-              <ng-container *ngIf="isEditing()">
+          <!-- Primary Email -->
+          <div class="info-section">
+            <h3 class="section-title">Primary Email</h3>
+            <div class="info-card">
+              <label>Email Address</label>
+              <div class="readonly-value email-row">
+                <span>{{ user()?.email }}</span>
+                <span class="badge-small primary">Primary</span>
+                <span class="badge-small" [class.verified]="user()?.emailVerified" [class.unverified]="!user()?.emailVerified">
+                  {{ user()?.emailVerified ? 'Verified' : 'Unverified' }}
+                </span>
+              </div>
+              <p class="help-text">Used for sign-in and notifications</p>
+              @if (!user()?.emailVerified) {
                 <button
                   type="button"
-                  class="btn-primary"
-                  [disabled]="isSaving()"
-                  (click)="saveProfile()"
-                >
-                  {{ isSaving() ? 'Saving...' : 'Save Changes' }}
+                  class="btn-link"
+                  (click)="sendVerificationEmail()"
+                  >
+                  Send Verification Email
                 </button>
-                <button
-                  type="button"
-                  class="btn-secondary"
-                  [disabled]="isSaving()"
-                  (click)="cancelEditing()"
-                >
-                  Cancel
-                </button>
-              </ng-container>
+              }
             </div>
           </div>
-        </div>
-
-        <!-- Password -->
-        <div class="info-section">
-          <h3 class="section-title">Password</h3>
-          <div class="info-card">
-            <label>Password</label>
-            <div class="readonly-value">••••••••••••</div>
-            <p class="help-text">Your password is securely encrypted</p>
-            <button type="button" class="btn-secondary" disabled>
-              Change Password (Coming Soon)
-            </button>
-          </div>
-        </div>
-
-        <!-- 2-Factor Auth -->
-        <div class="info-section">
-          <h3 class="section-title">2-Factor Authentication</h3>
-          <div class="info-card">
-            <label>Status</label>
-            <div class="readonly-value">
-              <span class="badge-small disabled">Not Enabled</span>
-            </div>
-            <p class="help-text">Add an extra layer of security to your account</p>
-            <button type="button" class="btn-secondary" disabled>
-              Enable 2FA (Coming Soon)
-            </button>
-          </div>
-        </div>
-
-        <!-- Account Info -->
-        <div class="info-section">
-          <h3 class="section-title">Account Information</h3>
-          <div class="info-card">
-            <div class="info-row">
-              <label>Signed up at</label>
-              <div class="readonly-value">{{ createdAt() || 'Unknown' }}</div>
-            </div>
-            <div class="info-row">
-              <label>Account Status</label>
-              <div class="readonly-value">
-                <span class="badge-small active">Active</span>
+          <!-- Display Name -->
+          <div class="info-section">
+            <h3 class="section-title">Display Name</h3>
+            <div class="info-card">
+              <label>Full Name</label>
+              @if (!isEditing()) {
+                <div class="readonly-value">
+                  {{ user()?.displayName || 'Not set' }}
+                </div>
+              }
+              @if (isEditing()) {
+                <input
+                  type="text"
+                  class="form-input"
+                  [value]="editedDisplayName()"
+                  (input)="editedDisplayName.set($any($event.target).value)"
+                  placeholder="Enter your full name"
+                  />
+              }
+              <p class="help-text">Your name as it appears to others</p>
+              <div class="action-buttons">
+                @if (!isEditing()) {
+                  <button
+                    type="button"
+                    class="btn-secondary"
+                    (click)="startEditing()"
+                    >
+                    Edit Name
+                  </button>
+                }
+                @if (isEditing()) {
+                  <button
+                    type="button"
+                    class="btn-primary"
+                    [disabled]="isSaving()"
+                    (click)="saveProfile()"
+                    >
+                    {{ isSaving() ? 'Saving...' : 'Save Changes' }}
+                  </button>
+                  <button
+                    type="button"
+                    class="btn-secondary"
+                    [disabled]="isSaving()"
+                    (click)="cancelEditing()"
+                    >
+                    Cancel
+                  </button>
+                }
               </div>
             </div>
-            <div class="info-row">
-              <label>Restricted</label>
-              <div class="readonly-value">No</div>
+          </div>
+          <!-- Password -->
+          <div class="info-section">
+            <h3 class="section-title">Password</h3>
+            <div class="info-card">
+              <label>Password</label>
+              <div class="readonly-value">••••••••••••</div>
+              <p class="help-text">Your password is securely encrypted</p>
+              <button type="button" class="btn-secondary" disabled>
+                Change Password (Coming Soon)
+              </button>
+            </div>
+          </div>
+          <!-- 2-Factor Auth -->
+          <div class="info-section">
+            <h3 class="section-title">2-Factor Authentication</h3>
+            <div class="info-card">
+              <label>Status</label>
+              <div class="readonly-value">
+                <span class="badge-small disabled">Not Enabled</span>
+              </div>
+              <p class="help-text">Add an extra layer of security to your account</p>
+              <button type="button" class="btn-secondary" disabled>
+                Enable 2FA (Coming Soon)
+              </button>
+            </div>
+          </div>
+          <!-- Account Info -->
+          <div class="info-section">
+            <h3 class="section-title">Account Information</h3>
+            <div class="info-card">
+              <div class="info-row">
+                <label>Signed up at</label>
+                <div class="readonly-value">{{ createdAt() || 'Unknown' }}</div>
+              </div>
+              <div class="info-row">
+                <label>Account Status</label>
+                <div class="readonly-value">
+                  <span class="badge-small active">Active</span>
+                </div>
+              </div>
+              <div class="info-row">
+                <label>Restricted</label>
+                <div class="readonly-value">No</div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- Additional Sections (Placeholders) -->
-      <div class="info-section">
-        <h3 class="section-title">Contact Channels</h3>
-        <div class="info-card">
-          <p class="muted-text">No additional contact channels configured</p>
-          <button type="button" class="btn-secondary" disabled>
-            Add Email (Coming Soon)
-          </button>
+        <!-- Additional Sections (Placeholders) -->
+        <div class="info-section">
+          <h3 class="section-title">Contact Channels</h3>
+          <div class="info-card">
+            <p class="muted-text">No additional contact channels configured</p>
+            <button type="button" class="btn-secondary" disabled>
+              Add Email (Coming Soon)
+            </button>
+          </div>
+        </div>
+        <div class="info-section">
+          <h3 class="section-title">Teams</h3>
+          <div class="info-card">
+            <p class="muted-text">Teams this user belongs to</p>
+            <p class="muted-text">No teams found</p>
+          </div>
+        </div>
+        <div class="info-section">
+          <h3 class="section-title">OAuth Providers</h3>
+          <div class="info-card">
+            <p class="muted-text">No OAuth providers connected</p>
+            <button type="button" class="btn-secondary" disabled>
+              Connect Google (Coming Soon)
+            </button>
+          </div>
         </div>
       </div>
+    }
 
-      <div class="info-section">
-        <h3 class="section-title">Teams</h3>
-        <div class="info-card">
-          <p class="muted-text">Teams this user belongs to</p>
-          <p class="muted-text">No teams found</p>
-        </div>
+    @if (!user()) {
+      <div class="no-user">
+        <p>No user profile found. Please log in.</p>
       </div>
-
-      <div class="info-section">
-        <h3 class="section-title">OAuth Providers</h3>
-        <div class="info-card">
-          <p class="muted-text">No OAuth providers connected</p>
-          <button type="button" class="btn-secondary" disabled>
-            Connect Google (Coming Soon)
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div *ngIf="!user()" class="no-user">
-      <p>No user profile found. Please log in.</p>
-    </div>
+    }
   </div>
 </div>

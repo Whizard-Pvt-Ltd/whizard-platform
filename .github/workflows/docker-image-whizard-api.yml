@@ -10,7 +10,7 @@ on:
       - 'v*.*.*'
 
 env:
-  NODE_VERSION: 22
+  NODE_VERSION: 24
   PNPM_VERSION: 10.6.0
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME || 'lilcom' }}
 
@@ -154,7 +154,7 @@ jobs:
           no-cache: true
           platforms: linux/amd64
           build-args: |
-            NODE_VERSION=22
+            NODE_VERSION=24
             PNPM_VERSION=10.6.0
             BUILD_ENV=${{ matrix.service.build_env }}
             VITE_BFF_API_URL=https://bfftest.whizard.club

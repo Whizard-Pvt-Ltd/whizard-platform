@@ -163,7 +163,7 @@ Images available at:
 
 **5-Stage Multi-Stage Build:**
 
-1. **Base** - Node.js 22 Alpine + pnpm setup
+1. **Base** - Node.js 24 Alpine + pnpm setup
 2. **All Dependencies** - Install all deps (for building)
 3. **Production Dependencies** - Install with `--prod --filter=@whizard/<app>...`
 4. **Builder** - Copy source, generate Prisma client, type-check

@@ -67,7 +67,7 @@ This dramatically reduces image sizes compared to installing all monorepo depend
 - Git
 
 ### Optional (for manual builds)
-- Node.js 22+
+- Node.js 24+
 - pnpm 10.6.0+
 
 ---

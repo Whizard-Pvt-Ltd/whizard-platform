@@ -6,7 +6,7 @@ A DDD-first multi-tenant platform for governance, education, company, and workfo
 
 ### Prerequisites
 
-- **Node.js** 22+
+- **Node.js** 24+
 - **pnpm** 10+ (`npm install -g pnpm@10`)
 - **PostgreSQL** 15+ (running on port 5432)
 

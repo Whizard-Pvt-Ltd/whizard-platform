@@ -1,0 +1,41 @@
+@theme {
+  --font-sans: var(--app-font-sans);
+  --font-display: var(--app-font-display);
+  --font-mono: var(--app-font-mono);
+
+  --color-neutral-50: #fafafa;
+  --color-neutral-100: #f5f5f5;
+  --color-neutral-200: #e5e5e5;
+  --color-neutral-300: #d4d4d4;
+  --color-neutral-400: #a3a3a3;
+  --color-neutral-500: #737373;
+  --color-neutral-600: #525252;
+  --color-neutral-700: #404040;
+  --color-neutral-800: #262626;
+  --color-neutral-900: #171717;
+  --color-neutral-950: #0a0a0a;
+
+  --color-primary-50: color-mix(in srgb, var(--theme-color-primary-base), white 92%);
+  --color-primary-100: color-mix(in srgb, var(--theme-color-primary-base), white 84%);
+  --color-primary-200: color-mix(in srgb, var(--theme-color-primary-base), white 72%);
+  --color-primary-300: color-mix(in srgb, var(--theme-color-primary-base), white 56%);
+  --color-primary-400: color-mix(in srgb, var(--theme-color-primary-base), white 36%);
+  --color-primary-500: color-mix(in srgb, var(--theme-color-primary-base), white 18%);
+  --color-primary-600: var(--theme-color-primary-base);
+  --color-primary-700: color-mix(in srgb, var(--theme-color-primary-base), black 14%);
+  --color-primary-800: color-mix(in srgb, var(--theme-color-primary-base), black 26%);
+  --color-primary-900: color-mix(in srgb, var(--theme-color-primary-base), black 40%);
+  --color-primary-950: color-mix(in srgb, var(--theme-color-primary-base), black 58%);
+
+  --color-error-50: color-mix(in srgb, var(--theme-color-error-base), white 92%);
+  --color-error-100: color-mix(in srgb, var(--theme-color-error-base), white 84%);
+  --color-error-200: color-mix(in srgb, var(--theme-color-error-base), white 72%);
+  --color-error-300: color-mix(in srgb, var(--theme-color-error-base), white 56%);
+  --color-error-400: color-mix(in srgb, var(--theme-color-error-base), white 36%);
+  --color-error-500: color-mix(in srgb, var(--theme-color-error-base), white 18%);
+  --color-error-600: var(--theme-color-error-base);
+  --color-error-700: color-mix(in srgb, var(--theme-color-error-base), black 14%);
+  --color-error-800: color-mix(in srgb, var(--theme-color-error-base), black 26%);
+  --color-error-900: color-mix(in srgb, var(--theme-color-error-base), black 40%);
+  --color-error-950: color-mix(in srgb, var(--theme-color-error-base), black 58%);
+}

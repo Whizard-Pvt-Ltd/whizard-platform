@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "packageManager": "pnpm@10.6.0",
+  "engines": {
+    "node": "^24.0.0"
+  },
   "pnpm": {
     "overrides": {
-      "typescript": "5.8.2",
+      "typescript": "5.9.3",
       "prisma": "6.19.2",
       "@prisma/client": "6.19.2",
       "eslint-visitor-keys": "^4.2.0"
@@ -66,9 +69,9 @@
     ]
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^19.2.0",
-    "@angular/cli": "^19.2.0",
-    "@angular/compiler-cli": "^19.2.0",
+    "@angular-devkit/build-angular": "^21.2.3",
+    "@angular/cli": "^21.2.3",
+    "@angular/compiler-cli": "^21.2.5",
     "@nx/vite": "^22.5.4",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^22.13.10",
@@ -83,22 +86,27 @@
     "prisma": "^6.4.1",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.2",
-    "typescript": "5.8.2",
+    "typescript": "5.9.3",
     "vite": "^6.0.0",
     "vitest": "^3.0.8"
   },
   "dependencies": {
-    "@angular/animations": "^19.2.0",
-    "@angular/common": "^19.2.0",
-    "@angular/compiler": "^19.2.0",
-    "@angular/core": "^19.2.0",
-    "@angular/forms": "^19.2.0",
-    "@angular/platform-browser": "^19.2.0",
-    "@angular/router": "^19.2.0",
+    "@angular/animations": "^21.2.5",
+    "@angular/cdk": "21.2.3",
+    "@angular/common": "^21.2.5",
+    "@angular/compiler": "^21.2.5",
+    "@angular/core": "^21.2.5",
+    "@angular/forms": "^21.2.5",
+    "@angular/material": "21.2.3",
+    "@angular/platform-browser": "^21.2.5",
+    "@angular/router": "^21.2.5",
     "@prisma/client": "^6.4.1",
+    "@tailwindcss/postcss": "^4.2.2",
     "pino": "^9.6.0",
     "pino-pretty": "^13.0.0",
+    "postcss": "^8.5.8",
     "rxjs": "^7.8.1",
+    "tailwindcss": "^4.2.2",
     "zone.js": "^0.15.0"
   }
 }

@@ -4,7 +4,7 @@
 # ============================================
 # Stage 1: Base Dependencies
 # ============================================
-FROM --platform=$TARGETPLATFORM node:22-alpine AS base
+FROM --platform=$TARGETPLATFORM node:24-alpine AS base
 
 # Install pnpm
 RUN corepack enable && corepack prepare pnpm@10.6.0 --activate
@@ -93,7 +93,7 @@ RUN chmod +x /prod/core-api/docker-entrypoint.sh
 # ============================================
 # Stage 5: Production Runtime (Optimized)
 # ============================================
-FROM --platform=$TARGETPLATFORM node:22-alpine AS runtime
+FROM --platform=$TARGETPLATFORM node:24-alpine AS runtime
 
 # Install dependencies for healthcheck and signal handling
 RUN apk add --no-cache dumb-init curl
