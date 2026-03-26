@@ -122,13 +122,15 @@ async function stackAuthPlugin(fastify: FastifyInstance) {
       // Set request context headers for downstream handlers
       // These headers are used by authorizationPreHandler and business logic
       request.headers['x-actor-user-account-id'] = localUser.id.value;
+      request.headers['x-actor-email'] = stackAuthUser.email ?? '';
       request.headers['x-tenant-type'] = localUser.tenant.tenantType;
       request.headers['x-tenant-id'] = localUser.tenant.tenantId;
 
-      // Bind userId and tenantId to the per-request logger so all subsequent
+      // Bind userId, username and tenantId to the per-request logger so all subsequent
       // log calls on this request (including onResponse) automatically carry this context
       request.log = request.log.child({
         userId: localUser.id.value,
+        username: stackAuthUser.email,
         tenantId: localUser.tenant.tenantId
       });
 

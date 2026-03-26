@@ -67,6 +67,9 @@ export const getLogContext = (request: FastifyRequestLike) => ({
   userId: request.headers['x-actor-user-account-id']
     ? String(request.headers['x-actor-user-account-id'])
     : undefined,
+  username: request.headers['x-actor-email']
+    ? String(request.headers['x-actor-email'])
+    : undefined,
   tenantId: request.headers['x-tenant-id']
     ? String(request.headers['x-tenant-id'])
     : undefined,
