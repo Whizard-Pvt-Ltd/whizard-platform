@@ -94,7 +94,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
+        service:
           - name: bff
             dockerfile: apps/api/bff/Dockerfile
             context: .
