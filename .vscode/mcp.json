@@ -1,0 +1,12 @@
+{
+  "servers": {
+    "playwright-wsl": {
+      "command": "wsl.exe",
+      "args": [
+        "bash",
+        "-lc",
+        "cd /home/sama/repo/whizard-platform && npx -y @playwright/mcp@latest --executable-path /usr/bin/google-chrome"
+      ]
+    }
+  }
+}

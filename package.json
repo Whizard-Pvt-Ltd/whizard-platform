@@ -94,6 +94,7 @@
     "@angular/forms": "^19.2.0",
     "@angular/platform-browser": "^19.2.0",
     "@angular/router": "^19.2.0",
+    "@playwright/test": "^1.58.2",
     "@prisma/client": "^6.4.1",
     "pino": "^9.6.0",
     "pino-pretty": "^13.0.0",
