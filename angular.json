@@ -33,7 +33,7 @@
             "styles": ["apps/web/admin-portal/src/styles.css"]
           },
           "configurations": {
-            "production": {
+            "test": {
               "fileReplacements": [
                 {
                   "replace": "apps/web/admin-portal/src/environments/environment.ts",

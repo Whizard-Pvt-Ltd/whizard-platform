@@ -94,7 +94,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        service:
+        include:
           - name: bff
             dockerfile: apps/api/bff/Dockerfile
             context: .
@@ -103,10 +103,20 @@ jobs:
             dockerfile: apps/api/core-api/Dockerfile
             context: .
             image: whizard-club-api
-          - name: admin-portal
+          - name: admin-portal-dev
             dockerfile: apps/web/admin-portal/Dockerfile
             context: .
             image: whizard-club-web
+            build_env: dev
+            tag_suffix: dev
+          - name: admin-portal-test
+            dockerfile: apps/web/admin-portal/Dockerfile
+            context: .
+            image: whizard-club-web
+            build_env: test
+            tag_suffix: test
+
+
 
     steps:
       - name: Checkout code
@@ -134,6 +144,7 @@ jobs:
             type=semver,pattern={{major}}
             type=sha,prefix={{branch}}-,format=short,enable=${{ github.ref_type == 'branch' }}
             type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=${{ matrix.tag_suffix }},enable=${{ matrix.tag_suffix != '' }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -148,6 +159,7 @@ jobs:
           build-args: |
             NODE_VERSION=22
             PNPM_VERSION=10.6.0
+            BUILD_ENV=${{ matrix.build_env }}
             VITE_BFF_API_URL=https://bfftest.whizard.club
             VITE_STACK_AUTH_PROJECT_ID=a3f5b8a7-22d3-49d5-9f56-76e0489e8d51
             VITE_STACK_AUTH_PUBLISHABLE_CLIENT_KEY=pck_emn3m14ezqavtsp7b0bbv91swt0cpkazqy9ax83pfcmp8
