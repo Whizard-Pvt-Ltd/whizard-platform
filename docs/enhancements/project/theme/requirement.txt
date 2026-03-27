@@ -1,0 +1,35 @@
+# Project Theme
+
+## Overview
+<!-- One paragraph: what this enhancement does, which existing feature it improves, and why. -->
+
+## Current Behaviour
+<!-- Describe how the feature works today before this enhancement. -->
+
+## Desired Behaviour
+<!-- Describe how it should work after the enhancement. Be specific. -->
+
+## Default Behaviours
+<!-- Auto-select rules, pre-population, initial state changes if any. -->
+
+## Changes to Entities & Attributes
+<!-- Only list fields/entities that are added, changed, or removed.
+     For each: Name, Type, Mandatory (*), Options if dropdown. -->
+
+## User Flows
+<!--g. "1. Click Export → 2. Choose format → 3. Download file" -->
+
+## Business Rules & Constraints
+<!-- New or changed validation rules, guard conditions, cascading effects. -->
+
+## DB Notes
+<!-- New columns, indexes, or table changes needed. State "No DB changes" if none. -->
+
+## Scope
+<!-- Explicit list of what must be changed: frontend, API, migration, tests. -->
+
+## Out of Scope
+<!-- Anything explicitly NOT part of this enhancement to avoid scope creep. -->
+
+## Notes / Edge Cases
+<!-- Gotchas, open questions, cross-feature dependencies. -->
