@@ -1,6 +1,7 @@
 # Node 24 + Angular 21 Upgrade Action Plan
 
 Last updated: 2026-03-25
+
 Working branch: `node24-angular21-upgrade`
 
 ## Goal
@@ -21,19 +22,30 @@ Keep the backend build, Angular app build, CI, and Docker images green throughou
 - Angular baseline: `19.2.x`
 - TypeScript baseline: `5.8.2`
 - Angular dependencies are duplicated in:
-  - root `package.json`
-  - `apps/web/admin-portal/package.json`
+- root `package.json`
+
+-`apps/web/admin-portal/package.json`
+
 - Node 22 is hardcoded in:
-  - `.github/workflows/ci.yml`
-  - `.github/workflows/docker-image-whizard-api.yml`
-  - `apps/web/admin-portal/Dockerfile`
-  - `apps/api/bff/Dockerfile`
-  - `apps/api/core-api/Dockerfile`
-  - `README.md`
+
+-`.github/workflows/ci.yml`
+
+-`.github/workflows/docker-image-whizard-api.yml`
+
+-`apps/web/admin-portal/Dockerfile`
+
+-`apps/api/bff/Dockerfile`
+
+-`apps/api/core-api/Dockerfile`
+
+-`README.md`
+
 - There is a stray npm lockfile in `apps/web/admin-portal/package-lock.json` inside a pnpm workspace.
 - Current baseline is not fully green:
-  - `pnpm build:all` fails at `web-admin-portal:build`
-  - Angular compiler crashes with `Cannot destructure property 'pos' of 'file.referencedFiles[index]' as it is undefined`
+
+-`pnpm build:all` fails at `web-admin-portal:build`
+
+- Angular compiler crashes with `Cannot destructure property 'pos' of 'file.referencedFiles[index]' as it is undefined`
 
 ## Constraints
 
@@ -45,15 +57,22 @@ Keep the backend build, Angular app build, CI, and Docker images green throughou
 
 ## Success Criteria
 
-- `pnpm install` succeeds on Node 24
-- `pnpm build` succeeds
-- `pnpm build:web-admin` succeeds
-- `pnpm build:all` succeeds
-- `pnpm test:unit` succeeds
-- `pnpm test:integration` succeeds
+-`pnpm install` succeeds on Node 24
+
+-`pnpm build` succeeds
+
+-`pnpm build:web-admin` succeeds
+
+-`pnpm build:all` succeeds
+
+-`pnpm test:unit` succeeds
+
+-`pnpm test:integration` succeeds
+
 - CI workflows use Node 24
 - All Dockerfiles build with Node 24 base images
-- `apps/web/admin-portal/package-lock.json` is removed
+
+-`apps/web/admin-portal/package-lock.json` is removed
 
 ## Upgrade Strategy
 
@@ -83,9 +102,12 @@ Checklist:
 
 Expected files:
 
-- `apps/web/admin-portal/package-lock.json` removed
-- `package.json`
-- `apps/web/admin-portal/package.json`
+-`apps/web/admin-portal/package-lock.json` removed
+
+-`package.json`
+
+-`apps/web/admin-portal/package.json`
+
 - optional Angular config or source files if baseline fix is needed
 
 Validation:
@@ -109,14 +131,22 @@ Checklist:
 
 Expected files:
 
-- `.nvmrc`
-- `package.json`
-- `.github/workflows/ci.yml`
-- `.github/workflows/docker-image-whizard-api.yml`
-- `apps/web/admin-portal/Dockerfile`
-- `apps/api/bff/Dockerfile`
-- `apps/api/core-api/Dockerfile`
-- `README.md`
+-`.nvmrc`
+
+-`package.json`
+
+-`.github/workflows/ci.yml`
+
+-`.github/workflows/docker-image-whizard-api.yml`
+
+-`apps/web/admin-portal/Dockerfile`
+
+-`apps/api/bff/Dockerfile`
+
+-`apps/api/core-api/Dockerfile`
+
+-`README.md`
+
 - relevant docs under `docs/`
 
 Validation:
@@ -143,18 +173,27 @@ Checklist:
 Suggested commands:
 
 ```bash
-pnpm exec ng update @angular/core@20 @angular/cli@20
-pnpm install
-pnpm build:web-admin
-pnpm build:all
+
+pnpmexecngupdate@angular/core@20@angular/cli@20
+
+pnpminstall
+
+pnpmbuild:web-admin
+
+pnpmbuild:all
+
 ```
 
 Expected files:
 
-- `package.json`
-- `pnpm-lock.yaml`
-- `apps/web/admin-portal/package.json`
-- `angular.json`
+-`package.json`
+
+-`pnpm-lock.yaml`
+
+-`apps/web/admin-portal/package.json`
+
+-`angular.json`
+
 - Angular source/config files touched by migrations
 
 Validation:
@@ -179,18 +218,27 @@ Checklist:
 Suggested commands:
 
 ```bash
-pnpm exec ng update @angular/core@21 @angular/cli@21
-pnpm install
-pnpm build:web-admin
-pnpm build:all
+
+pnpmexecngupdate@angular/core@21@angular/cli@21
+
+pnpminstall
+
+pnpmbuild:web-admin
+
+pnpmbuild:all
+
 ```
 
 Expected files:
 
-- `package.json`
-- `pnpm-lock.yaml`
-- `apps/web/admin-portal/package.json`
-- `angular.json`
+-`package.json`
+
+-`pnpm-lock.yaml`
+
+-`apps/web/admin-portal/package.json`
+
+-`angular.json`
+
 - any Angular migration output
 
 Validation:

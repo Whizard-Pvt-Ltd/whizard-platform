@@ -1,0 +1,20 @@
+{
+  "name": "fuse-theme",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/fuse-theme/src",
+  "prefix": "lib",
+  "projectType": "library",
+  "tags": ["type:shared", "scope:ui"],
+  "targets": {
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "coverage/libs/shared/fuse-theme"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

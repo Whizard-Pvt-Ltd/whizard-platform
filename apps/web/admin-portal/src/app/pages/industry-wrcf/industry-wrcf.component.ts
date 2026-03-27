@@ -19,7 +19,7 @@ import { CRITICALITY_LEVELS, COMPLEXITY_LEVELS, FREQUENCY_LEVELS } from './model
 @Component({
   selector: 'whizard-industry-wrcf',
   standalone: true,
-  imports: [FormsModule, RouterLink, WrcfColumnComponent, WrcfPanelComponent, ManageCIMappingsComponent, NavDrawerComponent],
+  imports: [FormsModule, RouterLink, WrcfColumnComponent, WrcfPanelComponent, ManageCIMappingsComponent, NavDrawerComponent, ],
   templateUrl: './industry-wrcf.component.html',
   styleUrl: './industry-wrcf.component.css',
 })

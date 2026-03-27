@@ -22,6 +22,10 @@
     },
     "lint": {
       "cache": true
+    },
+    "@nx/vitest:test": {
+      "cache": true,
+      "inputs": ["default", "^production"]
     }
   },
   "tasksRunnerOptions": {
@@ -30,6 +34,16 @@
       "options": {
         "cacheableOperations": ["build", "test", "lint"]
       }
+    }
+  },
+  "analytics": true,
+  "generators": {
+    "@nx/angular:library": {
+      "linter": "eslint",
+      "unitTestRunner": "vitest-analog"
+    },
+    "@nx/angular:component": {
+      "style": "css"
     }
   }
 }

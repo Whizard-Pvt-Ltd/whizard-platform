@@ -1,5 +1,7 @@
 packages:
-  - 'apps/*/*'
-  - 'libs/*/*'
-  - 'libs/contexts/*'
-  - 'tools/*'
+  - apps/*/*
+  - libs/*/*
+  - libs/contexts/*
+  - tools/*
+ignoredBuiltDependencies:
+  - bcrypt

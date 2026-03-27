@@ -1,23 +1,22 @@
 import {
   EnvironmentProviders,
-  InjectionToken,
   inject,
+  InjectionToken,
   makeEnvironmentProviders,
-  provideAppInitializer
+  provideAppInitializer,
 } from '@angular/core';
 import { ThemeConfig } from './models/theming';
 import { ThemingService } from './theming.service';
 
 export const THEME_CONFIG = new InjectionToken<ThemeConfig>('THEME_CONFIG');
 
-export function provideTheming(config: ThemeConfig): EnvironmentProviders {
-  return makeEnvironmentProviders([
+export const provideTheming = (config: ThemeConfig): EnvironmentProviders =>
+  makeEnvironmentProviders([
     {
       provide: THEME_CONFIG,
-      useValue: config
+      useValue: config,
     },
     provideAppInitializer(() => {
       inject(ThemingService);
-    })
+    }),
   ]);
-}

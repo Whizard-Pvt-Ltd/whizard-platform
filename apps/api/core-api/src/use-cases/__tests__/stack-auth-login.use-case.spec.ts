@@ -31,7 +31,7 @@ describe('StackAuthLoginUseCase', () => {
 
     // Mock global fetch
     mockFetch = vi.fn();
-    global.fetch = mockFetch;
+    global.fetch = mockFetch as unknown as typeof fetch;
 
     // Create use case instance
     useCase = new StackAuthLoginUseCase({

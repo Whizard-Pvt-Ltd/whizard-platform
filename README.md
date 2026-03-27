@@ -28,6 +28,7 @@ pnpm run dev:all
 **Open:** http://localhost:4200
 
 **Login with:**
+
 - Email: `test@whizard.com`
 - Password: `Test@123`
 
@@ -41,7 +42,7 @@ pnpm run dev:all
 - [Repository Layout](#repository-layout)
 - [Getting Started](#getting-started)
 - [Development](#development)
-- [Database & Migrations](#database--migrations)
+- [Database &amp; Migrations](#database--migrations)
 - [Testing](#testing)
 - [DDD Principles](#ddd-principles)
 - [Troubleshooting](#troubleshooting)
@@ -85,17 +86,20 @@ pnpm run dev:all
 ### Current Features
 
 ✅ **Authentication Flow** (Angular → BFF → IAM Context → PostgreSQL)
+
 - Local password authentication with Scrypt hashing
 - JWT token generation (access + refresh tokens)
 - Session management with expiry tracking
 - Protected routes with auth guards
 
 ✅ **Dashboard**
+
 - User profile display
 - Session information
 - Logout functionality
 
 ✅ **Security**
+
 - Bearer token authentication
 - HTTP interceptors
 - Route guards
@@ -291,23 +295,27 @@ pnpm run start:web-admin
 Open your browser and check:
 
 **Angular App:**
+
 ```
 http://localhost:4200
 ```
 
 **BFF Health:**
+
 ```bash
 curl http://localhost:3000/health
 # Expected: {"status":"ok","service":"bff","timestamp":"..."}
 ```
 
 **Core API Health:**
+
 ```bash
 curl http://localhost:3001/health
 # Expected: {"status":"ok","service":"core-api","timestamp":"..."}
 ```
 
 **Test Login:**
+
 ```bash
 curl -X POST http://localhost:3000/iam/auth/login \
   -H "Content-Type: application/json" \
@@ -325,6 +333,7 @@ curl -X POST http://localhost:3000/iam/auth/login \
 ### Available Scripts
 
 #### Build & Setup
+
 ```bash
 pnpm run bootstrap          # Install deps + verify env + generate Prisma
 pnpm run verify:env         # Check required environment variables
@@ -332,6 +341,7 @@ pnpm run build:iam          # Full DDD-compliant build
 ```
 
 #### Database
+
 ```bash
 pnpm run db:setup                   # Generate client + run migrations
 pnpm run prisma:generate            # Generate Prisma client only
@@ -340,6 +350,7 @@ pnpm run prisma:migrate:deploy      # Apply migrations (production)
 ```
 
 #### Development Servers
+
 ```bash
 pnpm run dev:all            # Start all servers
 pnpm run dev:bff            # Start BFF only (:3000)
@@ -348,6 +359,7 @@ pnpm run start:web-admin    # Start Angular only (:4200)
 ```
 
 #### Testing
+
 ```bash
 pnpm run test               # Run all tests
 pnpm run test:unit          # Unit tests only
@@ -357,6 +369,7 @@ pnpm run test:watch         # Watch mode
 ```
 
 #### Linting
+
 ```bash
 pnpm run lint               # Lint all code
 pnpm run lint:fix           # Auto-fix linting issues
@@ -380,6 +393,7 @@ less logs/bff.log
 ```
 
 **Configure Log Verbosity:**
+
 ```bash
 # Edit .env
 LOG_LEVEL="debug"  # Options: debug, info, warn, error
@@ -432,6 +446,7 @@ pnpm run prisma:migrate:deploy
 ### Migration Ownership
 
 Migrations are context-owned:
+
 - IAM migrations: `prisma/migrations/`
 - Future contexts: `data/postgres/migrations/contexts/<context>`
 
@@ -456,6 +471,7 @@ tests/
 ```
 
 Context-specific tests live in the context folder:
+
 ```
 libs/contexts/identity-access/
 └── tests/
@@ -513,22 +529,23 @@ libs/contexts/<context>/
 ### Guiding Rules
 
 1. **Domain Layer Must Be Framework-Free**
+
    - No Fastify, Prisma, Kafka, or framework imports in `domain/`
    - Domain models are pure TypeScript/business logic
-
 2. **Ports Before Adapters**
+
    - Define interfaces (ports) in application layer
    - Implement adapters in infrastructure layer
-
 3. **Never Publish Raw Domain Objects**
+
    - Use DTOs/contracts for external communication
    - Domain events → Event envelopes
-
 4. **Outbox Pattern for Events**
+
    - Reliable event publication
    - Transactional guarantees
-
 5. **Contract-Based Cross-Context Dependencies**
+
    - Never import another context's internals
    - Only consume `public-api.ts` exports
 
@@ -546,6 +563,7 @@ libs/contexts/<context>/
 ### Versioned Contracts
 
 External contracts must be versioned:
+
 ```
 contracts/
 ├── api/
@@ -636,18 +654,21 @@ source .env
 ## What You Have Now
 
 ✅ **Full-stack Authentication System**
+
 - Angular login page with validation
 - Fastify BFF with auth routes
 - DDD-compliant IAM context
 - PostgreSQL with Prisma
 
 ✅ **Security**
+
 - Scrypt password hashing
 - JWT token issuance
 - Bearer token authentication
 - Protected routes
 
 ✅ **Developer Experience**
+
 - Hot reload for all services
 - Comprehensive logging
 - Type-safe end-to-end
@@ -691,29 +712,30 @@ source .env
 ## Contribution Guidelines
 
 1. **Layer Separation**
+
    - Place code in the correct layer
    - No "temporary" cross-layer shortcuts
-
 2. **Domain Purity**
+
    - Domain layer must not import framework code
    - Keep business logic framework-agnostic
-
 3. **Port-Adapter Pattern**
+
    - Application layer depends on ports
    - Infrastructure implements adapters
    - Never leak infrastructure types into domain
-
 4. **Context Boundaries**
+
    - No private imports across contexts
    - Use `public-api.ts` exports only
-
 5. **Testing**
+
    - Add tests with behavior changes
    - Unit tests for domain/application
    - Integration tests for infrastructure
    - Contract tests for API boundaries
-
 6. **Documentation**
+
    - Update docs when boundaries change
    - Document architectural decisions (ADRs)
    - Keep README in sync
@@ -745,15 +767,18 @@ For AI-generated work traceability:
 ## Documentation
 
 ### Quick Guides
+
 - 📋 **[Logging Quick Start](./LOGGING-QUICKSTART.md)** - How to use logging in your code
 - 📊 **[Viewing Logs](./docs/runbooks/VIEWING-LOGS.md)** - Log viewing and troubleshooting
 - 🏗️ **[Logging Architecture](./docs/architecture/LOGGING.md)** - Complete implementation guide
 
 ### Developer Guides
-- 🚀 **[Local Development & Testing](./docs/engineering/local-development.md)** - Complete guide to local development, building, and testing workflows
+
+- 🚀 **[Local Development &amp; Testing](./docs/engineering/local-development.md)** - Complete guide to local development, building, and testing workflows
 - 🏗️ **[Build Process](./docs/engineering/build-process.md)** - Deep dive into NX + Vite build system and Docker multi-stage builds
 
 ### Architecture Docs
+
 - **Domain Documentation**: `docs/domain/`
 - **Architecture Decisions**: `docs/adr/`
 - **API Documentation**: `docs/api/`
