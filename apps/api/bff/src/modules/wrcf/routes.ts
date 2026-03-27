@@ -51,6 +51,7 @@ const forwardToCore = async (
 export const registerWrcfBffRoutes = (app: FastifyInstanceLike): void => {
   app.route({ method: 'GET', url: '/sectors', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/sectors', req, rep) });
   app.route({ method: 'GET', url: '/sectors/:sectorId/industries', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/sectors/:sectorId/industries', req, rep) });
+  app.route({ method: 'GET', url: '/industries/:industryId/dashboard-stats', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/industries/:industryId/dashboard-stats', req, rep) });
   app.route({ method: 'GET', url: '/industries/:industryId/functional-groups', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/industries/:industryId/functional-groups', req, rep) });
   app.route({ method: 'POST', url: '/functional-groups', handler: (req, rep) => forwardToCore('POST', '/api/wrcf/functional-groups', req, rep) });
   app.route({ method: 'PATCH', url: '/functional-groups/:id', handler: (req, rep) => forwardToCore('PATCH', '/api/wrcf/functional-groups/:id', req, rep) });

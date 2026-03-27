@@ -37,6 +37,20 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
 
   app.route({
     method: 'GET',
+    url: '/industries/:industryId/dashboard-stats',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const { industryId } = (request.params as { industryId: string });
+      const ctx = getRequestContext(request);
+      logger.debug('Getting dashboard stats', { ...getLogContext(request), industryId });
+      const data = await deps.getDashboardStats.execute(ctx.tenantId, industryId, ctx.actorUserAccountId);
+      logger.debug('Got dashboard stats', { ...getLogContext(request), industryId });
+      reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
+    }
+  });
+
+  app.route({
+    method: 'GET',
     url: '/industries/:industryId/functional-groups',
     preHandler: authorizationPreHandler('WRCF.MANAGE'),
     handler: async (request, reply) => {

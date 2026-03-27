@@ -1,0 +1,48 @@
+# WRCF Dashboard
+
+## Overview
+<!-- One paragraph: what this feature does and why it exists. -->
+This feature will serve as a dashboard to our wrcf feature, 
+which will show version and aggregated count of different entities in wrcf
+
+## Default Behaviours
+<!-- Auto-select rules, pre-population, initial state.
+     e.g. "Select first sector/industry on load", "Pre-fill form with last used value" -->
+     If you do not find data then show all values to zero with all entities
+
+## Entities & Attributes
+<!-- One sub-section per entity. For each field: Name, Type, Mandatory (*), Options if dropdown. -->
+
+- Industry sector and Industry dropdown - populate these dropdown with values in DB and select first entry by default, once selected fetch relevant information
+- Versions Row - Keep this static for now
+- FunctionalGroup - fetch total number of functional group from Database for selected industry
+- PrimaryWorkObject- fetch total number of PWO from Database for selected industry
+- SecondaryWorkObject - fetch total number of SWO from Database for selected industry
+- CapabilityInstances - fetch all CIs from db for this industry
+- Skills & tasks - fetch skills and tasks for the selected industry
+- Rolls and Department - fetch roles and Departments for selected industry
+
+
+Quick Actions
+- Edit Structure - > This should take user to WRCF Capabilities screen
+- Mange Roles -> Should take user to manage roles screen
+- Version history -> create a empty UX component and show dialog for now
+- Publish Draft -> create a empty UX component and show dialog for now
+
+## User Flows
+As soon as User logs in -> lands to Dashboard -> fetch all industry and sector and select first entry
+
+## Business Rules & Constraints
+- Fetch active records only
+
+## DB Notes
+No new tables should be created and see if a single join query make sense or calling multiple apis does (let us discuss this and plan)
+
+## Scope
+Frontend, BFF, CoreAPIs, and queries for DB
+
+## Out of Scope
+
+
+## Notes / Edge Cases
+

@@ -25,6 +25,7 @@ export * from './domain/entities/capability.entity';
 export * from './domain/entities/proficiency.entity';
 
 // Domain — Repository Interfaces
+export * from './domain/repositories/wrcf-dashboard.repository';
 export * from './domain/repositories/functional-group.repository';
 export * from './domain/repositories/pwo.repository';
 export * from './domain/repositories/swo.repository';
@@ -71,6 +72,7 @@ export * from './application/command-handlers/role-ci-mapping.handlers';
 export * from './application/ports/repositories/capability-instance-query.port';
 
 // Application — Query Handlers
+export * from './application/query-handlers/get-dashboard-stats.handler';
 export * from './application/query-handlers/list-sectors.handler';
 export * from './application/query-handlers/list-industries.handler';
 export * from './application/query-handlers/list-fgs.handler';
@@ -100,6 +102,7 @@ export * from './application/dto/task.dto';
 export * from './application/dto/control-point.dto';
 
 // Infrastructure — Repositories (for DI wiring)
+export * from './infrastructure/persistence/postgres/repositories/prisma-wrcf-dashboard.repository';
 export * from './infrastructure/persistence/postgres/repositories/prisma-functional-group.repository';
 export * from './infrastructure/persistence/postgres/repositories/prisma-pwo.repository';
 export * from './infrastructure/persistence/postgres/repositories/prisma-swo.repository';

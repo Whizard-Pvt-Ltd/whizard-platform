@@ -1,5 +1,7 @@
 import type { FastifyInstanceLike } from '../iam/shared/request-context';
 import {
+  PrismaWrcfDashboardRepository,
+  GetDashboardStatsQueryHandler,
   PrismaFunctionalGroupRepository,
   PrismaPwoRepository,
   PrismaSwoRepository,
@@ -60,6 +62,7 @@ import {
 import { registerWrcfModule } from './wrcf.module';
 
 export interface WrcfModuleDependencies {
+  readonly getDashboardStats: GetDashboardStatsQueryHandler;
   readonly listSectors: ListSectorsQueryHandler;
   readonly listIndustries: ListIndustriesQueryHandler;
   readonly listFGs: ListFGsQueryHandler;
@@ -105,6 +108,7 @@ export interface WrcfModuleDependencies {
 }
 
 export const registerWrcfCoreApiRuntime = async (app: FastifyInstanceLike): Promise<void> => {
+  const dashboardRepo = new PrismaWrcfDashboardRepository();
   const fgRepo = new PrismaFunctionalGroupRepository();
   const pwoRepo = new PrismaPwoRepository();
   const swoRepo = new PrismaSwoRepository();
@@ -121,6 +125,7 @@ export const registerWrcfCoreApiRuntime = async (app: FastifyInstanceLike): Prom
   const roleCiRepo = new PrismaRoleCIMappingRepository();
 
   const deps: WrcfModuleDependencies = {
+    getDashboardStats: new GetDashboardStatsQueryHandler(dashboardRepo),
     listSectors: new ListSectorsQueryHandler(sectorRepo),
     listIndustries: new ListIndustriesQueryHandler(industryRepo),
     listFGs: new ListFGsQueryHandler(fgRepo),
