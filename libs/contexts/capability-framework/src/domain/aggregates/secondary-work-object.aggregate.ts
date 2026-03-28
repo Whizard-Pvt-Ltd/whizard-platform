@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
-import type { ImpactLevelValue } from '../value-objects/impact-level.vo';
 import type { DomainEvent } from '../events/domain-event.base';
+import type { ImpactLevelValue } from '../value-objects/impact-level.vo';
 import { SwoCreatedEvent, SwoUpdatedEvent, SwoDeactivatedEvent } from '../events/swo.events';
 
 export interface SecondaryWorkObjectProps {

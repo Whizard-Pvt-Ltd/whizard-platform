@@ -4,11 +4,11 @@ import {
   makeEnvironmentProviders,
   provideAppInitializer,
 } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
+import { HEROICONS_MINI } from './icon-sets/heroicons-mini';
 import { HEROICONS_OUTLINE } from './icon-sets/heroicons-outline';
 import { HEROICONS_SOLID } from './icon-sets/heroicons-solid';
-import { HEROICONS_MINI } from './icon-sets/heroicons-mini';
 import { LUCIDEICONS } from './icon-sets/lucide';
 
 /**

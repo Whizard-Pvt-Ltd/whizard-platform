@@ -1,8 +1,8 @@
 import { getPrisma } from '@whizard/shared-infrastructure';
-import { PrimaryWorkObject } from '../../../../domain/aggregates/primary-work-object.aggregate';
 import type { IPwoRepository } from '../../../../domain/repositories/pwo.repository';
-import { resolveImpactLevel, CRITICALITY_LEVELS } from '../../../../domain/value-objects/impact-level.vo';
 import type { StrategicImportance } from '../../../../domain/value-objects/strategic-importance.vo';
+import { PrimaryWorkObject } from '../../../../domain/aggregates/primary-work-object.aggregate';
+import { resolveImpactLevel, CRITICALITY_LEVELS } from '../../../../domain/value-objects/impact-level.vo';
 
 export class PrismaPwoRepository implements IPwoRepository {
   private readonly prisma = getPrisma();

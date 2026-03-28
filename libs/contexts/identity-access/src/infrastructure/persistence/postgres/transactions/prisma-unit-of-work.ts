@@ -1,11 +1,11 @@
+import type { Prisma } from '@prisma/client';
 import { randomUUID } from 'node:crypto';
 import { getPrisma } from '@whizard/shared-infrastructure';
-import type { Prisma } from '@prisma/client';
-import type { IamEventEnvelope } from '../../../../contracts/events/iam-event-envelope';
 import type {
   IamTransactionContext,
   IamUnitOfWorkPort
 } from '../../../../application/ports/transactions/iam-unit-of-work.port';
+import type { IamEventEnvelope } from '../../../../contracts/events/iam-event-envelope';
 
 export interface OutboxCollectorContext extends IamTransactionContext {
   readonly tx: Prisma.TransactionClient;

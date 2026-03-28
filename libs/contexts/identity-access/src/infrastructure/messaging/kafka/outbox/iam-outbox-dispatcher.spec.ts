@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import type { IamEventEnvelope } from '../../../../contracts/events/iam-event-envelope';
-import { IamOutboxDispatcher } from './iam-outbox-dispatcher';
+import type { KafkaProducerPort } from '../producers/kafka-producer.port';
 import type { OutboxDispatchEvent, OutboxEventRepository } from './outbox-event.repository';
 import { IamTopicPublisher } from '../producers/iam-topic.publisher';
-import type { KafkaProducerPort } from '../producers/kafka-producer.port';
+import { IamOutboxDispatcher } from './iam-outbox-dispatcher';
 
 class InMemoryOutboxEventRepository implements OutboxEventRepository {
   public readonly published: string[] = [];

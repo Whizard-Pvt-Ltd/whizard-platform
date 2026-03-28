@@ -1,6 +1,6 @@
 import { getPrisma } from '@whizard/shared-infrastructure';
-import { SecondaryWorkObject } from '../../../../domain/aggregates/secondary-work-object.aggregate';
 import type { ISwoRepository } from '../../../../domain/repositories/swo.repository';
+import { SecondaryWorkObject } from '../../../../domain/aggregates/secondary-work-object.aggregate';
 import { resolveImpactLevel, CRITICALITY_LEVELS, COMPLEXITY_LEVELS, FREQUENCY_LEVELS } from '../../../../domain/value-objects/impact-level.vo';
 
 export class PrismaSwoRepository implements ISwoRepository {

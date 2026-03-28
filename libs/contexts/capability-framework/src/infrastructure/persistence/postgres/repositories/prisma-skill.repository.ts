@@ -1,7 +1,7 @@
 import { getPrisma } from '@whizard/shared-infrastructure';
-import { Skill } from '../../../../domain/aggregates/skill.aggregate';
-import type { ISkillRepository } from '../../../../domain/repositories/skill.repository';
 import type { SkillDto } from '../../../../application/dto/skill.dto';
+import type { ISkillRepository } from '../../../../domain/repositories/skill.repository';
+import { Skill } from '../../../../domain/aggregates/skill.aggregate';
 
 export class PrismaSkillRepository implements ISkillRepository {
   private readonly prisma = getPrisma();

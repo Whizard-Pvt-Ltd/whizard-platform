@@ -1,8 +1,8 @@
 import { getPrisma } from '@whizard/shared-infrastructure';
-import { CapabilityInstance } from '../../../../domain/aggregates/capability-instance.aggregate';
-import type { ICapabilityInstanceRepository } from '../../../../domain/repositories/capability-instance.repository';
-import type { ICapabilityInstanceQueryPort } from '../../../../application/ports/repositories/capability-instance-query.port';
 import type { CapabilityInstanceDto } from '../../../../application/dto/capability-instance.dto';
+import type { ICapabilityInstanceQueryPort } from '../../../../application/ports/repositories/capability-instance-query.port';
+import type { ICapabilityInstanceRepository } from '../../../../domain/repositories/capability-instance.repository';
+import { CapabilityInstance } from '../../../../domain/aggregates/capability-instance.aggregate';
 
 export class PrismaCapabilityInstanceRepository implements ICapabilityInstanceRepository, ICapabilityInstanceQueryPort {
   private readonly prisma = getPrisma();

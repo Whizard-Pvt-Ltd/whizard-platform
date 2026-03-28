@@ -1,18 +1,17 @@
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import {
   ApplicationConfig,
   provideZoneChangeDetection,
   APP_INITIALIZER,
 } from '@angular/core';
-import { provideRouter } from '@angular/router';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { provideTheming } from '@whizard/theme';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { provideRouter } from '@angular/router';
 import { provideIcons } from '@whizard/icons';
-
+import { provideTheming } from '@whizard/theme';
 import { routes } from './app.routes';
-import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { initializeStackAuth } from './core/initializers/stack-auth.initializer'
+import { authInterceptor } from './core/interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [

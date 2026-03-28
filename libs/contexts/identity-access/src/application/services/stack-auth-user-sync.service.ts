@@ -17,12 +17,12 @@
  * - User ID from Stack Auth (sub claim) is stored as external identifier
  */
 
+import type { UserAccountRepository } from '../ports/repositories/user-account.repository';
+import type { StackAuthUser } from '../types/stack-auth.types';
 import { UserAccount } from '../../domain/aggregates/user-identity/user-account.aggregate';
 import { EmailAddress } from '../../domain/value-objects/email-address.vo';
 import { TenantRef } from '../../domain/value-objects/tenant-ref.vo';
 import { UserAccountId } from '../../domain/value-objects/user-account-id.vo';
-import type { UserAccountRepository } from '../ports/repositories/user-account.repository';
-import type { StackAuthUser } from '../types/stack-auth.types';
 
 export interface StackAuthUserSyncConfig {
   /**

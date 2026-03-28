@@ -1,7 +1,7 @@
 import { getPrisma } from '@whizard/shared-infrastructure';
-import { ControlPoint } from '../../../../domain/aggregates/control-point.aggregate';
-import type { IControlPointRepository } from '../../../../domain/repositories/control-point.repository';
 import type { ControlPointDto } from '../../../../application/dto/control-point.dto';
+import type { IControlPointRepository } from '../../../../domain/repositories/control-point.repository';
+import { ControlPoint } from '../../../../domain/aggregates/control-point.aggregate';
 
 export class PrismaControlPointRepository implements IControlPointRepository {
   private readonly prisma = getPrisma();

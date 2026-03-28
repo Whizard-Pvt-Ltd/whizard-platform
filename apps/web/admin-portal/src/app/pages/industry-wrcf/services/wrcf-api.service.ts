@@ -1,12 +1,12 @@
-import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { environment } from '../../../../environments/environment';
 import type {
   IndustrySector, Industry, FunctionalGroup, PrimaryWorkObject, SecondaryWorkObject,
   Capability, ProficiencyLevel, DomainType, ImpactLevelValue, StrategicImportance,
   CapabilityInstance
 } from '../models/wrcf.models';
+import { environment } from '../../../../environments/environment';
 
 interface ApiEnvelope<T> {
   success: boolean;

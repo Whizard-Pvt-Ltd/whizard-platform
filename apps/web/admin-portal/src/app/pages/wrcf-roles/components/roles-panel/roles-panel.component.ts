@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import type { RolesPanelState, Department, IndustryRole } from '../../models/wrcf-roles.models';
 import type { FunctionalGroup } from '../../../industry-wrcf/models/wrcf.models';
+import type { RolesPanelState, Department, IndustryRole } from '../../models/wrcf-roles.models';
 
 @Component({
   selector: 'whizard-roles-panel',

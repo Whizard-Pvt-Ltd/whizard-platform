@@ -1,7 +1,7 @@
-import type { GetPendingInvitationsQuery } from '../queries/get-pending-invitations.query';
 import type { GetPendingInvitationsResponseDto } from '../dto/responses/get-pending-invitations.response.dto';
 import type { AuthorizationGateway } from '../ports/gateways/authorization.gateway';
 import type { IamReadModelRepository } from '../ports/repositories/iam-read-model.repository';
+import type { GetPendingInvitationsQuery } from '../queries/get-pending-invitations.query';
 
 export class GetPendingInvitationsHandler {
   constructor(

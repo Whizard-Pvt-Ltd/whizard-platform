@@ -1,14 +1,14 @@
 import { Component, inject, signal, OnInit, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, ActivatedRoute } from '@angular/router';
-import { StackAuthService } from '../../core/services/stack-auth.service';
-import { WrcfApiService } from '../industry-wrcf/services/wrcf-api.service';
-import { WrcfSkillsApiService } from './services/wrcf-skills-api.service';
-import { WrcfColumnComponent } from '../industry-wrcf/components/wrcf-column/wrcf-column.component';
-import { SkillsPanelComponent } from './components/skills-panel/skills-panel.component';
-import { NavDrawerComponent } from '../../shared/nav-drawer/nav-drawer.component';
 import type { FunctionalGroup, PrimaryWorkObject, SecondaryWorkObject, Capability, ProficiencyLevel, WrcfEntity, CapabilityInstance } from '../industry-wrcf/models/wrcf.models';
 import type { SkillItem, TaskItem, ControlPointItem, SkillsPanelState } from './models/wrcf-skills.models';
+import { StackAuthService } from '../../core/services/stack-auth.service';
+import { NavDrawerComponent } from '../../shared/nav-drawer/nav-drawer.component';
+import { WrcfColumnComponent } from '../industry-wrcf/components/wrcf-column/wrcf-column.component';
+import { WrcfApiService } from '../industry-wrcf/services/wrcf-api.service';
+import { SkillsPanelComponent } from './components/skills-panel/skills-panel.component';
+import { WrcfSkillsApiService } from './services/wrcf-skills-api.service';
 
 @Component({
   selector: 'whizard-wrcf-skills',

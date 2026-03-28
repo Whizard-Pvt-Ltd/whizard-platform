@@ -1,3 +1,6 @@
+import { getOrCreateAppLogger, createPinoLoggerOptions } from '@whizard/shared-logging';
+import cors from '@fastify/cors';
+import helmet from '@fastify/helmet';
 /**
  * Core API Server Bootstrap
  *
@@ -17,9 +20,6 @@
  * - LOG_LEVEL: Logging level (debug/info/warn/error)
  */
 import Fastify from 'fastify';
-import cors from '@fastify/cors';
-import helmet from '@fastify/helmet';
-import { getOrCreateAppLogger, createPinoLoggerOptions } from '@whizard/shared-logging';
 import { startCoreApi } from './main';
 import { registerWrcfCoreApiRuntime } from './modules/wrcf/runtime';
 import stackAuthPlugin from './plugins/stack-auth.plugin';

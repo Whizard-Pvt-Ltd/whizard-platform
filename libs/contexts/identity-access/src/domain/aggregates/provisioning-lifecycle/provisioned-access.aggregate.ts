@@ -1,6 +1,6 @@
-import { DomainEvent } from '../../events/domain-event';
 import type { Invitation } from './entities/invitation.entity';
 import type { ProvisioningEvent } from './entities/provisioning-event.entity';
+import { DomainEvent } from '../../events/domain-event';
 
 interface ProvisionedAccessState {
   id: string;

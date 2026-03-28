@@ -1,6 +1,6 @@
 import { DomainEvent } from '../../events/domain-event';
-import { AccessDecision } from '../../value-objects/access-decision';
 import { IamDomainError } from '../../exceptions/iam-domain.error';
+import { AccessDecision } from '../../value-objects/access-decision';
 import { TenantRef } from '../../value-objects/tenant-ref.vo';
 import { UserAccountId } from '../../value-objects/user-account-id.vo';
 

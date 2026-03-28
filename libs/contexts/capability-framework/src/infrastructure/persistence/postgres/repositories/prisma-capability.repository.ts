@@ -1,7 +1,7 @@
 import { getPrisma } from '@whizard/shared-infrastructure';
-import { Capability } from '../../../../domain/entities/capability.entity';
 import type { ICapabilityRepository } from '../../../../domain/repositories/capability.repository';
 import type { CapabilityType } from '../../../../domain/value-objects/capability-type.vo';
+import { Capability } from '../../../../domain/entities/capability.entity';
 
 export class PrismaCapabilityRepository implements ICapabilityRepository {
   private readonly prisma = getPrisma();

@@ -1,7 +1,7 @@
-import { getPrisma } from '@whizard/shared-infrastructure';
 import type { Prisma } from '@prisma/client';
-import type { IamEventEnvelope } from '../../../../contracts/events/iam-event-envelope';
+import { getPrisma } from '@whizard/shared-infrastructure';
 import type { OutboxPort } from '../../../../application/ports/event-bus/outbox.port';
+import type { IamEventEnvelope } from '../../../../contracts/events/iam-event-envelope';
 
 export class PrismaOutboxPort implements OutboxPort {
   private readonly prisma = getPrisma();

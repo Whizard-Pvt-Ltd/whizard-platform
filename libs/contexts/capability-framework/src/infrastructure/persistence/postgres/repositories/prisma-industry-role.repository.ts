@@ -1,6 +1,6 @@
 import { getPrisma } from '@whizard/shared-infrastructure';
-import { IndustryRole } from '../../../../domain/aggregates/industry-role.aggregate';
 import type { IIndustryRoleRepository } from '../../../../domain/repositories/industry-role.repository';
+import { IndustryRole } from '../../../../domain/aggregates/industry-role.aggregate';
 
 export class PrismaIndustryRoleRepository implements IIndustryRoleRepository {
   private readonly prisma = getPrisma();

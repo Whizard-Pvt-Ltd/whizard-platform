@@ -1,15 +1,15 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { WrcfApiService } from '../industry-wrcf/services/wrcf-api.service';
-import { WrcfDashboardApiService } from './services/wrcf-dashboard-api.service';
-import { NavDrawerComponent } from '../../shared/nav-drawer/nav-drawer.component';
-import { VersionHistoryDialogComponent } from './components/version-history-dialog/version-history-dialog.component';
-import { PublishDraftDialogComponent } from './components/publish-draft-dialog/publish-draft-dialog.component';
-import { StackAuthService } from '../../core/services/stack-auth.service';
 import type { IndustrySector, Industry } from '../industry-wrcf/models/wrcf.models';
 import type { WrcfDashboardStats } from './models/wrcf-dashboard.models';
+import { StackAuthService } from '../../core/services/stack-auth.service';
+import { NavDrawerComponent } from '../../shared/nav-drawer/nav-drawer.component';
+import { WrcfApiService } from '../industry-wrcf/services/wrcf-api.service';
+import { PublishDraftDialogComponent } from './components/publish-draft-dialog/publish-draft-dialog.component';
+import { VersionHistoryDialogComponent } from './components/version-history-dialog/version-history-dialog.component';
 import { EMPTY_STATS } from './models/wrcf-dashboard.models';
+import { WrcfDashboardApiService } from './services/wrcf-dashboard-api.service';
 
 @Component({
   selector: 'whizard-wrcf-dashboard',

@@ -2,8 +2,8 @@ import type { ActivateUserAccountCommand } from '../commands/activate-user-accou
 import type { ActivateUserAccountResponseDto } from '../dto/responses/activate-user-account.response.dto';
 import type { OutboxPort } from '../ports/event-bus/outbox.port';
 import type { AuthorizationGateway } from '../ports/gateways/authorization.gateway';
-import type { IamUnitOfWorkPort } from '../ports/transactions/iam-unit-of-work.port';
 import type { IamCommandRepositories } from '../ports/repositories/iam-command-repositories.port';
+import type { IamUnitOfWorkPort } from '../ports/transactions/iam-unit-of-work.port';
 
 export class ActivateUserAccountHandler {
   constructor(

@@ -1,6 +1,6 @@
-import { Task } from '../../domain/aggregates/task.aggregate';
 import type { ITaskRepository } from '../../domain/repositories/task.repository';
 import type { CreateTaskCommand, UpdateTaskCommand, DeleteTaskCommand } from '../commands/task.commands';
+import { Task } from '../../domain/aggregates/task.aggregate';
 import { DomainException } from '../domain-exception';
 
 export class CreateTaskCommandHandler {

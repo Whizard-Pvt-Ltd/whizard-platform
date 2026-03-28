@@ -1,7 +1,7 @@
 import { getPrisma } from '@whizard/shared-infrastructure';
-import { FunctionalGroup } from '../../../../domain/aggregates/functional-group.aggregate';
 import type { IFunctionalGroupRepository } from '../../../../domain/repositories/functional-group.repository';
 import type { DomainType } from '../../../../domain/value-objects/domain-type.vo';
+import { FunctionalGroup } from '../../../../domain/aggregates/functional-group.aggregate';
 
 export class PrismaFunctionalGroupRepository implements IFunctionalGroupRepository {
   private readonly prisma = getPrisma();

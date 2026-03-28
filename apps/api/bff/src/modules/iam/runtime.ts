@@ -1,6 +1,6 @@
 import type { FastifyInstanceLike } from './shared/request-context';
-import { registerIamAuthModule, type IamAuthModuleDependencies } from './auth/auth.module';
 import { registerIamAccessModule, type IamAccessModuleDependencies } from './access/access.module';
+import { registerIamAuthModule, type IamAuthModuleDependencies } from './auth/auth.module';
 
 export interface IamBffRuntimeDependencies {
   readonly auth: IamAuthModuleDependencies;

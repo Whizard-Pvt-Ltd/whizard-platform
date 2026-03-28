@@ -7,8 +7,8 @@ import {
   PLATFORM_ID,
   signal,
 } from '@angular/core';
-import { TonalPalette } from './palette';
 import { Colors, Scheme, Theme } from './models/theming';
+import { TonalPalette } from './palette';
 import { THEME_CONFIG } from './provider';
 
 @Injectable({ providedIn: 'root' })

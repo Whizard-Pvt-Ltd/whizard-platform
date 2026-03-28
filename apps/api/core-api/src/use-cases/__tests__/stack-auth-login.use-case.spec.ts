@@ -5,13 +5,13 @@
  * No external API calls, no database - pure unit testing.
  */
 
-import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
-import { StackAuthLoginUseCase } from '../stack-auth-login.use-case';
 import type {
   StackAuthTokenVerifierGateway,
   StackAuthUserSyncService,
   StackAuthUser
 } from '@whizard/identity-access';
+import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
+import { StackAuthLoginUseCase } from '../stack-auth-login.use-case';
 
 describe('StackAuthLoginUseCase', () => {
   let useCase: StackAuthLoginUseCase;

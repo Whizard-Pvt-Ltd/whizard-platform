@@ -1,5 +1,4 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { Skill } from '../../domain/aggregates/skill.aggregate';
 import type { ISkillRepository } from '../../domain/repositories/skill.repository';
 import {
   CreateSkillCommandHandler,
@@ -7,6 +6,7 @@ import {
   DeleteSkillCommandHandler
 } from '../../application/command-handlers/skill.handlers';
 import { DomainException } from '../../application/domain-exception';
+import { Skill } from '../../domain/aggregates/skill.aggregate';
 
 const makeRepo = (): ISkillRepository => ({
   findByCiId: vi.fn(),

@@ -1,6 +1,6 @@
+import { getOrCreateAppLogger } from '@whizard/shared-logging';
 import type { IFunctionalGroupRepository } from '../../domain/repositories/functional-group.repository';
 import type { FunctionalGroupDto } from '../dto/functional-group.dto';
-import { getOrCreateAppLogger } from '@whizard/shared-logging';
 
 const logger = getOrCreateAppLogger({ service: 'capability-framework' }).child({ component: 'functional-group' });
 

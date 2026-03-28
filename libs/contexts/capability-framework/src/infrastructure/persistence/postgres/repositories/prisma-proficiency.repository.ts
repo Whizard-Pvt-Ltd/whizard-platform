@@ -1,6 +1,6 @@
 import { getPrisma } from '@whizard/shared-infrastructure';
-import { Proficiency } from '../../../../domain/entities/proficiency.entity';
 import type { IProficiencyRepository } from '../../../../domain/repositories/proficiency.repository';
+import { Proficiency } from '../../../../domain/entities/proficiency.entity';
 
 export class PrismaProficiencyRepository implements IProficiencyRepository {
   private readonly prisma = getPrisma();

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import type { ControlPointDto } from '../../application/dto/control-point.dto';
 import type { IControlPointRepository } from '../../domain/repositories/control-point.repository';
 import { ListControlPointsQueryHandler } from '../../application/query-handlers/list-control-points.handler';
-import type { ControlPointDto } from '../../application/dto/control-point.dto';
 
 const makeRepo = (): IControlPointRepository => ({
   findByTaskId: vi.fn(),

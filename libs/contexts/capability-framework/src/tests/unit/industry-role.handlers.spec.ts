@@ -1,5 +1,4 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { IndustryRole } from '../../domain/aggregates/industry-role.aggregate';
 import type { IIndustryRoleRepository } from '../../domain/repositories/industry-role.repository';
 import {
   CreateIndustryRoleCommandHandler,
@@ -7,6 +6,7 @@ import {
   DeleteIndustryRoleCommandHandler
 } from '../../application/command-handlers/industry-role.handlers';
 import { DomainException } from '../../application/domain-exception';
+import { IndustryRole } from '../../domain/aggregates/industry-role.aggregate';
 
 const makeRepo = (): IIndustryRoleRepository => ({
   findByDepartmentId: vi.fn(),

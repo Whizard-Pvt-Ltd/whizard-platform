@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto';
+import type { DomainEvent } from '../events/domain-event.base';
 import type { ImpactLevelValue } from '../value-objects/impact-level.vo';
 import type { StrategicImportance } from '../value-objects/strategic-importance.vo';
-import type { DomainEvent } from '../events/domain-event.base';
 import { PwoCreatedEvent, PwoUpdatedEvent, PwoDeactivatedEvent } from '../events/pwo.events';
 
 export interface PrimaryWorkObjectProps {

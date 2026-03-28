@@ -1,7 +1,7 @@
 import { getPrisma } from '@whizard/shared-infrastructure';
-import { Task } from '../../../../domain/aggregates/task.aggregate';
-import type { ITaskRepository } from '../../../../domain/repositories/task.repository';
 import type { TaskDto } from '../../../../application/dto/task.dto';
+import type { ITaskRepository } from '../../../../domain/repositories/task.repository';
+import { Task } from '../../../../domain/aggregates/task.aggregate';
 
 export class PrismaTaskRepository implements ITaskRepository {
   private readonly prisma = getPrisma();

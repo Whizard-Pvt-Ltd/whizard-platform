@@ -1,9 +1,9 @@
 import { Component, inject, signal, HostListener } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { StackAuthService } from '../../core/services/stack-auth.service';
 import { NavDrawerComponent } from '../../shared/nav-drawer/nav-drawer.component';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'whizard-dashboard',

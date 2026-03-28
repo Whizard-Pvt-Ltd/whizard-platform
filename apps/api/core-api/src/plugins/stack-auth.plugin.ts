@@ -14,7 +14,6 @@
  */
 
 import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import fp from 'fastify-plugin';
 import {
   StackAuthTokenVerifierGateway,
   loadStackAuthConfig,
@@ -27,6 +26,7 @@ import {
   PrismaUserAccountRepository
 } from '@whizard/identity-access';
 import { getOrCreateAppLogger } from '@whizard/shared-logging';
+import fp from 'fastify-plugin';
 
 const logger = getOrCreateAppLogger({ service: 'core-api' }).child({ component: 'stack-auth-plugin' });
 

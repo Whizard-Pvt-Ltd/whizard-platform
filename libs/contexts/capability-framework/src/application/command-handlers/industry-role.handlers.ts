@@ -1,6 +1,6 @@
-import { IndustryRole } from '../../domain/aggregates/industry-role.aggregate';
 import type { IIndustryRoleRepository } from '../../domain/repositories/industry-role.repository';
 import type { CreateIndustryRoleCommand, UpdateIndustryRoleCommand, DeleteIndustryRoleCommand } from '../commands/industry-role.commands';
+import { IndustryRole } from '../../domain/aggregates/industry-role.aggregate';
 import { DomainException } from '../domain-exception';
 
 export class CreateIndustryRoleCommandHandler {

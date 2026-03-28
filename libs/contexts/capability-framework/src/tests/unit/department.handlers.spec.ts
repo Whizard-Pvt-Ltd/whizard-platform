@@ -1,5 +1,4 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { Department } from '../../domain/aggregates/department.aggregate';
 import type { IDepartmentRepository } from '../../domain/repositories/department.repository';
 import {
   CreateDepartmentCommandHandler,
@@ -7,6 +6,7 @@ import {
   DeleteDepartmentCommandHandler
 } from '../../application/command-handlers/department.handlers';
 import { DomainException } from '../../application/domain-exception';
+import { Department } from '../../domain/aggregates/department.aggregate';
 
 const makeRepo = (): IDepartmentRepository => ({
   findByIndustryId: vi.fn(),

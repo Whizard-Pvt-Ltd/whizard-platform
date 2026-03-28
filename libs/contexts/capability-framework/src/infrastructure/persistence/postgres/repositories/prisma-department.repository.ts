@@ -1,6 +1,6 @@
 import { getPrisma } from '@whizard/shared-infrastructure';
-import { Department } from '../../../../domain/aggregates/department.aggregate';
 import type { IDepartmentRepository } from '../../../../domain/repositories/department.repository';
+import { Department } from '../../../../domain/aggregates/department.aggregate';
 
 export class PrismaDepartmentRepository implements IDepartmentRepository {
   private readonly prisma = getPrisma();

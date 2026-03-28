@@ -1,3 +1,6 @@
+import { getOrCreateAppLogger, createPinoLoggerOptions } from '@whizard/shared-logging';
+import cors from '@fastify/cors';
+import helmet from '@fastify/helmet';
 /**
  * BFF (Backend for Frontend) Server Bootstrap
  *
@@ -17,9 +20,6 @@
  * - LOG_LEVEL: Logging level (debug/info/warn/error)
  */
 import Fastify from 'fastify';
-import cors from '@fastify/cors';
-import helmet from '@fastify/helmet';
-import { getOrCreateAppLogger, createPinoLoggerOptions } from '@whizard/shared-logging';
 import { startBff } from './main';
 import { registerWrcfBffModule } from './modules/wrcf/wrcf.module';
 

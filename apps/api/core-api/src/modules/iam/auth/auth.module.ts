@@ -1,5 +1,5 @@
-import { registerIamAuthRoutes } from './routes';
 import type { FastifyInstanceLike } from '../shared/request-context';
+import { registerIamAuthRoutes } from './routes';
 
 export interface IamAuthModuleDependencies {
   readonly authenticateWithPassword: {

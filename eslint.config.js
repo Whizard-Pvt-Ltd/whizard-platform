@@ -23,45 +23,45 @@ module.exports = [
   },
 
   // Perfectionist
-  // {
-  //   plugins: {
-  //     perfectionist: perfectionist,
-  //   },
-  //   rules: {
-  //     'perfectionist/sort-imports': [
-  //       'error',
-  //       {
-  //         customGroups: [
-  //           {
-  //             groupName: 'angular',
-  //             elementNamePattern: '@angular',
-  //           },
-  //           {
-  //             groupName: 'libs',
-  //             elementNamePattern: '@whizard',
-  //           },
-  //         ],
-  //         groups: [
-  //           'type-import',
-  //           'value-builtin',
-  //           'angular',
-  //           'value-external',
-  //           'core',
-  //           'type-internal',
-  //           'value-internal',
-  //           ['type-parent', 'type-sibling', 'type-index'],
-  //           ['value-parent', 'value-sibling', 'value-index'],
-  //           'ts-equals-import',
-  //           'unknown',
-  //         ],
-  //         newlinesBetween: 0,
-  //         tsconfig: {
-  //           rootDir: '.',
-  //         },
-  //       },
-  //     ],
-  //   },
-  // },
+  {
+    plugins: {
+      perfectionist,
+    },
+    rules: {
+      'perfectionist/sort-imports': [
+        'error',
+        {
+          customGroups: [
+            {
+              groupName: 'angular',
+              elementNamePattern: '@angular',
+            },
+            {
+              groupName: 'libs',
+              elementNamePattern: '@whizard',
+            },
+          ],
+          groups: [
+            'type-import',
+            'value-builtin',
+            'angular',
+            'libs',
+            'value-external',
+            'type-internal',
+            'value-internal',
+            ['type-parent', 'type-sibling', 'type-index'],
+            ['value-parent', 'value-sibling', 'value-index'],
+            'ts-equals-import',
+            'unknown',
+          ],
+          newlinesBetween: 0,
+          tsconfig: {
+            rootDir: '.',
+          },
+        },
+      ],
+    },
+  },
 
   {
     files: ['libs/contexts/*/src/domain/**/*.ts'],

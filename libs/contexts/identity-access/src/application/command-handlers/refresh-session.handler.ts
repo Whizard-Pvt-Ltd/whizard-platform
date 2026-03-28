@@ -2,8 +2,8 @@ import type { RefreshSessionCommand } from '../commands/refresh-session.command'
 import type { RefreshSessionResponseDto } from '../dto/responses/refresh-session.response.dto';
 import type { OutboxPort } from '../ports/event-bus/outbox.port';
 import type { AuthorizationGateway } from '../ports/gateways/authorization.gateway';
-import type { IamUnitOfWorkPort } from '../ports/transactions/iam-unit-of-work.port';
 import type { IamCommandRepositories } from '../ports/repositories/iam-command-repositories.port';
+import type { IamUnitOfWorkPort } from '../ports/transactions/iam-unit-of-work.port';
 
 export class RefreshSessionHandler {
   constructor(

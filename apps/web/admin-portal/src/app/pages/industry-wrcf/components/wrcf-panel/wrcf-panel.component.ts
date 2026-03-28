@@ -1,12 +1,12 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
+  ImpactLevelOption, CRITICALITY_LEVELS, COMPLEXITY_LEVELS, FREQUENCY_LEVELS
+} from '../../models/wrcf-impact-levels';
+import {
   PanelState, EntityType, FunctionalGroup, PrimaryWorkObject, SecondaryWorkObject,
   DomainType, StrategicImportance
 } from '../../models/wrcf.models';
-import {
-  ImpactLevelOption, CRITICALITY_LEVELS, COMPLEXITY_LEVELS, FREQUENCY_LEVELS
-} from '../../models/wrcf-impact-levels';
 
 @Component({
   selector: 'whizard-wrcf-panel',

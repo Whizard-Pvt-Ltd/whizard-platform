@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import type { SkillDto } from '../../application/dto/skill.dto';
 import type { ISkillRepository } from '../../domain/repositories/skill.repository';
 import { ListSkillsQueryHandler } from '../../application/query-handlers/list-skills.handler';
-import type { SkillDto } from '../../application/dto/skill.dto';
 
 const makeRepo = (): ISkillRepository => ({
   findByCiId: vi.fn(),

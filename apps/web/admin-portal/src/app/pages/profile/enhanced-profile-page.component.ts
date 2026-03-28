@@ -1,5 +1,4 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-
 import { RouterLink } from '@angular/router';
 import { StackAuthService } from '../../core/services/stack-auth.service';
 

@@ -1,10 +1,10 @@
 import { randomInt, randomUUID } from 'node:crypto';
 import type { MfaGateway } from '../../application/ports/gateways/mfa.gateway';
-import { secureCompare } from './secure-compare.util';
 import {
   defaultMfaChallengeConfig,
   type MfaChallengeConfig
 } from './mfa-challenge.config';
+import { secureCompare } from './secure-compare.util';
 
 interface StoredChallenge {
   readonly userAccountId: string;

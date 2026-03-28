@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
-import type { DomainType } from '../value-objects/domain-type.vo';
 import type { DomainEvent } from '../events/domain-event.base';
+import type { DomainType } from '../value-objects/domain-type.vo';
 import {
   FunctionalGroupCreatedEvent,
   FunctionalGroupUpdatedEvent,
