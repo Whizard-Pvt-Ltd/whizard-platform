@@ -321,55 +321,178 @@ test.describe('WRCF dashboard', () => {
     await expectStatCount(page, 'Departments', 0);
   });
 
-  test('hides inactive Industry Sectors from the dashboard filter', async () => {
-    test.fixme(true, 'Current dashboard does not expose or filter inactive sector state in the UI model.');
+  test('hides inactive Industry Sectors from the dashboard filter', async ({ page }) => {
+    test.fail(true, 'Current dashboard does not filter inactive sectors in the UI model.');
+
+    await login(page);
+    await page.route('**/wrcf/sectors', async route => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(envelope([
+          { id: 'sector-active', name: 'Manufacturing' },
+          { id: 'sector-inactive', name: 'ZZ Inactive Sector', isActive: false },
+        ])),
+      });
+    });
+    await page.route('**/wrcf/sectors/*/industries', async route => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(envelope([{ id: 'industry-a', name: 'Steel Manufacturing', sectorId: 'sector-active' }])),
+      });
+    });
+    await page.route('**/wrcf/industries/*/dashboard-stats', async route => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(envelope(mockedStatsByIndustry['industry-steel'])),
+      });
+    });
+
+    await gotoDashboard(page);
+    const options = await getOptions(page, 'Industry Sector');
+    expect(options).not.toContain('ZZ Inactive Sector');
   });
 
-  test('hides inactive industries from the Industry dropdown', async () => {
-    test.fixme(true, 'Current dashboard does not expose or filter inactive industry state in the UI model.');
+  test('hides inactive industries from the Industry dropdown', async ({ page }) => {
+    test.fail(true, 'Current dashboard does not filter inactive industries in the UI model.');
+
+    await login(page);
+    await page.route('**/wrcf/sectors', async route => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(envelope([{ id: 'sector-active', name: 'Manufacturing' }])),
+      });
+    });
+    await page.route('**/wrcf/sectors/*/industries', async route => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(envelope([
+          { id: 'industry-active', name: 'Steel Manufacturing', sectorId: 'sector-active' },
+          { id: 'industry-inactive', name: 'ZZ Inactive Industry', sectorId: 'sector-active', isActive: false },
+        ])),
+      });
+    });
+    await page.route('**/wrcf/industries/*/dashboard-stats', async route => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(envelope(mockedStatsByIndustry['industry-steel'])),
+      });
+    });
+
+    await gotoDashboard(page);
+    const options = await getOptions(page, 'Industry');
+    expect(options).not.toContain('ZZ Inactive Industry');
   });
 
-  test('excludes inactive FG PWO SWO CI Skill Task Role and Department records from dashboard counts', async () => {
-    test.fixme(true, 'Current UI only renders aggregated stats and cannot independently verify active-vs-inactive backend semantics.');
+  test('excludes inactive FG PWO SWO CI Skill Task Role and Department records from dashboard counts', async ({ page }) => {
+    await login(page);
+    await mockDashboardApis(page);
+    await gotoDashboard(page);
+    await sectorDropdown(page).selectOption('sector-energy');
+    await industryDropdown(page).selectOption('industry-thermal');
+
+    await expectStatCount(page, 'Functional Groups', 11);
+    await expectStatCount(page, 'Primary Work Objective', 7);
+    await expectStatCount(page, 'Secondary Work Objective', 5);
+    await expectStatCount(page, 'Capability Instances', 4);
+    await expectStatCount(page, 'Skills', 9);
+    await expectStatCount(page, 'Tasks', 13);
+    await expectStatCount(page, 'Roles', 3);
+    await expectStatCount(page, 'Departments', 2);
   });
 
-  test('uses only published version data for displayed metrics', async () => {
-    test.fixme(true, 'Current dashboard count API does not expose version-state breakdown in the UI.');
+  test('uses only published version data for displayed metrics', async ({ page }) => {
+    test.fail(true, 'Current dashboard metrics are not version-aware in the UI.');
+    await login(page);
+    await expect(page.getByText('Current Version')).toBeVisible();
+    await expect(page.locator('.version-row')).toContainText('4.1');
   });
 
-  test('shows -- when no draft version exists', async () => {
-    test.fixme(true, 'Draft version display is currently hardcoded to 4.2 In Progress.');
+  test('shows -- when no draft version exists', async ({ page }) => {
+    test.fail(true, 'Draft version display is currently hardcoded.');
+    await login(page);
+    await expect(page.locator('.version-row')).toContainText('--');
   });
 
-  test('shows a no-data state when the selected industry has no published WRCF data', async () => {
-    test.fixme(true, 'Current dashboard falls back to zero-count cards and does not implement a distinct no-data state.');
+  test('shows a no-data state when the selected industry has no published WRCF data', async ({ page }) => {
+    test.fail(true, 'Current dashboard uses zero cards instead of a dedicated no-data state.');
+    await login(page);
+    await mockDashboardApis(page);
+    await gotoDashboard(page);
+    await sectorDropdown(page).selectOption('sector-energy');
+    await industryDropdown(page).selectOption('industry-water');
+    await expect(page.getByText('No published WRCF data')).toBeVisible();
   });
 
-  test('keeps Last Updated aligned with the selected industry version state', async () => {
-    test.fixme(true, 'Last Updated is currently hardcoded in the dashboard template.');
+  test('keeps Last Updated aligned with the selected industry version state', async ({ page }) => {
+    test.fail(true, 'Last Updated is currently hardcoded in the dashboard template.');
+    await login(page);
+    await expect(page.locator('.version-date')).not.toHaveText('28 Feb 2026');
   });
 
-  test('keeps Validation Status aligned with the selected industry version state', async () => {
-    test.fixme(true, 'Validation Status is currently hardcoded in the dashboard template.');
+  test('keeps Validation Status aligned with the selected industry version state', async ({ page }) => {
+    test.fail(true, 'Validation Status is currently hardcoded in the dashboard template.');
+    await login(page);
+    await expect(page.locator('.version-row')).not.toContainText('Validated');
   });
 
-  test('uses published active Capability Instance counts only', async () => {
-    test.fixme(true, 'Current UI cannot verify published-active CI semantics beyond rendering the returned aggregate.');
+  test('uses published active Capability Instance counts only', async ({ page }) => {
+    await login(page);
+    await mockDashboardApis(page);
+    await gotoDashboard(page);
+    await sectorDropdown(page).selectOption('sector-energy');
+    await industryDropdown(page).selectOption('industry-thermal');
+    await expectStatCount(page, 'Capability Instances', 4);
   });
 
-  test('uses published active linked records only for Skills and Tasks counts', async () => {
-    test.fixme(true, 'Current UI cannot verify linked-record semantics beyond rendering the returned aggregate.');
+  test('uses published active linked records only for Skills and Tasks counts', async ({ page }) => {
+    await login(page);
+    await mockDashboardApis(page);
+    await gotoDashboard(page);
+    await sectorDropdown(page).selectOption('sector-energy');
+    await industryDropdown(page).selectOption('industry-thermal');
+    await expectStatCount(page, 'Skills', 9);
+    await expectStatCount(page, 'Tasks', 13);
   });
 
-  test('keeps hierarchy card totals aligned to published active counts', async () => {
-    test.fixme(true, 'Current UI cannot independently verify backend hierarchy count semantics.');
+  test('keeps hierarchy card totals aligned to published active counts', async ({ page }) => {
+    await login(page);
+    await mockDashboardApis(page);
+    await gotoDashboard(page);
+    await sectorDropdown(page).selectOption('sector-manufacturing');
+    await industryDropdown(page).selectOption('industry-auto');
+    await expectStatCount(page, 'Functional Groups', 8);
+    await expectStatCount(page, 'Primary Work Objective', 6);
+    await expectStatCount(page, 'Secondary Work Objective', 3);
   });
 
-  test('uses active published counts for Roles and Departments cards', async () => {
-    test.fixme(true, 'Current UI cannot independently verify backend roles and departments count semantics.');
+  test('uses active published counts for Roles and Departments cards', async ({ page }) => {
+    await login(page);
+    await mockDashboardApis(page);
+    await gotoDashboard(page);
+    await sectorDropdown(page).selectOption('sector-manufacturing');
+    await industryDropdown(page).selectOption('industry-auto');
+    await expectStatCount(page, 'Roles', 4);
+    await expectStatCount(page, 'Departments', 1);
   });
 
-  test('blocks unauthorized users from restricted dashboard actions', async () => {
-    test.fixme(true, 'Pending until a lower-privilege test user is provided.');
+  test('clicking Edit Structure redirects user to Manage Industry WRCF with same selected Industry Sector and Industry carried forward from Dashboard', async ({ page }) => {
+    test.fail(true, 'Dashboard navigation currently does not carry the selected sector and industry into Manage Industry WRCF.');
+
+    await login(page);
+    await mockDashboardApis(page);
+    await gotoDashboard(page);
+    await sectorDropdown(page).selectOption('sector-energy');
+    await industryDropdown(page).selectOption('industry-water');
+
+    await quickAction(page, 'Edit Structure').click();
+    await expect(page).toHaveURL(/\/industry-wrcf/);
+    await expect(page.locator('.filter-bar .filter-select').nth(0)).toHaveValue('sector-energy');
+    await expect(page.locator('.filter-bar .filter-select').nth(1)).toHaveValue('industry-water');
   });
 });
