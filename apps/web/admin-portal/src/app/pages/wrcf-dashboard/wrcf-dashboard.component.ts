@@ -1,5 +1,10 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormControl } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
 import type { IndustrySector, Industry } from '../industry-wrcf/models/wrcf.models';
 import type { WrcfDashboardStats } from './models/wrcf-dashboard.models';
@@ -14,7 +19,14 @@ import { WrcfDashboardApiService } from './services/wrcf-dashboard-api.service';
 @Component({
   selector: 'whizard-wrcf-dashboard',
   standalone: true,
-  imports: [FormsModule, NavDrawerComponent, VersionHistoryDialogComponent, PublishDraftDialogComponent],
+  imports: [
+    ReactiveFormsModule,
+    NavDrawerComponent,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatIconModule,
+  ],
   templateUrl: './wrcf-dashboard.component.html',
   styleUrl: './wrcf-dashboard.component.css'
 })
@@ -23,18 +35,18 @@ export class WrcfDashboardComponent implements OnInit {
   private readonly dashboardApi = inject(WrcfDashboardApiService);
   private readonly stackAuthService = inject(StackAuthService);
   private readonly router = inject(Router);
+  private readonly matDialog = inject(MatDialog);
 
   protected sectors = signal<IndustrySector[]>([]);
   protected industries = signal<Industry[]>([]);
-  protected selectedSectorId = signal<string | null>(null);
-  protected selectedIndustry = signal<Industry | null>(null);
   protected stats = signal<WrcfDashboardStats>(EMPTY_STATS);
 
   protected drawerOpen = signal(false);
   protected userMenuOpen = signal(false);
-  protected versionHistoryOpen = signal(false);
-  protected publishDraftOpen = signal(false);
   protected loading = signal(false);
+
+  protected sectorControl = new FormControl<string | null>(null);
+  protected industryControl = new FormControl<string | null>(null);
 
   protected get userName(): string | null {
     const user = this.stackAuthService.currentUser();
@@ -45,27 +57,34 @@ export class WrcfDashboardComponent implements OnInit {
     this.wrcfApi.listSectors().subscribe(sectors => {
       this.sectors.set(sectors);
       if (sectors.length > 0) {
+        this.sectorControl.setValue(sectors[0].id, { emitEvent: false });
         this.onSectorChange(sectors[0].id);
       }
     });
+
+    this.sectorControl.valueChanges.subscribe(id => {
+      if (id) this.onSectorChange(id);
+    });
+
+    this.industryControl.valueChanges.subscribe(id => {
+      if (id) this.onIndustryChange(id);
+    });
   }
 
-  protected onSectorChange(sectorId: string): void {
-    this.selectedSectorId.set(sectorId);
+  private onSectorChange(sectorId: string): void {
     this.industries.set([]);
-    this.selectedIndustry.set(null);
+    this.industryControl.setValue(null, { emitEvent: false });
     this.stats.set(EMPTY_STATS);
     this.wrcfApi.listIndustries(sectorId).subscribe(industries => {
       this.industries.set(industries);
       if (industries.length > 0) {
+        this.industryControl.setValue(industries[0].id, { emitEvent: false });
         this.onIndustryChange(industries[0].id);
       }
     });
   }
 
-  protected onIndustryChange(industryId: string): void {
-    const industry = this.industries().find(i => i.id === industryId) ?? null;
-    this.selectedIndustry.set(industry);
+  private onIndustryChange(industryId: string): void {
     this.stats.set(EMPTY_STATS);
     this.loading.set(true);
     this.dashboardApi.getDashboardStats(industryId).subscribe({
@@ -77,6 +96,20 @@ export class WrcfDashboardComponent implements OnInit {
         this.stats.set(EMPTY_STATS);
         this.loading.set(false);
       }
+    });
+  }
+
+  protected openVersionHistory(): void {
+    this.matDialog.open(VersionHistoryDialogComponent, {
+      panelClass: ['dialog-panel'],
+      width: '480px',
+    });
+  }
+
+  protected openPublishDraft(): void {
+    this.matDialog.open(PublishDraftDialogComponent, {
+      panelClass: ['dialog-panel'],
+      width: '480px',
     });
   }
 

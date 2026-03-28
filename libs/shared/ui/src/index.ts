@@ -8,7 +8,6 @@
 export * from './auth/index.js';
 
 // Future exports:
-// export * from './layout';
 // export * from './form-controls';
 // export * from './data-display';
 // export * from './design-system';

@@ -4,7 +4,7 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "strict": true,
-     "declaration": false,
+    "declaration": false,
     "composite": false,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

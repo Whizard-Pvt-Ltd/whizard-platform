@@ -1,0 +1,50 @@
+     # Project Theming Add
+
+     ## Overview
+     <!-- One paragraph: what this enhancement does, which existing feature it improves, and why. -->
+     Apply the the tailwind css and angular material component to the WrcfDashboardComponent and its all components as per my theme lib given in libs/shared/theme.
+     Theme lib and icons is already provided in app.config.ts with theme schema. This is because theme should be apply to all web app. 
+     For reference use the my current /Users/slpl/Desktop/office_work_space/fuse-theme/fuse-v21.0 which is my current frontend project.
+
+     ## Current Behaviors
+     <!-- Describe how the feature works today before this enhancement. -->
+     Currently all the css is described in component css file need to remove it and apply tailwind and angular materia components for constant theme.
+     Also eed to remove all the svg icons with icons lib as per the Current applied icons if needed can be add to the icons lib in the constant either use 
+     lucide or heroicons-outline only.
+
+     ## Desired Behaviors
+     <!-- Describe how it should work after the enhancement. Be specific. -->
+
+     - A single source-of-truth theme configuration drives both Tailwind and Angular Material.
+     - Typography scale (font sizes, weights, line heights) and color palette (primary, accent, surface, background, text, border) are centrally defined and consumed by both libraries.
+     - Angular Material components are fully overridden via a custom SCSS theme; n/o default Material theme colors leak through.
+
+
+     ## Default Behaviors
+     <!-- Auto-select rules, pre-population, initial state changes if any. -->
+
+     - Use Angular Material components and replace the ts as per the used material components.
+     - Apply all component as per the angular 21 syntax.
+     - Apply the color palette as per the theme palette given in lib don't apply color for statically use bg-primary, text-primary.
+     - Apply the icons as per the mat-icon syntax given <mat-icon class="size-4" [svgIcon]="'heroicons_outline:bars-3'" />
+     - Apply the side-navigation in layout to make it give reference /Users/slpl/Desktop/office_work_space/fuse-theme/fuse-v21.0.
+
+
+     ## User Flows
+     <!-- Step-by-step flows that change or are newly introduced.
+          e.g. "1. Click Export → 2. Choose format → 3. Download file" -->
+
+     - As per the angular materia components flow to every form-field use as reactive form controls and there api if needed.
+     - For dialog box use  angular materia component's mat-dialog and apply the ts file as per api of materia component.
+
+
+     ## Scope
+     <!-- Explicit list of what must be changed: frontend, API, migration, tests. -->
+
+     - Changes apply only on frontend
+
+     ## Out of Scope
+     <!-- Anything explicitly NOT part of this enhancement to avoid scope creep. -->
+
+     ## Notes / Edge Cases
+     <!-- Gotchas, open questions, cross-feature dependencies. -->
