@@ -9,6 +9,7 @@ prisma/dev.db-journal
 logs/
 playwright-report/
 test-results/
+manual-tests/.auth/
 temp.txt
 
 # NX
