@@ -35,11 +35,11 @@ RUN pnpm install --frozen-lockfile --prefer-offline
 FROM deps AS builder
 
 # Accept build arguments for environment variables
-ARG VITE_BFF_API_URL=https://bfftest.whizard.club
-ARG BFF_API_URL=https://bfftest.whizard.club
+ARG VITE_BFF_API_URL
+ARG BFF_API_URL
 ARG VITE_STACK_AUTH_PROJECT_ID
 ARG VITE_STACK_AUTH_PUBLISHABLE_CLIENT_KEY
-
+ARG BUILD_ENV=production
 # Set as environment variables for Vite build
 ENV VITE_BFF_API_URL=${VITE_BFF_API_URL}
 ENV BFF_API_URL=${BFF_API_URL}
@@ -50,7 +50,7 @@ ENV VITE_STACK_AUTH_PUBLISHABLE_CLIENT_KEY=${VITE_STACK_AUTH_PUBLISHABLE_CLIENT_
 COPY . .
 
 # Build admin portal for production
-RUN pnpm build:web-admin --configuration=production
+RUN pnpm build:web-admin --configuration=$BUILD_ENV
 
 # ============================================
 # Stage 4: Production Runtime with Nginx
