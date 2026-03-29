@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WRCF Functional Group Ordered Results</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b1220;
+      --panel: #132033;
+      --panel-2: #1a2b43;
+      --text: #edf4ff;
+      --muted: #9bb0d1;
+      --border: #30455f;
+      --passed: #22c55e;
+      --failed: #ef4444;
+      --skipped: #eab308;
+      --other: #60a5fa;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(180deg, #08111f 0%, var(--bg) 100%);
+      color: var(--text);
+    }
+    .wrap {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 28px 20px 40px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 30px;
+      line-height: 1.2;
+    }
+    .subtitle {
+      margin: 0 0 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .stat {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+    }
+    .stat-label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .stat-value {
+      margin-top: 8px;
+      font-size: 28px;
+      font-weight: 700;
+    }
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--panel);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 980px;
+    }
+    th, td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(48, 69, 95, 0.7);
+      vertical-align: top;
+      text-align: left;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    th {
+      position: sticky;
+      top: 0;
+      background: var(--panel-2);
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    tr:last-child td { border-bottom: 0; }
+    .main-row {
+      cursor: pointer;
+    }
+    .main-row:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .case-id {
+      white-space: nowrap;
+      font-weight: 700;
+      width: 120px;
+    }
+    .test-name {
+      min-width: 420px;
+      font-weight: 600;
+    }
+    .duration {
+      white-space: nowrap;
+      width: 110px;
+    }
+    .status {
+      display: inline-block;
+      min-width: 76px;
+      text-align: center;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 0;
+      cursor: pointer;
+    }
+    .status-passed { color: var(--passed); background: rgba(34, 197, 94, 0.14); }
+    .status-failed { color: var(--failed); background: rgba(239, 68, 68, 0.14); }
+    .status-skipped { color: var(--skipped); background: rgba(234, 179, 8, 0.14); }
+    .status-other { color: var(--other); background: rgba(96, 165, 250, 0.14); }
+    .details-row {
+      display: none;
+    }
+    .details-row.is-open {
+      display: table-row;
+    }
+    .details-cell {
+      background: rgba(9, 17, 30, 0.6);
+      padding: 0;
+    }
+    .details-wrap {
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+    .detail-block {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(48, 69, 95, 0.65);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+    .detail-label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+    .notes {
+      color: var(--muted);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .source {
+      color: var(--text);
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>WRCF Functional Group Ordered Results</h1>
+    <p class="subtitle">Custom point-wise ordered report generated from Playwright JSON output.</p>
+    <div class="stats">
+      <div class="stat"><div class="stat-label">Total</div><div class="stat-value">20</div></div>
+      <div class="stat"><div class="stat-label">Passed</div><div class="stat-value">15</div></div>
+      <div class="stat"><div class="stat-label">Failed</div><div class="stat-value">5</div></div>
+      <div class="stat"><div class="stat-label">Skipped</div><div class="stat-value">0</div></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Test Case ID</th>
+            <th>Test Name</th>
+            <th>Status</th>
+            <th>Duration</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="main-row" data-target="details-1">
+              <td class="case-id">FG-E2E-001</td>
+              <td class="test-name">FG-E2E-001 lists functional groups for the selected industry context</td>
+              <td><button type="button" class="status status-passed" data-target="details-1">Passed</button></td>
+              <td class="duration">3310 ms</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-1" class="details-row">
+              <td colspan="5" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">FG-E2E-001 lists functional groups for the selected industry context</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-2">
+              <td class="case-id">FG-E2E-002</td>
+              <td class="test-name">FG-E2E-002 shows the add icon in the Functional Group column header</td>
+              <td><button type="button" class="status status-passed" data-target="details-2">Passed</button></td>
+              <td class="duration">2627 ms</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-2" class="details-row">
+              <td colspan="5" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">FG-E2E-002 shows the add icon in the Functional Group column header</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-3">
+              <td class="case-id">FG-E2E-003</td>
+              <td class="test-name">FG-E2E-003 opens the Create Functional Group popup from the add icon</td>
+              <td><button type="button" class="status status-passed" data-target="details-3">Passed</button></td>
+              <td class="duration">13302 ms</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-3" class="details-row">
+              <td colspan="5" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">FG-E2E-003 opens the Create Functional Group popup from the add icon</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-4">
+              <td class="case-id">FG-E2E-004</td>
+              <td class="test-name">FG-E2E-004 shows Create Functional Group as the popup title</td>
+              <td><button type="button" class="status status-passed" data-target="details-4">Passed</button></td>
+              <td class="duration">12327 ms</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-4" class="details-row">
+              <td colspan="5" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">FG-E2E-004 shows Create Functional Group as the popup title</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-5">
+              <td class="case-id">FG-E2E-005</td>
+              <td class="test-name">FG-E2E-005 keeps Name mandatory while Description and Domain Type remain optional</td>
+              <td><button type="button" class="status status-passed" data-target="details-5">Passed</button></td>
+              <td class="duration">14953 ms</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-5" class="details-row">
+              <td colspan="5" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">FG-E2E-005 keeps Name mandatory while Description and Domain Type remain optional</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-6">
+              <td class="case-id">FG-E2E-006</td>
+              <td class="test-name">FG-E2E-006 accepts a 50 character name and blocks a 51 character name</td>
+              <td><button type="button" class="status status-failed" data-target="details-6">Failed</button></td>
+              <td class="duration">19744 ms</td>
+              <td>Click row or status</td>
+            </tr>
+            <tr id="details-6" class="details-row">
+              <td colspan="5" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">FG-E2E-006 accepts a 50 character name and blocks a 51 character name</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">Error: [2mexpect([22m[31mlocator[39m[2m).not.[22mtoBeVisible[2m([22m[2m)[22m failed Locator: locator(&#39;.panel&#39;) Expected: not visible Received: visible Timeout: 5000ms Call log: [2m - Expect &quot;not toBeVisible&quot; with timeout 5000ms[22m [2m - waiting for locator(&#39;.panel&#39;)[22m [2m 9 × locator resolved to &lt;div class=&quot;panel&quot; _ngcontent-ng-c1217064951=&quot;&quot;&gt;…&lt;/div&gt;[22m [2m - unexpected value &quot;visible&quot;[22m 256 | await openEditPanel(page, itemName); 257 | await panel(page).getByTitle(&#39;Delete&#39;).click(); &gt; 258 | await expect(panel(page)).not.toBeVisible(); | ^ 259 | await expect(functionalGroupRow(page, itemName)).toHaveCount(0); 260 | } 261 | at deleteFunctionalGroup (C:\Users\sande\OneDrive\Documents\Codex\whizard-platform\manual-tests\wrcf_Functional_Group.playwright.spec.ts:258:33) at C:\Users\sande\OneDrive\Documents\Codex\whizard-platform\manual-tests\wrcf_Functional_Group.playwright.spec.ts:350:5</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-7">
+              <td class="case-id">FG-E2E-007</td>
+              <td class="test-name">FG-E2E-007 saves a functional group with Name only</td>
+              <td><button type="button" class="status status-passed" data-target="details-7">Passed</button></td>
+              <td class="duration">4987 ms</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-7" class="details-row">
+              <td colspan="5" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">FG-E2E-007 saves a functional group with Name only</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-8">
+              <td class="case-id">FG-E2E-008</td>
+              <td class="test-name">FG-E2E-008 does not save a blank functional group name</td>
+              <td><button type="button" class="status status-passed" data-target="details-8">Passed</button></td>
+              <td class="duration">2671 ms</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-8" class="details-row">
+              <td colspan="5" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">FG-E2E-008 does not save a blank functional group name</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-9">
+              <td class="case-id">FG-E2E-009</td>
+              <td class="test-name">FG-E2E-009 blocks duplicate functional group names on add</td>
+              <td><button type="button" class="status status-failed" data-target="details-9">Failed</button></td>
+              <td class="duration">8188 ms</td>
+              <td>Click row or status</td>
+            </tr>
+            <tr id="details-9" class="details-row">
+              <td colspan="5" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">FG-E2E-009 blocks duplicate functional group names on add</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed Locator: locator(&#39;.error-banner&#39;) Expected pattern: [32m/duplicate|exists|already/i[39m Timeout: 5000ms Error: element(s) not found Call log: [2m - Expect &quot;toContainText&quot; with timeout 5000ms[22m [2m - waiting for locator(&#39;.error-banner&#39;)[22m 382 | 383 | await expect(panel(page)).toBeVisible(); &gt; 384 | await expect(errorBanner(page)).toContainText(/duplicate|exists|already/i); | ^ 385 | }); 386 | 387 | test(&#39;FG-E2E-010 blocks duplicates that differ only by trailing spaces&#39;, async () =&gt; { at C:\Users\sande\OneDrive\Documents\Codex\whizard-platform\manual-tests\wrcf_Functional_Group.playwright.spec.ts:384:37</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-10">
+              <td class="case-id">FG-E2E-010</td>
+              <td class="test-name">FG-E2E-010 blocks duplicates that differ only by trailing spaces</td>
+              <td><button type="button" class="status status-failed" data-target="details-10">Failed</button></td>
+              <td class="duration">8308 ms</td>
+              <td>Click row or status</td>
+            </tr>
+            <tr id="details-10" class="details-row">
+              <td colspan="5" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">FG-E2E-010 blocks duplicates that differ only by trailing spaces</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed Locator: locator(&#39;.error-banner&#39;) Expected pattern: [32m/duplicate|exists|already/i[39m Timeout: 5000ms Error: element(s) not found Call log: [2m - Expect &quot;toContainText&quot; with timeout 5000ms[22m [2m - waiting for locator(&#39;.error-banner&#39;)[22m 391 | 392 | await expect(panel(page)).toBeVisible(); &gt; 393 | await expect(errorBanner(page)).toContainText(/duplicate|exists|already/i); | ^ 394 | }); 395 | 396 | test(&#39;FG-E2E-011 handles apostrophes and special characters in the name&#39;, async () =&gt; { at C:\Users\sande\OneDrive\Documents\Codex\whizard-platform\manual-tests\wrcf_Functional_Group.playwright.spec.ts:393:37</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-11">
+              <td class="case-id">FG-E2E-011</td>
+              <td class="test-name">FG-E2E-011 handles apostrophes and special characters in the name</td>
+              <td><button type="button" class="status status-passed" data-target="details-11">Passed</button></td>
+              <td class="duration">5522 ms</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-11" class="details-row">
+              <td colspan="5" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">FG-E2E-011 handles apostrophes and special characters in the name</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-12">
+              <td class="case-id">FG-E2E-012</td>
+              <td class="test-name">FG-E2E-012 closes the add panel without saving when cancel is used</td>
+              <td><button type="button" class="status status-passed" data-target="details-12">Passed</button></td>
+              <td class="duration">3354 ms</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-12" class="details-row">
+              <td colspan="5" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">FG-E2E-012 closes the add panel without saving when cancel is used</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-13">
+              <td class="case-id">FG-E2E-013</td>
+              <td class="test-name">FG-E2E-013 refreshes the list immediately after add</td>
+              <td><button type="button" class="status status-passed" data-target="details-13">Passed</button></td>
+              <td class="duration">6288 ms</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-13" class="details-row">
+              <td colspan="5" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">FG-E2E-013 refreshes the list immediately after add</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-14">
+              <td class="case-id">FG-E2E-019</td>
+              <td class="test-name">FG-E2E-019 blocks blank-name and duplicate validation on edit</td>
+              <td><button type="button" class="status status-failed" data-target="details-14">Failed</button></td>
+              <td class="duration">10446 ms</td>
+              <td>Click row or status</td>
+            </tr>
+            <tr id="details-14" class="details-row">
+              <td colspan="5" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">FG-E2E-019 blocks blank-name and duplicate validation on edit</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed Locator: locator(&#39;.error-banner&#39;) Expected pattern: [32m/duplicate|exists|already/i[39m Timeout: 5000ms Error: element(s) not found Call log: [2m - Expect &quot;toContainText&quot; with timeout 5000ms[22m [2m - waiting for locator(&#39;.error-banner&#39;)[22m 436 | await panel(page).getByPlaceholder(&#39;Enter Name...&#39;).fill(otherName); 437 | await savePanel(page); &gt; 438 | await expect(errorBanner(page)).toContainText(/duplicate|exists|already/i); | ^ 439 | 440 | await closePanel(page); 441 | await deleteFunctionalGroup(page, otherName); at C:\Users\sande\OneDrive\Documents\Codex\whizard-platform\manual-tests\wrcf_Functional_Group.playwright.spec.ts:438:37</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-15">
+              <td class="case-id">FG-E2E-020</td>
+              <td class="test-name">FG-E2E-020 saves unchanged edits without showing duplicate validation</td>
+              <td><button type="button" class="status status-passed" data-target="details-15">Passed</button></td>
+              <td class="duration">6530 ms</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-15" class="details-row">
+              <td colspan="5" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">FG-E2E-020 saves unchanged edits without showing duplicate validation</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-16">
+              <td class="case-id">FG-E2E-021</td>
+              <td class="test-name">FG-E2E-021 shows updated functional group values in the list after save</td>
+              <td><button type="button" class="status status-passed" data-target="details-16">Passed</button></td>
+              <td class="duration">6623 ms</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-16" class="details-row">
+              <td colspan="5" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">FG-E2E-021 shows updated functional group values in the list after save</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-17">
+              <td class="case-id">FG-E2E-022</td>
+              <td class="test-name">FG-E2E-022 asks for confirmation before deleting a functional group</td>
+              <td><button type="button" class="status status-passed" data-target="details-17">Passed</button></td>
+              <td class="duration">4155 ms</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-17" class="details-row">
+              <td colspan="5" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">FG-E2E-022 asks for confirmation before deleting a functional group</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-18">
+              <td class="case-id">FG-E2E-023</td>
+              <td class="test-name">FG-E2E-023 deletes a functional group when it has no child PWO</td>
+              <td><button type="button" class="status status-passed" data-target="details-18">Passed</button></td>
+              <td class="duration">6006 ms</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-18" class="details-row">
+              <td colspan="5" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">FG-E2E-023 deletes a functional group when it has no child PWO</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-19">
+              <td class="case-id">FG-E2E-024</td>
+              <td class="test-name">FG-E2E-024 blocks delete when the functional group has linked PWO records</td>
+              <td><button type="button" class="status status-passed" data-target="details-19">Passed</button></td>
+              <td class="duration">8322 ms</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-19" class="details-row">
+              <td colspan="5" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">FG-E2E-024 blocks delete when the functional group has linked PWO records</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-20">
+              <td class="case-id">FG-E2E-025</td>
+              <td class="test-name">FG-E2E-025 shows toaster feedback for validation and success paths</td>
+              <td><button type="button" class="status status-failed" data-target="details-20">Failed</button></td>
+              <td class="duration">7602 ms</td>
+              <td>Click row or status</td>
+            </tr>
+            <tr id="details-20" class="details-row">
+              <td colspan="5" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">FG-E2E-025 shows toaster feedback for validation and success paths</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed Locator: locator(&#39;.error-banner&#39;) Expected: visible Timeout: 5000ms Error: element(s) not found Call log: [2m - Expect &quot;toBeVisible&quot; with timeout 5000ms[22m [2m - waiting for locator(&#39;.error-banner&#39;)[22m 510 | await openCreatePanel(page); 511 | await savePanel(page); &gt; 512 | await expect(errorBanner(page)).toBeVisible(); | ^ 513 | await closePanel(page); 514 | 515 | await createFunctionalGroup(page, name); at C:\Users\sande\OneDrive\Documents\Codex\whizard-platform\manual-tests\wrcf_Functional_Group.playwright.spec.ts:512:37</div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script>
+    const toggle = (id) => {
+      const row = document.getElementById(id);
+      if (!row) return;
+      row.classList.toggle('is-open');
+    };
+    document.querySelectorAll('.main-row').forEach((row) => {
+      row.addEventListener('click', () => toggle(row.dataset.target));
+    });
+    document.querySelectorAll('.status').forEach((button) => {
+      button.addEventListener('click', (event) => {
+        event.stopPropagation();
+        toggle(button.dataset.target);
+      });
+    });
+  </script>
+</body>
+</html>

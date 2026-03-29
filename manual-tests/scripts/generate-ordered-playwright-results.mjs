@@ -68,6 +68,12 @@ function parseCaseOrder(caseId) {
   return match ? Number(match[1]) : Number.MAX_SAFE_INTEGER;
 }
 
+function getLocation(spec) {
+  const test = (spec.tests ?? [])[0];
+  const result = (test?.results ?? [])[0];
+  return test?.location ?? result?.location ?? spec.location ?? null;
+}
+
 function escapeCell(value) {
   return String(value ?? '').replace(/\|/g, '\\|').replace(/\r?\n/g, ' ');
 }
@@ -77,14 +83,25 @@ function csvCell(value) {
   return `"${text}"`;
 }
 
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 const args = parseArgs(process.argv.slice(2));
 const inputPath = path.resolve(args.input ?? '');
 const outputMd = path.resolve(args.outputMd ?? '');
 const outputCsv = path.resolve(args.outputCsv ?? '');
+const outputHtml = args.outputHtml ? path.resolve(args.outputHtml) : '';
+const generatedPrefix = args.prefix ?? 'TC';
 const title = args.title ?? 'Playwright Ordered Results';
 
 if (!inputPath || !outputMd || !outputCsv) {
-  throw new Error('Usage: node generate-ordered-playwright-results.mjs --input <json> --outputMd <md> --outputCsv <csv> --title <title>');
+  throw new Error('Usage: node generate-ordered-playwright-results.mjs --input <json> --outputMd <md> --outputCsv <csv> [--outputHtml <html>] [--prefix <id-prefix>] --title <title>');
 }
 
 const rawReport = fs.readFileSync(inputPath, 'utf8').replace(/^\uFEFF/, '');
@@ -93,20 +110,29 @@ const specs = collectSpecs(report);
 
 const rows = specs
   .map((spec) => {
-    const caseId = parseCaseId(spec.title);
+    const parsedCaseId = parseCaseId(spec.title);
+    const location = getLocation(spec);
+    const line = location?.line ?? Number.MAX_SAFE_INTEGER;
     return {
-      caseId,
-      order: parseCaseOrder(caseId),
+      parsedCaseId,
+      hasExplicitCaseId: parsedCaseId !== spec.title,
+      order: parseCaseOrder(parsedCaseId),
+      line,
       title: spec.title,
       status: getStatus(spec),
       durationMs: getDuration(spec),
       details: getFailureDetails(spec),
     };
   })
-  .sort((a, b) => a.order - b.order || a.title.localeCompare(b.title));
+  .sort((a, b) => a.order - b.order || a.line - b.line || a.title.localeCompare(b.title))
+  .map((row, index) => ({
+    ...row,
+    caseId: row.hasExplicitCaseId ? row.parsedCaseId : `${generatedPrefix}-${String(index + 1).padStart(3, '0')}`,
+  }));
 
 fs.mkdirSync(path.dirname(outputMd), { recursive: true });
 fs.mkdirSync(path.dirname(outputCsv), { recursive: true });
+if (outputHtml) fs.mkdirSync(path.dirname(outputHtml), { recursive: true });
 
 const markdown = [
   `# ${title}`,
@@ -126,4 +152,261 @@ const csv = [
 fs.writeFileSync(outputMd, markdown);
 fs.writeFileSync(outputCsv, csv);
 
-console.log(`Wrote ${rows.length} ordered results to ${outputMd} and ${outputCsv}`);
+if (outputHtml) {
+  const totals = rows.reduce((acc, row) => {
+    acc.total += 1;
+    if (row.status === 'Passed') acc.passed += 1;
+    else if (row.status === 'Failed' || row.status === 'Timed Out' || row.status === 'Interrupted') acc.failed += 1;
+    else if (row.status === 'Skipped') acc.skipped += 1;
+    else acc.other += 1;
+    return acc;
+  }, { total: 0, passed: 0, failed: 0, skipped: 0, other: 0 });
+
+  const html = `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${escapeHtml(title)}</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b1220;
+      --panel: #132033;
+      --panel-2: #1a2b43;
+      --text: #edf4ff;
+      --muted: #9bb0d1;
+      --border: #30455f;
+      --passed: #22c55e;
+      --failed: #ef4444;
+      --skipped: #eab308;
+      --other: #60a5fa;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(180deg, #08111f 0%, var(--bg) 100%);
+      color: var(--text);
+    }
+    .wrap {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 28px 20px 40px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 30px;
+      line-height: 1.2;
+    }
+    .subtitle {
+      margin: 0 0 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .stat {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+    }
+    .stat-label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .stat-value {
+      margin-top: 8px;
+      font-size: 28px;
+      font-weight: 700;
+    }
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--panel);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 980px;
+    }
+    th, td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(48, 69, 95, 0.7);
+      vertical-align: top;
+      text-align: left;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    th {
+      position: sticky;
+      top: 0;
+      background: var(--panel-2);
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    tr:last-child td { border-bottom: 0; }
+    .main-row {
+      cursor: pointer;
+    }
+    .main-row:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .case-id {
+      white-space: nowrap;
+      font-weight: 700;
+      width: 120px;
+    }
+    .test-name {
+      min-width: 420px;
+      font-weight: 600;
+    }
+    .duration {
+      white-space: nowrap;
+      width: 110px;
+    }
+    .status {
+      display: inline-block;
+      min-width: 76px;
+      text-align: center;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 0;
+      cursor: pointer;
+    }
+    .status-passed { color: var(--passed); background: rgba(34, 197, 94, 0.14); }
+    .status-failed { color: var(--failed); background: rgba(239, 68, 68, 0.14); }
+    .status-skipped { color: var(--skipped); background: rgba(234, 179, 8, 0.14); }
+    .status-other { color: var(--other); background: rgba(96, 165, 250, 0.14); }
+    .details-row {
+      display: none;
+    }
+    .details-row.is-open {
+      display: table-row;
+    }
+    .details-cell {
+      background: rgba(9, 17, 30, 0.6);
+      padding: 0;
+    }
+    .details-wrap {
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+    .detail-block {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(48, 69, 95, 0.65);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+    .detail-label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+    .notes {
+      color: var(--muted);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .source {
+      color: var(--text);
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>${escapeHtml(title)}</h1>
+    <p class="subtitle">Custom point-wise ordered report generated from Playwright JSON output.</p>
+    <div class="stats">
+      <div class="stat"><div class="stat-label">Total</div><div class="stat-value">${totals.total}</div></div>
+      <div class="stat"><div class="stat-label">Passed</div><div class="stat-value">${totals.passed}</div></div>
+      <div class="stat"><div class="stat-label">Failed</div><div class="stat-value">${totals.failed}</div></div>
+      <div class="stat"><div class="stat-label">Skipped</div><div class="stat-value">${totals.skipped}</div></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Test Case ID</th>
+            <th>Test Name</th>
+            <th>Status</th>
+            <th>Duration</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.map((row, index) => {
+            const statusClass = row.status === 'Passed'
+              ? 'status-passed'
+              : row.status === 'Skipped'
+                ? 'status-skipped'
+                : row.status === 'Failed' || row.status === 'Timed Out' || row.status === 'Interrupted'
+                  ? 'status-failed'
+                  : 'status-other';
+            const detailsId = `details-${index + 1}`;
+            return `<tr class="main-row" data-target="${detailsId}">
+              <td class="case-id">${escapeHtml(row.caseId)}</td>
+              <td class="test-name">${escapeHtml(row.title)}</td>
+              <td><button type="button" class="status ${statusClass}" data-target="${detailsId}">${escapeHtml(row.status)}</button></td>
+              <td class="duration">${row.durationMs} ms</td>
+              <td>${row.details ? 'Click row or status' : 'No extra details'}</td>
+            </tr>
+            <tr id="${detailsId}" class="details-row">
+              <td colspan="5" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">${escapeHtml(row.title)}</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">${escapeHtml(row.details || 'No additional failure details for this test.')}</div>
+                  </div>
+                </div>
+              </td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script>
+    const toggle = (id) => {
+      const row = document.getElementById(id);
+      if (!row) return;
+      row.classList.toggle('is-open');
+    };
+    document.querySelectorAll('.main-row').forEach((row) => {
+      row.addEventListener('click', () => toggle(row.dataset.target));
+    });
+    document.querySelectorAll('.status').forEach((button) => {
+      button.addEventListener('click', (event) => {
+        event.stopPropagation();
+        toggle(button.dataset.target);
+      });
+    });
+  </script>
+</body>
+</html>`;
+
+  fs.writeFileSync(outputHtml, html);
+}
+
+console.log(`Wrote ${rows.length} ordered results to ${outputMd}, ${outputCsv}${outputHtml ? `, and ${outputHtml}` : ''}`);
