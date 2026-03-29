@@ -58,7 +58,10 @@
     "docker:logs:bff": "docker compose logs -f bff",
     "docker:logs:core-api": "docker compose logs -f core-api",
     "validate": "pnpm lint && pnpm test && pnpm build:all",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test:wrcf:dashboard:ordered": "node manual-tests/scripts/run-ordered-report.mjs dashboard",
+    "test:wrcf:manage-wrcf:ordered": "node manual-tests/scripts/run-ordered-report.mjs manage-wrcf",
+    "test:wrcf:functional-group:ordered": "node manual-tests/scripts/run-ordered-report.mjs functional-group"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [

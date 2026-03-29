@@ -24,6 +24,20 @@ function collectSpecs(node, list = []) {
   return list;
 }
 
+function collectOrderedRunnerRows(report) {
+  return (report.tests ?? []).map((test, index) => ({
+    parsedCaseId: parseCaseId(test.title),
+    hasExplicitCaseId: parseCaseId(test.title) !== test.title,
+    order: parseCaseOrder(parseCaseId(test.title)),
+    line: test.location?.line ?? Number.MAX_SAFE_INTEGER,
+    title: test.title,
+    status: mapRunnerStatus(test.status),
+    durationMs: test.durationMs ?? 0,
+    details: test.details ?? '',
+    _index: index,
+  }));
+}
+
 function getStatus(spec) {
   const tests = spec.tests ?? [];
   const results = tests.flatMap((test) => test.results ?? []);
@@ -32,6 +46,15 @@ function getStatus(spec) {
   if (results.some((result) => result.status === 'skipped')) return 'Skipped';
   if (results.some((result) => result.status === 'interrupted')) return 'Interrupted';
   if (results.some((result) => result.status === 'passed')) return 'Passed';
+  return 'Unknown';
+}
+
+function mapRunnerStatus(status) {
+  if (status === 'passed') return 'Passed';
+  if (status === 'failed') return 'Failed';
+  if (status === 'timedOut') return 'Timed Out';
+  if (status === 'skipped') return 'Skipped';
+  if (status === 'interrupted') return 'Interrupted';
   return 'Unknown';
 }
 
@@ -92,13 +115,39 @@ function escapeHtml(value) {
     .replace(/'/g, '&#39;');
 }
 
+function formatDuration(durationMs) {
+  if (durationMs < 1000) return `${durationMs} ms`;
+  return `${(durationMs / 1000).toFixed(1)} s`;
+}
+
+function classifyResult(row) {
+  if (row.status === 'Passed') return 'Verified';
+  if (row.status === 'Skipped') return 'Pending / Blocked';
+
+  const signal = `${row.title} ${row.details}`.toLowerCase();
+  if (
+    /\/login|test_login_email|test_login_password|e-mail|password|tohaveurl\(\/\\\/dashboard|navigation.*interrupted|page\.goto|waiting for .*dashboard/i.test(signal)
+    || /context.*closed|page.*closed|browser.*closed|net::err_|connection refused/i.test(signal)
+  ) {
+    return 'Environment / Auth Flake';
+  }
+
+  if (row.status === 'Timed Out' || row.status === 'Interrupted') {
+    return 'Environment / Runtime Failure';
+  }
+
+  return 'Product Gap';
+}
+
 const args = parseArgs(process.argv.slice(2));
 const inputPath = path.resolve(args.input ?? '');
 const outputMd = path.resolve(args.outputMd ?? '');
 const outputCsv = path.resolve(args.outputCsv ?? '');
 const outputHtml = args.outputHtml ? path.resolve(args.outputHtml) : '';
 const generatedPrefix = args.prefix ?? 'TC';
-const title = args.title ?? 'Playwright Ordered Results';
+const rawTitle = args.title ?? 'Playwright Ordered Results';
+const title = rawTitle.trim();
+const displayTitle = title.length ? title : 'Playwright Ordered Results';
 
 if (!inputPath || !outputMd || !outputCsv) {
   throw new Error('Usage: node generate-ordered-playwright-results.mjs --input <json> --outputMd <md> --outputCsv <csv> [--outputHtml <html>] [--prefix <id-prefix>] --title <title>');
@@ -106,10 +155,9 @@ if (!inputPath || !outputMd || !outputCsv) {
 
 const rawReport = fs.readFileSync(inputPath, 'utf8').replace(/^\uFEFF/, '');
 const report = JSON.parse(rawReport);
-const specs = collectSpecs(report);
-
-const rows = specs
-  .map((spec) => {
+const baseRows = report.kind === 'ordered-playwright-run'
+  ? collectOrderedRunnerRows(report)
+  : collectSpecs(report).map((spec) => {
     const parsedCaseId = parseCaseId(spec.title);
     const location = getLocation(spec);
     const line = location?.line ?? Number.MAX_SAFE_INTEGER;
@@ -123,11 +171,15 @@ const rows = specs
       durationMs: getDuration(spec),
       details: getFailureDetails(spec),
     };
-  })
+  });
+
+const rows = baseRows
   .sort((a, b) => a.order - b.order || a.line - b.line || a.title.localeCompare(b.title))
   .map((row, index) => ({
     ...row,
     caseId: row.hasExplicitCaseId ? row.parsedCaseId : `${generatedPrefix}-${String(index + 1).padStart(3, '0')}`,
+    durationText: formatDuration(row.durationMs),
+    classification: classifyResult(row),
   }));
 
 fs.mkdirSync(path.dirname(outputMd), { recursive: true });
@@ -135,22 +187,30 @@ fs.mkdirSync(path.dirname(outputCsv), { recursive: true });
 if (outputHtml) fs.mkdirSync(path.dirname(outputHtml), { recursive: true });
 
 const markdown = [
-  `# ${title}`,
+  `# ${displayTitle}`,
   '',
-  '| Test Case ID | Test Name | Status | Duration (ms) | Notes |',
-  '| --- | --- | --- | ---: | --- |',
-  ...rows.map((row) => `| ${escapeCell(row.caseId)} | ${escapeCell(row.title)} | ${escapeCell(row.status)} | ${row.durationMs} | ${escapeCell(row.details)} |`),
+  '| Test Case ID | Test Name | Status | Failure Type | Duration | Notes |',
+  '| --- | --- | --- | --- | ---: | --- |',
+  ...rows.map((row) => `| ${escapeCell(row.caseId)} | ${escapeCell(row.title)} | ${escapeCell(row.status)} | ${escapeCell(row.classification)} | ${escapeCell(row.durationText)} | ${escapeCell(row.details)} |`),
   '',
 ].join('\n');
 
 const csv = [
-  'Test Case ID,Test Name,Status,Duration (ms),Notes',
-  ...rows.map((row) => [row.caseId, row.title, row.status, row.durationMs, row.details].map(csvCell).join(',')),
+  'Test Case ID,Test Name,Status,Failure Type,Duration,Notes',
+  ...rows.map((row) => [row.caseId, row.title, row.status, row.classification, row.durationText, row.details].map(csvCell).join(',')),
   '',
 ].join('\n');
 
-fs.writeFileSync(outputMd, markdown);
-fs.writeFileSync(outputCsv, csv);
+const writeWarnings = [];
+
+function tryWriteFile(targetPath, content) {
+  try {
+    fs.writeFileSync(targetPath, content);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    writeWarnings.push(`${targetPath}: ${message}`);
+  }
+}
 
 if (outputHtml) {
   const totals = rows.reduce((acc, row) => {
@@ -167,7 +227,7 @@ if (outputHtml) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${escapeHtml(title)}</title>
+  <title>${escapeHtml(displayTitle)}</title>
   <style>
     :root {
       color-scheme: dark;
@@ -328,11 +388,28 @@ if (outputHtml) {
       font-family: Consolas, "Courier New", monospace;
       font-size: 13px;
     }
+    .classification {
+      white-space: nowrap;
+      width: 190px;
+    }
+    .type-pill {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+    }
+    .type-verified { color: var(--passed); background: rgba(34, 197, 94, 0.14); }
+    .type-pending { color: var(--skipped); background: rgba(234, 179, 8, 0.14); }
+    .type-product { color: #fda4af; background: rgba(244, 63, 94, 0.16); }
+    .type-env { color: #93c5fd; background: rgba(59, 130, 246, 0.16); }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <h1>${escapeHtml(title)}</h1>
+    <h1>${escapeHtml(displayTitle)}</h1>
     <p class="subtitle">Custom point-wise ordered report generated from Playwright JSON output.</p>
     <div class="stats">
       <div class="stat"><div class="stat-label">Total</div><div class="stat-value">${totals.total}</div></div>
@@ -347,6 +424,7 @@ if (outputHtml) {
             <th>Test Case ID</th>
             <th>Test Name</th>
             <th>Status</th>
+            <th>Failure Type</th>
             <th>Duration</th>
             <th>Details</th>
           </tr>
@@ -360,20 +438,32 @@ if (outputHtml) {
                 : row.status === 'Failed' || row.status === 'Timed Out' || row.status === 'Interrupted'
                   ? 'status-failed'
                   : 'status-other';
+            const typeClass = row.classification === 'Verified'
+              ? 'type-verified'
+              : row.classification === 'Pending / Blocked'
+                ? 'type-pending'
+                : row.classification === 'Environment / Auth Flake' || row.classification === 'Environment / Runtime Failure'
+                  ? 'type-env'
+                  : 'type-product';
             const detailsId = `details-${index + 1}`;
             return `<tr class="main-row" data-target="${detailsId}">
               <td class="case-id">${escapeHtml(row.caseId)}</td>
               <td class="test-name">${escapeHtml(row.title)}</td>
               <td><button type="button" class="status ${statusClass}" data-target="${detailsId}">${escapeHtml(row.status)}</button></td>
-              <td class="duration">${row.durationMs} ms</td>
+              <td class="classification"><span class="type-pill ${typeClass}">${escapeHtml(row.classification)}</span></td>
+              <td class="duration">${escapeHtml(row.durationText)}</td>
               <td>${row.details ? 'Click row or status' : 'No extra details'}</td>
             </tr>
             <tr id="${detailsId}" class="details-row">
-              <td colspan="5" class="details-cell">
+              <td colspan="6" class="details-cell">
                 <div class="details-wrap">
                   <div class="detail-block">
                     <div class="detail-label">Source</div>
                     <div class="source">${escapeHtml(row.title)}</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">${escapeHtml(row.classification)}</div>
                   </div>
                   <div class="detail-block">
                     <div class="detail-label">Failure / Notes</div>
@@ -406,7 +496,17 @@ if (outputHtml) {
 </body>
 </html>`;
 
-  fs.writeFileSync(outputHtml, html);
+  tryWriteFile(outputHtml, html);
 }
 
-console.log(`Wrote ${rows.length} ordered results to ${outputMd}, ${outputCsv}${outputHtml ? `, and ${outputHtml}` : ''}`);
+tryWriteFile(outputMd, markdown);
+tryWriteFile(outputCsv, csv);
+
+console.log(`Processed ${rows.length} ordered results.`);
+console.log(`Attempted outputs: ${outputMd}, ${outputCsv}${outputHtml ? `, ${outputHtml}` : ''}`);
+
+if (writeWarnings.length) {
+  for (const warning of writeWarnings) {
+    console.warn(`Warning: could not write ${warning}`);
+  }
+}

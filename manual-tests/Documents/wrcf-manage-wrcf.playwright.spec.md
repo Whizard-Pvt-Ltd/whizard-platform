@@ -1,6 +1,6 @@
-# wrcf-industry.playwright.spec
+# wrcf-manage-wrcf.playwright.spec
 
-**Source:** `manual-tests/wrcf-industry.playwright.spec.ts`
+**Source:** `manual-tests/wrcf-manage-wrcf.playwright.spec.ts`
 
 ## Purpose
 

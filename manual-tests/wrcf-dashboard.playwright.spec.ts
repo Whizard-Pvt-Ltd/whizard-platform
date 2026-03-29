@@ -1,8 +1,12 @@
-import { expect, test, type Page, type Route } from '@playwright/test';
+import fs from 'node:fs';
+import path from 'node:path';
+import { expect, test, type Browser, type BrowserContext, type Page, type Route } from '@playwright/test';
 
 const appUrl = process.env.BASE_URL || 'http://localhost:4200';
 const loginEmail = process.env.TEST_LOGIN_EMAIL;
 const loginPassword = process.env.TEST_LOGIN_PASSWORD;
+const authDir = path.join(process.cwd(), 'manual-tests', '.auth');
+const authStatePath = path.join(authDir, 'wrcf-dashboard.json');
 
 type Sector = { id: string; name: string };
 type Industry = { id: string; name: string; sectorId: string };
@@ -80,26 +84,38 @@ function envelope<T>(data: T) {
   return { success: true, data, meta: {} };
 }
 
-async function login(page: Page): Promise<void> {
+async function interactiveLogin(page: Page): Promise<void> {
   if (!loginEmail || !loginPassword) {
     throw new Error('TEST_LOGIN_EMAIL and TEST_LOGIN_PASSWORD are required');
   }
 
-  for (let attempt = 0; attempt < 2; attempt += 1) {
-    await page.goto(`${appUrl}/login`);
-    await page.getByLabel('E-mail').fill(loginEmail);
-    await page.getByLabel('Password').fill(loginPassword);
-    await page.getByRole('button', { name: 'Sign in', exact: true }).click();
+  await page.goto(`${appUrl}/login`);
+  await page.getByLabel('E-mail').fill(loginEmail);
+  await page.getByLabel('Password').fill(loginPassword);
+  await page.getByRole('button', { name: 'Sign in', exact: true }).click();
+  await expect(page).toHaveURL(/\/dashboard/);
+}
 
-    try {
-      await expect(page).toHaveURL(/\/dashboard/, { timeout: 8000 });
-      return;
-    } catch (error) {
-      if (attempt === 1) {
-        throw error;
-      }
+async function ensureAuthenticatedPage(browser: Browser): Promise<{ context: BrowserContext; page: Page }> {
+  if (fs.existsSync(authStatePath)) {
+    const context = await browser.newContext({ storageState: authStatePath });
+    const page = await context.newPage();
+    await page.goto(`${appUrl}/dashboard`);
+
+    if (/\/dashboard/.test(page.url())) {
+      return { context, page };
     }
+
+    await context.close();
   }
+
+  fs.mkdirSync(authDir, { recursive: true });
+
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  await interactiveLogin(page);
+  await context.storageState({ path: authStatePath });
+  return { context, page };
 }
 
 async function gotoDashboard(page: Page): Promise<void> {
@@ -167,21 +183,55 @@ async function mockDashboardApis(page: Page): Promise<void> {
 }
 
 test.describe('WRCF dashboard', () => {
-  test('uses dashboard as the default page after login', async ({ page }) => {
-    await login(page);
+  let context: BrowserContext;
+  let page: Page;
+
+  test.beforeAll(async ({ browser }) => {
+    const authenticated = await ensureAuthenticatedPage(browser);
+    await authenticated.context.close();
+  });
+
+  test.beforeEach(async ({ browser }) => {
+    context = await browser.newContext({ storageState: authStatePath });
+    page = await context.newPage();
+    await page.goto(`${appUrl}/dashboard`);
+
+    if (!/\/dashboard/.test(page.url())) {
+      await context.close();
+      const authenticated = await ensureAuthenticatedPage(browser);
+      context = authenticated.context;
+      page = authenticated.page;
+    }
+  });
+
+  test.afterEach(async () => {
+    await context.close();
+  });
+
+  test('uses dashboard as the default page after login', async () => {
+    await page.goto(`${appUrl}/login`);
+
+    if (/\/login/.test(page.url())) {
+      if (!loginEmail || !loginPassword) {
+        throw new Error('TEST_LOGIN_EMAIL and TEST_LOGIN_PASSWORD are required');
+      }
+
+      await page.getByLabel('E-mail').fill(loginEmail);
+      await page.getByLabel('Password').fill(loginPassword);
+      await page.getByRole('button', { name: 'Sign in', exact: true }).click();
+    }
+
     await expect(page).toHaveURL(/\/dashboard/);
     await expect(page.getByText('Industry WRCF Dashboard')).toBeVisible();
   });
 
-  test('auto-selects the default Industry Sector and Industry on page load', async ({ page }) => {
-    await login(page);
+  test('auto-selects the default Industry Sector and Industry on page load', async () => {
     await expect(sectorDropdown(page)).toHaveValue(/.+/);
     await expect(industryDropdown(page)).toHaveValue(/.+/);
     await expect(page.locator('.industry-name')).not.toHaveText('—');
   });
 
-  test('loads dashboard cards for the default selected sector and industry', async ({ page }) => {
-    await login(page);
+  test('loads dashboard cards for the default selected sector and industry', async () => {
     await expect(statCard(page, 'Functional Groups')).toBeVisible();
     await expect(statCard(page, 'Primary Work Objective')).toBeVisible();
     await expect(statCard(page, 'Secondary Work Objective')).toBeVisible();
@@ -192,8 +242,7 @@ test.describe('WRCF dashboard', () => {
     await expect(statCard(page, 'Departments')).toBeVisible();
   });
 
-  test('displays Industry Sector options in alphabetical order', async ({ page }) => {
-    await login(page);
+  test('displays Industry Sector options in alphabetical order', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
 
@@ -201,8 +250,7 @@ test.describe('WRCF dashboard', () => {
     expect(options).toEqual([...options].sort((a, b) => a.localeCompare(b)));
   });
 
-  test('shows industries only for the selected Industry Sector and keeps them alphabetically ordered', async ({ page }) => {
-    await login(page);
+  test('shows industries only for the selected Industry Sector and keeps them alphabetically ordered', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
 
@@ -219,8 +267,7 @@ test.describe('WRCF dashboard', () => {
     expect(manufacturingOptions).toEqual([...manufacturingOptions].sort((a, b) => a.localeCompare(b)));
   });
 
-  test('refreshes all cards when the user changes Industry within the same sector', async ({ page }) => {
-    await login(page);
+  test('refreshes all cards when the user changes Industry within the same sector', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
 
@@ -235,8 +282,7 @@ test.describe('WRCF dashboard', () => {
     await expectStatCount(page, 'Tasks', 0);
   });
 
-  test('resets Industry and refreshes dashboard data when Industry Sector changes', async ({ page }) => {
-    await login(page);
+  test('resets Industry and refreshes dashboard data when Industry Sector changes', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
 
@@ -251,8 +297,7 @@ test.describe('WRCF dashboard', () => {
     await expectStatCount(page, 'Functional Groups', 8);
   });
 
-  test('does not retain the previous industry metrics after sector or industry selection changes', async ({ page }) => {
-    await login(page);
+  test('does not retain the previous industry metrics after sector or industry selection changes', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
 
@@ -267,8 +312,7 @@ test.describe('WRCF dashboard', () => {
     await expectStatCount(page, 'Functional Groups', 11);
   });
 
-  test('renders the current version, draft version, last updated, and validation status fields', async ({ page }) => {
-    await login(page);
+  test('renders the current version, draft version, last updated, and validation status fields', async () => {
     await expect(page.getByText('Current Version')).toBeVisible();
     await expect(page.getByText('Draft Version')).toBeVisible();
     await expect(page.getByText('Last Updated')).toBeVisible();
@@ -278,9 +322,7 @@ test.describe('WRCF dashboard', () => {
     await expect(page.getByText('Validated')).toBeVisible();
   });
 
-  test('renders all quick action tiles and their current behaviors', async ({ page }) => {
-    await login(page);
-
+  test('renders all quick action tiles and their current behaviors', async () => {
     await expect(quickAction(page, 'Edit Structure')).toBeVisible();
     await expect(quickAction(page, 'Manage Roles')).toBeVisible();
     await expect(quickAction(page, 'Version History')).toBeVisible();
@@ -302,8 +344,7 @@ test.describe('WRCF dashboard', () => {
     await expect(page).toHaveURL(/\/wrcf-roles/);
   });
 
-  test('handles partial zero-count states without breaking the dashboard layout', async ({ page }) => {
-    await login(page);
+  test('handles partial zero-count states without breaking the dashboard layout', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
 
@@ -321,10 +362,7 @@ test.describe('WRCF dashboard', () => {
     await expectStatCount(page, 'Departments', 0);
   });
 
-  test('hides inactive Industry Sectors from the dashboard filter', async ({ page }) => {
-    test.fail(true, 'Current dashboard does not filter inactive sectors in the UI model.');
-
-    await login(page);
+  test('hides inactive Industry Sectors from the dashboard filter', async () => {
     await page.route('**/wrcf/sectors', async route => {
       await route.fulfill({
         status: 200,
@@ -355,10 +393,7 @@ test.describe('WRCF dashboard', () => {
     expect(options).not.toContain('ZZ Inactive Sector');
   });
 
-  test('hides inactive industries from the Industry dropdown', async ({ page }) => {
-    test.fail(true, 'Current dashboard does not filter inactive industries in the UI model.');
-
-    await login(page);
+  test('hides inactive industries from the Industry dropdown', async () => {
     await page.route('**/wrcf/sectors', async route => {
       await route.fulfill({
         status: 200,
@@ -389,8 +424,7 @@ test.describe('WRCF dashboard', () => {
     expect(options).not.toContain('ZZ Inactive Industry');
   });
 
-  test('excludes inactive FG PWO SWO CI Skill Task Role and Department records from dashboard counts', async ({ page }) => {
-    await login(page);
+  test('excludes inactive FG PWO SWO CI Skill Task Role and Department records from dashboard counts', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
     await sectorDropdown(page).selectOption('sector-energy');
@@ -406,22 +440,16 @@ test.describe('WRCF dashboard', () => {
     await expectStatCount(page, 'Departments', 2);
   });
 
-  test('uses only published version data for displayed metrics', async ({ page }) => {
-    test.fail(true, 'Current dashboard metrics are not version-aware in the UI.');
-    await login(page);
+  test('uses only published version data for displayed metrics', async () => {
     await expect(page.getByText('Current Version')).toBeVisible();
     await expect(page.locator('.version-row')).toContainText('4.1');
   });
 
-  test('shows -- when no draft version exists', async ({ page }) => {
-    test.fail(true, 'Draft version display is currently hardcoded.');
-    await login(page);
+  test('shows -- when no draft version exists', async () => {
     await expect(page.locator('.version-row')).toContainText('--');
   });
 
-  test('shows a no-data state when the selected industry has no published WRCF data', async ({ page }) => {
-    test.fail(true, 'Current dashboard uses zero cards instead of a dedicated no-data state.');
-    await login(page);
+  test('shows a no-data state when the selected industry has no published WRCF data', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
     await sectorDropdown(page).selectOption('sector-energy');
@@ -429,20 +457,15 @@ test.describe('WRCF dashboard', () => {
     await expect(page.getByText('No published WRCF data')).toBeVisible();
   });
 
-  test('keeps Last Updated aligned with the selected industry version state', async ({ page }) => {
-    test.fail(true, 'Last Updated is currently hardcoded in the dashboard template.');
-    await login(page);
+  test('keeps Last Updated aligned with the selected industry version state', async () => {
     await expect(page.locator('.version-date')).not.toHaveText('28 Feb 2026');
   });
 
-  test('keeps Validation Status aligned with the selected industry version state', async ({ page }) => {
-    test.fail(true, 'Validation Status is currently hardcoded in the dashboard template.');
-    await login(page);
+  test('keeps Validation Status aligned with the selected industry version state', async () => {
     await expect(page.locator('.version-row')).not.toContainText('Validated');
   });
 
-  test('uses published active Capability Instance counts only', async ({ page }) => {
-    await login(page);
+  test('uses published active Capability Instance counts only', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
     await sectorDropdown(page).selectOption('sector-energy');
@@ -450,8 +473,7 @@ test.describe('WRCF dashboard', () => {
     await expectStatCount(page, 'Capability Instances', 4);
   });
 
-  test('uses published active linked records only for Skills and Tasks counts', async ({ page }) => {
-    await login(page);
+  test('uses published active linked records only for Skills and Tasks counts', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
     await sectorDropdown(page).selectOption('sector-energy');
@@ -460,8 +482,7 @@ test.describe('WRCF dashboard', () => {
     await expectStatCount(page, 'Tasks', 13);
   });
 
-  test('keeps hierarchy card totals aligned to published active counts', async ({ page }) => {
-    await login(page);
+  test('keeps hierarchy card totals aligned to published active counts', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
     await sectorDropdown(page).selectOption('sector-manufacturing');
@@ -471,8 +492,7 @@ test.describe('WRCF dashboard', () => {
     await expectStatCount(page, 'Secondary Work Objective', 3);
   });
 
-  test('uses active published counts for Roles and Departments cards', async ({ page }) => {
-    await login(page);
+  test('uses active published counts for Roles and Departments cards', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
     await sectorDropdown(page).selectOption('sector-manufacturing');
@@ -481,10 +501,7 @@ test.describe('WRCF dashboard', () => {
     await expectStatCount(page, 'Departments', 1);
   });
 
-  test('clicking Edit Structure redirects user to Manage Industry WRCF with same selected Industry Sector and Industry carried forward from Dashboard', async ({ page }) => {
-    test.fail(true, 'Dashboard navigation currently does not carry the selected sector and industry into Manage Industry WRCF.');
-
-    await login(page);
+  test('clicking Edit Structure redirects user to Manage Industry WRCF with same selected Industry Sector and Industry carried forward from Dashboard', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
     await sectorDropdown(page).selectOption('sector-energy');
@@ -494,5 +511,9 @@ test.describe('WRCF dashboard', () => {
     await expect(page).toHaveURL(/\/industry-wrcf/);
     await expect(page.locator('.filter-bar .filter-select').nth(0)).toHaveValue('sector-energy');
     await expect(page.locator('.filter-bar .filter-select').nth(1)).toHaveValue('industry-water');
+  });
+
+  test('blocks unauthorized users from restricted dashboard actions', async () => {
+    test.fixme(true, 'Pending until a lower-privilege user is available.');
   });
 });
