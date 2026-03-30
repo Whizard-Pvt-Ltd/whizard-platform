@@ -8,14 +8,14 @@ import { MatIconModule } from '@angular/material/icon';
   standalone: true,
   imports: [MatDialogModule, MatButtonModule, MatIconModule],
   template: `
-    <div class="flex items-center justify-between px-6 py-5 bg-[#314DDF]">
-      <span class="text-xl font-medium text-[#E8F0FA]">Publish Draft</span>
-      <button mat-icon-button mat-dialog-close class="text-[#E8F0FA]">
+    <div class="flex items-center justify-between px-6 py-5 bg-wrcf-action">
+      <span class="text-xl font-medium text-wrcf-text-primary">Publish Draft</span>
+      <button mat-icon-button mat-dialog-close class="text-wrcf-text-primary">
         <mat-icon class="size-5" svgIcon="heroicons_outline:x-mark" />
       </button>
     </div>
     <mat-dialog-content class="px-6! py-8!">
-      <p class="text-base text-[#7F94AE] text-center">Publish draft coming soon.</p>
+      <p class="text-base text-wrcf-text-secondary text-center">Publish draft coming soon.</p>
     </mat-dialog-content>
   `,
 })

@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
-
 .dialog-backdrop {
   position: fixed;
   inset: 0;
@@ -13,15 +11,15 @@
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 101;
-  background: #0F172A;
-  border: 1px solid #484E5D;
+  background: var(--color-wrcf-bg-primary);
+  border: 1px solid var(--color-wrcf-border);
   border-radius: 14px;
   width: min(900px, 95vw);
   max-height: 85vh;
   display: flex;
   flex-direction: column;
-  font-family: 'Poppins', sans-serif;
-  color: #E8F0FA;
+  font-family: var(--font-sans);
+  color: var(--color-wrcf-text-primary);
 }
 
 .dialog-header {
@@ -29,7 +27,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px 28px;
-  border-bottom: 1px solid #484E5D;
+  border-bottom: 1px solid var(--color-wrcf-border);
   flex-shrink: 0;
 }
 
@@ -43,7 +41,7 @@
 .close-btn {
   background: transparent;
   border: none;
-  color: #7F94AE;
+  color: var(--color-wrcf-text-secondary);
   font-size: 18px;
   cursor: pointer;
   padding: 4px 8px;
@@ -52,7 +50,7 @@
 }
 
 .close-btn:hover {
-  color: #E8F0FA;
+  color: var(--color-wrcf-text-primary);
 }
 
 .dialog-filters {
@@ -60,7 +58,7 @@
   align-items: flex-end;
   gap: 16px;
   padding: 16px 28px;
-  border-bottom: 1px solid #484E5D;
+  border-bottom: 1px solid var(--color-wrcf-border);
   flex-shrink: 0;
   flex-wrap: wrap;
 }
@@ -76,17 +74,17 @@
 .filter-label {
   font-size: 13px;
   font-weight: 400;
-  color: #7F94AE;
+  color: var(--color-wrcf-text-secondary);
 }
 
 .filter-display {
   height: 40px;
   padding: 0 12px;
   border-radius: 10px;
-  border: 1px solid #484E5D;
-  background: #0F253F;
-  color: #E8F0FA;
-  font-family: 'Poppins', sans-serif;
+  border: 1px solid var(--color-wrcf-border);
+  background: var(--color-wrcf-bg-secondary);
+  color: var(--color-wrcf-text-primary);
+  font-family: var(--font-sans);
   font-size: 13px;
   display: flex;
   align-items: center;
@@ -105,7 +103,7 @@
 }
 
 .empty-msg {
-  color: #7F94AE;
+  color: var(--color-wrcf-text-secondary);
   font-size: 14px;
   text-align: center;
   padding: 40px 0;
@@ -113,7 +111,7 @@
 
 .pwo-group {
   margin-bottom: 8px;
-  border: 1px solid #484E5D;
+  border: 1px solid var(--color-wrcf-border);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -125,10 +123,10 @@
   gap: 10px;
   height: 52px;
   padding: 0 16px;
-  background: #0F253F;
+  background: var(--color-wrcf-bg-secondary);
   border: none;
-  color: #E8F0FA;
-  font-family: 'Poppins', sans-serif;
+  color: var(--color-wrcf-text-primary);
+  font-family: var(--font-sans);
   font-size: 15px;
   font-weight: 500;
   cursor: pointer;
@@ -148,7 +146,7 @@
   width: 20px;
   height: 20px;
   border-radius: 10px;
-  background: #314DDF;
+  background: var(--color-wrcf-action);
   font-size: 12px;
   font-weight: 400;
   display: flex;
@@ -159,7 +157,7 @@
 
 .chevron {
   font-size: 11px;
-  color: #7F94AE;
+  color: var(--color-wrcf-text-secondary);
 }
 
 .ci-list {
@@ -173,13 +171,13 @@
   align-items: center;
   height: 48px;
   padding: 0 16px;
-  border-top: 1px solid #484E5D;
+  border-top: 1px solid var(--color-wrcf-border);
   gap: 10px;
 }
 
 .ci-num {
   font-size: 13px;
-  color: #7F94AE;
+  color: var(--color-wrcf-text-secondary);
   flex-shrink: 0;
   width: 24px;
 }
@@ -187,7 +185,7 @@
 .ci-label {
   flex: 1;
   font-size: 14px;
-  color: #E8F0FA;
+  color: var(--color-wrcf-text-primary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -196,7 +194,7 @@
 .trash-btn {
   background: transparent;
   border: none;
-  color: #7F94AE;
+  color: var(--color-wrcf-text-secondary);
   cursor: pointer;
   padding: 4px;
   border-radius: 4px;
@@ -207,7 +205,7 @@
 }
 
 .trash-btn:hover {
-  color: #fca5a5;
+  color: var(--color-wrcf-error);
 }
 
 .dialog-footer {
@@ -216,7 +214,7 @@
   justify-content: flex-end;
   gap: 12px;
   padding: 16px 28px;
-  border-top: 1px solid #484E5D;
+  border-top: 1px solid var(--color-wrcf-border);
   flex-shrink: 0;
 }
 
@@ -224,17 +222,17 @@
   height: 40px;
   padding: 0 16px;
   border-radius: 10px;
-  border: 1px solid #484E5D;
+  border: 1px solid var(--color-wrcf-border);
   background: transparent;
-  color: #E8F0FA;
-  font-family: 'Poppins', sans-serif;
+  color: var(--color-wrcf-text-primary);
+  font-family: var(--font-sans);
   font-size: 14px;
   cursor: pointer;
   transition: border-color 0.15s;
 }
 
 .btn-cancel:hover {
-  border-color: #7F94AE;
+  border-color: var(--color-wrcf-text-secondary);
 }
 
 .btn-save {
@@ -242,9 +240,9 @@
   padding: 0 20px;
   border-radius: 10px;
   border: none;
-  background: #00BFFF;
-  color: #0F172A;
-  font-family: 'Poppins', sans-serif;
+  background: var(--color-wrcf-accent);
+  color: var(--color-wrcf-bg-primary);
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;

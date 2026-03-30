@@ -1,16 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
-
 :host {
-  --bg-primary:    #0F172A;
-  --bg-card:       #1E293B;
-  --text-primary:  #E8F0FA;
-  --text-secondary:#7F94AE;
-  --border:        #484E5D;
-  --action:        #314DDF;
-  --accent:        #00BFFF;
-
   display: block;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-sans);
 }
 
 .panel {
@@ -19,8 +9,8 @@
   right: 0;
   width: 400px;
   height: 100dvh;
-  background: var(--bg-card);
-  border-left: 1px solid var(--border);
+  background: var(--color-wrcf-bg-card);
+  border-left: 1px solid var(--color-wrcf-border);
   display: flex;
   flex-direction: column;
   z-index: 200;
@@ -29,8 +19,8 @@
 
 .panel-header {
   height: 56px;
-  background: var(--accent);
-  color: var(--bg-primary);
+  background: var(--color-wrcf-accent);
+  color: var(--color-wrcf-bg-primary);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -64,17 +54,17 @@
 
 .save-btn {
   background: rgba(15, 23, 42, 0.2);
-  color: var(--bg-primary);
+  color: var(--color-wrcf-bg-primary);
 }
 
 .delete-btn {
   background: rgba(220, 53, 69, 0.25);
-  color: #fca5a5;
+  color: var(--color-wrcf-error);
 }
 
 .close-btn {
   background: rgba(15, 23, 42, 0.15);
-  color: var(--bg-primary);
+  color: var(--color-wrcf-bg-primary);
 }
 
 .action-btn:hover {
@@ -96,7 +86,7 @@
   border-radius: 6px;
   padding: 10px 12px;
   font-size: 13px;
-  color: #fca5a5;
+  color: var(--color-wrcf-error);
 }
 
 .field {
@@ -108,21 +98,21 @@
 .field-label {
   font-size: 13px;
   font-weight: 400;
-  color: var(--text-secondary);
+  color: var(--color-wrcf-text-secondary);
 }
 
 .required {
-  color: #fca5a5;
+  color: var(--color-wrcf-error);
 }
 
 .field-input,
 .field-select {
   height: 40px;
-  background: #0F172A;
-  border: 1px solid var(--border);
+  background: var(--color-wrcf-bg-primary);
+  border: 1px solid var(--color-wrcf-border);
   border-radius: 10px;
-  color: var(--text-primary);
-  font-family: 'Poppins', sans-serif;
+  color: var(--color-wrcf-text-primary);
+  font-family: var(--font-sans);
   font-size: 15px;
   padding: 0 12px;
   outline: none;
@@ -132,7 +122,7 @@
 
 .field-input:focus,
 .field-select:focus {
-  border-color: var(--accent);
+  border-color: var(--color-wrcf-accent);
 }
 
 .field-select {
@@ -145,7 +135,7 @@
 }
 
 .field-select option {
-  background: var(--bg-card);
+  background: var(--color-wrcf-bg-card);
 }
 
 .fg-checkbox-list {
@@ -154,8 +144,8 @@
   gap: 8px;
   max-height: 180px;
   overflow-y: auto;
-  background: #0F172A;
-  border: 1px solid var(--border);
+  background: var(--color-wrcf-bg-primary);
+  border: 1px solid var(--color-wrcf-border);
   border-radius: 10px;
   padding: 10px 12px;
 }
@@ -165,12 +155,12 @@
   align-items: center;
   gap: 8px;
   font-size: 14px;
-  color: var(--text-primary);
+  color: var(--color-wrcf-text-primary);
   cursor: pointer;
 }
 
 .fg-checkbox-item input[type="checkbox"] {
-  accent-color: var(--accent);
+  accent-color: var(--color-wrcf-accent);
   width: 16px;
   height: 16px;
   cursor: pointer;
@@ -178,5 +168,5 @@
 
 .empty-hint {
   font-size: 13px;
-  color: var(--text-secondary);
+  color: var(--color-wrcf-text-secondary);
 }

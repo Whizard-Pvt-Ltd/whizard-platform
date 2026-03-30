@@ -1,23 +1,23 @@
 /* mat-form-field overrides for WRCF dropdown style */
 .wrcf-select .mat-mdc-form-field-flex {
   height: 40px;
-  background: #0F253F;
+  background: var(--color-wrcf-bg-secondary);
 }
 
 .wrcf-select .mdc-notched-outline__leading,
 .wrcf-select .mdc-notched-outline__notch,
 .wrcf-select .mdc-notched-outline__trailing {
-  border-color: #484E5D !important;
+  border-color: var(--color-wrcf-border) !important;
   border-radius: 10px;
 }
 
 .wrcf-select.mat-focused .mdc-notched-outline__leading,
 .wrcf-select.mat-focused .mdc-notched-outline__notch,
 .wrcf-select.mat-focused .mdc-notched-outline__trailing {
-  border-color: #00BFFF !important;
+  border-color: var(--color-wrcf-accent) !important;
 }
 
 .wrcf-select .mat-mdc-select-value-text {
-  color: #E8F0FA;
+  color: var(--color-wrcf-text-primary);
   font-size: 15px;
 }

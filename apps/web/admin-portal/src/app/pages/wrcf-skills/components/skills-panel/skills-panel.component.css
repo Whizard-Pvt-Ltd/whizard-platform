@@ -1,17 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
-
 .panel {
   position: fixed;
   top: 0;
   right: 0;
   width: 560px;
   height: 100dvh;
-  background: #1E293B;
-  border-left: 1px solid #484E5D;
+  background: var(--color-wrcf-bg-card);
+  border-left: 1px solid var(--color-wrcf-border);
   display: flex;
   flex-direction: column;
   z-index: 200;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-sans);
   box-shadow: -8px 0 32px rgba(0, 0, 0, 0.4);
   animation: slideIn 0.2s ease-out;
 }
@@ -22,7 +20,7 @@
 }
 
 .panel-header {
-  background: #00BFFF;
+  background: var(--color-wrcf-accent);
   height: 56px;
   padding: 0 16px;
   display: flex;
@@ -35,7 +33,7 @@
   font-weight: 500;
   font-size: 20px;
   line-height: 28px;
-  color: #0F172A;
+  color: var(--color-wrcf-bg-primary);
 }
 
 .panel-actions {
@@ -51,7 +49,7 @@
   font-size: 1rem;
   padding: 4px 6px;
   border-radius: 6px;
-  color: #0F172A;
+  color: var(--color-wrcf-bg-primary);
   transition: background 0.15s;
 }
 
@@ -74,7 +72,7 @@
   border-radius: 6px;
   padding: 10px 14px;
   font-size: 13px;
-  color: #fca5a5;
+  color: var(--color-wrcf-error);
 }
 
 .field {
@@ -87,21 +85,21 @@
   font-size: 13px;
   font-weight: 400;
   line-height: 18px;
-  color: #E8F0FA;
+  color: var(--color-wrcf-text-primary);
 }
 
 .required {
-  color: #DC3545;
+  color: var(--color-wrcf-error);
 }
 
 .field-input,
 .field-textarea,
 .field-select {
-  background: #0F253F;
-  border: 1px solid #484E5D;
+  background: var(--color-wrcf-bg-secondary);
+  border: 1px solid var(--color-wrcf-border);
   border-radius: 10px;
-  color: #E8F0FA;
-  font-family: 'Poppins', sans-serif;
+  color: var(--color-wrcf-text-primary);
+  font-family: var(--font-sans);
   font-size: 15px;
   font-weight: 400;
   padding: 10px 12px;
@@ -112,14 +110,14 @@
 
 .field-input::placeholder,
 .field-textarea::placeholder {
-  color: #7F94AE;
+  color: var(--color-wrcf-text-secondary);
 }
 
 .field-input:focus,
 .field-textarea:focus,
 .field-select:focus {
   outline: none;
-  border-color: #00BFFF;
+  border-color: var(--color-wrcf-accent);
 }
 
 .field-textarea {
@@ -137,5 +135,5 @@
 }
 
 .field-select option {
-  background: #1E293B;
+  background: var(--color-wrcf-bg-card);
 }

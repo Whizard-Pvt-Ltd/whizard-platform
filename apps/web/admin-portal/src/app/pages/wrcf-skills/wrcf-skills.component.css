@@ -1,23 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-
 :host {
-  --bg-primary:    #0F172A;
-  --bg-secondary:  #0F253F;
-  --bg-card:       #1E293B;
-  --bg-selected:   #2D2A5A;
-  --text-primary:  #E8F0FA;
-  --text-secondary:#7F94AE;
-  --text-tertiary: #8AB4F8;
-  --border:        #484E5D;
-  --action:        #314DDF;
-  --action-hover:  #263FCC;
-  --accent:        #00BFFF;
-
   display: block;
   min-height: 100dvh;
-  font-family: 'Poppins', sans-serif;
-  background: var(--bg-primary);
-  color: var(--text-primary);
+  background: var(--color-wrcf-bg-primary);
+  color: var(--color-wrcf-text-primary);
 }
 
 .page {
@@ -27,8 +12,8 @@
 }
 
 .page-header {
-  background: var(--bg-primary);
-  border-bottom: 1px solid var(--border);
+  background: var(--color-wrcf-bg-primary);
+  border-bottom: 1px solid var(--color-wrcf-border);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -48,20 +33,20 @@
 
 .menu-icon {
   font-size: 1.125rem;
-  color: var(--text-secondary);
+  color: var(--color-wrcf-text-secondary);
   cursor: pointer;
   transition: color 0.15s;
 }
 
 .menu-icon:hover {
-  color: var(--text-primary);
+  color: var(--color-wrcf-text-primary);
 }
 
 .page-title {
   font-size: 24px;
   font-weight: 600;
   line-height: 32px;
-  color: var(--text-primary);
+  color: var(--color-wrcf-text-primary);
   margin: 0;
 }
 
@@ -74,7 +59,7 @@
 .user-name {
   font-size: 13px;
   font-weight: 400;
-  color: var(--text-secondary);
+  color: var(--color-wrcf-text-secondary);
 }
 
 .avatar-wrapper {
@@ -85,8 +70,8 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: var(--action);
-  color: var(--text-primary);
+  background: var(--color-wrcf-action);
+  color: var(--color-wrcf-text-primary);
   font-weight: 600;
   font-size: 13px;
   display: flex;
@@ -99,8 +84,8 @@
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  background: #1E293B;
-  border: 1px solid #484E5D;
+  background: var(--color-wrcf-bg-card);
+  border: 1px solid var(--color-wrcf-border);
   border-radius: 10px;
   min-width: 160px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
@@ -114,10 +99,9 @@
   gap: 10px;
   width: 100%;
   padding: 12px 16px;
-  font-family: 'Poppins', sans-serif;
   font-size: 15px;
   font-weight: 400;
-  color: #E8F0FA;
+  color: var(--color-wrcf-text-primary);
   text-decoration: none;
   background: transparent;
   border: none;
@@ -127,18 +111,18 @@
 }
 
 .user-menu-item:hover {
-  background: #0F253F;
+  background: var(--color-wrcf-bg-secondary);
 }
 
 .user-menu-logout {
-  color: #fca5a5;
-  border-top: 1px solid #484E5D;
+  color: var(--color-wrcf-error);
+  border-top: 1px solid var(--color-wrcf-border);
 }
 
 .filter-bar {
   padding: 12px 32px;
-  background: var(--bg-secondary);
-  border-bottom: 1px solid var(--border);
+  background: var(--color-wrcf-bg-secondary);
+  border-bottom: 1px solid var(--color-wrcf-border);
   display: flex;
   align-items: flex-end;
   gap: 16px;
@@ -156,16 +140,16 @@
   font-size: 13px;
   font-weight: 400;
   line-height: 18px;
-  color: var(--text-secondary);
+  color: var(--color-wrcf-text-secondary);
 }
 
 .filter-select {
   height: 40px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
+  background: var(--color-wrcf-bg-secondary);
+  border: 1px solid var(--color-wrcf-border);
   border-radius: 10px;
-  color: var(--text-primary);
-  font-family: 'Poppins', sans-serif;
+  color: var(--color-wrcf-text-primary);
+  font-family: var(--font-sans);
   font-size: 15px;
   font-weight: 400;
   padding: 0 2rem 0 12px;
@@ -180,7 +164,7 @@
 
 .filter-select:focus {
   outline: none;
-  border-color: var(--accent);
+  border-color: var(--color-wrcf-accent);
 }
 
 .filter-select:disabled {
@@ -189,7 +173,7 @@
 }
 
 .filter-select option {
-  background: var(--bg-card);
+  background: var(--color-wrcf-bg-card);
 }
 
 .filter-actions {
@@ -201,11 +185,11 @@
 
 .btn-teal {
   height: 40px;
-  background: var(--accent);
+  background: var(--color-wrcf-accent);
   border: none;
   border-radius: 10px;
-  color: var(--bg-primary);
-  font-family: 'Poppins', sans-serif;
+  color: var(--color-wrcf-bg-primary);
+  font-family: var(--font-sans);
   font-size: 15px;
   font-weight: 400;
   padding: 0 16px;
@@ -232,7 +216,7 @@
   margin: 12px 32px 0;
   padding: 10px 16px;
   font-size: 13px;
-  color: #fca5a5;
+  color: var(--color-wrcf-error);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -241,7 +225,7 @@
 .error-close {
   background: transparent;
   border: none;
-  color: #fca5a5;
+  color: var(--color-wrcf-error);
   cursor: pointer;
   font-size: 14px;
   padding: 0;
@@ -252,18 +236,18 @@
   max-width: 480px;
   text-align: center;
   font-size: 15px;
-  color: var(--text-secondary);
+  color: var(--color-wrcf-text-secondary);
 }
 
 .back-link {
-  color: var(--accent);
+  color: var(--color-wrcf-accent);
   text-decoration: underline;
 }
 
 .no-ci-msg {
   margin: 16px 32px 0;
   font-size: 14px;
-  color: var(--text-secondary);
+  color: var(--color-wrcf-text-secondary);
 }
 
 .workspace {
