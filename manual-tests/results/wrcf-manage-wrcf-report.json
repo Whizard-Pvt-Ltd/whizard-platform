@@ -1,0 +1,129 @@
+{
+  "kind": "ordered-playwright-run",
+  "startedAt": 1774808177826,
+  "finishedAt": 1774808276724,
+  "status": "failed",
+  "tests": [
+    {
+      "title": "loads industry context and current WRCF columns",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-manage-wrcf.playwright.spec.ts",
+        "line": 120,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 5400,
+      "details": ""
+    },
+    {
+      "title": "does not save a functional group with a blank name",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-manage-wrcf.playwright.spec.ts",
+        "line": 128,
+        "column": 7
+      },
+      "status": "failed",
+      "durationMs": 6219,
+      "details": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed Expected pattern: \u001b[32m/\\/dashboard/\u001b[39m Received string: \u001b[31m\"http://localhost:4200/login\"\u001b[39m Timeout: 5000ms Call log: \u001b[2m - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m \u001b[2m 9 × unexpected value \"http://localhost:4200/login\"\u001b[22m"
+    },
+    {
+      "title": "creates a functional group with mandatory name and optional blank description",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-manage-wrcf.playwright.spec.ts",
+        "line": 140,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 6722,
+      "details": ""
+    },
+    {
+      "title": "allows editing a functional group and saving without changing the name",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-manage-wrcf.playwright.spec.ts",
+        "line": 148,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 7971,
+      "details": ""
+    },
+    {
+      "title": "supports single quotes in functional group name and description through the UI",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-manage-wrcf.playwright.spec.ts",
+        "line": 163,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 7121,
+      "details": ""
+    },
+    {
+      "title": "creates a primary work object under the selected functional group",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-manage-wrcf.playwright.spec.ts",
+        "line": 172,
+        "column": 7
+      },
+      "status": "timedOut",
+      "durationMs": 30055,
+      "details": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m | Error: locator.selectOption: Test timeout of 30000ms exceeded. Call log: \u001b[2m - waiting for getByRole('combobox').nth(1)\u001b[22m \u001b[2m - locator resolved to <select ng-reflect-model=\"\" _ngcontent-ng-c2195223369=\"\" ng-reflect-is-disabled=\"false\" class=\"filter-select ng-untouched ng-pristine ng-valid\">…</select>\u001b[22m \u001b[2m - attempting select option action\u001b[22m \u001b[2m 2 × waiting for element to be visible and enabled\u001b[22m \u001b[2m - did not find some options\u001b[22m \u001b[2m - retrying select option action\u001b[22m \u001b[2m - waiting 20ms\u001b[22m \u001b[2m 2 × waiting for element to be visible and enabled\u001b[22m \u001b[2m - did not find some options\u001b[22m \u001b[2m - retrying select option action\u001b[22m \u001b[2m - waiting 100ms\u001b[22m \u001b[2m 52 × waiting for element to be visible and enabled\u001b[22m \u001b[2m - did not find some options\u001b[22m \u001b[2m - retrying select option action\u001b[22m \u001b[2m - waiting 500ms\u001b[22m"
+    },
+    {
+      "title": "creates a secondary work object under the selected primary work object",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-manage-wrcf.playwright.spec.ts",
+        "line": 184,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 12355,
+      "details": ""
+    },
+    {
+      "title": "blocks duplicate functional group names on create",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-manage-wrcf.playwright.spec.ts",
+        "line": 200,
+        "column": 7
+      },
+      "status": "skipped",
+      "durationMs": 3433,
+      "details": ""
+    },
+    {
+      "title": "blocks duplicate functional group rename on edit",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-manage-wrcf.playwright.spec.ts",
+        "line": 204,
+        "column": 7
+      },
+      "status": "skipped",
+      "durationMs": 3592,
+      "details": ""
+    },
+    {
+      "title": "blocks whitespace-only duplicate names on create and edit",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-manage-wrcf.playwright.spec.ts",
+        "line": 208,
+        "column": 7
+      },
+      "status": "skipped",
+      "durationMs": 3439,
+      "details": ""
+    },
+    {
+      "title": "prevents functional group creation before an industry is selected",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-manage-wrcf.playwright.spec.ts",
+        "line": 212,
+        "column": 7
+      },
+      "status": "skipped",
+      "durationMs": 3575,
+      "details": ""
+    }
+  ]
+}

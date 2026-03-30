@@ -4,22 +4,14 @@
 
 ## Purpose
 
-Dashboard coverage for the WRCF overview page, including default landing behavior, filters, cards, version/status display, quick actions, and selected known gaps.
+Sheet-aligned dashboard coverage for the `Dashboard` tab in `WRCF End-to-End Test Cases.xlsx`, including all `DASH-E2E-001` through `DASH-E2E-026` entries.
 
 ## Covered Tests
 
-- dashboard is default page after login
-- default Industry Sector and Industry auto-select on load
-- dashboard cards load for default selection
-- Industry Sector list order
-- Industry list filtering and alphabetical order
-- card refresh behavior on Industry and Sector changes
-- previous dashboard metrics are not retained after selection changes
-- version row fields are visible
-- quick action tiles render and current actions behave correctly
-- partial zero-count state handled
-- inactive filtering and carry-forward behavior are normal failing tests where the product does not yet satisfy the requirement
-- unauthorized-user restriction remains pending/skipped
+- `DASH-E2E-001` through `DASH-E2E-026`
+- includes default landing, default filter selection, dashboard card loading, dropdown ordering, refresh behavior, version panel checks, hierarchy/metric cards, quick actions, and carry-forward coverage
+- current product gaps remain visible as real failures
+- authorization coverage remains pending because it needs a lower-privilege user
 
 ## Flow Diagram
 
@@ -42,6 +34,7 @@ Login
 
 ## Notes
 
+- Covers the full dashboard sheet row set with explicit `DASH-E2E-*` IDs
 - Combines current implemented behavior with requirement checks that may intentionally fail until the product is fixed
 - Unauthorized access is still pending because it needs a lower-privilege test user
 

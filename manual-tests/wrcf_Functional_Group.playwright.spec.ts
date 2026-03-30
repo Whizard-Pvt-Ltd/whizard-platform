@@ -421,6 +421,49 @@ test.describe('WRCF Functional Group', () => {
     await deleteFunctionalGroup(page, name);
   });
 
+  test('FG-E2E-014 keeps the Functional Group list in alphabetical order', async () => {
+    const names = (await functionalGroupItems(page).allTextContents())
+      .map(value => value.trim())
+      .filter(Boolean);
+
+    expect(names).toEqual([...names].sort((a, b) => a.localeCompare(b)));
+  });
+
+  test('FG-E2E-015 shows the edit icon when a Functional Group row is selected', async () => {
+    await functionalGroupItems(page).first().click();
+    await expect(column(page, 'Functional Group').getByTitle('Edit')).toBeVisible();
+  });
+
+  test('FG-E2E-016 shows Edit Functional Group as the edit popup title', async () => {
+    const itemName = (await functionalGroupItems(page).first().textContent())?.trim();
+    if (!itemName) throw new Error('No Functional Group row available for edit title check.');
+
+    await openEditPanel(page, itemName);
+    await expect(panel(page).getByText('Edit Functional Group', { exact: true })).toBeVisible();
+    await closePanel(page);
+  });
+
+  test('FG-E2E-017 preloads the selected Functional Group details in the edit popup', async () => {
+    const item = functionalGroupItems(page).first();
+    const itemName = (await item.textContent())?.trim();
+    if (!itemName) throw new Error('No Functional Group row available for preload check.');
+
+    await openEditPanel(page, itemName);
+    await expect(panel(page).getByPlaceholder('Enter Name...')).toHaveValue(itemName);
+    await closePanel(page);
+  });
+
+  test('FG-E2E-018 shows delete, save, and close actions in the edit popup', async () => {
+    const itemName = (await functionalGroupItems(page).first().textContent())?.trim();
+    if (!itemName) throw new Error('No Functional Group row available for edit action check.');
+
+    await openEditPanel(page, itemName);
+    await expect(panel(page).getByTitle('Delete')).toBeVisible();
+    await expect(panel(page).getByTitle('Save')).toBeVisible();
+    await expect(panel(page).getByTitle('Close')).toBeVisible();
+    await closePanel(page);
+  });
+
   test('FG-E2E-019 blocks blank-name and duplicate validation on edit', async () => {
     const sourceName = uniqueName('FG Edit Validation');
     const otherName = uniqueName('FG Edit Duplicate');

@@ -17,11 +17,15 @@ manual-tests/
     wrcf-manage-wrcf.playwright.spec.md
     wrcf-dashboard.playwright.spec.md
     wrcf_Functional_Group.playwright.spec.md
+    wrcf_Primary_Work_Object.playwright.spec.md
+    wrcf_Secondary_Work_Object.playwright.spec.md
   login-page.playwright.spec.ts
   login-page-auth.playwright.spec.ts
   wrcf-manage-wrcf.playwright.spec.ts
   wrcf-dashboard.playwright.spec.ts
   wrcf_Functional_Group.playwright.spec.ts
+  wrcf_Primary_Work_Object.playwright.spec.ts
+  wrcf_Secondary_Work_Object.playwright.spec.ts
   results/
 ```
 
@@ -39,6 +43,8 @@ manual-tests/
 - [wrcf-manage-wrcf.playwright.spec.ts](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts): Manage WRCF create/edit flow coverage for Functional Group, PWO, and SWO.
 - [wrcf-dashboard.playwright.spec.ts](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts): dashboard filter, metrics, quick-action, and known-gap coverage.
 - [wrcf_Functional_Group.playwright.spec.ts](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts): sheet-driven Functional Group coverage aligned to FG `G/H` steps and expected results.
+- [wrcf_Primary_Work_Object.playwright.spec.ts](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts): sheet-driven Primary Work Object coverage aligned to the `PWO` tab in the reverified workbook.
+- [wrcf_Secondary_Work_Object.playwright.spec.ts](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts): sheet-driven Secondary Work Object coverage aligned to the `SWO` tab in the reverified workbook.
 
 ## Recommended Workflow
 
@@ -71,6 +77,38 @@ corepack pnpm test:wrcf:manage-wrcf:ordered
 corepack pnpm test:wrcf:functional-group:ordered
 ```
 
+Run a spec directly with Playwright when you want the default Playwright runner behavior:
+
+```powershell
+npx playwright test manual-tests/wrcf-dashboard.playwright.spec.ts --reporter=html
+```
+
+This command:
+
+- runs the selected spec in Playwright's normal headless mode
+- generates the default Playwright HTML report
+- is useful when you want the built-in Playwright trace/screenshot/error drill-down view
+
+Run the same spec in headed mode when you want to watch the browser:
+
+```powershell
+npx playwright test manual-tests/wrcf-dashboard.playwright.spec.ts --headed --reporter=html
+```
+
+This command:
+
+- does the same test run
+- opens a visible browser window while the test executes
+- is useful for debugging timing, selectors, redirects, and visual UI behavior
+
+Open the default Playwright HTML report after either run:
+
+```powershell
+npx playwright show-report
+```
+
+Generate the ordered custom reports (`.md`, `.csv`, `.html`) by using the ordered runner commands. These run the suite, save a raw report, and then build the ordered outputs under `manual-tests/results/`.
+
 These commands:
 
 - run the matching Playwright spec
@@ -97,6 +135,8 @@ npx playwright show-report
 - Login UX report: [login-page-accessibility-and-ux-findings.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/Documents/login-page-accessibility-and-ux-findings.md)
 - MCP test cases: [login-page-mcp-test-cases.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/Documents/login-page-mcp-test-cases.md)
 - Ordered FG results: [wrcf-functional-group-results.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/results/wrcf-functional-group-results.md)
+- PWO companion doc: [wrcf_Primary_Work_Object.playwright.spec.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/Documents/wrcf_Primary_Work_Object.playwright.spec.md)
+- SWO companion doc: [wrcf_Secondary_Work_Object.playwright.spec.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/Documents/wrcf_Secondary_Work_Object.playwright.spec.md)
 
 ## Notes
 

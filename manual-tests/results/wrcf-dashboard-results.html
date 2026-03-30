@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>wrcf-dashboard</title>
+  <title>WRCF</title>
   <style>
     :root {
       color-scheme: dark;
@@ -185,12 +185,12 @@
 </head>
 <body>
   <div class="wrap">
-    <h1>wrcf-dashboard</h1>
+    <h1>WRCF</h1>
     <p class="subtitle">Custom point-wise ordered report generated from Playwright JSON output.</p>
     <div class="stats">
       <div class="stat"><div class="stat-label">Total</div><div class="stat-value">25</div></div>
-      <div class="stat"><div class="stat-label">Passed</div><div class="stat-value">16</div></div>
-      <div class="stat"><div class="stat-label">Failed</div><div class="stat-value">8</div></div>
+      <div class="stat"><div class="stat-label">Passed</div><div class="stat-value">17</div></div>
+      <div class="stat"><div class="stat-label">Failed</div><div class="stat-value">7</div></div>
       <div class="stat"><div class="stat-label">Skipped</div><div class="stat-value">1</div></div>
     </div>
     <div class="table-wrap">
@@ -211,7 +211,7 @@
               <td class="test-name">uses dashboard as the default page after login</td>
               <td><button type="button" class="status status-passed" data-target="details-1">Passed</button></td>
               <td class="classification"><span class="type-pill type-verified">Verified</span></td>
-              <td class="duration">1.2 s</td>
+              <td class="duration">1.0 s</td>
               <td>No extra details</td>
             </tr>
             <tr id="details-1" class="details-row">
@@ -234,10 +234,10 @@
             </tr><tr class="main-row" data-target="details-2">
               <td class="case-id">WD-002</td>
               <td class="test-name">auto-selects the default Industry Sector and Industry on page load</td>
-              <td><button type="button" class="status status-failed" data-target="details-2">Failed</button></td>
-              <td class="classification"><span class="type-pill type-product">Product Gap</span></td>
-              <td class="duration">6.0 s</td>
-              <td>Click row or status</td>
+              <td><button type="button" class="status status-passed" data-target="details-2">Passed</button></td>
+              <td class="classification"><span class="type-pill type-verified">Verified</span></td>
+              <td class="duration">1.8 s</td>
+              <td>No extra details</td>
             </tr>
             <tr id="details-2" class="details-row">
               <td colspan="6" class="details-cell">
@@ -248,11 +248,11 @@
                   </div>
                   <div class="detail-block">
                     <div class="detail-label">Failure Type</div>
-                    <div class="notes">Product Gap</div>
+                    <div class="notes">Verified</div>
                   </div>
                   <div class="detail-block">
                     <div class="detail-label">Failure / Notes</div>
-                    <div class="notes">Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveValue[2m([22m[32mexpected[39m[2m)[22m failed Locator: locator(&#39;.filters-bar select&#39;).first() Expected pattern: [32m/.+/[39m Received string: [31m&quot;&quot;[39m Timeout: 5000ms Call log: [2m - Expect &quot;toHaveValue&quot; with timeout 5000ms[22m [2m - waiting for locator(&#39;.filters-bar select&#39;).first()[22m [2m 9 × locator resolved to &lt;select class=&quot;dropdown&quot; _ngcontent-ng-c1105593656=&quot;&quot;&gt;…&lt;/select&gt;[22m [2m - unexpected value &quot;&quot;[22m</div>
+                    <div class="notes">No additional failure details for this test.</div>
                   </div>
                 </div>
               </td>
@@ -261,7 +261,7 @@
               <td class="test-name">loads dashboard cards for the default selected sector and industry</td>
               <td><button type="button" class="status status-passed" data-target="details-3">Passed</button></td>
               <td class="classification"><span class="type-pill type-verified">Verified</span></td>
-              <td class="duration">1.1 s</td>
+              <td class="duration">908 ms</td>
               <td>No extra details</td>
             </tr>
             <tr id="details-3" class="details-row">
@@ -286,7 +286,7 @@
               <td class="test-name">displays Industry Sector options in alphabetical order</td>
               <td><button type="button" class="status status-passed" data-target="details-4">Passed</button></td>
               <td class="classification"><span class="type-pill type-verified">Verified</span></td>
-              <td class="duration">1.4 s</td>
+              <td class="duration">1.2 s</td>
               <td>No extra details</td>
             </tr>
             <tr id="details-4" class="details-row">
@@ -336,7 +336,7 @@
               <td class="test-name">refreshes all cards when the user changes Industry within the same sector</td>
               <td><button type="button" class="status status-passed" data-target="details-6">Passed</button></td>
               <td class="classification"><span class="type-pill type-verified">Verified</span></td>
-              <td class="duration">1.4 s</td>
+              <td class="duration">1.2 s</td>
               <td>No extra details</td>
             </tr>
             <tr id="details-6" class="details-row">
@@ -361,7 +361,7 @@
               <td class="test-name">resets Industry and refreshes dashboard data when Industry Sector changes</td>
               <td><button type="button" class="status status-passed" data-target="details-7">Passed</button></td>
               <td class="classification"><span class="type-pill type-verified">Verified</span></td>
-              <td class="duration">1.6 s</td>
+              <td class="duration">1.4 s</td>
               <td>No extra details</td>
             </tr>
             <tr id="details-7" class="details-row">
@@ -411,7 +411,7 @@
               <td class="test-name">renders the current version, draft version, last updated, and validation status fields</td>
               <td><button type="button" class="status status-passed" data-target="details-9">Passed</button></td>
               <td class="classification"><span class="type-pill type-verified">Verified</span></td>
-              <td class="duration">997 ms</td>
+              <td class="duration">989 ms</td>
               <td>No extra details</td>
             </tr>
             <tr id="details-9" class="details-row">
@@ -436,7 +436,7 @@
               <td class="test-name">renders all quick action tiles and their current behaviors</td>
               <td><button type="button" class="status status-passed" data-target="details-10">Passed</button></td>
               <td class="classification"><span class="type-pill type-verified">Verified</span></td>
-              <td class="duration">1.6 s</td>
+              <td class="duration">1.5 s</td>
               <td>No extra details</td>
             </tr>
             <tr id="details-10" class="details-row">
@@ -461,7 +461,7 @@
               <td class="test-name">handles partial zero-count states without breaking the dashboard layout</td>
               <td><button type="button" class="status status-passed" data-target="details-11">Passed</button></td>
               <td class="classification"><span class="type-pill type-verified">Verified</span></td>
-              <td class="duration">1.4 s</td>
+              <td class="duration">1.2 s</td>
               <td>No extra details</td>
             </tr>
             <tr id="details-11" class="details-row">
@@ -486,7 +486,7 @@
               <td class="test-name">hides inactive Industry Sectors from the dashboard filter</td>
               <td><button type="button" class="status status-failed" data-target="details-12">Failed</button></td>
               <td class="classification"><span class="type-pill type-product">Product Gap</span></td>
-              <td class="duration">1.3 s</td>
+              <td class="duration">1.2 s</td>
               <td>Click row or status</td>
             </tr>
             <tr id="details-12" class="details-row">
@@ -511,7 +511,7 @@
               <td class="test-name">hides inactive industries from the Industry dropdown</td>
               <td><button type="button" class="status status-failed" data-target="details-13">Failed</button></td>
               <td class="classification"><span class="type-pill type-product">Product Gap</span></td>
-              <td class="duration">1.3 s</td>
+              <td class="duration">1.5 s</td>
               <td>Click row or status</td>
             </tr>
             <tr id="details-13" class="details-row">
@@ -536,7 +536,7 @@
               <td class="test-name">excludes inactive FG PWO SWO CI Skill Task Role and Department records from dashboard counts</td>
               <td><button type="button" class="status status-passed" data-target="details-14">Passed</button></td>
               <td class="classification"><span class="type-pill type-verified">Verified</span></td>
-              <td class="duration">1.5 s</td>
+              <td class="duration">1.4 s</td>
               <td>No extra details</td>
             </tr>
             <tr id="details-14" class="details-row">
@@ -561,7 +561,7 @@
               <td class="test-name">uses only published version data for displayed metrics</td>
               <td><button type="button" class="status status-passed" data-target="details-15">Passed</button></td>
               <td class="classification"><span class="type-pill type-verified">Verified</span></td>
-              <td class="duration">937 ms</td>
+              <td class="duration">942 ms</td>
               <td>No extra details</td>
             </tr>
             <tr id="details-15" class="details-row">
@@ -586,7 +586,7 @@
               <td class="test-name">shows -- when no draft version exists</td>
               <td><button type="button" class="status status-failed" data-target="details-16">Failed</button></td>
               <td class="classification"><span class="type-pill type-product">Product Gap</span></td>
-              <td class="duration">5.9 s</td>
+              <td class="duration">6.0 s</td>
               <td>Click row or status</td>
             </tr>
             <tr id="details-16" class="details-row">
@@ -611,7 +611,7 @@
               <td class="test-name">shows a no-data state when the selected industry has no published WRCF data</td>
               <td><button type="button" class="status status-failed" data-target="details-17">Failed</button></td>
               <td class="classification"><span class="type-pill type-product">Product Gap</span></td>
-              <td class="duration">6.5 s</td>
+              <td class="duration">6.3 s</td>
               <td>Click row or status</td>
             </tr>
             <tr id="details-17" class="details-row">
@@ -636,7 +636,7 @@
               <td class="test-name">keeps Last Updated aligned with the selected industry version state</td>
               <td><button type="button" class="status status-failed" data-target="details-18">Failed</button></td>
               <td class="classification"><span class="type-pill type-product">Product Gap</span></td>
-              <td class="duration">6.0 s</td>
+              <td class="duration">5.9 s</td>
               <td>Click row or status</td>
             </tr>
             <tr id="details-18" class="details-row">
@@ -686,7 +686,7 @@
               <td class="test-name">uses published active Capability Instance counts only</td>
               <td><button type="button" class="status status-passed" data-target="details-20">Passed</button></td>
               <td class="classification"><span class="type-pill type-verified">Verified</span></td>
-              <td class="duration">1.4 s</td>
+              <td class="duration">1.3 s</td>
               <td>No extra details</td>
             </tr>
             <tr id="details-20" class="details-row">
@@ -711,7 +711,7 @@
               <td class="test-name">uses published active linked records only for Skills and Tasks counts</td>
               <td><button type="button" class="status status-passed" data-target="details-21">Passed</button></td>
               <td class="classification"><span class="type-pill type-verified">Verified</span></td>
-              <td class="duration">1.3 s</td>
+              <td class="duration">1.2 s</td>
               <td>No extra details</td>
             </tr>
             <tr id="details-21" class="details-row">
@@ -736,7 +736,7 @@
               <td class="test-name">keeps hierarchy card totals aligned to published active counts</td>
               <td><button type="button" class="status status-passed" data-target="details-22">Passed</button></td>
               <td class="classification"><span class="type-pill type-verified">Verified</span></td>
-              <td class="duration">1.3 s</td>
+              <td class="duration">1.2 s</td>
               <td>No extra details</td>
             </tr>
             <tr id="details-22" class="details-row">
@@ -761,7 +761,7 @@
               <td class="test-name">uses active published counts for Roles and Departments cards</td>
               <td><button type="button" class="status status-passed" data-target="details-23">Passed</button></td>
               <td class="classification"><span class="type-pill type-verified">Verified</span></td>
-              <td class="duration">1.4 s</td>
+              <td class="duration">1.2 s</td>
               <td>No extra details</td>
             </tr>
             <tr id="details-23" class="details-row">
@@ -786,7 +786,7 @@
               <td class="test-name">clicking Edit Structure redirects user to Manage Industry WRCF with same selected Industry Sector and Industry carried forward from Dashboard</td>
               <td><button type="button" class="status status-failed" data-target="details-24">Failed</button></td>
               <td class="classification"><span class="type-pill type-product">Product Gap</span></td>
-              <td class="duration">6.4 s</td>
+              <td class="duration">6.3 s</td>
               <td>Click row or status</td>
             </tr>
             <tr id="details-24" class="details-row">
@@ -811,7 +811,7 @@
               <td class="test-name">blocks unauthorized users from restricted dashboard actions</td>
               <td><button type="button" class="status status-skipped" data-target="details-25">Skipped</button></td>
               <td class="classification"><span class="type-pill type-pending">Pending / Blocked</span></td>
-              <td class="duration">924 ms</td>
+              <td class="duration">825 ms</td>
               <td>No extra details</td>
             </tr>
             <tr id="details-25" class="details-row">

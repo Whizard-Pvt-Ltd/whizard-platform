@@ -8,26 +8,13 @@ Sheet-driven Functional Group coverage aligned to the FG tab in `WRCF End-to-End
 
 ## Covered Tests
 
-- `FG-E2E-001` list view for the selected sector and industry context
-- `FG-E2E-002` add icon visibility
-- `FG-E2E-003` add popup opening
-- `FG-E2E-004` popup title
-- `FG-E2E-005` mandatory name with optional description and domain type
-- `FG-E2E-006` 50-char accepted and 51-char blocked boundary check
-- `FG-E2E-007` create with minimal data
-- `FG-E2E-008` blank-name validation
-- `FG-E2E-009` duplicate on add
-- `FG-E2E-010` trim-aware duplicate handling
-- `FG-E2E-011` special character handling
-- `FG-E2E-012` cancel add
-- `FG-E2E-013` add refresh
-- `FG-E2E-019` edit validation
-- `FG-E2E-020` unchanged edit save
-- `FG-E2E-021` update success
-- `FG-E2E-022` delete confirmation
-- `FG-E2E-023` delete success without child PWO
-- `FG-E2E-024` delete dependency block when PWO exists
-- `FG-E2E-025` validation and success feedback behavior
+- `FG-E2E-001` through `FG-E2E-025`
+- now includes the previously missing sort-order and edit-popup rows:
+  - `FG-E2E-014` sort order
+  - `FG-E2E-015` edit icon visibility
+  - `FG-E2E-016` edit popup title
+  - `FG-E2E-017` edit preload
+  - `FG-E2E-018` edit actions
 
 ## Flow Diagram
 

@@ -1,0 +1,283 @@
+{
+  "kind": "ordered-playwright-run",
+  "startedAt": 1774847839599,
+  "finishedAt": 1774847929701,
+  "status": "failed",
+  "tests": [
+    {
+      "title": "uses dashboard as the default page after login",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-dashboard.playwright.spec.ts",
+        "line": 211,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 1046,
+      "details": ""
+    },
+    {
+      "title": "auto-selects the default Industry Sector and Industry on page load",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-dashboard.playwright.spec.ts",
+        "line": 228,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 1808,
+      "details": ""
+    },
+    {
+      "title": "loads dashboard cards for the default selected sector and industry",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-dashboard.playwright.spec.ts",
+        "line": 244,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 908,
+      "details": ""
+    },
+    {
+      "title": "displays Industry Sector options in alphabetical order",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-dashboard.playwright.spec.ts",
+        "line": 255,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 1205,
+      "details": ""
+    },
+    {
+      "title": "shows industries only for the selected Industry Sector and keeps them alphabetically ordered",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-dashboard.playwright.spec.ts",
+        "line": 263,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 1505,
+      "details": ""
+    },
+    {
+      "title": "refreshes all cards when the user changes Industry within the same sector",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-dashboard.playwright.spec.ts",
+        "line": 280,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 1163,
+      "details": ""
+    },
+    {
+      "title": "resets Industry and refreshes dashboard data when Industry Sector changes",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-dashboard.playwright.spec.ts",
+        "line": 295,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 1384,
+      "details": ""
+    },
+    {
+      "title": "does not retain the previous industry metrics after sector or industry selection changes",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-dashboard.playwright.spec.ts",
+        "line": 310,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 1480,
+      "details": ""
+    },
+    {
+      "title": "renders the current version, draft version, last updated, and validation status fields",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-dashboard.playwright.spec.ts",
+        "line": 325,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 989,
+      "details": ""
+    },
+    {
+      "title": "renders all quick action tiles and their current behaviors",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-dashboard.playwright.spec.ts",
+        "line": 335,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 1492,
+      "details": ""
+    },
+    {
+      "title": "handles partial zero-count states without breaking the dashboard layout",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-dashboard.playwright.spec.ts",
+        "line": 357,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 1221,
+      "details": ""
+    },
+    {
+      "title": "hides inactive Industry Sectors from the dashboard filter",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-dashboard.playwright.spec.ts",
+        "line": 375,
+        "column": 7
+      },
+      "status": "failed",
+      "durationMs": 1167,
+      "details": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m Expected value: not \u001b[32m\"ZZ Inactive Sector\"\u001b[39m Received array: \u001b[31m[\"Manufacturing\", \u001b[7m\"ZZ Inactive Sector\"\u001b[27m]\u001b[39m"
+    },
+    {
+      "title": "hides inactive industries from the Industry dropdown",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-dashboard.playwright.spec.ts",
+        "line": 406,
+        "column": 7
+      },
+      "status": "failed",
+      "durationMs": 1499,
+      "details": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m Expected value: not \u001b[32m\"ZZ Inactive Industry\"\u001b[39m Received array: \u001b[31m[\"Steel Manufacturing\", \u001b[7m\"ZZ Inactive Industry\"\u001b[27m]\u001b[39m"
+    },
+    {
+      "title": "excludes inactive FG PWO SWO CI Skill Task Role and Department records from dashboard counts",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-dashboard.playwright.spec.ts",
+        "line": 437,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 1430,
+      "details": ""
+    },
+    {
+      "title": "uses only published version data for displayed metrics",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-dashboard.playwright.spec.ts",
+        "line": 453,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 942,
+      "details": ""
+    },
+    {
+      "title": "shows -- when no draft version exists",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-dashboard.playwright.spec.ts",
+        "line": 458,
+        "column": 7
+      },
+      "status": "failed",
+      "durationMs": 6040,
+      "details": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed Locator: locator('.version-row') Expected substring: \u001b[32m\"--\"\u001b[39m Received string: \u001b[31m\"Current Version4.1 Published Draft Version4.2 In Progress Last Updated28 Feb 2026Validation Status Validated \"\u001b[39m Timeout: 5000ms Call log: \u001b[2m - Expect \"toContainText\" with timeout 5000ms\u001b[22m \u001b[2m - waiting for locator('.version-row')\u001b[22m \u001b[2m 9 × locator resolved to <div class=\"version-row\" _ngcontent-ng-c1105593656=\"\">…</div>\u001b[22m \u001b[2m - unexpected value \"Current Version4.1 Published Draft Version4.2 In Progress Last Updated28 Feb 2026Validation Status Validated \"\u001b[22m"
+    },
+    {
+      "title": "shows a no-data state when the selected industry has no published WRCF data",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-dashboard.playwright.spec.ts",
+        "line": 462,
+        "column": 7
+      },
+      "status": "failed",
+      "durationMs": 6294,
+      "details": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed Locator: getByText('No published WRCF data') Expected: visible Timeout: 5000ms Error: element(s) not found Call log: \u001b[2m - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m \u001b[2m - waiting for getByText('No published WRCF data')\u001b[22m"
+    },
+    {
+      "title": "keeps Last Updated aligned with the selected industry version state",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-dashboard.playwright.spec.ts",
+        "line": 470,
+        "column": 7
+      },
+      "status": "failed",
+      "durationMs": 5896,
+      "details": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed Locator: locator('.version-date') Expected: not \u001b[32m\"28 Feb 2026\"\u001b[39m Received: \u001b[31m\"\u001b[7m28 Feb 2026\u001b[27m\"\u001b[39m Timeout: 5000ms Call log: \u001b[2m - Expect \"not toHaveText\" with timeout 5000ms\u001b[22m \u001b[2m - waiting for locator('.version-date')\u001b[22m \u001b[2m 9 × locator resolved to <span class=\"version-date\" _ngcontent-ng-c1105593656=\"\">28 Feb 2026</span>\u001b[22m \u001b[2m - unexpected value \"28 Feb 2026\"\u001b[22m"
+    },
+    {
+      "title": "keeps Validation Status aligned with the selected industry version state",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-dashboard.playwright.spec.ts",
+        "line": 474,
+        "column": 7
+      },
+      "status": "failed",
+      "durationMs": 5883,
+      "details": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed Locator: locator('.version-row') Expected substring: not \u001b[32m\"Validated\"\u001b[39m Received string: \u001b[31m\"Current Version4.1 Published Draft Version4.2 In Progress Last Updated28 Feb 2026Validation Status \u001b[7mValidated\u001b[27m \"\u001b[39m Timeout: 5000ms Call log: \u001b[2m - Expect \"not toContainText\" with timeout 5000ms\u001b[22m \u001b[2m - waiting for locator('.version-row')\u001b[22m \u001b[2m 9 × locator resolved to <div class=\"version-row\" _ngcontent-ng-c1105593656=\"\">…</div>\u001b[22m \u001b[2m - unexpected value \"Current Version4.1 Published Draft Version4.2 In Progress Last Updated28 Feb 2026Validation Status Validated \"\u001b[22m"
+    },
+    {
+      "title": "uses published active Capability Instance counts only",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-dashboard.playwright.spec.ts",
+        "line": 478,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 1272,
+      "details": ""
+    },
+    {
+      "title": "uses published active linked records only for Skills and Tasks counts",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-dashboard.playwright.spec.ts",
+        "line": 486,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 1169,
+      "details": ""
+    },
+    {
+      "title": "keeps hierarchy card totals aligned to published active counts",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-dashboard.playwright.spec.ts",
+        "line": 495,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 1176,
+      "details": ""
+    },
+    {
+      "title": "uses active published counts for Roles and Departments cards",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-dashboard.playwright.spec.ts",
+        "line": 505,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 1227,
+      "details": ""
+    },
+    {
+      "title": "clicking Edit Structure redirects user to Manage Industry WRCF with same selected Industry Sector and Industry carried forward from Dashboard",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-dashboard.playwright.spec.ts",
+        "line": 514,
+        "column": 7
+      },
+      "status": "failed",
+      "durationMs": 6286,
+      "details": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed Locator: locator('.filter-bar .filter-select').first() Expected: \u001b[32m\"sector-energy\"\u001b[39m Received: \u001b[31m\"\"\u001b[39m Timeout: 5000ms Call log: \u001b[2m - Expect \"toHaveValue\" with timeout 5000ms\u001b[22m \u001b[2m - waiting for locator('.filter-bar .filter-select').first()\u001b[22m \u001b[2m 9 × locator resolved to <select ng-reflect-model=\"\" _ngcontent-ng-c2195223369=\"\" class=\"filter-select ng-untouched ng-pristine ng-valid\">…</select>\u001b[22m \u001b[2m - unexpected value \"\"\u001b[22m"
+    },
+    {
+      "title": "blocks unauthorized users from restricted dashboard actions",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf-dashboard.playwright.spec.ts",
+        "line": 526,
+        "column": 7
+      },
+      "status": "skipped",
+      "durationMs": 825,
+      "details": ""
+    }
+  ]
+}
