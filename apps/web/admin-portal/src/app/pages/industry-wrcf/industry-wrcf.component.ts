@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, signal, OnInit, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { StackAuthService } from '../../core/services/stack-auth.service';
 import { NavDrawerComponent } from '../../shared/nav-drawer/nav-drawer.component';
@@ -27,6 +27,7 @@ export class IndustryWrcfComponent implements OnInit {
   private readonly apiService = inject(WrcfApiService);
   private readonly stackAuthService = inject(StackAuthService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   protected sectors: IndustrySector[] = [];
   protected capabilities: Capability[] = [];
@@ -83,8 +84,53 @@ export class IndustryWrcfComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const params = this.route.snapshot.queryParamMap;
+    const paramSectorId = params.get('sectorId');
+    const paramIndustryId = params.get('industryId');
+
     this.apiService.listSectors().subscribe({
-      next: sectors => { this.sectors = sectors; },
+      next: sectors => {
+        this.sectors = sectors;
+        if (paramSectorId && sectors.some(s => s.id === paramSectorId)) {
+          this.selectedSectorId.set(paramSectorId);
+          this.apiService.listIndustries(paramSectorId).subscribe({
+            next: industries => {
+              this.industries.set(industries);
+              if (paramIndustryId && industries.some(i => i.id === paramIndustryId)) {
+                this.selectedIndustryId.set(paramIndustryId);
+                this.apiService.listFGs(paramIndustryId).subscribe({
+                  next: fgs => {
+                    this.fgList.set(fgs);
+                    if (fgs.length === 0) return;
+                    this.selectedFG.set(fgs[0]);
+                    this.apiService.listPWOs(fgs[0].id).subscribe({
+                      next: pwos => {
+                        this.pwoList.set(pwos);
+                        if (pwos.length === 0) return;
+                        this.selectedPWO.set(pwos[0]);
+                        this.apiService.listSWOs(pwos[0].id).subscribe({
+                          next: swos => {
+                            this.swoList.set(swos);
+                            if (swos.length > 0) this.selectedSWO.set(swos[0]);
+                          },
+                          error: () => this.swoList.set([])
+                        });
+                      },
+                      error: () => this.pwoList.set([])
+                    });
+                    this.apiService.listCIs(paramIndustryId, fgs[0].id).subscribe({
+                      next: cis => this.existingCIs.set(cis),
+                      error: () => this.existingCIs.set([])
+                    });
+                  },
+                  error: () => this.fgList.set([])
+                });
+              }
+            },
+            error: () => this.industries.set([])
+          });
+        }
+      },
       error: () => { this.sectors = []; }
     });
 

@@ -64,17 +64,34 @@ Ask:
 
 ### 4. Template & style strategy
 
-Before scaffolding any files, ask **once** (applies to all components in this batch):
+Before scaffolding any files, present **both questions together in a single `ask_user_input` widget** (applies to all components in this batch):
 
-> "For the component template, do you want:
-> - **`templateUrl`** — a separate `.html` file (default)
-> - **`template`** — inline HTML inside the `.ts` file"
+```
+ask_user_input({
+  questions: [
+    {
+      question: "For the component template, do you want:",
+      type: "single_select",
+      options: [
+        "templateUrl — separate .html file (default)",
+        "template — inline HTML inside .ts"
+      ]
+    },
+    {
+      question: "For the component styles, do you want:",
+      type: "single_select",
+      options: [
+        "styleUrl — separate .css file (default)",
+        "styles — inline CSS inside .ts"
+      ]
+    }
+  ]
+})
+```
 
-> "For the component styles, do you want:
-> - **`styleUrl`** — a separate `.css` file (default)
-> - **`styles`** — inline CSS inside the `.ts` file"
-
-Store the two answers as `templateMode` (`external` | `inline`) and `styleMode` (`external` | `inline`).
+Map the answers:
+- Option 1 selected → `templateMode = external` / `styleMode = external`
+- Option 2 selected → `templateMode = inline` / `styleMode = inline`
 
 ### 5. Scaffold each component
 
@@ -213,11 +230,59 @@ Components: <ComponentName>Component, ...
 <!-- Unresolved decisions that need stakeholder input. -->
 ```
 
-Write `notes.txt` as a completely empty file.
+Write `notes.txt` as an empty file. For `UX-screenshots/.gitkeep` write an empty file.
 
-Write `UX-screenshots/.gitkeep` as a completely empty file.
+Then tell the user:
+> "Feature folder created at `docs/features/<path>/`.
+>
+> Fill in `docs/features/<path>/requirement.txt` — a template with sections is already there to guide you.
+>
+> Drop any UX screenshots into `docs/features/<path>/UX-screenshots/`.
+>
+> When you're ready, reply **proceed**."
 
-### 7. Confirm and summarise
+### 7. Wait for "proceed"
+
+Do not read the file or build the plan until the user says **proceed** (or "go", "done", "ready").
+
+### 8. Read requirements
+
+Read `docs/features/<feature_name>/requirement.txt` in full.
+Also read `docs/features/<feature_name>/notes.txt` if it has content.
+
+**UX screenshots (mandatory):** List all files in `docs/features/<feature_name>/UX-screenshots/` and read every image found. Treat the screenshots as the authoritative source of truth for layout, colours, typography, component structure, and interaction patterns. If screenshots conflict with the written requirements, flag the discrepancy and default to the screenshot unless told otherwise.
+
+### 9. Build an implementation plan
+
+Analyse the requirements and the codebase (read relevant existing files) to produce a detailed implementation plan covering:
+
+1. **Data model** — new Prisma models or schema changes needed, following project naming conventions
+2. **Domain layer** — aggregates, value objects, repository interfaces (in `libs/contexts/`)
+3. **Application layer** — commands, command handlers, query handlers
+4. **Infrastructure layer** — Prisma repository implementations
+5. **API layer** — Core API routes (Fastify) + BFF proxy routes
+6. **Frontend** — Angular components, services, routing changes
+7. **Tests** — unit tests to write
+8. **Files to create / files to modify** — exhaustive list with purpose
+
+Present the plan clearly to the user. Ask:
+> "Does this plan look right? Any changes, missing pieces, or different approach you'd like?"
+
+### 10. Iterate on the plan
+
+Repeat Step 6 with revisions until the user explicitly **approves** the plan (e.g. "looks good", "approved", "go ahead", "build it").
+
+### 11. Save the approved plan
+
+Write the final approved plan to:
+```
+docs/features/<feature_name>/implementation-plan.md
+```
+
+Tell the user:
+> "Plan saved to `docs/features/<feature_name>/implementation-plan.md`. Starting implementation now."
+
+### 12. Confirm and summarise 
 
 Tell the user:
 

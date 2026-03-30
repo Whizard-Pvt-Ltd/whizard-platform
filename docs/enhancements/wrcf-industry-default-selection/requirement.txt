@@ -1,0 +1,67 @@
+# WRCF Industry Default Selection
+
+## Overview
+<!-- One paragraph: what this enhancement does, which existing feature it improves, and why. -->
+a. Industry WRCF Dashboard we have selection of Industry Sector and Industry when user click edit structure form quick action 
+need to send the default selected value to the Manage Industry WRCF and need to load the data as per the selected values.
+
+b.Industry WRCF Dashboard we have selection of Industry Sector and Industry when user click Manage Roles form quick action 
+need to send the default selected value to theManage WRCF Roles and need to load the data as per the selected values.
+
+
+## Current Behaviour
+<!-- Describe how the feature works today before this enhancement. -->
+When user open Manage Industry WRCF ad Manage WRCF Roles form quick action on Industry WRCF Dashboard screen's filter,
+it is not getting the select value.
+
+## Desired Behaviour
+<!-- Describe how it should work after the enhancement. Be specific. -->
+a. Manage Industry WRCF.
+- When user select the filter of Industry WRCF Dashboard and click on the edit structure form quick action
+the selected value should be transfer to the Manage Industry WRCF ad it filter should be applied as per the selected value.
+- All the column data should be loaded as per that selected value. 
+- Use routing to share the data form the one component to another component.
+- In Manage Industry WRCF screen all column data should be selected for the first value and load next columns data as per the last selected value.
+
+b. Manage WRCF Roles.
+- When user select the filter of Industry WRCF Dashboard and click on the edit structure form quick action
+the selected value should be transfer to the Manage Industry WRCF ad it filter should be applied as per the selected value.
+- All the column data should be loaded as per that selected value. 
+- Use routing to share the data form the one component to another component.
+- In Manage WRCF Roles screen all column data should be selected for the first value and load next columns data as per the last selected value.
+
+## Default Behaviours
+<!-- Auto-select rules, pre-population, initial state changes if any. -->
+a. Both Manage Industry WRCF / Manage WRCF Roles loads as per the selected value form Dashboard the column's data should load.
+b. Each columns data should load data for previous column selected data.
+
+## Changes to Entities & Attributes
+<!-- Only list fields/entities that are added, changed, or removed.
+     For each: Name, Type, Mandatory (*), Options if dropdown. -->
+No changes needed.
+
+## User Flows
+<!-- Step-by-step flows that change or are newly introduced.
+     e.g. "1. Click Export → 2. Choose format → 3. Download file" -->
+1. Industry WRCF Dashboard > Click Edit structure > navigate to Manage Industry WRCF with select filter > apply the selected value form routing.
+2. Manage Industry WRCF column 1 should get by default selected value first > next column data should load previous selected value.
+3. Industry WRCF Dashboard > Click Manage Roles > navigate to Manage Manage WRCF Roles with select filter > apply the selected value form routing.
+
+
+
+## Business Rules & Constraints
+<!-- New or changed validation rules, guard conditions, cascading effects. -->
+
+## DB Notes
+<!-- New columns, indexes, or table changes needed. State "No DB changes" if none. -->
+
+## Scope
+<!-- Explicit list of what must be changed: frontend, API, migration, tests. -->
+Apply changes on frontend and load the api as per the selected values in both screens if needed.
+
+## Out of Scope
+<!-- Anything explicitly NOT part of this enhancement to avoid scope creep. -->
+
+## Notes / Edge Cases
+<!-- Gotchas, open questions, cross-feature dependencies. -->
+

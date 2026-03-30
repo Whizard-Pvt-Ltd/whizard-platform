@@ -1,6 +1,6 @@
 import { Component, inject, signal, computed, OnInit, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import type { Industry, FunctionalGroup, PrimaryWorkObject, SecondaryWorkObject, Capability, ProficiencyLevel, CapabilityInstance } from '../industry-wrcf/models/wrcf.models';
 import type { Department, IndustryRole, PendingCIMapping, RolesPanelState } from './models/wrcf-roles.models';
@@ -23,6 +23,7 @@ export class WrcfRolesComponent implements OnInit {
   private readonly wrcfApi = inject(WrcfApiService);
   private readonly rolesApi = inject(WrcfRolesApiService);
   private readonly stackAuthService = inject(StackAuthService);
+  private readonly route = inject(ActivatedRoute);
 
   protected industries = signal<Industry[]>([]);
   protected departments = signal<Department[]>([]);
@@ -114,15 +115,24 @@ export class WrcfRolesComponent implements OnInit {
     this.wrcfApi.listCapabilities().subscribe({ next: c => { this.allCapabilities = c; }, error: () => {} });
     this.wrcfApi.listProficiencies().subscribe({ next: p => { this.allProficiencies = p; }, error: () => {} });
 
+    const params = this.route.snapshot.queryParamMap;
+    const paramSectorId = params.get('sectorId');
+    const paramIndustryId = params.get('industryId');
+
     this.wrcfApi.listSectors().subscribe({
       next: sectors => {
         if (sectors.length === 0) return;
-        this.wrcfApi.listIndustries(sectors[0].id).subscribe({
+        const targetSectorId = (paramSectorId && sectors.some(s => s.id === paramSectorId))
+          ? paramSectorId
+          : sectors[0].id;
+        this.wrcfApi.listIndustries(targetSectorId).subscribe({
           next: industries => {
             this.industries.set(industries);
-            if (industries.length > 0) {
-              this.selectIndustry(industries[0].id);
-            }
+            if (industries.length === 0) return;
+            const targetIndustryId = (paramIndustryId && industries.some(i => i.id === paramIndustryId))
+              ? paramIndustryId
+              : industries[0].id;
+            this.selectIndustry(targetIndustryId);
           },
           error: () => {}
         });
