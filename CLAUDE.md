@@ -2,6 +2,26 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Skill Maintenance
+
+Skills live in `~/.claude-whizard/skills/` and cover three domains:
+
+| Skill | File | Covers |
+|---|---|---|
+| `build-db` | `~/.claude-whizard/skills/build-db/SKILL.md` | Prisma schema, migrations, naming rules |
+| `build-backend` | `~/.claude-whizard/skills/build-backend/SKILL.md` | DDD layers, Core API routes, BFF proxy |
+| `build-frontend` | `~/.claude-whizard/skills/build-frontend/SKILL.md` | Angular components, signals, WRCF Design System |
+
+**When to propose a skill update**: After completing any task, if you notice:
+- A new pattern used that isn't in the skill (e.g. a new wiring convention in `runtime.ts`, a new Angular pattern, a new Prisma technique)
+- A correction to guidance already in the skill (e.g. an instruction that turned out to be wrong or incomplete)
+- A convention established mid-session via user feedback
+
+At the end of that task, ask the user:
+> "I noticed a pattern/correction that isn't in the `<skill-name>` skill — want me to update it?"
+
+If the user says yes, update the relevant `SKILL.md` immediately. Keep skill content grounded in what was actually done, not hypothetical best practices.
+
 ## Coding Conventions
 
 - Do not create documentation files unless explicitly asked.

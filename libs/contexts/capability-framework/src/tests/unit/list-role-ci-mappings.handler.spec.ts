@@ -26,16 +26,16 @@ describe('ListRoleCIMappingsQueryHandler', () => {
 
   it('returns the list of mappings from the repository', async () => {
     const mappings = [
-      { id: 'map-1', roleId: 'role-1', ciId: 'ci-1' },
-      { id: 'map-2', roleId: 'role-1', ciId: 'ci-2' }
+      { id: 'map-1', roleId: 'role-1', capabilityInstanceId: 'ci-1', isMandatory: false },
+      { id: 'map-2', roleId: 'role-1', capabilityInstanceId: 'ci-2', isMandatory: false }
     ];
     vi.mocked(repo.findByRoleId).mockResolvedValue(mappings);
 
     const result = await handler.execute('role-1');
 
     expect(result).toHaveLength(2);
-    expect(result[0].ciId).toBe('ci-1');
-    expect(result[1].ciId).toBe('ci-2');
+    expect(result[0].capabilityInstanceId).toBe('ci-1');
+    expect(result[1].capabilityInstanceId).toBe('ci-2');
   });
 
   it('returns an empty array when no mappings exist for the role', async () => {

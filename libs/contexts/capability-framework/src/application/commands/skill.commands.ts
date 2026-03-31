@@ -1,11 +1,10 @@
 export interface CreateSkillCommand {
   tenantId: string;
-  ciId: string;
+  capabilityInstanceId: string;
   name: string;
-  description?: string;
   cognitiveType: string;
   skillCriticality: string;
-  recertificationCycle: number;
+  recertificationCycleMonths: number;
   aiImpact: string;
 }
 
@@ -13,10 +12,9 @@ export interface UpdateSkillCommand {
   id: string;
   tenantId: string;
   name?: string;
-  description?: string;
   cognitiveType?: string;
   skillCriticality?: string;
-  recertificationCycle?: number;
+  recertificationCycleMonths?: number;
   aiImpact?: string;
 }
 

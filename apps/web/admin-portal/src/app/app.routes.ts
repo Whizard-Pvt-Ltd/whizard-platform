@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
 import { LoginPageComponent } from './pages/login/login-page.component';
 import { SignupPageComponent } from './pages/signup/signup-page.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { EnhancedProfilePageComponent } from './pages/profile/enhanced-profile-page.component';
 import { IndustryWrcfComponent } from './pages/industry-wrcf/industry-wrcf.component';
 import { WrcfSkillsComponent } from './pages/wrcf-skills/wrcf-skills.component';
 import { WrcfRolesComponent } from './pages/wrcf-roles/wrcf-roles.component';
+import { WrcfDashboardComponent } from './pages/wrcf-dashboard/wrcf-dashboard.component';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
@@ -21,8 +21,8 @@ export const routes: Routes = [
   },
   {
     path: 'dashboard',
-    component: DashboardComponent,
-    title: 'Dashboard',
+    component: WrcfDashboardComponent,
+    title: 'Industry WRCF Dashboard',
     canActivate: [authGuard]
   },
   {

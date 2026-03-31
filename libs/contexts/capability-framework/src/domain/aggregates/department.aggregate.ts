@@ -4,13 +4,12 @@ import type { DomainEvent } from '../events/domain-event.base';
 export interface DepartmentProps {
   id: string;
   tenantId: string;
-  industryId: string;
+  industryId?: string;
   name: string;
-  fgIds: string[];
+  functionalGroupIds: string[];
   operationalCriticalityScore?: number;
   revenueContributionWeight?: number;
   regulatoryExposureLevel?: number;
-  createdBy: string;
 }
 
 class DepartmentCreatedEvent implements DomainEvent {
@@ -45,29 +44,27 @@ export class Department {
 
   readonly id: string;
   readonly tenantId: string;
-  readonly industryId: string;
+  readonly industryId?: string;
   name: string;
-  fgIds: string[];
+  functionalGroupIds: string[];
   operationalCriticalityScore?: number;
   revenueContributionWeight?: number;
   regulatoryExposureLevel?: number;
-  readonly createdBy: string;
 
   private constructor(props: DepartmentProps) {
     this.id = props.id;
     this.tenantId = props.tenantId;
     this.industryId = props.industryId;
     this.name = props.name;
-    this.fgIds = props.fgIds;
+    this.functionalGroupIds = props.functionalGroupIds;
     this.operationalCriticalityScore = props.operationalCriticalityScore;
     this.revenueContributionWeight = props.revenueContributionWeight;
     this.regulatoryExposureLevel = props.regulatoryExposureLevel;
-    this.createdBy = props.createdBy;
   }
 
   static create(props: Omit<DepartmentProps, 'id'>): Department {
     const dept = new Department({ ...props, id: randomUUID() });
-    dept._domainEvents.push(new DepartmentCreatedEvent(dept.id, dept.tenantId, { name: dept.name, industryId: dept.industryId }));
+    dept._domainEvents.push(new DepartmentCreatedEvent(dept.id, dept.tenantId, { name: dept.name }));
     return dept;
   }
 
@@ -75,9 +72,9 @@ export class Department {
     return new Department(props);
   }
 
-  update(partial: Partial<Pick<DepartmentProps, 'name' | 'fgIds' | 'operationalCriticalityScore' | 'revenueContributionWeight' | 'regulatoryExposureLevel'>>): void {
+  update(partial: Partial<Pick<DepartmentProps, 'name' | 'functionalGroupIds' | 'operationalCriticalityScore' | 'revenueContributionWeight' | 'regulatoryExposureLevel'>>): void {
     if (partial.name !== undefined) this.name = partial.name;
-    if (partial.fgIds !== undefined) this.fgIds = partial.fgIds;
+    if (partial.functionalGroupIds !== undefined) this.functionalGroupIds = partial.functionalGroupIds;
     if (partial.operationalCriticalityScore !== undefined) this.operationalCriticalityScore = partial.operationalCriticalityScore;
     if (partial.revenueContributionWeight !== undefined) this.revenueContributionWeight = partial.revenueContributionWeight;
     if (partial.regulatoryExposureLevel !== undefined) this.regulatoryExposureLevel = partial.regulatoryExposureLevel;

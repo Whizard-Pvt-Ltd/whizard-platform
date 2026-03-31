@@ -45,10 +45,10 @@ describe('CreateTaskCommandHandler', () => {
   });
 
   it('forwards optional fields to the aggregate', async () => {
-    await handler.execute({ ...createCmd, standardDuration: 30, requiredProficiencyLevel: 2 });
+    await handler.execute({ ...createCmd, standardDuration: 30, requiredProficiencyLevel: 'L2' });
     const saved = vi.mocked(repo.save).mock.calls[0][0];
     expect(saved.standardDuration).toBe(30);
-    expect(saved.requiredProficiencyLevel).toBe(2);
+    expect(saved.requiredProficiencyLevel).toBe('L2');
   });
 
   it('propagates repository errors', async () => {

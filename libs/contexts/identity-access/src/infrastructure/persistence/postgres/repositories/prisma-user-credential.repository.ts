@@ -1,50 +1,16 @@
-import pkg from '@prisma/client';
-const { PrismaClient } = pkg;
-type PrismaClientType = InstanceType<typeof PrismaClient>;
 import type { IUserCredentialRepository } from '../../../../application/ports/repositories/user-credential.repository';
 import { UserCredential } from '../../../../domain/entities/user-credential.entity';
 
 export class PrismaUserCredentialRepository implements IUserCredentialRepository {
-  constructor(private readonly prisma: PrismaClientType) {}
-
-  async findByUserAccountId(userAccountId: string): Promise<UserCredential | null> {
-    const record = await this.prisma.userCredential.findUnique({
-      where: { userAccountId }
-    });
-
-    if (!record) {
-      return null;
-    }
-
-    return UserCredential.rehydrate({
-      userAccountId: record.userAccountId,
-      passwordHash: record.passwordHash,
-      createdAt: record.createdAt,
-      updatedAt: record.updatedAt
-    });
+  async findByUserAccountId(_userAccountId: string): Promise<UserCredential | null> {
+    return null;
   }
 
-  async save(credential: UserCredential): Promise<void> {
-    const primitives = credential.toPrimitives();
-
-    await this.prisma.userCredential.upsert({
-      where: { userAccountId: primitives.userAccountId },
-      create: {
-        userAccountId: primitives.userAccountId,
-        passwordHash: primitives.passwordHash,
-        createdAt: primitives.createdAt,
-        updatedAt: primitives.updatedAt
-      },
-      update: {
-        passwordHash: primitives.passwordHash,
-        updatedAt: primitives.updatedAt
-      }
-    });
+  async save(_credential: UserCredential): Promise<void> {
+    // no-op: userCredential table removed from schema
   }
 
-  async delete(userAccountId: string): Promise<void> {
-    await this.prisma.userCredential.delete({
-      where: { userAccountId }
-    });
+  async delete(_userAccountId: string): Promise<void> {
+    // no-op: userCredential table removed from schema
   }
 }

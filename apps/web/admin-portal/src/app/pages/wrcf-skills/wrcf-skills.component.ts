@@ -92,7 +92,7 @@ export class WrcfSkillsComponent implements OnInit {
     });
 
     this.route.queryParams.subscribe(params => {
-      const ciId = params['ciId'];
+      const ciId = params['capabilityInstanceId'];
       const industryId = params['industryId'];
 
       if (ciId) {
@@ -267,13 +267,13 @@ export class WrcfSkillsComponent implements OnInit {
       const ciId = this.resolvedCiId();
       if (!ciId) return;
       if (mode === 'create') {
-        this.skillsApi.createSkill({ ...(payload as Omit<SkillItem, 'id'>), ciId }).subscribe({
+        this.skillsApi.createSkill({ ...(payload as Omit<SkillItem, 'id'>), capabilityInstanceId: ciId }).subscribe({
           next: () => { this.loadSkills(ciId); this.closePanel(); },
           error: () => this.showError('Failed to create skill.')
         });
       } else {
         const id = (payload as { id?: string }).id!;
-        this.skillsApi.updateSkill(id, payload as Partial<Omit<SkillItem, 'id' | 'ciId'>>).subscribe({
+        this.skillsApi.updateSkill(id, payload as Partial<Omit<SkillItem, 'id' | 'capabilityInstanceId'>>).subscribe({
           next: () => { this.loadSkills(ciId); this.closePanel(); },
           error: () => this.showError('Failed to update skill.')
         });

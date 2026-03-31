@@ -6,7 +6,7 @@ export interface CreateTaskCommand {
   frequency: string;
   complexity: string;
   standardDuration?: number;
-  requiredProficiencyLevel?: number;
+  requiredProficiencyLevel?: string;
 }
 
 export interface UpdateTaskCommand {
@@ -17,7 +17,7 @@ export interface UpdateTaskCommand {
   frequency?: string;
   complexity?: string;
   standardDuration?: number;
-  requiredProficiencyLevel?: number;
+  requiredProficiencyLevel?: string;
 }
 
 export interface DeleteTaskCommand {

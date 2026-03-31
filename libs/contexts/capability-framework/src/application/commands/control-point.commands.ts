@@ -5,9 +5,9 @@ export interface CreateControlPointCommand {
   description?: string;
   riskLevel: string;
   failureImpactType: string;
-  kpiThreshold?: string;
-  escalationRequired: string;
-  evidenceType: string;
+  evidenceType?: string;
+  kpiThreshold?: number;
+  escalationRequired: boolean;
 }
 
 export interface UpdateControlPointCommand {
@@ -17,9 +17,9 @@ export interface UpdateControlPointCommand {
   description?: string;
   riskLevel?: string;
   failureImpactType?: string;
-  kpiThreshold?: string;
-  escalationRequired?: string;
   evidenceType?: string;
+  kpiThreshold?: number;
+  escalationRequired?: boolean;
 }
 
 export interface DeleteControlPointCommand {

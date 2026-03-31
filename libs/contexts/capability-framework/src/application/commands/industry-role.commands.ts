@@ -1,22 +1,24 @@
 export interface CreateIndustryRoleCommand {
   tenantId: string;
   departmentId: string;
-  industryId: string;
+  industryId?: string;
   name: string;
-  seniorityLevel: string;
+  description?: string;
+  seniorityLevel?: string;
   reportingTo?: string;
   roleCriticalityScore?: number;
-  createdBy: string;
+  createdBy?: string;
 }
 
 export interface UpdateIndustryRoleCommand {
   id: string;
   tenantId: string;
   name?: string;
+  description?: string;
   seniorityLevel?: string;
   reportingTo?: string;
   roleCriticalityScore?: number;
-  updatedBy: string;
+  updatedBy?: string;
 }
 
 export interface DeleteIndustryRoleCommand {

@@ -103,10 +103,18 @@ jobs:
             dockerfile: apps/api/core-api/Dockerfile
             context: .
             image: whizard-club-api
-          - name: admin-portal
+          - name: admin-portal-dev
             dockerfile: apps/web/admin-portal/Dockerfile
             context: .
-            image: whizard-club-web
+            image: whizard-club-web-dev
+            build_env: dev
+          - name: admin-portal-test
+            dockerfile: apps/web/admin-portal/Dockerfile
+            context: .
+            image: whizard-club-web-test
+            build_env: test
+
+
 
     steps:
       - name: Checkout code
@@ -148,6 +156,7 @@ jobs:
           build-args: |
             NODE_VERSION=22
             PNPM_VERSION=10.6.0
+            BUILD_ENV=${{ matrix.service.build_env }}
             VITE_BFF_API_URL=https://bfftest.whizard.club
             VITE_STACK_AUTH_PROJECT_ID=a3f5b8a7-22d3-49d5-9f56-76e0489e8d51
             VITE_STACK_AUTH_PUBLISHABLE_CLIENT_KEY=pck_emn3m14ezqavtsp7b0bbv91swt0cpkazqy9ax83pfcmp8

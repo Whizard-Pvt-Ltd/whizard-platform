@@ -1,0 +1,210 @@
+<whizard-nav-drawer [open]="drawerOpen()" (closed)="drawerOpen.set(false)" />
+
+@if (versionHistoryOpen()) {
+  <whizard-version-history-dialog (closed)="versionHistoryOpen.set(false)" />
+}
+
+@if (publishDraftOpen()) {
+  <whizard-publish-draft-dialog (closed)="publishDraftOpen.set(false)" />
+}
+
+<div class="page">
+  <!-- Header -->
+  <header class="page-header">
+    <div class="header-left">
+      <button class="menu-btn" (click)="drawerOpen.set(true)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+      <span class="header-title">Industry WRCF Dashboard</span>
+    </div>
+    <div class="header-right">
+      <div class="user-menu-wrapper">
+        <button class="user-btn" (click)="userMenuOpen.set(!userMenuOpen())">
+          <div class="user-avatar">{{ (userName || 'U')[0].toUpperCase() }}</div>
+        </button>
+        @if (userMenuOpen()) {
+          <div class="user-menu">
+            <span class="user-name">{{ userName }}</span>
+          </div>
+        }
+      </div>
+    </div>
+  </header>
+
+  <!-- Filters -->
+  <div class="filters-bar">
+    <div class="filter-group">
+      <label class="filter-label">Industry Sector</label>
+      <div class="select-wrapper">
+        <select class="dropdown"
+          [value]="selectedSectorId() ?? ''"
+          (change)="onSectorChange($any($event.target).value)">
+          @for (sector of sectors(); track sector.id) {
+            <option [value]="sector.id">{{ sector.name }}</option>
+          }
+        </select>
+        <svg class="select-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">Industry</label>
+      <div class="select-wrapper">
+        <select class="dropdown"
+          [value]="selectedIndustry()?.id ?? ''"
+          (change)="onIndustryChange($any($event.target).value)">
+          @for (industry of industries(); track industry.id) {
+            <option [value]="industry.id">{{ industry.name }}</option>
+          }
+        </select>
+        <svg class="select-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Industry title -->
+  <div class="industry-title-section">
+    <span class="industry-label">Industry</span>
+    <h2 class="industry-name">{{ selectedIndustry()?.name ?? '—' }}</h2>
+  </div>
+
+  <!-- Version row -->
+  <div class="version-row">
+    <div class="version-cell">
+      <span class="version-cell-label">Current Version</span>
+      <div class="version-cell-value">
+        <span class="version-number">4.1</span>
+        <span class="badge badge-published">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          Published
+        </span>
+      </div>
+    </div>
+    <div class="version-cell">
+      <span class="version-cell-label">Draft Version</span>
+      <div class="version-cell-value">
+        <span class="version-number">4.2</span>
+        <span class="badge badge-in-progress">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          In Progress
+        </span>
+      </div>
+    </div>
+    <div class="version-cell">
+      <span class="version-cell-label">Last Updated</span>
+      <div class="version-cell-value">
+        <span class="version-date">28 Feb 2026</span>
+      </div>
+    </div>
+    <div class="version-cell">
+      <span class="version-cell-label">Validation Status</span>
+      <div class="version-cell-value">
+        <span class="badge badge-published">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          Validated
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats grid -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-label" style="color: #8AB4F8">Functional Groups</span>
+      <span class="stat-count" style="color: #8AB4F8">{{ formatCount(stats().functionalGroups) }}</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label" style="color: #FF6B6B">Primary Work Objective</span>
+      <span class="stat-count" style="color: #FF6B6B">{{ formatCount(stats().primaryWorkObjects) }}</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label" style="color: #B57BFF">Secondary Work Objective</span>
+      <span class="stat-count" style="color: #B57BFF">{{ formatCount(stats().secondaryWorkObjects) }}</span>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label" style="color: #FFA500">Capability Instances</span>
+      <span class="stat-count" style="color: #FFA500">{{ formatCount(stats().capabilityInstances) }}</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label" style="color: #FF69B4">Skills</span>
+      <span class="stat-count" style="color: #FF69B4">{{ formatCount(stats().skills) }}</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label" style="color: #00E676">Tasks</span>
+      <span class="stat-count" style="color: #00E676">{{ formatCount(stats().tasks) }}</span>
+    </div>
+
+    <div class="stat-row-centered">
+      <div class="stat-card">
+        <span class="stat-label" style="color: #FFD700">Roles</span>
+        <span class="stat-count" style="color: #FFD700">{{ formatCount(stats().roles) }}</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label" style="color: #00BFFF">Departments</span>
+        <span class="stat-count" style="color: #00BFFF">{{ formatCount(stats().departments) }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions-section">
+    <h3 class="quick-actions-title">Quick Actions</h3>
+    <div class="quick-actions-grid">
+      <button class="action-card" (click)="navigateToCapabilities()">
+        <div class="action-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="1.5">
+            <rect x="3" y="3" width="7" height="7" stroke="#FF6B6B" fill="none" rx="1"/>
+            <rect x="14" y="3" width="7" height="7" stroke="#8AB4F8" fill="none" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" stroke="#00E676" fill="none" rx="1"/>
+            <rect x="14" y="14" width="7" height="7" stroke="#FFD700" fill="none" rx="1"/>
+          </svg>
+        </div>
+        <span class="action-label">Edit Structure</span>
+        <span class="action-desc">Modify framework layout</span>
+      </button>
+
+      <button class="action-card" (click)="navigateToRoles()">
+        <div class="action-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00BFFF" stroke-width="1.5">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <span class="action-label">Manage Roles</span>
+        <span class="action-desc">Define user roles</span>
+      </button>
+
+      <button class="action-card" (click)="versionHistoryOpen.set(true)">
+        <div class="action-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#B57BFF" stroke-width="1.5">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10 9 9 9 8 9"/>
+          </svg>
+        </div>
+        <span class="action-label">Version History</span>
+        <span class="action-desc">View past versions</span>
+      </button>
+
+      <button class="action-card" (click)="publishDraftOpen.set(true)">
+        <div class="action-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8AB4F8" stroke-width="1.5">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="12" y1="18" x2="12" y2="12"/>
+            <line x1="9" y1="15" x2="15" y2="15"/>
+          </svg>
+        </div>
+        <span class="action-label">Publish Draft</span>
+        <span class="action-desc">Publish new draft</span>
+      </button>
+    </div>
+  </div>
+</div>

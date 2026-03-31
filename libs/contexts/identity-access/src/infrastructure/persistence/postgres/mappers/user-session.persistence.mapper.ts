@@ -1,5 +1,15 @@
-import type { UserSession as UserSessionRow } from '@prisma/client';
 import { UserSession } from '../../../../domain';
+
+interface UserSessionRow {
+  id: string;
+  userAccountId: string;
+  status: string;
+  issuedAt: Date;
+  lastActivityAt: Date;
+  expiresAt: Date;
+  refreshExpiresAt: Date | null;
+  clientContext: string | null;
+}
 
 export const toUserSessionDomain = (row: UserSessionRow): UserSession => {
   return UserSession.rehydrate({
@@ -9,7 +19,7 @@ export const toUserSessionDomain = (row: UserSessionRow): UserSession => {
     issuedAt: row.issuedAt,
     lastActivityAt: row.lastActivityAt,
     expiresAt: row.expiresAt,
-    refreshExpiresAt: row.refreshExpiresAt,
-    clientContext: row.clientContext
+    refreshExpiresAt: row.refreshExpiresAt ?? new Date(),
+    clientContext: row.clientContext ?? ''
   });
 };

@@ -4,12 +4,11 @@ import type { DomainEvent } from '../events/domain-event.base';
 export interface SkillProps {
   id: string;
   tenantId: string;
-  ciId: string;
+  capabilityInstanceId: string;
   name: string;
-  description?: string;
   cognitiveType: string;
   skillCriticality: string;
-  recertificationCycle: number;
+  recertificationCycleMonths: number;
   aiImpact: string;
 }
 
@@ -45,29 +44,27 @@ export class Skill {
 
   readonly id: string;
   readonly tenantId: string;
-  readonly ciId: string;
+  readonly capabilityInstanceId: string;
   name: string;
-  description?: string;
   cognitiveType: string;
   skillCriticality: string;
-  recertificationCycle: number;
+  recertificationCycleMonths: number;
   aiImpact: string;
 
   private constructor(props: SkillProps) {
     this.id = props.id;
     this.tenantId = props.tenantId;
-    this.ciId = props.ciId;
+    this.capabilityInstanceId = props.capabilityInstanceId;
     this.name = props.name;
-    this.description = props.description;
     this.cognitiveType = props.cognitiveType;
     this.skillCriticality = props.skillCriticality;
-    this.recertificationCycle = props.recertificationCycle;
+    this.recertificationCycleMonths = props.recertificationCycleMonths;
     this.aiImpact = props.aiImpact;
   }
 
   static create(props: Omit<SkillProps, 'id'>): Skill {
     const skill = new Skill({ ...props, id: randomUUID() });
-    skill._domainEvents.push(new SkillCreatedEvent(skill.id, skill.tenantId, { ciId: skill.ciId, name: skill.name }));
+    skill._domainEvents.push(new SkillCreatedEvent(skill.id, skill.tenantId, { capabilityInstanceId: skill.capabilityInstanceId, name: skill.name }));
     return skill;
   }
 
@@ -75,12 +72,11 @@ export class Skill {
     return new Skill(props);
   }
 
-  update(partial: Partial<Omit<SkillProps, 'id' | 'tenantId' | 'ciId'>>): void {
+  update(partial: Partial<Omit<SkillProps, 'id' | 'tenantId' | 'capabilityInstanceId'>>): void {
     if (partial.name !== undefined) this.name = partial.name;
-    if (partial.description !== undefined) this.description = partial.description;
     if (partial.cognitiveType !== undefined) this.cognitiveType = partial.cognitiveType;
     if (partial.skillCriticality !== undefined) this.skillCriticality = partial.skillCriticality;
-    if (partial.recertificationCycle !== undefined) this.recertificationCycle = partial.recertificationCycle;
+    if (partial.recertificationCycleMonths !== undefined) this.recertificationCycleMonths = partial.recertificationCycleMonths;
     if (partial.aiImpact !== undefined) this.aiImpact = partial.aiImpact;
     this._domainEvents.push(new SkillUpdatedEvent(this.id, this.tenantId, { name: this.name }));
   }

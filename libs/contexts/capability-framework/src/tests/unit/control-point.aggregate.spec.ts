@@ -7,7 +7,7 @@ const baseProps = {
   name: 'Pressure within threshold',
   riskLevel: 'High',
   failureImpactType: 'Safety',
-  escalationRequired: 'Yes',
+  escalationRequired: true,
   evidenceType: 'Log'
 };
 
@@ -22,7 +22,7 @@ describe('ControlPoint aggregate', () => {
       const cp = ControlPoint.create({
         ...baseProps,
         description: 'Must be within 5% tolerance',
-        kpiThreshold: '< 5%'
+        kpiThreshold: 95
       });
       expect(cp.tenantId).toBe('tenant-1');
       expect(cp.taskId).toBe('task-1');
@@ -30,8 +30,8 @@ describe('ControlPoint aggregate', () => {
       expect(cp.description).toBe('Must be within 5% tolerance');
       expect(cp.riskLevel).toBe('High');
       expect(cp.failureImpactType).toBe('Safety');
-      expect(cp.kpiThreshold).toBe('< 5%');
-      expect(cp.escalationRequired).toBe('Yes');
+      expect(cp.kpiThreshold).toBe(95);
+      expect(cp.escalationRequired).toBe(true);
       expect(cp.evidenceType).toBe('Log');
     });
 
@@ -63,11 +63,11 @@ describe('ControlPoint aggregate', () => {
       const cp = ControlPoint.create(baseProps);
       cp.clearDomainEvents();
 
-      cp.update({ name: 'Updated CP', riskLevel: 'Critical', escalationRequired: 'No' });
+      cp.update({ name: 'Updated CP', riskLevel: 'Critical', escalationRequired: false });
 
       expect(cp.name).toBe('Updated CP');
       expect(cp.riskLevel).toBe('Critical');
-      expect(cp.escalationRequired).toBe('No');
+      expect(cp.escalationRequired).toBe(false);
       expect(cp.failureImpactType).toBe('Safety');
       expect(cp.domainEvents).toHaveLength(1);
     });
@@ -77,7 +77,7 @@ describe('ControlPoint aggregate', () => {
       cp.clearDomainEvents();
       cp.update({ evidenceType: 'Email' });
       expect(cp.riskLevel).toBe('High');
-      expect(cp.escalationRequired).toBe('Yes');
+      expect(cp.escalationRequired).toBe(true);
     });
   });
 

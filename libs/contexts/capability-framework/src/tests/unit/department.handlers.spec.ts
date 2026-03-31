@@ -20,8 +20,7 @@ const createCmd = {
   tenantId: 'tenant-1',
   industryId: 'industry-1',
   name: 'Engineering',
-  fgIds: ['fg-1', 'fg-2'],
-  createdBy: 'user-1'
+  functionalGroupIds: ['fg-1', 'fg-2']
 };
 
 describe('CreateDepartmentCommandHandler', () => {
@@ -81,36 +80,36 @@ describe('UpdateDepartmentCommandHandler', () => {
 
   it('updates name and persists', async () => {
     vi.mocked(repo.findById).mockResolvedValue(existing);
-    await handler.execute({ id: 'dept-1', tenantId: 'tenant-1', name: 'Operations', updatedBy: 'user-1' });
+    await handler.execute({ id: 'dept-1', tenantId: 'tenant-1', name: 'Operations' });
     expect(repo.findById).toHaveBeenCalledWith('dept-1');
     expect(repo.update).toHaveBeenCalledOnce();
     const [updated] = vi.mocked(repo.update).mock.calls[0];
     expect(updated.name).toBe('Operations');
   });
 
-  it('passes updated fgIds to the repository', async () => {
+  it('passes updated functionalGroupIds to the repository', async () => {
     vi.mocked(repo.findById).mockResolvedValue(existing);
-    await handler.execute({ id: 'dept-1', tenantId: 'tenant-1', fgIds: ['fg-3'], updatedBy: 'user-1' });
+    await handler.execute({ id: 'dept-1', tenantId: 'tenant-1', functionalGroupIds: ['fg-3'] });
     const [, fgIds] = vi.mocked(repo.update).mock.calls[0];
     expect(fgIds).toEqual(['fg-3']);
   });
 
-  it('falls back to existing fgIds when not provided in command', async () => {
+  it('falls back to existing functionalGroupIds when not provided in command', async () => {
     vi.mocked(repo.findById).mockResolvedValue(existing);
-    await handler.execute({ id: 'dept-1', tenantId: 'tenant-1', name: 'Renamed', updatedBy: 'user-1' });
+    await handler.execute({ id: 'dept-1', tenantId: 'tenant-1', name: 'Renamed' });
     const [, fgIds] = vi.mocked(repo.update).mock.calls[0];
     expect(fgIds).toEqual(['fg-1', 'fg-2']);
   });
 
   it('throws DomainException when department not found', async () => {
     vi.mocked(repo.findById).mockResolvedValue(null);
-    await expect(handler.execute({ id: 'ghost', tenantId: 'tenant-1', updatedBy: 'user-1' }))
+    await expect(handler.execute({ id: 'ghost', tenantId: 'tenant-1' }))
       .rejects.toThrow(DomainException);
   });
 
   it('throws with a descriptive message', async () => {
     vi.mocked(repo.findById).mockResolvedValue(null);
-    await expect(handler.execute({ id: 'ghost', tenantId: 'tenant-1', updatedBy: 'user-1' }))
+    await expect(handler.execute({ id: 'ghost', tenantId: 'tenant-1' }))
       .rejects.toThrow('Department ghost not found');
   });
 });

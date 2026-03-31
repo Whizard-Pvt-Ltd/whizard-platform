@@ -15,9 +15,7 @@
             "outputPath": "dist/apps/web/admin-portal",
             "index": "apps/web/admin-portal/src/index.html",
             "browser": "apps/web/admin-portal/src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "apps/web/admin-portal/tsconfig.app.json",
             "inlineStyleLanguage": "css",
             "assets": [
@@ -32,12 +30,10 @@
                 "output": "assets"
               }
             ],
-            "styles": [
-              "apps/web/admin-portal/src/styles.css"
-            ]
+            "styles": ["apps/web/admin-portal/src/styles.css"]
           },
           "configurations": {
-            "production": {
+            "test": {
               "fileReplacements": [
                 {
                   "replace": "apps/web/admin-portal/src/environments/environment.ts",
@@ -47,6 +43,18 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
+              "extractLicenses": true
+            },
+            "dev": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/web/admin-portal/src/environments/environment.ts",
+                  "with": "apps/web/admin-portal/src/environments/environment.dev.ts"
+                }
+              ],
+              "optimization": true,
+              "sourceMap": false,
+              "outputHashing": "all",
               "extractLicenses": true
             },
             "development": {

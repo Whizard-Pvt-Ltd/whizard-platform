@@ -23,7 +23,7 @@ const createCmd = {
   name: 'Pressure within threshold',
   riskLevel: 'High',
   failureImpactType: 'Safety',
-  escalationRequired: 'Yes',
+  escalationRequired: true,
   evidenceType: 'Log'
 };
 
@@ -49,10 +49,10 @@ describe('CreateControlPointCommandHandler', () => {
   });
 
   it('forwards optional fields to the aggregate', async () => {
-    await handler.execute({ ...createCmd, description: 'Some desc', kpiThreshold: '< 5%' });
+    await handler.execute({ ...createCmd, description: 'Some desc', kpiThreshold: 95 });
     const saved = vi.mocked(repo.save).mock.calls[0][0];
     expect(saved.description).toBe('Some desc');
-    expect(saved.kpiThreshold).toBe('< 5%');
+    expect(saved.kpiThreshold).toBe(95);
   });
 
   it('propagates repository errors', async () => {
@@ -74,11 +74,11 @@ describe('UpdateControlPointCommandHandler', () => {
 
   it('updates and persists the control point', async () => {
     vi.mocked(repo.findById).mockResolvedValue(existingCp);
-    await handler.execute({ id: 'cp-1', tenantId: 'tenant-1', riskLevel: 'Critical', escalationRequired: 'No' });
+    await handler.execute({ id: 'cp-1', tenantId: 'tenant-1', riskLevel: 'Critical', escalationRequired: false });
     expect(repo.update).toHaveBeenCalledOnce();
     const updated = vi.mocked(repo.update).mock.calls[0][0];
     expect(updated.riskLevel).toBe('Critical');
-    expect(updated.escalationRequired).toBe('No');
+    expect(updated.escalationRequired).toBe(false);
     expect(updated.failureImpactType).toBe('Safety');
   });
 

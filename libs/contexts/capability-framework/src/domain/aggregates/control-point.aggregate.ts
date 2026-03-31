@@ -9,9 +9,9 @@ export interface ControlPointProps {
   description?: string;
   riskLevel: string;
   failureImpactType: string;
-  kpiThreshold?: string;
-  escalationRequired: string;
-  evidenceType: string;
+  evidenceType?: string;
+  kpiThreshold?: number;
+  escalationRequired: boolean;
 }
 
 class ControlPointCreatedEvent implements DomainEvent {
@@ -51,9 +51,9 @@ export class ControlPoint {
   description?: string;
   riskLevel: string;
   failureImpactType: string;
-  kpiThreshold?: string;
-  escalationRequired: string;
-  evidenceType: string;
+  evidenceType?: string;
+  kpiThreshold?: number;
+  escalationRequired: boolean;
 
   private constructor(props: ControlPointProps) {
     this.id = props.id;
@@ -63,9 +63,9 @@ export class ControlPoint {
     this.description = props.description;
     this.riskLevel = props.riskLevel;
     this.failureImpactType = props.failureImpactType;
+    this.evidenceType = props.evidenceType;
     this.kpiThreshold = props.kpiThreshold;
     this.escalationRequired = props.escalationRequired;
-    this.evidenceType = props.evidenceType;
   }
 
   static create(props: Omit<ControlPointProps, 'id'>): ControlPoint {
@@ -83,9 +83,9 @@ export class ControlPoint {
     if (partial.description !== undefined) this.description = partial.description;
     if (partial.riskLevel !== undefined) this.riskLevel = partial.riskLevel;
     if (partial.failureImpactType !== undefined) this.failureImpactType = partial.failureImpactType;
+    if (partial.evidenceType !== undefined) this.evidenceType = partial.evidenceType;
     if (partial.kpiThreshold !== undefined) this.kpiThreshold = partial.kpiThreshold;
     if (partial.escalationRequired !== undefined) this.escalationRequired = partial.escalationRequired;
-    if (partial.evidenceType !== undefined) this.evidenceType = partial.evidenceType;
     this._domainEvents.push(new ControlPointUpdatedEvent(this.id, this.tenantId, { name: this.name }));
   }
 
