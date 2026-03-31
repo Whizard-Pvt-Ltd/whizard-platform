@@ -21,6 +21,7 @@ import helmet from '@fastify/helmet';
  */
 import Fastify from 'fastify';
 import { startCoreApi } from './main';
+import { registerCollegeOperationsCoreApiRuntime } from './modules/college-operations/runtime';
 import { registerWrcfCoreApiRuntime } from './modules/wrcf/runtime';
 import stackAuthPlugin from './plugins/stack-auth.plugin';
 
@@ -139,6 +140,18 @@ async function bootstrap() {
   } catch (error) {
     fastify.log.error({ error }, 'Failed to register WRCF runtime');
     bootstrapLogger.error('Failed to register WRCF runtime', {
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+    throw error;
+  }
+
+  // Register College Operations routes
+  bootstrapLogger.info('Registering College Operations runtime');
+  try {
+    await registerCollegeOperationsCoreApiRuntime(fastify);
+    bootstrapLogger.info('College Operations runtime registered successfully');
+  } catch (error) {
+    bootstrapLogger.error('Failed to register College Operations runtime', {
       error: error instanceof Error ? error.message : 'Unknown error'
     });
     throw error;

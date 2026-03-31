@@ -21,6 +21,7 @@ import helmet from '@fastify/helmet';
  */
 import Fastify from 'fastify';
 import { startBff } from './main';
+import { registerCollegeOperationsBffModule } from './modules/college-operations/college-operations.bff.module';
 import { registerWrcfBffModule } from './modules/wrcf/wrcf.module';
 
 // Server configuration from environment variables
@@ -122,6 +123,18 @@ async function bootstrap() {
   } catch (error) {
     fastify.log.error({ error }, 'Failed to register WRCF BFF module');
     bootstrapLogger.error('Failed to register WRCF BFF module', {
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+    throw error;
+  }
+
+  // Register College Operations BFF module
+  bootstrapLogger.info('Registering College Operations BFF module');
+  try {
+    await registerCollegeOperationsBffModule(fastify);
+    bootstrapLogger.info('College Operations BFF module registered successfully');
+  } catch (error) {
+    bootstrapLogger.error('Failed to register College Operations BFF module', {
       error: error instanceof Error ? error.message : 'Unknown error'
     });
     throw error;

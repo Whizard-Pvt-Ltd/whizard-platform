@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 import { IndustryWrcfComponent } from './pages/industry-wrcf/industry-wrcf.component';
 import { LoginPageComponent } from './pages/login/login-page.component';
+import { ManageCollegeComponent } from './pages/manage-college/manage-college.component';
 import { EnhancedProfilePageComponent } from './pages/profile/enhanced-profile-page.component';
 import { SignupPageComponent } from './pages/signup/signup-page.component';
 import { WrcfDashboardComponent } from './pages/wrcf-dashboard/wrcf-dashboard.component';
@@ -47,6 +48,12 @@ export const routes: Routes = [
     path: 'wrcf-roles',
     component: WrcfRolesComponent,
     title: 'Manage WRCF Roles',
+    canActivate: [authGuard]
+  },
+  {
+    path: 'manage-college',
+    component: ManageCollegeComponent,
+    title: 'Manage College',
     canActivate: [authGuard]
   },
   {

@@ -7,7 +7,12 @@
 // Authentication Components
 export * from './auth/index.js';
 
-// Future exports:
-// export * from './form-controls';
-// export * from './data-display';
-// export * from './design-system';
+// Quill rich text editor
+export { QuillEditorComponent } from './quill-editor/quill-editor.component.js';
+
+// PDF viewer
+export { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component.js';
+
+// Media uploader
+export { MediaUploaderComponent } from './media-uploader/media-uploader.component.js';
+export type { UploadedFile } from './media-uploader/media-uploader.component.js';

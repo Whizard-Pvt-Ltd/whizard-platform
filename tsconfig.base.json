@@ -26,7 +26,8 @@
         "libs/contexts/capability-framework/src/index.ts"
       ],
       "@whizard/theme": ["libs/shared/theme/src/index.ts"],
-      "@whizard/icons": ["libs/shared/icons/src/index.ts"]
+      "@whizard/icons": ["libs/shared/icons/src/index.ts"],
+      "@whizard/college-operations": ["libs/contexts/college-operations/src/index.ts"]
     }
   },
   "include": ["apps", "libs", "tests", "tools", "vitest.config.ts"]

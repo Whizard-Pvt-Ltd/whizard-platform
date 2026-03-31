@@ -1,0 +1,80 @@
+<whizard-nav-drawer [open]="drawerOpen()" (closed)="drawerOpen.set(false)" />
+
+<div class="flex flex-col h-screen bg-wrcf-bg-primary font-sans overflow-hidden">
+
+  <!-- Header -->
+  <header class="h-16 bg-wrcf-bg-primary px-8 flex items-center justify-between border-b border-wrcf-border shrink-0">
+    <div class="flex items-center gap-4">
+      <button
+        type="button"
+        (click)="drawerOpen.set(true)"
+        class="flex items-center justify-center w-9 h-9 rounded-lg hover:bg-wrcf-bg-secondary transition-colors">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-wrcf-text-primary">
+          <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+      <h1 class="text-2xl font-semibold text-wrcf-text-primary leading-8">Manage College</h1>
+    </div>
+  </header>
+
+  <!-- Error banner -->
+  @if (errorMessage()) {
+    <div class="flex items-center justify-between px-8 py-3 bg-red-950/50 border-b border-red-800/50 text-sm text-red-300 shrink-0">
+      <span>{{ errorMessage() }}</span>
+      <button type="button" (click)="errorMessage.set(null)" class="ml-4 text-red-400 hover:text-red-200 transition-colors">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+  }
+
+  <!-- Main workspace -->
+  <div class="flex-1 flex overflow-hidden">
+
+    <!-- VIEW MODE: list + detail -->
+    @if (mode() === 'list') {
+      <whizard-college-list-panel
+        [colleges]="colleges()"
+        [selectedId]="selectedCollegeId"
+        [loading]="loading()"
+        (collegeSelected)="onCollegeSelected($event)"
+        (addClicked)="onAddClicked()" />
+
+      <whizard-college-detail-panel
+        [college]="selectedCollege()"
+        [clubs]="clubs()"
+        [users]="users()"
+        (editClicked)="onEditClicked()"
+        (previewPdf)="onPreviewPdf($event)" />
+    }
+
+    <!-- EDIT / CREATE MODE: media library + form -->
+    @if (mode() === 'edit' || mode() === 'create') {
+      <whizard-media-library-panel
+        [assets]="mediaAssets()"
+        [loading]="mediaLoading()"
+        (assetSelected)="onMediaAssetSelected($event)"
+        (uploadRequested)="onMediaUploadRequested($event)" />
+
+      <whizard-college-form
+        [college]="mode() === 'edit' ? selectedCollege() : null"
+        [clubs]="clubs()"
+        [programs]="programs()"
+        [cities]="cities()"
+        [users]="users()"
+        [mediaAssets]="mediaAssets()"
+        (saved)="onSaved($event)"
+        (published)="onPublished($event)"
+        (cancelled)="onFormCancelled()"
+        (mediaUploadRequested)="onMediaUploadRequested($event)" />
+    }
+
+    <!-- PREVIEW MODE: full-width preview -->
+    @if (mode() === 'preview' && selectedCollege()) {
+      <whizard-college-preview
+        [college]="selectedCollege()!"
+        [clubs]="clubs()"
+        (backClicked)="onBackFromPreview()" />
+    }
+
+  </div>
+</div>

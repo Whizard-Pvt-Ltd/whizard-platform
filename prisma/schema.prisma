@@ -372,3 +372,162 @@ model RoleCIMapping {
   @@unique([roleId, ciId])
   @@map("capability_instances_industry_roles")
 }
+
+// ─── College Operations ───────────────────────────────────────────────────────
+
+model City {
+  id       String    @id @default(uuid())
+  name     String
+  state    String
+  isActive Boolean   @default(true)
+  colleges College[]
+
+  @@index([state])
+  @@map("cities")
+}
+
+model Club {
+  id          String         @id @default(uuid())
+  tenantId    String
+  name        String
+  description String?
+  logoUrl     String?
+  isActive    Boolean        @default(true)
+  createdBy   String
+  createdOn   DateTime       @default(now())
+  updatedBy   String?
+  updatedOn   DateTime?      @updatedAt
+  colleges    ClubCollege[]
+
+  @@index([tenantId])
+  @@map("clubs")
+}
+
+model DegreeProgram {
+  id              String                   @id @default(uuid())
+  name            String
+  level           String
+  durationYears   Int?
+  isActive        Boolean                  @default(true)
+  createdBy       String
+  createdOn       DateTime                 @default(now())
+  specializations ProgramSpecialization[]
+  colleges        CollegeDegreeProgram[]
+
+  @@map("degree_programs")
+}
+
+model ProgramSpecialization {
+  id        String        @id @default(uuid())
+  programId String
+  program   DegreeProgram @relation(fields: [programId], references: [id])
+  name      String
+  isActive  Boolean       @default(true)
+  createdBy String
+  createdOn DateTime      @default(now())
+
+  @@index([programId])
+  @@map("program_specializations")
+}
+
+model MediaAsset {
+  id           String               @id @default(uuid())
+  tenantId     String
+  name         String
+  url          String
+  key          String
+  type         String
+  mimeType     String
+  sizeBytes    Int
+  thumbnailUrl String?
+  isActive     Boolean              @default(true)
+  createdBy    String
+  createdOn    DateTime             @default(now())
+  updatedBy    String?
+  updatedOn    DateTime?            @updatedAt
+  colleges     CollegeMediaAsset[]
+
+  @@index([tenantId, type])
+  @@map("media_assets")
+}
+
+model College {
+  id                   String               @id @default(uuid())
+  tenantId             String
+  collegeCode          String               @unique
+  name                 String
+  affiliatedUniversity String
+  cityId               String?
+  city                 City?                @relation(fields: [cityId], references: [id])
+  collegeType          String
+  establishedYear      Int?
+  description          String?
+  degreesOffered       String?
+  placementHighlights  String?
+  inquiryEmail         String?
+  status               Int                  @default(0)
+  isActive             Boolean              @default(true)
+  createdBy            String
+  createdOn            DateTime             @default(now())
+  updatedBy            String?
+  updatedOn            DateTime?            @updatedAt
+  clubs                ClubCollege[]
+  degreePrograms       CollegeDegreeProgram[]
+  mediaAssets          CollegeMediaAsset[]
+  contacts             CollegeContact[]
+
+  @@index([tenantId, status])
+  @@index([tenantId, isActive])
+  @@map("colleges")
+}
+
+model CollegeContact {
+  id        String    @id @default(uuid())
+  collegeId String
+  college   College   @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+  userId    String
+  role      String
+  isActive  Boolean   @default(true)
+  createdBy String
+  createdOn DateTime  @default(now())
+  updatedBy String?
+  updatedOn DateTime? @updatedAt
+
+  @@unique([collegeId, role])
+  @@index([collegeId])
+  @@map("college_contacts")
+}
+
+model ClubCollege {
+  collegeId String
+  college   College @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+  clubId    String
+  club      Club    @relation(fields: [clubId], references: [id])
+
+  @@id([collegeId, clubId])
+  @@map("clubs_colleges")
+}
+
+model CollegeMediaAsset {
+  id           String     @id @default(uuid())
+  collegeId    String
+  college      College    @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+  mediaAssetId String
+  mediaAsset   MediaAsset @relation(fields: [mediaAssetId], references: [id])
+  mediaRole    String
+  sortOrder    Int        @default(0)
+
+  @@unique([collegeId, mediaAssetId, mediaRole])
+  @@index([collegeId, mediaRole])
+  @@map("colleges_media_assets")
+}
+
+model CollegeDegreeProgram {
+  collegeId String
+  college   College       @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+  programId String
+  program   DegreeProgram @relation(fields: [programId], references: [id])
+
+  @@id([collegeId, programId])
+  @@map("colleges_degree_programs")
+}

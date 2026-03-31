@@ -1,48 +1,56 @@
 @if (open()) {
-  <div class="fixed inset-0 bg-[#0F172A]/60 z-400" (click)="closed.emit()"></div>
+  <div class="fixed inset-0 bg-wrcf-bg-primary/60 z-400" (click)="closed.emit()"></div>
 }
 
-<nav class="fixed top-0 left-0 h-dvh w-65 bg-[#0F253F] border-r border-[#484E5D] flex flex-col z-401 transition-transform duration-250 ease-in-out"
+<nav class="fixed top-0 left-0 h-dvh w-65 bg-wrcf-bg-secondary border-r border-wrcf-border flex flex-col z-401 transition-transform duration-250 ease-in-out"
      [class.-translate-x-full]="!open()"
      [class.translate-x-0]="open()">
 
-  <div class="h-16 px-5 flex items-center justify-between border-b border-[#484E5D] shrink-0">
-    <span class="text-lg font-semibold text-[#E8F0FA] tracking-wide">Whizard Admin</span>
-    <button mat-icon-button (click)="closed.emit()" class="text-[#7F94AE] hover:text-[#E8F0FA]">
+  <div class="h-16 px-5 flex items-center justify-between border-b border-wrcf-border shrink-0">
+    <span class="text-lg font-semibold text-wrcf-text-primary tracking-wide">Whizard Admin</span>
+    <button mat-icon-button (click)="closed.emit()" class="text-wrcf-text-secondary hover:text-wrcf-text-primary">
       <mat-icon class="size-5" svgIcon="heroicons_outline:x-mark" />
     </button>
   </div>
 
   <div class="flex-1 overflow-y-auto py-3 flex flex-col">
-    <a class="flex items-center gap-3 h-12 px-5 text-[15px] font-normal text-[#E8F0FA] no-underline border-l-[3px] border-l-transparent hover:bg-[#1E293B] transition-[background,border-color] duration-120"
+    <a class="flex items-center gap-3 h-12 px-5 text-[15px] font-normal text-wrcf-text-primary no-underline border-l-[3px] border-l-transparent hover:bg-wrcf-bg-card transition-[background,border-color] duration-120"
        routerLink="/dashboard" routerLinkActive="active" (click)="closed.emit()">
       <mat-icon class="size-4.5 shrink-0 opacity-80" svgIcon="heroicons_outline:home" />
       Dashboard
     </a>
 
-    <span class="px-5 pt-4 pb-1.5 text-[11px] font-semibold tracking-[0.08em] text-[#7F94AE] uppercase">WRCF</span>
+    <span class="px-5 pt-4 pb-1.5 text-[11px] font-semibold tracking-[0.08em] text-wrcf-text-secondary uppercase">WRCF</span>
 
-    <a class="flex items-center gap-3 h-12 px-5 text-[15px] font-normal text-[#E8F0FA] no-underline border-l-[3px] border-l-transparent hover:bg-[#1E293B] transition-[background,border-color] duration-120"
+    <a class="flex items-center gap-3 h-12 px-5 text-[15px] font-normal text-wrcf-text-primary no-underline border-l-[3px] border-l-transparent hover:bg-wrcf-bg-card transition-[background,border-color] duration-120"
        routerLink="/industry-wrcf" routerLinkActive="active" (click)="closed.emit()">
       <mat-icon class="size-4.5 shrink-0 opacity-80" svgIcon="heroicons_outline:building-office" />
       Manage Industry
     </a>
 
-    <a class="flex items-center gap-3 h-12 px-5 text-[15px] font-normal text-[#E8F0FA] no-underline border-l-[3px] border-l-transparent hover:bg-[#1E293B] transition-[background,border-color] duration-120"
+    <a class="flex items-center gap-3 h-12 px-5 text-[15px] font-normal text-wrcf-text-primary no-underline border-l-[3px] border-l-transparent hover:bg-wrcf-bg-card transition-[background,border-color] duration-120"
        routerLink="/wrcf-skills" routerLinkActive="active" (click)="closed.emit()">
       <mat-icon class="size-4.5 shrink-0 opacity-80" svgIcon="lucideIcons:star" />
       Manage Skills
     </a>
 
-    <a class="flex items-center gap-3 h-12 px-5 text-[15px] font-normal text-[#E8F0FA] no-underline border-l-[3px] border-l-transparent hover:bg-[#1E293B] transition-[background,border-color] duration-120"
+    <a class="flex items-center gap-3 h-12 px-5 text-[15px] font-normal text-wrcf-text-primary no-underline border-l-[3px] border-l-transparent hover:bg-wrcf-bg-card transition-[background,border-color] duration-120"
        routerLink="/wrcf-roles" routerLinkActive="active" (click)="closed.emit()">
       <mat-icon class="size-4.5 shrink-0 opacity-80" svgIcon="heroicons_outline:users" />
       Manage Roles
     </a>
 
-    <span class="px-5 pt-4 pb-1.5 text-[11px] font-semibold tracking-[0.08em] text-[#7F94AE] uppercase">Account</span>
+    <span class="px-5 pt-4 pb-1.5 text-[11px] font-semibold tracking-[0.08em] text-wrcf-text-secondary uppercase">College</span>
 
-    <a class="flex items-center gap-3 h-12 px-5 text-[15px] font-normal text-[#E8F0FA] no-underline border-l-[3px] border-l-transparent hover:bg-[#1E293B] transition-[background,border-color] duration-120"
+    <a class="flex items-center gap-3 h-12 px-5 text-[15px] font-normal text-wrcf-text-primary no-underline border-l-[3px] border-l-transparent hover:bg-wrcf-bg-card transition-[background,border-color] duration-120"
+       routerLink="/manage-college" routerLinkActive="active" (click)="closed.emit()">
+      <mat-icon class="size-4.5 shrink-0 opacity-80" svgIcon="heroicons_outline:academic-cap" />
+      Manage College
+    </a>
+
+    <span class="px-5 pt-4 pb-1.5 text-[11px] font-semibold tracking-[0.08em] text-wrcf-text-secondary uppercase">Account</span>
+
+    <a class="flex items-center gap-3 h-12 px-5 text-[15px] font-normal text-wrcf-text-primary no-underline border-l-[3px] border-l-transparent hover:bg-wrcf-bg-card transition-[background,border-color] duration-120"
        routerLink="/profile" routerLinkActive="active" (click)="closed.emit()">
       <mat-icon class="size-4.5 shrink-0 opacity-80" svgIcon="heroicons_outline:user" />
       Profile
