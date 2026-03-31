@@ -38,7 +38,7 @@ export const appConfig: ApplicationConfig = {
     // Core
     provideIcons(),
     provideTheming({
-      scheme: 'system',
+      scheme: 'dark',
       primary: '#4f46e5',
       error: '#dc2626',
     }),

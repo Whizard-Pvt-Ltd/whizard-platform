@@ -133,6 +133,6 @@ module.exports = [
     },
   },
   {
-    ignores: ['**/vitest.config.*.timestamp*'],
+    ignores: ['**/vitest.config.*.timestamp*', '.angular/**'],
   },
 ];

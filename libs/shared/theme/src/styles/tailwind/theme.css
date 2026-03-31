@@ -134,4 +134,24 @@
   --color-error-800: var(--theme-color-error-800);
   --color-error-900: var(--theme-color-error-900);
   --color-error-950: var(--theme-color-error-950);
+
+  /* WRCF Design System semantic tokens */
+  /* Backgrounds */
+  --color-wrcf-bg-primary:    #0F172A;
+  --color-wrcf-bg-secondary:  #0F253F;
+  --color-wrcf-bg-card:       #1E293B;
+  --color-wrcf-bg-selected:   #2D2A5A;
+  /* Text */
+  --color-wrcf-text-primary:  #E8F0FA;
+  --color-wrcf-text-secondary:#7F94AE;
+  --color-wrcf-text-tertiary: #8AB4F8;
+  /* Border */
+  --color-wrcf-border:        #484E5D;
+  /* Actions — follow the dynamic primary palette */
+  --color-wrcf-action:        var(--color-primary-600);
+  --color-wrcf-action-hover:  var(--color-primary-700);
+  /* Accent */
+  --color-wrcf-accent:        #00BFFF;
+  /* Error text */
+  --color-wrcf-error:         #fca5a5;
 }
