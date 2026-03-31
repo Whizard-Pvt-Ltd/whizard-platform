@@ -123,6 +123,7 @@
     "eslint-plugin-jsdoc": "62.5.4",
     "eslint-plugin-perfectionist": "5.5.0",
     "eslint-plugin-unused-imports": "4.4.1",
+    "eslint-visitor-keys": "4.2.1",
     "husky": "^9.1.7",
     "jsdom": "^27.1.0",
     "lint-staged": "^15.2.11",

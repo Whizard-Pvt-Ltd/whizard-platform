@@ -4,8 +4,11 @@ const perfectionist = require('eslint-plugin-perfectionist');
 
 module.exports = [
   {
+    ignores: ['.nx/**', 'dist/**', 'apps/**/dist/**', 'node_modules/**'],
+  },
+
+  {
     files: ['**/*.ts'],
-    ignores: ['dist/**', 'node_modules/**'],
     languageOptions: {
       parser,
       parserOptions: {
