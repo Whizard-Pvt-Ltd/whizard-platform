@@ -9,7 +9,7 @@ import { DomainException } from '../../application/domain-exception';
 import { Skill } from '../../domain/aggregates/skill.aggregate';
 
 const makeRepo = (): ISkillRepository => ({
-  findByCiId: vi.fn(),
+  findByCapabilityInstanceId: vi.fn(),
   findAllDtos: vi.fn(),
   findById: vi.fn(),
   save: vi.fn(),
@@ -19,11 +19,11 @@ const makeRepo = (): ISkillRepository => ({
 
 const createCmd = {
   tenantId: 'tenant-1',
-  ciId: 'ci-1',
+  capabilityInstanceId: 'ci-1',
   name: 'Valve Inspection',
   cognitiveType: 'Procedural',
   skillCriticality: 'High',
-  recertificationCycle: 6,
+  recertificationCycleMonths: 6,
   aiImpact: 'Medium'
 };
 
@@ -42,7 +42,7 @@ describe('CreateSkillCommandHandler', () => {
     const saved = vi.mocked(repo.save).mock.calls[0][0];
     expect(saved).toBeInstanceOf(Skill);
     expect(saved.name).toBe('Valve Inspection');
-    expect(saved.ciId).toBe('ci-1');
+    expect(saved.capabilityInstanceId).toBe('ci-1');
     expect(saved.tenantId).toBe('tenant-1');
   });
 

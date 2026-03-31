@@ -4,7 +4,7 @@ import type { ISkillRepository } from '../../domain/repositories/skill.repositor
 import { ListSkillsQueryHandler } from '../../application/query-handlers/list-skills.handler';
 
 const makeRepo = (): ISkillRepository => ({
-  findByCiId: vi.fn(),
+  findByCapabilityInstanceId: vi.fn(),
   findAllDtos: vi.fn(),
   findById: vi.fn(),
   save: vi.fn(),
@@ -14,11 +14,11 @@ const makeRepo = (): ISkillRepository => ({
 
 const skillDto = (overrides: Partial<SkillDto> = {}): SkillDto => ({
   id: 'skill-1',
-  ciId: 'ci-1',
+  capabilityInstanceId: 'ci-1',
   name: 'Valve Inspection',
   cognitiveType: 'Procedural',
   skillCriticality: 'High',
-  recertificationCycle: 6,
+  recertificationCycleMonths: 6,
   aiImpact: 'Medium',
   ...overrides
 });
@@ -32,7 +32,7 @@ describe('ListSkillsQueryHandler', () => {
     handler = new ListSkillsQueryHandler(repo);
   });
 
-  it('delegates to findAllDtos with correct tenantId and ciId', async () => {
+  it('delegates to findAllDtos with correct tenantId and capabilityInstanceId', async () => {
     vi.mocked(repo.findAllDtos).mockResolvedValue([]);
     await handler.execute('tenant-1', 'ci-1');
     expect(repo.findAllDtos).toHaveBeenCalledWith('tenant-1', 'ci-1');

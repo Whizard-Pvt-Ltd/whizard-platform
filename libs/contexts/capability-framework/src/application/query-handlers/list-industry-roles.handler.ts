@@ -7,9 +7,7 @@ export class ListIndustryRolesQueryHandler {
     id: string;
     name: string;
     departmentId: string;
-    seniorityLevel: string;
-    reportingTo?: string;
-    roleCriticalityScore?: number;
+    description?: string;
   }[]> {
     return this.repo.findByDepartmentId(tenantId, departmentId);
   }

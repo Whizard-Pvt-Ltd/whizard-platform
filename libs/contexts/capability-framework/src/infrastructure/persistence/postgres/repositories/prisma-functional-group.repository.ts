@@ -12,7 +12,7 @@ export class PrismaFunctionalGroupRepository implements IFunctionalGroupReposito
     return FunctionalGroup.reconstitute({
       id: row.id,
       tenantId: row.tenantId,
-      versionId: row.versionId ?? undefined,
+      versionId: String(row.version) ?? undefined,
       industryId: row.industryId,
       name: row.name,
       description: row.description ?? undefined,
@@ -29,7 +29,7 @@ export class PrismaFunctionalGroupRepository implements IFunctionalGroupReposito
       FunctionalGroup.reconstitute({
         id: row.id,
         tenantId: row.tenantId,
-        versionId: row.versionId ?? undefined,
+        versionId: String(row.version) ?? undefined,
         industryId: row.industryId,
         name: row.name,
         description: row.description ?? undefined,
@@ -51,7 +51,7 @@ export class PrismaFunctionalGroupRepository implements IFunctionalGroupReposito
       create: {
         id: fg.id,
         tenantId: fg.tenantId,
-        versionId: fg.versionId,
+        version: Number(fg.versionId ?? 1),
         industryId: fg.industryId,
         name: fg.name,
         description: fg.description,

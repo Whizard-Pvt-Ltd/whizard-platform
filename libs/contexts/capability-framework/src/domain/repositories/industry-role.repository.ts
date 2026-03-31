@@ -5,7 +5,7 @@ export interface IIndustryRoleRepository {
     id: string;
     name: string;
     departmentId: string;
-    seniorityLevel: string;
+    seniorityLevel?: string;
     reportingTo?: string;
     roleCriticalityScore?: number;
   }[]>;

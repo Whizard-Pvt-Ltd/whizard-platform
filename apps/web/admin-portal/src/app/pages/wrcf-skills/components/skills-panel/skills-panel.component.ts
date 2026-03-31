@@ -21,10 +21,9 @@ export class SkillsPanelComponent implements OnChanges {
 
   // Skill fields
   protected skillName = '';
-  protected skillDescription = '';
   protected skillCognitiveType = 'Procedural';
   protected skillCriticality = 'Medium';
-  protected skillRecertificationCycle = 6;
+  protected skillRecertificationCycleMonths = 6;
   protected skillAiImpact = 'Medium';
 
   // Task fields
@@ -40,9 +39,8 @@ export class SkillsPanelComponent implements OnChanges {
   protected cpDescription = '';
   protected cpRiskLevel = 'Medium';
   protected cpFailureImpactType = 'Safety';
-  protected cpKpiThreshold = '';
-  protected cpEscalationRequired = 'No';
-  protected cpEvidenceType = 'Log';
+  protected cpKpiThreshold: number | null = null;
+  protected cpEscalationRequired = false;
 
   protected readonly cognitiveTypeOptions = ['Procedural', 'Decision', 'Diagnostic'];
   protected readonly criticalityOptions = ['Low', 'Medium', 'High'];
@@ -51,8 +49,6 @@ export class SkillsPanelComponent implements OnChanges {
   protected readonly complexityOptions = ['Low', 'Medium', 'High'];
   protected readonly riskLevelOptions = ['Low', 'Medium', 'High', 'Critical'];
   protected readonly failureImpactTypeOptions = ['Safety', 'Compliance', 'Financial'];
-  protected readonly escalationOptions = ['Yes', 'No'];
-  protected readonly evidenceTypeOptions = ['Log', 'Email', 'Picture', 'Consent Of Validator'];
 
   protected get title(): string {
     const action = this.state.mode === 'create' ? 'Create New' : 'Edit';
@@ -72,10 +68,9 @@ export class SkillsPanelComponent implements OnChanges {
       if (this.state.entity === 'Skill') {
         const d = this.state.data as SkillItem;
         this.skillName = d.name;
-        this.skillDescription = d.description ?? '';
         this.skillCognitiveType = d.cognitiveType;
         this.skillCriticality = d.skillCriticality;
-        this.skillRecertificationCycle = d.recertificationCycle;
+        this.skillRecertificationCycleMonths = d.recertificationCycleMonths;
         this.skillAiImpact = d.aiImpact;
       } else if (this.state.entity === 'Task') {
         const d = this.state.data as TaskItem;
@@ -83,7 +78,7 @@ export class SkillsPanelComponent implements OnChanges {
         this.taskDescription = d.description ?? '';
         this.taskFrequency = d.frequency;
         this.taskComplexity = d.complexity;
-        this.taskStandardDuration = d.standardDuration ?? null;
+        this.taskStandardDuration = d.standardDuration;
         const matchedProf = this.proficiencyLevels.find(p => p.level === d.requiredProficiencyLevel);
         this.taskRequiredProficiencyId = matchedProf?.id ?? '';
       } else {
@@ -92,16 +87,14 @@ export class SkillsPanelComponent implements OnChanges {
         this.cpDescription = d.description ?? '';
         this.cpRiskLevel = d.riskLevel;
         this.cpFailureImpactType = d.failureImpactType;
-        this.cpKpiThreshold = d.kpiThreshold ?? '';
+        this.cpKpiThreshold = d.kpiThreshold ?? null;
         this.cpEscalationRequired = d.escalationRequired;
-        this.cpEvidenceType = d.evidenceType;
       }
     } else {
       this.skillName = '';
-      this.skillDescription = '';
       this.skillCognitiveType = 'Procedural';
       this.skillCriticality = 'Medium';
-      this.skillRecertificationCycle = 6;
+      this.skillRecertificationCycleMonths = 6;
       this.skillAiImpact = 'Medium';
       this.taskName = '';
       this.taskDescription = '';
@@ -113,9 +106,8 @@ export class SkillsPanelComponent implements OnChanges {
       this.cpDescription = '';
       this.cpRiskLevel = 'Medium';
       this.cpFailureImpactType = 'Safety';
-      this.cpKpiThreshold = '';
-      this.cpEscalationRequired = 'No';
-      this.cpEvidenceType = 'Log';
+      this.cpKpiThreshold = null;
+      this.cpEscalationRequired = false;
     }
   }
 
@@ -128,38 +120,38 @@ export class SkillsPanelComponent implements OnChanges {
         this.errorMsg = 'Name, Cognitive Type, Skill Criticality and AI Impact are required.';
         return;
       }
-      if (this.skillRecertificationCycle < 1 || this.skillRecertificationCycle > 12) {
+      if (this.skillRecertificationCycleMonths < 1 || this.skillRecertificationCycleMonths > 12) {
         this.errorMsg = 'Recertification Cycle must be between 1 and 12 months.';
         return;
       }
       const p: Partial<SkillItem> = {
         name: this.skillName.trim(),
-        description: this.skillDescription.trim() || undefined,
         cognitiveType: this.skillCognitiveType,
         skillCriticality: this.skillCriticality,
-        recertificationCycle: this.skillRecertificationCycle,
+        recertificationCycleMonths: this.skillRecertificationCycleMonths,
         aiImpact: this.skillAiImpact
       };
       payload = p;
     } else if (this.state.entity === 'Task') {
-      if (!this.taskName.trim() || !this.taskDescription.trim() || !this.taskFrequency || !this.taskComplexity) {
-        this.errorMsg = 'Name, Description, Frequency and Complexity are required.';
+      if (!this.taskName.trim() || !this.taskDescription.trim() || !this.taskFrequency || !this.taskComplexity || !this.taskStandardDuration) {
+        this.errorMsg = 'Name, Description, Frequency, Complexity and Standard Duration are required.';
         return;
       }
+      const matched = this.taskRequiredProficiencyId
+        ? this.proficiencyLevels.find(p => p.id === this.taskRequiredProficiencyId)
+        : undefined;
       const p: Partial<TaskItem> = {
         name: this.taskName.trim(),
         description: this.taskDescription.trim(),
         frequency: this.taskFrequency,
         complexity: this.taskComplexity,
-        standardDuration: this.taskStandardDuration ?? undefined,
-        requiredProficiencyLevel: this.taskRequiredProficiencyId
-          ? this.proficiencyLevels.find(p => p.id === this.taskRequiredProficiencyId)?.level
-          : undefined
+        standardDuration: this.taskStandardDuration,
+        requiredProficiencyLevel: matched?.level ?? 'L1'
       };
       payload = p;
     } else {
-      if (!this.cpName.trim() || !this.cpRiskLevel || !this.cpFailureImpactType || !this.cpEscalationRequired || !this.cpEvidenceType) {
-        this.errorMsg = 'Name, Risk Level, Failure Impact Type, Escalation Required and Evidence Type are required.';
+      if (!this.cpName.trim() || !this.cpRiskLevel || !this.cpFailureImpactType) {
+        this.errorMsg = 'Name, Risk Level and Failure Impact Type are required.';
         return;
       }
       const p: Partial<ControlPointItem> = {
@@ -167,9 +159,8 @@ export class SkillsPanelComponent implements OnChanges {
         description: this.cpDescription.trim() || undefined,
         riskLevel: this.cpRiskLevel,
         failureImpactType: this.cpFailureImpactType,
-        kpiThreshold: this.cpKpiThreshold.trim() || undefined,
-        escalationRequired: this.cpEscalationRequired,
-        evidenceType: this.cpEvidenceType
+        kpiThreshold: this.cpKpiThreshold ?? undefined,
+        escalationRequired: this.cpEscalationRequired
       };
       payload = p;
     }

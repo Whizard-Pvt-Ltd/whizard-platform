@@ -1,7 +1,7 @@
 export interface SaveRoleCIMappingsCommand {
   roleId: string;
-  ciIds: string[];
-  createdBy: string;
+  capabilityInstanceIds: string[];
+  isMandatory?: boolean;
 }
 
 export interface DeleteRoleCIMappingCommand {

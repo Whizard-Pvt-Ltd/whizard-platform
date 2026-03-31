@@ -12,10 +12,9 @@ export class PrismaSwoRepository implements ISwoRepository {
     return SecondaryWorkObject.reconstitute({
       id: row.id,
       tenantId: row.tenantId,
-      versionId: row.versionId ?? undefined,
+      versionId: String(row.version),
       pwoId: row.pwoId,
       name: row.name,
-      description: row.description ?? undefined,
       operationalComplexity: resolveImpactLevel(row.operationalComplexity, COMPLEXITY_LEVELS),
       assetCriticality: resolveImpactLevel(row.assetCriticality, CRITICALITY_LEVELS),
       failureFrequency: resolveImpactLevel(row.failureFrequency, FREQUENCY_LEVELS),
@@ -31,10 +30,9 @@ export class PrismaSwoRepository implements ISwoRepository {
       SecondaryWorkObject.reconstitute({
         id: row.id,
         tenantId: row.tenantId,
-        versionId: row.versionId ?? undefined,
+        versionId: String(row.version),
         pwoId: row.pwoId,
         name: row.name,
-        description: row.description ?? undefined,
         operationalComplexity: resolveImpactLevel(row.operationalComplexity, COMPLEXITY_LEVELS),
         assetCriticality: resolveImpactLevel(row.assetCriticality, CRITICALITY_LEVELS),
         failureFrequency: resolveImpactLevel(row.failureFrequency, FREQUENCY_LEVELS),
@@ -48,7 +46,6 @@ export class PrismaSwoRepository implements ISwoRepository {
       where: { id: swo.id },
       update: {
         name: swo.name,
-        description: swo.description,
         operationalComplexity: swo.operationalComplexity.label,
         assetCriticality: swo.assetCriticality.label,
         failureFrequency: swo.failureFrequency.label,
@@ -57,10 +54,9 @@ export class PrismaSwoRepository implements ISwoRepository {
       create: {
         id: swo.id,
         tenantId: swo.tenantId,
-        versionId: swo.versionId,
+        version: Number(swo.versionId ?? 1),
         pwoId: swo.pwoId,
         name: swo.name,
-        description: swo.description,
         operationalComplexity: swo.operationalComplexity.label,
         assetCriticality: swo.assetCriticality.label,
         failureFrequency: swo.failureFrequency.label,

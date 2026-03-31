@@ -19,10 +19,7 @@ const makeRepo = (): IIndustryRoleRepository => ({
 const createCmd = {
   tenantId: 'tenant-1',
   departmentId: 'dept-1',
-  industryId: 'industry-1',
-  name: 'Field Engineer',
-  seniorityLevel: 'Associate',
-  createdBy: 'user-1'
+  name: 'Field Engineer'
 };
 
 describe('CreateIndustryRoleCommandHandler', () => {
@@ -41,7 +38,6 @@ describe('CreateIndustryRoleCommandHandler', () => {
     expect(saved).toBeInstanceOf(IndustryRole);
     expect(saved.name).toBe('Field Engineer');
     expect(saved.departmentId).toBe('dept-1');
-    expect(saved.seniorityLevel).toBe('Associate');
   });
 
   it('returns the new role id and name', async () => {
@@ -50,15 +46,10 @@ describe('CreateIndustryRoleCommandHandler', () => {
     expect(result.id).toMatch(/^[0-9a-f-]{36}$/);
   });
 
-  it('passes optional fields through', async () => {
-    await handler.execute({
-      ...createCmd,
-      reportingTo: 'Engineering Manager',
-      roleCriticalityScore: 0.8
-    });
+  it('passes optional description through', async () => {
+    await handler.execute({ ...createCmd, description: 'Field operations' });
     const saved = vi.mocked(repo.save).mock.calls[0][0];
-    expect(saved.reportingTo).toBe('Engineering Manager');
-    expect(saved.roleCriticalityScore).toBe(0.8);
+    expect(saved.description).toBe('Field operations');
   });
 
   it('propagates repository errors', async () => {
@@ -78,33 +69,31 @@ describe('UpdateIndustryRoleCommandHandler', () => {
     existing = IndustryRole.reconstitute({ ...createCmd, id: 'role-1' });
   });
 
-  it('updates name and seniority level, then persists', async () => {
+  it('updates name and persists', async () => {
     vi.mocked(repo.findById).mockResolvedValue(existing);
-    await handler.execute({ id: 'role-1', tenantId: 'tenant-1', name: 'Senior Engineer', seniorityLevel: 'Team Lead', updatedBy: 'user-1' });
+    await handler.execute({ id: 'role-1', tenantId: 'tenant-1', name: 'Senior Engineer' });
     expect(repo.update).toHaveBeenCalledOnce();
     const updated = vi.mocked(repo.update).mock.calls[0][0];
     expect(updated.name).toBe('Senior Engineer');
-    expect(updated.seniorityLevel).toBe('Team Lead');
   });
 
-  it('updates reportingTo and roleCriticalityScore', async () => {
+  it('updates description', async () => {
     vi.mocked(repo.findById).mockResolvedValue(existing);
-    await handler.execute({ id: 'role-1', tenantId: 'tenant-1', reportingTo: 'CTO', roleCriticalityScore: 0.9, updatedBy: 'user-1' });
+    await handler.execute({ id: 'role-1', tenantId: 'tenant-1', description: 'New desc' });
     const updated = vi.mocked(repo.update).mock.calls[0][0];
-    expect(updated.reportingTo).toBe('CTO');
-    expect(updated.roleCriticalityScore).toBe(0.9);
+    expect(updated.description).toBe('New desc');
   });
 
   it('throws DomainException when role not found', async () => {
     vi.mocked(repo.findById).mockResolvedValue(null);
-    await expect(handler.execute({ id: 'ghost', tenantId: 'tenant-1', updatedBy: 'user-1' }))
+    await expect(handler.execute({ id: 'ghost', tenantId: 'tenant-1' }))
       .rejects.toThrow(DomainException);
   });
 
   it('throws with a descriptive message', async () => {
     vi.mocked(repo.findById).mockResolvedValue(null);
-    await expect(handler.execute({ id: 'ghost', tenantId: 'tenant-1', updatedBy: 'user-1' }))
-      .rejects.toThrow('IndustryRole ghost not found');
+    await expect(handler.execute({ id: 'ghost', tenantId: 'tenant-1' }))
+      .rejects.toThrow('Role ghost not found');
   });
 });
 

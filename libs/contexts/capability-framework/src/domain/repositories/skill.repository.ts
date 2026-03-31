@@ -1,17 +1,18 @@
 import type { Skill } from '../aggregates/skill.aggregate';
 
+export interface SkillDto {
+  id: string;
+  capabilityInstanceId: string;
+  name: string;
+  cognitiveType: string;
+  skillCriticality: string;
+  recertificationCycleMonths: number;
+  aiImpact: string;
+}
+
 export interface ISkillRepository {
-  findByCiId(tenantId: string, ciId: string): Promise<Skill[]>;
-  findAllDtos(tenantId: string, ciId: string): Promise<{
-    id: string;
-    ciId: string;
-    name: string;
-    description?: string;
-    cognitiveType: string;
-    skillCriticality: string;
-    recertificationCycle: number;
-    aiImpact: string;
-  }[]>;
+  findByCapabilityInstanceId(tenantId: string, capabilityInstanceId: string): Promise<Skill[]>;
+  findAllDtos(tenantId: string, capabilityInstanceId: string): Promise<SkillDto[]>;
   findById(id: string): Promise<Skill | null>;
   save(skill: Skill): Promise<void>;
   update(skill: Skill): Promise<void>;

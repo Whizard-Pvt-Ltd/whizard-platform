@@ -12,7 +12,8 @@ export class PrismaProficiencyRepository implements IProficiencyRepository {
       level: row.level,
       label: row.label,
       description: row.description ?? undefined,
-      independenceLevel: row.independenceLevel ?? undefined
+      weightage: row.weightage ?? undefined,
+      isActive: row.isActive
     }));
   }
 
@@ -24,7 +25,8 @@ export class PrismaProficiencyRepository implements IProficiencyRepository {
       level: row.level,
       label: row.label,
       description: row.description ?? undefined,
-      independenceLevel: row.independenceLevel ?? undefined
+      weightage: row.weightage ?? undefined,
+      isActive: row.isActive
     });
   }
 }

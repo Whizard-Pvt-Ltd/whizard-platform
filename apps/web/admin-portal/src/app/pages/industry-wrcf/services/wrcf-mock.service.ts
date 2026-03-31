@@ -55,11 +55,11 @@ export class WrcfMockService {
   ];
 
   private readonly proficiencyLevels: ProficiencyLevel[] = [
-    { id: 'pl1', name: 'Plant Awareness', code: 'L1', level: 1 },
-    { id: 'pl2', name: 'Assisted Execution', code: 'L2', level: 2 },
-    { id: 'pl3a', name: 'Conditional Independence – Supervised', code: 'L3A', level: 3 },
-    { id: 'pl3b', name: 'Conditional Independence – Scoped', code: 'L3B', level: 4 },
-    { id: 'pl4', name: 'Full Independence', code: 'L4', level: 5 },
+    { id: 'pl1', name: 'Plant Awareness', code: 'L1', level: 'L1' },
+    { id: 'pl2', name: 'Assisted Execution', code: 'L2', level: 'L2' },
+    { id: 'pl3a', name: 'Conditional Independence – Supervised', code: 'L3A', level: 'L3A' },
+    { id: 'pl3b', name: 'Conditional Independence – Scoped', code: 'L3B', level: 'L3B' },
+    { id: 'pl4', name: 'Full Independence', code: 'L4', level: 'L4' },
   ];
 
   getSectors(): IndustrySector[] { return [...this.sectors]; }

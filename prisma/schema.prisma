@@ -1,7 +1,7 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["fullTextSearch"]
-  engineType = "library"
+  engineType      = "library"
 }
 
 datasource db {
@@ -9,368 +9,355 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ─── IAM ─────────────────────────────────────────────────────────────────────
+
 model UserAccount {
-  id               String            @id @default(cuid())
-  primaryLoginId   String            @unique
-  primaryEmail     String            @unique
-  authMode         String
-  status           String
-  mfaRequired      Boolean           @default(true)
-  tenantType       String
-  tenantId         String
-  stackAuthUserId  String?           @unique
-  createdAt        DateTime          @default(now())
-  activatedAt      DateTime?
-  lastLoginAt      DateTime?
-  version          Int               @default(1)
-  accessPrincipals AccessPrincipal[]
-  sessions         UserSession[]
-  credential       UserCredential?
+  id             String    @id @default(uuid()) @map("public_uuid")
+  primaryLoginId String    @unique @map("primary_login_id")
+  primaryEmail   String    @unique @map("primary_email")
+  authMode       String    @map("auth_mode")
+  isActive       Boolean   @default(true) @map("is_active")
+  mfaRequired    Boolean   @default(false) @map("mfa_required")
+  activatedAt    DateTime? @map("activated_at")
+  lastLoginAt    DateTime? @map("last_login_at")
+  version        Float     @default(1)
+  createdAt      DateTime  @default(now()) @map("created_at")
+  createdBy      String?   @map("created_by")
+  updatedAt      DateTime  @default(now()) @map("updated_at")
+  updatedBy      String?   @map("updated_by")
 
-  @@map("iam_user_accounts")
-  @@index([tenantType, tenantId])
-  @@index([status])
-  @@index([stackAuthUserId])
-}
-
-model AccessPrincipal {
-  id                String              @id @default(cuid())
-  userAccountId     String
-  tenantType        String
-  tenantId          String
-  status            String
-  createdAt         DateTime            @default(now())
-  version           Int                 @default(1)
-  userAccount       UserAccount         @relation(fields: [userAccountId], references: [id], onDelete: Restrict)
-  roleAssignments   RoleAssignment[]
-  permissionGrants  PermissionGrant[]
-  scopeRestrictions ScopeRestriction[]
-
-  @@map("iam_access_principals")
-  @@unique([userAccountId, tenantType, tenantId])
-  @@index([tenantType, tenantId, status])
-}
-
-model RoleAssignment {
-  id                String          @id @default(cuid())
-  accessPrincipalId String
-  roleCode          String
-  assignedBy        String
-  assignedAt        DateTime        @default(now())
-  validFrom         DateTime?
-  validTo           DateTime?
-  status            String
-  accessPrincipal   AccessPrincipal @relation(fields: [accessPrincipalId], references: [id], onDelete: Restrict)
-
-  @@map("iam_role_assignments")
-  @@index([accessPrincipalId, status])
-  @@index([roleCode])
-}
-
-model PermissionGrant {
-  id                String          @id @default(cuid())
-  accessPrincipalId String
-  permissionCode    String
-  grantSource       String
-  scopeType         String?
-  scopeValue        String?
-  grantedAt         DateTime        @default(now())
-  revokedAt         DateTime?
-  accessPrincipal   AccessPrincipal @relation(fields: [accessPrincipalId], references: [id], onDelete: Restrict)
-
-  @@map("iam_permission_grants")
-  @@index([accessPrincipalId, permissionCode])
-  @@index([permissionCode, revokedAt])
-}
-
-model ScopeRestriction {
-  id                String          @id @default(cuid())
-  accessPrincipalId String
-  resourceType      String
-  restrictionType   String
-  scopeExpression   String
-  createdAt         DateTime        @default(now())
-  accessPrincipal   AccessPrincipal @relation(fields: [accessPrincipalId], references: [id], onDelete: Restrict)
-
-  @@map("iam_scope_restrictions")
-  @@index([accessPrincipalId, resourceType])
-}
-
-model UserSession {
-  id               String      @id @default(cuid())
-  userAccountId    String
-  status           String
-  issuedAt         DateTime    @default(now())
-  lastActivityAt   DateTime    @default(now())
-  expiresAt        DateTime
-  refreshExpiresAt DateTime
-  clientContext    String
-  userAccount      UserAccount @relation(fields: [userAccountId], references: [id], onDelete: Restrict)
-
-  @@map("iam_user_sessions")
-  @@index([userAccountId, status])
-  @@index([expiresAt])
-}
-
-model UserCredential {
-  id            String      @id @default(cuid())
-  userAccountId String      @unique
-  passwordHash  String
-  salt          String?
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-  userAccount   UserAccount @relation(fields: [userAccountId], references: [id], onDelete: Cascade)
-
-  @@map("iam_user_credentials")
-  @@index([userAccountId])
-}
-
-model OutboxEvent {
-  id            String   @id @default(cuid())
-  aggregateType String
-  aggregateId   String
-  eventType     String
-  payload       Json
-  status        String   @default("PENDING")
-  occurredAt    DateTime @default(now())
-  publishedAt   DateTime?
-
-  @@map("iam_outbox_events")
-  @@index([eventType, publishedAt])
-  @@index([status, occurredAt])
+  @@map("user_accounts")
 }
 
 // ─── Capability Framework ────────────────────────────────────────────────────
 
 model IndustrySector {
-  id         String     @id @default(uuid())
-  name       String
-  isActive   Boolean    @default(true)
-  industries Industry[]
+  id          String     @id @default(uuid()) @map("public_uuid")
+  name        String     @unique @db.VarChar(50)
+  description String?
+  isActive    Boolean    @default(true) @map("is_active")
+  type        String     @db.VarChar(50)
+  version     Float      @default(1)
+  createdAt   DateTime   @default(now()) @map("created_at")
+  createdBy   String?    @map("created_by")
+  updatedAt   DateTime   @default(now()) @map("updated_at")
+  updatedBy   String?    @map("updated_by")
+  industries  Industry[]
 
   @@map("industry_sectors")
 }
 
 model Industry {
-  id               String            @id @default(uuid())
-  sectorId         String
+  id               String            @id @default(uuid()) @map("public_uuid")
+  sectorId         String            @map("sector_id")
   sector           IndustrySector    @relation(fields: [sectorId], references: [id])
-  name             String
-  isActive         Boolean           @default(true)
+  name             String            @db.VarChar(50)
+  description      String?
+  isActive         Boolean           @default(true) @map("is_active")
+  version          Float             @default(1)
+  createdAt        DateTime          @default(now()) @map("created_at")
+  createdBy        String?           @map("created_by")
+  updatedAt        DateTime          @default(now()) @map("updated_at")
+  updatedBy        String?           @map("updated_by")
   functionalGroups FunctionalGroup[]
   departments      Department[]
 
+  @@unique([sectorId, name])
   @@map("industries")
 }
 
 model FunctionalGroup {
-  id                  String               @id @default(uuid())
-  tenantId            String
-  versionId           String?
-  industryId          String
-  industry            Industry             @relation(fields: [industryId], references: [id])
-  name                String
-  description         String?
-  domainType          String
-  isActive            Boolean              @default(true)
-  pwos                PrimaryWorkObject[]
-  capabilityInstances CapabilityInstance[]
-  fgMappings          DepartmentFGMapping[]
+  id                         String                      @id @default(uuid()) @map("public_uuid")
+  industryId                 String                      @map("industry_id")
+  industry                   Industry                    @relation(fields: [industryId], references: [id])
+  tenantId                   String                      @map("tenant_id")
+  name                       String                      @db.VarChar(50)
+  description                String?
+  sourceTemplateId           String?                     @map("source_template_id")
+  domainType                 String                      @map("domain_type") @db.VarChar(20)
+  isActive                   Boolean                     @default(true) @map("is_active")
+  version                    Float                       @default(1)
+  createdAt                  DateTime                    @default(now()) @map("created_at")
+  createdBy                  String?                     @map("created_by")
+  updatedAt                  DateTime                    @default(now()) @map("updated_at")
+  updatedBy                  String?                     @map("updated_by")
+  pwos                       PrimaryWorkObject[]
+  capabilityInstances        CapabilityInstance[]
+  departmentFunctionalGroups DepartmentFunctionalGroup[]
 
   @@map("functional_groups")
 }
 
 model PrimaryWorkObject {
-  id                  String               @id @default(uuid())
-  tenantId            String
-  versionId           String?
-  functionalGroupId   String
-  functionalGroup     FunctionalGroup      @relation(fields: [functionalGroupId], references: [id])
-  name                String
-  description         String?
-  strategicImportance Int
-  revenueImpact       String
-  downtimeSensitivity String
-  isActive            Boolean              @default(true)
-  swos                SecondaryWorkObject[]
-  capabilityInstances CapabilityInstance[]
+  id                       String               @id @default(uuid()) @map("public_uuid")
+  functionalGroupId        String               @map("functional_group_id")
+  functionalGroup          FunctionalGroup      @relation(fields: [functionalGroupId], references: [id])
+  tenantId                 String               @map("tenant_id")
+  name                     String               @db.VarChar(100)
+  sourceTemplateId         String?              @map("source_template_id")
+  strategicImportanceLevel Int                  @map("strategic_importance_level") @db.SmallInt
+  revenueImpactLevel       String               @map("revenue_impact_level") @db.VarChar(10)
+  downtimeSensitivity      String               @map("downtime_sensitivity") @db.VarChar(10)
+  isActive                 Boolean              @default(true) @map("is_active")
+  version                  Float                @default(1)
+  createdAt                DateTime             @default(now()) @map("created_at")
+  createdBy                String?              @map("created_by")
+  updatedAt                DateTime             @default(now()) @map("updated_at")
+  updatedBy                String?              @map("updated_by")
+  swos                     SecondaryWorkObject[]
+  capabilityInstances      CapabilityInstance[]
 
   @@map("pwos")
 }
 
 model SecondaryWorkObject {
-  id                    String               @id @default(uuid())
-  tenantId              String
-  versionId             String?
-  pwoId                 String
+  id                    String               @id @default(uuid()) @map("public_uuid")
+  pwoId                 String               @map("pwo_id")
   pwo                   PrimaryWorkObject    @relation(fields: [pwoId], references: [id])
-  name                  String
-  description           String?
-  operationalComplexity String
-  assetCriticality      String
-  failureFrequency      String
-  isActive              Boolean              @default(true)
+  tenantId              String               @map("tenant_id")
+  name                  String               @db.VarChar(100)
+  sourceTemplateId      String?              @map("source_template_id")
+  operationalComplexity String               @map("operational_complexity") @db.VarChar(10)
+  assetCriticality      String               @map("asset_criticality") @db.VarChar(10)
+  failureFrequency      String               @map("failure_frequency") @db.VarChar(10)
+  isActive              Boolean              @default(true) @map("is_active")
+  version               Float                @default(1)
+  createdAt             DateTime             @default(now()) @map("created_at")
+  createdBy             String?              @map("created_by")
+  updatedAt             DateTime             @default(now()) @map("updated_at")
+  updatedBy             String?              @map("updated_by")
   capabilityInstances   CapabilityInstance[]
 
   @@map("swos")
 }
 
 model Capability {
-  id                  String               @id @default(uuid())
-  code                String               @unique
-  name                String
-  type                String
-  isActive            Boolean              @default(true)
+  id                  String               @id @default(uuid()) @map("public_uuid")
+  code                String               @unique @db.VarChar(15)
+  name                String               @db.VarChar(50)
+  description         String?
+  type                String               @db.VarChar(30)
+  isActive            Boolean              @default(true) @map("is_active")
+  version             Float                @default(1)
+  createdAt           DateTime             @default(now()) @map("created_at")
+  createdBy           String?              @map("created_by")
+  updatedAt           DateTime             @default(now()) @map("updated_at")
+  updatedBy           String?              @map("updated_by")
   capabilityInstances CapabilityInstance[]
 
   @@map("capabilities")
 }
 
 model Proficiency {
-  id                  String               @id @default(uuid())
-  level               Int
-  label               String
+  id                  String               @id @default(uuid()) @map("public_uuid")
+  level               String               @unique @db.VarChar(5)
+  label               String               @unique @db.VarChar(50)
   description         String?
-  independenceLevel   String?
+  weightage           Float?
+  isActive            Boolean              @default(true) @map("is_active")
+  version             Float                @default(1)
+  createdAt           DateTime             @default(now()) @map("created_at")
+  createdBy           String?              @map("created_by")
+  updatedAt           DateTime             @default(now()) @map("updated_at")
+  updatedBy           String?              @map("updated_by")
   capabilityInstances CapabilityInstance[]
 
   @@map("proficiencies")
 }
 
 model CapabilityInstance {
-  id                String              @id @default(uuid())
-  tenantId          String
-  versionId         String?
-  functionalGroupId String
-  pwoId             String
-  swoId             String
-  capabilityId      String
-  proficiencyId     String
-  functionalGroup   FunctionalGroup     @relation(fields: [functionalGroupId], references: [id])
-  pwo               PrimaryWorkObject   @relation(fields: [pwoId], references: [id])
-  swo               SecondaryWorkObject @relation(fields: [swoId], references: [id])
-  capability        Capability          @relation(fields: [capabilityId], references: [id])
-  proficiency       Proficiency         @relation(fields: [proficiencyId], references: [id])
-  skills            Skill[]
-  roleCiMappings    RoleCIMapping[]
+  id                         String                      @id @default(uuid()) @map("public_uuid")
+  functionalGroupId          String                      @map("functional_group_id")
+  functionalGroup            FunctionalGroup             @relation(fields: [functionalGroupId], references: [id])
+  pwoId                      String?                     @map("pwo_id")
+  pwo                        PrimaryWorkObject?          @relation(fields: [pwoId], references: [id])
+  swoId                      String?                     @map("swo_id")
+  swo                        SecondaryWorkObject?        @relation(fields: [swoId], references: [id])
+  capabilityId               String                      @map("capability_id")
+  capability                 Capability                  @relation(fields: [capabilityId], references: [id])
+  proficiencyId              String                      @map("proficiency_id")
+  proficiency                Proficiency                 @relation(fields: [proficiencyId], references: [id])
+  tenantId                   String                      @map("tenant_id")
+  isActive                   Boolean                     @default(true) @map("is_active")
+  version                    Float                       @default(1)
+  createdAt                  DateTime                    @default(now()) @map("created_at")
+  createdBy                  String?                     @map("created_by")
+  updatedAt                  DateTime                    @default(now()) @map("updated_at")
+  updatedBy                  String?                     @map("updated_by")
+  skills                     Skill[]
+  roleCapabilityInstances    RoleCapabilityInstance[]
 
-  @@unique([tenantId, versionId, functionalGroupId, pwoId, swoId, capabilityId, proficiencyId])
   @@map("capability_instances")
 }
 
 model Skill {
-  id                   String             @id @default(uuid())
-  tenantId             String
-  ciId                 String
-  ci                   CapabilityInstance @relation(fields: [ciId], references: [id])
-  name                 String
-  description          String?
-  cognitiveType        String
-  skillCriticality     String
-  recertificationCycle Int
-  aiImpact             String
-  isActive             Boolean            @default(true)
-  tasks                Task[]
+  id                         String             @id @default(uuid()) @map("public_uuid")
+  capabilityInstanceId       String             @map("capability_instance_id")
+  capabilityInstance         CapabilityInstance @relation(fields: [capabilityInstanceId], references: [id])
+  tenantId                   String             @map("tenant_id")
+  name                       String             @db.VarChar(100)
+  sourceTemplateId           String?            @map("source_template_id")
+  cognitiveType              String             @map("cognitive_type") @db.VarChar(20)
+  skillCriticality           String             @map("skill_criticality") @db.VarChar(10)
+  recertificationCycleMonths Int                @map("recertification_cycle_months")
+  aiImpact                   String             @map("ai_impact") @db.VarChar(10)
+  isActive                   Boolean            @default(true) @map("is_active")
+  version                    Float              @default(1)
+  createdAt                  DateTime           @default(now()) @map("created_at")
+  createdBy                  String?            @map("created_by")
+  updatedAt                  DateTime           @default(now()) @map("updated_at")
+  updatedBy                  String?            @map("updated_by")
+  tasks                      Task[]
 
   @@map("skills")
 }
 
 model Task {
-  id                       String         @id @default(uuid())
-  tenantId                 String
-  skillId                  String
+  id                       String         @id @default(uuid()) @map("public_uuid")
+  skillId                  String         @map("skill_id")
   skill                    Skill          @relation(fields: [skillId], references: [id])
-  name                     String
+  tenantId                 String         @map("tenant_id")
+  name                     String         @db.VarChar(100)
   description              String?
-  frequency                String
-  complexity               String
-  standardDuration         Int?
-  requiredProficiencyLevel Int?
-  isActive                 Boolean        @default(true)
+  sourceTemplateId         String?        @map("source_template_id")
+  frequency                String         @db.VarChar(20)
+  complexity               String         @db.VarChar(10)
+  standardDuration         Int            @map("standard_duration")
+  requiredProficiencyLevel String         @map("required_proficiency_level") @db.VarChar(5)
+  isActive                 Boolean        @default(true) @map("is_active")
+  version                  Float          @default(1)
+  createdAt                DateTime       @default(now()) @map("created_at")
+  createdBy                String?        @map("created_by")
+  updatedAt                DateTime       @default(now()) @map("updated_at")
+  updatedBy                String?        @map("updated_by")
   controlPoints            ControlPoint[]
 
   @@map("tasks")
 }
 
 model ControlPoint {
-  id                 String   @id @default(uuid())
-  tenantId           String
-  taskId             String
+  id                 String   @id @default(uuid()) @map("public_uuid")
+  taskId             String   @map("task_id")
   task               Task     @relation(fields: [taskId], references: [id])
-  name               String
+  tenantId           String   @map("tenant_id")
+  name               String   @db.VarChar(100)
   description        String?
-  riskLevel          String
-  failureImpactType  String
-  kpiThreshold       String?
-  escalationRequired String
-  evidenceType       String
-  isActive           Boolean  @default(true)
+  sourceTemplateId   String?  @map("source_template_id")
+  riskLevel          String   @map("risk_level") @db.VarChar(20)
+  failureImpactType  String   @map("failure_impact_type") @db.VarChar(20)
+  evidenceType       String?  @map("evidence_type") @db.VarChar(50)
+  kpiThreshold       Int?     @map("kpi_threshold")
+  escalationRequired Boolean  @default(false) @map("escalation_required")
+  isActive           Boolean  @default(true) @map("is_active")
+  version            Float    @default(1)
+  createdAt          DateTime @default(now()) @map("created_at")
+  createdBy          String?  @map("created_by")
+  updatedAt          DateTime @default(now()) @map("updated_at")
+  updatedBy          String?  @map("updated_by")
 
   @@map("control_points")
 }
 
+model LearnerEvidence {
+  id               String   @id @default(uuid()) @map("public_uuid")
+  learnerId        String   @map("learner_id")
+  controlPointId   String   @map("control_point_id")
+  evidenceType     String   @map("evidence_type") @db.VarChar(30)
+  evidenceUrl      String?  @map("evidence_url")
+  validationStatus String   @default("Pending") @map("validation_status") @db.VarChar(20)
+  submissionDate   DateTime @default(now()) @map("submission_date")
+  remarks          String?
+  isActive         Boolean  @default(true) @map("is_active")
+  version          Float    @default(1)
+  createdAt        DateTime @default(now()) @map("created_at")
+  createdBy        String?  @map("created_by")
+  updatedAt        DateTime @default(now()) @map("updated_at")
+  updatedBy        String?  @map("updated_by")
+
+  @@map("learner_evidences")
+}
+
 model Department {
-  id                          String                @id @default(uuid())
-  tenantId                    String
-  industryId                  String
-  industry                    Industry              @relation(fields: [industryId], references: [id])
-  name                        String
-  operationalCriticalityScore Float?
-  revenueContributionWeight   Float?
-  regulatoryExposureLevel     Float?
-  isActive                    Boolean               @default(true)
-  createdBy                   String
-  createdOn                   DateTime              @default(now())
-  updatedBy                   String?
-  updatedOn                   DateTime?             @updatedAt
-  fgMappings                  DepartmentFGMapping[]
-  roles                       IndustryRole[]
+  id                          String                      @id @default(uuid()) @map("public_uuid")
+  tenantId                    String                      @map("tenant_id")
+  name                        String                      @db.VarChar(100)
+  description                 String?
+  sourceTemplateId            String?                     @map("source_template_id")
+  isActive                    Boolean                     @default(true) @map("is_active")
+  version                     Float                       @default(1)
+  createdAt                   DateTime                    @default(now()) @map("created_at")
+  createdBy                   String?                     @map("created_by")
+  updatedAt                   DateTime                    @default(now()) @map("updated_at")
+  updatedBy                   String?                     @map("updated_by")
+  industryId                  String?                     @map("industry_id")
+  industry                    Industry?                   @relation(fields: [industryId], references: [id])
+  operationalCriticalityScore Float?                      @map("operational_criticality_score")
+  revenueContributionWeight   Float?                      @map("revenue_contribution_weight")
+  regulatoryExposureLevel     Float?                      @map("regulatory_exposure_level")
+  functionalGroups            DepartmentFunctionalGroup[]
+  roles                       Role[]
 
   @@map("departments")
 }
 
-model DepartmentFGMapping {
-  id              String          @id @default(uuid())
-  departmentId    String
-  department      Department      @relation(fields: [departmentId], references: [id])
-  fgId            String
-  functionalGroup FunctionalGroup @relation(fields: [fgId], references: [id])
+model DepartmentFunctionalGroup {
+  id                String          @id @default(uuid()) @map("public_uuid")
+  departmentId      String          @map("department_id")
+  department        Department      @relation(fields: [departmentId], references: [id])
+  functionalGroupId String          @map("functional_group_id")
+  functionalGroup   FunctionalGroup @relation(fields: [functionalGroupId], references: [id])
+  tenantId          String          @map("tenant_id")
+  sourceTemplateId  String?         @map("source_template_id")
+  isActive          Boolean         @default(true) @map("is_active")
+  version           Float           @default(1)
+  createdAt         DateTime        @default(now()) @map("created_at")
+  createdBy         String?         @map("created_by")
+  updatedAt         DateTime        @default(now()) @map("updated_at")
+  updatedBy         String?         @map("updated_by")
 
-  @@unique([departmentId, fgId])
-  @@map("departments_functional_groups")
+  @@unique([departmentId, functionalGroupId])
+  @@map("department_functional_groups")
 }
 
-model IndustryRole {
-  id                   String          @id @default(uuid())
-  tenantId             String
-  departmentId         String
-  department           Department      @relation(fields: [departmentId], references: [id])
-  industryId           String
-  name                 String
-  seniorityLevel       String
-  reportingTo          String?
-  roleCriticalityScore Float?
-  isActive             Boolean         @default(true)
-  createdBy            String
-  createdOn            DateTime        @default(now())
-  updatedBy            String?
-  updatedOn            DateTime?       @updatedAt
-  ciMappings           RoleCIMapping[]
+model Role {
+  id                      String                   @id @default(uuid()) @map("public_uuid")
+  departmentId            String                   @map("department_id")
+  department              Department               @relation(fields: [departmentId], references: [id])
+  tenantId                String                   @map("tenant_id")
+  industryId              String?                  @map("industry_id")
+  name                    String                   @db.VarChar(100)
+  seniorityLevel          String?                  @map("seniority_level") @db.VarChar(50)
+  reportingTo             String?                  @map("reporting_to")
+  roleCriticalityScore    Int?                     @map("role_criticality_score")
+  description             String?
+  sourceTemplateId        String?                  @map("source_template_id")
+  isActive                Boolean                  @default(true) @map("is_active")
+  version                 Float                    @default(1)
+  createdAt               DateTime                 @default(now()) @map("created_at")
+  createdBy               String?                  @map("created_by")
+  updatedAt               DateTime                 @default(now()) @map("updated_at")
+  updatedBy               String?                  @map("updated_by")
+  roleCapabilityInstances RoleCapabilityInstance[]
 
-  @@map("industry_roles")
+  @@map("roles")
 }
 
-model RoleCIMapping {
-  id        String             @id @default(uuid())
-  roleId    String
-  role      IndustryRole       @relation(fields: [roleId], references: [id])
-  ciId      String
-  ci        CapabilityInstance @relation(fields: [ciId], references: [id])
-  createdBy String
-  createdOn DateTime           @default(now())
+model RoleCapabilityInstance {
+  id                   String             @id @default(uuid()) @map("public_uuid")
+  roleId               String             @map("role_id")
+  role                 Role               @relation(fields: [roleId], references: [id])
+  capabilityInstanceId String             @map("capability_instance_id")
+  capabilityInstance   CapabilityInstance @relation(fields: [capabilityInstanceId], references: [id])
+  isMandatory          Boolean            @default(true) @map("is_mandatory")
+  isActive             Boolean            @default(true) @map("is_active")
+  version              Float              @default(1)
+  createdAt            DateTime           @default(now()) @map("created_at")
+  createdBy            String?            @map("created_by")
+  updatedAt            DateTime           @default(now()) @map("updated_at")
+  updatedBy            String?            @map("updated_by")
 
-  @@unique([roleId, ciId])
-  @@map("capability_instances_industry_roles")
+  @@unique([roleId, capabilityInstanceId])
+  @@map("role_capability_instances")
 }
 
 // ─── College Operations ───────────────────────────────────────────────────────

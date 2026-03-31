@@ -11,7 +11,8 @@ export class ListProficienciesQueryHandler {
       level: p.level,
       label: p.label,
       description: p.description,
-      independenceLevel: p.independenceLevel
+      weightage: p.weightage,
+      isActive: p.isActive
     }));
   }
 }

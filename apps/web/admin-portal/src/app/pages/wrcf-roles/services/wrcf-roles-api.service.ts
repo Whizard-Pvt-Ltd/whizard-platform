@@ -31,26 +31,26 @@ export class WrcfRolesApiService {
   }
 
   listRoles(departmentId: string): Observable<IndustryRole[]> {
-    return this.http.get<ApiEnvelope<IndustryRole[]>>(`${this.base}/industry-roles?departmentId=${departmentId}`).pipe(map(r => r.data));
+    return this.http.get<ApiEnvelope<IndustryRole[]>>(`${this.base}/roles?departmentId=${departmentId}`).pipe(map(r => r.data));
   }
 
-  createRole(data: Omit<IndustryRole, 'id'> & { industryId: string }): Observable<IndustryRole> {
-    return this.http.post<ApiEnvelope<IndustryRole>>(`${this.base}/industry-roles`, data).pipe(map(r => r.data));
+  createRole(data: Omit<IndustryRole, 'id'>): Observable<IndustryRole> {
+    return this.http.post<ApiEnvelope<IndustryRole>>(`${this.base}/roles`, data).pipe(map(r => r.data));
   }
 
   updateRole(id: string, data: Partial<Omit<IndustryRole, 'id' | 'departmentId'>>): Observable<IndustryRole> {
-    return this.http.patch<ApiEnvelope<IndustryRole>>(`${this.base}/industry-roles/${id}`, data).pipe(map(r => r.data));
+    return this.http.patch<ApiEnvelope<IndustryRole>>(`${this.base}/roles/${id}`, data).pipe(map(r => r.data));
   }
 
   deleteRole(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.base}/industry-roles/${id}`);
+    return this.http.delete<void>(`${this.base}/roles/${id}`);
   }
 
-  saveRoleCIMappings(roleId: string, ciIds: string[]): Observable<void> {
-    return this.http.post<void>(`${this.base}/role-ci-mappings`, { roleId, ciIds });
+  saveRoleCIMappings(roleId: string, capabilityInstanceIds: string[]): Observable<void> {
+    return this.http.post<void>(`${this.base}/role-capability-instances`, { roleId, capabilityInstanceIds });
   }
 
   deleteRoleCIMapping(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.base}/role-ci-mappings/${id}`);
+    return this.http.delete<void>(`${this.base}/role-capability-instances/${id}`);
   }
 }

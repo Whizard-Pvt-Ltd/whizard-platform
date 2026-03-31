@@ -13,12 +13,11 @@ export class PrismaPwoRepository implements IPwoRepository {
     return PrimaryWorkObject.reconstitute({
       id: row.id,
       tenantId: row.tenantId,
-      versionId: row.versionId ?? undefined,
+      versionId: String(row.version),
       functionalGroupId: row.functionalGroupId,
       name: row.name,
-      description: row.description ?? undefined,
-      strategicImportance: row.strategicImportance as StrategicImportance,
-      revenueImpact: resolveImpactLevel(row.revenueImpact, CRITICALITY_LEVELS),
+      strategicImportance: row.strategicImportanceLevel as StrategicImportance,
+      revenueImpact: resolveImpactLevel(row.revenueImpactLevel, CRITICALITY_LEVELS),
       downtimeSensitivity: resolveImpactLevel(row.downtimeSensitivity, CRITICALITY_LEVELS),
       isActive: row.isActive
     });
@@ -32,12 +31,11 @@ export class PrismaPwoRepository implements IPwoRepository {
       PrimaryWorkObject.reconstitute({
         id: row.id,
         tenantId: row.tenantId,
-        versionId: row.versionId ?? undefined,
+        versionId: String(row.version),
         functionalGroupId: row.functionalGroupId,
         name: row.name,
-        description: row.description ?? undefined,
-        strategicImportance: row.strategicImportance as StrategicImportance,
-        revenueImpact: resolveImpactLevel(row.revenueImpact, CRITICALITY_LEVELS),
+        strategicImportance: row.strategicImportanceLevel as StrategicImportance,
+        revenueImpact: resolveImpactLevel(row.revenueImpactLevel, CRITICALITY_LEVELS),
         downtimeSensitivity: resolveImpactLevel(row.downtimeSensitivity, CRITICALITY_LEVELS),
         isActive: row.isActive
       })
@@ -49,21 +47,19 @@ export class PrismaPwoRepository implements IPwoRepository {
       where: { id: pwo.id },
       update: {
         name: pwo.name,
-        description: pwo.description,
-        strategicImportance: pwo.strategicImportance,
-        revenueImpact: pwo.revenueImpact.label,
+        strategicImportanceLevel: pwo.strategicImportance,
+        revenueImpactLevel: pwo.revenueImpact.label,
         downtimeSensitivity: pwo.downtimeSensitivity.label,
         isActive: pwo.isActive
       },
       create: {
         id: pwo.id,
         tenantId: pwo.tenantId,
-        versionId: pwo.versionId,
+        version: Number(pwo.versionId ?? 1),
         functionalGroupId: pwo.functionalGroupId,
         name: pwo.name,
-        description: pwo.description,
-        strategicImportance: pwo.strategicImportance,
-        revenueImpact: pwo.revenueImpact.label,
+        strategicImportanceLevel: pwo.strategicImportance,
+        revenueImpactLevel: pwo.revenueImpact.label,
         downtimeSensitivity: pwo.downtimeSensitivity.label,
         isActive: pwo.isActive
       }

@@ -4,8 +4,8 @@ export interface IDepartmentRepository {
   findByIndustryId(tenantId: string, industryId: string): Promise<{
     id: string;
     name: string;
-    industryId: string;
-    fgIds: string[];
+    industryId?: string;
+    functionalGroupIds: string[];
     operationalCriticalityScore?: number;
     revenueContributionWeight?: number;
     regulatoryExposureLevel?: number;

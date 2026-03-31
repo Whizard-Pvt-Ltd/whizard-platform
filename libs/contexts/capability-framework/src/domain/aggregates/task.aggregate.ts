@@ -10,7 +10,7 @@ export interface TaskProps {
   frequency: string;
   complexity: string;
   standardDuration?: number;
-  requiredProficiencyLevel?: number;
+  requiredProficiencyLevel?: string;
 }
 
 class TaskCreatedEvent implements DomainEvent {
@@ -51,7 +51,7 @@ export class Task {
   frequency: string;
   complexity: string;
   standardDuration?: number;
-  requiredProficiencyLevel?: number;
+  requiredProficiencyLevel?: string;
 
   private constructor(props: TaskProps) {
     this.id = props.id;

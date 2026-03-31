@@ -14,15 +14,15 @@ export class WrcfSkillsApiService {
   private readonly http = inject(HttpClient);
   private readonly base = `${environment.bffApiUrl}/wrcf`;
 
-  listSkills(ciId: string): Observable<SkillItem[]> {
-    return this.http.get<ApiEnvelope<SkillItem[]>>(`${this.base}/skills?ciId=${ciId}`).pipe(map(r => r.data));
+  listSkills(capabilityInstanceId: string): Observable<SkillItem[]> {
+    return this.http.get<ApiEnvelope<SkillItem[]>>(`${this.base}/skills?capabilityInstanceId=${capabilityInstanceId}`).pipe(map(r => r.data));
   }
 
   createSkill(data: Omit<SkillItem, 'id'>): Observable<void> {
     return this.http.post<void>(`${this.base}/skills`, data);
   }
 
-  updateSkill(id: string, data: Partial<Omit<SkillItem, 'id' | 'ciId'>>): Observable<void> {
+  updateSkill(id: string, data: Partial<Omit<SkillItem, 'id' | 'capabilityInstanceId'>>): Observable<void> {
     return this.http.patch<void>(`${this.base}/skills/${id}`, data);
   }
 

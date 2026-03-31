@@ -8,22 +8,22 @@ export class PrismaDepartmentRepository implements IDepartmentRepository {
   async findByIndustryId(tenantId: string, industryId: string): Promise<{
     id: string;
     name: string;
-    industryId: string;
-    fgIds: string[];
+    industryId?: string;
+    functionalGroupIds: string[];
     operationalCriticalityScore?: number;
     revenueContributionWeight?: number;
     regulatoryExposureLevel?: number;
   }[]> {
     const rows = await this.prisma.department.findMany({
       where: { tenantId, industryId, isActive: true },
-      include: { fgMappings: true },
+      include: { functionalGroups: true },
       orderBy: { name: 'asc' }
     });
     return rows.map(r => ({
       id: r.id,
       name: r.name,
-      industryId: r.industryId,
-      fgIds: r.fgMappings.map(m => m.fgId),
+      industryId: r.industryId ?? undefined,
+      functionalGroupIds: r.functionalGroups.map(m => m.functionalGroupId),
       operationalCriticalityScore: r.operationalCriticalityScore ?? undefined,
       revenueContributionWeight: r.revenueContributionWeight ?? undefined,
       regulatoryExposureLevel: r.regulatoryExposureLevel ?? undefined
@@ -33,23 +33,22 @@ export class PrismaDepartmentRepository implements IDepartmentRepository {
   async findById(id: string): Promise<Department | null> {
     const r = await this.prisma.department.findUnique({
       where: { id },
-      include: { fgMappings: true }
+      include: { functionalGroups: true }
     });
     if (!r) return null;
     return Department.reconstitute({
       id: r.id,
       tenantId: r.tenantId,
-      industryId: r.industryId,
+      industryId: r.industryId ?? undefined,
       name: r.name,
-      fgIds: r.fgMappings.map(m => m.fgId),
+      functionalGroupIds: r.functionalGroups.map(m => m.functionalGroupId),
       operationalCriticalityScore: r.operationalCriticalityScore ?? undefined,
       revenueContributionWeight: r.revenueContributionWeight ?? undefined,
-      regulatoryExposureLevel: r.regulatoryExposureLevel ?? undefined,
-      createdBy: r.createdBy
+      regulatoryExposureLevel: r.regulatoryExposureLevel ?? undefined
     });
   }
 
-  async save(dept: Department, fgIds: string[]): Promise<void> {
+  async save(dept: Department, functionalGroupIds: string[]): Promise<void> {
     await this.prisma.$transaction(async tx => {
       await tx.department.create({
         data: {
@@ -59,19 +58,22 @@ export class PrismaDepartmentRepository implements IDepartmentRepository {
           name: dept.name,
           operationalCriticalityScore: dept.operationalCriticalityScore,
           revenueContributionWeight: dept.revenueContributionWeight,
-          regulatoryExposureLevel: dept.regulatoryExposureLevel,
-          createdBy: dept.createdBy
+          regulatoryExposureLevel: dept.regulatoryExposureLevel
         }
       });
-      if (fgIds.length > 0) {
-        await tx.departmentFGMapping.createMany({
-          data: fgIds.map(fgId => ({ departmentId: dept.id, fgId }))
+      if (functionalGroupIds.length > 0) {
+        await tx.departmentFunctionalGroup.createMany({
+          data: functionalGroupIds.map(functionalGroupId => ({
+            departmentId: dept.id,
+            functionalGroupId,
+            tenantId: dept.tenantId
+          }))
         });
       }
     });
   }
 
-  async update(dept: Department, fgIds: string[]): Promise<void> {
+  async update(dept: Department, functionalGroupIds: string[]): Promise<void> {
     await this.prisma.$transaction(async tx => {
       await tx.department.update({
         where: { id: dept.id },
@@ -82,10 +84,14 @@ export class PrismaDepartmentRepository implements IDepartmentRepository {
           regulatoryExposureLevel: dept.regulatoryExposureLevel
         }
       });
-      await tx.departmentFGMapping.deleteMany({ where: { departmentId: dept.id } });
-      if (fgIds.length > 0) {
-        await tx.departmentFGMapping.createMany({
-          data: fgIds.map(fgId => ({ departmentId: dept.id, fgId }))
+      await tx.departmentFunctionalGroup.deleteMany({ where: { departmentId: dept.id } });
+      if (functionalGroupIds.length > 0) {
+        await tx.departmentFunctionalGroup.createMany({
+          data: functionalGroupIds.map(functionalGroupId => ({
+            departmentId: dept.id,
+            functionalGroupId,
+            tenantId: dept.tenantId
+          }))
         });
       }
     });

@@ -16,9 +16,9 @@ export class PrismaControlPointRepository implements IControlPointRepository {
       description: r.description ?? undefined,
       riskLevel: r.riskLevel,
       failureImpactType: r.failureImpactType,
+      evidenceType: r.evidenceType ?? '',
       kpiThreshold: r.kpiThreshold ?? undefined,
-      escalationRequired: r.escalationRequired,
-      evidenceType: r.evidenceType
+      escalationRequired: r.escalationRequired
     }));
   }
 
@@ -35,8 +35,7 @@ export class PrismaControlPointRepository implements IControlPointRepository {
       riskLevel: r.riskLevel,
       failureImpactType: r.failureImpactType,
       kpiThreshold: r.kpiThreshold ?? undefined,
-      escalationRequired: r.escalationRequired,
-      evidenceType: r.evidenceType
+      escalationRequired: r.escalationRequired
     }));
   }
 
@@ -51,9 +50,9 @@ export class PrismaControlPointRepository implements IControlPointRepository {
       description: r.description ?? undefined,
       riskLevel: r.riskLevel,
       failureImpactType: r.failureImpactType,
+      evidenceType: r.evidenceType ?? '',
       kpiThreshold: r.kpiThreshold ?? undefined,
-      escalationRequired: r.escalationRequired,
-      evidenceType: r.evidenceType
+      escalationRequired: r.escalationRequired
     });
   }
 
@@ -68,8 +67,7 @@ export class PrismaControlPointRepository implements IControlPointRepository {
         riskLevel: cp.riskLevel,
         failureImpactType: cp.failureImpactType,
         kpiThreshold: cp.kpiThreshold,
-        escalationRequired: cp.escalationRequired,
-        evidenceType: cp.evidenceType
+        escalationRequired: cp.escalationRequired
       }
     });
   }
@@ -83,8 +81,7 @@ export class PrismaControlPointRepository implements IControlPointRepository {
         riskLevel: cp.riskLevel,
         failureImpactType: cp.failureImpactType,
         kpiThreshold: cp.kpiThreshold,
-        escalationRequired: cp.escalationRequired,
-        evidenceType: cp.evidenceType
+        escalationRequired: cp.escalationRequired
       }
     });
   }

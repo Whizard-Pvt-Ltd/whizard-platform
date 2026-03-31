@@ -1,11 +1,10 @@
 export interface SkillItem {
   id: string;
   name: string;
-  ciId: string;
-  description?: string;
+  capabilityInstanceId: string;
   cognitiveType: string;
   skillCriticality: string;
-  recertificationCycle: number;
+  recertificationCycleMonths: number;
   aiImpact: string;
 }
 
@@ -16,8 +15,8 @@ export interface TaskItem {
   description?: string;
   frequency: string;
   complexity: string;
-  standardDuration?: number;
-  requiredProficiencyLevel?: number;
+  standardDuration: number;
+  requiredProficiencyLevel: string;
 }
 
 export interface ControlPointItem {
@@ -27,9 +26,8 @@ export interface ControlPointItem {
   description?: string;
   riskLevel: string;
   failureImpactType: string;
-  kpiThreshold?: string;
-  escalationRequired: string;
-  evidenceType: string;
+  kpiThreshold?: number;
+  escalationRequired: boolean;
 }
 
 export type SkillsPanelEntity = 'Skill' | 'Task' | 'ControlPoint';

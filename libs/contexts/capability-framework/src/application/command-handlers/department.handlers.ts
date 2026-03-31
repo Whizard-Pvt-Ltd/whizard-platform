@@ -11,13 +11,12 @@ export class CreateDepartmentCommandHandler {
       tenantId: cmd.tenantId,
       industryId: cmd.industryId,
       name: cmd.name,
-      fgIds: cmd.fgIds,
+      functionalGroupIds: cmd.functionalGroupIds,
       operationalCriticalityScore: cmd.operationalCriticalityScore,
       revenueContributionWeight: cmd.revenueContributionWeight,
-      regulatoryExposureLevel: cmd.regulatoryExposureLevel,
-      createdBy: cmd.createdBy
+      regulatoryExposureLevel: cmd.regulatoryExposureLevel
     });
-    await this.repo.save(dept, cmd.fgIds);
+    await this.repo.save(dept, cmd.functionalGroupIds);
     return { id: dept.id, name: dept.name };
   }
 }
@@ -30,12 +29,12 @@ export class UpdateDepartmentCommandHandler {
     if (!dept) throw new DomainException(`Department ${cmd.id} not found`);
     dept.update({
       name: cmd.name,
-      fgIds: cmd.fgIds,
+      functionalGroupIds: cmd.functionalGroupIds,
       operationalCriticalityScore: cmd.operationalCriticalityScore,
       revenueContributionWeight: cmd.revenueContributionWeight,
       regulatoryExposureLevel: cmd.regulatoryExposureLevel
     });
-    await this.repo.update(dept, cmd.fgIds ?? dept.fgIds);
+    await this.repo.update(dept, cmd.functionalGroupIds ?? dept.functionalGroupIds);
     return { id: dept.id, name: dept.name };
   }
 }

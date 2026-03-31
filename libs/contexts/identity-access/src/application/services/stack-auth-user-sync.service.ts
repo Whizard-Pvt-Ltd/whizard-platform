@@ -159,7 +159,7 @@ export const loadStackAuthUserSyncConfig = (): StackAuthUserSyncConfig => {
   return {
     // Default to SYSTEM tenant for new users
     defaultTenantType: isTenantType(tenantType) ? tenantType : 'SYSTEM',
-    defaultTenantId: process.env.STACK_AUTH_DEFAULT_TENANT_ID ?? 'system',
+    defaultTenantId: process.env.STACK_AUTH_DEFAULT_TENANT_ID || 'system',
 
     // Default to not requiring MFA (Stack Auth handles it)
     mfaRequired: process.env.STACK_AUTH_MFA_REQUIRED === 'true'

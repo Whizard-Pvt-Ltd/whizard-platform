@@ -28,16 +28,16 @@ export class PrismaWrcfDashboardRepository implements IWrcfDashboardRepository {
         where: { tenantId, functionalGroup: { industryId } }
       }),
       this.prisma.skill.count({
-        where: { tenantId, isActive: true, ci: { functionalGroup: { industryId } } }
+        where: { tenantId, isActive: true, capabilityInstance: { functionalGroup: { industryId } } }
       }),
       this.prisma.task.count({
-        where: { tenantId, isActive: true, skill: { ci: { functionalGroup: { industryId } } } }
+        where: { tenantId, isActive: true, skill: { capabilityInstance: { functionalGroup: { industryId } } } }
       }),
       this.prisma.department.count({
         where: { tenantId, industryId, isActive: true }
       }),
-      this.prisma.industryRole.count({
-        where: { tenantId, industryId, isActive: true }
+      this.prisma.role.count({
+        where: { tenantId, isActive: true, department: { industryId } }
       })
     ]);
 

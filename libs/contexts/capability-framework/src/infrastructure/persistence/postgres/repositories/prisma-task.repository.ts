@@ -16,7 +16,7 @@ export class PrismaTaskRepository implements ITaskRepository {
       description: r.description ?? undefined,
       frequency: r.frequency,
       complexity: r.complexity,
-      standardDuration: r.standardDuration ?? undefined,
+      standardDuration: r.standardDuration,
       requiredProficiencyLevel: r.requiredProficiencyLevel ?? undefined
     }));
   }
@@ -33,7 +33,7 @@ export class PrismaTaskRepository implements ITaskRepository {
       description: r.description ?? undefined,
       frequency: r.frequency,
       complexity: r.complexity,
-      standardDuration: r.standardDuration ?? undefined,
+      standardDuration: r.standardDuration,
       requiredProficiencyLevel: r.requiredProficiencyLevel ?? undefined
     }));
   }
@@ -49,7 +49,7 @@ export class PrismaTaskRepository implements ITaskRepository {
       description: r.description ?? undefined,
       frequency: r.frequency,
       complexity: r.complexity,
-      standardDuration: r.standardDuration ?? undefined,
+      standardDuration: r.standardDuration,
       requiredProficiencyLevel: r.requiredProficiencyLevel ?? undefined
     });
   }
@@ -64,8 +64,8 @@ export class PrismaTaskRepository implements ITaskRepository {
         description: task.description,
         frequency: task.frequency,
         complexity: task.complexity,
-        standardDuration: task.standardDuration,
-        requiredProficiencyLevel: task.requiredProficiencyLevel
+        standardDuration: task.standardDuration ?? 0,
+        requiredProficiencyLevel: task.requiredProficiencyLevel ?? 'L1'
       }
     });
   }
@@ -78,8 +78,8 @@ export class PrismaTaskRepository implements ITaskRepository {
         description: task.description,
         frequency: task.frequency,
         complexity: task.complexity,
-        standardDuration: task.standardDuration,
-        requiredProficiencyLevel: task.requiredProficiencyLevel
+        standardDuration: task.standardDuration ?? 0,
+        requiredProficiencyLevel: task.requiredProficiencyLevel ?? 'L1'
       }
     });
   }
