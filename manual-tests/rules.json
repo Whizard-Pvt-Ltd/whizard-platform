@@ -1,0 +1,52 @@
+{
+  "session_start_rules": [
+    "Read CODEX_EXECUTION_GUIDE.md",
+    "Read CODEX_PROGRESS_LOG.md",
+    "Read known_issues.md",
+    "Read rules.json"
+  ],
+  "source_priority": [
+    "existing manual-tests specs/docs",
+    "temp workbook",
+    "temp PDFs only for ambiguity",
+    "UI/MCP only for verification",
+    "ask human if still unclear"
+  ],
+  "workbook_rules": [
+    "prefer direct workbook inspection before PDFs",
+    "if Excel libraries are unavailable, read the xlsx zip/xml payload directly"
+  ],
+  "acceptance_rules": [
+    "reuse the closest existing spec as template",
+    "do not create duplicate cases",
+    "categorize cases as P0, P1, or P2",
+    "do not unnecessarily retest lower-layer flows like login",
+    "create or update companion markdown with each spec",
+    "run the relevant priority set after generation",
+    "capture failures and update memory files",
+    "do not mark a generated spec as complete unless it has been run or an execution blocker has been documented",
+    "if a suite was generated earlier without a trustworthy execution attempt, move it back to revalidation status until rerun"
+  ],
+  "failure_artifacts": [
+    "logs",
+    "screenshots",
+    "trace if available"
+  ],
+  "environment_rules": [
+    "for authenticated WRCF runs, verify frontend 4200 and backend ports 3000 and 3001 are reachable before debugging selectors",
+    "prefer explicit service-readiness checks in authenticated workbook-driven specs so backend outages fail fast",
+    "if service preflight passes but login still hangs, document the auth/runtime blocker separately instead of attributing it to selector issues"
+  ],
+  "priority_rules": {
+    "P0": "critical user journeys",
+    "P1": "edge cases",
+    "P2": "data variations"
+  },
+  "token_rules": [
+    "keep chat output brief",
+    "do not restate full project background",
+    "work on the next pending entity or small batch",
+    "use workbook as primary source",
+    "use PDFs only when needed"
+  ]
+}

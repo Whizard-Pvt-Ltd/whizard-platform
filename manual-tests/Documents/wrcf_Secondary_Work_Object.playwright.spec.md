@@ -11,6 +11,7 @@ Sheet-aligned coverage for the `SWO` tab in `WRCF End-to-End Test Cases_reverifi
 - `SWO-E2E-001` through `SWO-E2E-020`
 - executable coverage includes list visibility, add icon, create popup, mandatory name validation, create, duplicate checks, list refresh, sort order, edit preload, edit validation, unchanged save, update success, parent context, enum values, and delete success
 - workbook rows that need downstream mapping or parent-scoped comparison data remain present as pending `fixme` cases with blockers
+- full revalidation is still pending; this spec must not be treated as complete again until a fresh execution attempt succeeds or a blocker is documented
 
 ## Flow Diagram
 
@@ -32,6 +33,7 @@ Login
 - Uses reusable auth state under `manual-tests/.auth/`
 - Uses only the `temp` workbook as the source for the SWO case list
 - Downstream dependency/mapping rows remain pending where the local dataset does not yet prove the rule cleanly
+- Adds an explicit local-service readiness check so backend outages fail fast with a documented blocker instead of hanging in login
 
 ## Pending Cases And Blockers
 
@@ -43,3 +45,5 @@ Login
   Blocker: needs seeded downstream mapped data and confirmed delete-block behavior.
 - `SWO-E2E-020`
   Blocker: needs CI Mapping workflow coverage and stable downstream selection assertions.
+- Full suite revalidation
+  Blocker: rerun reached the login form with all three local ports reachable, but submit stayed on `Signing in...` and never redirected to `/dashboard` using the current local auth setup and test credentials.

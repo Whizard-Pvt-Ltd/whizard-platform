@@ -8,6 +8,33 @@ const loginPassword = process.env.TEST_LOGIN_PASSWORD;
 const authDir = path.join(process.cwd(), 'manual-tests', '.auth');
 const authStatePath = path.join(authDir, 'wrcf-swo.json');
 
+async function assertServiceAvailable(url: string, label: string): Promise<void> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 5000);
+
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      signal: controller.signal,
+    });
+
+    if (!response.ok) {
+      throw new Error(`${label} responded with HTTP ${response.status}`);
+    }
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    throw new Error(`${label} is not ready at ${url}: ${message}`);
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+async function assertLocalServicesReady(): Promise<void> {
+  await assertServiceAvailable(`${appUrl}/login`, 'Frontend login');
+  await assertServiceAvailable('http://localhost:3000', 'BFF');
+  await assertServiceAvailable('http://localhost:3001', 'Core API');
+}
+
 function uniqueName(prefix: string): string {
   return `${prefix} ${Date.now()} ${Math.floor(Math.random() * 1000)}`;
 }
@@ -29,7 +56,11 @@ function swoItems(page: Page): Locator {
 }
 
 function swoRow(page: Page, itemName: string): Locator {
-  return swoItems(page).filter({ hasText: new RegExp(`^${escapeRegex(itemName)}$`) });
+  return swoItems(page).filter({
+    has: page.locator('.item-name', {
+      hasText: new RegExp(`^\\s*${escapeRegex(itemName)}\\s*$`),
+    }),
+  });
 }
 
 async function interactiveLogin(page: Page): Promise<void> {
@@ -70,10 +101,55 @@ async function openWrcf(page: Page): Promise<void> {
   await expect(page.getByRole('heading', { name: 'Manage Industry WRCF' })).toBeVisible();
 }
 
+async function dropdownOptions(select: Locator, placeholderPattern: RegExp): Promise<string[]> {
+  return select.locator('option').evaluateAll(
+    (options, patternSource) =>
+      options
+        .map(option => (option as HTMLOptionElement).textContent?.trim() || '')
+        .filter(text => text && !(new RegExp(patternSource, 'i')).test(text)),
+    placeholderPattern.source
+  );
+}
+
 async function selectIndustryContext(page: Page): Promise<void> {
   const filters = page.locator('.filter-bar .filter-select');
-  await expect(filters.nth(0)).toHaveValue(/.+/);
-  await expect(filters.nth(1)).toHaveValue(/.+/);
+  const sectorSelect = filters.nth(0);
+  const industrySelect = filters.nth(1);
+
+  await expect.poll(
+    async () => dropdownOptions(sectorSelect, /^select sector/),
+    { timeout: 10000, message: 'Waiting for sector options to load' }
+  ).not.toHaveLength(0);
+
+  if (!(await sectorSelect.inputValue())) {
+    const sectors = await dropdownOptions(sectorSelect, /^select sector/);
+    await sectorSelect.selectOption({ label: sectors[0] });
+  }
+
+  await expect.poll(
+    async () => dropdownOptions(industrySelect, /^select industry/),
+    { timeout: 10000, message: 'Waiting for industry options to load' }
+  ).not.toHaveLength(0);
+
+  if (!(await industrySelect.inputValue())) {
+    const industries = await dropdownOptions(industrySelect, /^select industry/);
+    await industrySelect.selectOption({ label: industries[0] });
+  }
+
+  await expect(sectorSelect).toHaveValue(/.+/);
+  await expect(industrySelect).toHaveValue(/.+/);
+}
+
+async function waitForWrcfReady(page: Page): Promise<void> {
+  await expect
+    .poll(
+      async () => await column(page, 'Functional Group').locator('.item').count(),
+      { timeout: 15000, message: 'Waiting for Functional Group items to load' }
+    )
+    .toBeGreaterThan(0);
+
+  await expect(column(page, 'Functional Group').locator('.item').first()).toBeVisible();
+  await expect(column(page, 'Secondary Work Obj.').getByTitle('Add')).toBeVisible();
 }
 
 async function selectFunctionalGroup(page: Page): Promise<string> {
@@ -92,13 +168,55 @@ async function selectPrimaryWorkObject(page: Page): Promise<string> {
   return text;
 }
 
+async function selectPrimaryWorkObjectWithExistingSwo(page: Page): Promise<string> {
+  const pwoList = column(page, 'Primary Work Obj.').locator('.item');
+  const pwoCount = await pwoList.count();
+  if (!pwoCount) {
+    throw new Error('No Primary Work Object item available.');
+  }
+
+  const pwoNames = (await pwoList.allTextContents()).map(value => value.trim()).filter(Boolean);
+
+  for (let index = 0; index < pwoNames.length; index += 1) {
+    const text = pwoNames[index];
+    if (!text) continue;
+
+    await pwoList.nth(index).click();
+
+    let swoCount = -1;
+    try {
+      await expect
+        .poll(
+          async () => await swoItems(page).count(),
+          { timeout: 1200, message: `Waiting briefly for SWO rows after selecting PWO "${text}"` }
+        )
+        .toBeGreaterThan(0);
+      swoCount = await swoItems(page).count();
+    } catch {
+      swoCount = -1;
+    }
+
+    if (typeof swoCount === 'number' && swoCount > 0) {
+      return text;
+    }
+  }
+
+  const fallback = (await pwoList.first().textContent())?.trim();
+  if (!fallback) {
+    throw new Error('No Primary Work Object item available.');
+  }
+
+  await pwoList.first().click();
+  return fallback;
+}
+
 async function openCreatePanel(page: Page): Promise<void> {
   await column(page, 'Secondary Work Obj.').getByTitle('Add').click();
   await expect(panel(page)).toBeVisible();
 }
 
 async function openEditPanel(page: Page, itemName: string): Promise<void> {
-  await swoRow(page, itemName).click();
+  await swoRow(page, itemName).first().click();
   await column(page, 'Secondary Work Obj.').getByTitle('Edit').click();
   await expect(panel(page)).toBeVisible();
 }
@@ -143,8 +261,10 @@ async function deleteSwo(page: Page, name: string): Promise<void> {
 async function selectSwoContext(page: Page): Promise<void> {
   await openWrcf(page);
   await selectIndustryContext(page);
+  await waitForWrcfReady(page);
   await selectFunctionalGroup(page);
-  await selectPrimaryWorkObject(page);
+  await expect(column(page, 'Primary Work Obj.').locator('.item').first()).toBeVisible();
+  await selectPrimaryWorkObjectWithExistingSwo(page);
 }
 
 function pendingSwoCase(id: string, title: string, reason: string): void {
@@ -158,6 +278,7 @@ test.describe('Secondary Work Object sheet-aligned coverage', () => {
   let page: Page;
 
   test.beforeAll(async ({ browser }) => {
+    await assertLocalServicesReady();
     const authenticated = await ensureAuthenticatedPage(browser);
     await authenticated.context.close();
   });
