@@ -5,6 +5,12 @@ export class PrismaIndustrySectorRepository implements IIndustrySectorRepository
   private readonly prisma = getPrisma();
 
   async findAll(): Promise<IndustrySectorRecord[]> {
-    return this.prisma.industrySector.findMany();
+    const rows = await this.prisma.industrySector.findMany();
+    return rows.map(r => ({
+      id: r.id,
+      name: r.name,
+      type: r.type,
+      isActive: r.isActive
+    }));
   }
 }

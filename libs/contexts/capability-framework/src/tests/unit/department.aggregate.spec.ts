@@ -5,8 +5,7 @@ const baseProps = {
   tenantId: 'tenant-1',
   industryId: 'industry-1',
   name: 'Engineering',
-  fgIds: ['fg-1', 'fg-2'],
-  createdBy: 'user-1'
+  functionalGroupIds: ['fg-1', 'fg-2']
 };
 
 describe('Department aggregate', () => {
@@ -26,8 +25,7 @@ describe('Department aggregate', () => {
       expect(dept.tenantId).toBe('tenant-1');
       expect(dept.industryId).toBe('industry-1');
       expect(dept.name).toBe('Engineering');
-      expect(dept.fgIds).toEqual(['fg-1', 'fg-2']);
-      expect(dept.createdBy).toBe('user-1');
+      expect(dept.functionalGroupIds).toEqual(['fg-1', 'fg-2']);
       expect(dept.operationalCriticalityScore).toBe(0.8);
       expect(dept.revenueContributionWeight).toBe(0.5);
       expect(dept.regulatoryExposureLevel).toBe(0.3);
@@ -66,10 +64,10 @@ describe('Department aggregate', () => {
       const dept = Department.create(baseProps);
       dept.clearDomainEvents();
 
-      dept.update({ name: 'Operations', fgIds: ['fg-3'] });
+      dept.update({ name: 'Operations', functionalGroupIds: ['fg-3'] });
 
       expect(dept.name).toBe('Operations');
-      expect(dept.fgIds).toEqual(['fg-3']);
+      expect(dept.functionalGroupIds).toEqual(['fg-3']);
       expect(dept.domainEvents).toHaveLength(1);
     });
 
@@ -80,7 +78,7 @@ describe('Department aggregate', () => {
       dept.update({ name: 'Renamed' });
 
       expect(dept.operationalCriticalityScore).toBe(0.9);
-      expect(dept.fgIds).toEqual(['fg-1', 'fg-2']);
+      expect(dept.functionalGroupIds).toEqual(['fg-1', 'fg-2']);
     });
 
     it('updates numeric scores', () => {

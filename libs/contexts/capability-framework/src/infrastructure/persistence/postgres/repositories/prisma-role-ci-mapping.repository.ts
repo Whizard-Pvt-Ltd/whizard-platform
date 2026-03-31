@@ -4,20 +4,20 @@ import type { IRoleCIMappingRepository } from '../../../../domain/repositories/r
 export class PrismaRoleCIMappingRepository implements IRoleCIMappingRepository {
   private readonly prisma = getPrisma();
 
-  async findByRoleId(roleId: string): Promise<{ id: string; roleId: string; ciId: string }[]> {
-    const rows = await this.prisma.roleCIMapping.findMany({ where: { roleId } });
-    return rows.map(r => ({ id: r.id, roleId: r.roleId, ciId: r.ciId }));
+  async findByRoleId(roleId: string): Promise<{ id: string; roleId: string; capabilityInstanceId: string; isMandatory: boolean }[]> {
+    const rows = await this.prisma.roleCapabilityInstance.findMany({ where: { roleId, isActive: true } });
+    return rows.map(r => ({ id: r.id, roleId: r.roleId, capabilityInstanceId: r.capabilityInstanceId, isMandatory: r.isMandatory }));
   }
 
-  async save(roleId: string, ciId: string, createdBy: string): Promise<void> {
-    await this.prisma.roleCIMapping.create({ data: { roleId, ciId, createdBy } });
+  async save(roleId: string, capabilityInstanceId: string, isMandatory = true): Promise<void> {
+    await this.prisma.roleCapabilityInstance.create({ data: { roleId, capabilityInstanceId, isMandatory } });
   }
 
   async delete(id: string): Promise<void> {
-    await this.prisma.roleCIMapping.delete({ where: { id } });
+    await this.prisma.roleCapabilityInstance.update({ where: { id }, data: { isActive: false } });
   }
 
   async deleteByRoleId(roleId: string): Promise<void> {
-    await this.prisma.roleCIMapping.deleteMany({ where: { roleId } });
+    await this.prisma.roleCapabilityInstance.updateMany({ where: { roleId }, data: { isActive: false } });
   }
 }

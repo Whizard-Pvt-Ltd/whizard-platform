@@ -9,7 +9,6 @@ export class CreateCapabilityInstanceCommandHandler {
   async execute(cmd: CreateCapabilityInstanceCommand): Promise<void> {
     const ci = CapabilityInstance.create({
       tenantId: cmd.tenantId,
-      versionId: cmd.versionId,
       functionalGroupId: cmd.functionalGroupId,
       pwoId: cmd.pwoId,
       swoId: cmd.swoId,

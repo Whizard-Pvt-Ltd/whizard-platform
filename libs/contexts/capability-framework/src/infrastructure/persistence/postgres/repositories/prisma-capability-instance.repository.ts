@@ -20,10 +20,9 @@ export class PrismaCapabilityInstanceRepository implements ICapabilityInstanceRe
       CapabilityInstance.reconstitute({
         id: row.id,
         tenantId: row.tenantId,
-        versionId: row.versionId ?? undefined,
         functionalGroupId: row.functionalGroupId,
-        pwoId: row.pwoId,
-        swoId: row.swoId,
+        pwoId: row.pwoId ?? undefined,
+        swoId: row.swoId ?? undefined,
         capabilityId: row.capabilityId,
         proficiencyId: row.proficiencyId
       })
@@ -36,10 +35,9 @@ export class PrismaCapabilityInstanceRepository implements ICapabilityInstanceRe
     return CapabilityInstance.reconstitute({
       id: row.id,
       tenantId: row.tenantId,
-      versionId: row.versionId ?? undefined,
       functionalGroupId: row.functionalGroupId,
-      pwoId: row.pwoId,
-      swoId: row.swoId,
+      pwoId: row.pwoId ?? undefined,
+      swoId: row.swoId ?? undefined,
       capabilityId: row.capabilityId,
       proficiencyId: row.proficiencyId
     });
@@ -62,10 +60,10 @@ export class PrismaCapabilityInstanceRepository implements ICapabilityInstanceRe
     return rows.map(row => ({
       id: row.id,
       functionalGroupId: row.functionalGroupId,
-      pwoId: row.pwoId,
-      pwoName: row.pwo.name,
-      swoId: row.swoId,
-      swoName: row.swo.name,
+      pwoId: row.pwoId ?? undefined,
+      pwoName: row.pwo?.name ?? undefined,
+      swoId: row.swoId ?? undefined,
+      swoName: row.swo?.name ?? undefined,
       capabilityId: row.capabilityId,
       capabilityCode: row.capability.code,
       capabilityName: row.capability.name,
@@ -80,7 +78,6 @@ export class PrismaCapabilityInstanceRepository implements ICapabilityInstanceRe
       data: {
         id: ci.id,
         tenantId: ci.tenantId,
-        versionId: ci.versionId,
         functionalGroupId: ci.functionalGroupId,
         pwoId: ci.pwoId,
         swoId: ci.swoId,
@@ -91,6 +88,6 @@ export class PrismaCapabilityInstanceRepository implements ICapabilityInstanceRe
   }
 
   async delete(id: string): Promise<void> {
-    await this.prisma.capabilityInstance.delete({ where: { id } });
+    await this.prisma.capabilityInstance.update({ where: { id }, data: { isActive: false } });
   }
 }

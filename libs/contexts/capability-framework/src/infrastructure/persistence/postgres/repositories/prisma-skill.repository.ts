@@ -6,34 +6,32 @@ import type { SkillDto } from '../../../../application/dto/skill.dto';
 export class PrismaSkillRepository implements ISkillRepository {
   private readonly prisma = getPrisma();
 
-  async findByCiId(tenantId: string, ciId: string): Promise<Skill[]> {
-    const rows = await this.prisma.skill.findMany({ where: { tenantId, ciId, isActive: true } });
+  async findByCapabilityInstanceId(tenantId: string, capabilityInstanceId: string): Promise<Skill[]> {
+    const rows = await this.prisma.skill.findMany({ where: { tenantId, capabilityInstanceId, isActive: true } });
     return rows.map(r => Skill.reconstitute({
       id: r.id,
       tenantId: r.tenantId,
-      ciId: r.ciId,
+      capabilityInstanceId: r.capabilityInstanceId,
       name: r.name,
-      description: r.description ?? undefined,
       cognitiveType: r.cognitiveType,
       skillCriticality: r.skillCriticality,
-      recertificationCycle: r.recertificationCycle,
+      recertificationCycleMonths: r.recertificationCycleMonths,
       aiImpact: r.aiImpact
     }));
   }
 
-  async findAllDtos(tenantId: string, ciId: string): Promise<SkillDto[]> {
+  async findAllDtos(tenantId: string, capabilityInstanceId: string): Promise<SkillDto[]> {
     const rows = await this.prisma.skill.findMany({
-      where: { tenantId, ciId, isActive: true },
+      where: { tenantId, capabilityInstanceId, isActive: true },
       orderBy: { name: 'asc' }
     });
     return rows.map(r => ({
       id: r.id,
-      ciId: r.ciId,
+      capabilityInstanceId: r.capabilityInstanceId,
       name: r.name,
-      description: r.description ?? undefined,
       cognitiveType: r.cognitiveType,
       skillCriticality: r.skillCriticality,
-      recertificationCycle: r.recertificationCycle,
+      recertificationCycleMonths: r.recertificationCycleMonths,
       aiImpact: r.aiImpact
     }));
   }
@@ -44,12 +42,11 @@ export class PrismaSkillRepository implements ISkillRepository {
     return Skill.reconstitute({
       id: r.id,
       tenantId: r.tenantId,
-      ciId: r.ciId,
+      capabilityInstanceId: r.capabilityInstanceId,
       name: r.name,
-      description: r.description ?? undefined,
       cognitiveType: r.cognitiveType,
       skillCriticality: r.skillCriticality,
-      recertificationCycle: r.recertificationCycle,
+      recertificationCycleMonths: r.recertificationCycleMonths,
       aiImpact: r.aiImpact
     });
   }
@@ -59,12 +56,11 @@ export class PrismaSkillRepository implements ISkillRepository {
       data: {
         id: skill.id,
         tenantId: skill.tenantId,
-        ciId: skill.ciId,
+        capabilityInstanceId: skill.capabilityInstanceId,
         name: skill.name,
-        description: skill.description,
         cognitiveType: skill.cognitiveType,
         skillCriticality: skill.skillCriticality,
-        recertificationCycle: skill.recertificationCycle,
+        recertificationCycleMonths: skill.recertificationCycleMonths,
         aiImpact: skill.aiImpact
       }
     });
@@ -75,10 +71,9 @@ export class PrismaSkillRepository implements ISkillRepository {
       where: { id: skill.id },
       data: {
         name: skill.name,
-        description: skill.description,
         cognitiveType: skill.cognitiveType,
         skillCriticality: skill.skillCriticality,
-        recertificationCycle: skill.recertificationCycle,
+        recertificationCycleMonths: skill.recertificationCycleMonths,
         aiImpact: skill.aiImpact
       }
     });

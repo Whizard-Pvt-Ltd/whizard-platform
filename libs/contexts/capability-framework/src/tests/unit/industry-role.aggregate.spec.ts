@@ -4,10 +4,7 @@ import { IndustryRole } from '../../domain/aggregates/industry-role.aggregate';
 const baseProps = {
   tenantId: 'tenant-1',
   departmentId: 'dept-1',
-  industryId: 'industry-1',
-  name: 'Field Engineer',
-  seniorityLevel: 'Associate',
-  createdBy: 'user-1'
+  name: 'Field Engineer'
 };
 
 describe('IndustryRole aggregate', () => {
@@ -18,25 +15,16 @@ describe('IndustryRole aggregate', () => {
     });
 
     it('copies all props correctly', () => {
-      const role = IndustryRole.create({
-        ...baseProps,
-        reportingTo: 'Engineering Manager',
-        roleCriticalityScore: 0.75
-      });
+      const role = IndustryRole.create({ ...baseProps, description: 'Responsible for field ops' });
       expect(role.tenantId).toBe('tenant-1');
       expect(role.departmentId).toBe('dept-1');
-      expect(role.industryId).toBe('industry-1');
       expect(role.name).toBe('Field Engineer');
-      expect(role.seniorityLevel).toBe('Associate');
-      expect(role.reportingTo).toBe('Engineering Manager');
-      expect(role.roleCriticalityScore).toBe(0.75);
-      expect(role.createdBy).toBe('user-1');
+      expect(role.description).toBe('Responsible for field ops');
     });
 
-    it('optional fields default to undefined when not provided', () => {
+    it('description defaults to undefined when not provided', () => {
       const role = IndustryRole.create(baseProps);
-      expect(role.reportingTo).toBeUndefined();
-      expect(role.roleCriticalityScore).toBeUndefined();
+      expect(role.description).toBeUndefined();
     });
 
     it('emits an IndustryRoleCreatedEvent', () => {
@@ -51,7 +39,7 @@ describe('IndustryRole aggregate', () => {
     it('restores props with the given id', () => {
       const role = IndustryRole.reconstitute({ ...baseProps, id: 'role-99' });
       expect(role.id).toBe('role-99');
-      expect(role.seniorityLevel).toBe('Associate');
+      expect(role.name).toBe('Field Engineer');
     });
 
     it('does not emit any domain events', () => {
@@ -65,31 +53,20 @@ describe('IndustryRole aggregate', () => {
       const role = IndustryRole.create(baseProps);
       role.clearDomainEvents();
 
-      role.update({ name: 'Senior Field Engineer', seniorityLevel: 'Team Lead' });
+      role.update({ name: 'Senior Field Engineer', description: 'Updated desc' });
 
       expect(role.name).toBe('Senior Field Engineer');
-      expect(role.seniorityLevel).toBe('Team Lead');
+      expect(role.description).toBe('Updated desc');
       expect(role.domainEvents).toHaveLength(1);
     });
 
     it('leaves unspecified fields unchanged', () => {
-      const role = IndustryRole.create({ ...baseProps, roleCriticalityScore: 0.6 });
+      const role = IndustryRole.create(baseProps);
       role.clearDomainEvents();
 
       role.update({ name: 'Renamed Role' });
 
-      expect(role.roleCriticalityScore).toBe(0.6);
       expect(role.departmentId).toBe('dept-1');
-    });
-
-    it('updates reportingTo and roleCriticalityScore', () => {
-      const role = IndustryRole.create(baseProps);
-      role.clearDomainEvents();
-
-      role.update({ reportingTo: 'CTO', roleCriticalityScore: 0.9 });
-
-      expect(role.reportingTo).toBe('CTO');
-      expect(role.roleCriticalityScore).toBe(0.9);
     });
   });
 

@@ -18,6 +18,8 @@ const taskDto = (overrides: Partial<TaskDto> = {}): TaskDto => ({
   name: 'Check pressure gauge',
   frequency: 'Daily',
   complexity: 'Medium',
+  standardDuration: 30,
+  requiredProficiencyLevel: 'L1',
   ...overrides
 });
 
@@ -62,12 +64,12 @@ describe('ListTasksQueryHandler', () => {
   });
 
   it('passes through optional dto fields unchanged', async () => {
-    const dto = taskDto({ standardDuration: 45, requiredProficiencyLevel: 3 });
+    const dto = taskDto({ standardDuration: 45, requiredProficiencyLevel: 'L3' });
     vi.mocked(repo.findAllDtos).mockResolvedValue([dto]);
 
     const result = await handler.execute('tenant-1', 'skill-1');
 
     expect(result[0].standardDuration).toBe(45);
-    expect(result[0].requiredProficiencyLevel).toBe(3);
+    expect(result[0].requiredProficiencyLevel).toBe('L3');
   });
 });

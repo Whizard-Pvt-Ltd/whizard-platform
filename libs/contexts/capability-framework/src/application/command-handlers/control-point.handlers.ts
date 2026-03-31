@@ -14,9 +14,9 @@ export class CreateControlPointCommandHandler {
       description: cmd.description,
       riskLevel: cmd.riskLevel,
       failureImpactType: cmd.failureImpactType,
+      evidenceType: cmd.evidenceType,
       kpiThreshold: cmd.kpiThreshold,
-      escalationRequired: cmd.escalationRequired,
-      evidenceType: cmd.evidenceType
+      escalationRequired: cmd.escalationRequired
     });
     await this.repo.save(cp);
   }
@@ -33,9 +33,9 @@ export class UpdateControlPointCommandHandler {
       description: cmd.description,
       riskLevel: cmd.riskLevel,
       failureImpactType: cmd.failureImpactType,
+      evidenceType: cmd.evidenceType,
       kpiThreshold: cmd.kpiThreshold,
-      escalationRequired: cmd.escalationRequired,
-      evidenceType: cmd.evidenceType
+      escalationRequired: cmd.escalationRequired
     });
     await this.repo.update(cp);
   }

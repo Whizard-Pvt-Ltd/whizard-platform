@@ -111,8 +111,8 @@ export class ManageCIMappingsComponent implements OnInit {
 
   private autoExpandAll(): void {
     const pwoIds = new Set<string>();
-    for (const ci of this.savedCIs()) pwoIds.add(ci.pwoId);
-    for (const entry of this.cache) pwoIds.add(entry.pwoId);
+    for (const ci of this.savedCIs()) { if (ci.pwoId) pwoIds.add(ci.pwoId); }
+    for (const entry of this.cache) { if (entry.pwoId) pwoIds.add(entry.pwoId); }
     this.expandedPwoIds.set(pwoIds);
   }
 
@@ -120,17 +120,19 @@ export class ManageCIMappingsComponent implements OnInit {
     const groups = new Map<string, PwoGroup>();
 
     for (const ci of this.savedCIs()) {
-      if (!groups.has(ci.pwoId)) {
-        groups.set(ci.pwoId, { pwoId: ci.pwoId, pwoName: ci.pwoName, items: [] });
+      const key = ci.pwoId ?? '';
+      if (!groups.has(key)) {
+        groups.set(key, { pwoId: key, pwoName: ci.pwoName ?? '', items: [] });
       }
-      groups.get(ci.pwoId)!.items.push(ci);
+      groups.get(key)!.items.push(ci);
     }
 
     for (const entry of this.cache) {
-      if (!groups.has(entry.pwoId)) {
-        groups.set(entry.pwoId, { pwoId: entry.pwoId, pwoName: entry.pwoName, items: [] });
+      const key = entry.pwoId ?? '';
+      if (!groups.has(key)) {
+        groups.set(key, { pwoId: key, pwoName: entry.pwoName ?? '', items: [] });
       }
-      groups.get(entry.pwoId)!.items.push({ ...entry, _pending: true as const });
+      groups.get(key)!.items.push({ ...entry, _pending: true as const });
     }
 
     return Array.from(groups.values());
@@ -171,7 +173,7 @@ export class ManageCIMappingsComponent implements OnInit {
   }
 
   protected onSkillPlusClick(ci: CapabilityInstance): void {
-    this.router.navigate(['/wrcf-skills'], { queryParams: { ciId: ci.id } });
+    this.router.navigate(['/wrcf-skills'], { queryParams: { capabilityInstanceId: ci.id } });
     this.closed.emit();
   }
 }

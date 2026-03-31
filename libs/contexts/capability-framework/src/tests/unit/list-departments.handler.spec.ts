@@ -14,7 +14,7 @@ const deptDto = (overrides = {}) => ({
   id: 'dept-1',
   name: 'Engineering',
   industryId: 'industry-1',
-  fgIds: ['fg-1', 'fg-2'],
+  functionalGroupIds: ['fg-1', 'fg-2'],
   ...overrides
 });
 
@@ -50,10 +50,10 @@ describe('ListDepartmentsQueryHandler', () => {
     expect(result).toEqual([]);
   });
 
-  it('includes fgIds in the returned dtos', async () => {
-    vi.mocked(repo.findByIndustryId).mockResolvedValue([deptDto({ fgIds: ['fg-A', 'fg-B'] })]);
+  it('includes functionalGroupIds in the returned dtos', async () => {
+    vi.mocked(repo.findByIndustryId).mockResolvedValue([deptDto({ functionalGroupIds: ['fg-A', 'fg-B'] })]);
     const result = await handler.execute('tenant-1', 'industry-1');
-    expect(result[0].fgIds).toEqual(['fg-A', 'fg-B']);
+    expect(result[0].functionalGroupIds).toEqual(['fg-A', 'fg-B']);
   });
 
   it('propagates repository errors', async () => {

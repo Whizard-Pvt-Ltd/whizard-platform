@@ -12,6 +12,7 @@ export class CreateIndustryRoleCommandHandler {
       departmentId: cmd.departmentId,
       industryId: cmd.industryId,
       name: cmd.name,
+      description: cmd.description,
       seniorityLevel: cmd.seniorityLevel,
       reportingTo: cmd.reportingTo,
       roleCriticalityScore: cmd.roleCriticalityScore,
@@ -30,6 +31,7 @@ export class UpdateIndustryRoleCommandHandler {
     if (!role) throw new DomainException(`IndustryRole ${cmd.id} not found`);
     role.update({
       name: cmd.name,
+      description: cmd.description,
       seniorityLevel: cmd.seniorityLevel,
       reportingTo: cmd.reportingTo,
       roleCriticalityScore: cmd.roleCriticalityScore
@@ -44,7 +46,7 @@ export class DeleteIndustryRoleCommandHandler {
 
   async execute(cmd: DeleteIndustryRoleCommand): Promise<void> {
     const role = await this.repo.findById(cmd.id);
-    if (!role) throw new DomainException(`IndustryRole ${cmd.id} not found`);
+    if (!role) throw new DomainException(`Role ${cmd.id} not found`);
     role.delete();
     await this.repo.delete(cmd.id);
   }

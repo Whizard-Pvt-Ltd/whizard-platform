@@ -425,10 +425,10 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
     handler: async (request, reply) => {
       const ctx = getRequestContext(request);
       const query = request.query as Record<string, string>;
-      const ciId = query['ciId'] ?? '';
-      logger.debug('Listing skills', { ...getLogContext(request), ciId });
-      const data = await deps.listSkills.execute(ctx.tenantId, ciId);
-      logger.debug('Listed skills', { ...getLogContext(request), ciId, count: data.length });
+      const capabilityInstanceId = query['capabilityInstanceId'] ?? '';
+      logger.debug('Listing skills', { ...getLogContext(request), capabilityInstanceId });
+      const data = await deps.listSkills.execute(ctx.tenantId, capabilityInstanceId);
+      logger.debug('Listed skills', { ...getLogContext(request), capabilityInstanceId, count: data.length });
       reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
     }
   });
@@ -440,18 +440,17 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
     handler: async (request, reply) => {
       const ctx = getRequestContext(request);
       const body = request.body as Record<string, unknown>;
-      logger.debug('Creating skill', { ...getLogContext(request), ciId: String(body['ciId']), name: String(body['name']) });
+      logger.debug('Creating skill', { ...getLogContext(request), capabilityInstanceId: String(body['capabilityInstanceId']), name: String(body['name']) });
       await deps.createSkill.execute({
         tenantId: ctx.tenantId,
-        ciId: String(body['ciId']),
+        capabilityInstanceId: String(body['capabilityInstanceId']),
         name: String(body['name']),
-        description: body['description'] ? String(body['description']) : undefined,
         cognitiveType: String(body['cognitiveType']),
         skillCriticality: String(body['skillCriticality']),
-        recertificationCycle: Number(body['recertificationCycle']),
+        recertificationCycleMonths: Number(body['recertificationCycleMonths']),
         aiImpact: String(body['aiImpact'])
       });
-      logger.info('Skill created', { ...getLogContext(request), ciId: String(body['ciId']) });
+      logger.info('Skill created', { ...getLogContext(request), capabilityInstanceId: String(body['capabilityInstanceId']) });
       reply.status(201).send({ success: true, meta: toApiMeta(request) });
     }
   });
@@ -470,10 +469,9 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
           id,
           tenantId: ctx.tenantId,
           name: body['name'] ? String(body['name']) : undefined,
-          description: body['description'] ? String(body['description']) : undefined,
           cognitiveType: body['cognitiveType'] ? String(body['cognitiveType']) : undefined,
           skillCriticality: body['skillCriticality'] ? String(body['skillCriticality']) : undefined,
-          recertificationCycle: body['recertificationCycle'] !== undefined ? Number(body['recertificationCycle']) : undefined,
+          recertificationCycleMonths: body['recertificationCycleMonths'] !== undefined ? Number(body['recertificationCycleMonths']) : undefined,
           aiImpact: body['aiImpact'] ? String(body['aiImpact']) : undefined
         });
         logger.info('Skill updated', { ...getLogContext(request), skillId: id });
@@ -538,8 +536,8 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
         description: body['description'] ? String(body['description']) : undefined,
         frequency: String(body['frequency']),
         complexity: String(body['complexity']),
-        standardDuration: body['standardDuration'] !== undefined ? Number(body['standardDuration']) : undefined,
-        requiredProficiencyLevel: body['requiredProficiencyLevel'] !== undefined ? Number(body['requiredProficiencyLevel']) : undefined
+        standardDuration: Number(body['standardDuration']),
+        requiredProficiencyLevel: body['requiredProficiencyLevel'] ? String(body['requiredProficiencyLevel']) : undefined
       });
       logger.info('Task created', { ...getLogContext(request), skillId: String(body['skillId']) });
       reply.status(201).send({ success: true, meta: toApiMeta(request) });
@@ -564,7 +562,7 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
           frequency: body['frequency'] ? String(body['frequency']) : undefined,
           complexity: body['complexity'] ? String(body['complexity']) : undefined,
           standardDuration: body['standardDuration'] !== undefined ? Number(body['standardDuration']) : undefined,
-          requiredProficiencyLevel: body['requiredProficiencyLevel'] !== undefined ? Number(body['requiredProficiencyLevel']) : undefined
+          requiredProficiencyLevel: body['requiredProficiencyLevel'] ? String(body['requiredProficiencyLevel']) : undefined
         });
         logger.info('Task updated', { ...getLogContext(request), taskId: id });
         reply.status(200).send({ success: true, meta: toApiMeta(request) });
@@ -628,9 +626,9 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
         description: body['description'] ? String(body['description']) : undefined,
         riskLevel: String(body['riskLevel']),
         failureImpactType: String(body['failureImpactType']),
-        kpiThreshold: body['kpiThreshold'] ? String(body['kpiThreshold']) : undefined,
-        escalationRequired: String(body['escalationRequired']),
-        evidenceType: String(body['evidenceType'])
+        kpiThreshold: body['kpiThreshold'] !== undefined ? Number(body['kpiThreshold']) : undefined,
+        escalationRequired: Boolean(body['escalationRequired']),
+        evidenceType: body['evidenceType'] ? String(body['evidenceType']) : undefined
       });
       logger.info('Control point created', { ...getLogContext(request), taskId: String(body['taskId']) });
       reply.status(201).send({ success: true, meta: toApiMeta(request) });
@@ -654,9 +652,8 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
           description: body['description'] ? String(body['description']) : undefined,
           riskLevel: body['riskLevel'] ? String(body['riskLevel']) : undefined,
           failureImpactType: body['failureImpactType'] ? String(body['failureImpactType']) : undefined,
-          kpiThreshold: body['kpiThreshold'] ? String(body['kpiThreshold']) : undefined,
-          escalationRequired: body['escalationRequired'] ? String(body['escalationRequired']) : undefined,
-          evidenceType: body['evidenceType'] ? String(body['evidenceType']) : undefined
+          kpiThreshold: body['kpiThreshold'] !== undefined ? Number(body['kpiThreshold']) : undefined,
+          escalationRequired: body['escalationRequired'] !== undefined ? Boolean(body['escalationRequired']) : undefined
         });
         logger.info('Control point updated', { ...getLogContext(request), controlPointId: id });
         reply.status(200).send({ success: true, meta: toApiMeta(request) });
@@ -718,11 +715,10 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
           tenantId: ctx.tenantId,
           industryId: String(body['industryId']),
           name: String(body['name']),
-          fgIds: Array.isArray(body['fgIds']) ? (body['fgIds'] as string[]) : [],
+          functionalGroupIds: Array.isArray(body['functionalGroupIds']) ? (body['functionalGroupIds'] as string[]) : [],
           operationalCriticalityScore: body['operationalCriticalityScore'] !== undefined ? Number(body['operationalCriticalityScore']) : undefined,
           revenueContributionWeight: body['revenueContributionWeight'] !== undefined ? Number(body['revenueContributionWeight']) : undefined,
           regulatoryExposureLevel: body['regulatoryExposureLevel'] !== undefined ? Number(body['regulatoryExposureLevel']) : undefined,
-          createdBy: ctx.actorUserAccountId
         });
         logger.info('Department created', { ...getLogContext(request), departmentId: data.id, name: data.name });
         reply.status(201).send({ success: true, data, meta: toApiMeta(request) });
@@ -748,11 +744,10 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
           id,
           tenantId: ctx.tenantId,
           name: body['name'] ? String(body['name']) : undefined,
-          fgIds: Array.isArray(body['fgIds']) ? (body['fgIds'] as string[]) : undefined,
+          functionalGroupIds: Array.isArray(body['functionalGroupIds']) ? (body['functionalGroupIds'] as string[]) : undefined,
           operationalCriticalityScore: body['operationalCriticalityScore'] !== undefined ? Number(body['operationalCriticalityScore']) : undefined,
           revenueContributionWeight: body['revenueContributionWeight'] !== undefined ? Number(body['revenueContributionWeight']) : undefined,
           regulatoryExposureLevel: body['regulatoryExposureLevel'] !== undefined ? Number(body['regulatoryExposureLevel']) : undefined,
-          updatedBy: ctx.actorUserAccountId
         });
         logger.info('Department updated', { ...getLogContext(request), departmentId: id });
         reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
@@ -786,39 +781,35 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
 
   app.route({
     method: 'GET',
-    url: '/industry-roles',
+    url: '/roles',
     preHandler: authorizationPreHandler('WRCF.MANAGE'),
     handler: async (request, reply) => {
       const ctx = getRequestContext(request);
       const query = request.query as Record<string, string>;
       const departmentId = query['departmentId'] ?? '';
-      logger.debug('Listing industry roles', { ...getLogContext(request), departmentId });
+      logger.debug('Listing roles', { ...getLogContext(request), departmentId });
       const data = await deps.listIndustryRoles.execute(ctx.tenantId, departmentId);
-      logger.debug('Listed industry roles', { ...getLogContext(request), departmentId, count: data.length });
+      logger.debug('Listed roles', { ...getLogContext(request), departmentId, count: data.length });
       reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
     }
   });
 
   app.route({
     method: 'POST',
-    url: '/industry-roles',
+    url: '/roles',
     preHandler: authorizationPreHandler('WRCF.MANAGE'),
     handler: async (request, reply) => {
       const ctx = getRequestContext(request);
       const body = request.body as Record<string, unknown>;
-      logger.debug('Creating industry role', { ...getLogContext(request), departmentId: String(body['departmentId']), name: String(body['name']) });
+      logger.debug('Creating role', { ...getLogContext(request), departmentId: String(body['departmentId']), name: String(body['name']) });
       try {
         const data = await deps.createIndustryRole.execute({
           tenantId: ctx.tenantId,
           departmentId: String(body['departmentId']),
-          industryId: String(body['industryId']),
           name: String(body['name']),
-          seniorityLevel: String(body['seniorityLevel']),
-          reportingTo: body['reportingTo'] ? String(body['reportingTo']) : undefined,
-          roleCriticalityScore: body['roleCriticalityScore'] !== undefined ? Number(body['roleCriticalityScore']) : undefined,
-          createdBy: ctx.actorUserAccountId
+          description: body['description'] ? String(body['description']) : undefined
         });
-        logger.info('Industry role created', { ...getLogContext(request), roleId: data.id, name: data.name });
+        logger.info('Role created', { ...getLogContext(request), roleId: data.id, name: data.name });
         reply.status(201).send({ success: true, data, meta: toApiMeta(request) });
       } catch (err) {
         if (isDomainException(err)) {
@@ -830,24 +821,21 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
 
   app.route({
     method: 'PATCH',
-    url: '/industry-roles/:id',
+    url: '/roles/:id',
     preHandler: authorizationPreHandler('WRCF.MANAGE'),
     handler: async (request, reply) => {
       const { id } = (request.params as { id: string });
       const ctx = getRequestContext(request);
       const body = request.body as Record<string, unknown>;
-      logger.debug('Updating industry role', { ...getLogContext(request), roleId: id });
+      logger.debug('Updating role', { ...getLogContext(request), roleId: id });
       try {
         const data = await deps.updateIndustryRole.execute({
           id,
           tenantId: ctx.tenantId,
           name: body['name'] ? String(body['name']) : undefined,
-          seniorityLevel: body['seniorityLevel'] ? String(body['seniorityLevel']) : undefined,
-          reportingTo: body['reportingTo'] ? String(body['reportingTo']) : undefined,
-          roleCriticalityScore: body['roleCriticalityScore'] !== undefined ? Number(body['roleCriticalityScore']) : undefined,
-          updatedBy: ctx.actorUserAccountId
+          description: body['description'] ? String(body['description']) : undefined
         });
-        logger.info('Industry role updated', { ...getLogContext(request), roleId: id });
+        logger.info('Role updated', { ...getLogContext(request), roleId: id });
         reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
       } catch (err) {
         if (isDomainException(err)) {
@@ -859,15 +847,15 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
 
   app.route({
     method: 'DELETE',
-    url: '/industry-roles/:id',
+    url: '/roles/:id',
     preHandler: authorizationPreHandler('WRCF.MANAGE'),
     handler: async (request, reply) => {
       const { id } = (request.params as { id: string });
       const ctx = getRequestContext(request);
-      logger.debug('Deleting industry role', { ...getLogContext(request), roleId: id });
+      logger.debug('Deleting role', { ...getLogContext(request), roleId: id });
       try {
         await deps.deleteIndustryRole.execute({ id, tenantId: ctx.tenantId });
-        logger.info('Industry role deleted', { ...getLogContext(request), roleId: id });
+        logger.info('Role deleted', { ...getLogContext(request), roleId: id });
         reply.status(204).send(null);
       } catch (err) {
         if (isDomainException(err)) {
@@ -879,46 +867,45 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
 
   app.route({
     method: 'GET',
-    url: '/role-ci-mappings',
+    url: '/role-capability-instances',
     preHandler: authorizationPreHandler('WRCF.MANAGE'),
     handler: async (request, reply) => {
       const query = request.query as Record<string, string>;
       const roleId = query['roleId'] ?? '';
-      logger.debug('Listing role CI mappings', { ...getLogContext(request), roleId });
+      logger.debug('Listing role capability instances', { ...getLogContext(request), roleId });
       const data = await deps.listRoleCIMappings.execute(roleId);
-      logger.debug('Listed role CI mappings', { ...getLogContext(request), roleId, count: data.length });
+      logger.debug('Listed role capability instances', { ...getLogContext(request), roleId, count: data.length });
       reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
     }
   });
 
   app.route({
     method: 'POST',
-    url: '/role-ci-mappings',
+    url: '/role-capability-instances',
     preHandler: authorizationPreHandler('WRCF.MANAGE'),
     handler: async (request, reply) => {
       const ctx = getRequestContext(request);
       const body = request.body as Record<string, unknown>;
       const roleId = String(body['roleId']);
-      logger.debug('Saving role CI mappings', { ...getLogContext(request), roleId });
+      logger.debug('Saving role capability instances', { ...getLogContext(request), roleId });
       await deps.saveRoleCIMappings.execute({
         roleId,
-        ciIds: Array.isArray(body['ciIds']) ? (body['ciIds'] as string[]) : [],
-        createdBy: ctx.actorUserAccountId
+        capabilityInstanceIds: Array.isArray(body['capabilityInstanceIds']) ? (body['capabilityInstanceIds'] as string[]) : []
       });
-      logger.info('Role CI mappings saved', { ...getLogContext(request), roleId });
+      logger.info('Role capability instances saved', { ...getLogContext(request), roleId });
       reply.status(201).send({ success: true, meta: toApiMeta(request) });
     }
   });
 
   app.route({
     method: 'DELETE',
-    url: '/role-ci-mappings/:id',
+    url: '/role-capability-instances/:id',
     preHandler: authorizationPreHandler('WRCF.MANAGE'),
     handler: async (request, reply) => {
       const { id } = (request.params as { id: string });
-      logger.debug('Deleting role CI mapping', { ...getLogContext(request), roleCiMappingId: id });
+      logger.debug('Deleting role capability instance', { ...getLogContext(request), roleCapabilityInstanceId: id });
       await deps.deleteRoleCIMapping.execute({ id });
-      logger.info('Role CI mapping deleted', { ...getLogContext(request), roleCiMappingId: id });
+      logger.info('Role capability instance deleted', { ...getLogContext(request), roleCapabilityInstanceId: id });
       reply.status(204).send(null);
     }
   });

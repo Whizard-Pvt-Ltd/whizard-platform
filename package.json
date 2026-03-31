@@ -44,7 +44,7 @@
     "start:bff": "node apps/api/bff/dist/server.js",
     "start:core-api": "node apps/api/core-api/dist/server.js",
     "clean": "find . -name 'dist' -type d -prune -exec rm -rf {} + && find . -name 'node_modules' -type d -prune -exec rm -rf {} + && find . -name '*.tsbuildinfo' -type f -delete && rm -rf .nx",
-    "clean:dist": "find . -name 'dist' -type d -prune -exec rm -rf {} + && find . -name '*.tsbuildinfo' -type f -delete && rm -rf .nx",
+    "clean:dist": "find . -not -path './node_modules/*' -name 'dist' -type d -prune -exec rm -rf {} + && find . -not -path './node_modules/*' -name '*.tsbuildinfo' -type f -delete && rm -rf .nx",
     "clean:modules": "find . -name 'node_modules' -type d -prune -exec rm -rf {} +",
     "setup": "pnpm install --frozen-lockfile && pnpm build:all",
     "fresh": "pnpm clean && pnpm install && pnpm build:all",
