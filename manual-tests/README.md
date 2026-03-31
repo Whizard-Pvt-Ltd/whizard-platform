@@ -1,6 +1,6 @@
 # Manual Tests
 
-This directory stores manual Playwright MCP findings and the repo artifacts derived from them.
+This directory stores manual Playwright MCP findings and the repo artifacts derived from the WRCF PDF specifications plus workbook-backed test-case mapping.
 
 ## Current Artifacts
 
@@ -19,6 +19,9 @@ manual-tests/
     wrcf_Functional_Group.playwright.spec.md
     wrcf_Primary_Work_Object.playwright.spec.md
     wrcf_Secondary_Work_Object.playwright.spec.md
+    wrcf_Manage_WRCF_Skills.playwright.spec.md
+    wrcf_Skills.playwright.spec.md
+    wrcf-source-of-truth.md
   login-page.playwright.spec.ts
   login-page-auth.playwright.spec.ts
   wrcf-manage-wrcf.playwright.spec.ts
@@ -26,6 +29,8 @@ manual-tests/
   wrcf_Functional_Group.playwright.spec.ts
   wrcf_Primary_Work_Object.playwright.spec.ts
   wrcf_Secondary_Work_Object.playwright.spec.ts
+  wrcf_Manage_WRCF_Skills.playwright.spec.ts
+  wrcf_Skills.playwright.spec.ts
   results/
 ```
 
@@ -43,8 +48,10 @@ manual-tests/
 - [wrcf-manage-wrcf.playwright.spec.ts](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts): Manage WRCF create/edit flow coverage for Functional Group, PWO, and SWO.
 - [wrcf-dashboard.playwright.spec.ts](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts): dashboard filter, metrics, quick-action, and known-gap coverage.
 - [wrcf_Functional_Group.playwright.spec.ts](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts): sheet-driven Functional Group coverage aligned to FG `G/H` steps and expected results.
-- [wrcf_Primary_Work_Object.playwright.spec.ts](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts): sheet-driven Primary Work Object coverage aligned to the `PWO` tab in the reverified workbook.
-- [wrcf_Secondary_Work_Object.playwright.spec.ts](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts): sheet-driven Secondary Work Object coverage aligned to the `SWO` tab in the reverified workbook.
+- [wrcf_Primary_Work_Object.playwright.spec.ts](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts): PDF-backed Primary Work Object coverage traced to the `PWO` workbook tab.
+- [wrcf_Secondary_Work_Object.playwright.spec.ts](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts): PDF-backed Secondary Work Object coverage traced to the `SWO` workbook tab.
+- [wrcf_Manage_WRCF_Skills.playwright.spec.ts](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts): PDF-backed Manage Skills parent-context coverage traced to the `Manage WRCF Skills` workbook tab.
+- [wrcf_Skills.playwright.spec.ts](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts): PDF-backed Skills coverage traced to the `Skills` workbook tab.
 
 ## Recommended Workflow
 
@@ -130,6 +137,7 @@ npx playwright show-report
 
 ## Useful References
 
+- Source rules: [wrcf-source-of-truth.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/Documents/wrcf-source-of-truth.md)
 - Protocol: [TESTING_PROTOCOL.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/Documents/TESTING_PROTOCOL.md)
 - Login smoke report: [login-page-smoke-test.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/Documents/login-page-smoke-test.md)
 - Login UX report: [login-page-accessibility-and-ux-findings.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/Documents/login-page-accessibility-and-ux-findings.md)
@@ -137,9 +145,13 @@ npx playwright show-report
 - Ordered FG results: [wrcf-functional-group-results.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/results/wrcf-functional-group-results.md)
 - PWO companion doc: [wrcf_Primary_Work_Object.playwright.spec.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/Documents/wrcf_Primary_Work_Object.playwright.spec.md)
 - SWO companion doc: [wrcf_Secondary_Work_Object.playwright.spec.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/Documents/wrcf_Secondary_Work_Object.playwright.spec.md)
+- Manage Skills companion doc: [wrcf_Manage_WRCF_Skills.playwright.spec.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/Documents/wrcf_Manage_WRCF_Skills.playwright.spec.md)
+- Skills companion doc: [wrcf_Skills.playwright.spec.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/Documents/wrcf_Skills.playwright.spec.md)
 
 ## Notes
 
+- WRCF behavior and schema come from `temp/WRCF Functional Specs.pdf` and `temp/WRCF definition & Schema.pdf`.
+- `temp/WRCF End-to-End Test Cases_reverified.xlsx` is a derived test-case workbook used for IDs and coverage tracking.
 - The WSL MCP config referenced in prior notes is not present in this Windows workspace copy.
 - Runtime auth cache is stored under `manual-tests/.auth/` and is gitignored.
 - Ordered result exports are generated into `manual-tests/results/`.

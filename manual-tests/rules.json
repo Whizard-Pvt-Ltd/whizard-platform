@@ -7,13 +7,16 @@
   ],
   "source_priority": [
     "existing manual-tests specs/docs",
-    "temp workbook",
-    "temp PDFs only for ambiguity",
+    "temp WRCF Functional Specs PDF",
+    "temp WRCF definition & Schema PDF",
+    "temp workbook as derived case ledger",
     "UI/MCP only for verification",
     "ask human if still unclear"
   ],
   "workbook_rules": [
-    "prefer direct workbook inspection before PDFs",
+    "do not treat the workbook as the product source of truth",
+    "derive expected behavior from the WRCF PDFs first",
+    "use the workbook to map PDF-defined behavior into stable test IDs and coverage",
     "if Excel libraries are unavailable, read the xlsx zip/xml payload directly"
   ],
   "acceptance_rules": [
@@ -46,7 +49,7 @@
     "keep chat output brief",
     "do not restate full project background",
     "work on the next pending entity or small batch",
-    "use workbook as primary source",
-    "use PDFs only when needed"
+    "use PDFs as the primary product source",
+    "use the workbook as a derived coverage map"
   ]
 }

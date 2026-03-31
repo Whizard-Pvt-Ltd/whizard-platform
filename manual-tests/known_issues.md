@@ -12,7 +12,7 @@ Codex must read this at the start of every session and avoid repeating these iss
 
 ### 2. Overuse of PDFs
 - Problem: Re-reading all PDFs for every entity wastes time.
-- Rule: Use workbook first. Open PDFs only when workbook rows are ambiguous.
+- Rule: Reuse previously captured PDF-backed conclusions from memory/docs. Re-open the WRCF PDFs when behavior intent still needs confirmation, but do not treat the workbook as the product source.
 
 ### 3. Re-testing lower-level flows
 - Problem: Already-covered base flows like login may get retested in every module.
@@ -29,6 +29,11 @@ Codex must read this at the start of every session and avoid repeating these iss
 ### 6. Guessing uncertain behavior
 - Problem: Unclear workbook/doc/UI behavior may be hardcoded incorrectly.
 - Rule: Mark pending, validate in UI if needed, or ask for human intervention.
+
+### 6a. Treating the workbook as the product source causes scenario drift
+- Problem: If the workbook is treated as the source of truth, generated specs can quietly drift away from the actual WRCF behavior defined in the PDFs.
+- Seen in: Manage WRCF Skills planning on 2026-03-31
+- Rule: Read `temp/WRCF Functional Specs.pdf` and `temp/WRCF definition & Schema.pdf` first for behavior and schema intent, then use `WRCF End-to-End Test Cases_reverified.xlsx` only as the coverage ledger and case-ID map.
 
 ### 7. Workbook reader dependency assumptions
 - Problem: The shell may not have `openpyxl` or another Excel helper installed.
@@ -122,6 +127,16 @@ Codex must read this at the start of every session and avoid repeating these iss
 - Problem: Reused environments can contain multiple SWO rows with the same visible name, so edit/preload helpers that expect one exact match fail in strict mode.
 - Seen in: SWO-E2E-011, `012`, and `013` on 2026-03-31
 - Rule: For existing SWO edit flows, target the first matching row or create a unique SWO specifically for the edit scenario instead of assuming name uniqueness.
+
+### 26. Pending workbook/PDF gap cases must not depend on heavy shared setup
+- Problem: A suite can mark cases as `fixme` but still fail before the test body runs if a shared `beforeEach` performs expensive navigation or data discovery.
+- Seen in: Manage WRCF Skills on 2026-03-31
+- Rule: Keep environment-heavy setup inside only the executable tests, or gate it so pending/blocker cases are skipped immediately without inheriting the setup cost.
+
+### 27. Manage WRCF Skills may have no local industry path that resolves FG options
+- Problem: The local environment can expose sectors and industries on `/industry-wrcf` while every discovered `industryId` still loads `/wrcf-skills` with no Functional Group options.
+- Seen in: Manage WRCF Skills reruns on 2026-03-31
+- Rule: Treat missing `industryId -> FG options` resolution as an environment/data blocker for executable manage-skills cases. Document it and avoid failing the whole suite in `beforeEach`.
 ## Add New Entries Like This
 - Pattern:
 - Seen in:

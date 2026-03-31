@@ -4,7 +4,7 @@
 
 ## Purpose
 
-Sheet-aligned coverage for the `SWO` tab in `WRCF End-to-End Test Cases_reverified.xlsx`, covering `SWO-E2E-001` through `SWO-E2E-020`.
+PDF-backed coverage for the WRCF Secondary Work Object flow, traced to the `SWO` tab in `WRCF End-to-End Test Cases_reverified.xlsx`, covering `SWO-E2E-001` through `SWO-E2E-020`.
 
 ## Covered Tests
 
@@ -31,7 +31,8 @@ Login
 ## Notes
 
 - Uses reusable auth state under `manual-tests/.auth/`
-- Uses only the `temp` workbook as the source for the SWO case list
+- Scenario intent comes from `temp/WRCF Functional Specs.pdf` and `temp/WRCF definition & Schema.pdf`
+- Uses the workbook as the SWO case ledger and test-ID source
 - Downstream dependency/mapping rows remain pending where the local dataset does not yet prove the rule cleanly
 - Adds an explicit local-service readiness check so backend outages fail fast with a documented blocker instead of hanging in login
 

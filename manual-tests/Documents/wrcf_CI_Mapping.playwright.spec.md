@@ -4,7 +4,7 @@
 
 ## Purpose
 
-Sheet-aligned coverage for the `CI Mapping` tab in `WRCF End-to-End Test Cases_reverified.xlsx`, covering `CIMAP-E2E-001` through `CIMAP-E2E-035`.
+PDF-backed coverage for WRCF Capability Instance mapping, traced to the `CI Mapping` tab in `WRCF End-to-End Test Cases_reverified.xlsx`, covering `CIMAP-E2E-001` through `CIMAP-E2E-035`.
 
 ## Covered Tests
 
@@ -31,6 +31,7 @@ Login
 ## Notes
 
 - Reuses the existing `/industry-wrcf` auth and hierarchy-selection pattern from the completed WRCF specs
+- Scenario intent comes from `temp/WRCF Functional Specs.pdf` and `temp/WRCF definition & Schema.pdf`
 - Uses the live proficiency checkbox state classes: pending `.checked` and saved `.saved`
 - Keeps save-heavy and dependency-heavy workbook rows visible as pending cases until the local environment can support deterministic cleanup and downstream-skill validation
 

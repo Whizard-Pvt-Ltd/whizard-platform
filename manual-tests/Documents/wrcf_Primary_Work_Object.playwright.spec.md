@@ -4,7 +4,7 @@
 
 ## Purpose
 
-Sheet-aligned coverage for the `PWO` tab in `WRCF End-to-End Test Cases_reverified.xlsx`, covering `PWO-E2E-001` through `PWO-E2E-020`.
+PDF-backed coverage for the WRCF Primary Work Object flow, traced to the `PWO` tab in `WRCF End-to-End Test Cases_reverified.xlsx`, covering `PWO-E2E-001` through `PWO-E2E-020`.
 
 ## Covered Tests
 
@@ -30,7 +30,8 @@ Login
 ## Notes
 
 - Uses reusable auth state under `manual-tests/.auth/`
-- Uses only the `temp` workbook as the source for the PWO case list
+- Scenario intent comes from `temp/WRCF Functional Specs.pdf` and `temp/WRCF definition & Schema.pdf`
+- Uses the workbook as the PWO case ledger and test-ID source
 - Parent-scoped uniqueness and dependency-heavy rows remain pending where the local dataset does not prove the rule cleanly
 - Adds an explicit local-service readiness check so backend outages fail fast with a documented blocker instead of hanging in login
 

@@ -2,13 +2,13 @@
 
 ## Objective
 
-Continue the workbook-driven Playwright test generation work in this repo as quickly and consistently as possible.
+Continue the PDF-backed WRCF Playwright test generation work in this repo as quickly and consistently as possible.
 
 This is a continuation workflow, not a fresh discovery exercise for every sheet.
 
 Main goals:
 1. Reuse existing successful test patterns.
-2. Generate the next pending workbook-driven spec and companion doc.
+2. Generate the next pending WRCF spec and companion doc.
 3. Run the generated test after creation.
 4. Fix obvious issues immediately.
 5. Record failures, fixes, and reusable learnings.
@@ -23,9 +23,9 @@ Main goals:
 You are continuing Playwright test generation work in this repo.
 
 Source material is inside the `temp/` folder. Use these as primary references:
-- `temp/WRCF End-to-End Test Cases_reverified.xlsx`
-- `temp/WRCF definition & Schema.pdf`
 - `temp/WRCF Functional Specs.pdf`
+- `temp/WRCF definition & Schema.pdf`
+- `temp/WRCF End-to-End Test Cases_reverified.xlsx`
 - `temp/College Student Onbaording FS.pdf`
 - `temp/temp.txt`
 
@@ -42,9 +42,10 @@ Do not start from scratch for every entity.
 Reuse the same structure, style, and coverage pattern from the existing generated specs so the remaining entities can be completed faster.
 
 Primary goal:
-Continue converting the remaining Excel/workbook-driven test cases into Playwright TypeScript specs and matching docs, using the already-created files as guardrails.
+Continue converting the remaining WRCF test cases into Playwright TypeScript specs and matching docs, using the already-created files as guardrails.
 
-Use the PDFs only to clarify business meaning, terminology, and expected behavior when the sheet is ambiguous.
+Use the PDFs as the source of truth for business meaning, terminology, schema, and expected behavior.
+Use the workbook as the derived case ledger and test-ID source.
 Use Playwright MCP validation only when necessary to resolve uncertainty.
 Prefer fast, structured continuation over broad re-analysis.
 
@@ -55,9 +56,9 @@ Prefer fast, structured continuation over broad re-analysis.
 Use the `temp/` folder as the main source area.
 
 Expected source files:
-- `temp/WRCF End-to-End Test Cases_reverified.xlsx`
-- `temp/WRCF definition & Schema.pdf`
 - `temp/WRCF Functional Specs.pdf`
+- `temp/WRCF definition & Schema.pdf`
+- `temp/WRCF End-to-End Test Cases_reverified.xlsx`
 - `temp/College Student Onbaording FS.pdf`
 - `temp/temp.txt`
 
@@ -92,12 +93,13 @@ Use sources in this order:
    - First reference for structure, naming, style, scenario format, and pending-case handling.
    - Reuse before inventing.
 
-2. **Workbook in `temp/`**
-   - Main source for pending sheet/entity coverage.
-   - Treat workbook-driven coverage as the primary task.
+2. **WRCF PDFs in `temp/`**
+   - Primary source for product behavior, terminology, hierarchy, and schema intent.
+   - Use `temp/WRCF Functional Specs.pdf` and `temp/WRCF definition & Schema.pdf` before interpreting test behavior.
 
-3. **PDFs in `temp/`**
-   - Use only when workbook rows are ambiguous or business meaning needs clarification.
+3. **Workbook in `temp/`**
+   - Derived test-case ledger for stable IDs, coverage mapping, and execution planning.
+   - Do not let workbook wording override PDF-defined product intent.
 
 4. **Playwright MCP / Playwright UI validation**
    - Use Playwright MCP as the preferred targeted inspection/validation layer when workbook rows or docs are ambiguous.
@@ -210,18 +212,18 @@ If a new case is only a repetition of an existing validated pattern, do not dupl
 
 ## Standard Workflow
 
-For each next pending workbook-driven entity/sheet:
+For each next pending WRCF entity/sheet:
 
 1. Check what is already completed in `manual-tests/`.
 2. Check active constraints:
    - progress log
    - known issues
    - rules
-3. Identify the next pending workbook-driven sheet/entity.
+3. Identify the next pending WRCF sheet/entity.
 4. Pick the closest existing spec/doc as the template.
 5. Categorize proposed scenarios into P0 / P1 / P2.
 6. Pass them through the validation layer before finalizing.
-7. If workbook/docs are unclear, do targeted Playwright MCP inspection before coding.
+7. If PDF/workbook/docs are unclear, do targeted Playwright MCP inspection before coding.
 8. Generate or update:
    - `.spec.ts`
    - matching companion `.md`
@@ -247,16 +249,16 @@ Use MCP for:
 - checking navigation flow
 - verifying modal/popup behavior
 - understanding validation timing and messages
-- confirming actual UI behavior when workbook/spec wording is ambiguous
+- confirming actual UI behavior when PDF/workbook wording is ambiguous
 - resolving mismatches between documents and the live UI
 
 Do not use MCP to re-discover the whole product repeatedly.
-Use it as a focused validation step to support fast workbook-driven test generation.
+Use it as a focused validation step to support fast PDF-backed WRCF test generation.
 
 Typical order:
-1. workbook
-2. existing spec/template
-3. PDF clarification if needed
+1. WRCF PDFs
+2. workbook case row
+3. existing spec/template
 4. Playwright MCP targeted inspection
 5. generate/update spec
 6. run and validate
@@ -270,7 +272,7 @@ Typical order:
 - If two sheets/entities are structurally similar, adapt the nearest existing successful file.
 
 ### Workbook First
-- Remaining work is mainly workbook-driven.
+- Remaining work is mainly PDF-backed WRCF coverage traced through the workbook ledger.
 - Do not over-expand into full product rediscovery for each sheet.
 
 ### Clarify Only When Needed
