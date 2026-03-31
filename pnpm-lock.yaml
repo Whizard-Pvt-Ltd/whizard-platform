@@ -14566,7 +14566,7 @@ snapshots:
       '@babel/core': 7.29.0
       find-cache-dir: 4.0.0
       schema-utils: 4.3.3
-      webpack: 5.105.0(esbuild@0.25.4)
+      webpack: 5.105.4(@swc/core@1.15.21(@swc/helpers@0.5.20))(esbuild@0.24.2)
 
   babel-plugin-const-enum@1.2.0(@babel/core@7.29.0):
     dependencies:
@@ -14985,8 +14985,9 @@ snapshots:
       glob-parent: 6.0.2
       normalize-path: 3.0.0
       schema-utils: 4.3.3
-      serialize-javascript: 6.0.2
-      webpack: 5.105.0(esbuild@0.25.4)
+      serialize-javascript: 7.0.5
+      tinyglobby: 0.2.15
+      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.20))(esbuild@0.24.2)
 
   copy-webpack-plugin@14.0.0(webpack@5.105.4(@swc/core@1.15.21(@swc/helpers@0.5.20))(esbuild@0.24.2)):
     dependencies:
@@ -15063,7 +15064,35 @@ snapshots:
       postcss-value-parser: 4.2.0
       semver: 7.7.4
     optionalDependencies:
-      webpack: 5.105.0(esbuild@0.25.4)
+      '@rspack/core': 1.6.8(@swc/helpers@0.5.20)
+      webpack: 5.105.4(@swc/core@1.15.21(@swc/helpers@0.5.20))(esbuild@0.24.2)
+
+  css-loader@7.1.3(@rspack/core@1.6.8(@swc/helpers@0.5.20))(webpack@5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.20))(esbuild@0.27.3)):
+    dependencies:
+      icss-utils: 5.1.0(postcss@8.5.8)
+      postcss: 8.5.8
+      postcss-modules-extract-imports: 3.1.0(postcss@8.5.8)
+      postcss-modules-local-by-default: 4.2.0(postcss@8.5.8)
+      postcss-modules-scope: 3.2.1(postcss@8.5.8)
+      postcss-modules-values: 4.0.0(postcss@8.5.8)
+      postcss-value-parser: 4.2.0
+      semver: 7.7.4
+    optionalDependencies:
+      '@rspack/core': 1.6.8(@swc/helpers@0.5.20)
+      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.20))(esbuild@0.24.2)
+
+  css-minimizer-webpack-plugin@8.0.0(esbuild@0.24.2)(lightningcss@1.32.0)(webpack@5.105.4(@swc/core@1.15.21(@swc/helpers@0.5.20))(esbuild@0.24.2)):
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.31
+      cssnano: 7.1.4(postcss@8.5.8)
+      jest-worker: 30.3.0
+      postcss: 8.5.8
+      schema-utils: 4.3.3
+      serialize-javascript: 7.0.5
+      webpack: 5.105.4(@swc/core@1.15.21(@swc/helpers@0.5.20))(esbuild@0.24.2)
+    optionalDependencies:
+      esbuild: 0.24.2
+      lightningcss: 1.32.0
 
   css-select@5.2.2:
     dependencies:

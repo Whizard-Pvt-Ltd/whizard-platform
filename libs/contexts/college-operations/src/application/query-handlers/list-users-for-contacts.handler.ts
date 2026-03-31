@@ -5,7 +5,7 @@ export class ListUsersForContactsQueryHandler {
   async execute(tenantId: string): Promise<UserContactDto[]> {
     const prisma = getPrisma();
     const users = await prisma.userAccount.findMany({
-      where: { tenantType: 'COLLEGE', status: 'ACTIVE' },
+      where: { isActive: true },
       select: { id: true, primaryEmail: true },
       orderBy: { primaryEmail: 'asc' },
     });
