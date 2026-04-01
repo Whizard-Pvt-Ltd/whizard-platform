@@ -9,6 +9,6 @@ export class ListUsersForContactsQueryHandler {
       select: { id: true, primaryEmail: true },
       orderBy: { primaryEmail: 'asc' },
     });
-    return users.map(u => ({ id: u.id, primaryEmail: u.primaryEmail }));
+    return users.map(u => ({ id: u.id.toString(), primaryEmail: u.primaryEmail }));
   }
 }

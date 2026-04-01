@@ -1,4 +1,3 @@
-import { randomUUID } from 'crypto';
 import type { DomainEvent } from '../events/domain-event.base';
 import { CapabilityInstanceCreatedEvent, CapabilityInstanceDeletedEvent } from '../events/capability-instance.events';
 
@@ -34,7 +33,7 @@ export class CapabilityInstance {
   }
 
   static create(props: Omit<CapabilityInstanceProps, 'id'>): CapabilityInstance {
-    const ci = new CapabilityInstance({ ...props, id: randomUUID() });
+    const ci = new CapabilityInstance({ ...props, id: '0' });
     ci._domainEvents.push(
       new CapabilityInstanceCreatedEvent(ci.id, ci.tenantId, {
         functionalGroupId: ci.functionalGroupId,

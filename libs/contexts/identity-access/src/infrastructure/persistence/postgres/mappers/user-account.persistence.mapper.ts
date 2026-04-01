@@ -3,10 +3,10 @@ import { UserAccount } from '../../../../domain';
 
 export const toUserAccountDomain = (row: UserAccountRow): UserAccount => {
   return UserAccount.rehydrate({
-    id: row.id,
+    id: row.id.toString(),
     email: row.primaryEmail,
     tenantType: 'SYSTEM',
-    tenantId: 'system',
+    tenantId: process.env['SYSTEM_TENANT_ID'] ?? process.env['STACK_AUTH_DEFAULT_TENANT_ID'] ?? '1',
     status: row.isActive ? 'ACTIVE' : 'SUSPENDED',
     mfaRequired: row.mfaRequired,
     stackAuthUserId: null,

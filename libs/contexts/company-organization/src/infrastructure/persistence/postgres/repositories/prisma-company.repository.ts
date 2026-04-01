@@ -5,20 +5,45 @@ import type { MediaRole } from '../../../../domain/value-objects/media-role.vo.j
 import { Company } from '../../../../domain/aggregates/company.aggregate.js';
 import { CompanyStatus } from '../../../../domain/value-objects/company-status.vo.js';
 
+interface CompanyRow {
+  id: bigint;
+  tenantId: bigint;
+  industryId: bigint | null;
+  cityId: bigint | null;
+  companyCode: string;
+  name: string;
+  companyType: string | null;
+  establishedYear: number | null;
+  description: string | null;
+  whatWeOffer: string | null;
+  awardsRecognition: string | null;
+  keyProductsServices: string | null;
+  recruitmentHighlights: string | null;
+  placementStats: string | null;
+  inquiryEmail: string | null;
+  status: number;
+  isActive: boolean;
+  clubs?: { clubId: bigint; isParent: boolean }[];
+  mediaAssets?: { mediaAssetId: bigint; mediaRole: string; sortOrder: number }[];
+  contacts?: { userId: bigint; contactRole: string }[];
+}
+
+const companyInclude = {
+  clubs: { select: { clubId: true, isParent: true } },
+  mediaAssets: { select: { mediaAssetId: true, mediaRole: true, sortOrder: true }, orderBy: { sortOrder: 'asc' as const } },
+  contacts: true,
+} as const;
+
 export class PrismaCompanyRepository implements ICompanyRepository {
   private get prisma() { return getPrisma(); }
 
   async findById(id: string): Promise<Company | null> {
     const row = await this.prisma.company.findUnique({
-      where: { id },
-      include: {
-        clubs: true,
-        mediaAssets: { orderBy: { sortOrder: 'asc' } },
-        contacts: true,
-      },
+      where: { id: BigInt(id) },
+      include: companyInclude,
     });
     if (!row) return null;
-    return this.toDomain(row);
+    return this.toDomain(row as unknown as CompanyRow);
   }
 
   async findAll(_tenantId: string, search?: string): Promise<Company[]> {
@@ -27,31 +52,35 @@ export class PrismaCompanyRepository implements ICompanyRepository {
         isActive: true,
         ...(search && { name: { contains: search, mode: 'insensitive' as const } }),
       },
-      include: {
-        clubs: true,
-        mediaAssets: { orderBy: { sortOrder: 'asc' } },
-        contacts: true,
-      },
+      include: companyInclude,
       orderBy: { createdOn: 'desc' },
     });
-    return rows.map(r => this.toDomain(r));
+    return rows.map(r => this.toDomain(r as unknown as CompanyRow));
   }
 
-  async save(company: Company): Promise<void> {
-    await this.prisma.$transaction(async (tx) => {
-      // Ensure Tenant record exists (create-only, no update needed)
-      await tx.tenant.upsert({
-        where: { id: company.tenantId },
-        update: {},
-        create: { id: company.tenantId, name: company.name, type: 'COMPANY', isActive: true },
-      });
+  async save(company: Company): Promise<string> {
+    const dbRecord = await this.prisma.$transaction(async (tx) => {
+      const industryId = company.industryId ? BigInt(company.industryId) : null;
+      const cityId = company.cityId ? BigInt(company.cityId) : null;
 
-      await tx.company.upsert({
-        where: { id: company.id },
+      // Ensure Tenant record exists for new companies (tenantId='0' means auto-create)
+      let tenantId: bigint;
+      if (company.tenantId === '0') {
+        const newTenant = await tx.tenant.create({
+          data: { name: company.name, type: 'COMPANY', isActive: true },
+          select: { id: true },
+        });
+        tenantId = newTenant.id;
+      } else {
+        tenantId = BigInt(company.tenantId);
+      }
+
+      const dbCompany = await tx.company.upsert({
+        where: { id: BigInt(company.id) },
         update: {
           name: company.name,
-          industryId: company.industryId,
-          cityId: company.cityId,
+          industryId,
+          cityId,
           companyType: company.companyType,
           establishedYear: company.establishedYear,
           description: company.description,
@@ -63,15 +92,13 @@ export class PrismaCompanyRepository implements ICompanyRepository {
           inquiryEmail: company.inquiryEmail,
           status: company.status,
           isActive: company.isActive,
-          updatedBy: company.createdBy,
         },
         create: {
-          id: company.id,
-          tenantId: company.tenantId,
-          industryId: company.industryId,
+          tenantId,
+          industryId,
           companyCode: company.companyCode,
           name: company.name,
-          cityId: company.cityId,
+          cityId,
           companyType: company.companyType,
           establishedYear: company.establishedYear,
           description: company.description,
@@ -83,25 +110,32 @@ export class PrismaCompanyRepository implements ICompanyRepository {
           inquiryEmail: company.inquiryEmail,
           status: company.status,
           isActive: company.isActive,
-          createdBy: company.createdBy,
+          createdBy: BigInt(0),
         },
+        select: { id: true },
       });
 
+      const companyId = dbCompany.id;
+
       // Sync clubs
-      await tx.companyClub.deleteMany({ where: { companyId: company.id } });
+      await tx.companyClub.deleteMany({ where: { companyId } });
       if (company.clubs.length > 0) {
         await tx.companyClub.createMany({
-          data: company.clubs.map(c => ({ companyId: company.id, clubId: c.clubId, isParent: c.isParent })),
+          data: company.clubs.map(c => ({
+            companyId,
+            clubId: BigInt(c.clubId),
+            isParent: c.isParent,
+          })),
         });
       }
 
       // Sync media assets
-      await tx.companyMediaAsset.deleteMany({ where: { companyId: company.id } });
+      await tx.companyMediaAsset.deleteMany({ where: { companyId } });
       if (company.mediaItems.length > 0) {
         await tx.companyMediaAsset.createMany({
           data: company.mediaItems.map(m => ({
-            companyId: company.id,
-            mediaAssetId: m.mediaAssetId,
+            companyId,
+            mediaAssetId: BigInt(m.mediaAssetId),
             mediaRole: m.mediaRole,
             sortOrder: m.sortOrder,
           })),
@@ -109,19 +143,23 @@ export class PrismaCompanyRepository implements ICompanyRepository {
       }
 
       // Sync contacts
-      await tx.companyContact.deleteMany({ where: { companyId: company.id } });
+      await tx.companyContact.deleteMany({ where: { companyId } });
       if (company.contacts.length > 0) {
         await tx.companyContact.createMany({
           data: company.contacts.map(c => ({
-            companyId: company.id,
-            userId: c.userId,
+            companyId,
+            userId: BigInt(c.userId),
             contactRole: c.role,
             isActive: true,
-            createdBy: company.createdBy,
+            createdBy: BigInt(0),
           })),
         });
       }
+
+      return dbCompany;
     });
+
+    return dbRecord.id.toString();
   }
 
   async existsByName(name: string, excludeId?: string): Promise<boolean> {
@@ -129,31 +167,20 @@ export class PrismaCompanyRepository implements ICompanyRepository {
       where: {
         name: { equals: name, mode: 'insensitive' },
         isActive: true,
-        ...(excludeId && { id: { not: excludeId } }),
+        ...(excludeId && { id: { not: BigInt(excludeId) } }),
       },
     });
     return count > 0;
   }
 
-  private toDomain(row: {
-    id: string; tenantId: string; industryId: string | null; companyCode: string;
-    name: string; cityId: string | null; companyType: string | null;
-    establishedYear: number | null; description: string | null;
-    whatWeOffer: string | null; awardsRecognition: string | null;
-    keyProductsServices: string | null; recruitmentHighlights: string | null;
-    placementStats: string | null; inquiryEmail: string | null;
-    status: number; isActive: boolean; createdBy: string;
-    clubs?: { clubId: string; isParent: boolean }[];
-    mediaAssets?: { mediaAssetId: string; mediaRole: string; sortOrder: number }[];
-    contacts?: { userId: string; contactRole: string }[];
-  }): Company {
+  private toDomain(row: CompanyRow): Company {
     return Company.reconstitute({
-      id: row.id,
-      tenantId: row.tenantId,
-      industryId: row.industryId,
+      id: row.id.toString(),
+      tenantId: row.tenantId.toString(),
+      industryId: row.industryId?.toString() ?? null,
       companyCode: row.companyCode,
       name: row.name,
-      cityId: row.cityId,
+      cityId: row.cityId?.toString() ?? null,
       companyType: row.companyType,
       establishedYear: row.establishedYear,
       description: row.description,
@@ -165,15 +192,15 @@ export class PrismaCompanyRepository implements ICompanyRepository {
       inquiryEmail: row.inquiryEmail,
       status: row.status as CompanyStatus,
       isActive: row.isActive,
-      createdBy: row.createdBy,
-      clubs: (row.clubs ?? []).map(c => ({ clubId: c.clubId, isParent: c.isParent })),
+      createdBy: '',
+      clubs: (row.clubs ?? []).map(c => ({ clubId: c.clubId.toString(), isParent: c.isParent })),
       mediaItems: (row.mediaAssets ?? []).map(m => ({
-        mediaAssetId: m.mediaAssetId,
+        mediaAssetId: m.mediaAssetId.toString(),
         mediaRole: m.mediaRole as MediaRole,
         sortOrder: m.sortOrder,
       })),
       contacts: (row.contacts ?? []).map(c => ({
-        userId: c.userId,
+        userId: c.userId.toString(),
         role: c.contactRole as ContactRole,
       })),
     });

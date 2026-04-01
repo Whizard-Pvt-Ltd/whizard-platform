@@ -11,8 +11,8 @@ export class PrismaDegreeProgramRepository implements IDegreeProgramRepository {
       orderBy: { name: 'asc' },
     });
     return rows.map(r => ({
-      id: r.id, name: r.name, level: r.level, durationYears: r.durationYears,
-      specializations: r.specializations.map(s => ({ id: s.id, name: s.name })),
+      id: r.id.toString(), name: r.name, level: r.level, durationYears: r.durationYears,
+      specializations: r.specializations.map(s => ({ id: s.id.toString(), name: s.name })),
     }));
   }
 }

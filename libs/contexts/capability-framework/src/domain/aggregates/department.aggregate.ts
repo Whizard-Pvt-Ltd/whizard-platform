@@ -1,4 +1,3 @@
-import { randomUUID } from 'crypto';
 import type { DomainEvent } from '../events/domain-event.base';
 
 export interface DepartmentProps {
@@ -63,7 +62,7 @@ export class Department {
   }
 
   static create(props: Omit<DepartmentProps, 'id'>): Department {
-    const dept = new Department({ ...props, id: randomUUID() });
+    const dept = new Department({ ...props, id: '0' });
     dept._domainEvents.push(new DepartmentCreatedEvent(dept.id, dept.tenantId, { name: dept.name }));
     return dept;
   }

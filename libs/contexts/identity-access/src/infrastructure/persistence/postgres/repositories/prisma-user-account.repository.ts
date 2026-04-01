@@ -15,7 +15,7 @@ export class PrismaUserAccountRepository implements UserAccountRepository {
   }
 
   async findById(id: string): Promise<UserAccount | null> {
-    const row = await this.prisma.userAccount.findUnique({ where: { id } });
+    const row = await this.prisma.userAccount.findUnique({ where: { id: BigInt(id) } });
     return row ? toUserAccountDomain(row) : null;
   }
 
@@ -23,7 +23,7 @@ export class PrismaUserAccountRepository implements UserAccountRepository {
     const model = userAccount.toPrimitives();
 
     await this.prisma.userAccount.upsert({
-      where: { id: model.id },
+      where: { id: BigInt(model.id) },
       update: {
         primaryEmail: model.email,
         primaryLoginId: model.email,
@@ -33,7 +33,6 @@ export class PrismaUserAccountRepository implements UserAccountRepository {
         version: { increment: 1 }
       },
       create: {
-        id: model.id,
         primaryLoginId: model.email,
         primaryEmail: model.email,
         authMode: 'Password',

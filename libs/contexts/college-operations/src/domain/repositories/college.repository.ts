@@ -11,6 +11,6 @@ export interface CollegeListFilter {
 export interface ICollegeRepository {
   findById(id: string): Promise<College | null>;
   findAll(filter: CollegeListFilter): Promise<{ items: College[]; total: number }>;
-  save(college: College): Promise<void>;
+  save(college: College): Promise<string>;
   existsByName(tenantId: string, name: string, excludeId?: string): Promise<boolean>;
 }

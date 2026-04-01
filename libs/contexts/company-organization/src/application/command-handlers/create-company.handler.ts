@@ -14,13 +14,11 @@ export class CreateCompanyCommandHandler {
       throw Object.assign(new Error(`Company with name "${cmd.name}" already exists`), { name: 'DomainException' });
     }
 
-    const tenantId   = randomUUID();
-    const companyId  = randomUUID();
     const companyCode = `CMP-${new Date().getFullYear()}-${randomUUID().slice(0, 6).toUpperCase()}`;
 
     const company = Company.create({
-      id: companyId,
-      tenantId,
+      id: '0',
+      tenantId: '0',
       industryId: cmd.industryId,
       companyCode,
       name: cmd.name,
@@ -41,7 +39,8 @@ export class CreateCompanyCommandHandler {
       contacts: [],
     });
 
-    await this.companyRepo.save(company);
-    return toCompanyDetailDto(company, null, null);
+    const savedId = await this.companyRepo.save(company);
+    const saved = await this.companyRepo.findById(savedId);
+    return toCompanyDetailDto(saved!, null, null);
   }
 }

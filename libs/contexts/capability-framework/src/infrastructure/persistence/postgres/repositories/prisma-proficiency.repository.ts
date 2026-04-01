@@ -8,7 +8,7 @@ export class PrismaProficiencyRepository implements IProficiencyRepository {
   async findAll(): Promise<Proficiency[]> {
     const rows = await this.prisma.proficiency.findMany({ orderBy: { level: 'asc' } });
     return rows.map(row => new Proficiency({
-      id: row.id,
+      id: row.id.toString(),
       level: row.level,
       label: row.label,
       description: row.description ?? undefined,
@@ -18,10 +18,10 @@ export class PrismaProficiencyRepository implements IProficiencyRepository {
   }
 
   async findById(id: string): Promise<Proficiency | null> {
-    const row = await this.prisma.proficiency.findUnique({ where: { id } });
+    const row = await this.prisma.proficiency.findUnique({ where: { id: BigInt(id) } });
     if (!row) return null;
     return new Proficiency({
-      id: row.id,
+      id: row.id.toString(),
       level: row.level,
       label: row.label,
       description: row.description ?? undefined,

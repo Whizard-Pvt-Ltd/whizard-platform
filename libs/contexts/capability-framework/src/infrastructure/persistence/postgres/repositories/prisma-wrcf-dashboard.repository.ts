@@ -5,6 +5,9 @@ export class PrismaWrcfDashboardRepository implements IWrcfDashboardRepository {
   private readonly prisma = getPrisma();
 
   async getDashboardStats(tenantId: string, industryId: string): Promise<WrcfDashboardStatsDto> {
+    const tenantBigInt = BigInt(tenantId);
+    const industryBigInt = BigInt(industryId);
+
     const [
       functionalGroups,
       primaryWorkObjects,
@@ -16,28 +19,28 @@ export class PrismaWrcfDashboardRepository implements IWrcfDashboardRepository {
       roles
     ] = await Promise.all([
       this.prisma.functionalGroup.count({
-        where: { tenantId, industryId, isActive: true }
+        where: { tenantId: tenantBigInt, industryId: industryBigInt, isActive: true }
       }),
       this.prisma.primaryWorkObject.count({
-        where: { tenantId, isActive: true, functionalGroup: { industryId } }
+        where: { tenantId: tenantBigInt, isActive: true, functionalGroup: { industryId: industryBigInt } }
       }),
       this.prisma.secondaryWorkObject.count({
-        where: { tenantId, isActive: true, pwo: { functionalGroup: { industryId } } }
+        where: { tenantId: tenantBigInt, isActive: true, pwo: { functionalGroup: { industryId: industryBigInt } } }
       }),
       this.prisma.capabilityInstance.count({
-        where: { tenantId, functionalGroup: { industryId } }
+        where: { tenantId: tenantBigInt, functionalGroup: { industryId: industryBigInt } }
       }),
       this.prisma.skill.count({
-        where: { tenantId, isActive: true, capabilityInstance: { functionalGroup: { industryId } } }
+        where: { tenantId: tenantBigInt, isActive: true, capabilityInstance: { functionalGroup: { industryId: industryBigInt } } }
       }),
       this.prisma.task.count({
-        where: { tenantId, isActive: true, skill: { capabilityInstance: { functionalGroup: { industryId } } } }
+        where: { tenantId: tenantBigInt, isActive: true, skill: { capabilityInstance: { functionalGroup: { industryId: industryBigInt } } } }
       }),
       this.prisma.department.count({
-        where: { tenantId, industryId, isActive: true }
+        where: { tenantId: tenantBigInt, industryId: industryBigInt, isActive: true }
       }),
       this.prisma.role.count({
-        where: { tenantId, isActive: true, department: { industryId } }
+        where: { tenantId: tenantBigInt, isActive: true, department: { industryId: industryBigInt } }
       })
     ]);
 

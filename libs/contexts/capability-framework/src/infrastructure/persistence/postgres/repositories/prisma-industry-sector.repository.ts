@@ -7,7 +7,7 @@ export class PrismaIndustrySectorRepository implements IIndustrySectorRepository
   async findAll(): Promise<IndustrySectorRecord[]> {
     const rows = await this.prisma.industrySector.findMany();
     return rows.map(r => ({
-      id: r.id,
+      id: r.id.toString(),
       name: r.name,
       type: r.type,
       isActive: r.isActive

@@ -7,13 +7,15 @@ export class PrismaFunctionalGroupRepository implements IFunctionalGroupReposito
   private readonly prisma = getPrisma();
 
   async findById(id: string): Promise<FunctionalGroup | null> {
-    const row = await this.prisma.functionalGroup.findUnique({ where: { id } });
+    const row = await this.prisma.functionalGroup.findUnique({
+      where: { id: BigInt(id) }
+    });
     if (!row) return null;
     return FunctionalGroup.reconstitute({
-      id: row.id,
-      tenantId: row.tenantId,
+      id: row.id.toString(),
+      tenantId: row.tenantId.toString(),
       versionId: String(row.version) ?? undefined,
-      industryId: row.industryId,
+      industryId: row.industryId.toString(),
       name: row.name,
       description: row.description ?? undefined,
       domainType: row.domainType as DomainType,
@@ -23,14 +25,17 @@ export class PrismaFunctionalGroupRepository implements IFunctionalGroupReposito
 
   async findByIndustry(industryId: string, tenantId: string): Promise<FunctionalGroup[]> {
     const rows = await this.prisma.functionalGroup.findMany({
-      where: { industryId, tenantId }
+      where: {
+        industryId: BigInt(industryId),
+        tenantId: BigInt(tenantId)
+      }
     });
     return rows.map(row =>
       FunctionalGroup.reconstitute({
-        id: row.id,
-        tenantId: row.tenantId,
+        id: row.id.toString(),
+        tenantId: row.tenantId.toString(),
         versionId: String(row.version) ?? undefined,
-        industryId: row.industryId,
+        industryId: row.industryId.toString(),
         name: row.name,
         description: row.description ?? undefined,
         domainType: row.domainType as DomainType,
@@ -40,8 +45,11 @@ export class PrismaFunctionalGroupRepository implements IFunctionalGroupReposito
   }
 
   async save(fg: FunctionalGroup): Promise<void> {
+    const tenantId = BigInt(fg.tenantId);
+    const industryId = BigInt(fg.industryId);
+
     await this.prisma.functionalGroup.upsert({
-      where: { id: fg.id },
+      where: { id: BigInt(fg.id) },
       update: {
         name: fg.name,
         description: fg.description,
@@ -49,10 +57,9 @@ export class PrismaFunctionalGroupRepository implements IFunctionalGroupReposito
         isActive: fg.isActive
       },
       create: {
-        id: fg.id,
-        tenantId: fg.tenantId,
+        tenantId,
         version: Number(fg.versionId ?? 1),
-        industryId: fg.industryId,
+        industryId,
         name: fg.name,
         description: fg.description,
         domainType: fg.domainType,
@@ -62,12 +69,12 @@ export class PrismaFunctionalGroupRepository implements IFunctionalGroupReposito
   }
 
   async delete(id: string): Promise<void> {
-    await this.prisma.functionalGroup.delete({ where: { id } });
+    await this.prisma.functionalGroup.delete({ where: { id: BigInt(id) } });
   }
 
   async hasPWOs(fgId: string): Promise<boolean> {
     const count = await this.prisma.primaryWorkObject.count({
-      where: { functionalGroupId: fgId, isActive: true }
+      where: { functionalGroupId: BigInt(fgId), isActive: true }
     });
     return count > 0;
   }

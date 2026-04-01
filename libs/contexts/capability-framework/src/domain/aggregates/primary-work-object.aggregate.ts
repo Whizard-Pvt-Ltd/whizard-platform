@@ -1,4 +1,3 @@
-import { randomUUID } from 'crypto';
 import type { DomainEvent } from '../events/domain-event.base';
 import type { ImpactLevelValue } from '../value-objects/impact-level.vo';
 import type { StrategicImportance } from '../value-objects/strategic-importance.vo';
@@ -56,7 +55,7 @@ export class PrimaryWorkObject {
   }
 
   static create(props: CreatePrimaryWorkObjectProps): PrimaryWorkObject {
-    const pwo = new PrimaryWorkObject({ ...props, id: randomUUID(), isActive: true });
+    const pwo = new PrimaryWorkObject({ ...props, id: '0', isActive: true });
     pwo._domainEvents.push(
       new PwoCreatedEvent(pwo.id, pwo.tenantId, {
         functionalGroupId: pwo.functionalGroupId,

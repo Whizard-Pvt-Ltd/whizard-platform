@@ -15,15 +15,23 @@ export class PrismaDepartmentRepository implements IDepartmentRepository {
     regulatoryExposureLevel?: number;
   }[]> {
     const rows = await this.prisma.department.findMany({
-      where: { tenantId, industryId, isActive: true },
-      include: { functionalGroups: true },
+      where: {
+        tenantId: BigInt(tenantId),
+        industryId: BigInt(industryId),
+        isActive: true
+      },
+      include: {
+        functionalGroups: {
+          select: { functionalGroupId: true }
+        }
+      },
       orderBy: { name: 'asc' }
     });
     return rows.map(r => ({
-      id: r.id,
+      id: r.id.toString(),
       name: r.name,
-      industryId: r.industryId ?? undefined,
-      functionalGroupIds: r.functionalGroups.map(m => m.functionalGroupId),
+      industryId: r.industryId?.toString() ?? undefined,
+      functionalGroupIds: r.functionalGroups.map(m => m.functionalGroupId.toString()),
       operationalCriticalityScore: r.operationalCriticalityScore ?? undefined,
       revenueContributionWeight: r.revenueContributionWeight ?? undefined,
       regulatoryExposureLevel: r.regulatoryExposureLevel ?? undefined
@@ -32,16 +40,20 @@ export class PrismaDepartmentRepository implements IDepartmentRepository {
 
   async findById(id: string): Promise<Department | null> {
     const r = await this.prisma.department.findUnique({
-      where: { id },
-      include: { functionalGroups: true }
+      where: { id: BigInt(id) },
+      include: {
+        functionalGroups: {
+          select: { functionalGroupId: true }
+        }
+      }
     });
     if (!r) return null;
     return Department.reconstitute({
-      id: r.id,
-      tenantId: r.tenantId,
-      industryId: r.industryId ?? undefined,
+      id: r.id.toString(),
+      tenantId: r.tenantId.toString(),
+      industryId: r.industryId?.toString() ?? undefined,
       name: r.name,
-      functionalGroupIds: r.functionalGroups.map(m => m.functionalGroupId),
+      functionalGroupIds: r.functionalGroups.map(m => m.functionalGroupId.toString()),
       operationalCriticalityScore: r.operationalCriticalityScore ?? undefined,
       revenueContributionWeight: r.revenueContributionWeight ?? undefined,
       regulatoryExposureLevel: r.regulatoryExposureLevel ?? undefined
@@ -49,24 +61,27 @@ export class PrismaDepartmentRepository implements IDepartmentRepository {
   }
 
   async save(dept: Department, functionalGroupIds: string[]): Promise<void> {
+    const tenantId = BigInt(dept.tenantId);
+    const industryId = dept.industryId ? BigInt(dept.industryId) : null;
+
     await this.prisma.$transaction(async tx => {
-      await tx.department.create({
+      const created = await tx.department.create({
         data: {
-          id: dept.id,
-          tenantId: dept.tenantId,
-          industryId: dept.industryId,
+          tenantId,
+          industryId,
           name: dept.name,
           operationalCriticalityScore: dept.operationalCriticalityScore,
           revenueContributionWeight: dept.revenueContributionWeight,
           regulatoryExposureLevel: dept.regulatoryExposureLevel
-        }
+        },
+        select: { id: true }
       });
       if (functionalGroupIds.length > 0) {
         await tx.departmentFunctionalGroup.createMany({
-          data: functionalGroupIds.map(functionalGroupId => ({
-            departmentId: dept.id,
-            functionalGroupId,
-            tenantId: dept.tenantId
+          data: functionalGroupIds.map(fgId => ({
+            departmentId: created.id,
+            functionalGroupId: BigInt(fgId),
+            tenantId
           }))
         });
       }
@@ -74,9 +89,13 @@ export class PrismaDepartmentRepository implements IDepartmentRepository {
   }
 
   async update(dept: Department, functionalGroupIds: string[]): Promise<void> {
+    const deptRow = await this.prisma.department.findUniqueOrThrow({
+      where: { id: BigInt(dept.id) },
+      select: { id: true, tenantId: true }
+    });
     await this.prisma.$transaction(async tx => {
       await tx.department.update({
-        where: { id: dept.id },
+        where: { id: deptRow.id },
         data: {
           name: dept.name,
           operationalCriticalityScore: dept.operationalCriticalityScore,
@@ -84,13 +103,13 @@ export class PrismaDepartmentRepository implements IDepartmentRepository {
           regulatoryExposureLevel: dept.regulatoryExposureLevel
         }
       });
-      await tx.departmentFunctionalGroup.deleteMany({ where: { departmentId: dept.id } });
+      await tx.departmentFunctionalGroup.deleteMany({ where: { departmentId: deptRow.id } });
       if (functionalGroupIds.length > 0) {
         await tx.departmentFunctionalGroup.createMany({
-          data: functionalGroupIds.map(functionalGroupId => ({
-            departmentId: dept.id,
-            functionalGroupId,
-            tenantId: dept.tenantId
+          data: functionalGroupIds.map(fgId => ({
+            departmentId: deptRow.id,
+            functionalGroupId: BigInt(fgId),
+            tenantId: deptRow.tenantId
           }))
         });
       }
@@ -98,6 +117,6 @@ export class PrismaDepartmentRepository implements IDepartmentRepository {
   }
 
   async delete(id: string): Promise<void> {
-    await this.prisma.department.update({ where: { id }, data: { isActive: false } });
+    await this.prisma.department.update({ where: { id: BigInt(id) }, data: { isActive: false } });
   }
 }

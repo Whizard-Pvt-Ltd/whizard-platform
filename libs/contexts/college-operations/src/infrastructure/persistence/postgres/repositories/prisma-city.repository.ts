@@ -9,6 +9,6 @@ export class PrismaCityRepository implements ICityRepository {
       where: { isActive: true },
       orderBy: { name: 'asc' },
     });
-    return rows.map(r => ({ id: r.id, name: r.name, state: r.state }));
+    return rows.map(r => ({ id: r.id.toString(), name: r.name, state: r.state }));
   }
 }

@@ -8,6 +8,6 @@ export class ListCitiesQueryHandler {
       where: { isActive: true },
       orderBy: { name: 'asc' },
     });
-    return cities.map(c => ({ id: c.id, name: c.name, state: c.state }));
+    return cities.map(c => ({ id: c.id.toString(), name: c.name, state: c.state }));
   }
 }

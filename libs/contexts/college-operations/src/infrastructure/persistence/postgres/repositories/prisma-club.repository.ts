@@ -6,9 +6,21 @@ export class PrismaClubRepository implements IClubRepository {
 
   async findAll(tenantId: string): Promise<ClubRecord[]> {
     const rows = await this.prisma.club.findMany({
-      where: { isActive: true, OR: [{ tenantId }, { tenantId: 'system' }] },
+      where: {
+        isActive: true,
+        OR: [
+          { tenantId: BigInt(tenantId) },
+          { tenant: { name: 'system' } },
+        ],
+      },
       orderBy: { name: 'asc' },
     });
-    return rows.map(r => ({ id: r.id, tenantId: r.tenantId, name: r.name, description: r.description, logoUrl: r.logoUrl }));
+    return rows.map(r => ({
+      id: r.id.toString(),
+      tenantId: r.tenantId.toString(),
+      name: r.name,
+      description: r.description,
+      logoUrl: r.logoUrl,
+    }));
   }
 }

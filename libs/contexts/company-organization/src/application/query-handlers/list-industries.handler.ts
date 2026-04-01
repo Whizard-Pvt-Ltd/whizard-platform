@@ -10,7 +10,7 @@ export class ListIndustriesQueryHandler {
       orderBy: { name: 'asc' },
     });
     return industries.map(i => ({
-      id: i.id,
+      id: i.id.toString(),
       name: i.name,
       sectorName: i.sector.name,
     }));

@@ -53,7 +53,7 @@ export interface IamRequestContext {
 export const getRequestContext = (request: FastifyRequestLike): IamRequestContext => {
   const actorUserAccountId = String(request.headers['x-actor-user-account-id'] ?? 'anonymous');
   const tenantType = String(request.headers['x-tenant-type'] ?? 'SYSTEM') as TenantType;
-  const tenantId = String(request.headers['x-tenant-id'] ?? 'system');
+  const tenantId = String(request.headers['x-tenant-id'] ?? process.env['SYSTEM_TENANT_ID'] ?? '1');
   const permissionsHeader = String(request.headers['x-permissions'] ?? '');
 
   return {

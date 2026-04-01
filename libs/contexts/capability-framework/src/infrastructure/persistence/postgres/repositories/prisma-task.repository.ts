@@ -7,11 +7,17 @@ export class PrismaTaskRepository implements ITaskRepository {
   private readonly prisma = getPrisma();
 
   async findBySkillId(tenantId: string, skillId: string): Promise<Task[]> {
-    const rows = await this.prisma.task.findMany({ where: { tenantId, skillId, isActive: true } });
+    const rows = await this.prisma.task.findMany({
+      where: {
+        tenantId: BigInt(tenantId),
+        skillId: BigInt(skillId),
+        isActive: true
+      }
+    });
     return rows.map(r => Task.reconstitute({
-      id: r.id,
-      tenantId: r.tenantId,
-      skillId: r.skillId,
+      id: r.id.toString(),
+      tenantId: r.tenantId.toString(),
+      skillId: r.skillId.toString(),
       name: r.name,
       description: r.description ?? undefined,
       frequency: r.frequency,
@@ -23,12 +29,16 @@ export class PrismaTaskRepository implements ITaskRepository {
 
   async findAllDtos(tenantId: string, skillId: string): Promise<TaskDto[]> {
     const rows = await this.prisma.task.findMany({
-      where: { tenantId, skillId, isActive: true },
+      where: {
+        tenantId: BigInt(tenantId),
+        skillId: BigInt(skillId),
+        isActive: true
+      },
       orderBy: { name: 'asc' }
     });
     return rows.map(r => ({
-      id: r.id,
-      skillId: r.skillId,
+      id: r.id.toString(),
+      skillId: r.skillId.toString(),
       name: r.name,
       description: r.description ?? undefined,
       frequency: r.frequency,
@@ -39,12 +49,14 @@ export class PrismaTaskRepository implements ITaskRepository {
   }
 
   async findById(id: string): Promise<Task | null> {
-    const r = await this.prisma.task.findUnique({ where: { id } });
+    const r = await this.prisma.task.findUnique({
+      where: { id: BigInt(id) }
+    });
     if (!r) return null;
     return Task.reconstitute({
-      id: r.id,
-      tenantId: r.tenantId,
-      skillId: r.skillId,
+      id: r.id.toString(),
+      tenantId: r.tenantId.toString(),
+      skillId: r.skillId.toString(),
       name: r.name,
       description: r.description ?? undefined,
       frequency: r.frequency,
@@ -57,9 +69,8 @@ export class PrismaTaskRepository implements ITaskRepository {
   async save(task: Task): Promise<void> {
     await this.prisma.task.create({
       data: {
-        id: task.id,
-        tenantId: task.tenantId,
-        skillId: task.skillId,
+        tenantId: BigInt(task.tenantId),
+        skillId: BigInt(task.skillId),
         name: task.name,
         description: task.description,
         frequency: task.frequency,
@@ -72,7 +83,7 @@ export class PrismaTaskRepository implements ITaskRepository {
 
   async update(task: Task): Promise<void> {
     await this.prisma.task.update({
-      where: { id: task.id },
+      where: { id: BigInt(task.id) },
       data: {
         name: task.name,
         description: task.description,
@@ -85,6 +96,6 @@ export class PrismaTaskRepository implements ITaskRepository {
   }
 
   async delete(id: string): Promise<void> {
-    await this.prisma.task.update({ where: { id }, data: { isActive: false } });
+    await this.prisma.task.update({ where: { id: BigInt(id) }, data: { isActive: false } });
   }
 }

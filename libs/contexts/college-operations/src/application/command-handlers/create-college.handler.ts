@@ -1,4 +1,3 @@
-import { randomUUID } from 'crypto';
 import type { ICollegeRepository } from '../../domain/repositories/college.repository.js';
 import type { CreateCollegeCommand } from '../commands/create-college.command.js';
 import type { CollegeDetailDto } from '../dto/college.dto.js';
@@ -15,7 +14,6 @@ export class CreateCollegeCommandHandler {
     }
 
     const college = College.create({
-      id: randomUUID(),
       tenantId: cmd.tenantId,
       name: cmd.name,
       affiliatedUniversity: cmd.affiliatedUniversity,
@@ -31,7 +29,8 @@ export class CreateCollegeCommandHandler {
     });
 
     college.update({ clubIds: cmd.clubIds, programIds: cmd.programIds });
-    await this.collegeRepo.save(college);
-    return toCollegeDetailDto(college, null);
+    const savedId = await this.collegeRepo.save(college);
+    const saved = await this.collegeRepo.findById(savedId);
+    return toCollegeDetailDto(saved!, null);
   }
 }

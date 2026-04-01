@@ -8,6 +8,6 @@ export class ListClubsQueryHandler {
       where: { isActive: true },
       orderBy: { name: 'asc' },
     });
-    return clubs.map(c => ({ id: c.id, name: c.name, description: c.description, logoUrl: c.logoUrl }));
+    return clubs.map(c => ({ id: c.id.toString(), name: c.name, description: c.description, logoUrl: c.logoUrl }));
   }
 }

@@ -11,7 +11,7 @@ export class ListUsersForContactsQueryHandler {
     });
 
     return users.map(u => ({
-      id: u.id,
+      id: u.id.toString(),
       primaryEmail: u.primaryEmail,
       displayName: u.primaryEmail.split('@')[0] ?? u.primaryEmail,
     }));
