@@ -42,6 +42,7 @@ COPY . .
 # Build with NX (builds libs first with TypeScript, then app with Vite)
 # Force rebuild in Docker to avoid cache issues
 # NOTE: BFF no longer needs Prisma - it calls Core-API via HTTP
+RUN pnpm prisma:generate
 RUN pnpm nx build bff --skip-nx-cache
 
 # ============================================
