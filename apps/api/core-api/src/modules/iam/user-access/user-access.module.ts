@@ -1,5 +1,5 @@
-import { registerIamUserAccessRoutes } from './routes';
 import type { FastifyInstanceLike } from '../shared/request-context';
+import { registerIamUserAccessRoutes } from './routes';
 
 export interface IamUserAccessModuleDependencies {
   readonly getCurrentUserProfile: { execute(input: { request: Record<string, unknown> }): Promise<{ data?: Record<string, unknown> }> };

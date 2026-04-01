@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import type { SkillsPanelState, SkillItem, TaskItem, ControlPointItem } from '../../models/wrcf-skills.models';
 import type { ProficiencyLevel } from '../../../industry-wrcf/models/wrcf.models';
+import type { SkillsPanelState, SkillItem, TaskItem, ControlPointItem } from '../../models/wrcf-skills.models';
 
 @Component({
   selector: 'whizard-skills-panel',

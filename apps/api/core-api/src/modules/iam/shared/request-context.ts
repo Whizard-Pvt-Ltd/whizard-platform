@@ -2,11 +2,18 @@ import type { ApiMetaV1 } from '@whizard/identity-access';
 
 type TenantType = 'SYSTEM' | 'PARENT_CLUB' | 'COLLEGE' | 'COMPANY';
 
+export interface MultipartFileLike {
+  readonly filename: string;
+  readonly mimetype: string;
+  toBuffer(): Promise<Buffer>;
+}
+
 export interface FastifyRequestLike {
   readonly headers: Record<string, string | string[] | undefined>;
   readonly params?: unknown;
   readonly query?: unknown;
   readonly body?: unknown;
+  file?: () => Promise<MultipartFileLike>;
 }
 
 export interface FastifyReplyLike {
@@ -46,7 +53,7 @@ export interface IamRequestContext {
 export const getRequestContext = (request: FastifyRequestLike): IamRequestContext => {
   const actorUserAccountId = String(request.headers['x-actor-user-account-id'] ?? 'anonymous');
   const tenantType = String(request.headers['x-tenant-type'] ?? 'SYSTEM') as TenantType;
-  const tenantId = String(request.headers['x-tenant-id'] ?? 'system');
+  const tenantId = String(request.headers['x-tenant-id'] ?? process.env['SYSTEM_TENANT_ID'] ?? '1');
   const permissionsHeader = String(request.headers['x-permissions'] ?? '');
 
   return {

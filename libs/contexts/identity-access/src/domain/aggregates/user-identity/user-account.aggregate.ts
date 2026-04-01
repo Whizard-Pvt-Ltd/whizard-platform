@@ -1,12 +1,12 @@
+import type { ActorLink } from './entities/actor-link.entity';
+import type { Credential } from './entities/credential.entity';
+import type { MfaEnrollment } from './entities/mfa-enrollment.entity';
+import type { TenantMembership } from './entities/tenant-membership.entity';
 import { DomainEvent } from '../../events/domain-event';
 import { IamDomainError } from '../../exceptions/iam-domain.error';
 import { EmailAddress } from '../../value-objects/email-address.vo';
 import { TenantRef } from '../../value-objects/tenant-ref.vo';
 import { UserAccountId } from '../../value-objects/user-account-id.vo';
-import type { ActorLink } from './entities/actor-link.entity';
-import type { Credential } from './entities/credential.entity';
-import type { MfaEnrollment } from './entities/mfa-enrollment.entity';
-import type { TenantMembership } from './entities/tenant-membership.entity';
 
 export type AccountStatus = 'PENDING' | 'ACTIVE' | 'SUSPENDED';
 

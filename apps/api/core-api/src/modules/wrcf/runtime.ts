@@ -1,4 +1,3 @@
-import type { FastifyInstanceLike } from '../iam/shared/request-context';
 import {
   PrismaWrcfDashboardRepository,
   GetDashboardStatsQueryHandler,
@@ -59,6 +58,7 @@ import {
   SaveRoleCIMappingsCommandHandler,
   DeleteRoleCIMappingCommandHandler
 } from '@whizard/capability-framework';
+import type { FastifyInstanceLike } from '../iam/shared/request-context';
 import { registerWrcfModule } from './wrcf.module';
 
 export interface WrcfModuleDependencies {

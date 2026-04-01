@@ -5,6 +5,14 @@ export class PrismaIndustryRepository implements IIndustryRepository {
   private readonly prisma = getPrisma();
 
   async findBySector(sectorId: string): Promise<IndustryRecord[]> {
-    return this.prisma.industry.findMany({ where: { sectorId } });
+    const rows = await this.prisma.industry.findMany({
+      where: { sectorId: BigInt(sectorId) }
+    });
+    return rows.map(r => ({
+      id: r.id.toString(),
+      sectorId: r.sectorId.toString(),
+      name: r.name,
+      isActive: r.isActive
+    }));
   }
 }

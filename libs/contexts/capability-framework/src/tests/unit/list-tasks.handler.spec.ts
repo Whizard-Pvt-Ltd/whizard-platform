@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import type { TaskDto } from '../../application/dto/task.dto';
 import type { ITaskRepository } from '../../domain/repositories/task.repository';
 import { ListTasksQueryHandler } from '../../application/query-handlers/list-tasks.handler';
-import type { TaskDto } from '../../application/dto/task.dto';
 
 const makeRepo = (): ITaskRepository => ({
   findBySkillId: vi.fn(),

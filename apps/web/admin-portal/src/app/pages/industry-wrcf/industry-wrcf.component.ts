@@ -1,25 +1,25 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, signal, OnInit, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
 import { forkJoin } from 'rxjs';
 import { StackAuthService } from '../../core/services/stack-auth.service';
-import { WrcfApiService } from './services/wrcf-api.service';
+import { NavDrawerComponent } from '../../shared/nav-drawer/nav-drawer.component';
+import { ManageCIMappingsComponent } from './components/manage-ci-mappings/manage-ci-mappings.component';
 import { WrcfColumnComponent } from './components/wrcf-column/wrcf-column.component';
 import { WrcfPanelComponent } from './components/wrcf-panel/wrcf-panel.component';
-import { ManageCIMappingsComponent } from './components/manage-ci-mappings/manage-ci-mappings.component';
-import { NavDrawerComponent } from '../../shared/nav-drawer/nav-drawer.component';
+import { CRITICALITY_LEVELS, COMPLEXITY_LEVELS, FREQUENCY_LEVELS } from './models/wrcf-impact-levels';
 import {
   IndustrySector, Industry, FunctionalGroup, PrimaryWorkObject,
   SecondaryWorkObject, Capability, ProficiencyLevel,
   EntityType, PanelState, WrcfEntity, CIPendingEntry, CapabilityInstance
 } from './models/wrcf.models';
-import { CRITICALITY_LEVELS, COMPLEXITY_LEVELS, FREQUENCY_LEVELS } from './models/wrcf-impact-levels';
+import { WrcfApiService } from './services/wrcf-api.service';
 
 @Component({
   selector: 'whizard-industry-wrcf',
   standalone: true,
-  imports: [FormsModule, RouterLink, WrcfColumnComponent, WrcfPanelComponent, ManageCIMappingsComponent, NavDrawerComponent],
+  imports: [FormsModule, RouterLink, WrcfColumnComponent, WrcfPanelComponent, ManageCIMappingsComponent, NavDrawerComponent, ],
   templateUrl: './industry-wrcf.component.html',
   styleUrl: './industry-wrcf.component.css',
 })

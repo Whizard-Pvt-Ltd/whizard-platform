@@ -17,13 +17,13 @@
  * - User profile access
  */
 
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import { TokenStorageService } from './token-storage.service';
 // import { environment } from '../../../environments/environment';
 import { environment } from '../../../environments/environment';
+import { TokenStorageService } from './token-storage.service';
 
 export interface StackAuthUser {
   id: string;

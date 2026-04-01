@@ -5,7 +5,7 @@ const CORE_API_URL = (process.env.CORE_API_URL || 'http://localhost:3001').repla
 const buildCoreApiHeaders = (request: FastifyRequestLike): Record<string, string> => {
   const headers: Record<string, string> = {
     'X-Tenant-Type': String(request.headers['x-tenant-type'] ?? 'SYSTEM'),
-    'X-Tenant-Id': String(request.headers['x-tenant-id'] ?? 'system')
+    'X-Tenant-Id': String(request.headers['x-tenant-id'] ?? process.env['SYSTEM_TENANT_ID'] ?? '1')
   };
   if (request.headers['authorization']) {
     headers['Authorization'] = String(request.headers['authorization']);

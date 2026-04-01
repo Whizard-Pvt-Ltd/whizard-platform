@@ -2,8 +2,8 @@ import type { RemoveScopeRestrictionCommand } from '../commands/remove-scope-res
 import type { RemoveScopeRestrictionResponseDto } from '../dto/responses/remove-scope-restriction.response.dto';
 import type { OutboxPort } from '../ports/event-bus/outbox.port';
 import type { AuthorizationGateway } from '../ports/gateways/authorization.gateway';
-import type { IamUnitOfWorkPort } from '../ports/transactions/iam-unit-of-work.port';
 import type { IamCommandRepositories } from '../ports/repositories/iam-command-repositories.port';
+import type { IamUnitOfWorkPort } from '../ports/transactions/iam-unit-of-work.port';
 
 export class RemoveScopeRestrictionHandler {
   constructor(

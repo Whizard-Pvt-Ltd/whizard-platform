@@ -1,5 +1,5 @@
-import type { IWrcfDashboardRepository, WrcfDashboardStatsDto } from '../../domain/repositories/wrcf-dashboard.repository';
 import { getOrCreateAppLogger } from '@whizard/shared-logging';
+import type { IWrcfDashboardRepository, WrcfDashboardStatsDto } from '../../domain/repositories/wrcf-dashboard.repository';
 
 const logger = getOrCreateAppLogger({ service: 'capability-framework' }).child({ component: 'wrcf-dashboard' });
 

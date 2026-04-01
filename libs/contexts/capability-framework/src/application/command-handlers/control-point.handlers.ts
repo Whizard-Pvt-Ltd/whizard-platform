@@ -1,6 +1,6 @@
-import { ControlPoint } from '../../domain/aggregates/control-point.aggregate';
 import type { IControlPointRepository } from '../../domain/repositories/control-point.repository';
 import type { CreateControlPointCommand, UpdateControlPointCommand, DeleteControlPointCommand } from '../commands/control-point.commands';
+import { ControlPoint } from '../../domain/aggregates/control-point.aggregate';
 import { DomainException } from '../domain-exception';
 
 export class CreateControlPointCommandHandler {

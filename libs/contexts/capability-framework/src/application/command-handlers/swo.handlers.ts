@@ -1,9 +1,9 @@
-import { SecondaryWorkObject } from '../../domain/aggregates/secondary-work-object.aggregate';
+import { getOrCreateAppLogger } from '@whizard/shared-logging';
 import type { ISwoRepository } from '../../domain/repositories/swo.repository';
 import type { CreateSWOCommand, UpdateSWOCommand, DeactivateSWOCommand } from '../commands/swo.commands';
 import type { SwoDto } from '../dto/swo.dto';
+import { SecondaryWorkObject } from '../../domain/aggregates/secondary-work-object.aggregate';
 import { DomainException } from '../domain-exception';
-import { getOrCreateAppLogger } from '@whizard/shared-logging';
 
 const logger = getOrCreateAppLogger({ service: 'capability-framework' }).child({ component: 'secondary-work-object' });
 

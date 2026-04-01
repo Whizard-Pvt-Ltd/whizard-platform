@@ -1,0 +1,60 @@
+<div class="flex flex-col h-full w-[260px] min-w-[260px] bg-wrcf-bg-card border-r border-wrcf-border overflow-y-auto">
+
+  @if (loading()) {
+    <div class="flex items-center justify-center py-12">
+      <span class="text-sm text-wrcf-text-secondary">Loading...</span>
+    </div>
+  } @else if (filteredColleges().length === 0) {
+    <div class="flex flex-col items-center justify-center py-12 gap-2 px-4">
+      <mat-icon svgIcon="heroicons_outline:building-library" class="size-10 text-wrcf-text-secondary opacity-40" />
+      <span class="text-sm text-wrcf-text-secondary text-center">No colleges found</span>
+    </div>
+  } @else {
+    @for (college of filteredColleges(); track college.id) {
+      <button
+        type="button"
+        (click)="selectCollege(college.id)"
+        class="w-full text-left px-3 py-3 border-b border-wrcf-border/40 transition-colors duration-150 relative"
+        [class.bg-wrcf-bg-selected]="selectedId() === college.id"
+        [class.border-l-4]="selectedId() === college.id"
+        [class.border-l-wrcf-accent]="selectedId() === college.id"
+        [class.hover:bg-wrcf-bg-secondary]="selectedId() !== college.id">
+
+        <div class="flex items-start gap-2.5">
+          <!-- Logo / initial -->
+          @if (college.logoUrl) {
+            <img [src]="college.logoUrl" [alt]="college.name" class="w-10 h-10 rounded-full object-cover shrink-0 mt-0.5" />
+          } @else {
+            <div class="w-10 h-10 rounded-full bg-wrcf-action flex items-center justify-center text-wrcf-text-primary text-sm font-semibold shrink-0 mt-0.5">
+              {{ getInitial(college.name) }}
+            </div>
+          }
+
+          <div class="flex-1 min-w-0">
+            <!-- Name -->
+            <p class="text-sm font-semibold text-wrcf-text-primary truncate leading-5">{{ college.name }}</p>
+            <!-- College Id -->
+            <p class="text-xs text-wrcf-text-tertiary leading-4 mt-0.5">College Id : {{ college.collegeCode }}</p>
+
+            <!-- Meta row -->
+            <div class="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 items-center">
+              @if (college.cityName) {
+                <span class="flex items-center gap-0.5 text-xs text-wrcf-text-secondary leading-4">
+                  <mat-icon svgIcon="heroicons_outline:map-pin" class="size-3 shrink-0" />
+                  {{ college.cityName }}, India
+                </span>
+              }
+              @if (college.establishedYear) {
+                <span class="flex items-center gap-0.5 text-xs text-wrcf-text-secondary leading-4">
+                  <mat-icon svgIcon="heroicons_outline:calendar" class="size-3 shrink-0" />
+                  {{ college.establishedYear }}
+                </span>
+              }
+              <span class="text-xs text-wrcf-text-secondary leading-4">{{ college.collegeType }}</span>
+            </div>
+          </div>
+        </div>
+      </button>
+    }
+  }
+</div>

@@ -1,11 +1,11 @@
 import type { IamEventEnvelope } from '../../../../contracts/events/iam-event-envelope';
-import { getIamTopicForEventType, type IamTopic } from '../topic-bindings';
+import type { KafkaProducerPort } from './kafka-producer.port';
 import {
   serializeIntegrationEventV1,
   toIntegrationEventV1,
   type SerializedKafkaMessage
 } from '../serializers';
-import type { KafkaProducerPort } from './kafka-producer.port';
+import { getIamTopicForEventType, type IamTopic } from '../topic-bindings';
 
 export class IamTopicPublisher {
   constructor(private readonly producer: KafkaProducerPort) {}

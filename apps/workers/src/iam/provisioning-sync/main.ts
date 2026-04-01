@@ -1,6 +1,6 @@
+import { isDirectExecution } from '../shared/direct-execution';
 import { ConsoleWorkerLogger } from '../shared/logger';
 import { runWorkerLoop } from '../shared/worker-loop';
-import { isDirectExecution } from '../shared/direct-execution';
 import { createProvisioningSyncDependencies } from './dependencies';
 import { ProvisioningSyncWorker } from './provisioning-sync.worker';
 

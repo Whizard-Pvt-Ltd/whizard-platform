@@ -5,8 +5,8 @@
  */
 
 import { inject } from '@angular/core';
-import { StackAuthService } from '../services/stack-auth.service';
 import { environment } from '../../../environments/environment';
+import { StackAuthService } from '../services/stack-auth.service';
 
 export function initializeStackAuth(): () => Promise<void> {
   const stackAuthService = inject(StackAuthService);

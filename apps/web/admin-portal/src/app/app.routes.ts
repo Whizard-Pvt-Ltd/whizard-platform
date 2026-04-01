@@ -1,12 +1,14 @@
 import { Routes } from '@angular/router';
-import { LoginPageComponent } from './pages/login/login-page.component';
-import { SignupPageComponent } from './pages/signup/signup-page.component';
-import { EnhancedProfilePageComponent } from './pages/profile/enhanced-profile-page.component';
-import { IndustryWrcfComponent } from './pages/industry-wrcf/industry-wrcf.component';
-import { WrcfSkillsComponent } from './pages/wrcf-skills/wrcf-skills.component';
-import { WrcfRolesComponent } from './pages/wrcf-roles/wrcf-roles.component';
-import { WrcfDashboardComponent } from './pages/wrcf-dashboard/wrcf-dashboard.component';
 import { authGuard } from './core/guards/auth.guard';
+import { IndustryWrcfComponent } from './pages/industry-wrcf/industry-wrcf.component';
+import { LoginPageComponent } from './pages/login/login-page.component';
+import { ManageCollegeComponent } from './pages/manage-college/manage-college.component';
+import { ManageCompanyComponent } from './pages/manage-company/manage-company.component';
+import { EnhancedProfilePageComponent } from './pages/profile/enhanced-profile-page.component';
+import { SignupPageComponent } from './pages/signup/signup-page.component';
+import { WrcfDashboardComponent } from './pages/wrcf-dashboard/wrcf-dashboard.component';
+import { WrcfRolesComponent } from './pages/wrcf-roles/wrcf-roles.component';
+import { WrcfSkillsComponent } from './pages/wrcf-skills/wrcf-skills.component';
 
 export const routes: Routes = [
   {
@@ -47,6 +49,18 @@ export const routes: Routes = [
     path: 'wrcf-roles',
     component: WrcfRolesComponent,
     title: 'Manage WRCF Roles',
+    canActivate: [authGuard]
+  },
+  {
+    path: 'manage-college',
+    component: ManageCollegeComponent,
+    title: 'Manage College',
+    canActivate: [authGuard]
+  },
+  {
+    path: 'manage-company',
+    component: ManageCompanyComponent,
+    title: 'Manage Company',
     canActivate: [authGuard]
   },
   {

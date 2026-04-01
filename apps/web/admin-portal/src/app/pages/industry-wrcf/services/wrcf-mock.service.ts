@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
+import { CRITICALITY_LEVELS, COMPLEXITY_LEVELS, FREQUENCY_LEVELS } from '../models/wrcf-impact-levels';
 import {
   IndustrySector, Industry, FunctionalGroup, PrimaryWorkObject,
   SecondaryWorkObject, Capability, ProficiencyLevel, DeleteResult
 } from '../models/wrcf.models';
-import { CRITICALITY_LEVELS, COMPLEXITY_LEVELS, FREQUENCY_LEVELS } from '../models/wrcf-impact-levels';
 
 @Injectable({ providedIn: 'root' })
 export class WrcfMockService {

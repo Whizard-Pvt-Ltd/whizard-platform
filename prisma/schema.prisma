@@ -12,7 +12,8 @@ datasource db {
 // ─── IAM ─────────────────────────────────────────────────────────────────────
 
 model UserAccount {
-  id             String    @id @default(uuid()) @map("public_uuid")
+  id             BigInt    @id @default(autoincrement())
+  publicUuid     String    @unique @default(uuid()) @map("public_uuid")
   primaryLoginId String    @unique @map("primary_login_id")
   primaryEmail   String    @unique @map("primary_email")
   authMode       String    @map("auth_mode")
@@ -22,55 +23,92 @@ model UserAccount {
   lastLoginAt    DateTime? @map("last_login_at")
   version        Float     @default(1)
   createdAt      DateTime  @default(now()) @map("created_at")
-  createdBy      String?   @map("created_by")
+  createdBy      BigInt?   @map("created_by")
   updatedAt      DateTime  @default(now()) @map("updated_at")
-  updatedBy      String?   @map("updated_by")
+  updatedBy      BigInt?   @map("updated_by")
 
   @@map("user_accounts")
+}
+
+// ─── Tenant ──────────────────────────────────────────────────────────────────
+
+model Tenant {
+  id          BigInt      @id @default(autoincrement())
+  publicUuid  String      @unique @default(uuid()) @map("public_uuid")
+  name        String
+  type        String
+  isActive    Boolean     @default(true) @map("is_active")
+  createdBy   BigInt?     @map("created_by")
+  createdOn   DateTime    @default(now()) @map("created_on")
+  updatedBy   BigInt?     @map("updated_by")
+  updatedOn   DateTime?   @updatedAt @map("updated_on")
+
+  companies                  Company[]
+  colleges                   College[]
+  clubs                      Club[]
+  mediaAssets                MediaAsset[]
+  functionalGroups           FunctionalGroup[]
+  primaryWorkObjects         PrimaryWorkObject[]
+  secondaryWorkObjects       SecondaryWorkObject[]
+  capabilityInstances        CapabilityInstance[]
+  skills                     Skill[]
+  tasks                      Task[]
+  controlPoints              ControlPoint[]
+  departments                Department[]
+  departmentFunctionalGroups DepartmentFunctionalGroup[]
+  roles                      Role[]
+
+  @@map("tenants")
 }
 
 // ─── Capability Framework ────────────────────────────────────────────────────
 
 model IndustrySector {
-  id          String     @id @default(uuid()) @map("public_uuid")
+  id          BigInt     @id @default(autoincrement())
+  publicUuid  String     @unique @default(uuid()) @map("public_uuid")
   name        String     @unique @db.VarChar(50)
   description String?
   isActive    Boolean    @default(true) @map("is_active")
   type        String     @db.VarChar(50)
   version     Float      @default(1)
   createdAt   DateTime   @default(now()) @map("created_at")
-  createdBy   String?    @map("created_by")
+  createdBy   BigInt?    @map("created_by")
   updatedAt   DateTime   @default(now()) @map("updated_at")
-  updatedBy   String?    @map("updated_by")
+  updatedBy   BigInt?    @map("updated_by")
   industries  Industry[]
 
   @@map("industry_sectors")
 }
 
 model Industry {
-  id               String            @id @default(uuid()) @map("public_uuid")
-  sectorId         String            @map("sector_id")
+  id               BigInt            @id @default(autoincrement())
+  publicUuid       String            @unique @default(uuid()) @map("public_uuid")
+  sectorId         BigInt            @map("sector_id")
   sector           IndustrySector    @relation(fields: [sectorId], references: [id])
   name             String            @db.VarChar(50)
   description      String?
   isActive         Boolean           @default(true) @map("is_active")
   version          Float             @default(1)
   createdAt        DateTime          @default(now()) @map("created_at")
-  createdBy        String?           @map("created_by")
+  createdBy        BigInt?           @map("created_by")
   updatedAt        DateTime          @default(now()) @map("updated_at")
-  updatedBy        String?           @map("updated_by")
+  updatedBy        BigInt?           @map("updated_by")
   functionalGroups FunctionalGroup[]
   departments      Department[]
+  companies        Company[]
+  roles            Role[]
 
   @@unique([sectorId, name])
   @@map("industries")
 }
 
 model FunctionalGroup {
-  id                         String                      @id @default(uuid()) @map("public_uuid")
-  industryId                 String                      @map("industry_id")
+  id                         BigInt                      @id @default(autoincrement())
+  publicUuid                 String                      @unique @default(uuid()) @map("public_uuid")
+  industryId                 BigInt                      @map("industry_id")
   industry                   Industry                    @relation(fields: [industryId], references: [id])
-  tenantId                   String                      @map("tenant_id")
+  tenantId                   BigInt                      @map("tenant_id")
+  tenant                     Tenant                      @relation(fields: [tenantId], references: [id])
   name                       String                      @db.VarChar(50)
   description                String?
   sourceTemplateId           String?                     @map("source_template_id")
@@ -78,9 +116,9 @@ model FunctionalGroup {
   isActive                   Boolean                     @default(true) @map("is_active")
   version                    Float                       @default(1)
   createdAt                  DateTime                    @default(now()) @map("created_at")
-  createdBy                  String?                     @map("created_by")
+  createdBy                  BigInt?                     @map("created_by")
   updatedAt                  DateTime                    @default(now()) @map("updated_at")
-  updatedBy                  String?                     @map("updated_by")
+  updatedBy                  BigInt?                     @map("updated_by")
   pwos                       PrimaryWorkObject[]
   capabilityInstances        CapabilityInstance[]
   departmentFunctionalGroups DepartmentFunctionalGroup[]
@@ -89,10 +127,12 @@ model FunctionalGroup {
 }
 
 model PrimaryWorkObject {
-  id                       String               @id @default(uuid()) @map("public_uuid")
-  functionalGroupId        String               @map("functional_group_id")
+  id                       BigInt               @id @default(autoincrement())
+  publicUuid               String               @unique @default(uuid()) @map("public_uuid")
+  functionalGroupId        BigInt               @map("functional_group_id")
   functionalGroup          FunctionalGroup      @relation(fields: [functionalGroupId], references: [id])
-  tenantId                 String               @map("tenant_id")
+  tenantId                 BigInt               @map("tenant_id")
+  tenant                   Tenant               @relation(fields: [tenantId], references: [id])
   name                     String               @db.VarChar(100)
   sourceTemplateId         String?              @map("source_template_id")
   strategicImportanceLevel Int                  @map("strategic_importance_level") @db.SmallInt
@@ -101,9 +141,9 @@ model PrimaryWorkObject {
   isActive                 Boolean              @default(true) @map("is_active")
   version                  Float                @default(1)
   createdAt                DateTime             @default(now()) @map("created_at")
-  createdBy                String?              @map("created_by")
+  createdBy                BigInt?              @map("created_by")
   updatedAt                DateTime             @default(now()) @map("updated_at")
-  updatedBy                String?              @map("updated_by")
+  updatedBy                BigInt?              @map("updated_by")
   swos                     SecondaryWorkObject[]
   capabilityInstances      CapabilityInstance[]
 
@@ -111,10 +151,12 @@ model PrimaryWorkObject {
 }
 
 model SecondaryWorkObject {
-  id                    String               @id @default(uuid()) @map("public_uuid")
-  pwoId                 String               @map("pwo_id")
+  id                    BigInt               @id @default(autoincrement())
+  publicUuid            String               @unique @default(uuid()) @map("public_uuid")
+  pwoId                 BigInt               @map("pwo_id")
   pwo                   PrimaryWorkObject    @relation(fields: [pwoId], references: [id])
-  tenantId              String               @map("tenant_id")
+  tenantId              BigInt               @map("tenant_id")
+  tenant                Tenant               @relation(fields: [tenantId], references: [id])
   name                  String               @db.VarChar(100)
   sourceTemplateId      String?              @map("source_template_id")
   operationalComplexity String               @map("operational_complexity") @db.VarChar(10)
@@ -123,16 +165,17 @@ model SecondaryWorkObject {
   isActive              Boolean              @default(true) @map("is_active")
   version               Float                @default(1)
   createdAt             DateTime             @default(now()) @map("created_at")
-  createdBy             String?              @map("created_by")
+  createdBy             BigInt?              @map("created_by")
   updatedAt             DateTime             @default(now()) @map("updated_at")
-  updatedBy             String?              @map("updated_by")
+  updatedBy             BigInt?              @map("updated_by")
   capabilityInstances   CapabilityInstance[]
 
   @@map("swos")
 }
 
 model Capability {
-  id                  String               @id @default(uuid()) @map("public_uuid")
+  id                  BigInt               @id @default(autoincrement())
+  publicUuid          String               @unique @default(uuid()) @map("public_uuid")
   code                String               @unique @db.VarChar(15)
   name                String               @db.VarChar(50)
   description         String?
@@ -140,16 +183,17 @@ model Capability {
   isActive            Boolean              @default(true) @map("is_active")
   version             Float                @default(1)
   createdAt           DateTime             @default(now()) @map("created_at")
-  createdBy           String?              @map("created_by")
+  createdBy           BigInt?              @map("created_by")
   updatedAt           DateTime             @default(now()) @map("updated_at")
-  updatedBy           String?              @map("updated_by")
+  updatedBy           BigInt?              @map("updated_by")
   capabilityInstances CapabilityInstance[]
 
   @@map("capabilities")
 }
 
 model Proficiency {
-  id                  String               @id @default(uuid()) @map("public_uuid")
+  id                  BigInt               @id @default(autoincrement())
+  publicUuid          String               @unique @default(uuid()) @map("public_uuid")
   level               String               @unique @db.VarChar(5)
   label               String               @unique @db.VarChar(50)
   description         String?
@@ -157,33 +201,35 @@ model Proficiency {
   isActive            Boolean              @default(true) @map("is_active")
   version             Float                @default(1)
   createdAt           DateTime             @default(now()) @map("created_at")
-  createdBy           String?              @map("created_by")
+  createdBy           BigInt?              @map("created_by")
   updatedAt           DateTime             @default(now()) @map("updated_at")
-  updatedBy           String?              @map("updated_by")
+  updatedBy           BigInt?              @map("updated_by")
   capabilityInstances CapabilityInstance[]
 
   @@map("proficiencies")
 }
 
 model CapabilityInstance {
-  id                         String                      @id @default(uuid()) @map("public_uuid")
-  functionalGroupId          String                      @map("functional_group_id")
+  id                         BigInt                      @id @default(autoincrement())
+  publicUuid                 String                      @unique @default(uuid()) @map("public_uuid")
+  functionalGroupId          BigInt                      @map("functional_group_id")
   functionalGroup            FunctionalGroup             @relation(fields: [functionalGroupId], references: [id])
-  pwoId                      String?                     @map("pwo_id")
+  pwoId                      BigInt?                     @map("pwo_id")
   pwo                        PrimaryWorkObject?          @relation(fields: [pwoId], references: [id])
-  swoId                      String?                     @map("swo_id")
+  swoId                      BigInt?                     @map("swo_id")
   swo                        SecondaryWorkObject?        @relation(fields: [swoId], references: [id])
-  capabilityId               String                      @map("capability_id")
+  capabilityId               BigInt                      @map("capability_id")
   capability                 Capability                  @relation(fields: [capabilityId], references: [id])
-  proficiencyId              String                      @map("proficiency_id")
+  proficiencyId              BigInt                      @map("proficiency_id")
   proficiency                Proficiency                 @relation(fields: [proficiencyId], references: [id])
-  tenantId                   String                      @map("tenant_id")
+  tenantId                   BigInt                      @map("tenant_id")
+  tenant                     Tenant                      @relation(fields: [tenantId], references: [id])
   isActive                   Boolean                     @default(true) @map("is_active")
   version                    Float                       @default(1)
   createdAt                  DateTime                    @default(now()) @map("created_at")
-  createdBy                  String?                     @map("created_by")
+  createdBy                  BigInt?                     @map("created_by")
   updatedAt                  DateTime                    @default(now()) @map("updated_at")
-  updatedBy                  String?                     @map("updated_by")
+  updatedBy                  BigInt?                     @map("updated_by")
   skills                     Skill[]
   roleCapabilityInstances    RoleCapabilityInstance[]
 
@@ -191,10 +237,12 @@ model CapabilityInstance {
 }
 
 model Skill {
-  id                         String             @id @default(uuid()) @map("public_uuid")
-  capabilityInstanceId       String             @map("capability_instance_id")
+  id                         BigInt             @id @default(autoincrement())
+  publicUuid                 String             @unique @default(uuid()) @map("public_uuid")
+  capabilityInstanceId       BigInt             @map("capability_instance_id")
   capabilityInstance         CapabilityInstance @relation(fields: [capabilityInstanceId], references: [id])
-  tenantId                   String             @map("tenant_id")
+  tenantId                   BigInt             @map("tenant_id")
+  tenant                     Tenant             @relation(fields: [tenantId], references: [id])
   name                       String             @db.VarChar(100)
   sourceTemplateId           String?            @map("source_template_id")
   cognitiveType              String             @map("cognitive_type") @db.VarChar(20)
@@ -204,19 +252,21 @@ model Skill {
   isActive                   Boolean            @default(true) @map("is_active")
   version                    Float              @default(1)
   createdAt                  DateTime           @default(now()) @map("created_at")
-  createdBy                  String?            @map("created_by")
+  createdBy                  BigInt?            @map("created_by")
   updatedAt                  DateTime           @default(now()) @map("updated_at")
-  updatedBy                  String?            @map("updated_by")
+  updatedBy                  BigInt?            @map("updated_by")
   tasks                      Task[]
 
   @@map("skills")
 }
 
 model Task {
-  id                       String         @id @default(uuid()) @map("public_uuid")
-  skillId                  String         @map("skill_id")
+  id                       BigInt         @id @default(autoincrement())
+  publicUuid               String         @unique @default(uuid()) @map("public_uuid")
+  skillId                  BigInt         @map("skill_id")
   skill                    Skill          @relation(fields: [skillId], references: [id])
-  tenantId                 String         @map("tenant_id")
+  tenantId                 BigInt         @map("tenant_id")
+  tenant                   Tenant         @relation(fields: [tenantId], references: [id])
   name                     String         @db.VarChar(100)
   description              String?
   sourceTemplateId         String?        @map("source_template_id")
@@ -227,19 +277,21 @@ model Task {
   isActive                 Boolean        @default(true) @map("is_active")
   version                  Float          @default(1)
   createdAt                DateTime       @default(now()) @map("created_at")
-  createdBy                String?        @map("created_by")
+  createdBy                BigInt?        @map("created_by")
   updatedAt                DateTime       @default(now()) @map("updated_at")
-  updatedBy                String?        @map("updated_by")
+  updatedBy                BigInt?        @map("updated_by")
   controlPoints            ControlPoint[]
 
   @@map("tasks")
 }
 
 model ControlPoint {
-  id                 String   @id @default(uuid()) @map("public_uuid")
-  taskId             String   @map("task_id")
+  id                 BigInt   @id @default(autoincrement())
+  publicUuid         String   @unique @default(uuid()) @map("public_uuid")
+  taskId             BigInt   @map("task_id")
   task               Task     @relation(fields: [taskId], references: [id])
-  tenantId           String   @map("tenant_id")
+  tenantId           BigInt   @map("tenant_id")
+  tenant             Tenant   @relation(fields: [tenantId], references: [id])
   name               String   @db.VarChar(100)
   description        String?
   sourceTemplateId   String?  @map("source_template_id")
@@ -251,17 +303,18 @@ model ControlPoint {
   isActive           Boolean  @default(true) @map("is_active")
   version            Float    @default(1)
   createdAt          DateTime @default(now()) @map("created_at")
-  createdBy          String?  @map("created_by")
+  createdBy          BigInt?  @map("created_by")
   updatedAt          DateTime @default(now()) @map("updated_at")
-  updatedBy          String?  @map("updated_by")
+  updatedBy          BigInt?  @map("updated_by")
 
   @@map("control_points")
 }
 
 model LearnerEvidence {
-  id               String   @id @default(uuid()) @map("public_uuid")
-  learnerId        String   @map("learner_id")
-  controlPointId   String   @map("control_point_id")
+  id               BigInt   @id @default(autoincrement())
+  publicUuid       String   @unique @default(uuid()) @map("public_uuid")
+  learnerId        BigInt   @map("learner_id")
+  controlPointId   BigInt   @map("control_point_id")
   evidenceType     String   @map("evidence_type") @db.VarChar(30)
   evidenceUrl      String?  @map("evidence_url")
   validationStatus String   @default("Pending") @map("validation_status") @db.VarChar(20)
@@ -270,26 +323,28 @@ model LearnerEvidence {
   isActive         Boolean  @default(true) @map("is_active")
   version          Float    @default(1)
   createdAt        DateTime @default(now()) @map("created_at")
-  createdBy        String?  @map("created_by")
+  createdBy        BigInt?  @map("created_by")
   updatedAt        DateTime @default(now()) @map("updated_at")
-  updatedBy        String?  @map("updated_by")
+  updatedBy        BigInt?  @map("updated_by")
 
   @@map("learner_evidences")
 }
 
 model Department {
-  id                          String                      @id @default(uuid()) @map("public_uuid")
-  tenantId                    String                      @map("tenant_id")
+  id                          BigInt                      @id @default(autoincrement())
+  publicUuid                  String                      @unique @default(uuid()) @map("public_uuid")
+  tenantId                    BigInt                      @map("tenant_id")
+  tenant                      Tenant                      @relation(fields: [tenantId], references: [id])
   name                        String                      @db.VarChar(100)
   description                 String?
   sourceTemplateId            String?                     @map("source_template_id")
   isActive                    Boolean                     @default(true) @map("is_active")
   version                     Float                       @default(1)
   createdAt                   DateTime                    @default(now()) @map("created_at")
-  createdBy                   String?                     @map("created_by")
+  createdBy                   BigInt?                     @map("created_by")
   updatedAt                   DateTime                    @default(now()) @map("updated_at")
-  updatedBy                   String?                     @map("updated_by")
-  industryId                  String?                     @map("industry_id")
+  updatedBy                   BigInt?                     @map("updated_by")
+  industryId                  BigInt?                     @map("industry_id")
   industry                    Industry?                   @relation(fields: [industryId], references: [id])
   operationalCriticalityScore Float?                      @map("operational_criticality_score")
   revenueContributionWeight   Float?                      @map("revenue_contribution_weight")
@@ -301,61 +356,423 @@ model Department {
 }
 
 model DepartmentFunctionalGroup {
-  id                String          @id @default(uuid()) @map("public_uuid")
-  departmentId      String          @map("department_id")
+  id                BigInt          @id @default(autoincrement())
+  publicUuid        String          @unique @default(uuid()) @map("public_uuid")
+  departmentId      BigInt          @map("department_id")
   department        Department      @relation(fields: [departmentId], references: [id])
-  functionalGroupId String          @map("functional_group_id")
+  functionalGroupId BigInt          @map("functional_group_id")
   functionalGroup   FunctionalGroup @relation(fields: [functionalGroupId], references: [id])
-  tenantId          String          @map("tenant_id")
+  tenantId          BigInt          @map("tenant_id")
+  tenant            Tenant          @relation(fields: [tenantId], references: [id])
   sourceTemplateId  String?         @map("source_template_id")
   isActive          Boolean         @default(true) @map("is_active")
   version           Float           @default(1)
   createdAt         DateTime        @default(now()) @map("created_at")
-  createdBy         String?         @map("created_by")
+  createdBy         BigInt?         @map("created_by")
   updatedAt         DateTime        @default(now()) @map("updated_at")
-  updatedBy         String?         @map("updated_by")
+  updatedBy         BigInt?         @map("updated_by")
 
   @@unique([departmentId, functionalGroupId])
   @@map("department_functional_groups")
 }
 
 model Role {
-  id                      String                   @id @default(uuid()) @map("public_uuid")
-  departmentId            String                   @map("department_id")
+  id                      BigInt                   @id @default(autoincrement())
+  publicUuid              String                   @unique @default(uuid()) @map("public_uuid")
+  departmentId            BigInt                   @map("department_id")
   department              Department               @relation(fields: [departmentId], references: [id])
-  tenantId                String                   @map("tenant_id")
-  industryId              String?                  @map("industry_id")
+  tenantId                BigInt                   @map("tenant_id")
+  tenant                  Tenant                   @relation(fields: [tenantId], references: [id])
+  industryId              BigInt?                  @map("industry_id")
+  industry                Industry?                @relation(fields: [industryId], references: [id])
   name                    String                   @db.VarChar(100)
   seniorityLevel          String?                  @map("seniority_level") @db.VarChar(50)
-  reportingTo             String?                  @map("reporting_to")
+  reportingTo             BigInt?                  @map("reporting_to")
   roleCriticalityScore    Int?                     @map("role_criticality_score")
   description             String?
   sourceTemplateId        String?                  @map("source_template_id")
   isActive                Boolean                  @default(true) @map("is_active")
   version                 Float                    @default(1)
   createdAt               DateTime                 @default(now()) @map("created_at")
-  createdBy               String?                  @map("created_by")
+  createdBy               BigInt?                  @map("created_by")
   updatedAt               DateTime                 @default(now()) @map("updated_at")
-  updatedBy               String?                  @map("updated_by")
+  updatedBy               BigInt?                  @map("updated_by")
   roleCapabilityInstances RoleCapabilityInstance[]
 
   @@map("roles")
 }
 
 model RoleCapabilityInstance {
-  id                   String             @id @default(uuid()) @map("public_uuid")
-  roleId               String             @map("role_id")
+  id                   BigInt             @id @default(autoincrement())
+  publicUuid           String             @unique @default(uuid()) @map("public_uuid")
+  roleId               BigInt             @map("role_id")
   role                 Role               @relation(fields: [roleId], references: [id])
-  capabilityInstanceId String             @map("capability_instance_id")
+  capabilityInstanceId BigInt             @map("capability_instance_id")
   capabilityInstance   CapabilityInstance @relation(fields: [capabilityInstanceId], references: [id])
   isMandatory          Boolean            @default(true) @map("is_mandatory")
   isActive             Boolean            @default(true) @map("is_active")
   version              Float              @default(1)
   createdAt            DateTime           @default(now()) @map("created_at")
-  createdBy            String?            @map("created_by")
+  createdBy            BigInt?            @map("created_by")
   updatedAt            DateTime           @default(now()) @map("updated_at")
-  updatedBy            String?            @map("updated_by")
+  updatedBy            BigInt?            @map("updated_by")
 
   @@unique([roleId, capabilityInstanceId])
   @@map("role_capability_instances")
+}
+
+// ─── College Operations ───────────────────────────────────────────────────────
+
+model City {
+  id         BigInt    @id @default(autoincrement())
+  publicUuid String    @unique @default(uuid()) @map("public_uuid")
+  name       String
+  state      String
+  isActive   Boolean   @default(true) @map("is_active")
+  colleges   College[]
+  companies  Company[]
+
+  @@index([state])
+  @@map("cities")
+}
+
+model Club {
+  id          BigInt        @id @default(autoincrement())
+  publicUuid  String        @unique @default(uuid()) @map("public_uuid")
+  tenantId    BigInt        @map("tenant_id")
+  tenant      Tenant        @relation(fields: [tenantId], references: [id])
+  name        String
+  description String?
+  logoUrl     String?       @map("logo_url")
+  isActive    Boolean       @default(true) @map("is_active")
+  createdBy   BigInt        @map("created_by")
+  createdOn   DateTime      @default(now()) @map("created_on")
+  updatedBy   BigInt?       @map("updated_by")
+  updatedOn   DateTime?     @updatedAt @map("updated_on")
+  colleges    ClubCollege[]
+  companies   CompanyClub[]
+
+  @@index([tenantId])
+  @@map("clubs")
+}
+
+model DegreeProgram {
+  id            BigInt                  @id @default(autoincrement())
+  publicUuid    String                  @unique @default(uuid()) @map("public_uuid")
+  name          String
+  level         String
+  durationYears Int?                    @map("duration_years")
+  isActive      Boolean                 @default(true) @map("is_active")
+  createdBy     BigInt                  @map("created_by")
+  createdOn     DateTime                @default(now()) @map("created_on")
+  specializations ProgramSpecialization[]
+  colleges        CollegeDegreeProgram[]
+
+  @@map("degree_programs")
+}
+
+model ProgramSpecialization {
+  id         BigInt        @id @default(autoincrement())
+  publicUuid String        @unique @default(uuid()) @map("public_uuid")
+  programId  BigInt        @map("program_id")
+  program    DegreeProgram @relation(fields: [programId], references: [id])
+  name       String
+  isActive   Boolean       @default(true) @map("is_active")
+  createdBy  BigInt        @map("created_by")
+  createdOn  DateTime      @default(now()) @map("created_on")
+
+  @@index([programId])
+  @@map("program_specializations")
+}
+
+model MediaAsset {
+  id           BigInt              @id @default(autoincrement())
+  publicUuid   String              @unique @default(uuid()) @map("public_uuid")
+  tenantId     BigInt              @map("tenant_id")
+  tenant       Tenant              @relation(fields: [tenantId], references: [id])
+  name         String
+  url          String
+  key          String
+  type         String
+  mimeType     String              @map("mime_type")
+  sizeBytes    Int                 @map("size_bytes")
+  thumbnailUrl String?             @map("thumbnail_url")
+  isActive     Boolean             @default(true) @map("is_active")
+  createdBy    BigInt              @map("created_by")
+  createdOn    DateTime            @default(now()) @map("created_on")
+  updatedBy    BigInt?             @map("updated_by")
+  updatedOn    DateTime?           @updatedAt @map("updated_on")
+  colleges     CollegeMediaAsset[]
+  companies    CompanyMediaAsset[]
+
+  @@index([tenantId, type])
+  @@map("media_assets")
+}
+
+model College {
+  id                   BigInt                @id @default(autoincrement())
+  publicUuid           String                @unique @default(uuid()) @map("public_uuid")
+  tenantId             BigInt                @map("tenant_id")
+  tenant               Tenant                @relation(fields: [tenantId], references: [id])
+  collegeCode          String                @unique @map("college_code")
+  name                 String
+  affiliatedUniversity String                @map("affiliated_university")
+  cityId               BigInt?               @map("city_id")
+  city                 City?                 @relation(fields: [cityId], references: [id])
+  collegeType          String                @map("college_type")
+  establishedYear      Int?                  @map("established_year")
+  description          String?
+  degreesOffered       String?               @map("degrees_offered")
+  placementHighlights  String?               @map("placement_highlights")
+  inquiryEmail         String?               @map("inquiry_email")
+  status               Int                   @default(0)
+  isActive             Boolean               @default(true) @map("is_active")
+  createdBy            BigInt                @map("created_by")
+  createdOn            DateTime              @default(now()) @map("created_on")
+  updatedBy            BigInt?               @map("updated_by")
+  updatedOn            DateTime?             @updatedAt @map("updated_on")
+  clubs                ClubCollege[]
+  degreePrograms       CollegeDegreeProgram[]
+  mediaAssets          CollegeMediaAsset[]
+  contacts             CollegeContact[]
+
+  @@index([tenantId, status])
+  @@index([tenantId, isActive])
+  @@map("colleges")
+}
+
+model CollegeContact {
+  id         BigInt    @id @default(autoincrement())
+  publicUuid String    @unique @default(uuid()) @map("public_uuid")
+  collegeId  BigInt    @map("college_id")
+  college    College   @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+  userId     BigInt    @map("user_id")
+  role       String
+  isActive   Boolean   @default(true) @map("is_active")
+  createdBy  BigInt    @map("created_by")
+  createdOn  DateTime  @default(now()) @map("created_on")
+  updatedBy  BigInt?   @map("updated_by")
+  updatedOn  DateTime? @updatedAt @map("updated_on")
+
+  @@unique([collegeId, role])
+  @@index([collegeId])
+  @@map("college_contacts")
+}
+
+model ClubCollege {
+  id         BigInt  @id @default(autoincrement())
+  publicUuid String  @unique @default(uuid()) @map("public_uuid")
+  collegeId  BigInt  @map("college_id")
+  college    College @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+  clubId     BigInt  @map("club_id")
+  club       Club    @relation(fields: [clubId], references: [id])
+
+  @@unique([collegeId, clubId])
+  @@map("clubs_colleges")
+}
+
+model CollegeMediaAsset {
+  id           BigInt     @id @default(autoincrement())
+  publicUuid   String     @unique @default(uuid()) @map("public_uuid")
+  collegeId    BigInt     @map("college_id")
+  college      College    @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+  mediaAssetId BigInt     @map("media_asset_id")
+  mediaAsset   MediaAsset @relation(fields: [mediaAssetId], references: [id])
+  mediaRole    String     @map("media_role")
+  sortOrder    Int        @default(0) @map("sort_order")
+
+  @@unique([collegeId, mediaAssetId, mediaRole])
+  @@index([collegeId, mediaRole])
+  @@map("colleges_media_assets")
+}
+
+model CollegeDegreeProgram {
+  id         BigInt        @id @default(autoincrement())
+  publicUuid String        @unique @default(uuid()) @map("public_uuid")
+  collegeId  BigInt        @map("college_id")
+  college    College       @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+  programId  BigInt        @map("program_id")
+  program    DegreeProgram @relation(fields: [programId], references: [id])
+
+  @@unique([collegeId, programId])
+  @@map("colleges_degree_programs")
+}
+
+// ─── Company Organization ─────────────────────────────────────────────────────
+
+model Company {
+  id                    BigInt                   @id @default(autoincrement())
+  publicUuid            String                   @unique @default(uuid()) @map("public_uuid")
+  tenantId              BigInt                   @map("tenant_id")
+  tenant                Tenant                   @relation(fields: [tenantId], references: [id])
+  industryId            BigInt?                  @map("industry_id")
+  industry              Industry?                @relation(fields: [industryId], references: [id])
+  companyCode           String                   @unique @map("company_code")
+  name                  String
+  cityId                BigInt?                  @map("city_id")
+  city                  City?                    @relation(fields: [cityId], references: [id])
+  companyType           String?                  @map("company_type")
+  establishedYear       Int?                     @map("established_year")
+  description           String?
+  whatWeOffer           String?                  @map("what_we_offer")
+  awardsRecognition     String?                  @map("awards_recognition")
+  keyProductsServices   String?                  @map("key_products_services")
+  recruitmentHighlights String?                  @map("recruitment_highlights")
+  placementStats        String?                  @map("placement_stats")
+  inquiryEmail          String?                  @map("inquiry_email")
+  status                Int                      @default(0)
+  isActive              Boolean                  @default(true) @map("is_active")
+  createdBy             BigInt                   @map("created_by")
+  createdOn             DateTime                 @default(now()) @map("created_on")
+  updatedBy             BigInt?                  @map("updated_by")
+  updatedOn             DateTime?                @updatedAt @map("updated_on")
+  clubs                 CompanyClub[]
+  mediaAssets           CompanyMediaAsset[]
+  contacts              CompanyContact[]
+  services              CompanyService[]
+  products              CompanyProduct[]
+  hiringStats           CompanyHiringStat[]
+  hiringRoles           CompanyHiringRole[]
+  hiringDomains         CompanyHiringDomain[]
+  compensationStats     CompanyCompensationStat[]
+
+  @@index([tenantId, status])
+  @@index([tenantId, isActive])
+  @@map("companies")
+}
+
+model CompanyClub {
+  id         BigInt  @id @default(autoincrement())
+  publicUuid String  @unique @default(uuid()) @map("public_uuid")
+  companyId  BigInt  @map("company_id")
+  company    Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  clubId     BigInt  @map("club_id")
+  club       Club    @relation(fields: [clubId], references: [id])
+  isParent   Boolean @default(false) @map("is_parent")
+
+  @@unique([companyId, clubId])
+  @@map("clubs_companies")
+}
+
+model CompanyMediaAsset {
+  id           BigInt     @id @default(autoincrement())
+  publicUuid   String     @unique @default(uuid()) @map("public_uuid")
+  companyId    BigInt     @map("company_id")
+  company      Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  mediaAssetId BigInt     @map("media_asset_id")
+  mediaAsset   MediaAsset @relation(fields: [mediaAssetId], references: [id])
+  mediaRole    String     @map("media_role")
+  sortOrder    Int        @default(0) @map("sort_order")
+
+  @@unique([companyId, mediaAssetId, mediaRole])
+  @@index([companyId, mediaRole])
+  @@map("companies_media_assets")
+}
+
+model CompanyContact {
+  id          BigInt    @id @default(autoincrement())
+  publicUuid  String    @unique @default(uuid()) @map("public_uuid")
+  companyId   BigInt    @map("company_id")
+  company     Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  userId      BigInt    @map("user_id")
+  contactRole String    @map("contact_role")
+  isActive    Boolean   @default(true) @map("is_active")
+  createdBy   BigInt    @map("created_by")
+  createdOn   DateTime  @default(now()) @map("created_on")
+  updatedBy   BigInt?   @map("updated_by")
+  updatedOn   DateTime? @updatedAt @map("updated_on")
+
+  @@unique([companyId, userId, contactRole])
+  @@index([companyId])
+  @@map("company_contacts")
+}
+
+model CompanyService {
+  id          BigInt   @id @default(autoincrement())
+  publicUuid  String   @unique @default(uuid()) @map("public_uuid")
+  companyId   BigInt   @map("company_id")
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  category    String
+  description String?
+  isActive    Boolean  @default(true) @map("is_active")
+  createdBy   BigInt   @map("created_by")
+  createdOn   DateTime @default(now()) @map("created_on")
+
+  @@index([companyId])
+  @@map("company_services")
+}
+
+model CompanyProduct {
+  id          BigInt   @id @default(autoincrement())
+  publicUuid  String   @unique @default(uuid()) @map("public_uuid")
+  companyId   BigInt   @map("company_id")
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  isActive    Boolean  @default(true) @map("is_active")
+  createdBy   BigInt   @map("created_by")
+  createdOn   DateTime @default(now()) @map("created_on")
+
+  @@index([companyId])
+  @@map("company_products")
+}
+
+model CompanyHiringStat {
+  id                       BigInt   @id @default(autoincrement())
+  publicUuid               String   @unique @default(uuid()) @map("public_uuid")
+  companyId                BigInt   @map("company_id")
+  company                  Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  year                     Int
+  hires                    Int?
+  internshipConversionRate Float?   @map("internship_conversion_rate")
+  createdBy                BigInt   @map("created_by")
+  createdOn                DateTime @default(now()) @map("created_on")
+
+  @@unique([companyId, year])
+  @@index([companyId])
+  @@map("company_hiring_stats")
+}
+
+model CompanyHiringRole {
+  id         BigInt   @id @default(autoincrement())
+  publicUuid String   @unique @default(uuid()) @map("public_uuid")
+  companyId  BigInt   @map("company_id")
+  company    Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  roleName   String   @map("role_name")
+  isActive   Boolean  @default(true) @map("is_active")
+  createdBy  BigInt   @map("created_by")
+  createdOn  DateTime @default(now()) @map("created_on")
+
+  @@index([companyId])
+  @@map("company_hiring_roles")
+}
+
+model CompanyHiringDomain {
+  id         BigInt   @id @default(autoincrement())
+  publicUuid String   @unique @default(uuid()) @map("public_uuid")
+  companyId  BigInt   @map("company_id")
+  company    Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  domain     String
+  isActive   Boolean  @default(true) @map("is_active")
+  createdBy  BigInt   @map("created_by")
+  createdOn  DateTime @default(now()) @map("created_on")
+
+  @@index([companyId])
+  @@map("company_hiring_domains")
+}
+
+model CompanyCompensationStat {
+  id             BigInt   @id @default(autoincrement())
+  publicUuid     String   @unique @default(uuid()) @map("public_uuid")
+  companyId      BigInt   @map("company_id")
+  company        Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  year           Int
+  highestPackage Float?   @map("highest_package")
+  averagePackage Float?   @map("average_package")
+  createdBy      BigInt   @map("created_by")
+  createdOn      DateTime @default(now()) @map("created_on")
+
+  @@unique([companyId, year])
+  @@index([companyId])
+  @@map("company_compensation_stats")
 }

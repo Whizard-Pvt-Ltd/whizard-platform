@@ -1,6 +1,5 @@
-import { randomUUID } from 'crypto';
-import type { ImpactLevelValue } from '../value-objects/impact-level.vo';
 import type { DomainEvent } from '../events/domain-event.base';
+import type { ImpactLevelValue } from '../value-objects/impact-level.vo';
 import { SwoCreatedEvent, SwoUpdatedEvent, SwoDeactivatedEvent } from '../events/swo.events';
 
 export interface SecondaryWorkObjectProps {
@@ -55,7 +54,7 @@ export class SecondaryWorkObject {
   }
 
   static create(props: CreateSecondaryWorkObjectProps): SecondaryWorkObject {
-    const swo = new SecondaryWorkObject({ ...props, id: randomUUID(), isActive: true });
+    const swo = new SecondaryWorkObject({ ...props, id: '0', isActive: true });
     swo._domainEvents.push(
       new SwoCreatedEvent(swo.id, swo.tenantId, { pwoId: swo.pwoId, name: swo.name })
     );

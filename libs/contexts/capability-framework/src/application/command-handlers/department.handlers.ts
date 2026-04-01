@@ -1,6 +1,6 @@
-import { Department } from '../../domain/aggregates/department.aggregate';
 import type { IDepartmentRepository } from '../../domain/repositories/department.repository';
 import type { CreateDepartmentCommand, UpdateDepartmentCommand, DeleteDepartmentCommand } from '../commands/department.commands';
+import { Department } from '../../domain/aggregates/department.aggregate';
 import { DomainException } from '../domain-exception';
 
 export class CreateDepartmentCommandHandler {

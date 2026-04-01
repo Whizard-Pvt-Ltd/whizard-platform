@@ -1,6 +1,6 @@
-import { Skill } from '../../domain/aggregates/skill.aggregate';
 import type { ISkillRepository } from '../../domain/repositories/skill.repository';
 import type { CreateSkillCommand, UpdateSkillCommand, DeleteSkillCommand } from '../commands/skill.commands';
+import { Skill } from '../../domain/aggregates/skill.aggregate';
 import { DomainException } from '../domain-exception';
 
 export class CreateSkillCommandHandler {

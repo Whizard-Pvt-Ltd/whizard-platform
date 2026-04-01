@@ -11,97 +11,79 @@
     </p>
 
     <form [formGroup]="signupForm" (ngSubmit)="submit()" novalidate>
-      <div *ngIf="errorMessage()" class="error-alert">{{ errorMessage() }}</div>
-      <div *ngIf="successMessage()" class="success-alert">{{ successMessage() }}</div>
+      @if (errorMessage()) {
+        <div class="error-alert">
+          {{ errorMessage() }}
+        </div>
+      }
 
-      <div class="field-group">
-        <label for="displayName">Full Name</label>
-        <input
-          id="displayName"
-          type="text"
-          formControlName="displayName"
-          placeholder="Jane Smith"
-          [class.input-error]="signupForm.controls.displayName.touched && signupForm.controls.displayName.invalid"
-        />
-        <small *ngIf="signupForm.controls.displayName.touched && signupForm.controls.displayName.invalid">
+      @if (successMessage()) {
+        <div class="success-alert">
+          {{ successMessage() }}
+        </div>
+      }
+
+      <label for="displayName">Full Name</label>
+      <input id="displayName" type="text" formControlName="displayName" placeholder="John Doe" />
+      @if (signupForm.controls.displayName.touched && signupForm.controls.displayName.invalid) {
+        <small>
           Name must be at least 2 characters.
         </small>
+      }
+
+      <label for="email">E-mail</label>
+      <input id="email" type="email" formControlName="email" placeholder="example@gmail.com" />
+      @if (signupForm.controls.email.touched && signupForm.controls.email.invalid) {
+        <small>
+          Enter a valid email address.
+        </small>
+      }
+
+      <label for="password">Password</label>
+      <div class="password-field">
+        <input
+          id="password"
+          [type]="showPassword() ? 'text' : 'password'"
+          formControlName="password"
+          placeholder="@#*%"
+          />
+        <button type="button" (click)="togglePasswordVisibility()">
+          {{ showPassword() ? 'Hide' : 'Show' }}
+        </button>
       </div>
+      @if (signupForm.controls.password.touched && signupForm.controls.password.invalid) {
+        <small>
+          Password must be at least 8 characters.
+        </small>
+      }
 
       <div class="field-group">
         <label for="email">Email Address</label>
         <input
-          id="email"
-          type="email"
-          formControlName="email"
-          placeholder="you@example.com"
-          [class.input-error]="signupForm.controls.email.touched && signupForm.controls.email.invalid"
-        />
-        <small *ngIf="signupForm.controls.email.touched && signupForm.controls.email.invalid">
-          Enter a valid email address.
-        </small>
-      </div>
-
-      <div class="field-group">
-        <label for="password">Password</label>
-        <div class="password-field">
-          <input
-            id="password"
-            [type]="showPassword() ? 'text' : 'password'"
-            formControlName="password"
-            placeholder="Min. 8 characters"
-            [class.input-error]="signupForm.controls.password.touched && signupForm.controls.password.invalid"
+          id="confirmPassword"
+          [type]="showConfirmPassword() ? 'text' : 'password'"
+          formControlName="confirmPassword"
+          placeholder="@#*%"
           />
-          <button type="button" class="eye-btn" (click)="togglePasswordVisibility()" [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'">
-            @if (showPassword()) {
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-            } @else {
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            }
-          </button>
-        </div>
-        <div class="strength-bar" *ngIf="signupForm.controls.password.value">
-          <div class="strength-track">
-            <div class="strength-fill" [style.width.%]="passwordStrength * 25" [ngClass]="'s' + passwordStrength"></div>
-          </div>
-          <span class="strength-label">{{ strengthLabel }}</span>
-        </div>
-        <small *ngIf="signupForm.controls.password.touched && signupForm.controls.password.invalid">
-          Password must be at least 8 characters.
-        </small>
+        <button type="button" (click)="toggleConfirmPasswordVisibility()">
+          {{ showConfirmPassword() ? 'Hide' : 'Show' }}
+        </button>
       </div>
-
-      <div class="field-group">
-        <label for="confirmPassword">Confirm Password</label>
-        <div class="password-field">
-          <input
-            id="confirmPassword"
-            [type]="showConfirmPassword() ? 'text' : 'password'"
-            formControlName="confirmPassword"
-            placeholder="Repeat your password"
-            [class.input-error]="signupForm.controls.confirmPassword.touched && signupForm.controls.confirmPassword.invalid"
-          />
-          <button type="button" class="eye-btn" (click)="toggleConfirmPasswordVisibility()" [attr.aria-label]="showConfirmPassword() ? 'Hide password' : 'Show password'">
-            @if (showConfirmPassword()) {
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-            } @else {
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            }
-          </button>
-        </div>
-        <small *ngIf="signupForm.controls.confirmPassword.touched && signupForm.controls.confirmPassword.invalid">
+      @if (signupForm.controls.confirmPassword.touched && signupForm.controls.confirmPassword.invalid) {
+        <small>
           Please confirm your password.
         </small>
-        <small class="match-ok" *ngIf="passwordsMatch">✓ Passwords match</small>
-      </div>
+      }
 
       <label class="checkbox">
         <input type="checkbox" formControlName="agreeToTerms" />
         <span>I agree to the <a href="#" (click)="$event.preventDefault()">Terms and Conditions</a></span>
       </label>
-      <small *ngIf="signupForm.controls.agreeToTerms.touched && signupForm.controls.agreeToTerms.invalid">
-        You must agree to the terms and conditions.
-      </small>
+      @if (signupForm.controls.agreeToTerms.touched && signupForm.controls.agreeToTerms.invalid) {
+        <small>
+          You must agree to the terms and conditions.
+        </small>
+      }
 
       <button class="submit" type="submit" [disabled]="isSubmitting()">
         {{ isSubmitting() ? 'Creating account…' : 'Create Account' }}

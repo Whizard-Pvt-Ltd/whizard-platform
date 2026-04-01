@@ -1,19 +1,21 @@
 import { getPrisma } from '@whizard/shared-infrastructure';
-import { SecondaryWorkObject } from '../../../../domain/aggregates/secondary-work-object.aggregate';
 import type { ISwoRepository } from '../../../../domain/repositories/swo.repository';
+import { SecondaryWorkObject } from '../../../../domain/aggregates/secondary-work-object.aggregate';
 import { resolveImpactLevel, CRITICALITY_LEVELS, COMPLEXITY_LEVELS, FREQUENCY_LEVELS } from '../../../../domain/value-objects/impact-level.vo';
 
 export class PrismaSwoRepository implements ISwoRepository {
   private readonly prisma = getPrisma();
 
   async findById(id: string): Promise<SecondaryWorkObject | null> {
-    const row = await this.prisma.secondaryWorkObject.findUnique({ where: { id } });
+    const row = await this.prisma.secondaryWorkObject.findUnique({
+      where: { id: BigInt(id) }
+    });
     if (!row) return null;
     return SecondaryWorkObject.reconstitute({
-      id: row.id,
-      tenantId: row.tenantId,
+      id: row.id.toString(),
+      tenantId: row.tenantId.toString(),
       versionId: String(row.version),
-      pwoId: row.pwoId,
+      pwoId: row.pwoId.toString(),
       name: row.name,
       operationalComplexity: resolveImpactLevel(row.operationalComplexity, COMPLEXITY_LEVELS),
       assetCriticality: resolveImpactLevel(row.assetCriticality, CRITICALITY_LEVELS),
@@ -24,14 +26,17 @@ export class PrismaSwoRepository implements ISwoRepository {
 
   async findByPWO(pwoId: string, tenantId: string): Promise<SecondaryWorkObject[]> {
     const rows = await this.prisma.secondaryWorkObject.findMany({
-      where: { pwoId, tenantId }
+      where: {
+        pwoId: BigInt(pwoId),
+        tenantId: BigInt(tenantId)
+      }
     });
     return rows.map(row =>
       SecondaryWorkObject.reconstitute({
-        id: row.id,
-        tenantId: row.tenantId,
+        id: row.id.toString(),
+        tenantId: row.tenantId.toString(),
         versionId: String(row.version),
-        pwoId: row.pwoId,
+        pwoId: row.pwoId.toString(),
         name: row.name,
         operationalComplexity: resolveImpactLevel(row.operationalComplexity, COMPLEXITY_LEVELS),
         assetCriticality: resolveImpactLevel(row.assetCriticality, CRITICALITY_LEVELS),
@@ -42,8 +47,11 @@ export class PrismaSwoRepository implements ISwoRepository {
   }
 
   async save(swo: SecondaryWorkObject): Promise<void> {
+    const tenantId = BigInt(swo.tenantId);
+    const pwoId = BigInt(swo.pwoId);
+
     await this.prisma.secondaryWorkObject.upsert({
-      where: { id: swo.id },
+      where: { id: BigInt(swo.id) },
       update: {
         name: swo.name,
         operationalComplexity: swo.operationalComplexity.label,
@@ -52,10 +60,9 @@ export class PrismaSwoRepository implements ISwoRepository {
         isActive: swo.isActive
       },
       create: {
-        id: swo.id,
-        tenantId: swo.tenantId,
+        tenantId,
         version: Number(swo.versionId ?? 1),
-        pwoId: swo.pwoId,
+        pwoId,
         name: swo.name,
         operationalComplexity: swo.operationalComplexity.label,
         assetCriticality: swo.assetCriticality.label,
@@ -66,6 +73,6 @@ export class PrismaSwoRepository implements ISwoRepository {
   }
 
   async delete(id: string): Promise<void> {
-    await this.prisma.secondaryWorkObject.delete({ where: { id } });
+    await this.prisma.secondaryWorkObject.delete({ where: { id: BigInt(id) } });
   }
 }

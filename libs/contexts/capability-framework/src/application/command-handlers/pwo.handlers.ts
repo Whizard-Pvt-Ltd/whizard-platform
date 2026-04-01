@@ -1,9 +1,9 @@
-import { PrimaryWorkObject } from '../../domain/aggregates/primary-work-object.aggregate';
+import { getOrCreateAppLogger } from '@whizard/shared-logging';
 import type { IPwoRepository } from '../../domain/repositories/pwo.repository';
 import type { CreatePWOCommand, UpdatePWOCommand, DeactivatePWOCommand } from '../commands/pwo.commands';
 import type { PwoDto } from '../dto/pwo.dto';
+import { PrimaryWorkObject } from '../../domain/aggregates/primary-work-object.aggregate';
 import { DomainException } from '../domain-exception';
-import { getOrCreateAppLogger } from '@whizard/shared-logging';
 
 const logger = getOrCreateAppLogger({ service: 'capability-framework' }).child({ component: 'primary-work-object' });
 

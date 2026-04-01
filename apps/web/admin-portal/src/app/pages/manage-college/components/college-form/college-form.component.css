@@ -1,0 +1,15 @@
+:host {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.hidden-uploader {
+  display: none;
+}
+
+/* Make mat-form-field fit the dark theme */
+.wrcf-field .mat-mdc-text-field-wrapper {
+  background: var(--wrcf-bg-secondary, #0F253F);
+  border-radius: 10px;
+}

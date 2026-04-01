@@ -12,8 +12,8 @@
  * command handlers from the identity-access context.
  */
 import { getOrCreateAppLogger } from '@whizard/shared-logging';
-import { registerIamAuthRoutes } from './routes';
 import type { FastifyInstanceLike } from '../shared/request-context';
+import { registerIamAuthRoutes } from './routes';
 
 /**
  * Dependencies required by the IAM Auth module.

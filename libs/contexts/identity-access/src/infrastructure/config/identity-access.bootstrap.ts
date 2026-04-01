@@ -1,11 +1,11 @@
-import { AuthenticateWithPasswordHandler } from '../../application/command-handlers/authenticate-with-password.handler';
-import { RegisterLocalUserHandler } from '../../application/command-handlers/register-local-user.handler';
-import { StartUserSessionHandler } from '../../application/command-handlers/start-user-session.handler';
 import { createAppLogger } from '@whizard/shared-logging';
+import type { AuthorizationGateway } from '../../application/ports/gateways/authorization.gateway';
 import type { IamCommandRepositories } from '../../application/ports/repositories/iam-command-repositories.port';
 import type { IamTransactionContext } from '../../application/ports/transactions/iam-unit-of-work.port';
 import type { IamUnitOfWorkPort } from '../../application/ports/transactions/iam-unit-of-work.port';
-import type { AuthorizationGateway } from '../../application/ports/gateways/authorization.gateway';
+import { AuthenticateWithPasswordHandler } from '../../application/command-handlers/authenticate-with-password.handler';
+import { RegisterLocalUserHandler } from '../../application/command-handlers/register-local-user.handler';
+import { StartUserSessionHandler } from '../../application/command-handlers/start-user-session.handler';
 import { PrismaOutboxPort } from '../messaging/kafka/outbox/prisma-outbox.port';
 import { PrismaAccessPrincipalRepository } from '../persistence/postgres/repositories/prisma-access-principal.repository';
 import { PrismaCredentialRepository } from '../persistence/postgres/repositories/prisma-credential.repository';
