@@ -1,0 +1,228 @@
+{
+  "kind": "ordered-playwright-run",
+  "startedAt": 1774808352493,
+  "finishedAt": 1774808550097,
+  "status": "failed",
+  "tests": [
+    {
+      "title": "FG-E2E-001 lists functional groups for the selected industry context",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf_Functional_Group.playwright.spec.ts",
+        "line": 314,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 2229,
+      "details": ""
+    },
+    {
+      "title": "FG-E2E-002 shows the add icon in the Functional Group column header",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf_Functional_Group.playwright.spec.ts",
+        "line": 319,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 2363,
+      "details": ""
+    },
+    {
+      "title": "FG-E2E-003 opens the Create Functional Group popup from the add icon",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf_Functional_Group.playwright.spec.ts",
+        "line": 323,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 2205,
+      "details": ""
+    },
+    {
+      "title": "FG-E2E-004 shows Create Functional Group as the popup title",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf_Functional_Group.playwright.spec.ts",
+        "line": 328,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 2225,
+      "details": ""
+    },
+    {
+      "title": "FG-E2E-005 keeps Name mandatory while Description and Domain Type remain optional",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf_Functional_Group.playwright.spec.ts",
+        "line": 333,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 2667,
+      "details": ""
+    },
+    {
+      "title": "FG-E2E-006 accepts a 50 character name and blocks a 51 character name",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf_Functional_Group.playwright.spec.ts",
+        "line": 344,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 5224,
+      "details": ""
+    },
+    {
+      "title": "FG-E2E-007 saves a functional group with Name only",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf_Functional_Group.playwright.spec.ts",
+        "line": 360,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 4944,
+      "details": ""
+    },
+    {
+      "title": "FG-E2E-008 does not save a blank functional group name",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf_Functional_Group.playwright.spec.ts",
+        "line": 368,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 2532,
+      "details": ""
+    },
+    {
+      "title": "FG-E2E-009 blocks duplicate functional group names on add",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf_Functional_Group.playwright.spec.ts",
+        "line": 378,
+        "column": 7
+      },
+      "status": "failed",
+      "durationMs": 8524,
+      "details": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed Locator: locator('.error-banner') Expected pattern: \u001b[32m/duplicate|exists|already/i\u001b[39m Timeout: 5000ms Error: element(s) not found Call log: \u001b[2m - Expect \"toContainText\" with timeout 5000ms\u001b[22m \u001b[2m - waiting for locator('.error-banner')\u001b[22m"
+    },
+    {
+      "title": "FG-E2E-010 blocks duplicates that differ only by trailing spaces",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf_Functional_Group.playwright.spec.ts",
+        "line": 387,
+        "column": 7
+      },
+      "status": "failed",
+      "durationMs": 17950,
+      "details": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed Locator: locator('.error-banner') Expected pattern: \u001b[32m/duplicate|exists|already/i\u001b[39m Timeout: 5000ms Error: element(s) not found Call log: \u001b[2m - Expect \"toContainText\" with timeout 5000ms\u001b[22m \u001b[2m - waiting for locator('.error-banner')\u001b[22m"
+    },
+    {
+      "title": "FG-E2E-011 handles apostrophes and special characters in the name",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf_Functional_Group.playwright.spec.ts",
+        "line": 396,
+        "column": 7
+      },
+      "status": "failed",
+      "durationMs": 18830,
+      "details": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed Locator: locator('.panel') Expected: not visible Received: visible Timeout: 5000ms Call log: \u001b[2m - Expect \"not toBeVisible\" with timeout 5000ms\u001b[22m \u001b[2m - waiting for locator('.panel')\u001b[22m \u001b[2m 9 × locator resolved to <div class=\"panel\" _ngcontent-ng-c1217064951=\"\">…</div>\u001b[22m \u001b[2m - unexpected value \"visible\"\u001b[22m"
+    },
+    {
+      "title": "FG-E2E-012 closes the add panel without saving when cancel is used",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf_Functional_Group.playwright.spec.ts",
+        "line": 404,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 3012,
+      "details": ""
+    },
+    {
+      "title": "FG-E2E-013 refreshes the list immediately after add",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf_Functional_Group.playwright.spec.ts",
+        "line": 416,
+        "column": 7
+      },
+      "status": "failed",
+      "durationMs": 18833,
+      "details": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed Locator: locator('.panel') Expected: not visible Received: visible Timeout: 5000ms Call log: \u001b[2m - Expect \"not toBeVisible\" with timeout 5000ms\u001b[22m \u001b[2m - waiting for locator('.panel')\u001b[22m \u001b[2m 9 × locator resolved to <div class=\"panel\" _ngcontent-ng-c1217064951=\"\">…</div>\u001b[22m \u001b[2m - unexpected value \"visible\"\u001b[22m"
+    },
+    {
+      "title": "FG-E2E-019 blocks blank-name and duplicate validation on edit",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf_Functional_Group.playwright.spec.ts",
+        "line": 424,
+        "column": 7
+      },
+      "status": "failed",
+      "durationMs": 19397,
+      "details": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed Locator: locator('.panel') Expected: not visible Received: visible Timeout: 5000ms Call log: \u001b[2m - Expect \"not toBeVisible\" with timeout 5000ms\u001b[22m \u001b[2m - waiting for locator('.panel')\u001b[22m \u001b[2m 9 × locator resolved to <div class=\"panel\" _ngcontent-ng-c1217064951=\"\">…</div>\u001b[22m \u001b[2m - unexpected value \"visible\"\u001b[22m"
+    },
+    {
+      "title": "FG-E2E-020 saves unchanged edits without showing duplicate validation",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf_Functional_Group.playwright.spec.ts",
+        "line": 445,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 16721,
+      "details": ""
+    },
+    {
+      "title": "FG-E2E-021 shows updated functional group values in the list after save",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf_Functional_Group.playwright.spec.ts",
+        "line": 458,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 6267,
+      "details": ""
+    },
+    {
+      "title": "FG-E2E-022 asks for confirmation before deleting a functional group",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf_Functional_Group.playwright.spec.ts",
+        "line": 474,
+        "column": 7
+      },
+      "status": "passed",
+      "durationMs": 4456,
+      "details": ""
+    },
+    {
+      "title": "FG-E2E-023 deletes a functional group when it has no child PWO",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf_Functional_Group.playwright.spec.ts",
+        "line": 484,
+        "column": 7
+      },
+      "status": "failed",
+      "durationMs": 9395,
+      "details": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed Locator: locator('.panel') Expected: not visible Received: visible Timeout: 5000ms Call log: \u001b[2m - Expect \"not toBeVisible\" with timeout 5000ms\u001b[22m \u001b[2m - waiting for locator('.panel')\u001b[22m \u001b[2m 9 × locator resolved to <div class=\"panel\" _ngcontent-ng-c1217064951=\"\">…</div>\u001b[22m \u001b[2m - unexpected value \"visible\"\u001b[22m"
+    },
+    {
+      "title": "FG-E2E-024 blocks delete when the functional group has linked PWO records",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf_Functional_Group.playwright.spec.ts",
+        "line": 491,
+        "column": 7
+      },
+      "status": "failed",
+      "durationMs": 9481,
+      "details": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed Locator: locator('.panel') Expected: not visible Received: visible Timeout: 5000ms Call log: \u001b[2m - Expect \"not toBeVisible\" with timeout 5000ms\u001b[22m \u001b[2m - waiting for locator('.panel')\u001b[22m \u001b[2m 9 × locator resolved to <div class=\"panel\" _ngcontent-ng-c1217064951=\"\">…</div>\u001b[22m \u001b[2m - unexpected value \"visible\"\u001b[22m"
+    },
+    {
+      "title": "FG-E2E-025 shows toaster feedback for validation and success paths",
+      "location": {
+        "file": "C:\\Users\\sande\\OneDrive\\Documents\\Codex\\whizard-platform\\manual-tests\\wrcf_Functional_Group.playwright.spec.ts",
+        "line": 507,
+        "column": 7
+      },
+      "status": "failed",
+      "durationMs": 8196,
+      "details": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed Locator: locator('.error-banner') Expected: visible Timeout: 5000ms Error: element(s) not found Call log: \u001b[2m - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m \u001b[2m - waiting for locator('.error-banner')\u001b[22m"
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "session_start_rules": [
+    "Read CODEX_EXECUTION_GUIDE.md",
+    "Read CODEX_PROGRESS_LOG.md",
+    "Read known_issues.md",
+    "Read rules.json"
+  ],
+  "source_priority": [
+    "existing manual-tests specs/docs",
+    "temp WRCF Functional Specs PDF",
+    "temp WRCF definition & Schema PDF",
+    "temp workbook as derived case ledger",
+    "UI/MCP only for verification",
+    "ask human if still unclear"
+  ],
+  "workbook_rules": [
+    "do not treat the workbook as the product source of truth",
+    "derive expected behavior from the WRCF PDFs first",
+    "use the workbook to map PDF-defined behavior into stable test IDs and coverage",
+    "if Excel libraries are unavailable, read the xlsx zip/xml payload directly"
+  ],
+  "acceptance_rules": [
+    "reuse the closest existing spec as template",
+    "do not create duplicate cases",
+    "categorize cases as P0, P1, or P2",
+    "do not unnecessarily retest lower-layer flows like login",
+    "create or update companion markdown with each spec",
+    "run the relevant priority set after generation",
+    "capture failures and update memory files",
+    "future coverage should be tagged and remain visible instead of being permanently skipped",
+    "default suites should exclude future-tagged tests rather than hiding them with long-term fixme/skip",
+    "feature-readiness coverage must not use permanent skip/fixme; keep it executable under @future",
+    "runtime/data blockers must be documented separately from future-feature coverage",
+    "do not mark a generated spec as complete unless it has been run or an execution blocker has been documented",
+    "if a suite was generated earlier without a trustworthy execution attempt, move it back to revalidation status until rerun"
+  ],
+  "failure_artifacts": [
+    "logs",
+    "screenshots",
+    "trace if available"
+  ],
+  "environment_rules": [
+    "for authenticated WRCF runs, verify frontend 4200 and backend ports 3000 and 3001 are reachable before debugging selectors",
+    "prefer explicit service-readiness checks in authenticated workbook-driven specs so backend outages fail fast",
+    "if service preflight passes but login still hangs, document the auth/runtime blocker separately instead of attributing it to selector issues"
+  ],
+  "priority_rules": {
+    "P0": "critical user journeys",
+    "P1": "edge cases",
+    "P2": "data variations"
+  },
+  "token_rules": [
+    "keep chat output brief",
+    "do not restate full project background",
+    "work on the next pending entity or small batch",
+    "use PDFs as the primary product source",
+    "use the workbook as a derived coverage map",
+    "use tags/grouping to separate stable and future coverage without duplicating files"
+  ],
+  "playwright_tag_rules": [
+    "tag stable runnable coverage with @stable",
+    "tag deferred feature coverage with @future",
+    "tag priorities with @p0, @p1, or @p2",
+    "use module tags like @dashboard, @task, or @skills when they improve targeted runs",
+    "default Playwright execution should exclude @future via grep-invert",
+    "explicit future runs should include @future and allow normal failures"
+  ]
+}
