@@ -3,7 +3,7 @@ import { UserAccount } from '../../../../domain';
 
 export const toUserAccountDomain = (row: UserAccountRow): UserAccount => {
   return UserAccount.rehydrate({
-    id: row.id.toString(),
+    id: row.publicUuid,
     email: row.primaryEmail,
     tenantType: 'SYSTEM',
     tenantId: process.env['SYSTEM_TENANT_ID'] ?? process.env['STACK_AUTH_DEFAULT_TENANT_ID'] ?? '1',

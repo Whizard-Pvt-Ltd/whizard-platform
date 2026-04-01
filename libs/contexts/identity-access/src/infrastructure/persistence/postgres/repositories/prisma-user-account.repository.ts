@@ -15,32 +15,43 @@ export class PrismaUserAccountRepository implements UserAccountRepository {
   }
 
   async findById(id: string): Promise<UserAccount | null> {
-    const row = await this.prisma.userAccount.findUnique({ where: { id: BigInt(id) } });
+    const row = await this.prisma.userAccount.findUnique({ where: { publicUuid: id } });
     return row ? toUserAccountDomain(row) : null;
   }
 
   async save(userAccount: UserAccount): Promise<void> {
     const model = userAccount.toPrimitives();
 
-    await this.prisma.userAccount.upsert({
-      where: { id: BigInt(model.id) },
-      update: {
-        primaryEmail: model.email,
-        primaryLoginId: model.email,
-        mfaRequired: model.mfaRequired,
-        activatedAt: model.activatedAt,
-        lastLoginAt: model.lastLoginAt,
-        version: { increment: 1 }
-      },
-      create: {
-        primaryLoginId: model.email,
-        primaryEmail: model.email,
-        authMode: 'Password',
-        mfaRequired: model.mfaRequired,
-        createdAt: model.createdAt,
-        activatedAt: model.activatedAt,
-        lastLoginAt: model.lastLoginAt
-      }
+    const existing = await this.prisma.userAccount.findUnique({
+      where: { primaryLoginId: model.email },
+      select: { id: true }
     });
+
+    if (existing) {
+      await this.prisma.userAccount.update({
+        where: { id: existing.id },
+        data: {
+          primaryEmail: model.email,
+          primaryLoginId: model.email,
+          mfaRequired: model.mfaRequired,
+          activatedAt: model.activatedAt,
+          lastLoginAt: model.lastLoginAt,
+          version: { increment: 1 }
+        }
+      });
+    } else {
+      await this.prisma.userAccount.create({
+        data: {
+          publicUuid: model.id,
+          primaryLoginId: model.email,
+          primaryEmail: model.email,
+          authMode: 'Password',
+          mfaRequired: model.mfaRequired,
+          createdAt: model.createdAt,
+          activatedAt: model.activatedAt,
+          lastLoginAt: model.lastLoginAt
+        }
+      });
+    }
   }
 }
