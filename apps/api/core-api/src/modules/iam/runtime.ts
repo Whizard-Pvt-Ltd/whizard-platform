@@ -4,6 +4,10 @@ import {
   type IamAccessAdminModuleDependencies
 } from './access/access.module';
 import {
+  registerIamAuthModule,
+  type IamAuthModuleDependencies
+} from './auth/auth.module';
+import {
   registerIamFederationModule,
   type IamFederationModuleDependencies
 } from './federation/federation.module';
@@ -11,10 +15,6 @@ import {
   registerIamProvisioningModule,
   type IamProvisioningModuleDependencies
 } from './provisioning/provisioning.module';
-import {
-  registerIamAuthModule,
-  type IamAuthModuleDependencies
-} from './auth/auth.module';
 import {
   registerIamUserAccessModule,
   type IamUserAccessModuleDependencies

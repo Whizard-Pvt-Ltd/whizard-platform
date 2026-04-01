@@ -1,6 +1,6 @@
+import { isDirectExecution } from '../shared/direct-execution';
 import { ConsoleWorkerLogger } from '../shared/logger';
 import { runWorkerLoop } from '../shared/worker-loop';
-import { isDirectExecution } from '../shared/direct-execution';
 import { createReadModelUpdaterDependencies } from './dependencies';
 import { ReadModelUpdatersWorker } from './read-model-updaters.worker';
 

@@ -5,19 +5,30 @@
     "moduleResolution": "Bundler",
     "strict": true,
     "declaration": false,
+    "composite": false,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "@whizard/identity-access": ["libs/contexts/identity-access/src/index.ts"],
+      "@whizard/identity-access": [
+        "libs/contexts/identity-access/src/index.ts"
+      ],
       "@whizard/shared-kernel": ["libs/shared/kernel/src/index.ts"],
-      "@whizard/shared-infrastructure": ["libs/shared/infrastructure/src/index.ts"],
+      "@whizard/shared-infrastructure": [
+        "libs/shared/infrastructure/src/index.ts"
+      ],
       "@whizard/shared-logging": ["libs/shared/logging/src/index.ts"],
       "@whizard/shared-ui": ["libs/shared/ui/src/index.ts"],
       "@whizard/core-api-client": ["libs/shared/core-api-client/src/index.ts"],
-      "@whizard/capability-framework": ["libs/contexts/capability-framework/src/index.ts"]
+      "@whizard/capability-framework": [
+        "libs/contexts/capability-framework/src/index.ts"
+      ],
+      "@whizard/theme": ["libs/shared/theme/src/index.ts"],
+      "@whizard/icons": ["libs/shared/icons/src/index.ts"],
+      "@whizard/college-operations": ["libs/contexts/college-operations/src/index.ts"],
+      "@whizard/company-organization": ["libs/contexts/company-organization/src/index.ts"]
     }
   },
   "include": ["apps", "libs", "tests", "tools", "vitest.config.ts"]

@@ -1,7 +1,7 @@
-import type { GetCurrentUserProfileQuery } from '../queries/get-current-user-profile.query';
 import type { GetCurrentUserProfileResponseDto } from '../dto/responses/get-current-user-profile.response.dto';
 import type { AuthorizationGateway } from '../ports/gateways/authorization.gateway';
 import type { IamReadModelRepository } from '../ports/repositories/iam-read-model.repository';
+import type { GetCurrentUserProfileQuery } from '../queries/get-current-user-profile.query';
 
 export class GetCurrentUserProfileHandler {
   constructor(

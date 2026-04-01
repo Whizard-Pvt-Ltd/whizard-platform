@@ -1,4 +1,3 @@
-import { randomUUID } from 'crypto';
 import type { DomainEvent } from '../events/domain-event.base';
 
 export interface SkillProps {
@@ -63,7 +62,7 @@ export class Skill {
   }
 
   static create(props: Omit<SkillProps, 'id'>): Skill {
-    const skill = new Skill({ ...props, id: randomUUID() });
+    const skill = new Skill({ ...props, id: '0' });
     skill._domainEvents.push(new SkillCreatedEvent(skill.id, skill.tenantId, { capabilityInstanceId: skill.capabilityInstanceId, name: skill.name }));
     return skill;
   }

@@ -11,15 +11,19 @@
     </p>
 
     <form [formGroup]="loginForm" (ngSubmit)="submit()" novalidate>
-      <div *ngIf="errorMessage()" class="error-alert">
-        {{ errorMessage() }}
-      </div>
+      @if (errorMessage()) {
+        <div class="error-alert">
+          {{ errorMessage() }}
+        </div>
+      }
 
       <label for="email">E-mail</label>
       <input id="email" type="email" formControlName="email" placeholder="example@gmail.com" />
-      <small *ngIf="loginForm.controls.email.touched && loginForm.controls.email.invalid">
-        Enter a valid work email address.
-      </small>
+      @if (loginForm.controls.email.touched && loginForm.controls.email.invalid) {
+        <small>
+          Enter a valid work email address.
+        </small>
+      }
 
       <label for="password">Password</label>
       <div class="password-field">
@@ -28,14 +32,16 @@
           [type]="showPassword() ? 'text' : 'password'"
           formControlName="password"
           placeholder="@#*%"
-        />
+          />
         <button type="button" (click)="togglePasswordVisibility()">
           {{ showPassword() ? 'Hide' : 'Show' }}
         </button>
       </div>
-      <small *ngIf="loginForm.controls.password.touched && loginForm.controls.password.invalid">
-        Password must be at least 8 characters.
-      </small>
+      @if (loginForm.controls.password.touched && loginForm.controls.password.invalid) {
+        <small>
+          Password must be at least 8 characters.
+        </small>
+      }
 
       <div class="form-row">
         <label class="checkbox">

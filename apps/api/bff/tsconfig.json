@@ -5,8 +5,8 @@
   },
   "references": [
     { "path": "../../../libs/shared/kernel" },
-    { "path": "../../../libs/shared/infrastructure" },
-    { "path": "../../../libs/contexts/identity-access" }
+    { "path": "../../../libs/shared/logging" },
+    { "path": "../../../libs/shared/core-api-client" }
   ],
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

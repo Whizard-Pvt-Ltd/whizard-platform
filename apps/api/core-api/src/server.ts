@@ -1,3 +1,6 @@
+import { getOrCreateAppLogger, createPinoLoggerOptions } from '@whizard/shared-logging';
+import cors from '@fastify/cors';
+import helmet from '@fastify/helmet';
 /**
  * Core API Server Bootstrap
  *
@@ -17,10 +20,9 @@
  * - LOG_LEVEL: Logging level (debug/info/warn/error)
  */
 import Fastify from 'fastify';
-import cors from '@fastify/cors';
-import helmet from '@fastify/helmet';
-import { getOrCreateAppLogger, createPinoLoggerOptions } from '@whizard/shared-logging';
 import { startCoreApi } from './main';
+import { registerCollegeOperationsCoreApiRuntime } from './modules/college-operations/runtime';
+import { registerCompanyOrganizationCoreApiRuntime } from './modules/company-organization/runtime';
 import { registerWrcfCoreApiRuntime } from './modules/wrcf/runtime';
 import stackAuthPlugin from './plugins/stack-auth.plugin';
 
@@ -139,6 +141,30 @@ async function bootstrap() {
   } catch (error) {
     fastify.log.error({ error }, 'Failed to register WRCF runtime');
     bootstrapLogger.error('Failed to register WRCF runtime', {
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+    throw error;
+  }
+
+  // Register College Operations routes
+  bootstrapLogger.info('Registering College Operations runtime');
+  try {
+    await registerCollegeOperationsCoreApiRuntime(fastify);
+    bootstrapLogger.info('College Operations runtime registered successfully');
+  } catch (error) {
+    bootstrapLogger.error('Failed to register College Operations runtime', {
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+    throw error;
+  }
+
+  // Register Company Organization routes
+  bootstrapLogger.info('Registering Company Organization runtime');
+  try {
+    await registerCompanyOrganizationCoreApiRuntime(fastify);
+    bootstrapLogger.info('Company Organization runtime registered successfully');
+  } catch (error) {
+    bootstrapLogger.error('Failed to register Company Organization runtime', {
       error: error instanceof Error ? error.message : 'Unknown error'
     });
     throw error;

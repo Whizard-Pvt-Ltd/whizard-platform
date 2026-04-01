@@ -1,5 +1,20 @@
 packages:
-  - 'apps/*/*'
-  - 'libs/*/*'
-  - 'libs/contexts/*'
-  - 'tools/*'
+  - apps/*/*
+  - libs/*/*
+  - libs/contexts/*
+  - tools/*
+ignoredBuiltDependencies:
+  - bcrypt
+
+approvedBuiltDependencies:
+  - "@parcel/watcher"
+  - "@prisma/client"
+  - "@prisma/engines"
+  - "@swc/core"
+  - esbuild
+  - less
+  - lmdb
+  - msgpackr-extract
+  - nx
+  - prisma
+  - unrs-resolver

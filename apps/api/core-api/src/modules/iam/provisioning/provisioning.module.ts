@@ -12,8 +12,8 @@
  * delegating to domain-level command handlers from the identity-access context.
  */
 import { getOrCreateAppLogger } from '@whizard/shared-logging';
-import { registerIamProvisioningRoutes } from './routes';
 import type { FastifyInstanceLike } from '../shared/request-context';
+import { registerIamProvisioningRoutes } from './routes';
 
 /**
  * Dependencies required by the IAM Provisioning module.

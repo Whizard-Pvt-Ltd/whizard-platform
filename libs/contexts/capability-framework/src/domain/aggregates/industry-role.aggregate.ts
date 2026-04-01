@@ -1,4 +1,3 @@
-import { randomUUID } from 'crypto';
 import type { DomainEvent } from '../events/domain-event.base';
 
 export interface IndustryRoleProps {
@@ -69,7 +68,7 @@ export class IndustryRole {
   }
 
   static create(props: Omit<IndustryRoleProps, 'id'>): IndustryRole {
-    const role = new IndustryRole({ ...props, id: randomUUID() });
+    const role = new IndustryRole({ ...props, id: '0' });
     role._domainEvents.push(new IndustryRoleCreatedEvent(role.id, role.tenantId, { name: role.name, departmentId: role.departmentId }));
     return role;
   }

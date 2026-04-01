@@ -1,9 +1,9 @@
-import { getRequestContext, getLogContext, toApiMeta, type FastifyInstanceLike } from '../iam/shared/request-context';
-import { authorizationPreHandler } from '../iam/shared/authorization-prehandler';
-import type { WrcfModuleDependencies } from './runtime';
 import type { StrategicImportance, DomainType } from '@whizard/capability-framework';
 import { resolveImpactLevel, CRITICALITY_LEVELS, COMPLEXITY_LEVELS, FREQUENCY_LEVELS } from '@whizard/capability-framework';
 import { getOrCreateAppLogger } from '@whizard/shared-logging';
+import type { WrcfModuleDependencies } from './runtime';
+import { authorizationPreHandler } from '../iam/shared/authorization-prehandler';
+import { getRequestContext, getLogContext, toApiMeta, type FastifyInstanceLike } from '../iam/shared/request-context';
 
 const logger = getOrCreateAppLogger({ service: 'core-api' }).child({ component: 'wrcf' });
 

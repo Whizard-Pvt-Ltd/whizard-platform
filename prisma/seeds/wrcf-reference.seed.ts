@@ -12,20 +12,14 @@ async function seedWrcfReference(): Promise<void> {
     ON CONFLICT (name) DO NOTHING
   `);
 
-  const sectors = await prisma.$queryRawUnsafe<Array<{ public_uuid: string; name: string }>>(
-    `SELECT public_uuid, name FROM industry_sectors WHERE name IN ('Manufacturing', 'Energy & Utilities')`
-  );
-
-  const energyId       = sectors.find(s => s.name === 'Energy & Utilities')!.public_uuid;
-  const manufacturingId = sectors.find(s => s.name === 'Manufacturing')!.public_uuid;
-
   // ─── Industries ────────────────────────────────────────────────────────────
+  // Use subqueries so sector_id resolves to the BigInt PK automatically
   await prisma.$executeRawUnsafe(`
     INSERT INTO industries (sector_id, name, is_active)
     VALUES
-      ('${energyId}',        'Thermal Power Plant', true),
-      ('${energyId}',        'Wind Energy',         true),
-      ('${manufacturingId}', 'Steel Manufacturing', true)
+      ((SELECT id FROM industry_sectors WHERE name = 'Energy & Utilities'),  'Thermal Power Plant', true),
+      ((SELECT id FROM industry_sectors WHERE name = 'Energy & Utilities'),  'Wind Energy',         true),
+      ((SELECT id FROM industry_sectors WHERE name = 'Manufacturing'),       'Steel Manufacturing', true)
     ON CONFLICT (sector_id, name) DO NOTHING
   `);
 

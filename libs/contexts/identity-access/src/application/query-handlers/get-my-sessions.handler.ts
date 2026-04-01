@@ -1,7 +1,7 @@
-import type { GetMySessionsQuery } from '../queries/get-my-sessions.query';
 import type { GetMySessionsResponseDto } from '../dto/responses/get-my-sessions.response.dto';
 import type { AuthorizationGateway } from '../ports/gateways/authorization.gateway';
 import type { IamReadModelRepository } from '../ports/repositories/iam-read-model.repository';
+import type { GetMySessionsQuery } from '../queries/get-my-sessions.query';
 
 export class GetMySessionsHandler {
   constructor(

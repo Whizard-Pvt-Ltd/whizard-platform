@@ -1,4 +1,3 @@
-import { randomUUID } from 'crypto';
 import type { DomainEvent } from '../events/domain-event.base';
 
 export interface TaskProps {
@@ -66,7 +65,7 @@ export class Task {
   }
 
   static create(props: Omit<TaskProps, 'id'>): Task {
-    const task = new Task({ ...props, id: randomUUID() });
+    const task = new Task({ ...props, id: '0' });
     task._domainEvents.push(new TaskCreatedEvent(task.id, task.tenantId, { skillId: task.skillId, name: task.name }));
     return task;
   }

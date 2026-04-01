@@ -1,35 +1,126 @@
-# Project Theme
+# Project Theme — Dynamic Theming & WRCF Token System
 
 ## Overview
-<!-- One paragraph: what this enhancement does, which existing feature it improves, and why. -->
+This enhancement establishes a fully token-driven theming system for the Whizard admin portal.
+It eliminates hardcoded hex colour values across all components and wires the WRCF Design System
+colour palette into both Tailwind CSS utilities and CSS custom properties, so that changing a
+single `primary` colour in `provideTheming()` propagates instantly to every action button,
+column header, badge, and interactive element throughout the app.
 
 ## Current Behaviour
-<!-- Describe how the feature works today before this enhancement. -->
+- Every page-level component (dashboard, wrcf-roles, wrcf-skills, industry-wrcf) redefined the
+  full 11-token WRCF palette on its own `:host { --bg-primary: #0F172A; ... }` block.
+- Sub-components (panels, dialogs, columns) used raw hex literals directly in CSS rules.
+- HTML templates used Tailwind arbitrary-value syntax: `bg-[#0F172A]`, `text-[#E8F0FA]`, etc.
+- The dynamic `ThemingService` generated `--color-primary-*` CSS vars at runtime, but no
+  component actually consumed them — every "action" colour was still the hardcoded `#314DDF`.
 
 ## Desired Behaviour
-<!-- Describe how it should work after the enhancement. Be specific. -->
+- All WRCF colour tokens live in exactly one place: `libs/shared/theme/src/styles/tailwind/theme.css`.
+- Components reference tokens via Tailwind utility classes (`bg-wrcf-bg-primary`) or CSS variables
+  (`var(--color-wrcf-action)`) — never raw hex.
+- `action` and `action-hover` tokens are wired to the live primary palette from `ThemingService`,
+  so calling `provideTheming({ primary: '#your-brand-colour' })` updates all buttons, headers,
+  and badges without touching any component file.
 
-## Default Behaviours
-<!-- Auto-select rules, pre-population, initial state changes if any. -->
+## Token Definitions (added to @theme block)
 
-## Changes to Entities & Attributes
-<!-- Only list fields/entities that are added, changed, or removed.
-     For each: Name, Type, Mandatory (*), Options if dropdown. -->
+| Token                        | Value / Source                     | Tailwind class example          |
+|------------------------------|------------------------------------|---------------------------------|
+| `--color-wrcf-bg-primary`    | `#0F172A`                          | `bg-wrcf-bg-primary`            |
+| `--color-wrcf-bg-secondary`  | `#0F253F`                          | `bg-wrcf-bg-secondary`          |
+| `--color-wrcf-bg-card`       | `#1E293B`                          | `bg-wrcf-bg-card`               |
+| `--color-wrcf-bg-selected`   | `#2D2A5A`                          | `bg-wrcf-bg-selected`           |
+| `--color-wrcf-text-primary`  | `#E8F0FA`                          | `text-wrcf-text-primary`        |
+| `--color-wrcf-text-secondary`| `#7F94AE`                          | `text-wrcf-text-secondary`      |
+| `--color-wrcf-text-tertiary` | `#8AB4F8`                          | `text-wrcf-text-tertiary`       |
+| `--color-wrcf-border`        | `#484E5D`                          | `border-wrcf-border`            |
+| `--color-wrcf-action`        | `var(--color-primary-600)` DYNAMIC | `bg-wrcf-action`                |
+| `--color-wrcf-action-hover`  | `var(--color-primary-700)` DYNAMIC | `hover:bg-wrcf-action-hover`    |
+| `--color-wrcf-accent`        | `#00BFFF`                          | `bg-wrcf-accent`                |
+| `--color-wrcf-error`         | `#fca5a5`                          | `text-wrcf-error`               |
 
-## User Flows
-<!--g. "1. Click Export → 2. Choose format → 3. Download file" -->
+Dynamic tokens resolve through the chain:
+  provideTheming({ primary }) → ThemingService.generateTheme()
+    → --theme-color-primary-600 (oklch)
+    → --color-primary-600 (Tailwind @theme)
+    → --color-wrcf-action (WRCF token)
+    → bg-wrcf-action (utility class on component)
 
-## Business Rules & Constraints
-<!-- New or changed validation rules, guard conditions, cascading effects. -->
+## Changes Made
+
+### libs/shared/theme/src/styles/tailwind/theme.css
+- Added the 12 WRCF token entries to the `@theme` block after the error palette.
+
+### apps/web/admin-portal/src/app — Component CSS files (10 files)
+Each file had:
+  - `@import url(Google Fonts Poppins)` removed (already loaded via index.html)
+  - `:host { --bg-primary: #0F172A; ... }` token definition block removed
+  - All `var(--bg-*)` / `var(--text-*)` / `var(--action)` etc. replaced with `var(--color-wrcf-*)`
+  - Remaining inline hex values replaced with `var(--color-wrcf-*)`
+  - `font-family: 'Poppins', sans-serif` replaced with `font-family: var(--font-sans)`
+
+Files changed:
+  - dashboard.component.css
+  - wrcf-roles.component.css
+  - wrcf-skills.component.css
+  - industry-wrcf.component.css
+  - nav-drawer.component.css
+  - wrcf-dashboard.component.css
+  - roles-panel.component.css
+  - wrcf-column.component.css
+  - wrcf-panel.component.css
+  - skills-panel.component.css
+  - ci-mappings-dialog.component.css
+  - manage-ci-mappings.component.css
+
+### apps/web/admin-portal/src/app — HTML / TS template files (4 files)
+Tailwind arbitrary-value classes replaced with token utility classes:
+  - `bg-[#0F172A]`  → `bg-wrcf-bg-primary`
+  - `text-[#E8F0FA]`→ `text-wrcf-text-primary`
+  - `border-[#484E5D]` → `border-wrcf-border`
+  - `bg-[#314DDF]`  → `bg-wrcf-action`
+  - (etc.)
+
+Files changed:
+  - nav-drawer.component.html
+  - wrcf-dashboard.component.html
+  - wrcf-column.component.html (SVG stroke → `var(--color-wrcf-bg-primary)`)
+  - publish-draft-dialog.component.ts (inline template)
+  - version-history-dialog.component.ts (inline template)
+
+## Intentionally Kept As-Is
+The following hex values were NOT replaced because they are chart/status colours
+with specific semantic meaning that does not belong in the WRCF structural palette:
+  - `#00C853` — Published / Validated (green)
+  - `#FFA500` — In Progress (orange)
+  - `#FF6B6B` — Primary Work Objective (red)
+  - `#B57BFF` — Secondary Work Objective (purple)
+  - `#FF69B4` — Skills (pink)
+  - `#00E676` — Tasks (bright green)
+  - `#FFD700` — Roles (gold)
+  - `#22c55e` — Saved checkbox state (Tailwind green-500)
+  - `#1a3050` — Accordion hover (mid-dark blue, not in the WRCF palette)
+
+The shared/ui auth components (login, signup, change-password, user-profile) use a
+different custom dark palette unrelated to WRCF and were left out of scope.
 
 ## DB Notes
-<!-- New columns, indexes, or table changes needed. State "No DB changes" if none. -->
+No DB changes.
 
 ## Scope
-<!-- Explicit list of what must be changed: frontend, API, migration, tests. -->
+- Frontend only: theme lib CSS + admin portal components.
 
 ## Out of Scope
-<!-- Anything explicitly NOT part of this enhancement to avoid scope creep. -->
+- Other portals (company-portal, student-portal, college-portal).
+- shared/ui auth components.
+- Light-mode variants for the WRCF dark palette.
+- A runtime theme-switcher UI (separate enhancement).
 
 ## Notes / Edge Cases
-<!-- Gotchas, open questions, cross-feature dependencies. -->
+- `--color-wrcf-action` resolves to the oklch value of `--color-primary-600` at runtime.
+  If `provideTheming` is called with a very desaturated or near-white primary, the action
+  colour may have poor contrast against `--color-wrcf-text-primary`. A contrast check
+  should be added when building the theme-switcher UI.
+- The `#1a3050` accordion hover shade has no token equivalent; it is a mid-point between
+  bg-secondary and bg-card. Consider adding `--color-wrcf-bg-hover` if this is reused.

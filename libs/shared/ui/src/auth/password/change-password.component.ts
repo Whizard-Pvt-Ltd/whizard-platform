@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, Input, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -29,7 +29,7 @@ export interface IPasswordAuthService {
 @Component({
   selector: 'whizard-change-password',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './change-password.component.html',
   styleUrl: './change-password.component.css'
 })

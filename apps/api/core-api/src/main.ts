@@ -1,6 +1,3 @@
-import { registerIamCoreApiRuntime, type IamCoreApiRuntimeDependencies } from './modules/iam/runtime';
-import type { FastifyInstanceLike } from './modules/iam/shared/request-context';
-import { StackAuthLoginUseCase } from './use-cases/stack-auth-login.use-case';
 import {
   StackAuthTokenVerifierGateway,
   StackAuthUserSyncService,
@@ -9,6 +6,9 @@ import {
   loadStackAuthUserSyncConfig,
   type StackAuthVerifierConfig
 } from '@whizard/identity-access';
+import type { FastifyInstanceLike } from './modules/iam/shared/request-context';
+import { registerIamCoreApiRuntime, type IamCoreApiRuntimeDependencies } from './modules/iam/runtime';
+import { StackAuthLoginUseCase } from './use-cases/stack-auth-login.use-case';
 
 const createNotImplementedUseCase = () => ({
   async execute(): Promise<{ data: Record<string, unknown> }> {

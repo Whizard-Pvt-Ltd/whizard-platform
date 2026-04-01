@@ -11,7 +11,7 @@
  * - Permissions (what the actor is allowed to do)
  * - Request tracking (correlation IDs)
  */
-import type { ApiMetaV1 } from '@whizard/identity-access';
+import type { ApiMetaV1 } from './contracts';
 
 /**
  * Tenant types supported by the platform.
@@ -127,7 +127,7 @@ export const getRequestContext = (request: FastifyRequestLike): IamRequestContex
 
   // Extract tenant context (defaults to SYSTEM tenant)
   const tenantType = String(request.headers['x-tenant-type'] ?? 'SYSTEM') as TenantType;
-  const tenantId = String(request.headers['x-tenant-id'] ?? 'system');
+  const tenantId = String(request.headers['x-tenant-id'] ?? process.env['SYSTEM_TENANT_ID'] ?? '1');
 
   // Parse permissions from comma-separated header value
   const permissionsHeader = String(request.headers['x-permissions'] ?? '');

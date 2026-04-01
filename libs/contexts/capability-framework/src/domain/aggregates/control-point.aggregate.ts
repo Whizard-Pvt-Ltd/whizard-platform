@@ -1,4 +1,3 @@
-import { randomUUID } from 'crypto';
 import type { DomainEvent } from '../events/domain-event.base';
 
 export interface ControlPointProps {
@@ -69,7 +68,7 @@ export class ControlPoint {
   }
 
   static create(props: Omit<ControlPointProps, 'id'>): ControlPoint {
-    const cp = new ControlPoint({ ...props, id: randomUUID() });
+    const cp = new ControlPoint({ ...props, id: '0' });
     cp._domainEvents.push(new ControlPointCreatedEvent(cp.id, cp.tenantId, { taskId: cp.taskId, name: cp.name }));
     return cp;
   }

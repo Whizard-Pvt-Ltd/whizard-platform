@@ -1,9 +1,9 @@
+import type { SessionDevice } from './entities/session-device.entity';
+import type { SessionToken } from './entities/session-token.entity';
 import { DomainEvent } from '../../events/domain-event';
 import { IamDomainError } from '../../exceptions/iam-domain.error';
 import { SessionId } from '../../value-objects/session-id.vo';
 import { UserAccountId } from '../../value-objects/user-account-id.vo';
-import type { SessionDevice } from './entities/session-device.entity';
-import type { SessionToken } from './entities/session-token.entity';
 
 export type SessionStatus = 'ACTIVE' | 'REVOKED' | 'EXPIRED';
 

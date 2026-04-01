@@ -1,6 +1,5 @@
-import { randomUUID } from 'crypto';
-import type { DomainType } from '../value-objects/domain-type.vo';
 import type { DomainEvent } from '../events/domain-event.base';
+import type { DomainType } from '../value-objects/domain-type.vo';
 import {
   FunctionalGroupCreatedEvent,
   FunctionalGroupUpdatedEvent,
@@ -51,7 +50,7 @@ export class FunctionalGroup {
   }
 
   static create(props: CreateFunctionalGroupProps): FunctionalGroup {
-    const fg = new FunctionalGroup({ ...props, id: randomUUID(), isActive: true });
+    const fg = new FunctionalGroup({ ...props, id: '0', isActive: true });
     fg._domainEvents.push(
       new FunctionalGroupCreatedEvent(fg.id, fg.tenantId, {
         industryId: fg.industryId,

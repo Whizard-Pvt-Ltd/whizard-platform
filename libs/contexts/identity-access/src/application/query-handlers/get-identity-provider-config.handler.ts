@@ -1,7 +1,7 @@
-import type { GetIdentityProviderConfigQuery } from '../queries/get-identity-provider-config.query';
 import type { GetIdentityProviderConfigResponseDto } from '../dto/responses/get-identity-provider-config.response.dto';
 import type { AuthorizationGateway } from '../ports/gateways/authorization.gateway';
 import type { IamReadModelRepository } from '../ports/repositories/iam-read-model.repository';
+import type { GetIdentityProviderConfigQuery } from '../queries/get-identity-provider-config.query';
 
 export class GetIdentityProviderConfigHandler {
   constructor(

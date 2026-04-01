@@ -1,7 +1,7 @@
-import { DomainEvent } from '../../events/domain-event';
 import type { ExternalIdentifierBinding } from './entities/external-identifier-binding.entity';
 import type { IdentityProvider } from './entities/identity-provider.entity';
 import type { SsoRoleMappingRule } from './entities/sso-role-mapping-rule.entity';
+import { DomainEvent } from '../../events/domain-event';
 
 interface FederatedAccountState {
   id: string;
