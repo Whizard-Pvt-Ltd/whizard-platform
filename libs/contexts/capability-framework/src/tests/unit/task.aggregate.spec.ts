@@ -21,7 +21,7 @@ describe('Task aggregate', () => {
         ...baseProps,
         description: 'Desc',
         standardDuration: 30,
-        requiredProficiencyLevel: 2
+        requiredProficiencyLevel: 'L2'
       });
       expect(task.tenantId).toBe('tenant-1');
       expect(task.skillId).toBe('skill-1');
@@ -30,7 +30,7 @@ describe('Task aggregate', () => {
       expect(task.frequency).toBe('Daily');
       expect(task.complexity).toBe('Medium');
       expect(task.standardDuration).toBe(30);
-      expect(task.requiredProficiencyLevel).toBe(2);
+      expect(task.requiredProficiencyLevel).toBe('L2');
     });
 
     it('emits a TaskCreatedEvent', () => {

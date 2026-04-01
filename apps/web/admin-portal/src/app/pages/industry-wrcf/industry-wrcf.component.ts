@@ -193,7 +193,7 @@ export class IndustryWrcfComponent implements OnInit {
         capabilityCode: cap.code ?? '',
         capabilityName: cap.name,
         proficiencyId: item.id,
-        proficiencyLevel: levelMatch ? Number(levelMatch[1]) : 0,
+        proficiencyLevel: prof.level,
         proficiencyLabel: prof.name
       };
       this.ciCache.update(cache => [...cache, entry]);
@@ -209,8 +209,8 @@ export class IndustryWrcfComponent implements OnInit {
     const calls = pending.map(e =>
       this.apiService.createCI({
         functionalGroupId: e.fgId,
-        pwoId: e.pwoId,
-        swoId: e.swoId,
+        pwoId: e.pwoId ?? '',
+        swoId: e.swoId ?? '',
         capabilityId: e.capabilityId,
         proficiencyId: e.proficiencyId
       })

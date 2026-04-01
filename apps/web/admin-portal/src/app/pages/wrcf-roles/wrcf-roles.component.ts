@@ -176,7 +176,7 @@ export class WrcfRolesComponent implements OnInit {
 
     const dept = this.departments().find(d => d.id === deptId);
     if (dept) {
-      const fgs = this.allFGs().filter(fg => dept.fgIds.includes(fg.id));
+      const fgs = this.allFGs().filter(fg => dept.functionalGroupIds.includes(fg.id));
       this.deptFGs.set(fgs);
       if (fgs.length > 0) {
         this.onFGSelect(fgs[0].id);
@@ -276,7 +276,7 @@ export class WrcfRolesComponent implements OnInit {
       this.pendingMappings.update(m => {
         const ci = this.allCIs().find(c => c.swoId === swoId && c.capabilityId === capId && c.proficiencyId === profId);
         if (!ci) return m;
-        return m.filter(p => p.ciId !== ci.id);
+        return m.filter(p => p.capabilityInstanceId !== ci.id);
       });
     } else {
       const ci = this.allCIs().find(c => c.swoId === swoId && c.capabilityId === capId && c.proficiencyId === profId);
@@ -291,7 +291,7 @@ export class WrcfRolesComponent implements OnInit {
       if (!fg || !pwo || !swo || !cap || !prof) return;
 
       const entry: PendingCIMapping = {
-        ciId: ci.id,
+        capabilityInstanceId: ci.id,
         fgName: fg.name,
         pwoName: pwo.name,
         swoName: swo.name,
@@ -356,8 +356,8 @@ export class WrcfRolesComponent implements OnInit {
         if (!industryId) return;
         this.rolesApi.createDepartment({
           name: p.name!,
-          industryId,
-          fgIds: p.fgIds ?? [],
+          industryId: industryId ?? undefined,
+          functionalGroupIds: p.functionalGroupIds ?? [],
           operationalCriticalityScore: p.operationalCriticalityScore,
           revenueContributionWeight: p.revenueContributionWeight,
           regulatoryExposureLevel: p.regulatoryExposureLevel
@@ -372,7 +372,7 @@ export class WrcfRolesComponent implements OnInit {
         const id = (p as { id?: string }).id!;
         this.rolesApi.updateDepartment(id, {
           name: p.name,
-          fgIds: p.fgIds,
+          functionalGroupIds: p.functionalGroupIds,
           operationalCriticalityScore: p.operationalCriticalityScore,
           revenueContributionWeight: p.revenueContributionWeight,
           regulatoryExposureLevel: p.regulatoryExposureLevel
@@ -380,7 +380,7 @@ export class WrcfRolesComponent implements OnInit {
           next: updated => {
             this.departments.update(d => d.map(dep => dep.id === id ? updated : dep));
             if (this.selectedDepartmentId() === id) {
-              const fgs = this.allFGs().filter(fg => updated.fgIds.includes(fg.id));
+              const fgs = this.allFGs().filter(fg => updated.functionalGroupIds.includes(fg.id));
               this.deptFGs.set(fgs);
             }
             this.closePanel();
@@ -395,10 +395,10 @@ export class WrcfRolesComponent implements OnInit {
         this.rolesApi.createRole({
           name: p.name!,
           departmentId,
-          industryId,
-          seniorityLevel: p.seniorityLevel ?? 'Associate',
+          description: p.description,
+          seniorityLevel: p.seniorityLevel!,
           reportingTo: p.reportingTo,
-          roleCriticalityScore: p.roleCriticalityScore
+          roleCriticalityScore: p.roleCriticalityScore,
         }).subscribe({
           next: role => {
             this.roles.update(r => [...r, role]);
@@ -411,9 +411,7 @@ export class WrcfRolesComponent implements OnInit {
         const id = (p as { id?: string }).id!;
         this.rolesApi.updateRole(id, {
           name: p.name,
-          seniorityLevel: p.seniorityLevel,
-          reportingTo: p.reportingTo,
-          roleCriticalityScore: p.roleCriticalityScore
+          description: p.description
         }).subscribe({
           next: updated => {
             this.roles.update(r => r.map(role => role.id === id ? updated : role));
@@ -464,7 +462,7 @@ export class WrcfRolesComponent implements OnInit {
   protected onRemoveMapping(index: number): void {
     this.pendingMappings.update(m => {
       const removed = m[index];
-      const ci = this.allCIs().find(c => c.id === removed.ciId);
+      const ci = this.allCIs().find(c => c.id === removed.capabilityInstanceId);
       if (ci) {
         this.checkedProficiencyIds.update(ids => ids.filter(id => id !== ci.proficiencyId));
       }
@@ -475,8 +473,8 @@ export class WrcfRolesComponent implements OnInit {
   protected onSaveMappings(): void {
     const roleId = this.selectedRoleId();
     if (!roleId) return;
-    const ciIds = this.pendingMappings().map(m => m.ciId);
-    this.rolesApi.saveRoleCIMappings(roleId, ciIds).subscribe({
+    const capabilityInstanceIds = this.pendingMappings().map(m => m.capabilityInstanceId);
+    this.rolesApi.saveRoleCIMappings(roleId, capabilityInstanceIds).subscribe({
       next: () => {
         this.pendingMappings.set([]);
         this.checkedProficiencyIds.set([]);

@@ -1,7 +1,8 @@
 export interface ProficiencyDto {
   id: string;
-  level: number;
+  level: string;
   label: string;
   description?: string;
-  independenceLevel?: string;
+  weightage?: number;
+  isActive: boolean;
 }

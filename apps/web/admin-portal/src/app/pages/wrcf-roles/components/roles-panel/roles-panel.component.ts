@@ -21,14 +21,16 @@ export class RolesPanelComponent implements OnChanges {
 
   // Department fields
   protected deptName = '';
-  protected deptFgIds: string[] = [];
+  protected deptFunctionalGroupIds: string[] = [];
   protected deptOperationalScore: number | null = null;
   protected deptRevenueWeight: number | null = null;
   protected deptRegulatoryLevel: number | null = null;
 
   // Role fields
   protected roleName = '';
-  protected roleSeniorityLevel = 'Associate';
+  protected roleDescription = '';
+
+    protected roleSeniorityLevel = 'Associate';
   protected roleReportingTo = '';
   protected roleCriticalityScore: number | null = null;
 
@@ -51,39 +53,42 @@ export class RolesPanelComponent implements OnChanges {
       if (this.state.entity === 'Department') {
         const d = this.state.data as Department;
         this.deptName = d.name;
-        this.deptFgIds = [...d.fgIds];
+        this.deptFunctionalGroupIds = [...d.functionalGroupIds];
         this.deptOperationalScore = d.operationalCriticalityScore ?? null;
         this.deptRevenueWeight = d.revenueContributionWeight ?? null;
         this.deptRegulatoryLevel = d.regulatoryExposureLevel ?? null;
       } else {
         const d = this.state.data as IndustryRole;
         this.roleName = d.name;
-        this.roleSeniorityLevel = d.seniorityLevel;
+           this.roleSeniorityLevel = d.seniorityLevel;
         this.roleReportingTo = d.reportingTo ?? '';
         this.roleCriticalityScore = d.roleCriticalityScore ?? null;
+
+        this.roleDescription = d.description ?? '';
       }
     } else {
       this.deptName = '';
-      this.deptFgIds = [];
+      this.deptFunctionalGroupIds = [];
       this.deptOperationalScore = null;
       this.deptRevenueWeight = null;
       this.deptRegulatoryLevel = null;
       this.roleName = '';
-      this.roleSeniorityLevel = 'Associate';
+       this.roleSeniorityLevel = 'Associate';
       this.roleReportingTo = '';
-      this.roleCriticalityScore = null;
+      this.roleCriticalityScore = null
+      this.roleDescription = '';
     }
   }
 
   protected isFgChecked(fgId: string): boolean {
-    return this.deptFgIds.includes(fgId);
+    return this.deptFunctionalGroupIds.includes(fgId);
   }
 
   protected toggleFg(fgId: string): void {
-    if (this.deptFgIds.includes(fgId)) {
-      this.deptFgIds = this.deptFgIds.filter(id => id !== fgId);
+    if (this.deptFunctionalGroupIds.includes(fgId)) {
+      this.deptFunctionalGroupIds = this.deptFunctionalGroupIds.filter(id => id !== fgId);
     } else {
-      this.deptFgIds = [...this.deptFgIds, fgId];
+      this.deptFunctionalGroupIds = [...this.deptFunctionalGroupIds, fgId];
     }
   }
 
@@ -97,7 +102,7 @@ export class RolesPanelComponent implements OnChanges {
       }
       const payload: Partial<Department> = {
         name: this.deptName.trim(),
-        fgIds: [...this.deptFgIds],
+        functionalGroupIds: [...this.deptFunctionalGroupIds],
         operationalCriticalityScore: this.deptOperationalScore ?? undefined,
         revenueContributionWeight: this.deptRevenueWeight ?? undefined,
         regulatoryExposureLevel: this.deptRegulatoryLevel ?? undefined
@@ -107,15 +112,16 @@ export class RolesPanelComponent implements OnChanges {
       }
       this.save.emit(payload);
     } else {
-      if (!this.roleName.trim() || !this.roleSeniorityLevel) {
+       if (!this.roleName.trim() || !this.roleSeniorityLevel) {
         this.errorMsg = 'Name and Seniority Level are required.';
         return;
       }
       const payload: Partial<IndustryRole> = {
         name: this.roleName.trim(),
         seniorityLevel: this.roleSeniorityLevel,
-        reportingTo: this.roleReportingTo.trim() || undefined,
-        roleCriticalityScore: this.roleCriticalityScore ?? undefined
+        reportingTo: this.roleReportingTo || undefined,
+        roleCriticalityScore: this.roleCriticalityScore ?? undefined,
+        description: this.roleDescription.trim() || undefined
       };
       if (this.state.mode === 'edit' && this.state.data) {
         (payload as { id?: string }).id = this.state.data.id;

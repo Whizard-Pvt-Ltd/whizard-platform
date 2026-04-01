@@ -9,12 +9,11 @@ export class CreateSkillCommandHandler {
   async execute(cmd: CreateSkillCommand): Promise<void> {
     const skill = Skill.create({
       tenantId: cmd.tenantId,
-      ciId: cmd.ciId,
+      capabilityInstanceId: cmd.capabilityInstanceId,
       name: cmd.name,
-      description: cmd.description,
       cognitiveType: cmd.cognitiveType,
       skillCriticality: cmd.skillCriticality,
-      recertificationCycle: cmd.recertificationCycle,
+      recertificationCycleMonths: cmd.recertificationCycleMonths,
       aiImpact: cmd.aiImpact
     });
     await this.repo.save(skill);
@@ -29,10 +28,9 @@ export class UpdateSkillCommandHandler {
     if (!skill) throw new DomainException(`Skill ${cmd.id} not found`);
     skill.update({
       name: cmd.name,
-      description: cmd.description,
       cognitiveType: cmd.cognitiveType,
       skillCriticality: cmd.skillCriticality,
-      recertificationCycle: cmd.recertificationCycle,
+      recertificationCycleMonths: cmd.recertificationCycleMonths,
       aiImpact: cmd.aiImpact
     });
     await this.repo.update(skill);

@@ -6,8 +6,8 @@ export class SaveRoleCIMappingsCommandHandler {
 
   async execute(cmd: SaveRoleCIMappingsCommand): Promise<void> {
     await this.repo.deleteByRoleId(cmd.roleId);
-    for (const ciId of cmd.ciIds) {
-      await this.repo.save(cmd.roleId, ciId, cmd.createdBy);
+    for (const capabilityInstanceId of cmd.capabilityInstanceIds) {
+      await this.repo.save(cmd.roleId, capabilityInstanceId, cmd.isMandatory);
     }
   }
 }

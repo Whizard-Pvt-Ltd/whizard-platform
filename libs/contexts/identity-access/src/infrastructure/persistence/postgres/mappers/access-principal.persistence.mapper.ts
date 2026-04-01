@@ -1,16 +1,48 @@
-import type {
-  AccessPrincipal as AccessPrincipalRow,
-  PermissionGrant,
-  RoleAssignment,
-  ScopeRestriction
-} from '@prisma/client';
 import { AccessPrincipal } from '../../../../domain/aggregates/access-policy/access-principal.aggregate';
+
+interface AccessPrincipalRow {
+  id: string;
+  userAccountId: string;
+  tenantType: string;
+  tenantId: string;
+  status: string;
+  createdAt: Date;
+  version: number;
+}
+
+interface RoleAssignmentRow {
+  id: string;
+  roleCode: string;
+  assignedBy: string;
+  assignedAt: Date;
+  validFrom: Date | null;
+  validTo: Date | null;
+  status: string;
+}
+
+interface PermissionGrantRow {
+  id: string;
+  permissionCode: string;
+  grantSource: string;
+  scopeType: string | null;
+  scopeValue: string | null;
+  grantedAt: Date;
+  revokedAt: Date | null;
+}
+
+interface ScopeRestrictionRow {
+  id: string;
+  resourceType: string;
+  restrictionType: string;
+  scopeExpression: string;
+  createdAt: Date;
+}
 
 export const toAccessPrincipalDomain = (input: {
   principal: AccessPrincipalRow;
-  roles: RoleAssignment[];
-  permissions: PermissionGrant[];
-  restrictions: ScopeRestriction[];
+  roles: RoleAssignmentRow[];
+  permissions: PermissionGrantRow[];
+  restrictions: ScopeRestrictionRow[];
 }): AccessPrincipal => {
   return AccessPrincipal.rehydrate({
     id: input.principal.id,

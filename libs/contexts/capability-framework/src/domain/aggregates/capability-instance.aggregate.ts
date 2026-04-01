@@ -5,10 +5,9 @@ import { CapabilityInstanceCreatedEvent, CapabilityInstanceDeletedEvent } from '
 export interface CapabilityInstanceProps {
   id: string;
   tenantId: string;
-  versionId?: string;
   functionalGroupId: string;
-  pwoId: string;
-  swoId: string;
+  pwoId?: string;
+  swoId?: string;
   capabilityId: string;
   proficiencyId: string;
 }
@@ -18,17 +17,15 @@ export class CapabilityInstance {
 
   readonly id: string;
   readonly tenantId: string;
-  versionId?: string;
   readonly functionalGroupId: string;
-  readonly pwoId: string;
-  readonly swoId: string;
+  readonly pwoId?: string;
+  readonly swoId?: string;
   readonly capabilityId: string;
   readonly proficiencyId: string;
 
   private constructor(props: CapabilityInstanceProps) {
     this.id = props.id;
     this.tenantId = props.tenantId;
-    this.versionId = props.versionId;
     this.functionalGroupId = props.functionalGroupId;
     this.pwoId = props.pwoId;
     this.swoId = props.swoId;

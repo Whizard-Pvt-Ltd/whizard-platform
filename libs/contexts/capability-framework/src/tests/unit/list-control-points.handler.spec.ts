@@ -18,8 +18,7 @@ const cpDto = (overrides: Partial<ControlPointDto> = {}): ControlPointDto => ({
   name: 'Pressure within threshold',
   riskLevel: 'High',
   failureImpactType: 'Safety',
-  escalationRequired: 'Yes',
-  evidenceType: 'Log',
+  escalationRequired: false,
   ...overrides
 });
 
@@ -41,7 +40,7 @@ describe('ListControlPointsQueryHandler', () => {
   it('returns the list of ControlPointDtos from the repository', async () => {
     const dtos = [
       cpDto(),
-      cpDto({ id: 'cp-2', name: 'Temperature check', riskLevel: 'Critical', evidenceType: 'Picture' })
+      cpDto({ id: 'cp-2', name: 'Temperature check', riskLevel: 'Critical', escalationRequired: true })
     ];
     vi.mocked(repo.findAllDtos).mockResolvedValue(dtos);
 
@@ -50,7 +49,7 @@ describe('ListControlPointsQueryHandler', () => {
     expect(result).toHaveLength(2);
     expect(result[0].name).toBe('Pressure within threshold');
     expect(result[1].riskLevel).toBe('Critical');
-    expect(result[1].evidenceType).toBe('Picture');
+    expect(result[1].escalationRequired).toBe(true);
   });
 
   it('returns an empty array when no control points exist for the task', async () => {
@@ -65,12 +64,12 @@ describe('ListControlPointsQueryHandler', () => {
   });
 
   it('passes through optional dto fields unchanged', async () => {
-    const dto = cpDto({ description: 'Must be within tolerance', kpiThreshold: '< 5%' });
+    const dto = cpDto({ description: 'Must be within tolerance', kpiThreshold: 95 });
     vi.mocked(repo.findAllDtos).mockResolvedValue([dto]);
 
     const result = await handler.execute('tenant-1', 'task-1');
 
     expect(result[0].description).toBe('Must be within tolerance');
-    expect(result[0].kpiThreshold).toBe('< 5%');
+    expect(result[0].kpiThreshold).toBe(95);
   });
 });

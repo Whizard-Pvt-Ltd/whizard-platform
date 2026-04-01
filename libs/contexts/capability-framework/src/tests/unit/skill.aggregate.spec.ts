@@ -3,11 +3,11 @@ import { Skill } from '../../domain/aggregates/skill.aggregate';
 
 const baseProps = {
   tenantId: 'tenant-1',
-  ciId: 'ci-1',
+  capabilityInstanceId: 'ci-1',
   name: 'Valve Inspection',
   cognitiveType: 'Procedural',
   skillCriticality: 'High',
-  recertificationCycle: 6,
+  recertificationCycleMonths: 6,
   aiImpact: 'Medium'
 };
 
@@ -19,14 +19,13 @@ describe('Skill aggregate', () => {
     });
 
     it('copies all props correctly', () => {
-      const skill = Skill.create({ ...baseProps, description: 'Some desc' });
+      const skill = Skill.create(baseProps);
       expect(skill.tenantId).toBe('tenant-1');
-      expect(skill.ciId).toBe('ci-1');
+      expect(skill.capabilityInstanceId).toBe('ci-1');
       expect(skill.name).toBe('Valve Inspection');
-      expect(skill.description).toBe('Some desc');
       expect(skill.cognitiveType).toBe('Procedural');
       expect(skill.skillCriticality).toBe('High');
-      expect(skill.recertificationCycle).toBe(6);
+      expect(skill.recertificationCycleMonths).toBe(6);
       expect(skill.aiImpact).toBe('Medium');
     });
 
@@ -36,11 +35,6 @@ describe('Skill aggregate', () => {
       expect(events).toHaveLength(1);
       expect(events[0].aggregateId).toBe(skill.id);
       expect(events[0].tenantId).toBe('tenant-1');
-    });
-
-    it('description defaults to undefined when not provided', () => {
-      const skill = Skill.create(baseProps);
-      expect(skill.description).toBeUndefined();
     });
   });
 
@@ -57,10 +51,10 @@ describe('Skill aggregate', () => {
       const skill = Skill.create(baseProps);
       skill.clearDomainEvents();
 
-      skill.update({ name: 'Updated Name', recertificationCycle: 12 });
+      skill.update({ name: 'Updated Name', recertificationCycleMonths: 12 });
 
       expect(skill.name).toBe('Updated Name');
-      expect(skill.recertificationCycle).toBe(12);
+      expect(skill.recertificationCycleMonths).toBe(12);
       expect(skill.cognitiveType).toBe('Procedural');
       const events = skill.domainEvents;
       expect(events).toHaveLength(1);

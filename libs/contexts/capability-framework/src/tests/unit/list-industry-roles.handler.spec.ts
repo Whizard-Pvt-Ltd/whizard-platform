@@ -14,7 +14,6 @@ const roleDto = (overrides = {}) => ({
   id: 'role-1',
   name: 'Field Engineer',
   departmentId: 'dept-1',
-  seniorityLevel: 'Associate',
   ...overrides
 });
 
@@ -34,14 +33,14 @@ describe('ListIndustryRolesQueryHandler', () => {
   });
 
   it('returns the list of role dtos from the repository', async () => {
-    const dtos = [roleDto(), roleDto({ id: 'role-2', name: 'Senior Engineer', seniorityLevel: 'Team Lead' })];
+    const dtos = [roleDto(), roleDto({ id: 'role-2', name: 'Senior Engineer' })];
     vi.mocked(repo.findByDepartmentId).mockResolvedValue(dtos);
 
     const result = await handler.execute('tenant-1', 'dept-1');
 
     expect(result).toHaveLength(2);
     expect(result[0].name).toBe('Field Engineer');
-    expect(result[1].seniorityLevel).toBe('Team Lead');
+    expect(result[1].name).toBe('Senior Engineer');
   });
 
   it('returns an empty array when no roles exist for the department', async () => {

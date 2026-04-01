@@ -41,7 +41,7 @@ export interface SecondaryWorkObject extends WrcfEntity {
 export interface Capability extends WrcfEntity {}
 
 export interface ProficiencyLevel extends WrcfEntity {
-  level: number;
+  level: string;
 }
 
 export type EntityType = 'FG' | 'PWO' | 'SWO';
@@ -61,15 +61,15 @@ export interface DeleteResult {
 export interface CapabilityInstance {
   id: string;
   functionalGroupId: string;
-  pwoId: string;
-  pwoName: string;
-  swoId: string;
-  swoName: string;
+  pwoId?: string;
+  pwoName?: string;
+  swoId?: string;
+  swoName?: string;
   capabilityId: string;
   capabilityCode: string;
   capabilityName: string;
   proficiencyId: string;
-  proficiencyLevel: number;
+  proficiencyLevel: string;
   proficiencyLabel: string;
 }
 
@@ -78,14 +78,14 @@ export interface CIPendingEntry {
   industryId: string;
   fgId: string;
   fgName: string;
-  pwoId: string;
-  pwoName: string;
-  swoId: string;
-  swoName: string;
+  pwoId?: string;
+  pwoName?: string;
+  swoId?: string;
+  swoName?: string;
   capabilityId: string;
   capabilityCode: string;
   capabilityName: string;
   proficiencyId: string;
-  proficiencyLevel: number;
+  proficiencyLevel: string;
   proficiencyLabel: string;
 }

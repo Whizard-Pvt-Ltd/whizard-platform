@@ -5,12 +5,13 @@ export interface IndustryRoleProps {
   id: string;
   tenantId: string;
   departmentId: string;
-  industryId: string;
+  industryId?: string;
   name: string;
-  seniorityLevel: string;
+  description?: string;
+  seniorityLevel?: string;
   reportingTo?: string;
   roleCriticalityScore?: number;
-  createdBy: string;
+  createdBy?: string;
 }
 
 class IndustryRoleCreatedEvent implements DomainEvent {
@@ -46,12 +47,13 @@ export class IndustryRole {
   readonly id: string;
   readonly tenantId: string;
   readonly departmentId: string;
-  readonly industryId: string;
+  readonly industryId?: string;
   name: string;
-  seniorityLevel: string;
+  description?: string;
+  seniorityLevel?: string;
   reportingTo?: string;
   roleCriticalityScore?: number;
-  readonly createdBy: string;
+  readonly createdBy?: string;
 
   private constructor(props: IndustryRoleProps) {
     this.id = props.id;
@@ -59,6 +61,7 @@ export class IndustryRole {
     this.departmentId = props.departmentId;
     this.industryId = props.industryId;
     this.name = props.name;
+    this.description = props.description;
     this.seniorityLevel = props.seniorityLevel;
     this.reportingTo = props.reportingTo;
     this.roleCriticalityScore = props.roleCriticalityScore;
@@ -75,8 +78,9 @@ export class IndustryRole {
     return new IndustryRole(props);
   }
 
-  update(partial: Partial<Pick<IndustryRoleProps, 'name' | 'seniorityLevel' | 'reportingTo' | 'roleCriticalityScore'>>): void {
+  update(partial: Partial<Pick<IndustryRoleProps, 'name' | 'description' | 'seniorityLevel' | 'reportingTo' | 'roleCriticalityScore'>>): void {
     if (partial.name !== undefined) this.name = partial.name;
+    if (partial.description !== undefined) this.description = partial.description;
     if (partial.seniorityLevel !== undefined) this.seniorityLevel = partial.seniorityLevel;
     if (partial.reportingTo !== undefined) this.reportingTo = partial.reportingTo;
     if (partial.roleCriticalityScore !== undefined) this.roleCriticalityScore = partial.roleCriticalityScore;
