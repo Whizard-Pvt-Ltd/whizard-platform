@@ -1,7 +1,7 @@
-@import 'tailwindcss';
 @import '@angular/cdk/overlay-prebuilt.css';
 
 /* -------------------------------------------------------------------------- */
 /* Fuse Theme Library                                                         */
 /* -------------------------------------------------------------------------- */
 @import '../../../../libs/shared/theme/src/styles/theme.css';
+@import 'quill/dist/quill.snow.css';

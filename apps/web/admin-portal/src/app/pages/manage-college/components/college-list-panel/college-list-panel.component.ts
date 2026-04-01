@@ -1,20 +1,11 @@
-import { Component, input, output, signal, computed } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { Component, input, output, computed } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
 import type { CollegeListItem } from '../../models/manage-college.models';
-
-const FILTER_CHIPS = [
-  'Club', 'Project', 'Job', 'Internship', 'Mentor',
-  'College active', 'Company', 'Event', 'Student Profile', 'All Filters',
-] as const;
 
 @Component({
   selector: 'whizard-college-list-panel',
   standalone: true,
-  imports: [FormsModule, MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule],
+  imports: [MatIconModule],
   templateUrl: './college-list-panel.component.html',
   styleUrl: './college-list-panel.component.css',
 })
@@ -22,14 +13,9 @@ export class CollegeListPanelComponent {
   readonly colleges = input<CollegeListItem[]>([]);
   readonly selectedId = input<string | null>(null);
   readonly loading = input<boolean>(false);
+  readonly searchQuery = input<string>('');
 
   readonly collegeSelected = output<string>();
-  readonly addClicked = output<void>();
-
-  protected searchQuery = signal('');
-  protected activeChip = signal('College active');
-
-  protected readonly filterChips = FILTER_CHIPS;
 
   protected filteredColleges = computed(() => {
     const q = this.searchQuery().toLowerCase().trim();
@@ -42,20 +28,8 @@ export class CollegeListPanelComponent {
     );
   });
 
-  protected onSearchChange(value: string): void {
-    this.searchQuery.set(value);
-  }
-
   protected selectCollege(id: string): void {
     this.collegeSelected.emit(id);
-  }
-
-  protected onAddClick(): void {
-    this.addClicked.emit();
-  }
-
-  protected setActiveChip(chip: string): void {
-    this.activeChip.set(chip);
   }
 
   protected getInitial(name: string): string {

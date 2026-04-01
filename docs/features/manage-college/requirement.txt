@@ -1,6 +1,7 @@
 # Manage College
 
 claude --resume 87dadb2c-f4b2-49d5-a156-8ba6ff614c0d
+claude --resume e218d770-ba38-4126-9cde-567bcb1c6568 
 
 ## Overview
 <!-- One paragraph: what this feature does and why it exists. -->

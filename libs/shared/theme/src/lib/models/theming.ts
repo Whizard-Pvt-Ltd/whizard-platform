@@ -1,6 +1,7 @@
 import { TonalPalette } from '../palette';
 
 export type Scheme = 'light' | 'dark' | 'system';
+// export type Scheme = 'dark';
 export type Colors = {
   primary: string;
   error: string;

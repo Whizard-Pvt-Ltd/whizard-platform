@@ -140,12 +140,13 @@ async function stackAuthPlugin(fastify: FastifyInstance) {
 
       // TODO: Fetch user permissions from database and set X-Permissions header
       // For now, grant minimal permissions
-      request.headers['x-permissions'] = 'WRCF.MANAGE';
+      request.headers['x-permissions'] = ['WRCF.MANAGE', 'COLLEGE.MANAGE'];
 
       logger.debug('Request context set from Stack Auth user', {
         userId: localUser.id.value,
         tenantId: localUser.tenant.tenantId,
-        tenantType: localUser.tenant.tenantType
+        tenantType: localUser.tenant.tenantType,
+        permissions: request.headers['x-permissions']
       });
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Token verification failed';

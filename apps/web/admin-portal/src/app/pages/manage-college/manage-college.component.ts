@@ -1,4 +1,5 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit, computed, viewChild } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { forkJoin } from 'rxjs';
 import type {
   CollegeListItem, CollegeDetail, Club, DegreeProgram, City, UserContact,
@@ -12,10 +13,16 @@ import { CollegePreviewComponent } from './components/college-preview/college-pr
 import { MediaLibraryPanelComponent } from './components/media-library-panel/media-library-panel.component';
 import { ManageCollegeApiService } from './services/manage-college-api.service';
 
+const FILTER_CHIPS = [
+  'Club', 'Project', 'Job', 'Internship', 'Mentor',
+  'College', 'Company', 'Event', 'Student Profile', 'All Filters',
+] as const;
+
 @Component({
   selector: 'whizard-manage-college',
   standalone: true,
   imports: [
+    MatIconModule,
     NavDrawerComponent,
     CollegeListPanelComponent,
     CollegeDetailPanelComponent,
@@ -42,6 +49,15 @@ export class ManageCollegeComponent implements OnInit {
   protected errorMessage = signal<string | null>(null);
   protected drawerOpen = signal(false);
 
+  // Top bar: search + filter chips
+  protected readonly filterChips = FILTER_CHIPS;
+  protected searchQuery = signal('');
+  protected activeChip = signal<string>('College');
+
+  // Reference to the form for header button actions
+  private readonly formRef = viewChild(CollegeFormComponent);
+  protected formIsValid = computed(() => this.formRef()?.isValid ?? false);
+
   protected get selectedCollegeId(): string | null {
     return this.selectedCollege()?.id ?? null;
   }
@@ -65,7 +81,6 @@ export class ManageCollegeComponent implements OnInit {
         this.mediaAssets.set(mediaAssets);
         this.loading.set(false);
 
-        // Auto-select first college
         if (collegesResult.items.length > 0) {
           this.loadCollegeDetail(collegesResult.items[0].id);
         }
@@ -181,19 +196,25 @@ export class ManageCollegeComponent implements OnInit {
     // Media asset selected from library — can be used to attach to form in future
   }
 
-  protected onPreviewPdf(_url: string): void {
-    // PDF viewer is handled inline by the detail panel
-  }
-
   protected onPreviewClicked(): void {
-    if (this.selectedCollege()) {
-      this.mode.set('preview');
-    }
+    this.mode.set('preview');
   }
 
   protected onBackFromPreview(): void {
     const prev = this.selectedCollege();
-    this.mode.set(prev ? 'list' : 'create');
+    this.mode.set(prev ? 'edit' : 'create');
+  }
+
+  protected onHeaderSave(): void {
+    this.formRef()?.doSave();
+  }
+
+  protected onHeaderPublish(): void {
+    this.formRef()?.doPublish();
+  }
+
+  protected setActiveChip(chip: string): void {
+    this.activeChip.set(chip);
   }
 
   private showError(msg: string): void {

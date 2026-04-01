@@ -146,7 +146,7 @@
   );
   --mat-sys-surface-variant: light-dark(
     var(--color-neutral-50),
-    var(--color-neutral-800)
+    var(--color-wrcf-bg-secondary)
   );
   --mat-sys-surface-container-lowest: light-dark(
     var(--color-white),
@@ -158,7 +158,7 @@
   );
   --mat-sys-surface-container: light-dark(
     var(--color-neutral-100),
-    var(--color-neutral-800)
+    var(--color-wrcf-bg-secondary)
   );
   --mat-sys-surface-container-high: light-dark(
     var(--color-neutral-200),
@@ -337,19 +337,19 @@
   --mat-card-elevated-container-shape: 0.75rem;
   --mat-card-elevated-container-color: light-dark(
     var(--color-white),
-    var(--color-neutral-800)
+    var(--color-wrcf-bg-secondary)
   );
 
   --mat-card-filled-container-shape: 0.75rem;
   --mat-card-filled-container-color: light-dark(
     var(--color-neutral-100),
-    var(--color-neutral-800)
+    var(--color-wrcf-bg-secondary)
   );
 
   --mat-card-outlined-container-shape: 0.75rem;
   --mat-card-outlined-container-color: light-dark(
     var(--color-white),
-    var(--color-neutral-800)
+    var(--color-wrcf-bg-secondary)
   );
 
   /* -------------------------------------------------------------------------- */
@@ -366,7 +366,7 @@
   /* -------------------------------------------------------------------------- */
   --mat-datepicker-calendar-container-background-color: light-dark(
     var(--color-white),
-    var(--color-neutral-800)
+    var(--color-wrcf-bg-secondary)
   );
 
   --mat-datepicker-calendar-container-elevation-shadow: var(--mat-sys-level2);
@@ -405,7 +405,7 @@
   --mat-list-list-item-label-text-tracking: var(--tracking-normal);
   --mat-list-active-indicator-color: light-dark(
     var(--color-neutral-200),
-    var(--color-neutral-800)
+    var(--color-wrcf-bg-secondary)
   );
 
   /* -------------------------------------------------------------------------- */
@@ -414,7 +414,7 @@
   --mat-menu-container-shape: 0.5rem;
   --mat-menu-container-color: light-dark(
     var(--color-white),
-    var(--color-neutral-800)
+    var(--color-wrcf-bg-secondary)
   );
   --mat-menu-divider-bottom-spacing: 0.25rem;
   --mat-menu-divider-top-spacing: 0.25rem;
@@ -433,7 +433,7 @@
   /* -------------------------------------------------------------------------- */
   --mat-paginator-container-background-color: light-dark(
     var(--color-white),
-    var(--color-neutral-800)
+    var(--color-wrcf-bg-secondary)
   );
 
   /* -------------------------------------------------------------------------- */
@@ -441,7 +441,7 @@
   /* -------------------------------------------------------------------------- */
   --mat-progress-bar-track-color: light-dark(
     var(--color-neutral-200),
-    var(--color-neutral-800)
+    var(--color-wrcf-bg-secondary)
   );
 
   /* -------------------------------------------------------------------------- */
@@ -452,7 +452,7 @@
 
   --mat-select-panel-background-color: light-dark(
     var(--color-white),
-    var(--color-neutral-800)
+    var(--color-wrcf-bg-secondary)
   );
 
   /* -------------------------------------------------------------------------- */
@@ -512,7 +512,7 @@
   --mat-table-background-color: transparent;
   --mat-table-row-item-outline-color: light-dark(
     var(--color-neutral-200),
-    var(--color-neutral-800)
+    var(--color-wrcf-bg-secondary)
   );
 
   /* -------------------------------------------------------------------------- */
@@ -521,7 +521,7 @@
   --mat-tab-container-height: 2.25rem;
   --mat-tab-divider-color: light-dark(
     var(--color-neutral-200),
-    var(--color-neutral-800)
+    var(--color-wrcf-bg-secondary)
   );
 }
 
@@ -641,7 +641,7 @@ mat-card {
 
   --form-field-bg-color: light-dark(
     var(--color-white),
-    var(--color-neutral-800)
+    var(--color-wrcf-bg-secondary)
   );
 
   --form-field-border-color: light-dark(

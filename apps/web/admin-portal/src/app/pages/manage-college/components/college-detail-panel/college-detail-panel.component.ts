@@ -1,14 +1,13 @@
-import { TitleCasePipe } from '@angular/common';
-import { Component, input, output, signal, computed } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { PdfViewerComponent } from '@whizard/shared-ui';
-import type { CollegeDetail, Club, UserContact, CollegeMediaItem } from '../../models/manage-college.models';
+import type { CollegeDetail, Club, UserContact, CollegeMediaItem, CollegeContact } from '../../models/manage-college.models';
 
 @Component({
   selector: 'whizard-college-detail-panel',
   standalone: true,
-  imports: [TitleCasePipe, MatButtonModule, MatIconModule, PdfViewerComponent],
+  imports: [MatButtonModule, MatIconModule, PdfViewerComponent],
   templateUrl: './college-detail-panel.component.html',
   styleUrl: './college-detail-panel.component.css',
 })
@@ -43,8 +42,12 @@ export class CollegeDetailPanelComponent {
     return this.clubs().filter(c => ids.has(c.id));
   }
 
-  protected getContactUser(userId: string): UserContact | undefined {
-    return this.users().find(u => u.id === userId);
+  protected getContactByRole(role: string): CollegeContact | undefined {
+    return this.college()?.contacts.find(c => c.role === role);
+  }
+
+  protected get nonVcContacts(): CollegeContact[] {
+    return this.college()?.contacts.filter(c => c.role !== 'VICE_CHANCELLOR') ?? [];
   }
 
   protected openPdf(url: string, name: string): void {

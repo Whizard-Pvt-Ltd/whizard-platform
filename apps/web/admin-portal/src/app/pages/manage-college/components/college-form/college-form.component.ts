@@ -67,7 +67,6 @@ export class CollegeFormComponent implements OnChanges {
     inquiryEmail: [null as string | null, Validators.email],
     clubIds: [[] as string[]],
     programIds: [[] as string[]],
-    // Contact roles as individual controls
     contact_VICE_CHANCELLOR: [null as string | null],
     contact_PLACEMENT_HEAD: [null as string | null],
     contact_COORDINATOR: [null as string | null],
@@ -97,7 +96,6 @@ export class CollegeFormComponent implements OnChanges {
       return;
     }
 
-    // Build contact map
     const contactMap: Record<string, string> = {};
     for (const c of college.contacts) {
       contactMap[c.role] = c.userId;
@@ -127,7 +125,7 @@ export class CollegeFormComponent implements OnChanges {
     }
   }
 
-  protected get isValid(): boolean {
+  get isValid(): boolean {
     return this.form.valid;
   }
 
@@ -202,7 +200,7 @@ export class CollegeFormComponent implements OnChanges {
     };
   }
 
-  protected onSave(): void {
+  doSave(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -210,15 +208,11 @@ export class CollegeFormComponent implements OnChanges {
     this.saved.emit(this.buildFormValue());
   }
 
-  protected onPublish(): void {
+  doPublish(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
     this.published.emit(this.buildFormValue());
-  }
-
-  protected onCancel(): void {
-    this.cancelled.emit();
   }
 }

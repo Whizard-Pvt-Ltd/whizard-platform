@@ -80,7 +80,7 @@ export class ThemingService {
   }
 
   private getInitialScheme(): Scheme {
-    if (!this.isBrowser) {
+    if (this.isBrowser) {
       return this.themeConfig.scheme;
     }
 

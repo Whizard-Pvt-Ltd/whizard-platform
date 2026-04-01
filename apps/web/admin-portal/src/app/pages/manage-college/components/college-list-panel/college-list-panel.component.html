@@ -1,115 +1,60 @@
-<div class="flex flex-col h-full w-[260px] min-w-[260px] bg-wrcf-bg-card border-r border-wrcf-border">
+<div class="flex flex-col h-full w-[260px] min-w-[260px] bg-wrcf-bg-card border-r border-wrcf-border overflow-y-auto">
 
-  <!-- Search -->
-  <div class="px-3 pt-4 pb-2">
-    <div class="flex items-center gap-2 h-10 px-3 rounded-[10px] bg-wrcf-bg-secondary border border-wrcf-border">
-      <mat-icon svgIcon="heroicons_outline:magnifying-glass" class="size-4 text-wrcf-text-secondary shrink-0" />
-      <input
-        type="text"
-        placeholder="Search colleges..."
-        [ngModel]="searchQuery()"
-        (ngModelChange)="onSearchChange($event)"
-        class="flex-1 bg-transparent text-sm text-wrcf-text-primary placeholder-wrcf-text-secondary outline-none border-none" />
+  @if (loading()) {
+    <div class="flex items-center justify-center py-12">
+      <span class="text-sm text-wrcf-text-secondary">Loading...</span>
     </div>
-  </div>
-
-  <!-- Filter chips -->
-  <div class="px-3 pb-2 flex flex-wrap gap-1.5">
-    @for (chip of filterChips; track chip) {
+  } @else if (filteredColleges().length === 0) {
+    <div class="flex flex-col items-center justify-center py-12 gap-2 px-4">
+      <mat-icon svgIcon="heroicons_outline:building-library" class="size-10 text-wrcf-text-secondary opacity-40" />
+      <span class="text-sm text-wrcf-text-secondary text-center">No colleges found</span>
+    </div>
+  } @else {
+    @for (college of filteredColleges(); track college.id) {
       <button
         type="button"
-        (click)="setActiveChip(chip)"
-        class="px-2 py-0.5 rounded-full text-xs leading-5 border transition-colors duration-150"
-        [class.bg-wrcf-action]="activeChip() === chip"
-        [class.text-wrcf-text-primary]="activeChip() === chip"
-        [class.border-wrcf-action]="activeChip() === chip"
-        [class.bg-transparent]="activeChip() !== chip"
-        [class.text-wrcf-text-secondary]="activeChip() !== chip"
-        [class.border-wrcf-border]="activeChip() !== chip">
-        {{ chip }}
-      </button>
-    }
-  </div>
+        (click)="selectCollege(college.id)"
+        class="w-full text-left px-3 py-3 border-b border-wrcf-border/40 transition-colors duration-150 relative"
+        [class.bg-wrcf-bg-selected]="selectedId() === college.id"
+        [class.border-l-4]="selectedId() === college.id"
+        [class.border-l-wrcf-accent]="selectedId() === college.id"
+        [class.hover:bg-wrcf-bg-secondary]="selectedId() !== college.id">
 
-  <!-- Add button -->
-  <div class="px-3 pb-3">
-    <button
-      mat-button
-      type="button"
-      (click)="onAddClick()"
-      class="w-full h-10 rounded-[10px] bg-wrcf-action text-wrcf-text-primary text-sm font-medium hover:bg-wrcf-action-hover transition-colors">
-      <mat-icon svgIcon="heroicons_outline:plus" class="size-4 mr-1" />
-      Add College
-    </button>
-  </div>
+        <div class="flex items-start gap-2.5">
+          <!-- Logo / initial -->
+          @if (college.logoUrl) {
+            <img [src]="college.logoUrl" [alt]="college.name" class="w-10 h-10 rounded-full object-cover shrink-0 mt-0.5" />
+          } @else {
+            <div class="w-10 h-10 rounded-full bg-wrcf-action flex items-center justify-center text-wrcf-text-primary text-sm font-semibold shrink-0 mt-0.5">
+              {{ getInitial(college.name) }}
+            </div>
+          }
 
-  <!-- List -->
-  <div class="flex-1 overflow-y-auto px-2 pb-4 flex flex-col gap-1">
-    @if (loading()) {
-      <div class="flex items-center justify-center py-12">
-        <span class="text-sm text-wrcf-text-secondary">Loading...</span>
-      </div>
-    } @else if (filteredColleges().length === 0) {
-      <div class="flex flex-col items-center justify-center py-12 gap-2">
-        <mat-icon svgIcon="heroicons_outline:building-library" class="size-10 text-wrcf-text-secondary opacity-40" />
-        <span class="text-sm text-wrcf-text-secondary text-center">No colleges found</span>
-      </div>
-    } @else {
-      @for (college of filteredColleges(); track college.id) {
-        <button
-          type="button"
-          (click)="selectCollege(college.id)"
-          class="w-full text-left px-3 py-3 rounded-xl border transition-colors duration-150 relative"
-          [class.bg-wrcf-bg-selected]="selectedId() === college.id"
-          [class.border-wrcf-accent]="selectedId() === college.id"
-          [class.border-l-4]="selectedId() === college.id"
-          [class.border-l-wrcf-accent]="selectedId() === college.id"
-          [class.bg-transparent]="selectedId() !== college.id"
-          [class.border-transparent]="selectedId() !== college.id"
-          [class.hover:bg-wrcf-bg-secondary]="selectedId() !== college.id">
+          <div class="flex-1 min-w-0">
+            <!-- Name -->
+            <p class="text-sm font-semibold text-wrcf-text-primary truncate leading-5">{{ college.name }}</p>
+            <!-- College Id -->
+            <p class="text-xs text-wrcf-text-tertiary leading-4 mt-0.5">College Id : {{ college.collegeCode }}</p>
 
-          <div class="flex items-start gap-2.5">
-            <!-- Logo / initial -->
-            @if (college.logoUrl) {
-              <img [src]="college.logoUrl" [alt]="college.name" class="w-9 h-9 rounded-full object-cover shrink-0" />
-            } @else {
-              <div class="w-9 h-9 rounded-full bg-wrcf-action flex items-center justify-center text-wrcf-text-primary text-sm font-semibold shrink-0">
-                {{ getInitial(college.name) }}
-              </div>
-            }
-
-            <div class="flex-1 min-w-0">
-              <!-- Name -->
-              <p class="text-sm font-semibold text-wrcf-text-primary truncate leading-5">{{ college.name }}</p>
-              <!-- Code -->
-              <p class="text-xs text-wrcf-text-tertiary leading-4">{{ college.collegeCode }}</p>
-
-              <!-- Meta row -->
-              <div class="mt-1 flex flex-wrap gap-x-2 gap-y-0.5">
-                @if (college.cityName) {
-                  <span class="flex items-center gap-0.5 text-xs text-wrcf-text-secondary leading-4">
-                    <mat-icon svgIcon="heroicons_outline:map-pin" class="size-3" />
-                    {{ college.cityName }}
-                  </span>
-                }
-                @if (college.establishedYear) {
-                  <span class="flex items-center gap-0.5 text-xs text-wrcf-text-secondary leading-4">
-                    <mat-icon svgIcon="heroicons_outline:calendar" class="size-3" />
-                    {{ college.establishedYear }}
-                  </span>
-                }
-              </div>
-
-              <!-- Type badge -->
-              <div class="mt-1.5">
-                <span class="inline-block px-2 py-0.5 rounded-full text-xs leading-4 bg-wrcf-action/20 text-wrcf-text-tertiary border border-wrcf-action/30">
-                  {{ college.collegeType }}
+            <!-- Meta row -->
+            <div class="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 items-center">
+              @if (college.cityName) {
+                <span class="flex items-center gap-0.5 text-xs text-wrcf-text-secondary leading-4">
+                  <mat-icon svgIcon="heroicons_outline:map-pin" class="size-3 shrink-0" />
+                  {{ college.cityName }}, India
                 </span>
-              </div>
+              }
+              @if (college.establishedYear) {
+                <span class="flex items-center gap-0.5 text-xs text-wrcf-text-secondary leading-4">
+                  <mat-icon svgIcon="heroicons_outline:calendar" class="size-3 shrink-0" />
+                  {{ college.establishedYear }}
+                </span>
+              }
+              <span class="text-xs text-wrcf-text-secondary leading-4">{{ college.collegeType }}</span>
             </div>
           </div>
-        </button>
-      }
+        </div>
+      </button>
     }
-  </div>
+  }
 </div>

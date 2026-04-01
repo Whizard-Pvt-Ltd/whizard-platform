@@ -1,7 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import {
   Component, forwardRef, input, OnDestroy, AfterViewInit,
-  ElementRef, ViewChild, inject, PLATFORM_ID,
+  ElementRef, ViewChild, inject, PLATFORM_ID, ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import Quill from 'quill';
@@ -18,7 +18,9 @@ import Quill from 'quill';
     </div>
   `,
   styles: [`
-    :host { display: block; }
+    whizard-quill-editor {
+      display: block;
+    }
 
     .quill-editor-container {
       background: var(--wrcf-bg-card, #1E293B);
@@ -28,44 +30,51 @@ import Quill from 'quill';
       min-height: 160px;
       font-family: 'Poppins', sans-serif;
       font-size: 15px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
     }
 
-    .quill-editor-container :global(.ql-toolbar) {
+    .quill-editor-container .ql-toolbar.ql-snow {
       border: none;
       border-bottom: 1px solid var(--wrcf-border, #484E5D);
       background: var(--wrcf-bg-secondary, #0F253F);
-      border-radius: 8px 8px 0 0;
       padding: 8px 12px;
     }
 
-    .quill-editor-container :global(.ql-container) {
+    .quill-editor-container .ql-container.ql-snow {
       border: none;
+      flex: 1;
       font-family: 'Poppins', sans-serif;
       font-size: 15px;
       color: var(--wrcf-text-primary, #E8F0FA);
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
     }
 
-    .quill-editor-container :global(.ql-editor) {
+    .quill-editor-container .ql-editor {
       min-height: 120px;
       padding: 12px 16px;
       color: var(--wrcf-text-primary, #E8F0FA);
     }
 
-    .quill-editor-container :global(.ql-editor.ql-blank::before) {
+    .quill-editor-container .ql-editor.ql-blank::before {
       color: var(--wrcf-text-secondary, #7F94AE);
       font-style: normal;
+      left: 16px;
     }
 
-    .quill-editor-container :global(.ql-stroke) { stroke: var(--wrcf-text-secondary, #7F94AE); }
-    .quill-editor-container :global(.ql-fill)   { fill:   var(--wrcf-text-secondary, #7F94AE); }
-    .quill-editor-container :global(.ql-picker)  { color:  var(--wrcf-text-secondary, #7F94AE); }
+    .quill-editor-container .ql-stroke { stroke: var(--wrcf-text-secondary, #7F94AE); }
+    .quill-editor-container .ql-fill   { fill:   var(--wrcf-text-secondary, #7F94AE); }
+    .quill-editor-container .ql-picker  { color:  var(--wrcf-text-secondary, #7F94AE); }
 
-    .quill-editor-container.readonly :global(.ql-toolbar) { display: none; }
-    .quill-editor-container.readonly :global(.ql-container) { border-radius: 8px; }
+    .quill-editor-container.readonly .ql-toolbar { display: none; }
+    .quill-editor-container.readonly .ql-container { border-radius: 8px; }
   `],
   providers: [
     { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => QuillEditorComponent), multi: true }
   ],
+  encapsulation: ViewEncapsulation.None,
 })
 export class QuillEditorComponent implements ControlValueAccessor, AfterViewInit, OnDestroy {
   readonly placeholder = input<string>('Enter text…');
@@ -80,7 +89,7 @@ export class QuillEditorComponent implements ControlValueAccessor, AfterViewInit
   private onTouched: () => void = () => {};
   private pendingValue = '';
 
-  async ngAfterViewInit(): Promise<void> {
+  ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
 
     this.quill = new Quill(this.containerRef.nativeElement, {
@@ -97,11 +106,11 @@ export class QuillEditorComponent implements ControlValueAccessor, AfterViewInit
     });
 
     if (this.pendingValue) {
-      this.quill.clipboard.dangerouslyPasteHTML(this.pendingValue);
+      this.quill.root.innerHTML = this.pendingValue;
     }
 
     this.quill.on('text-change', () => {
-      const html = this.containerRef.nativeElement.querySelector('.ql-editor')?.innerHTML ?? '';
+      const html = this.quill?.root.innerHTML ?? '';
       this.onChange(html === '<p><br></p>' ? '' : html);
       this.onTouched();
     });
@@ -114,7 +123,9 @@ export class QuillEditorComponent implements ControlValueAccessor, AfterViewInit
   writeValue(value: string | null): void {
     const html = value ?? '';
     if (this.quill) {
-      this.quill.clipboard.dangerouslyPasteHTML(html);
+      if (this.quill.root.innerHTML !== html) {
+        this.quill.root.innerHTML = html;
+      }
     } else {
       this.pendingValue = html;
     }

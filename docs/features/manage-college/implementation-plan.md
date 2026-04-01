@@ -266,11 +266,12 @@ Register in `apps/api/bff/src/server.ts`.
 apps/web/admin-portal/src/app/pages/manage-college/
   manage-college.component.ts/html/css         ← Page shell — toggles between view and edit mode
   components/
-    college-list-panel/                         ← Left panel: search, filter tabs, college cards
-    college-detail-panel/                       ← Right panel: read-only scrollable detail view
-    college-form/                               ← Create/Edit form (right panel in edit mode)
-    college-preview/                            ← Preview mode component
-    media-library-panel/                        ← Left panel in edit mode (Images/Videos picker)
+    college-top-panel/                          ← Top bar: switches layout based on mode signal
+    college-list-panel/                         ← Left panel (view mode): college list cards
+    college-detail-panel/                       ← Right panel (view mode): read-only scrollable detail
+    college-add-edit/                           ← Right panel (edit/create mode): tabbed form
+    college-preview/                            ← Preview mode (replaces detail panel)
+    media-library-panel/                        ← Left panel (edit mode): Images/Videos picker
   models/
     manage-college.models.ts
   services/
@@ -279,33 +280,146 @@ apps/web/admin-portal/src/app/pages/manage-college/
 
 ### Layout Modes (toggled by `mode` signal)
 
-1. **View mode** — left college list panel + right detail panel
-2. **Edit/Create mode** — left media library panel + right tabbed form
+| Mode | Left Panel | Right Panel | Top Bar |
+|---|---|---|---|
+| `view` | `college-list-panel` | `college-detail-panel` | Search + filter chips + Add button |
+| `edit` / `create` | `media-library-panel` | `college-add-edit` | Preview + Save + Send to publish |
+| `preview` | `media-library-panel` | `college-preview` | Preview + Save + Send to publish |
 
-### Form Sections (right panel, edit mode)
+---
 
-- College Details: thumbnail upload, name, affiliated university (dropdown), location (dropdown), established year, college type (dropdown)
-- College description — Quill editor
-- College Brochure — single PDF upload (max 2MB, drag-and-drop)
-- Promotional Videos — grid + upload (max 2MB each)
-- Campus Gallery — grid + upload (max 2MB each)
-- Local Club Chapters — multi-select dropdown
-- Degrees Offered — Quill editor
-- College Key Contacts — 5 role dropdowns (Vice Chancellor, Groom Coordinator, Communication Coordinator, Placement Head, Placement Coordinator)
-- Inquiry email — text field
-- Placement Highlights — Quill editor
+### Top Bar — View Mode (`college-top-panel`)
 
-### Top Bar (edit mode)
+- **Search field** (left): placeholder "Search for college...", triggers `colleges` signal filter
+- **Filter chips** (inline, after search): `Club` · `Project` · `Job` · `Internship` · `Mentor` · `College` (active/default) · `Company` · `Event` · `Student Profile` · `All Filters`
+  - Active chip: `bg-[var(--wrcf-action)]` background; inactive chips: outlined with `border-[var(--wrcf-border)]`
+  - Default selected chip: **College**
+  - Chips are for future extensibility — no filter logic required now, only visual active state
+- **+ Add button** (right): primary button, `bg-[var(--wrcf-action)]`, opens create mode
 
-- **Preview** button — opens preview mode
-- **Save** button — saves as Draft (status 0)
-- **Send to Publish** button — enabled only when all mandatory fields are filled (status 1)
+---
+
+### Top Bar — Edit / Preview Mode (`college-top-panel`)
+
+Replaces search + filter chips entirely. Shows 3 action buttons (right-aligned):
+
+| Button | Style | Action |
+|---|---|---|
+| **Preview** | outlined, `border-[var(--wrcf-border)]`, `text-[var(--wrcf-text-primary)]` | switches `mode` to `preview` |
+| **Save** | outlined, `border-[var(--wrcf-border)]`, `text-[var(--wrcf-text-primary)]` | saves form as Draft (status 0) |
+| **Sent to publish** | filled, `bg-[var(--wrcf-accent)]`, `text-[var(--wrcf-bg-primary)]` | publishes college (status 1); disabled until all mandatory fields valid |
+
+---
+
+### Left Panel — College List (`college-list-panel`, view mode)
+
+Each card (height 72px, `bg-[var(--wrcf-bg-card)]`):
+
+- **Logo**: 40×40 circular avatar (college logo or initials fallback)
+- **College name**: bodyMd, `text-[var(--wrcf-text-primary)]`, bold
+- **College Id**: caption, `text-[var(--wrcf-text-tertiary)]` (e.g. `CLG-2025-BLR-002`)
+- **Metadata row**: `heroicons_outline:map-pin` icon + "City, Country" · `heroicons_outline:calendar` icon + year · "Private"/"Public" text
+- **Selected state**: `bg-[var(--wrcf-bg-selected)]` + 4px left border `border-l-[var(--wrcf-accent)]`
+
+On page load: first college auto-selected.
+
+---
+
+### Left Panel — Media Library (`media-library-panel`, edit mode)
+
+- **Search field**: placeholder "Search for images/Videos..."
+- **Type dropdown** (right of search): "Images/Videos" — filters list by media type
+- **Media list**: each item shows thumbnail (72×56px, left), title (bold, bodyMd), description (caption, text.secondary)
+
+---
+
+### Right Panel — College Detail View (`college-detail-panel`)
+
+**Header row**:
+- College logo (56×56px circle) + College name (h2, text.primary)
+- **Edit button** (top-right): `heroicons_outline:pencil-square` + "Edit" label, primary button style
+
+**Metadata row**: College Id · Affiliated University · `heroicons_outline:map-pin` Location · `heroicons_outline:calendar` Year · Type
+
+**Sections** (scrollable, in order):
+
+| # | Label | Content |
+|---|---|---|
+| A | **About the college** | Section header (h3, text.primary) |
+| — | *College details* | Accent sub-label (`text-[var(--wrcf-text-tertiary)]`); rich text body; truncated with "...see more" toggle |
+| B | **College Brochure** | PDF link text + thumbnail image preview; click opens `pdf-viewer` |
+| C | **Promotional Videos** | Video thumbnail grid (3 per row); play interaction |
+| D | **Local Club Chapters** | 2-column card grid; each card: club logo + name + short description |
+| E | **Degrees Offered** | Rich text (B.Tech / M.Tech / Diploma program lists) |
+| F | **College Key Contacts** | Two-column layout: Vice Chancellor (name as accent link) \| Groom Coordinator; Communication Coordinator \| Placement Head; Placement Coordinator |
+| — | *Inquiry email* | "For inquiries...reach out via email: [email link in accent color]" |
+| G | **Placement Highlights** | Rich text (Highest Package, Average Package, Domains, Recruiters, International placements) |
+
+---
+
+### Right Panel — Edit / Create Form (`college-add-edit`)
+
+Single **"Details"** tab. Sections scroll vertically:
+
+#### College Details
+
+2-column grid layout:
+
+| Left | Right |
+|---|---|
+| College Thumbnail (circular upload area, `heroicons_outline:plus` center icon) | Name* (text input) |
+| Affiliated University* (mat-select dropdown) | Location (mat-select dropdown — cities) |
+| Established Year (year-only date picker) | College Type* (mat-select: Private / Public) |
+
+#### College details *(description)*
+
+`<whizard-quill-editor>` — toolbar: Bold · Italic · Underline · Ordered list · Unordered list
+
+#### College Brochure
+
+Single drag-and-drop upload box ("Upload Brochure Here"), `lucideIcons:upload` icon. Max 1 PDF, 2 MB. Uses `<whizard-media-uploader>`.
+
+#### Promotional Videos
+
+Grid of existing video thumbnails + "Upload Videos Here" placeholder slot (`lucideIcons:video` icon). **"+" icon button** (top-right of section header) appends another slot. Max 2 MB each.
+
+#### Campus Gallery
+
+Grid of existing image thumbnails + "Upload Images Here" placeholder slot (`lucideIcons:image` icon). **"+" icon button** (top-right of section header) appends another slot. Max 2 MB each.
+
+#### Local Club Chapters
+
+`mat-select` with `multiple`. Selected clubs rendered as comma-separated chips inside the field.
+
+#### Degrees Offered
+
+`<whizard-quill-editor>` — same toolbar config as description.
+
+#### College Key Contacts
+
+2-column `mat-select` dropdown grid:
+
+| Left | Right |
+|---|---|
+| Vice Chancellor | College Groom Coordinator |
+| College Communication Coordinator | Placement Head |
+| Placement Coordinator | — |
+
+#### Inquiry Email
+
+`mat-input` (email type). Displayed beneath contacts section.
+
+#### Placement Highlights
+
+`<whizard-quill-editor>` — same toolbar config.
+
+---
 
 ### State Management
 
-- Signals for: `mode`, `selectedCollegeId`, `colleges`, `loading`, `formDirty`
-- `FormBuilder` for all typed form fields
-- Upload fields managed outside FormBuilder (raw `File` signals)
+- Signals: `mode` (`'view' | 'edit' | 'create' | 'preview'`), `selectedCollegeId`, `colleges`, `loading`, `formDirty`
+- `FormBuilder` for all typed form fields: `name`, `affiliatedUniversity`, `location`, `establishedYear`, `collegeType`, `clubs`, `contacts`, `inquiryEmail`
+- Upload fields managed outside FormBuilder as raw `File` signals: `thumbnailFile`, `brochureFile`, `promotionalVideoFiles`, `campusGalleryFiles`
 
 ---
 
@@ -398,9 +512,9 @@ apps/web/admin-portal/src/app/pages/manage-college/
 - `apps/web/admin-portal/src/app/pages/manage-college/components/college-detail-panel/college-detail-panel.component.ts`
 - `apps/web/admin-portal/src/app/pages/manage-college/components/college-detail-panel/college-detail-panel.component.html`
 - `apps/web/admin-portal/src/app/pages/manage-college/components/college-detail-panel/college-detail-panel.component.css`
-- `apps/web/admin-portal/src/app/pages/manage-college/components/college-form/college-form.component.ts`
-- `apps/web/admin-portal/src/app/pages/manage-college/components/college-form/college-form.component.html`
-- `apps/web/admin-portal/src/app/pages/manage-college/components/college-form/college-form.component.css`
+- `apps/web/admin-portal/src/app/pages/manage-college/components/college-add-edit/college-add-edit.component.ts`
+- `apps/web/admin-portal/src/app/pages/manage-college/components/college-add-edit/college-add-edit.component.html`
+- `apps/web/admin-portal/src/app/pages/manage-college/components/college-add-edit/college-add-edit.component.css`
 - `apps/web/admin-portal/src/app/pages/manage-college/components/college-preview/college-preview.component.ts`
 - `apps/web/admin-portal/src/app/pages/manage-college/components/college-preview/college-preview.component.html`
 - `apps/web/admin-portal/src/app/pages/manage-college/components/college-preview/college-preview.component.css`

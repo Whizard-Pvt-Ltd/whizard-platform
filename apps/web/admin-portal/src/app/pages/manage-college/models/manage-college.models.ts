@@ -100,9 +100,9 @@ export type PageMode = 'list' | 'create' | 'edit' | 'preview';
 
 export const COLLEGE_TYPES = ['Private', 'Public', 'Deemed', 'Autonomous'] as const;
 export const CONTACT_ROLES = [
-  { value: 'VICE_CHANCELLOR',     label: 'Vice Chancellor' },
-  { value: 'PLACEMENT_HEAD',      label: 'Placement Head' },
-  { value: 'COORDINATOR',         label: 'Coordinator' },
+  { value: 'VICE_CHANCELLOR',       label: 'Vice Chancellor' },
+  { value: 'GROOM_COORDINATOR',     label: 'College Groom Coordinator' },
+  { value: 'COORDINATOR',           label: 'College Communication Coordinator' },
+  { value: 'PLACEMENT_HEAD',        label: 'Placement Head' },
   { value: 'PLACEMENT_COORDINATOR', label: 'Placement Coordinator' },
-  { value: 'GROOM_COORDINATOR',   label: 'Groom Coordinator' },
 ] as const;

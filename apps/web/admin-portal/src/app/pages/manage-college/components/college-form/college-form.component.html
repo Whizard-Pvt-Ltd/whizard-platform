@@ -1,167 +1,136 @@
-<div class="flex flex-col h-full overflow-hidden">
+<div class="flex flex-col h-full overflow-hidden w-full">
 
-  <!-- Top bar -->
-  <div class="flex items-center justify-between px-8 py-4 border-b border-wrcf-border bg-wrcf-bg-primary shrink-0">
-    <div class="flex items-center gap-3">
+  <!-- Tab bar -->
+  <div class="border-b border-wrcf-border shrink-0 px-8">
+    <div class="flex items-center gap-6">
       <button
-        mat-button
         type="button"
-        (click)="onCancel()"
-        class="h-9 px-3 rounded-[10px] border border-wrcf-border text-wrcf-text-secondary text-sm hover:border-wrcf-text-secondary transition-colors">
-        <mat-icon svgIcon="heroicons_outline:arrow-left" class="size-4 mr-1" />
-        Back
-      </button>
-      <h2 class="text-xl font-medium text-wrcf-text-primary leading-7">
-        {{ college() ? 'Edit College' : 'Add College' }}
-      </h2>
-    </div>
-    <div class="flex items-center gap-3">
-      <button
-        mat-button
-        type="button"
-        class="h-10 px-4 rounded-[10px] border border-wrcf-border text-wrcf-text-primary text-sm hover:border-wrcf-accent hover:text-wrcf-accent transition-colors">
-        <mat-icon svgIcon="heroicons_outline:eye" class="size-4 mr-1" />
-        Preview
-      </button>
-      <button
-        mat-button
-        type="button"
-        (click)="onSave()"
-        class="h-10 px-4 rounded-[10px] bg-wrcf-action text-wrcf-text-primary text-sm font-medium hover:bg-wrcf-action-hover transition-colors">
-        <mat-icon svgIcon="heroicons_outline:check" class="size-4 mr-1" />
-        Save
-      </button>
-      <button
-        mat-button
-        type="button"
-        (click)="onPublish()"
-        [disabled]="!isValid"
-        class="h-10 px-4 rounded-[10px] text-sm font-medium transition-colors"
-        [class.bg-wrcf-action]="isValid"
-        [class.text-wrcf-text-primary]="isValid"
-        [class.hover:bg-wrcf-action-hover]="isValid"
-        [class.bg-wrcf-bg-secondary]="!isValid"
-        [class.text-wrcf-text-secondary]="!isValid"
-        [class.cursor-not-allowed]="!isValid">
-        <mat-icon svgIcon="heroicons_outline:paper-airplane" class="size-4 mr-1" />
-        Send to Publish
+        class="h-12 text-sm font-medium text-wrcf-text-primary border-b-2 border-wrcf-action -mb-px">
+        Details
       </button>
     </div>
   </div>
 
   <!-- Form body -->
-  <div class="flex-1 overflow-y-auto px-8 py-6" [formGroup]="form">
-    <div class="max-w-3xl flex flex-col gap-8">
+  <div class="flex-1 overflow-y-auto px-8 py-6 w-full" [formGroup]="form">
+    <div class="max-w-5xl flex flex-col gap-8">
 
       <!-- Section: College Details -->
       <section>
-        <h3 class="text-base font-semibold text-wrcf-text-primary mb-4 pb-2 border-b border-wrcf-border">College Details</h3>
+        <h3 class="text-base font-semibold text-wrcf-text-primary mb-4">College Details</h3>
 
-        <!-- Logo upload + Name row -->
-        <div class="flex items-start gap-6 mb-5">
-          <!-- Logo upload -->
-          <div class="flex flex-col items-center gap-2 shrink-0">
-            <div class="w-20 h-20 rounded-full border-2 border-dashed border-wrcf-border bg-wrcf-bg-secondary flex items-center justify-center overflow-hidden cursor-pointer hover:border-wrcf-accent transition-colors relative group">
+        <!-- 2-column grid: Thumbnail | Name, University | Location, Year | Type -->
+        <div class="grid grid-cols-2 gap-x-6 gap-y-4">
+
+          <!-- Row 1: Thumbnail | Name -->
+          <div class="flex flex-col items-center justify-center">
+            <button
+              type="button"
+              class="w-20 h-20 rounded-full border-2 border-dashed border-wrcf-border bg-wrcf-bg-secondary flex items-center justify-center overflow-hidden cursor-pointer hover:border-wrcf-accent transition-colors relative group">
               @if (logoPreview()) {
                 <img [src]="logoPreview()!" class="w-full h-full object-cover" />
                 <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                  <mat-icon svgIcon="heroicons_outline:camera" class="size-5 text-white" />
+                  <mat-icon svgIcon="heroicons_outline:plus" class="size-5 text-white" />
                 </div>
               } @else {
-                <mat-icon svgIcon="heroicons_outline:camera" class="size-6 text-wrcf-text-secondary" />
+                <mat-icon svgIcon="heroicons_outline:plus" class="size-7 text-wrcf-text-secondary" />
               }
-              <!-- Hidden uploader trigger overlay -->
-            </div>
+            </button>
             <whizard-media-uploader
               accept="image/*"
               [multiple]="false"
-              label="Logo"
+              label="College Thumbnail"
               iconType="image"
               (filesSelected)="onLogoSelected($event)"
               class="hidden-uploader" />
-            <span class="text-xs text-wrcf-text-secondary">Logo</span>
+            <span class="text-xs text-wrcf-text-secondary mt-1.5">College Thumbnail</span>
           </div>
 
-          <!-- Name + University -->
-          <div class="flex-1 grid grid-cols-2 gap-4">
-            <div class="col-span-2">
-              <label class="block text-sm text-wrcf-text-secondary mb-1.5">College Name <span class="text-wrcf-error">*</span></label>
-              <mat-form-field appearance="outline" class="w-full wrcf-field">
-                <input matInput formControlName="name" placeholder="Enter college name" />
-                @if (form.get('name')?.invalid && form.get('name')?.touched) {
-                  <mat-error>Name is required</mat-error>
-                }
-              </mat-form-field>
-            </div>
-            <div class="col-span-2">
-              <label class="block text-sm text-wrcf-text-secondary mb-1.5">Affiliated University <span class="text-wrcf-error">*</span></label>
-              <mat-form-field appearance="outline" class="w-full wrcf-field">
-                <input matInput formControlName="affiliatedUniversity" placeholder="Enter university name" />
-                @if (form.get('affiliatedUniversity')?.invalid && form.get('affiliatedUniversity')?.touched) {
-                  <mat-error>University is required</mat-error>
-                }
-              </mat-form-field>
-            </div>
-            <div>
-              <label class="block text-sm text-wrcf-text-secondary mb-1.5">Location</label>
-              <mat-form-field appearance="outline" class="w-full wrcf-field">
-                <mat-select formControlName="cityId" placeholder="Select city">
-                  <mat-option [value]="null">— None —</mat-option>
-                  @for (city of cities(); track city.id) {
-                    <mat-option [value]="city.id">{{ city.name }}, {{ city.state }}</mat-option>
-                  }
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <div>
-              <label class="block text-sm text-wrcf-text-secondary mb-1.5">College Type <span class="text-wrcf-error">*</span></label>
-              <mat-form-field appearance="outline" class="w-full wrcf-field">
-                <mat-select formControlName="collegeType" placeholder="Select type">
-                  @for (type of collegeTypes; track type) {
-                    <mat-option [value]="type">{{ type }}</mat-option>
-                  }
-                </mat-select>
-                @if (form.get('collegeType')?.invalid && form.get('collegeType')?.touched) {
-                  <mat-error>Type is required</mat-error>
-                }
-              </mat-form-field>
-            </div>
-            <div>
-              <label class="block text-sm text-wrcf-text-secondary mb-1.5">Established Year</label>
-              <mat-form-field appearance="outline" class="w-full wrcf-field">
-                <input matInput type="number" formControlName="establishedYear" placeholder="e.g. 1985" />
-              </mat-form-field>
-            </div>
+          <div class="flex flex-col justify-center">
+            <label class="block text-sm text-wrcf-text-secondary mb-1.5">Name <span class="text-red-400">*</span></label>
+            <mat-form-field appearance="outline" class="w-full wrcf-field">
+              <input matInput formControlName="name" placeholder="Enter college name" />
+              @if (form.get('name')?.invalid && form.get('name')?.touched) {
+                <mat-error>Name is required</mat-error>
+              }
+            </mat-form-field>
           </div>
+
+          <!-- Row 2: Affiliated University | Location -->
+          <div>
+            <label class="block text-sm text-wrcf-text-secondary mb-1.5">Affiliated University <span class="text-red-400">*</span></label>
+            <mat-form-field appearance="outline" class="w-full wrcf-field">
+              <input matInput formControlName="affiliatedUniversity" placeholder="Enter university name" />
+              @if (form.get('affiliatedUniversity')?.invalid && form.get('affiliatedUniversity')?.touched) {
+                <mat-error>University is required</mat-error>
+              }
+            </mat-form-field>
+          </div>
+
+          <div>
+            <label class="block text-sm text-wrcf-text-secondary mb-1.5">Location</label>
+            <mat-form-field appearance="outline" class="w-full wrcf-field">
+              <mat-select formControlName="cityId" placeholder="Select city">
+                <mat-option [value]="null">— None —</mat-option>
+                @for (city of cities(); track city.id) {
+                  <mat-option [value]="city.id">{{ city.name }}, {{ city.state }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- Row 3: Established Year | College Type -->
+          <div>
+            <label class="block text-sm text-wrcf-text-secondary mb-1.5">Established Year</label>
+            <mat-form-field appearance="outline" class="w-full wrcf-field">
+              <input matInput type="number" formControlName="establishedYear" placeholder="e.g. 1985" />
+            </mat-form-field>
+          </div>
+
+          <div>
+            <label class="block text-sm text-wrcf-text-secondary mb-1.5">College Type <span class="text-red-400">*</span></label>
+            <mat-form-field appearance="outline" class="w-full wrcf-field">
+              <mat-select formControlName="collegeType" placeholder="Select type">
+                @for (type of collegeTypes; track type) {
+                  <mat-option [value]="type">{{ type }}</mat-option>
+                }
+              </mat-select>
+              @if (form.get('collegeType')?.invalid && form.get('collegeType')?.touched) {
+                <mat-error>Type is required</mat-error>
+              }
+            </mat-form-field>
+          </div>
+
         </div>
       </section>
 
-      <!-- Section: Description -->
+      <!-- Section: College details (description) -->
       <section>
-        <h3 class="text-base font-semibold text-wrcf-text-primary mb-4 pb-2 border-b border-wrcf-border">
-          College Description <span class="text-wrcf-error">*</span>
+        <h3 class="text-base font-semibold text-wrcf-text-primary mb-4">
+          College details <span class="text-red-400">*</span>
         </h3>
         <whizard-quill-editor
           formControlName="description"
           placeholder="Describe the college..." />
       </section>
 
-      <!-- Section: Brochure -->
+      <!-- Section: College Brochure -->
       <section>
-        <h3 class="text-base font-semibold text-wrcf-text-primary mb-4 pb-2 border-b border-wrcf-border">College Brochure</h3>
-        <whizard-media-uploader
-          accept=".pdf"
-          [multiple]="false"
-          label="Upload PDF brochure"
-          iconType="pdf"
-          (filesSelected)="onBrochureSelected($event)" />
-        @if (brochureFiles().length > 0) {
-          <div class="mt-3 flex flex-col gap-2">
+        <h3 class="text-base font-semibold text-wrcf-text-primary mb-4">College Brochure</h3>
+        @if (brochureFiles().length === 0) {
+          <whizard-media-uploader
+            accept=".pdf"
+            [multiple]="false"
+            label="Upload Brochure Here"
+            iconType="pdf"
+            (filesSelected)="onBrochureSelected($event)" />
+        } @else {
+          <div class="flex flex-col gap-2">
             @for (f of brochureFiles(); track f.file.name; let i = $index) {
               <div class="flex items-center gap-3 px-3 py-2 rounded-lg bg-wrcf-bg-secondary border border-wrcf-border">
                 <mat-icon svgIcon="lucideIcons:file-text" class="size-4 text-wrcf-text-tertiary shrink-0" />
                 <span class="text-sm text-wrcf-text-primary flex-1 truncate">{{ f.file.name }}</span>
-                <button type="button" (click)="removeBrochure(i)" class="text-wrcf-text-secondary hover:text-wrcf-error transition-colors">
+                <button type="button" (click)="removeBrochure(i)" class="text-wrcf-text-secondary hover:text-red-400 transition-colors">
                   <mat-icon svgIcon="heroicons_outline:x-mark" class="size-4" />
                 </button>
               </div>
@@ -170,75 +139,89 @@
         }
       </section>
 
-      <!-- Section: Videos -->
+      <!-- Section: Promotional Videos -->
       <section>
-        <h3 class="text-base font-semibold text-wrcf-text-primary mb-4 pb-2 border-b border-wrcf-border">Promotional Videos</h3>
-        <whizard-media-uploader
-          accept="video/*"
-          [multiple]="true"
-          label="Upload promotional videos"
-          iconType="video"
-          (filesSelected)="onVideoSelected($event)" />
-        @if (videoFiles().length > 0) {
-          <div class="mt-3 grid grid-cols-3 gap-3">
-            @for (f of videoFiles(); track f.file.name; let i = $index) {
-              <div class="relative aspect-video rounded-xl overflow-hidden bg-wrcf-bg-secondary border border-wrcf-border group">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-base font-semibold text-wrcf-text-primary">Promotional Videos</h3>
+          <button
+            type="button"
+            class="w-7 h-7 rounded-full bg-wrcf-action flex items-center justify-center hover:bg-wrcf-action-hover transition-colors">
+            <mat-icon svgIcon="heroicons_outline:plus" class="size-4 text-wrcf-text-primary" />
+          </button>
+        </div>
+        <div class="grid grid-cols-3 gap-3">
+          @for (f of videoFiles(); track f.file.name; let i = $index) {
+            <div class="relative aspect-video rounded-xl overflow-hidden bg-wrcf-bg-secondary border border-wrcf-border group">
+              <div class="absolute inset-0 flex items-center justify-center">
+                <mat-icon svgIcon="heroicons_outline:play-circle" class="size-10 text-wrcf-text-secondary" />
+              </div>
+              <p class="absolute bottom-1 left-1 right-1 text-xs text-wrcf-text-secondary truncate text-center">{{ f.file.name }}</p>
+              <button
+                type="button"
+                (click)="removeVideo(i)"
+                class="absolute top-1 right-1 opacity-0 group-hover:opacity-100 w-5 h-5 rounded-full bg-black/60 flex items-center justify-center transition-opacity">
+                <mat-icon svgIcon="heroicons_outline:x-mark" class="size-3 text-white" />
+              </button>
+            </div>
+          }
+          <!-- Upload slot -->
+          <whizard-media-uploader
+            accept="video/*"
+            [multiple]="true"
+            label="Upload Videos Here"
+            iconType="video"
+            (filesSelected)="onVideoSelected($event)"
+            class="aspect-video" />
+        </div>
+      </section>
+
+      <!-- Section: Campus Gallery -->
+      <section>
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-base font-semibold text-wrcf-text-primary">Campus Gallery</h3>
+          <button
+            type="button"
+            class="w-7 h-7 rounded-full bg-wrcf-action flex items-center justify-center hover:bg-wrcf-action-hover transition-colors">
+            <mat-icon svgIcon="heroicons_outline:plus" class="size-4 text-wrcf-text-primary" />
+          </button>
+        </div>
+        <div class="grid grid-cols-3 gap-3">
+          @for (f of galleryFiles(); track f.file.name; let i = $index) {
+            <div class="relative aspect-video rounded-xl overflow-hidden bg-wrcf-bg-secondary border border-wrcf-border group">
+              @if (f.preview) {
+                <img [src]="f.preview" class="w-full h-full object-cover" />
+              } @else {
                 <div class="absolute inset-0 flex items-center justify-center">
-                  <mat-icon svgIcon="heroicons_outline:play-circle" class="size-10 text-wrcf-text-secondary" />
+                  <mat-icon svgIcon="heroicons_outline:photo" class="size-8 text-wrcf-text-secondary" />
                 </div>
-                <p class="absolute bottom-1 left-1 right-1 text-xs text-wrcf-text-secondary truncate text-center">{{ f.file.name }}</p>
-                <button
-                  type="button"
-                  (click)="removeVideo(i)"
-                  class="absolute top-1 right-1 opacity-0 group-hover:opacity-100 w-5 h-5 rounded-full bg-black/60 flex items-center justify-center transition-opacity">
-                  <mat-icon svgIcon="heroicons_outline:x-mark" class="size-3 text-white" />
-                </button>
-              </div>
-            }
-          </div>
-        }
+              }
+              <button
+                type="button"
+                (click)="removeGallery(i)"
+                class="absolute top-1 right-1 opacity-0 group-hover:opacity-100 w-5 h-5 rounded-full bg-black/60 flex items-center justify-center transition-opacity">
+                <mat-icon svgIcon="heroicons_outline:x-mark" class="size-3 text-white" />
+              </button>
+            </div>
+          }
+          <!-- Upload slot -->
+          <whizard-media-uploader
+            accept="image/*"
+            [multiple]="true"
+            label="Upload Images Here"
+            iconType="image"
+            (filesSelected)="onGallerySelected($event)"
+            class="aspect-video" />
+        </div>
       </section>
 
-      <!-- Section: Gallery -->
+      <!-- Section: Local Club Chapters -->
       <section>
-        <h3 class="text-base font-semibold text-wrcf-text-primary mb-4 pb-2 border-b border-wrcf-border">Campus Gallery</h3>
-        <whizard-media-uploader
-          accept="image/*"
-          [multiple]="true"
-          label="Upload campus images"
-          iconType="image"
-          (filesSelected)="onGallerySelected($event)" />
-        @if (galleryFiles().length > 0) {
-          <div class="mt-3 grid grid-cols-4 gap-3">
-            @for (f of galleryFiles(); track f.file.name; let i = $index) {
-              <div class="relative aspect-square rounded-xl overflow-hidden bg-wrcf-bg-secondary border border-wrcf-border group">
-                @if (f.preview) {
-                  <img [src]="f.preview" class="w-full h-full object-cover" />
-                } @else {
-                  <div class="absolute inset-0 flex items-center justify-center">
-                    <mat-icon svgIcon="heroicons_outline:photo" class="size-8 text-wrcf-text-secondary" />
-                  </div>
-                }
-                <button
-                  type="button"
-                  (click)="removeGallery(i)"
-                  class="absolute top-1 right-1 opacity-0 group-hover:opacity-100 w-5 h-5 rounded-full bg-black/60 flex items-center justify-center transition-opacity">
-                  <mat-icon svgIcon="heroicons_outline:x-mark" class="size-3 text-white" />
-                </button>
-              </div>
-            }
-          </div>
-        }
-      </section>
-
-      <!-- Section: Club Chapters -->
-      <section>
-        <h3 class="text-base font-semibold text-wrcf-text-primary mb-4 pb-2 border-b border-wrcf-border">
-          Local Club Chapters <span class="text-wrcf-error">*</span>
+        <h3 class="text-base font-semibold text-wrcf-text-primary mb-4">
+          Local Club Chapters <span class="text-red-400">*</span>
         </h3>
+        <label class="block text-sm text-wrcf-text-secondary mb-1.5">Select Local Club Chapters</label>
         <mat-form-field appearance="outline" class="w-full wrcf-field">
-          <mat-label>Select clubs</mat-label>
-          <mat-select formControlName="clubIds" multiple>
+          <mat-select formControlName="clubIds" multiple placeholder="Select clubs">
             @for (club of clubs(); track club.id) {
               <mat-option [value]="club.id">{{ club.name }}</mat-option>
             }
@@ -248,16 +231,16 @@
 
       <!-- Section: Degrees Offered -->
       <section>
-        <h3 class="text-base font-semibold text-wrcf-text-primary mb-4 pb-2 border-b border-wrcf-border">Degrees Offered</h3>
+        <h3 class="text-base font-semibold text-wrcf-text-primary mb-4">Degrees Offered</h3>
         <whizard-quill-editor
           formControlName="degreesOffered"
           placeholder="List degrees offered..." />
       </section>
 
-      <!-- Section: Key Contacts -->
+      <!-- Section: College Key Contacts -->
       <section>
-        <h3 class="text-base font-semibold text-wrcf-text-primary mb-4 pb-2 border-b border-wrcf-border">
-          College Key Contacts <span class="text-wrcf-error">*</span>
+        <h3 class="text-base font-semibold text-wrcf-text-primary mb-4">
+          College Key Contacts <span class="text-red-400">*</span>
         </h3>
         <div class="grid grid-cols-2 gap-4">
           @for (role of contactRoles; track role.value) {
@@ -267,7 +250,7 @@
                 <mat-select [formControlName]="'contact_' + role.value" placeholder="Select person">
                   <mat-option [value]="null">— None —</mat-option>
                   @for (user of users(); track user.id) {
-                    <mat-option [value]="user.id">{{ user.displayName }} ({{ user.primaryEmail }})</mat-option>
+                    <mat-option [value]="user.id">{{ user.displayName }}</mat-option>
                   }
                 </mat-select>
               </mat-form-field>
@@ -278,8 +261,8 @@
 
       <!-- Section: Inquiry Email -->
       <section>
-        <h3 class="text-base font-semibold text-wrcf-text-primary mb-4 pb-2 border-b border-wrcf-border">Inquiry Email</h3>
         <mat-form-field appearance="outline" class="w-full wrcf-field">
+          <mat-label>Inquiry Email</mat-label>
           <input matInput type="email" formControlName="inquiryEmail" placeholder="inquiry@college.edu" />
           @if (form.get('inquiryEmail')?.hasError('email') && form.get('inquiryEmail')?.touched) {
             <mat-error>Enter a valid email</mat-error>
@@ -289,7 +272,7 @@
 
       <!-- Section: Placement Highlights -->
       <section class="mb-8">
-        <h3 class="text-base font-semibold text-wrcf-text-primary mb-4 pb-2 border-b border-wrcf-border">Placement Highlights</h3>
+        <h3 class="text-base font-semibold text-wrcf-text-primary mb-4">Placement Highlights</h3>
         <whizard-quill-editor
           formControlName="placementHighlights"
           placeholder="Highlight placement records, top recruiters..." />
