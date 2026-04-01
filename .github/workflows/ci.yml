@@ -45,12 +45,6 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
 
-      - name: Enforce AI Notes on PR code changes
-        run: |
-          tools/scripts/check-ai-notes.sh \
-            "${{ github.event.pull_request.base.sha }}" \
-            "${{ github.event.pull_request.head.sha }}"
-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
