@@ -22,10 +22,10 @@ COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 COPY .npmrc ./
 COPY nx.json tsconfig.base.json tsconfig.json ./
 COPY libs ./libs
-COPY apps/api/bff ./apps/api/bff
+# COPY apps/api/bff ./apps/api/bff
 
 # Copy app-specific package.json
-# COPY apps/api/bff/package.json ./apps/api/bff/
+COPY apps/api/bff/package.json ./apps/api/bff/
 
 # Install ALL dependencies (needed for build)
 # Use --ignore-scripts because BFF doesn't need Prisma (the workspace postinstall runs prisma generate)
@@ -42,7 +42,6 @@ COPY . .
 # Build with NX (builds libs first with TypeScript, then app with Vite)
 # Force rebuild in Docker to avoid cache issues
 # NOTE: BFF no longer needs Prisma - it calls Core-API via HTTP
-RUN pnpm prisma:generate
 RUN pnpm nx build bff --skip-nx-cache
 
 # ============================================
