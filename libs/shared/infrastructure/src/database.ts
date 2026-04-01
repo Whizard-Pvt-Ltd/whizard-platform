@@ -4,8 +4,7 @@
  * Provides singleton Prisma client for database access.
  * Separated from main index to avoid bundling Prisma in apps that don't need it.
  */
-import pkg from '@prisma/client';
-const { PrismaClient } = pkg;
+import { PrismaClient } from '@prisma/client';
 type PrismaClientType = InstanceType<typeof PrismaClient>;
 
 /**
