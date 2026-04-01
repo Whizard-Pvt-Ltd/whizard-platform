@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
-import { deserializeIntegrationEventV1 } from '../serializers';
 import type { IdempotencyStorePort } from './idempotency-store.port';
+import { deserializeIntegrationEventV1 } from '../serializers';
 
 export interface KafkaMessageScaffold {
   readonly topic: string;

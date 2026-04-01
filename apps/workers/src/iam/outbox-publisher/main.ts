@@ -1,8 +1,8 @@
-import { createOutboxPublisherDependencies } from './dependencies';
-import { OutboxPublisherWorker } from './outbox-publisher.worker';
+import { isDirectExecution } from '../shared/direct-execution';
 import { ConsoleWorkerLogger } from '../shared/logger';
 import { runWorkerLoop } from '../shared/worker-loop';
-import { isDirectExecution } from '../shared/direct-execution';
+import { createOutboxPublisherDependencies } from './dependencies';
+import { OutboxPublisherWorker } from './outbox-publisher.worker';
 
 export const startIamOutboxPublisher = async (): Promise<void> => {
   const logger = new ConsoleWorkerLogger('iam.outbox-publisher');

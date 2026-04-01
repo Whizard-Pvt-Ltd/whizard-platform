@@ -1,7 +1,7 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { UserProfileComponent } from '@whizard/shared-ui';
 import { StackAuthService } from '../../core/services/stack-auth.service';
-import { CommonModule } from '@angular/common';
 
 /**
  * Admin Portal Profile Page

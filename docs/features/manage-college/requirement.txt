@@ -1,0 +1,177 @@
+# Manage College
+
+claude --resume 87dadb2c-f4b2-49d5-a156-8ba6ff614c0d
+claude --resume e218d770-ba38-4126-9cde-567bcb1c6568 
+
+## Overview
+<!-- One paragraph: what this feature does and why it exists. -->
+The Manage College feature enables admins to create, edit, and manage detailed college profiles within the platform. 
+It provides a structured interface to maintain college metadata, academic offerings, media assets, club associations, 
+key contacts, and placement information. This feature ensures a centralized and consistent representation of colleges 
+for discovery, analytics, and student engagement.
+
+
+## Default Behaviors
+1. On page load, the first college in the list is auto-selected
+2. Default tab selected: College
+3. Layout:
+  - Left Panel: College list 
+  - Top Bar: Search + Filters + Add Button
+  - Right Panel: Selected college details
+
+4. College Listing: 
+- System shall display list of colleges, Each college card shows: 
+     Name, Logo, Location, Establishment Year, Type (Private/Public)
+
+5. Search & Filter: 
+- User can search by college name
+- Filters available (future extensibility no action needed now):
+     Club, Project, Job, Internship, Mentor, College, Company, Event
+
+6. College Selection 
+- Clicking a college:
+    Loads full details in right panel and Highlights selected item.
+
+7. College Detail View
+   - Section A: Basic Info, College Name + Logo, College ID, Affiliated University, Location, Establishment Year, Type
+   - Section B: About College > Rich text (collapsed by default) > “See More” expands full content
+   - Section C: Brochure > Multiple PDF uploads > Click → opens/downloads file (provide a pdf-viewer component in lib/shared/ui/),
+   - Section D: Promotional Videos, Video thumbnails, Play interaction
+   - Section E: Campus Gallery, Image grid display
+   - Section F: Local Club Chapters, List of associated clubs, Click → navigates to club page (future extensibility no action needed now) (just provide button).
+   - Section G: Degrees Offered, Rich text content.
+   - Section H: Key Contacts
+                Roles: Vice Chancellor, Groom Coordinator, Communication Coordinator, Placement Head, Placement Coordinator,
+   - Section I: Placement Highlights, Rich text including: Highest Package, Average Package, Domains, Recruiters, International placements
+
+8.  CREATE / EDIT COLLEGE 
+   - Triggered by: “Add” → Create Mode / “Edit” → Edit Mode
+
+
+## Entities & Attributes
+<!-- One sub-section per entity. For each field: Name, Type, Mandatory (*), Options if dropdown. -->
+
+### <Basic Details>
+- Field Name* — Type (e.g. Text, Number, Dropdown: Option A / Option B)
+- College Logo*  - Image Upload
+- Name* - Text
+- Affiliated University* - Dropdown/Text
+- Location - Dropdown
+- College Type* - Dropdown (Private / Protected)
+- Established Year(Calender in Year only) - Date 
+- College Description* (Rich Text Editor (Quill Editor) Supports: Bold Lists Formatting) - Text
+- Brochure Upload* - Multiple PDF uploads 
+- Promotional Videos - Videos
+    Upload multiple videos
+    Preview available
+    Add via “+”
+- Campus Gallery (Multiple image uploads) - Image Upload
+- Local Club Chapters* - Dropdown selection (Club Table)
+- Degrees Offered (Rich Text Editor (Quill Editor) Supports: Bold Lists Formatting) - Text
+  - programs - Multiple Selection 
+  - program_specializations -> Multiple Selection
+- Key Contacts* - Dropdown populated from existing users / Role-based selection
+- Inquiry Section - Text field (email/contact info)
+- Placement Highlights (Rich Text Editor (Quill Editor) Supports: Bold Lists Formatting) - Text
+- Save & Publish
+    1. Save (Draft) with status 0 
+    2. Preview
+    3. Send to Publish with status 1
+
+## User Flows
+1. On page load, the first college in the list is auto-selected
+2. On selecting left list should reflect all details of selected item (College).
+3. User will be able to for view all the uploaded pdf/images/videos.
+4. On Add button click open add/edit screen in add mode with default initialization values.
+5. On add/edit screen all pdf/images/videos can be drag and dop or upload with click.
+6. On Preview button user would be able to see all the details filled same as the detail view but in a new component.
+7. Once all Mandatory should enable Send to Publish button till then oly save with draft status will applicable.
+
+
+## Business Rules & Constraints
+1. All Mandatory filled completed the Send to Publish will enable.
+2. College Name must be unique.
+3. Use FormBuilder for all the fields. 
+4. Upload fields will be out off the FormBuilder so that it would be manageable in future.
+5. Size of each pdf/images/videos, max 2MB each 
+6. Only 1 brochure allowed
+7. Use Quill Editor for Rich Text Editor Supports with a common configuration applied form lib/shared/ui so that can be used in other component
+8. Use Tailwind css give theme variables and Angular Martial for all the fields as per their filed type.
+9. Want use use S3 aws upload i have key and token, Implement it as Domains Driven Design Pattern so that can be use in any where in inn project.
+10. clubs, users, degree_programs and program_specializations seed some data.
+    - Seed users with the following college contact roles: VICE_CHANCELLOR, PLACEMENT_HEAD, COORDINATOR, PLACEMENT_COORDINATOR, GROOM_COORDINATOR
+
+## DB Notes
+<!-- Tables needed, key columns, relationships, audit fields (created_by, created_on etc.) -->
+colleges (Master)
+media_assets (Master)
+college_media (Mapping)
+clubs (Master)
+college_clubs (Mapping)
+degree_programs (
+   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+   college_id UUID REFERENCES colleges(id) ON DELETE CASCADE,
+   name TEXT NOT NULL, -- B.Tech, M.Tech
+   level TEXT, -- UG / PG / DIPLOMA / PHD
+   duration_years INT
+);
+program_specializations (
+   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+   program_id UUID REFERENCES programs(id) ON DELETE CASCADE,
+   name TEXT NOT NULL -- CSE, Mechanical, AI/ML
+);
+college_contacts (user with associated roles)
+
+Relationships
+College ↔ Media (1:N)
+College ↔ Clubs (M:N)
+College ↔ Programs (1:N)
+College ↔ Contacts (1:1 structured)
+College ↔ Placement (1:1)
+
+Common Fields
+created_by
+updated_by
+created_at
+updated_at
+isActive
+
+
+## Scope
+<!-- Explicit list of what must be built: frontend, API, migration, tests. -->
+1.Frontend (Angular)
+ - College list panel
+ - Detail view (read mode)
+ - Edit mode form (modular sections)
+ - Media selector panel
+ - Rich text editor
+ - Multi-select dropdowns
+ - Preview mode
+
+2.Backend API
+ - CRUD APIs for all entities
+ - Media upload API
+ - Mapping APIs
+ - Validation layer
+ - Others
+ - Role-based access (Admin only)
+ - Basic unit tests for APIs
+
+3.Migration
+ - Seed some master data for now only.
+
+
+## Out of Scope
+External integrations (college APIs)
+
+## Notes / Edge Cases
+Large media uploads → need size validation
+Partial save vs full save (decide UX)
+Empty states for:
+No media
+No clubs
+Ensure fallback UI if:
+Image fails to load
+Rich text “see more” handling for long content
+Handle duplicate club selection
+Dropdown data dependency (users, clubs)

@@ -1,6 +1,6 @@
+import { getOrCreateAppLogger } from '@whizard/shared-logging';
 import type { ISwoRepository } from '../../domain/repositories/swo.repository';
 import type { SwoDto } from '../dto/swo.dto';
-import { getOrCreateAppLogger } from '@whizard/shared-logging';
 
 const logger = getOrCreateAppLogger({ service: 'capability-framework' }).child({ component: 'secondary-work-object' });
 

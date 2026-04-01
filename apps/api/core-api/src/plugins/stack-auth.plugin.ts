@@ -14,21 +14,23 @@
  */
 
 import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import fp from 'fastify-plugin';
 import {
   StackAuthTokenVerifierGateway,
   loadStackAuthConfig,
   type StackAuthUser,
-  type StackAuthVerifierConfig
+  type StackAuthVerifierConfig,
 } from '@whizard/identity-access';
 import {
   StackAuthUserSyncService,
   loadStackAuthUserSyncConfig,
-  PrismaUserAccountRepository
+  PrismaUserAccountRepository,
 } from '@whizard/identity-access';
 import { getOrCreateAppLogger } from '@whizard/shared-logging';
+import fp from 'fastify-plugin';
 
-const logger = getOrCreateAppLogger({ service: 'core-api' }).child({ component: 'stack-auth-plugin' });
+const logger = getOrCreateAppLogger({ service: 'core-api' }).child({
+  component: 'stack-auth-plugin',
+});
 
 // Extend Fastify route options to include skipStackAuth flag
 declare module 'fastify' {
@@ -48,130 +50,155 @@ async function stackAuthPlugin(fastify: FastifyInstance) {
   const stackAuthConfig = loadStackAuthConfig();
   const verifierConfig: StackAuthVerifierConfig = {
     projectId: stackAuthConfig.projectId,
-    secretServerKey: stackAuthConfig.secretServerKey
+    secretServerKey: stackAuthConfig.secretServerKey,
   };
   const tokenVerifier = new StackAuthTokenVerifierGateway(verifierConfig);
 
   // Initialize user sync service
   const syncConfig = loadStackAuthUserSyncConfig();
   const userAccountRepository = new PrismaUserAccountRepository();
-  const userSyncService = new StackAuthUserSyncService(userAccountRepository, syncConfig);
+  const userSyncService = new StackAuthUserSyncService(
+    userAccountRepository,
+    syncConfig,
+  );
 
   logger.info('Stack Auth plugin initialized', {
-    projectId: stackAuthConfig.projectId
+    projectId: stackAuthConfig.projectId,
   });
 
   // Add preHandler hook to all routes
-  fastify.addHook('preHandler', async (request: FastifyRequest, reply: FastifyReply) => {
-    // Skip authentication for certain routes
-    if (request.routeOptions.config.skipStackAuth === true) {
-      logger.debug('Skipping Stack Auth verification for route', { url: request.url });
-      return;
-    }
+  fastify.addHook(
+    'preHandler',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      // Skip authentication for certain routes
+      if (request.routeOptions.config.skipStackAuth === true) {
+        logger.debug('Skipping Stack Auth verification for route', {
+          url: request.url,
+        });
+        return;
+      }
 
-    // Extract Authorization header
-    const authHeader = request.headers.authorization;
+      // Extract Authorization header
+      const authHeader = request.headers.authorization;
 
-    if (!authHeader) {
-      logger.warn('Missing Authorization header', { url: request.url });
-      return reply.status(401).send({
-        success: false,
-        error: {
-          code: 'UNAUTHENTICATED',
-          message: 'Missing Authorization header'
-        }
-      });
-    }
+      if (!authHeader) {
+        logger.warn('Missing Authorization header', { url: request.url });
+        return reply.status(401).send({
+          success: false,
+          error: {
+            code: 'UNAUTHENTICATED',
+            message: 'Missing Authorization header',
+          },
+        });
+      }
 
-    // Extract Bearer token
-    const match = authHeader.match(/^Bearer\s+(.+)$/i);
-    if (!match) {
-      logger.warn('Invalid Authorization header format', { url: request.url });
-      return reply.status(401).send({
-        success: false,
-        error: {
-          code: 'UNAUTHENTICATED',
-          message: 'Invalid Authorization header format. Expected: Bearer <token>'
-        }
-      });
-    }
+      // Extract Bearer token
+      const match = authHeader.match(/^Bearer\s+(.+)$/i);
+      if (!match) {
+        logger.warn('Invalid Authorization header format', {
+          url: request.url,
+        });
+        return reply.status(401).send({
+          success: false,
+          error: {
+            code: 'UNAUTHENTICATED',
+            message:
+              'Invalid Authorization header format. Expected: Bearer <token>',
+          },
+        });
+      }
 
-    const accessToken = match[1];
+      const accessToken = match[1];
 
-    try {
-      // Verify token with Stack Auth
-      logger.debug('Verifying Stack Auth token', { url: request.url });
-      const stackAuthUser: StackAuthUser = await tokenVerifier.verifyToken(accessToken);
+      try {
+        // Verify token with Stack Auth
+        logger.debug('Verifying Stack Auth token', { url: request.url });
+        const stackAuthUser: StackAuthUser =
+          await tokenVerifier.verifyToken(accessToken);
 
-      logger.debug('Stack Auth token verified', {
-        userId: stackAuthUser.userId,
-        email: stackAuthUser.email,
-        url: request.url
-      });
+        logger.debug('Stack Auth token verified', {
+          userId: stackAuthUser.userId,
+          email: stackAuthUser.email,
+          url: request.url,
+        });
 
-      // Sync user to local database
-      const localUser = await userSyncService.syncUser(stackAuthUser);
+        // Sync user to local database
+        const localUser = await userSyncService.syncUser(stackAuthUser);
 
-      logger.debug('User synced to local database', {
-        userId: localUser.id.value,
-        tenantId: localUser.tenant.tenantId,
-        tenantType: localUser.tenant.tenantType,
-        stackAuthUserId: stackAuthUser.userId
-      });
+        logger.debug('User synced to local database', {
+          userId: localUser.id.value,
+          tenantId: localUser.tenant.tenantId,
+          tenantType: localUser.tenant.tenantType,
+          stackAuthUserId: stackAuthUser.userId,
+        });
 
-      // Set request context headers for downstream handlers
-      // These headers are used by authorizationPreHandler and business logic
-      request.headers['x-actor-user-account-id'] = localUser.id.value;
-      request.headers['x-actor-email'] = stackAuthUser.email ?? '';
-      request.headers['x-tenant-type'] = localUser.tenant.tenantType;
-      request.headers['x-tenant-id'] = localUser.tenant.tenantId;
+        // Set request context headers for downstream handlers
+        // These headers are used by authorizationPreHandler and business logic
+        request.headers['x-actor-user-account-id'] = localUser.id.value;
+        request.headers['x-actor-email'] = stackAuthUser.email ?? '';
+        request.headers['x-tenant-type'] = localUser.tenant.tenantType;
+        request.headers['x-tenant-id'] = localUser.tenant.tenantId;
 
-      // Bind userId, username and tenantId to the per-request logger so all subsequent
-      // log calls on this request (including onResponse) automatically carry this context
-      request.log = request.log.child({
-        userId: localUser.id.value,
-        username: stackAuthUser.email,
-        tenantId: localUser.tenant.tenantId
-      });
+        // Bind userId, username and tenantId to the per-request logger so all subsequent
+        // log calls on this request (including onResponse) automatically carry this context
+        request.log = request.log.child({
+          userId: localUser.id.value,
+          username: stackAuthUser.email,
+          tenantId: localUser.tenant.tenantId,
+        });
 
-      // Log at info level now that userId is bound — Fastify's built-in "incoming request"
-      // fires before auth so it lacks userId; this entry fills that gap
-      request.log.info({ method: request.method, url: request.url }, 'Authenticated request received');
+        // Log at info level now that userId is bound — Fastify's built-in "incoming request"
+        // fires before auth so it lacks userId; this entry fills that gap
+        request.log.info(
+          { method: request.method, url: request.url },
+          'Authenticated request received',
+        );
 
-      // TODO: Fetch user permissions from database and set X-Permissions header
-      // For now, grant minimal permissions
-      request.headers['x-permissions'] = 'WRCF.MANAGE';
+        // TODO: Fetch user permissions from database and set X-Permissions header
+        // For now, grant all admin permissions
+        request.headers['x-permissions'] =
+          'WRCF.MANAGE,COLLEGE.MANAGE,COMPANY.MANAGE,IAM.READ,IAM.WRITE';
 
-      logger.debug('Request context set from Stack Auth user', {
-        userId: localUser.id.value,
-        tenantId: localUser.tenant.tenantId,
-        tenantType: localUser.tenant.tenantType
-      });
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Token verification failed';
-      logger.error('Stack Auth token verification failed', {
-        error: errorMessage,
-        url: request.url,
-        requestId: request.headers['x-request-id'] ? String(request.headers['x-request-id']) : undefined
-      });
+        logger.debug('Request context set from Stack Auth user', {
+          userId: localUser.id.value,
+          tenantId: localUser.tenant.tenantId,
+          tenantType: localUser.tenant.tenantType,
+          permissions: request.headers['x-permissions'],
+        });
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error ? error.message : 'Token verification failed';
+        logger.error('Stack Auth token verification failed', {
+          error: errorMessage,
+          url: request.url,
+          requestId: request.headers['x-request-id']
+            ? String(request.headers['x-request-id'])
+            : undefined,
+        });
 
-      return reply.status(401).send({
-        success: false,
-        error: {
-          code: 'UNAUTHENTICATED',
-          message: errorMessage
-        }
-      });
-    }
-  });
+        return reply.status(401).send({
+          success: false,
+          error: {
+            code: 'UNAUTHENTICATED',
+            message: errorMessage,
+          },
+        });
+      }
+    },
+  );
 
   logger.info('Stack Auth preHandler hook registered');
 
   fastify.addHook('onResponse', (request, reply, done) => {
     if (request.routeOptions.config.skipStackAuth !== true) {
       request.log.info(
-        { method: request.method, url: request.url, statusCode: reply.statusCode, responseTime: Math.round(reply.elapsedTime) },
-        'Request completed'
+        {
+          method: request.method,
+          url: request.url,
+          statusCode: reply.statusCode,
+          responseTime: Math.round(reply.elapsedTime),
+        },
+        'Request completed',
       );
     }
     done();
@@ -183,5 +210,5 @@ async function stackAuthPlugin(fastify: FastifyInstance) {
  */
 export default fp(stackAuthPlugin, {
   name: 'stack-auth',
-  fastify: '5.x'
+  fastify: '5.x',
 });

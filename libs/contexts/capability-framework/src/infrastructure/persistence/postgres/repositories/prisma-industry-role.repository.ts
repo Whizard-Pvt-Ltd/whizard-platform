@@ -1,6 +1,6 @@
 import { getPrisma } from '@whizard/shared-infrastructure';
-import { IndustryRole } from '../../../../domain/aggregates/industry-role.aggregate';
 import type { IIndustryRoleRepository } from '../../../../domain/repositories/industry-role.repository';
+import { IndustryRole } from '../../../../domain/aggregates/industry-role.aggregate';
 
 export class PrismaIndustryRoleRepository implements IIndustryRoleRepository {
   private readonly prisma = getPrisma();
@@ -14,67 +14,73 @@ export class PrismaIndustryRoleRepository implements IIndustryRoleRepository {
     roleCriticalityScore?: number;
   }[]> {
     const rows = await this.prisma.role.findMany({
-      where: { tenantId, departmentId, isActive: true },
+      where: {
+        tenantId: BigInt(tenantId),
+        departmentId: BigInt(departmentId),
+        isActive: true
+      },
       orderBy: { name: 'asc' }
     });
     return rows.map(r => ({
-      id: r.id,
+      id: r.id.toString(),
       name: r.name,
-      departmentId: r.departmentId,
+      departmentId: r.departmentId.toString(),
       seniorityLevel: r.seniorityLevel ?? '',
-      reportingTo: r.reportingTo ?? undefined,
+      reportingTo: r.reportingTo != null ? r.reportingTo.toString() : undefined,
       roleCriticalityScore: r.roleCriticalityScore ?? undefined
     }));
   }
 
   async findById(id: string): Promise<IndustryRole | null> {
-    const r = await this.prisma.role.findUnique({ where: { id } });
+    const r = await this.prisma.role.findUnique({
+      where: { id: BigInt(id) }
+    });
     if (!r) return null;
     return IndustryRole.reconstitute({
-      id: r.id,
-      tenantId: r.tenantId,
-      departmentId: r.departmentId,
-      industryId: r.industryId ?? undefined,
+      id: r.id.toString(),
+      tenantId: r.tenantId.toString(),
+      departmentId: r.departmentId.toString(),
+      industryId: r.industryId?.toString() ?? undefined,
       name: r.name,
       description: r.description ?? undefined,
       seniorityLevel: r.seniorityLevel ?? undefined,
-      reportingTo: r.reportingTo ?? undefined,
+      reportingTo: r.reportingTo != null ? r.reportingTo.toString() : undefined,
       roleCriticalityScore: r.roleCriticalityScore ?? undefined,
-      createdBy: r.createdBy ?? undefined
+      createdBy: undefined
     });
   }
 
   async save(role: IndustryRole): Promise<void> {
+    const reportingToId = role.reportingTo ? BigInt(role.reportingTo) : null;
     await this.prisma.role.create({
       data: {
-        id: role.id,
-        tenantId: role.tenantId,
-        departmentId: role.departmentId,
-        industryId: role.industryId,
+        tenantId: BigInt(role.tenantId),
+        departmentId: BigInt(role.departmentId),
+        industryId: role.industryId ? BigInt(role.industryId) : null,
         name: role.name,
         description: role.description,
         seniorityLevel: role.seniorityLevel,
-        reportingTo: role.reportingTo,
-        roleCriticalityScore: role.roleCriticalityScore,
-        createdBy: role.createdBy
+        reportingTo: reportingToId,
+        roleCriticalityScore: role.roleCriticalityScore
       }
     });
   }
 
   async update(role: IndustryRole): Promise<void> {
+    const reportingToId = role.reportingTo ? BigInt(role.reportingTo) : null;
     await this.prisma.role.update({
-      where: { id: role.id },
+      where: { id: BigInt(role.id) },
       data: {
         name: role.name,
         description: role.description,
         seniorityLevel: role.seniorityLevel,
-        reportingTo: role.reportingTo,
+        reportingTo: reportingToId,
         roleCriticalityScore: role.roleCriticalityScore
       }
     });
   }
 
   async delete(id: string): Promise<void> {
-    await this.prisma.role.update({ where: { id }, data: { isActive: false } });
+    await this.prisma.role.update({ where: { id: BigInt(id) }, data: { isActive: false } });
   }
 }

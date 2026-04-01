@@ -1,7 +1,9 @@
 <div class="page">
   <header class="page-header">
     <div class="header-left">
-      <span class="menu-icon" (click)="drawerOpen.set(true)">☰</span>
+        <button matIconButton (click)="drawerOpen.set(true)">
+          <mat-icon class="size-4" [svgIcon]="'heroicons_outline:bars-3'" />
+        </button>
       <h1 class="page-title">Dashboard</h1>
     </div>
     <div class="header-right">
@@ -29,7 +31,7 @@
   </header>
 
   <main class="dashboard-main">
-    <h2 class="dashboard-title">Dashboard</h2>
+    <h2 class="text-3xl">Dashbodfghjard</h2>
   </main>
 
   <whizard-nav-drawer [open]="drawerOpen()" (closed)="drawerOpen.set(false)" />

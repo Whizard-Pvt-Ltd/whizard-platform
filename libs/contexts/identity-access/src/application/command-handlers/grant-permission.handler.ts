@@ -2,8 +2,8 @@ import type { GrantPermissionCommand } from '../commands/grant-permission.comman
 import type { GrantPermissionResponseDto } from '../dto/responses/grant-permission.response.dto';
 import type { OutboxPort } from '../ports/event-bus/outbox.port';
 import type { AuthorizationGateway } from '../ports/gateways/authorization.gateway';
-import type { IamUnitOfWorkPort } from '../ports/transactions/iam-unit-of-work.port';
 import type { IamCommandRepositories } from '../ports/repositories/iam-command-repositories.port';
+import type { IamUnitOfWorkPort } from '../ports/transactions/iam-unit-of-work.port';
 
 export class GrantPermissionHandler {
   constructor(

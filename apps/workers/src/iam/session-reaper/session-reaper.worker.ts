@@ -1,6 +1,6 @@
 import type { WorkerLogger } from '../shared/logger';
-import { executeWithRetry } from '../shared/retry';
 import type { SessionReaperService } from './dependencies';
+import { executeWithRetry } from '../shared/retry';
 
 export interface SessionReaperWorkerOptions {
   readonly inactivityThresholdMinutes: number;

@@ -1,0 +1,93 @@
+<div class="flex flex-col h-full w-[280px] min-w-[280px] bg-wrcf-bg-card border-r border-wrcf-border">
+
+  <!-- Header -->
+  <div class="px-4 pt-4 pb-3 border-b border-wrcf-border shrink-0">
+    <h3 class="text-base font-medium text-wrcf-text-primary mb-3">Media Library</h3>
+
+    <!-- Search -->
+    <div class="flex items-center gap-2 h-9 px-3 rounded-[10px] bg-wrcf-bg-secondary border border-wrcf-border mb-2">
+      <mat-icon svgIcon="heroicons_outline:magnifying-glass" class="size-3.5 text-wrcf-text-secondary shrink-0" />
+      <input
+        type="text"
+        placeholder="Search for Images/Videos..."
+        [ngModel]="searchQuery()"
+        (ngModelChange)="onSearchChange($event)"
+        class="flex-1 bg-transparent text-sm text-wrcf-text-primary placeholder-wrcf-text-secondary outline-none border-none" />
+    </div>
+
+    <!-- Type filter -->
+    <mat-form-field appearance="outline" class="w-full wrcf-field-sm">
+      <mat-select
+        [ngModel]="typeFilter()"
+        (ngModelChange)="onTypeFilterChange($event)"
+        placeholder="Images/Videos">
+        <mat-option value="all">All Types</mat-option>
+        <mat-option value="image">Images</mat-option>
+        <mat-option value="video">Videos</mat-option>
+        <mat-option value="pdf">PDFs</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- Upload area -->
+  <div class="px-4 py-3 border-b border-wrcf-border shrink-0">
+    <whizard-media-uploader
+      accept="image/*,video/*,.pdf"
+      [multiple]="true"
+      label="Upload to library"
+      iconType="any"
+      (filesSelected)="onFilesSelected($event)" />
+  </div>
+
+  <!-- Grid -->
+  <div class="flex-1 overflow-y-auto p-3">
+    @if (loading()) {
+      <div class="flex items-center justify-center py-10">
+        <span class="text-sm text-wrcf-text-secondary">Loading...</span>
+      </div>
+    } @else if (filteredAssets().length === 0) {
+      <div class="flex flex-col items-center justify-center py-10 gap-2">
+        <mat-icon svgIcon="heroicons_outline:photo" class="size-10 text-wrcf-text-secondary opacity-30" />
+        <p class="text-xs text-wrcf-text-secondary text-center">No assets found</p>
+      </div>
+    } @else {
+      <div class="flex flex-col gap-2">
+        @for (asset of filteredAssets(); track asset.id) {
+          <button
+            type="button"
+            (click)="onAssetClick(asset)"
+            class="flex items-center gap-3 p-2 rounded-xl border border-wrcf-border bg-wrcf-bg-secondary hover:border-wrcf-accent transition-colors group text-left">
+
+            <!-- Thumbnail -->
+            <div class="relative w-16 h-12 rounded-lg overflow-hidden bg-wrcf-bg-primary shrink-0">
+              @if (isImage(asset) && (asset.thumbnailUrl || asset.url)) {
+                <img [src]="asset.thumbnailUrl ?? asset.url" [alt]="asset.name" class="w-full h-full object-cover" />
+              } @else if (isVideo(asset)) {
+                @if (asset.thumbnailUrl) {
+                  <img [src]="asset.thumbnailUrl" [alt]="asset.name" class="w-full h-full object-cover" />
+                }
+                <div class="absolute inset-0 flex items-center justify-center bg-black/40">
+                  <mat-icon svgIcon="heroicons_outline:play-circle" class="size-5 text-wrcf-text-primary" />
+                </div>
+              } @else if (isPdf(asset)) {
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <mat-icon svgIcon="lucideIcons:file-text" class="size-6 text-wrcf-text-tertiary" />
+                </div>
+              } @else {
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <mat-icon svgIcon="heroicons_outline:document" class="size-6 text-wrcf-text-secondary" />
+                </div>
+              }
+            </div>
+
+            <!-- Name + meta -->
+            <div class="flex-1 min-w-0">
+              <p class="text-xs text-wrcf-text-primary truncate leading-4 group-hover:text-wrcf-accent transition-colors">{{ asset.name }}</p>
+              <p class="text-xs text-wrcf-text-secondary">{{ asset.type }}</p>
+            </div>
+          </button>
+        }
+      </div>
+    }
+  </div>
+</div>

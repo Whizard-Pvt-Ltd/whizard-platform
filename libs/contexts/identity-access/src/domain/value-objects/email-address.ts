@@ -1,5 +1,5 @@
-import { ValueObjectError } from './value-object.error';
 import { assertNonEmpty } from './validation.util';
+import { ValueObjectError } from './value-object.error';
 
 export class EmailAddress {
   private constructor(public readonly value: string) {}

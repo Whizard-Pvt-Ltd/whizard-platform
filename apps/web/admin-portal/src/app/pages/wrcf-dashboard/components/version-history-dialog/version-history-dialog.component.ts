@@ -1,41 +1,24 @@
-import { Component, output } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'whizard-version-history-dialog',
   standalone: true,
+  imports: [MatDialogModule, MatButtonModule, MatIconModule],
   template: `
-    <div class="dialog-backdrop" (click)="closed.emit()"></div>
-    <div class="dialog">
-      <div class="dialog-header">
-        <span class="dialog-title">Version History</span>
-        <button class="close-btn" (click)="closed.emit()">✕</button>
-      </div>
-      <div class="dialog-body">
-        <p class="coming-soon">Version history coming soon.</p>
-      </div>
+    <div class="flex items-center justify-between px-6 py-5 bg-[#314DDF]">
+      <span class="text-xl font-medium text-[#E8F0FA]">Version History</span>
+      <button mat-icon-button mat-dialog-close class="text-[#E8F0FA]">
+        <mat-icon class="size-5" svgIcon="heroicons_outline:x-mark" />
+      </button>
     </div>
+    <mat-dialog-content class="px-6! py-8!">
+      <p class="text-base text-[#7F94AE] text-center">Version history coming soon.</p>
+    </mat-dialog-content>
   `,
-  styles: [`
-    .dialog-backdrop {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100;
-    }
-    .dialog {
-      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      background: #1E293B; border: 1px solid #484E5D; border-radius: 14px;
-      width: 480px; z-index: 101; overflow: hidden;
-    }
-    .dialog-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 20px 24px; background: #314DDF;
-    }
-    .dialog-title { font-family: Poppins, sans-serif; font-size: 18px; font-weight: 500; color: #E8F0FA; }
-    .close-btn {
-      background: none; border: none; color: #E8F0FA; font-size: 18px; cursor: pointer; line-height: 1;
-    }
-    .dialog-body { padding: 32px 24px; }
-    .coming-soon { font-family: Poppins, sans-serif; font-size: 15px; color: #7F94AE; text-align: center; }
-  `]
 })
 export class VersionHistoryDialogComponent {
-  readonly closed = output<void>();
+  readonly dialogRef = inject(MatDialogRef<VersionHistoryDialogComponent>);
 }

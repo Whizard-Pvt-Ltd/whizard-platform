@@ -1,7 +1,7 @@
-import type { GetProvisioningTimelineQuery } from '../queries/get-provisioning-timeline.query';
 import type { GetProvisioningTimelineResponseDto } from '../dto/responses/get-provisioning-timeline.response.dto';
 import type { AuthorizationGateway } from '../ports/gateways/authorization.gateway';
 import type { IamReadModelRepository } from '../ports/repositories/iam-read-model.repository';
+import type { GetProvisioningTimelineQuery } from '../queries/get-provisioning-timeline.query';
 
 export class GetProvisioningTimelineHandler {
   constructor(

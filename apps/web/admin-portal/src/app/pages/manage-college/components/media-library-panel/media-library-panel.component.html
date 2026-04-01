@@ -1,0 +1,102 @@
+<div class="flex flex-col h-full w-[280px] min-w-[280px] bg-wrcf-bg-card border-r border-wrcf-border">
+
+  <!-- Search + type dropdown in one row -->
+  <div class="px-3 pt-4 pb-3 border-b border-wrcf-border shrink-0">
+    <div class="flex items-center gap-2">
+      <!-- Search -->
+      <div class="flex items-center gap-2 h-9 px-3 rounded-[10px] bg-wrcf-bg-secondary border border-wrcf-border flex-1 min-w-0">
+        <mat-icon svgIcon="heroicons_outline:magnifying-glass" class="size-3.5 text-wrcf-text-secondary shrink-0" />
+        <input
+          type="text"
+          placeholder="Search for images/Videos..."
+          [ngModel]="searchQuery()"
+          (ngModelChange)="onSearchChange($event)"
+          class="flex-1 bg-transparent text-xs text-wrcf-text-primary placeholder:text-wrcf-text-secondary outline-none border-none min-w-0" />
+      </div>
+      <!-- Type dropdown -->
+      <mat-form-field appearance="outline" class="w-30 shrink-0 wrcf-field-sm">
+        <mat-select
+          [ngModel]="typeFilter()"
+          (ngModelChange)="onTypeFilterChange($event)"
+          placeholder="All">
+          <mat-option value="all">Images/Videos</mat-option>
+          <mat-option value="image">Images</mat-option>
+          <mat-option value="video">Videos</mat-option>
+          <mat-option value="pdf">PDFs</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Media list -->
+  <div class="flex-1 overflow-y-auto">
+    @if (loading()) {
+      <div class="flex items-center justify-center py-10">
+        <span class="text-sm text-wrcf-text-secondary">Loading...</span>
+      </div>
+    } @else if (filteredAssets().length === 0) {
+      <div class="flex flex-col items-center justify-center py-10 gap-2 px-4">
+        <mat-icon svgIcon="heroicons_outline:photo" class="size-10 text-wrcf-text-secondary opacity-30" />
+        <p class="text-xs text-wrcf-text-secondary text-center">No assets found</p>
+        <!-- Upload area when empty -->
+        <div class="mt-2 w-full">
+          <whizard-media-uploader
+            accept="image/*,video/*,.pdf"
+            [multiple]="true"
+            label="Upload to library"
+            iconType="any"
+            (filesSelected)="onFilesSelected($event)" />
+        </div>
+      </div>
+    } @else {
+      <!-- Upload trigger at top -->
+      <div class="px-3 py-2 border-b border-wrcf-border/40">
+        <whizard-media-uploader
+          accept="image/*,video/*,.pdf"
+          [multiple]="true"
+          label="Upload to library"
+          iconType="any"
+          (filesSelected)="onFilesSelected($event)" />
+      </div>
+
+      <!-- Vertical list of assets -->
+      @for (asset of filteredAssets(); track asset.id) {
+        <button
+          type="button"
+          (click)="onAssetClick(asset)"
+          class="w-full flex items-start gap-3 px-3 py-2.5 border-b border-wrcf-border/30 hover:bg-wrcf-bg-secondary transition-colors text-left group">
+
+          <!-- Thumbnail -->
+          <div class="relative w-[72px] h-[52px] rounded-lg overflow-hidden bg-wrcf-bg-primary shrink-0">
+            @if (isImage(asset) && (asset.thumbnailUrl || asset.url)) {
+              <img [src]="asset.thumbnailUrl ?? asset.url" [alt]="asset.name" class="w-full h-full object-cover" />
+            } @else if (isVideo(asset)) {
+              @if (asset.thumbnailUrl) {
+                <img [src]="asset.thumbnailUrl" [alt]="asset.name" class="w-full h-full object-cover" />
+              }
+              <div class="absolute inset-0 flex items-center justify-center bg-black/40">
+                <mat-icon svgIcon="heroicons_outline:play-circle" class="size-6 text-wrcf-text-primary" />
+              </div>
+            } @else if (isPdf(asset)) {
+              <div class="absolute inset-0 flex items-center justify-center">
+                <mat-icon svgIcon="lucideIcons:file-text" class="size-6 text-wrcf-text-tertiary" />
+              </div>
+            } @else {
+              <div class="absolute inset-0 flex items-center justify-center">
+                <mat-icon svgIcon="heroicons_outline:document" class="size-6 text-wrcf-text-secondary" />
+              </div>
+            }
+          </div>
+
+          <!-- Name + description -->
+          <div class="flex-1 min-w-0 pt-0.5">
+            <p class="text-xs font-medium text-wrcf-text-primary truncate leading-4">{{ asset.name }}</p>
+            @if (asset.type) {
+              <p class="text-xs text-wrcf-text-secondary leading-4 mt-0.5 truncate capitalize">{{ asset.type }}</p>
+            }
+          </div>
+        </button>
+      }
+    }
+  </div>
+</div>

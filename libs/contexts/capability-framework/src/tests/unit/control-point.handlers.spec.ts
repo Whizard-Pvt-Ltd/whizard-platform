@@ -1,5 +1,4 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { ControlPoint } from '../../domain/aggregates/control-point.aggregate';
 import type { IControlPointRepository } from '../../domain/repositories/control-point.repository';
 import {
   CreateControlPointCommandHandler,
@@ -7,6 +6,7 @@ import {
   DeleteControlPointCommandHandler
 } from '../../application/command-handlers/control-point.handlers';
 import { DomainException } from '../../application/domain-exception';
+import { ControlPoint } from '../../domain/aggregates/control-point.aggregate';
 
 const makeRepo = (): IControlPointRepository => ({
   findByTaskId: vi.fn(),

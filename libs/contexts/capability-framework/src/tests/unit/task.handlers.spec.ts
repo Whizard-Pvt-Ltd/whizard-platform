@@ -1,5 +1,4 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { Task } from '../../domain/aggregates/task.aggregate';
 import type { ITaskRepository } from '../../domain/repositories/task.repository';
 import {
   CreateTaskCommandHandler,
@@ -7,6 +6,7 @@ import {
   DeleteTaskCommandHandler
 } from '../../application/command-handlers/task.handlers';
 import { DomainException } from '../../application/domain-exception';
+import { Task } from '../../domain/aggregates/task.aggregate';
 
 const makeRepo = (): ITaskRepository => ({
   findBySkillId: vi.fn(),

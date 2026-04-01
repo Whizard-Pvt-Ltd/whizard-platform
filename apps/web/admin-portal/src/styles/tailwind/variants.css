@@ -1,0 +1,1 @@
+@custom-variant dark (&:where(.scheme-dark, .scheme-dark *));

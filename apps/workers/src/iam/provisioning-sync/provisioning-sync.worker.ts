@@ -1,9 +1,9 @@
 import type { WorkerLogger } from '../shared/logger';
-import { executeWithRetry } from '../shared/retry';
 import type {
   ProvisioningSyncDependencies,
   DeactivationFeedRecord
 } from './dependencies';
+import { executeWithRetry } from '../shared/retry';
 
 export class ProvisioningSyncWorker {
   constructor(

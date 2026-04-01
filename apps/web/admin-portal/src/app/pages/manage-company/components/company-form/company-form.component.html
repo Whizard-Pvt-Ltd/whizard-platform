@@ -1,0 +1,444 @@
+<div class="flex flex-col h-full overflow-hidden">
+
+  <!-- Top bar -->
+  <div class="flex items-center justify-between px-6 py-3 border-b border-wrcf-border bg-wrcf-bg-primary shrink-0">
+
+    <!-- Tab switcher -->
+    <div class="flex items-center gap-1 bg-wrcf-bg-secondary rounded-xl p-1">
+      <button
+        type="button"
+        (click)="activeTab.set('media')"
+        class="h-8 px-4 rounded-lg text-sm transition-colors"
+        [class.bg-wrcf-bg-card]="activeTab() === 'media'"
+        [class.text-wrcf-text-primary]="activeTab() === 'media'"
+        [class.font-medium]="activeTab() === 'media'"
+        [class.text-wrcf-text-secondary]="activeTab() !== 'media'">
+        Images / Videos
+      </button>
+      <button
+        type="button"
+        (click)="activeTab.set('details')"
+        class="h-8 px-4 rounded-lg text-sm transition-colors"
+        [class.bg-wrcf-bg-card]="activeTab() === 'details'"
+        [class.text-wrcf-text-primary]="activeTab() === 'details'"
+        [class.font-medium]="activeTab() === 'details'"
+        [class.text-wrcf-text-secondary]="activeTab() !== 'details'">
+        Details
+      </button>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="flex items-center gap-2">
+      <button
+        mat-button
+        type="button"
+        (click)="previewClicked.emit()"
+        class="h-9 px-4 rounded-[10px] border border-wrcf-border text-wrcf-text-primary text-sm hover:border-wrcf-accent hover:text-wrcf-accent transition-colors">
+        Preview
+      </button>
+      <button
+        mat-button
+        type="button"
+        (click)="onSave()"
+        class="h-9 px-4 rounded-[10px] bg-wrcf-action text-wrcf-text-primary text-sm font-medium hover:bg-wrcf-action-hover transition-colors">
+        Save
+      </button>
+      <button
+        mat-button
+        type="button"
+        (click)="onPublish()"
+        [disabled]="!isValid"
+        class="h-9 px-4 rounded-[10px] text-sm font-medium transition-colors"
+        [class.bg-wrcf-action]="isValid"
+        [class.text-wrcf-text-primary]="isValid"
+        [class.hover:bg-wrcf-action-hover]="isValid"
+        [class.bg-wrcf-bg-secondary]="!isValid"
+        [class.text-wrcf-text-secondary]="!isValid"
+        [class.cursor-not-allowed]="!isValid">
+        Send to publish
+      </button>
+      <button
+        type="button"
+        (click)="onCancel()"
+        class="flex items-center justify-center w-8 h-8 rounded-lg text-wrcf-text-secondary hover:text-wrcf-text-primary hover:bg-wrcf-bg-secondary transition-colors">
+        <mat-icon svgIcon="heroicons_outline:x-mark" class="size-4" />
+      </button>
+    </div>
+  </div>
+
+  <!-- Tab: Images/Videos -->
+  @if (activeTab() === 'media') {
+    <div class="flex-1 overflow-y-auto px-6 py-5 flex flex-col gap-5">
+
+      <!-- Logo -->
+      <section>
+        <h3 class="text-sm font-semibold text-wrcf-text-primary mb-3 pb-2 border-b border-wrcf-border">Logo</h3>
+        <div class="flex items-center gap-4">
+          <div class="w-20 h-20 rounded-full border-2 border-dashed border-wrcf-border bg-wrcf-bg-secondary flex items-center justify-center overflow-hidden relative">
+            @if (logoPreview()) {
+              <img [src]="logoPreview()!" class="w-full h-full object-cover" />
+            } @else {
+              <mat-icon svgIcon="heroicons_outline:camera" class="size-6 text-wrcf-text-secondary" />
+            }
+          </div>
+          <whizard-media-uploader
+            accept="image/*"
+            [multiple]="false"
+            label="Upload Logo"
+            iconType="image"
+            (filesSelected)="onLogoSelected($event)" />
+        </div>
+      </section>
+
+      <!-- Brochure -->
+      <section>
+        <h3 class="text-sm font-semibold text-wrcf-text-primary mb-3 pb-2 border-b border-wrcf-border">Brochure</h3>
+        <div class="grid grid-cols-3 gap-3 mb-3">
+          @for (item of brochureItems(); track $index) {
+            <div class="relative aspect-video rounded-xl overflow-hidden bg-wrcf-bg-secondary border border-wrcf-border group">
+              @if (item.previewUrl) {
+                <img [src]="item.previewUrl" class="w-full h-full object-cover" />
+              } @else {
+                <div class="w-full h-full flex items-center justify-center">
+                  <mat-icon svgIcon="lucideIcons:file-text" class="size-8 text-wrcf-text-secondary" />
+                </div>
+              }
+              <button
+                type="button"
+                (click)="removeBrochure($index)"
+                class="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <mat-icon svgIcon="heroicons_outline:x-mark" class="size-3" />
+              </button>
+            </div>
+          }
+          <whizard-media-uploader
+            accept="image/*,.pdf"
+            [multiple]="true"
+            label="Upload Brochure Here"
+            iconType="image"
+            (filesSelected)="onBrochureSelected($event)" />
+        </div>
+      </section>
+
+      <!-- Promo Videos -->
+      <section>
+        <div class="flex items-center justify-between mb-3 pb-2 border-b border-wrcf-border">
+          <h3 class="text-sm font-semibold text-wrcf-text-primary">Promo Videos</h3>
+          <span class="text-xs text-wrcf-text-secondary">{{ promoVideoItems().length }} video(s)</span>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3">
+          @for (item of promoVideoItems(); track $index) {
+            <div class="relative aspect-video rounded-xl overflow-hidden bg-wrcf-bg-secondary border border-wrcf-border group">
+              @if (item.previewUrl) {
+                <img [src]="item.previewUrl" class="w-full h-full object-cover" />
+              }
+              <div class="absolute inset-0 flex items-center justify-center bg-black/40">
+                <mat-icon svgIcon="heroicons_outline:play-circle" class="size-8 text-white" />
+              </div>
+              <button
+                type="button"
+                (click)="removePromoVideo($index)"
+                class="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <mat-icon svgIcon="heroicons_outline:x-mark" class="size-3" />
+              </button>
+            </div>
+          }
+          <whizard-media-uploader
+            accept="video/*"
+            [multiple]="true"
+            label="Upload Videos Here"
+            iconType="video"
+            (filesSelected)="onPromoVideoSelected($event)" />
+        </div>
+      </section>
+
+      <!-- Gallery -->
+      <section>
+        <div class="flex items-center justify-between mb-3 pb-2 border-b border-wrcf-border">
+          <h3 class="text-sm font-semibold text-wrcf-text-primary">Gallery</h3>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3">
+          @for (item of galleryItems(); track $index) {
+            <div class="relative aspect-video rounded-xl overflow-hidden bg-wrcf-bg-secondary border border-wrcf-border group">
+              @if (item.previewUrl) {
+                <img [src]="item.previewUrl" class="w-full h-full object-cover" />
+              }
+              <button
+                type="button"
+                (click)="removeGallery($index)"
+                class="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <mat-icon svgIcon="heroicons_outline:x-mark" class="size-3" />
+              </button>
+            </div>
+          }
+          <whizard-media-uploader
+            accept="image/*"
+            [multiple]="true"
+            label="Upload Images Here"
+            iconType="image"
+            (filesSelected)="onGallerySelected($event)" />
+        </div>
+      </section>
+
+      <!-- Employee Testimonials -->
+      <section>
+        <h3 class="text-sm font-semibold text-wrcf-text-primary mb-3 pb-2 border-b border-wrcf-border">Employee Testimonials</h3>
+        <div class="grid grid-cols-3 gap-3">
+          @for (item of testimonialItems(); track $index) {
+            <div class="relative aspect-video rounded-xl overflow-hidden bg-wrcf-bg-secondary border border-wrcf-border group">
+              @if (item.previewUrl) {
+                <img [src]="item.previewUrl" class="w-full h-full object-cover" />
+              }
+              <div class="absolute inset-0 flex items-center justify-center bg-black/40">
+                <mat-icon svgIcon="heroicons_outline:play-circle" class="size-8 text-white" />
+              </div>
+              <button
+                type="button"
+                (click)="removeTestimonial($index)"
+                class="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <mat-icon svgIcon="heroicons_outline:x-mark" class="size-3" />
+              </button>
+            </div>
+          }
+          <whizard-media-uploader
+            accept="video/*"
+            [multiple]="true"
+            label="Upload Videos Here"
+            iconType="video"
+            (filesSelected)="onTestimonialSelected($event)" />
+        </div>
+      </section>
+
+    </div>
+  }
+
+  <!-- Tab: Details -->
+  @if (activeTab() === 'details') {
+    <div class="flex-1 overflow-y-auto px-6 py-5" [formGroup]="form">
+      <div class="max-w-3xl flex flex-col gap-8">
+
+        <!-- Company Details -->
+        <section>
+          <h3 class="text-base font-semibold text-wrcf-text-primary mb-4 pb-2 border-b border-wrcf-border">Company Details</h3>
+
+          <!-- Logo preview + Name -->
+          <div class="flex items-start gap-6 mb-5">
+            <div class="flex flex-col items-center gap-2 shrink-0">
+              <div class="w-20 h-20 rounded-full border-2 border-dashed border-wrcf-border bg-wrcf-bg-secondary flex items-center justify-center overflow-hidden">
+                @if (logoPreview()) {
+                  <img [src]="logoPreview()!" class="w-full h-full object-cover" />
+                } @else {
+                  <mat-icon svgIcon="heroicons_outline:camera" class="size-6 text-wrcf-text-secondary" />
+                }
+              </div>
+              <span class="text-xs text-wrcf-text-secondary">Logo</span>
+            </div>
+
+            <div class="flex-1">
+              <label class="block text-sm text-wrcf-text-secondary mb-1.5">Name <span class="text-red-400">*</span></label>
+              <mat-form-field appearance="outline" class="w-full wrcf-field">
+                <input matInput formControlName="name" placeholder="Enter company name" />
+                @if (form.get('name')?.invalid && form.get('name')?.touched) {
+                  <mat-error>Name is required</mat-error>
+                }
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!-- Row: Industry + City -->
+          <div class="grid grid-cols-2 gap-4 mb-4">
+            <div>
+              <label class="block text-sm text-wrcf-text-secondary mb-1.5">Industry Type</label>
+              <mat-form-field appearance="outline" class="w-full wrcf-field">
+                <mat-select formControlName="industryId" placeholder="Select industry">
+                  <mat-option [value]="null">— None —</mat-option>
+                  @for (ind of industries(); track ind.id) {
+                    <mat-option [value]="ind.id">{{ ind.name }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div>
+              <label class="block text-sm text-wrcf-text-secondary mb-1.5">Location</label>
+              <mat-form-field appearance="outline" class="w-full wrcf-field">
+                <mat-select formControlName="cityId" placeholder="Select city">
+                  <mat-option [value]="null">— None —</mat-option>
+                  @for (city of cities(); track city.id) {
+                    <mat-option [value]="city.id">{{ city.name }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!-- Row: Year + Type -->
+          <div class="grid grid-cols-2 gap-4 mb-4">
+            <div>
+              <label class="block text-sm text-wrcf-text-secondary mb-1.5">Established Year</label>
+              <mat-form-field appearance="outline" class="w-full wrcf-field">
+                <input matInput type="number" formControlName="establishedYear" placeholder="e.g. 1994" />
+              </mat-form-field>
+            </div>
+            <div>
+              <label class="block text-sm text-wrcf-text-secondary mb-1.5">Type</label>
+              <mat-form-field appearance="outline" class="w-full wrcf-field">
+                <mat-select formControlName="companyType" placeholder="Select type">
+                  <mat-option [value]="null">— None —</mat-option>
+                  @for (type of companyTypes; track type) {
+                    <mat-option [value]="type">{{ type }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!-- Row: Parent Club + Associated Club -->
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm text-wrcf-text-secondary mb-1.5">Associated Parent Club</label>
+              <mat-form-field appearance="outline" class="w-full wrcf-field">
+                <mat-select formControlName="parentClubId" placeholder="Select parent club">
+                  <mat-option [value]="null">— None —</mat-option>
+                  @for (club of clubs(); track club.id) {
+                    <mat-option [value]="club.id">{{ club.name }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div>
+              <label class="block text-sm text-wrcf-text-secondary mb-1.5">Associated Club</label>
+              <mat-form-field appearance="outline" class="w-full wrcf-field">
+                <mat-select formControlName="associatedClubId" placeholder="Select club">
+                  <mat-option [value]="null">— None —</mat-option>
+                  @for (club of clubs(); track club.id) {
+                    <mat-option [value]="club.id">{{ club.name }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </section>
+
+        <!-- Company details (rich text) -->
+        <section>
+          <h3 class="text-base font-semibold text-wrcf-text-primary mb-3 pb-2 border-b border-wrcf-border">Company details</h3>
+          <whizard-quill-editor formControlName="description" placeholder="Describe the company..." />
+        </section>
+
+        <!-- What We Offer -->
+        <section>
+          <h3 class="text-base font-semibold text-wrcf-text-primary mb-3 pb-2 border-b border-wrcf-border">What We Offer</h3>
+          <whizard-quill-editor formControlName="whatWeOffer" placeholder="Describe what the company offers..." />
+        </section>
+
+        <!-- Awards & Recognition -->
+        <section>
+          <h3 class="text-base font-semibold text-wrcf-text-primary mb-3 pb-2 border-b border-wrcf-border">Awards & Recognition</h3>
+          <whizard-quill-editor formControlName="awardsRecognition" placeholder="List awards and recognitions..." />
+        </section>
+
+        <!-- Key Company Products & Services -->
+        <section>
+          <h3 class="text-base font-semibold text-wrcf-text-primary mb-3 pb-2 border-b border-wrcf-border">Key Company Products & Services</h3>
+          <whizard-quill-editor formControlName="keyProductsServices" placeholder="Describe products and services..." />
+        </section>
+
+        <!-- Company Key Contacts -->
+        <section>
+          <h3 class="text-base font-semibold text-wrcf-text-primary mb-4 pb-2 border-b border-wrcf-border">Company Key Contacts</h3>
+
+          <div class="grid grid-cols-2 gap-4">
+            <!-- HR Coordinators (multi-select) -->
+            <div class="col-span-2">
+              <label class="block text-sm text-wrcf-text-secondary mb-1.5">HR Coordinators</label>
+              <mat-form-field appearance="outline" class="w-full wrcf-field">
+                <mat-select formControlName="contact_HR_COORDINATOR" [multiple]="true" placeholder="Select HR coordinators">
+                  @for (user of users(); track user.id) {
+                    <mat-option [value]="user.id">{{ user.displayName }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <!-- Communication Coordinator -->
+            <div>
+              <label class="block text-sm text-wrcf-text-secondary mb-1.5">Communication Coordinator</label>
+              <mat-form-field appearance="outline" class="w-full wrcf-field">
+                <mat-select formControlName="contact_COMMUNICATION_COORDINATOR" placeholder="Select user">
+                  <mat-option [value]="null">— None —</mat-option>
+                  @for (user of users(); track user.id) {
+                    <mat-option [value]="user.id">{{ user.displayName }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <!-- Recruitment Head -->
+            <div>
+              <label class="block text-sm text-wrcf-text-secondary mb-1.5">Recruitment Head</label>
+              <mat-form-field appearance="outline" class="w-full wrcf-field">
+                <mat-select formControlName="contact_RECRUITMENT_HEAD" placeholder="Select user">
+                  <mat-option [value]="null">— None —</mat-option>
+                  @for (user of users(); track user.id) {
+                    <mat-option [value]="user.id">{{ user.displayName }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <!-- Training Coordinator -->
+            <div>
+              <label class="block text-sm text-wrcf-text-secondary mb-1.5">Training Coordinator</label>
+              <mat-form-field appearance="outline" class="w-full wrcf-field">
+                <mat-select formControlName="contact_TRAINING_COORDINATOR" placeholder="Select user">
+                  <mat-option [value]="null">— None —</mat-option>
+                  @for (user of users(); track user.id) {
+                    <mat-option [value]="user.id">{{ user.displayName }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <!-- Internship Mentor -->
+            <div>
+              <label class="block text-sm text-wrcf-text-secondary mb-1.5">Internship Mentor</label>
+              <mat-form-field appearance="outline" class="w-full wrcf-field">
+                <mat-select formControlName="contact_INTERNSHIP_MENTOR" placeholder="Select user">
+                  <mat-option [value]="null">— None —</mat-option>
+                  @for (user of users(); track user.id) {
+                    <mat-option [value]="user.id">{{ user.displayName }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!-- Contact Email -->
+          <div class="mt-4">
+            <label class="block text-sm text-wrcf-text-secondary mb-1.5">Contact Email</label>
+            <mat-form-field appearance="outline" class="w-full wrcf-field">
+              <input matInput formControlName="inquiryEmail" placeholder="contact@company.com" />
+              @if (form.get('inquiryEmail')?.invalid && form.get('inquiryEmail')?.touched) {
+                <mat-error>Enter a valid email</mat-error>
+              }
+            </mat-form-field>
+          </div>
+        </section>
+
+        <!-- Recruitment Highlights -->
+        <section>
+          <h3 class="text-base font-semibold text-wrcf-text-primary mb-3 pb-2 border-b border-wrcf-border">Recruitment Highlights</h3>
+          <whizard-quill-editor formControlName="recruitmentHighlights" placeholder="Describe recruitment highlights..." />
+        </section>
+
+        <!-- Placement & Career Development -->
+        <section>
+          <h3 class="text-base font-semibold text-wrcf-text-primary mb-3 pb-2 border-b border-wrcf-border">Placement & Career Development</h3>
+          <whizard-quill-editor formControlName="placementStats" placeholder="Describe placement statistics and career development..." />
+        </section>
+
+      </div>
+    </div>
+  }
+
+</div>

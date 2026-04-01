@@ -1,0 +1,53 @@
+:root {
+  --mat-sys-primary: var(--color-primary-600);
+  --mat-sys-on-primary: white;
+  --mat-sys-primary-container: var(--color-primary-100);
+  --mat-sys-on-primary-container: var(--color-primary-950);
+
+  --mat-sys-error: var(--color-error-600);
+  --mat-sys-on-error: white;
+  --mat-sys-error-container: var(--color-error-100);
+  --mat-sys-on-error-container: var(--color-error-950);
+
+  --mat-sys-background: var(--color-neutral-50);
+  --mat-sys-on-background: var(--color-neutral-950);
+  --mat-sys-surface: var(--color-neutral-50);
+  --mat-sys-on-surface: var(--color-neutral-950);
+  --mat-sys-surface-container: white;
+  --mat-sys-surface-container-high: var(--color-neutral-100);
+  --mat-sys-surface-container-highest: var(--color-neutral-200);
+  --mat-sys-outline: var(--color-neutral-300);
+  --mat-sys-outline-variant: var(--color-neutral-200);
+  --mat-sys-secondary: var(--color-neutral-700);
+  --mat-sys-on-secondary: white;
+  --mat-sys-secondary-container: var(--color-neutral-200);
+  --mat-sys-on-secondary-container: var(--color-neutral-950);
+  --mat-sys-shadow: rgb(15 23 42 / 0.18);
+}
+
+html.scheme-dark {
+  --mat-sys-primary: var(--color-primary-500);
+  --mat-sys-on-primary: var(--color-neutral-950);
+  --mat-sys-primary-container: rgb(30 41 59 / 0.9);
+  --mat-sys-on-primary-container: var(--color-primary-100);
+
+  --mat-sys-error: var(--color-error-500);
+  --mat-sys-on-error: white;
+  --mat-sys-error-container: rgb(69 10 10 / 0.85);
+  --mat-sys-on-error-container: var(--color-error-100);
+
+  --mat-sys-background: var(--color-neutral-950);
+  --mat-sys-on-background: var(--color-neutral-50);
+  --mat-sys-surface: var(--color-neutral-900);
+  --mat-sys-on-surface: var(--color-neutral-50);
+  --mat-sys-surface-container: rgb(23 23 23 / 0.88);
+  --mat-sys-surface-container-high: rgb(38 38 38 / 0.9);
+  --mat-sys-surface-container-highest: rgb(64 64 64 / 0.92);
+  --mat-sys-outline: var(--color-neutral-700);
+  --mat-sys-outline-variant: var(--color-neutral-800);
+  --mat-sys-secondary: var(--color-neutral-300);
+  --mat-sys-on-secondary: var(--color-neutral-950);
+  --mat-sys-secondary-container: rgb(38 38 38 / 0.95);
+  --mat-sys-on-secondary-container: var(--color-neutral-100);
+  --mat-sys-shadow: rgb(0 0 0 / 0.4);
+}

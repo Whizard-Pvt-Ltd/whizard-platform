@@ -1,7 +1,7 @@
-import type { IamTopic } from '../topic-bindings';
-import { getIamTopicForEventType } from '../topic-bindings';
 import type { IamTopicPublisher } from '../producers';
+import type { IamTopic } from '../topic-bindings';
 import type { OutboxEventRepository } from './outbox-event.repository';
+import { getIamTopicForEventType } from '../topic-bindings';
 import { toEventEnvelope } from './outbox-event.repository';
 
 export interface OutboxDispatchResult {

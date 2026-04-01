@@ -1,6 +1,6 @@
 import type { FastifyInstanceLike } from '../iam/shared/request-context';
-import { registerWrcfRoutes } from './routes';
 import type { WrcfModuleDependencies } from './runtime';
+import { registerWrcfRoutes } from './routes';
 
 export const registerWrcfModule = async (
   app: FastifyInstanceLike,

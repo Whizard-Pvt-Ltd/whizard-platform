@@ -1,6 +1,6 @@
 import { CoreApiClient } from '@whizard/core-api-client';
-import { registerIamBffRuntime, type IamBffRuntimeDependencies } from './modules/iam/runtime';
 import type { FastifyInstanceLike } from './modules/iam/shared/request-context';
+import { registerIamBffRuntime, type IamBffRuntimeDependencies } from './modules/iam/runtime';
 
 // Get Core-API base URL from environment variable
 const CORE_API_URL = process.env.CORE_API_URL || 'http://localhost:3001';

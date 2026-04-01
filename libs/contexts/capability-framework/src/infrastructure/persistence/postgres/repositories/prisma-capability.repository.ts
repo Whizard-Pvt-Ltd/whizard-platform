@@ -1,7 +1,7 @@
 import { getPrisma } from '@whizard/shared-infrastructure';
-import { Capability } from '../../../../domain/entities/capability.entity';
 import type { ICapabilityRepository } from '../../../../domain/repositories/capability.repository';
 import type { CapabilityType } from '../../../../domain/value-objects/capability-type.vo';
+import { Capability } from '../../../../domain/entities/capability.entity';
 
 export class PrismaCapabilityRepository implements ICapabilityRepository {
   private readonly prisma = getPrisma();
@@ -9,7 +9,7 @@ export class PrismaCapabilityRepository implements ICapabilityRepository {
   async findAll(): Promise<Capability[]> {
     const rows = await this.prisma.capability.findMany();
     return rows.map(row => new Capability({
-      id: row.id,
+      id: row.id.toString(),
       code: row.code,
       name: row.name,
       type: row.type as CapabilityType,
@@ -18,10 +18,10 @@ export class PrismaCapabilityRepository implements ICapabilityRepository {
   }
 
   async findById(id: string): Promise<Capability | null> {
-    const row = await this.prisma.capability.findUnique({ where: { id } });
+    const row = await this.prisma.capability.findUnique({ where: { id: BigInt(id) } });
     if (!row) return null;
     return new Capability({
-      id: row.id,
+      id: row.id.toString(),
       code: row.code,
       name: row.name,
       type: row.type as CapabilityType,

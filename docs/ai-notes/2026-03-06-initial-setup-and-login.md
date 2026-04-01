@@ -30,5 +30,4 @@ Set up the monorepo from initial DDD requirements, establish a lightweight AI wo
 - Angular app runtime wired for `apps/web/admin-portal`
 - first login page implemented and styled to screenshot direction
 - TypeScript pinned/overridden to `5.8.2` for Angular 19 compatibility
-- added CI check script `tools/scripts/check-ai-notes.sh` and PR workflow enforcement
 - added ESLint boundary rules to block invalid layer imports and cross-context private imports

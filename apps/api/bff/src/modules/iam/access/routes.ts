@@ -3,7 +3,7 @@ import type {
   EvaluateAccessDecisionResponseV1,
   SessionViewV1,
   UserProfileResponseV1
-} from '@whizard/identity-access';
+} from '../shared/contracts';
 import { authorizationPreHandler } from '../shared/authorization-prehandler';
 import { getRequestContext, toApiMeta, type FastifyInstanceLike } from '../shared/request-context';
 

@@ -1,0 +1,26 @@
+{
+  "name": "@whizard/company-organization",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Company Organization bounded context",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.4.1",
+    "@whizard/shared-infrastructure": "workspace:*",
+    "@whizard/shared-kernel": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "typescript": "5.9.3"
+  }
+}

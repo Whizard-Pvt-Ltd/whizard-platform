@@ -1,3 +1,6 @@
+import { getOrCreateAppLogger, createPinoLoggerOptions } from '@whizard/shared-logging';
+import cors from '@fastify/cors';
+import helmet from '@fastify/helmet';
 /**
  * BFF (Backend for Frontend) Server Bootstrap
  *
@@ -17,10 +20,9 @@
  * - LOG_LEVEL: Logging level (debug/info/warn/error)
  */
 import Fastify from 'fastify';
-import cors from '@fastify/cors';
-import helmet from '@fastify/helmet';
-import { getOrCreateAppLogger, createPinoLoggerOptions } from '@whizard/shared-logging';
 import { startBff } from './main';
+import { registerCollegeOperationsBffModule } from './modules/college-operations/college-operations.bff.module';
+import { registerCompanyOrganizationBffModule } from './modules/company-organization/company-organization.bff.module';
 import { registerWrcfBffModule } from './modules/wrcf/wrcf.module';
 
 // Server configuration from environment variables
@@ -122,6 +124,30 @@ async function bootstrap() {
   } catch (error) {
     fastify.log.error({ error }, 'Failed to register WRCF BFF module');
     bootstrapLogger.error('Failed to register WRCF BFF module', {
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+    throw error;
+  }
+
+  // Register College Operations BFF module
+  bootstrapLogger.info('Registering College Operations BFF module');
+  try {
+    await registerCollegeOperationsBffModule(fastify);
+    bootstrapLogger.info('College Operations BFF module registered successfully');
+  } catch (error) {
+    bootstrapLogger.error('Failed to register College Operations BFF module', {
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+    throw error;
+  }
+
+  // Register Company Organization BFF module
+  bootstrapLogger.info('Registering Company Organization BFF module');
+  try {
+    await registerCompanyOrganizationBffModule(fastify);
+    bootstrapLogger.info('Company Organization BFF module registered successfully');
+  } catch (error) {
+    bootstrapLogger.error('Failed to register Company Organization BFF module', {
       error: error instanceof Error ? error.message : 'Unknown error'
     });
     throw error;

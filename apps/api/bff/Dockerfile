@@ -5,7 +5,7 @@
 # ============================================
 # Stage 1: Base Dependencies
 # ============================================
-FROM --platform=$TARGETPLATFORM node:22-alpine AS base
+FROM --platform=$TARGETPLATFORM node:24-alpine AS base
 
 # Install pnpm
 RUN corepack enable && corepack prepare pnpm@10.6.0 --activate
@@ -20,6 +20,7 @@ FROM --platform=$TARGETPLATFORM base AS deps
 # Copy workspace files
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 COPY .npmrc ./
+# COPY apps/api/bff ./apps/api/bff
 
 # Copy app-specific package.json
 COPY apps/api/bff/package.json ./apps/api/bff/
@@ -66,7 +67,7 @@ RUN chmod +x /prod/bff/docker-entrypoint.sh
 # ============================================
 # Stage 5: Production Runtime (Optimized)
 # ============================================
-FROM --platform=$TARGETPLATFORM node:22-alpine AS runtime
+FROM --platform=$TARGETPLATFORM node:24-alpine AS runtime
 
 # Install dependencies for healthcheck and signal handling
 RUN apk add --no-cache dumb-init curl

@@ -1,10 +1,10 @@
-import { SessionId, UserSession, type UserAccount } from '../../domain';
 import type { StartUserSessionCommand } from '../commands/start-user-session.command';
 import type { StartUserSessionResponse } from '../dto/start-user-session.response';
-import { mapDomainEventsToEnvelopes } from '../mappers/domain-event-to-envelope.mapper';
 import type { OutboxPort } from '../ports/event-bus/outbox.port';
 import type { UserAccountRepository } from '../ports/repositories/user-account.repository';
 import type { UserSessionRepository } from '../ports/repositories/user-session.repository';
+import { SessionId, UserSession, type UserAccount } from '../../domain';
+import { mapDomainEventsToEnvelopes } from '../mappers/domain-event-to-envelope.mapper';
 import {
   defaultSessionPolicy,
   type SessionPolicy

@@ -1,0 +1,65 @@
+<div class="flex flex-col h-full w-[260px] min-w-[260px] bg-wrcf-bg-card border-r border-wrcf-border overflow-hidden">
+
+  <!-- List -->
+  <div class="flex-1 overflow-y-auto px-2 py-2 flex flex-col gap-0.5">
+    @if (loading()) {
+      <div class="flex items-center justify-center py-16">
+        <span class="text-sm text-wrcf-text-secondary">Loading...</span>
+      </div>
+    } @else if (companies().length === 0) {
+      <div class="flex flex-col items-center justify-center py-16 gap-2">
+        <mat-icon svgIcon="heroicons_outline:building-office-2" class="size-10 text-wrcf-text-secondary opacity-40" />
+        <span class="text-sm text-wrcf-text-secondary text-center">No companies found</span>
+      </div>
+    } @else {
+      @for (company of companies(); track company.id) {
+        <button
+          type="button"
+          (click)="selectCompany(company.id)"
+          class="w-full text-left px-3 py-3 rounded-xl transition-colors duration-150 relative border-l-[3px]"
+          [class.bg-wrcf-bg-selected]="selectedId() === company.id"
+          [class.border-l-wrcf-accent]="selectedId() === company.id"
+          [class.border-l-transparent]="selectedId() !== company.id"
+          [class.hover:bg-wrcf-bg-secondary]="selectedId() !== company.id">
+
+          <div class="flex items-start gap-2.5">
+            <!-- Logo / initial -->
+            @if (company.logoUrl) {
+              <img [src]="company.logoUrl" [alt]="company.name" class="w-10 h-10 rounded-full object-cover shrink-0 mt-0.5" />
+            } @else {
+              <div class="w-10 h-10 rounded-full bg-wrcf-action flex items-center justify-center text-wrcf-text-primary text-sm font-bold shrink-0 mt-0.5">
+                {{ getInitial(company.name) }}
+              </div>
+            }
+
+            <div class="flex-1 min-w-0">
+              <p class="text-[13px] font-semibold text-wrcf-text-primary truncate leading-5">{{ company.name }}</p>
+              <p class="text-[11px] text-wrcf-text-tertiary leading-4 mb-0.5">Company Id : {{ company.companyCode }}</p>
+
+              <div class="flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
+                @if (company.cityName) {
+                  <span class="flex items-center gap-0.5 text-[11px] text-wrcf-text-secondary leading-4">
+                    <mat-icon svgIcon="heroicons_outline:map-pin" class="size-3 shrink-0" />
+                    {{ company.cityName }}
+                  </span>
+                }
+                @if (company.cityName && company.establishedYear) {
+                  <span class="text-[11px] text-wrcf-text-secondary opacity-40">•</span>
+                }
+                @if (company.establishedYear) {
+                  <span class="text-[11px] text-wrcf-text-secondary leading-4">{{ company.establishedYear }}</span>
+                }
+                @if ((company.cityName || company.establishedYear) && company.companyType) {
+                  <span class="text-[11px] text-wrcf-text-secondary opacity-40">•</span>
+                }
+                @if (company.companyType) {
+                  <span class="text-[11px] text-wrcf-text-secondary leading-4">{{ company.companyType }}</span>
+                }
+              </div>
+            </div>
+          </div>
+        </button>
+      }
+    }
+  </div>
+</div>

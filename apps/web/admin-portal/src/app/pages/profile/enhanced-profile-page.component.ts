@@ -1,5 +1,4 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { StackAuthService } from '../../core/services/stack-auth.service';
 
@@ -17,7 +16,7 @@ import { StackAuthService } from '../../core/services/stack-auth.service';
 @Component({
   selector: 'admin-enhanced-profile-page',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [RouterLink],
   templateUrl: './enhanced-profile-page.component.html',
   styleUrls: ['./enhanced-profile-page.component.css']
 })

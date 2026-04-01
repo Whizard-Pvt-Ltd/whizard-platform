@@ -1,0 +1,229 @@
+# Manage Company
+
+
+Its a very similar implementation as Manage-college take reference of that while taking architectural decision and UX screens while building
+up the plan 
+
+
+## Overview
+Define functional behavior for:
+Company View
+Company Create/Edit
+
+
+## Default Behavioursx11
+2.1 Screen Behavior (Screens 1–4)
+     2.1.1 Functional Requirements
+          FR-1: Company Listing Panel
+               Left panel lists companies
+               Card includes:
+                    Logo
+                    Name
+                    Company ID
+                    Location
+                    Established Year
+                    Type
+          Search by company name
+          Click left panel → load company details on right panel
+
+          FR-4: Company Header
+          Displays:
+               Logo
+               Name
+               Company ID
+               Location
+               Established Year
+               Type
+               Industry
+               Associated Parent Club
+               Associated Club
+          About Company
+               Rich text (collapsed → expand via “see more”)
+           Brochure
+               PDF display/download 
+
+ 
+          FR-7: Promotional Videos
+                Multiple video thumbnails
+               Click → play
+          FR-8: Gallery
+               Image grid
+
+          What We Offer
+               Rich text:
+                    Services
+                    Offerings
+          Awards & Recognition
+               Rich text
+           Key Products & Services
+               Structured-ish rich text
+          Key Contacts
+               HR Coordinators
+               Communication Coordinator
+               Recruitment Head
+               Training Coordinator
+               Internship Mentor
+          Recruitment Highlights
+               Hiring trends
+               Roles
+               Stats
+          Testimonials
+               Video testimonials
+          Placement & Career Development
+               Packages
+               Domains
+               International hiring
+
+
+
+
+
+
+## Entities & Attributes
+
+
+## User Flows
+<!-- Step-by-step flows the user goes through.
+     e.g. "1. Select department → 2. Click + Role → 3. Fill form → 4. Save" -->
+
+     - There will be list of companies of left panel
+     - On page load select the forst company
+     - the right panel will show company details as soon as it is selected
+     - On Add button click open add/edit screen in add mode with default initialization values.
+     - On add/edit screen all pdf/images/videos can be drag and dop or upload with click.
+     - On Preview button user would be able to see all the details filled same as the detail view but in a new component.
+     - Once all Mandatory should enable Send to Publish button till then oly save with draft status will applicable.
+
+## Business Rules & Constraints
+<!-- Validation rules, cascading restrictions, guard conditions.
+     e.g. "Cannot create Role unless a Department is selected" -->
+     1. All Mandatory filled completed the Send to Publish will enable.
+     2. Company Name must be unique.
+     3. Use FormBuilder for all the fields. 
+     4. Upload fields will be out off the FormBuilder so that it would be manageable in future.
+     5. Size of each pdf/images/videos, max 2MB each 
+     6. Only 1 brochure allowed
+     7. Use Quill Editor for Rich Text Editor Supports with a common configuration applied form lib/shared/ui so that can be used in other component
+     8. Use Tailwind css give theme variables and Angular Martial for all the fields as per their filed type.
+     9. Want use use S3 aws upload i have key and token, Implement it as Domains Driven Design Pattern so that can be use in any where in inn project.
+     10. Seed some data for company dropdowns or existing company
+## DB Notes
+<!-- Tables needed, key columns, relationships, audit fields (created_by, created_on etc.) -->
+1. COMPANY CORE
+CREATE TABLE companies (
+	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	name TEXT NOT NULL,
+	logo_url TEXT,
+	industry TEXT,
+	location TEXT,
+	company_type TEXT, -- PRIVATE / PUBLIC / PSU
+	established_year INT,
+	description TEXT,
+	created_at TIMESTAMP DEFAULT NOW(),
+	updated_at TIMESTAMP DEFAULT NOW()
+);
+2. COMPANY MEDIA (REUSE SAME PATTERN)
+CREATE TABLE company_media (
+	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	company_id UUID REFERENCES companies(id) ON DELETE CASCADE,
+	media_id UUID REFERENCES media_assets(id) ON DELETE CASCADE,
+	category TEXT,
+	-- BROCHURE / VIDEO / GALLERY / TESTIMONIAL
+	display_order INT
+);
+3. CLUB ASSOCIATION
+CREATE TABLE company_clubs (
+	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	company_id UUID REFERENCES companies(id),
+	club_id UUID REFERENCES clubs(id),
+	is_parent BOOLEAN DEFAULT FALSE
+);
+4. COMPANY SERVICES (STRUCTURED FIX)
+CREATE TABLE company_services (
+	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	company_id UUID REFERENCES companies(id),
+	category TEXT, -- CLOUD / AI / CYBERSECURITY
+	description TEXT
+);
+5. COMPANY PRODUCTS
+CREATE TABLE company_products (
+	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	company_id UUID REFERENCES companies(id),
+	name TEXT,
+	description TEXT
+);
+6. COMPANY CONTACTS
+CREATE TABLE company_contacts (
+	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	company_id UUID REFERENCES companies(id),
+	user_id UUID REFERENCES users(id),
+	contact_type TEXT
+	-- HR / RECRUITER / TRAINING / MENTOR
+);
+7. HIRING / RECRUITMENT (STRUCTURED — VERY IMPORTANT)
+CREATE TABLE company_hiring_stats (
+	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	company_id UUID REFERENCES companies(id),
+	year INT,
+	hires INT,
+	internship_conversion_rate NUMERIC,
+	created_at TIMESTAMP DEFAULT NOW()
+);
+
+Hiring Roles
+CREATE TABLE company_hiring_roles (
+	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	company_id UUID REFERENCES companies(id),
+	role_name TEXT
+);
+
+Hiring Domains
+CREATE TABLE company_hiring_domains (
+	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	company_id UUID REFERENCES companies(id),
+	domain TEXT
+);
+Compensation
+CREATE TABLE company_compensation_stats (
+	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	company_id UUID REFERENCES companies(id),
+	year INT,
+	highest_package NUMERIC,
+	average_package NUMERIC
+);
+
+8. DEPARTMENTS (NEW DOMAIN)
+CREATE TABLE departments (
+	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	company_id UUID REFERENCES companies(id),
+	name TEXT NOT NULL
+);
+
+9. COMPANY USERS (BRIDGE TO USERS)
+CREATE TABLE company_user_profiles (
+	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	user_id UUID REFERENCES users(id),
+	company_id UUID REFERENCES companies(id),
+	department_id UUID REFERENCES departments(id),
+	designation TEXT,
+	is_active BOOLEAN DEFAULT TRUE
+);
+
+Common Fields
+created_by
+updated_by
+created_at
+updated_at
+isActive
+
+
+## Scope
+<!-- Explicit list of what must be built: frontend, API, migration, tests. -->
+
+## Out of Scope
+<!-- Anything explicitly NOT part of this feature to avoid scope creep. -->
+
+## Notes / Edge Cases
+<!-- Gotchas, open questions, cross-feature dependencies. -->
+
+

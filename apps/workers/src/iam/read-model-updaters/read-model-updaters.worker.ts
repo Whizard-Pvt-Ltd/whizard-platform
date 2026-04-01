@@ -1,7 +1,7 @@
 import type { IamIntegrationEventV1 } from '@whizard/identity-access';
 import type { WorkerLogger } from '../shared/logger';
-import { executeWithRetry } from '../shared/retry';
 import type { ReadModelUpdaterDependencies } from './dependencies';
+import { executeWithRetry } from '../shared/retry';
 
 export class ReadModelUpdatersWorker {
   constructor(

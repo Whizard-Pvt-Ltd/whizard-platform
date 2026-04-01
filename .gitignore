@@ -20,3 +20,7 @@ temp.txt
 static/
 dependency-graph.html
 *.tsbuildinfo
+
+.angular
+
+vitest.config.*.timestamp*

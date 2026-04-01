@@ -1,8 +1,8 @@
-import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { environment } from '../../../../environments/environment';
 import type { Department, IndustryRole } from '../models/wrcf-roles.models';
+import { environment } from '../../../../environments/environment';
 
 interface ApiEnvelope<T> {
   success: boolean;

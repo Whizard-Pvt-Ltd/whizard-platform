@@ -1,5 +1,5 @@
-import type { DomainEvent } from '../../domain';
 import type { IamEventEnvelope } from '../../contracts/events/iam-event-envelope';
+import type { DomainEvent } from '../../domain';
 
 const inferAggregateType = (eventType: string): string => {
   if (eventType.includes('session')) {

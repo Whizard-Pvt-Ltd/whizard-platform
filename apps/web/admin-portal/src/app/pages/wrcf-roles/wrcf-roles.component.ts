@@ -2,15 +2,15 @@ import { Component, inject, signal, computed, OnInit, HostListener } from '@angu
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { forkJoin } from 'rxjs';
-import { StackAuthService } from '../../core/services/stack-auth.service';
-import { WrcfApiService } from '../industry-wrcf/services/wrcf-api.service';
-import { WrcfRolesApiService } from './services/wrcf-roles-api.service';
-import { WrcfColumnComponent } from '../industry-wrcf/components/wrcf-column/wrcf-column.component';
-import { RolesPanelComponent } from './components/roles-panel/roles-panel.component';
-import { CIMappingsDialogComponent } from './components/ci-mappings-dialog/ci-mappings-dialog.component';
-import { NavDrawerComponent } from '../../shared/nav-drawer/nav-drawer.component';
 import type { Industry, FunctionalGroup, PrimaryWorkObject, SecondaryWorkObject, Capability, ProficiencyLevel, CapabilityInstance } from '../industry-wrcf/models/wrcf.models';
 import type { Department, IndustryRole, PendingCIMapping, RolesPanelState } from './models/wrcf-roles.models';
+import { StackAuthService } from '../../core/services/stack-auth.service';
+import { NavDrawerComponent } from '../../shared/nav-drawer/nav-drawer.component';
+import { WrcfColumnComponent } from '../industry-wrcf/components/wrcf-column/wrcf-column.component';
+import { WrcfApiService } from '../industry-wrcf/services/wrcf-api.service';
+import { CIMappingsDialogComponent } from './components/ci-mappings-dialog/ci-mappings-dialog.component';
+import { RolesPanelComponent } from './components/roles-panel/roles-panel.component';
+import { WrcfRolesApiService } from './services/wrcf-roles-api.service';
 
 @Component({
   selector: 'whizard-wrcf-roles',
