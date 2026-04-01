@@ -29,6 +29,36 @@ model UserAccount {
   @@map("user_accounts")
 }
 
+// ─── Tenant ──────────────────────────────────────────────────────────────────
+
+model Tenant {
+  id          String      @id @default(uuid())
+  name        String
+  type        String      // COMPANY | COLLEGE
+  isActive    Boolean     @default(true)
+  createdBy   String?
+  createdOn   DateTime    @default(now())
+  updatedBy   String?
+  updatedOn   DateTime?   @updatedAt
+
+  companies                  Company[]
+  colleges                   College[]
+  clubs                      Club[]
+  mediaAssets                MediaAsset[]
+  functionalGroups           FunctionalGroup[]
+  primaryWorkObjects         PrimaryWorkObject[]
+  secondaryWorkObjects       SecondaryWorkObject[]
+  capabilityInstances        CapabilityInstance[]
+  skills                     Skill[]
+  tasks                      Task[]
+  controlPoints              ControlPoint[]
+  departments                Department[]
+  departmentFunctionalGroups DepartmentFunctionalGroup[]
+  roles                      Role[]
+
+  @@map("tenants")
+}
+
 // ─── Capability Framework ────────────────────────────────────────────────────
 
 model IndustrySector {
@@ -61,6 +91,7 @@ model Industry {
   updatedBy        String?           @map("updated_by")
   functionalGroups FunctionalGroup[]
   departments      Department[]
+  companies        Company[]
 
   @@unique([sectorId, name])
   @@map("industries")
@@ -71,6 +102,7 @@ model FunctionalGroup {
   industryId                 String                      @map("industry_id")
   industry                   Industry                    @relation(fields: [industryId], references: [id])
   tenantId                   String                      @map("tenant_id")
+  tenant                     Tenant                      @relation(fields: [tenantId], references: [id])
   name                       String                      @db.VarChar(50)
   description                String?
   sourceTemplateId           String?                     @map("source_template_id")
@@ -93,6 +125,7 @@ model PrimaryWorkObject {
   functionalGroupId        String               @map("functional_group_id")
   functionalGroup          FunctionalGroup      @relation(fields: [functionalGroupId], references: [id])
   tenantId                 String               @map("tenant_id")
+  tenant                   Tenant               @relation(fields: [tenantId], references: [id])
   name                     String               @db.VarChar(100)
   sourceTemplateId         String?              @map("source_template_id")
   strategicImportanceLevel Int                  @map("strategic_importance_level") @db.SmallInt
@@ -115,6 +148,7 @@ model SecondaryWorkObject {
   pwoId                 String               @map("pwo_id")
   pwo                   PrimaryWorkObject    @relation(fields: [pwoId], references: [id])
   tenantId              String               @map("tenant_id")
+  tenant                Tenant               @relation(fields: [tenantId], references: [id])
   name                  String               @db.VarChar(100)
   sourceTemplateId      String?              @map("source_template_id")
   operationalComplexity String               @map("operational_complexity") @db.VarChar(10)
@@ -178,6 +212,7 @@ model CapabilityInstance {
   proficiencyId              String                      @map("proficiency_id")
   proficiency                Proficiency                 @relation(fields: [proficiencyId], references: [id])
   tenantId                   String                      @map("tenant_id")
+  tenant                     Tenant                      @relation(fields: [tenantId], references: [id])
   isActive                   Boolean                     @default(true) @map("is_active")
   version                    Float                       @default(1)
   createdAt                  DateTime                    @default(now()) @map("created_at")
@@ -195,6 +230,7 @@ model Skill {
   capabilityInstanceId       String             @map("capability_instance_id")
   capabilityInstance         CapabilityInstance @relation(fields: [capabilityInstanceId], references: [id])
   tenantId                   String             @map("tenant_id")
+  tenant                     Tenant             @relation(fields: [tenantId], references: [id])
   name                       String             @db.VarChar(100)
   sourceTemplateId           String?            @map("source_template_id")
   cognitiveType              String             @map("cognitive_type") @db.VarChar(20)
@@ -217,6 +253,7 @@ model Task {
   skillId                  String         @map("skill_id")
   skill                    Skill          @relation(fields: [skillId], references: [id])
   tenantId                 String         @map("tenant_id")
+  tenant                   Tenant         @relation(fields: [tenantId], references: [id])
   name                     String         @db.VarChar(100)
   description              String?
   sourceTemplateId         String?        @map("source_template_id")
@@ -240,6 +277,7 @@ model ControlPoint {
   taskId             String   @map("task_id")
   task               Task     @relation(fields: [taskId], references: [id])
   tenantId           String   @map("tenant_id")
+  tenant             Tenant   @relation(fields: [tenantId], references: [id])
   name               String   @db.VarChar(100)
   description        String?
   sourceTemplateId   String?  @map("source_template_id")
@@ -280,6 +318,7 @@ model LearnerEvidence {
 model Department {
   id                          String                      @id @default(uuid()) @map("public_uuid")
   tenantId                    String                      @map("tenant_id")
+  tenant                      Tenant                      @relation(fields: [tenantId], references: [id])
   name                        String                      @db.VarChar(100)
   description                 String?
   sourceTemplateId            String?                     @map("source_template_id")
@@ -307,6 +346,7 @@ model DepartmentFunctionalGroup {
   functionalGroupId String          @map("functional_group_id")
   functionalGroup   FunctionalGroup @relation(fields: [functionalGroupId], references: [id])
   tenantId          String          @map("tenant_id")
+  tenant            Tenant          @relation(fields: [tenantId], references: [id])
   sourceTemplateId  String?         @map("source_template_id")
   isActive          Boolean         @default(true) @map("is_active")
   version           Float           @default(1)
@@ -324,6 +364,7 @@ model Role {
   departmentId            String                   @map("department_id")
   department              Department               @relation(fields: [departmentId], references: [id])
   tenantId                String                   @map("tenant_id")
+  tenant                  Tenant                   @relation(fields: [tenantId], references: [id])
   industryId              String?                  @map("industry_id")
   name                    String                   @db.VarChar(100)
   seniorityLevel          String?                  @map("seniority_level") @db.VarChar(50)
@@ -363,11 +404,12 @@ model RoleCapabilityInstance {
 // ─── College Operations ───────────────────────────────────────────────────────
 
 model City {
-  id       String    @id @default(uuid())
-  name     String
-  state    String
-  isActive Boolean   @default(true)
-  colleges College[]
+  id        String    @id @default(uuid())
+  name      String
+  state     String
+  isActive  Boolean   @default(true)
+  colleges  College[]
+  companies Company[]
 
   @@index([state])
   @@map("cities")
@@ -376,6 +418,7 @@ model City {
 model Club {
   id          String         @id @default(uuid())
   tenantId    String
+  tenant      Tenant         @relation(fields: [tenantId], references: [id])
   name        String
   description String?
   logoUrl     String?
@@ -385,6 +428,7 @@ model Club {
   updatedBy   String?
   updatedOn   DateTime?      @updatedAt
   colleges    ClubCollege[]
+  companies   CompanyClub[]
 
   @@index([tenantId])
   @@map("clubs")
@@ -418,8 +462,9 @@ model ProgramSpecialization {
 }
 
 model MediaAsset {
-  id           String               @id @default(uuid())
+  id           String                  @id @default(uuid())
   tenantId     String
+  tenant       Tenant                  @relation(fields: [tenantId], references: [id])
   name         String
   url          String
   key          String
@@ -427,12 +472,13 @@ model MediaAsset {
   mimeType     String
   sizeBytes    Int
   thumbnailUrl String?
-  isActive     Boolean              @default(true)
+  isActive     Boolean                 @default(true)
   createdBy    String
-  createdOn    DateTime             @default(now())
+  createdOn    DateTime                @default(now())
   updatedBy    String?
-  updatedOn    DateTime?            @updatedAt
+  updatedOn    DateTime?               @updatedAt
   colleges     CollegeMediaAsset[]
+  companies    CompanyMediaAsset[]
 
   @@index([tenantId, type])
   @@map("media_assets")
@@ -441,6 +487,7 @@ model MediaAsset {
 model College {
   id                   String               @id @default(uuid())
   tenantId             String
+  tenant               Tenant               @relation(fields: [tenantId], references: [id])
   collegeCode          String               @unique
   name                 String
   affiliatedUniversity String
@@ -517,4 +564,172 @@ model CollegeDegreeProgram {
 
   @@id([collegeId, programId])
   @@map("colleges_degree_programs")
+}
+
+// ─── Company Organization ─────────────────────────────────────────────────────
+
+model Company {
+  id              String                @id @default(uuid())
+  tenantId        String
+  tenant          Tenant                @relation(fields: [tenantId], references: [id])
+  industryId      String?               @db.Uuid
+  industry        Industry?             @relation(fields: [industryId], references: [id])
+  companyCode     String                @unique
+  name            String
+  cityId          String?
+  city            City?                 @relation(fields: [cityId], references: [id])
+  companyType     String?
+  establishedYear Int?
+  description     String?
+  whatWeOffer     String?
+  awardsRecognition String?
+  keyProductsServices String?
+  recruitmentHighlights String?
+  placementStats  String?
+  inquiryEmail    String?
+  status          Int                   @default(0)
+  isActive        Boolean               @default(true)
+  createdBy       String
+  createdOn       DateTime              @default(now())
+  updatedBy       String?
+  updatedOn       DateTime?             @updatedAt
+  clubs           CompanyClub[]
+  mediaAssets     CompanyMediaAsset[]
+  contacts        CompanyContact[]
+  services        CompanyService[]
+  products        CompanyProduct[]
+  hiringStats     CompanyHiringStat[]
+  hiringRoles     CompanyHiringRole[]
+  hiringDomains   CompanyHiringDomain[]
+  compensationStats CompanyCompensationStat[]
+
+  @@index([tenantId, status])
+  @@index([tenantId, isActive])
+  @@map("companies")
+}
+
+model CompanyClub {
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  clubId    String
+  club      Club    @relation(fields: [clubId], references: [id])
+  isParent  Boolean @default(false)
+
+  @@id([companyId, clubId])
+  @@map("clubs_companies")
+}
+
+model CompanyMediaAsset {
+  id           String     @id @default(uuid())
+  companyId    String
+  company      Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  mediaAssetId String
+  mediaAsset   MediaAsset @relation(fields: [mediaAssetId], references: [id])
+  mediaRole    String
+  sortOrder    Int        @default(0)
+
+  @@unique([companyId, mediaAssetId, mediaRole])
+  @@index([companyId, mediaRole])
+  @@map("companies_media_assets")
+}
+
+model CompanyContact {
+  id          String    @id @default(uuid())
+  companyId   String
+  company     Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  userId      String
+  contactRole String
+  isActive    Boolean   @default(true)
+  createdBy   String
+  createdOn   DateTime  @default(now())
+  updatedBy   String?
+  updatedOn   DateTime? @updatedAt
+
+  @@unique([companyId, userId, contactRole])
+  @@index([companyId])
+  @@map("company_contacts")
+}
+
+model CompanyService {
+  id          String    @id @default(uuid())
+  companyId   String
+  company     Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  category    String
+  description String?
+  isActive    Boolean   @default(true)
+  createdBy   String
+  createdOn   DateTime  @default(now())
+
+  @@index([companyId])
+  @@map("company_services")
+}
+
+model CompanyProduct {
+  id          String    @id @default(uuid())
+  companyId   String
+  company     Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  isActive    Boolean   @default(true)
+  createdBy   String
+  createdOn   DateTime  @default(now())
+
+  @@index([companyId])
+  @@map("company_products")
+}
+
+model CompanyHiringStat {
+  id                       String    @id @default(uuid())
+  companyId                String
+  company                  Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  year                     Int
+  hires                    Int?
+  internshipConversionRate Float?
+  createdBy                String
+  createdOn                DateTime  @default(now())
+
+  @@unique([companyId, year])
+  @@index([companyId])
+  @@map("company_hiring_stats")
+}
+
+model CompanyHiringRole {
+  id        String    @id @default(uuid())
+  companyId String
+  company   Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  roleName  String
+  isActive  Boolean   @default(true)
+  createdBy String
+  createdOn DateTime  @default(now())
+
+  @@index([companyId])
+  @@map("company_hiring_roles")
+}
+
+model CompanyHiringDomain {
+  id        String    @id @default(uuid())
+  companyId String
+  company   Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  domain    String
+  isActive  Boolean   @default(true)
+  createdBy String
+  createdOn DateTime  @default(now())
+
+  @@index([companyId])
+  @@map("company_hiring_domains")
+}
+
+model CompanyCompensationStat {
+  id              String    @id @default(uuid())
+  companyId       String
+  company         Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  year            Int
+  highestPackage  Float?
+  averagePackage  Float?
+  createdBy       String
+  createdOn       DateTime  @default(now())
+
+  @@unique([companyId, year])
+  @@index([companyId])
+  @@map("company_compensation_stats")
 }

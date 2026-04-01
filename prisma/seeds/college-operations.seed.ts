@@ -3,9 +3,17 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 const SEED_USER = 'seed';
-const SYSTEM_TENANT = 'system';
+const SYSTEM_TENANT_ID = 'a0000000-0000-0000-0000-000000000001';
 
 async function seedCollegeOperations(): Promise<void> {
+
+  // ── System Tenant (for clubs & colleges) ─────────────────────────────────
+  await prisma.tenant.upsert({
+    where: { id: SYSTEM_TENANT_ID },
+    update: {},
+    create: { id: SYSTEM_TENANT_ID, name: 'System - College Operations', type: 'COLLEGE', isActive: true },
+  });
+  console.log('System tenant seeded.');
 
   // ── Cities ────────────────────────────────────────────────────────────────
   const cities = [
@@ -58,7 +66,7 @@ async function seedCollegeOperations(): Promise<void> {
     await prisma.club.upsert({
       where: { id: club.id },
       update: {},
-      create: { ...club, tenantId: SYSTEM_TENANT, isActive: true, createdBy: SEED_USER }
+      create: { ...club, tenantId: SYSTEM_TENANT_ID, isActive: true, createdBy: SEED_USER }
     });
   }
   console.log('Clubs seeded.');
@@ -146,12 +154,8 @@ async function seedCollegeOperations(): Promise<void> {
         id: user.id,
         primaryLoginId: user.primaryLoginId,
         primaryEmail: user.primaryEmail,
-        authMode: 'PASSWORD',
-        status: 'ACTIVE',
+        authMode: 'Password',
         mfaRequired: false,
-        tenantType: 'COLLEGE',
-        tenantId: SYSTEM_TENANT,
-        stackAuthUserId: null,
       }
     });
   }

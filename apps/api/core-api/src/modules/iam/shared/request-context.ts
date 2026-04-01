@@ -2,11 +2,18 @@ import type { ApiMetaV1 } from '@whizard/identity-access';
 
 type TenantType = 'SYSTEM' | 'PARENT_CLUB' | 'COLLEGE' | 'COMPANY';
 
+export interface MultipartFileLike {
+  readonly filename: string;
+  readonly mimetype: string;
+  toBuffer(): Promise<Buffer>;
+}
+
 export interface FastifyRequestLike {
   readonly headers: Record<string, string | string[] | undefined>;
   readonly params?: unknown;
   readonly query?: unknown;
   readonly body?: unknown;
+  file?: () => Promise<MultipartFileLike>;
 }
 
 export interface FastifyReplyLike {

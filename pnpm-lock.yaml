@@ -399,6 +399,25 @@ importers:
         specifier: 5.9.3
         version: 5.9.3
 
+  libs/contexts/company-organization:
+    dependencies:
+      '@prisma/client':
+        specifier: 6.19.2
+        version: 6.19.2(prisma@6.19.2(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3)
+      '@whizard/shared-infrastructure':
+        specifier: workspace:*
+        version: link:../../shared/infrastructure
+      '@whizard/shared-kernel':
+        specifier: workspace:*
+        version: link:../../shared/kernel
+    devDependencies:
+      '@types/node':
+        specifier: ^22.13.10
+        version: 22.19.15
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+
   libs/contexts/identity-access:
     dependencies:
       '@prisma/client':

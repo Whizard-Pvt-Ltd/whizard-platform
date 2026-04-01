@@ -22,6 +22,7 @@ import helmet from '@fastify/helmet';
 import Fastify from 'fastify';
 import { startCoreApi } from './main';
 import { registerCollegeOperationsCoreApiRuntime } from './modules/college-operations/runtime';
+import { registerCompanyOrganizationCoreApiRuntime } from './modules/company-organization/runtime';
 import { registerWrcfCoreApiRuntime } from './modules/wrcf/runtime';
 import stackAuthPlugin from './plugins/stack-auth.plugin';
 
@@ -152,6 +153,18 @@ async function bootstrap() {
     bootstrapLogger.info('College Operations runtime registered successfully');
   } catch (error) {
     bootstrapLogger.error('Failed to register College Operations runtime', {
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+    throw error;
+  }
+
+  // Register Company Organization routes
+  bootstrapLogger.info('Registering Company Organization runtime');
+  try {
+    await registerCompanyOrganizationCoreApiRuntime(fastify);
+    bootstrapLogger.info('Company Organization runtime registered successfully');
+  } catch (error) {
+    bootstrapLogger.error('Failed to register Company Organization runtime', {
       error: error instanceof Error ? error.message : 'Unknown error'
     });
     throw error;

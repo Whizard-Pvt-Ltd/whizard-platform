@@ -1,4 +1,5 @@
 ---
+name: build-feature
 description: Scaffold, plan, and build a new feature end-to-end
 ---
 

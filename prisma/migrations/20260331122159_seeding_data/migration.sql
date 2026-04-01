@@ -1,15 +1,3 @@
--- AlterTable
-ALTER TABLE "capability_instances_industry_roles" RENAME CONSTRAINT "role_ci_mappings_pkey" TO "capability_instances_industry_roles_pkey";
-
--- AlterTable
-ALTER TABLE "departments_functional_groups" RENAME CONSTRAINT "department_fg_mappings_pkey" TO "departments_functional_groups_pkey";
-
--- AlterTable
-ALTER TABLE "pwos" RENAME CONSTRAINT "primary_work_objects_pkey" TO "pwos_pkey";
-
--- AlterTable
-ALTER TABLE "swos" RENAME CONSTRAINT "secondary_work_objects_pkey" TO "swos_pkey";
-
 -- CreateTable
 CREATE TABLE "cities" (
     "id" TEXT NOT NULL,
@@ -180,24 +168,6 @@ CREATE INDEX "colleges_media_assets_collegeId_mediaRole_idx" ON "colleges_media_
 -- CreateIndex
 CREATE UNIQUE INDEX "colleges_media_assets_collegeId_mediaAssetId_mediaRole_key" ON "colleges_media_assets"("collegeId", "mediaAssetId", "mediaRole");
 
--- RenameForeignKey
-ALTER TABLE "capability_instances_industry_roles" RENAME CONSTRAINT "role_ci_mappings_ciId_fkey" TO "capability_instances_industry_roles_ciId_fkey";
-
--- RenameForeignKey
-ALTER TABLE "capability_instances_industry_roles" RENAME CONSTRAINT "role_ci_mappings_roleId_fkey" TO "capability_instances_industry_roles_roleId_fkey";
-
--- RenameForeignKey
-ALTER TABLE "departments_functional_groups" RENAME CONSTRAINT "department_fg_mappings_departmentId_fkey" TO "departments_functional_groups_departmentId_fkey";
-
--- RenameForeignKey
-ALTER TABLE "departments_functional_groups" RENAME CONSTRAINT "department_fg_mappings_fgId_fkey" TO "departments_functional_groups_fgId_fkey";
-
--- RenameForeignKey
-ALTER TABLE "pwos" RENAME CONSTRAINT "primary_work_objects_functionalGroupId_fkey" TO "pwos_functionalGroupId_fkey";
-
--- RenameForeignKey
-ALTER TABLE "swos" RENAME CONSTRAINT "secondary_work_objects_pwoId_fkey" TO "swos_pwoId_fkey";
-
 -- AddForeignKey
 ALTER TABLE "program_specializations" ADD CONSTRAINT "program_specializations_programId_fkey" FOREIGN KEY ("programId") REFERENCES "degree_programs"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
@@ -225,8 +195,3 @@ ALTER TABLE "colleges_degree_programs" ADD CONSTRAINT "colleges_degree_programs_
 -- AddForeignKey
 ALTER TABLE "colleges_degree_programs" ADD CONSTRAINT "colleges_degree_programs_programId_fkey" FOREIGN KEY ("programId") REFERENCES "degree_programs"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
--- RenameIndex
-ALTER INDEX "role_ci_mappings_roleId_ciId_key" RENAME TO "capability_instances_industry_roles_roleId_ciId_key";
-
--- RenameIndex
-ALTER INDEX "department_fg_mappings_departmentId_fgId_key" RENAME TO "departments_functional_groups_departmentId_fgId_key";
