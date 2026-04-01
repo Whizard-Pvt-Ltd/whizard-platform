@@ -9,6 +9,8 @@ manual-tests/
   README.md
   Documents/
     TESTING_PROTOCOL.md
+    playwright-run-commands.md
+    workbook-tagging-guide.md
     login-page-mcp-test-cases.md
     login-page-smoke-test.md
     login-page-accessibility-and-ux-findings.md
@@ -72,6 +74,10 @@ manual-tests/
 
 ## How To Run
 
+Quick command reference:
+- Bash commands for each current spec: [playwright-run-commands.md](/home/sama/new-repo/whizard-platform/manual-tests/Documents/playwright-run-commands.md)
+- Workbook execution-tag maintenance: [workbook-tagging-guide.md](/home/sama/new-repo/whizard-platform/manual-tests/Documents/workbook-tagging-guide.md)
+
 Set the login credentials in the same PowerShell window before running any authenticated Playwright suite:
 
 ```powershell
@@ -86,6 +92,56 @@ corepack pnpm test:wrcf:dashboard:ordered
 corepack pnpm test:wrcf:manage-wrcf:ordered
 corepack pnpm test:wrcf:functional-group:ordered
 ```
+
+Run the default stable Playwright set. This excludes `@future` coverage automatically:
+
+```powershell
+corepack pnpm test:playwright:stable
+```
+
+Run only stable critical coverage tagged `@stable @p0`:
+
+```powershell
+corepack pnpm test:playwright:stable:p0
+```
+
+Run authored future coverage explicitly:
+
+```powershell
+corepack pnpm test:playwright:future
+```
+
+Run a particular tag when the target spec is tag-migrated:
+
+```powershell
+corepack pnpm exec playwright test --grep @p0
+corepack pnpm exec playwright test --grep "(?=.*@stable)(?=.*@p1)"
+corepack pnpm exec playwright test --grep @task
+```
+
+Example: run `@p0` Task coverage only:
+
+```powershell
+corepack pnpm exec playwright test manual-tests/wrcf_Task.playwright.spec.ts --grep "(?=.*@stable)(?=.*@p0)(?=.*@task)"
+```
+
+If you want to run directly with Playwright from bash, use the same `--grep` examples:
+
+```bash
+TEST_LOGIN_EMAIL='sandeeps@whizard.com' TEST_LOGIN_PASSWORD='Whizard@123' corepack pnpm exec playwright test --grep @p0
+TEST_LOGIN_EMAIL='sandeeps@whizard.com' TEST_LOGIN_PASSWORD='Whizard@123' corepack pnpm exec playwright test --grep "(?=.*@stable)(?=.*@p1)"
+TEST_LOGIN_EMAIL='sandeeps@whizard.com' TEST_LOGIN_PASSWORD='Whizard@123' corepack pnpm exec playwright test --grep @task
+TEST_LOGIN_EMAIL='sandeeps@whizard.com' TEST_LOGIN_PASSWORD='Whizard@123' corepack pnpm exec playwright test manual-tests/wrcf_Task.playwright.spec.ts --grep "(?=.*@stable)(?=.*@p0)(?=.*@task)"
+TEST_LOGIN_EMAIL='sandeeps@whizard.com' TEST_LOGIN_PASSWORD='Whizard@123' PW_INCLUDE_FUTURE=1 corepack pnpm exec playwright test manual-tests/wrcf_Task.playwright.spec.ts --grep "(?=.*@future)(?=.*@task)"
+```
+
+Important:
+- tag filtering only works for specs that already contain those Playwright tags
+- `wrcf_Task.playwright.spec.ts` is fully tag-migrated
+- `wrcf-manage-wrcf.playwright.spec.ts` is also tag-migrated for stable/future
+- `wrcf_Functional_Group.playwright.spec.ts` is not tag-migrated yet, so workbook tags on FG are tracking metadata only for now
+
+If you are running from bash/WSL instead of PowerShell, use the bash command sheet above. It includes copy-paste commands for each current spec plus stable/future tag runs.
 
 Run a spec directly with Playwright when you want the default Playwright runner behavior:
 
@@ -159,3 +215,18 @@ npx playwright show-report
 - The WSL MCP config referenced in prior notes is not present in this Windows workspace copy.
 - Runtime auth cache is stored under `manual-tests/.auth/` and is gitignored.
 - Ordered result exports are generated into `manual-tests/results/`.
+
+
+## Stable vs Future Coverage
+
+Some tests may represent future or not-yet-implemented behavior derived from PDFs, screenshots, Figma, or workbook coverage planning.
+
+Execution model:
+- Stable tests: included in default runs and should fail if broken
+- Future tests: kept visible in the same spec files, but excluded from default runs unless explicitly requested
+
+Recommended approach:
+- default run excludes future-tagged coverage
+- explicit future runs can be used later on branches where the feature is available
+- stable tests should fail normally if broken
+- runtime/data blockers should be documented separately from `@future` feature coverage

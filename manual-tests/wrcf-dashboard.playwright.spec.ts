@@ -208,7 +208,7 @@ test.describe('WRCF dashboard', () => {
     await context.close();
   });
 
-  test('DASH-E2E-001 uses dashboard as the default page after login', async () => {
+  test('DASH-E2E-001 @stable @p0 @dashboard uses dashboard as the default page after login', async () => {
     await page.goto(`${appUrl}/login`);
 
     if (/\/login/.test(page.url())) {
@@ -225,7 +225,7 @@ test.describe('WRCF dashboard', () => {
     await expect(page.getByText('Industry WRCF Dashboard')).toBeVisible();
   });
 
-  test('DASH-E2E-002 auto-selects the default Industry Sector and Industry on page load', async () => {
+  test('DASH-E2E-002 @stable @p0 @dashboard auto-selects the default Industry Sector and Industry on page load', async () => {
     await expect
       .poll(async () => ({
         sector: await sectorDropdown(page).inputValue(),
@@ -241,7 +241,7 @@ test.describe('WRCF dashboard', () => {
     await expect(page.locator('.industry-name')).not.toHaveText('—');
   });
 
-  test('DASH-E2E-003 loads dashboard cards for the default selected sector and industry', async () => {
+  test('DASH-E2E-003 @stable @p0 @dashboard loads dashboard cards for the default selected sector and industry', async () => {
     await expect(statCard(page, 'Functional Groups')).toBeVisible();
     await expect(statCard(page, 'Primary Work Objective')).toBeVisible();
     await expect(statCard(page, 'Secondary Work Objective')).toBeVisible();
@@ -252,7 +252,7 @@ test.describe('WRCF dashboard', () => {
     await expect(statCard(page, 'Departments')).toBeVisible();
   });
 
-  test('DASH-E2E-004 displays Industry Sector options in alphabetical order', async () => {
+  test('DASH-E2E-004 @stable @p1 @dashboard displays Industry Sector options in alphabetical order', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
 
@@ -260,7 +260,7 @@ test.describe('WRCF dashboard', () => {
     expect(options).toEqual([...options].sort((a, b) => a.localeCompare(b)));
   });
 
-  test('DASH-E2E-005 shows industries only for the selected Industry Sector', async () => {
+  test('DASH-E2E-005 @stable @p1 @dashboard shows industries only for the selected Industry Sector', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
 
@@ -275,7 +275,7 @@ test.describe('WRCF dashboard', () => {
     expect(manufacturingOptions).toEqual(['Auto Manufacturing', 'Steel Manufacturing']);
   });
 
-  test('DASH-E2E-006 keeps industries under the selected sector in alphabetical order', async () => {
+  test('DASH-E2E-006 @stable @p1 @dashboard keeps industries under the selected sector in alphabetical order', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
 
@@ -288,7 +288,7 @@ test.describe('WRCF dashboard', () => {
     expect(manufacturingOptions).toEqual([...manufacturingOptions].sort((a, b) => a.localeCompare(b)));
   });
 
-  test('DASH-E2E-014 refreshes all cards when the user changes Industry within the same sector', async () => {
+  test('DASH-E2E-014 @stable @p1 @dashboard refreshes all cards when the user changes Industry within the same sector', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
 
@@ -303,7 +303,7 @@ test.describe('WRCF dashboard', () => {
     await expectStatCount(page, 'Tasks', 0);
   });
 
-  test('DASH-E2E-015 resets Industry and refreshes dashboard data when Industry Sector changes', async () => {
+  test('DASH-E2E-015 @stable @p1 @dashboard resets Industry and refreshes dashboard data when Industry Sector changes', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
 
@@ -318,7 +318,7 @@ test.describe('WRCF dashboard', () => {
     await expectStatCount(page, 'Functional Groups', 8);
   });
 
-  test('DASH-E2E-016 does not retain the previous industry metrics after sector or industry selection changes', async () => {
+  test('DASH-E2E-016 @stable @p1 @dashboard does not retain the previous industry metrics after sector or industry selection changes', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
 
@@ -333,7 +333,7 @@ test.describe('WRCF dashboard', () => {
     await expectStatCount(page, 'Functional Groups', 11);
   });
 
-  test('DASH-E2E-011 renders the current version, draft version, last updated, and validation status fields', async () => {
+  test('DASH-E2E-011 @stable @p1 @dashboard renders the current version, draft version, last updated, and validation status fields', async () => {
     await expect(page.getByText('Current Version')).toBeVisible();
     await expect(page.getByText('Draft Version')).toBeVisible();
     await expect(page.getByText('Last Updated')).toBeVisible();
@@ -343,7 +343,7 @@ test.describe('WRCF dashboard', () => {
     await expect(page.getByText('Validated')).toBeVisible();
   });
 
-  test('DASH-E2E-024 renders all quick action tiles and their current behaviors', async () => {
+  test('DASH-E2E-024 @stable @p1 @dashboard renders all quick action tiles and their current behaviors', async () => {
     await expect(quickAction(page, 'Edit Structure')).toBeVisible();
     await expect(quickAction(page, 'Manage Roles')).toBeVisible();
     await expect(quickAction(page, 'Version History')).toBeVisible();
@@ -365,7 +365,7 @@ test.describe('WRCF dashboard', () => {
     await expect(page).toHaveURL(/\/wrcf-roles/);
   });
 
-  test('DASH-E2E-023 handles partial zero-count states without breaking the dashboard layout', async () => {
+  test('DASH-E2E-023 @stable @p1 @dashboard handles partial zero-count states without breaking the dashboard layout', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
 
@@ -383,7 +383,7 @@ test.describe('WRCF dashboard', () => {
     await expectStatCount(page, 'Departments', 0);
   });
 
-  test('DASH-E2E-007 hides inactive Industry Sectors from the dashboard filter', async () => {
+  test('DASH-E2E-007 @stable @p1 @dashboard hides inactive Industry Sectors from the dashboard filter', async () => {
     await page.route('**/wrcf/sectors', async route => {
       await route.fulfill({
         status: 200,
@@ -414,7 +414,7 @@ test.describe('WRCF dashboard', () => {
     expect(options).not.toContain('ZZ Inactive Sector');
   });
 
-  test('DASH-E2E-008 hides inactive industries from the Industry dropdown', async () => {
+  test('DASH-E2E-008 @stable @p1 @dashboard hides inactive industries from the Industry dropdown', async () => {
     await page.route('**/wrcf/sectors', async route => {
       await route.fulfill({
         status: 200,
@@ -445,7 +445,7 @@ test.describe('WRCF dashboard', () => {
     expect(options).not.toContain('ZZ Inactive Industry');
   });
 
-  test('DASH-E2E-009 excludes inactive FG PWO SWO CI Skill Task Role and Department records from dashboard counts', async () => {
+  test('DASH-E2E-009 @stable @p1 @dashboard excludes inactive FG PWO SWO CI Skill Task Role and Department records from dashboard counts', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
     await sectorDropdown(page).selectOption('sector-energy');
@@ -461,16 +461,16 @@ test.describe('WRCF dashboard', () => {
     await expectStatCount(page, 'Departments', 2);
   });
 
-  test('DASH-E2E-010 uses only published version data for displayed metrics', async () => {
+  test('DASH-E2E-010 @stable @p1 @dashboard uses only published version data for displayed metrics', async () => {
     await expect(page.getByText('Current Version')).toBeVisible();
     await expect(page.locator('.version-row')).toContainText('4.1');
   });
 
-  test('DASH-E2E-012 shows -- when no draft version exists', async () => {
+  test('DASH-E2E-012 @stable @p1 @dashboard shows -- when no draft version exists', async () => {
     await expect(page.locator('.version-row')).toContainText('--');
   });
 
-  test('DASH-E2E-013 shows a no-data state when the selected industry has no published WRCF data', async () => {
+  test('DASH-E2E-013 @stable @p1 @dashboard shows a no-data state when the selected industry has no published WRCF data', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
     await sectorDropdown(page).selectOption('sector-energy');
@@ -478,15 +478,15 @@ test.describe('WRCF dashboard', () => {
     await expect(page.getByText('No published WRCF data')).toBeVisible();
   });
 
-  test('DASH-E2E-017 keeps Last Updated aligned with the selected industry version state', async () => {
+  test('DASH-E2E-017 @stable @p1 @dashboard keeps Last Updated aligned with the selected industry version state', async () => {
     await expect(page.locator('.version-date')).not.toHaveText('28 Feb 2026');
   });
 
-  test('DASH-E2E-018 keeps Validation Status aligned with the selected industry version state', async () => {
+  test('DASH-E2E-018 @stable @p1 @dashboard keeps Validation Status aligned with the selected industry version state', async () => {
     await expect(page.locator('.version-row')).not.toContainText('Validated');
   });
 
-  test('DASH-E2E-019 uses published active Capability Instance counts only', async () => {
+  test('DASH-E2E-019 @stable @p1 @dashboard uses published active Capability Instance counts only', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
     await sectorDropdown(page).selectOption('sector-energy');
@@ -494,7 +494,7 @@ test.describe('WRCF dashboard', () => {
     await expectStatCount(page, 'Capability Instances', 4);
   });
 
-  test('DASH-E2E-020 uses published active linked records only for Skills and Tasks counts', async () => {
+  test('DASH-E2E-020 @stable @p1 @dashboard uses published active linked records only for Skills and Tasks counts', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
     await sectorDropdown(page).selectOption('sector-energy');
@@ -503,7 +503,7 @@ test.describe('WRCF dashboard', () => {
     await expectStatCount(page, 'Tasks', 13);
   });
 
-  test('DASH-E2E-021 keeps hierarchy card totals aligned to published active counts', async () => {
+  test('DASH-E2E-021 @stable @p1 @dashboard keeps hierarchy card totals aligned to published active counts', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
     await sectorDropdown(page).selectOption('sector-manufacturing');
@@ -513,7 +513,7 @@ test.describe('WRCF dashboard', () => {
     await expectStatCount(page, 'Secondary Work Objective', 3);
   });
 
-  test('DASH-E2E-022 uses active published counts for Roles and Departments cards', async () => {
+  test('DASH-E2E-022 @stable @p1 @dashboard uses active published counts for Roles and Departments cards', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
     await sectorDropdown(page).selectOption('sector-manufacturing');
@@ -522,7 +522,7 @@ test.describe('WRCF dashboard', () => {
     await expectStatCount(page, 'Departments', 1);
   });
 
-  test('DASH-E2E-026 clicking Edit Structure redirects user to Manage Industry WRCF with same selected Industry Sector and Industry carried forward from Dashboard', async () => {
+  test('DASH-E2E-026 @stable @p1 @dashboard clicking Edit Structure redirects user to Manage Industry WRCF with same selected Industry Sector and Industry carried forward from Dashboard', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
     await sectorDropdown(page).selectOption('sector-energy');
@@ -534,7 +534,7 @@ test.describe('WRCF dashboard', () => {
     await expect(page.locator('.filter-bar .filter-select').nth(1)).toHaveValue('industry-water');
   });
 
-  test('DASH-E2E-025 blocks unauthorized users from restricted dashboard actions', async () => {
-    test.fixme(true, 'Pending until a lower-privilege user is available.');
+  test('DASH-E2E-025 @future @p1 @dashboard @blocked-role blocks unauthorized users from restricted dashboard actions', async () => {
+    throw new Error('Pending until a lower-privilege user is available.');
   });
 });

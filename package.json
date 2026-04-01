@@ -59,6 +59,9 @@
     "docker:logs:core-api": "docker compose logs -f core-api",
     "validate": "pnpm lint && pnpm test && pnpm build:all",
     "prepare": "husky install",
+    "test:playwright:stable": "playwright test",
+    "test:playwright:future": "PW_INCLUDE_FUTURE=1 playwright test --grep @future",
+    "test:playwright:stable:p0": "playwright test --grep \"(?=.*@stable)(?=.*@p0)\"",
     "test:wrcf:dashboard:ordered": "node manual-tests/scripts/run-ordered-report.mjs dashboard",
     "test:wrcf:manage-wrcf:ordered": "node manual-tests/scripts/run-ordered-report.mjs manage-wrcf",
     "test:wrcf:functional-group:ordered": "node manual-tests/scripts/run-ordered-report.mjs functional-group"

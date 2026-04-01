@@ -28,6 +28,19 @@ Login
           -> edit / save / delete
 ```
 
+## Navigation Notes
+
+- Entry page: `Manage Industry WRCF` at `/industry-wrcf`
+- Parent selections before SWO actions:
+  - Industry Sector
+  - Industry
+  - Functional Group
+  - Primary Work Object
+- SWO is managed in the `Secondary Work Obj.` column after a PWO is selected
+- Downstream handoff from a selected SWO is:
+  - SWO -> Capability -> Proficiency -> Capability Instance mapping
+- Delete and dependency assertions depend on the selected PWO/SWO path and any downstream CI or skills data
+
 ## Notes
 
 - Uses reusable auth state under `manual-tests/.auth/`

@@ -219,9 +219,9 @@ async function openCreateSkillPanel(page: Page): Promise<void> {
   await expect(panel(page)).toBeVisible();
 }
 
-function pendingSkillsCase(id: string, title: string, reason: string): void {
-  test(`${id} ${title}`, async () => {
-    test.fixme(true, reason);
+function futureSkillsCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+  test(`${id} @future @${priority} @skills ${title}`, async () => {
+    throw new Error(reason);
   });
 }
 
@@ -247,30 +247,36 @@ test.describe('Skills sheet-aligned coverage', () => {
     await context.close();
   });
 
-  test('SKL-E2E-001 shows the add icon for Skills when a valid CI context is selected', async () => {
+  test('SKL-E2E-001 @stable @p1 @skills shows the add icon for Skills when a valid CI context is selected', async () => {
     const skillsContextReady = await openSkillsSheet(page);
-    test.fixme(!skillsContextReady, noSkillsContextReason);
+    if (!skillsContextReady) {
+      throw new Error(noSkillsContextReason);
+    }
     await selectCiBackedPath(page);
     await expect(column(page, 'Skills').getByTitle('Add')).toBeVisible();
   });
 
-  pendingSkillsCase(
+  futureSkillsCase(
     'SKL-E2E-002',
     'shows the edit icon for the selected skill row',
     'Needs a deterministic selected skill row under a valid CI path before the edit icon can be asserted reliably.'
   );
 
-  test('SKL-E2E-003 opens the Create New Skill popup from the Skills add icon', async () => {
+  test('SKL-E2E-003 @stable @p1 @skills opens the Create New Skill popup from the Skills add icon', async () => {
     const skillsContextReady = await openSkillsSheet(page);
-    test.fixme(!skillsContextReady, noSkillsContextReason);
+    if (!skillsContextReady) {
+      throw new Error(noSkillsContextReason);
+    }
     await selectCiBackedPath(page);
     await openCreateSkillPanel(page);
     await expect(panel(page).locator('.panel-title')).toHaveText('Create New Skill');
   });
 
-  test('SKL-E2E-004 blocks skill save when mandatory fields are missing', async () => {
+  test('SKL-E2E-004 @stable @p1 @skills blocks skill save when mandatory fields are missing', async () => {
     const skillsContextReady = await openSkillsSheet(page);
-    test.fixme(!skillsContextReady, noSkillsContextReason);
+    if (!skillsContextReady) {
+      throw new Error(noSkillsContextReason);
+    }
     await selectCiBackedPath(page);
     await openCreateSkillPanel(page);
     await panel(page).getByTitle('Save').click();
@@ -279,9 +285,11 @@ test.describe('Skills sheet-aligned coverage', () => {
     );
   });
 
-  test('SKL-E2E-005 creates a skill successfully with valid mandatory data', async () => {
+  test('SKL-E2E-005 @stable @p1 @skills creates a skill successfully with valid mandatory data', async () => {
     const skillsContextReady = await openSkillsSheet(page);
-    test.fixme(!skillsContextReady, noSkillsContextReason);
+    if (!skillsContextReady) {
+      throw new Error(noSkillsContextReason);
+    }
     await selectCiBackedPath(page);
     await openCreateSkillPanel(page);
     await panel(page).getByPlaceholder('Enter skill name...').fill(`Skill ${Date.now()}`);
@@ -290,61 +298,62 @@ test.describe('Skills sheet-aligned coverage', () => {
     await expect(skillsItems(page).first()).toBeVisible();
   });
 
-  pendingSkillsCase(
+  futureSkillsCase(
     'SKL-E2E-006',
     'blocks duplicate skill creation under the selected CI',
     'Needs an existing skill under a valid CI plus stable backend duplicate validation in the current local environment.'
   );
 
-  pendingSkillsCase(
+  futureSkillsCase(
     'SKL-E2E-007',
     'blocks trim-aware duplicate skill creation under the selected CI',
     'Needs an existing skill under a valid CI plus deterministic duplicate validation for trimmed names.'
   );
 
-  pendingSkillsCase(
+  futureSkillsCase(
     'SKL-E2E-008',
     'does not create a skill when the create panel is closed without save',
     'Needs a valid CI path plus a stable create-panel close path that can be observed in the current local runtime.'
   );
 
-  pendingSkillsCase(
+  futureSkillsCase(
     'SKL-E2E-009',
     'shows the new skill row immediately after save without refresh',
     'Needs successful skill creation under a valid CI path in the current local environment.'
   );
 
-  pendingSkillsCase(
+  futureSkillsCase(
     'SKL-E2E-010',
     'preloads all existing values when editing a skill',
     'Needs a deterministic existing skill row and a stable edit path under a valid CI context.'
   );
 
-  pendingSkillsCase(
+  futureSkillsCase(
     'SKL-E2E-011',
     'shows updated skill values after edit save',
     'Needs a deterministic existing skill row plus stable update coverage under a valid CI context.'
   );
 
-  pendingSkillsCase(
+  futureSkillsCase(
     'SKL-E2E-012',
     'shows the delete icon on the edit skill panel',
     'Needs a deterministic existing skill row and stable edit panel access.'
   );
 
-  pendingSkillsCase(
+  futureSkillsCase(
     'SKL-E2E-013',
     'blocks skill delete when tasks exist under the skill',
     'Needs a seeded skill with child tasks plus a stable dependency-block message in the local runtime.'
   );
 
-  pendingSkillsCase(
+  futureSkillsCase(
     'SKL-E2E-014',
     'deletes a skill successfully when no tasks exist under it',
-    'Needs a childless skill plus stable delete-confirmation behavior under a valid CI context.'
+    'Needs a childless skill plus stable delete-confirmation behavior under a valid CI context.',
+    'p2'
   );
 
-  pendingSkillsCase(
+  futureSkillsCase(
     'SKL-E2E-015',
     'saves an unchanged skill without duplicate validation',
     'Needs a deterministic existing skill row and stable edit-save coverage under a valid CI context.'

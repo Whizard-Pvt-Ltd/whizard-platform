@@ -23,9 +23,9 @@ Main goals:
 You are continuing Playwright test generation work in this repo.
 
 Source material is inside the `temp/` folder. Use these as primary references:
-- `temp/WRCF End-to-End Test Cases_reverified.xlsx`
-- `temp/WRCF definition & Schema.pdf`
 - `temp/WRCF Functional Specs.pdf`
+- `temp/WRCF definition & Schema.pdf`
+- `temp/WRCF End-to-End Test Cases_reverified.xlsx`
 - `temp/College Student Onbaording FS.pdf`
 
 
@@ -44,7 +44,8 @@ Reuse the same structure, style, and coverage pattern from the existing generate
 Primary goal:
 Continue converting the remaining Excel/workbook-driven test cases into Playwright TypeScript specs and matching docs, using the already-created files as guardrails.
 
-Use the PDFs only to clarify business meaning, terminology, and expected behavior when the sheet is ambiguous.
+Use the PDFs as the product source of truth for business meaning, terminology, and expected behavior.
+Use the workbook as the derived case ledger, traceability map, and ID source.
 Use Playwright MCP validation only when necessary to resolve uncertainty.
 Prefer fast, structured continuation over broad re-analysis.
 
@@ -98,7 +99,7 @@ Generated tests should align with the repo’s preferred structure, including:
 ### 6. Execution
 Run tests through Playwright with smart execution strategy:
 - parallel where appropriate
-- tagged suites such as `@smoke`, `@regression`, or priority-based grouping
+- tagged suites such as `@stable`, `@future`, module tags, or priority-based grouping
 - do not run everything every time
 
 ### 7. Debug and Feedback
@@ -134,9 +135,9 @@ Over time, this workflow should support:
 Use the `temp/` folder as the main source area.
 
 Expected source files:
-- `temp/WRCF End-to-End Test Cases_reverified.xlsx`
-- `temp/WRCF definition & Schema.pdf`
 - `temp/WRCF Functional Specs.pdf`
+- `temp/WRCF definition & Schema.pdf`
+- `temp/WRCF End-to-End Test Cases_reverified.xlsx`
 - `temp/College Student Onbaording FS.pdf`
 
 
@@ -171,12 +172,11 @@ Use sources in this order:
    - First reference for structure, naming, style, scenario format, and pending-case handling.
    - Reuse before inventing.
 
-2. **Workbook in `temp/`**
-   - Main source for pending sheet/entity coverage.
-   - Treat workbook-driven coverage as the primary task.
+2. **WRCF PDFs in `temp/`**
+   - Product source of truth for expected behavior and schema intent.
 
-3. **PDFs in `temp/`**
-   - Use only when workbook rows are ambiguous or business meaning needs clarification.
+3. **Workbook in `temp/`**
+   - Derived ledger for case IDs, coverage mapping, and execution planning.
 
 4. **Playwright MCP / Playwright UI validation**
    - Use Playwright MCP as the preferred targeted inspection/validation layer when workbook rows or docs are ambiguous.
@@ -239,6 +239,8 @@ Validation checks should include:
 - required logs/screenshots/debug artifacts are captured on failure
 - companion markdown is updated
 - progress log is updated
+- future/not-yet-implemented coverage should remain visible and tagged, not permanently hidden with long-term `skip`/`fixme`
+- runtime/data blockers should be tracked separately from `@future` feature coverage
 
 These rules may be stored and maintained in:
 - `manual-tests/rules.json`
@@ -270,6 +272,22 @@ Recommended execution strategy:
 - default smoke/regression: run P0 first
 - run P1 when module changes affect validations/branching behavior
 - run P2 selectively or in deeper regression cycles
+
+## Tag Strategy
+
+Keep stable and future coverage in the same spec files.
+
+- `@stable`: default-run coverage that should execute now and fail normally if broken
+- `@future`: authored now from PDFs, workbook rows, screenshots, or Figma, but excluded from the default run
+- `@p0`, `@p1`, `@p2`: priority tags
+- module tags such as `@dashboard`, `@task`, `@skills`
+- blocker tags such as `@blocked-runtime` or `@blocked-data` only to classify why a currently runnable test might fail
+
+Rules:
+- do not use permanent `fixme`/`skip` for future-feature readiness
+- default Playwright runs exclude `@future`
+- explicitly running `@future` tests should execute them normally and allow real failures
+- keep heavy setup inside the tests that need it, especially for `@future` groups
 
 ---
 
@@ -348,9 +366,9 @@ Typical order:
 - Reuse naming patterns, describe blocks, helper style, comments, and pending-case handling from existing specs.
 - If two sheets/entities are structurally similar, adapt the nearest existing successful file.
 
-### Workbook First
-- Remaining work is mainly workbook-driven.
-- Do not over-expand into full product rediscovery for each sheet.
+### PDF-First, Workbook-Ledger
+- Remaining work is still workbook-indexed, but product intent comes from the WRCF PDFs first.
+- Use the workbook to map that intent into case IDs and coverage, not to override PDF-defined behavior.
 
 ### Clarify Only When Needed
 Use PDFs only when:
@@ -415,6 +433,15 @@ After generating each spec:
 
 Do not run everything every time.
 Run according to priority and impact.
+Default runs should exclude future-tagged tests. Future tests should be runnable explicitly when needed.
+
+Recommended commands:
+
+```bash
+corepack pnpm test:playwright:stable
+corepack pnpm test:playwright:stable:p0
+corepack pnpm test:playwright:future
+```
 
 ---
 

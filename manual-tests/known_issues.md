@@ -137,6 +137,19 @@ Codex must read this at the start of every session and avoid repeating these iss
 - Problem: The local environment can expose sectors and industries on `/industry-wrcf` while every discovered `industryId` still loads `/wrcf-skills` with no Functional Group options.
 - Seen in: Manage WRCF Skills reruns on 2026-03-31
 - Rule: Treat missing `industryId -> FG options` resolution as an environment/data blocker for executable manage-skills cases. Document it and avoid failing the whole suite in `beforeEach`.
+
+### 28. Permanent skip/fixme hides future coverage too well
+- Problem: Future or not-yet-implemented tests can become invisible for too long when kept under permanent `skip`/`fixme`.
+- Rule: Keep future coverage visible in the same spec using tags/grouping, and exclude it from default runs instead of permanently muting it.
+
+### 29. Runtime/data blockers must not be modeled as future-feature coverage
+- Problem: A suite can blur together “feature not ready yet” and “current runtime or seed data is missing,” which makes stable failures and future coverage harder to reason about.
+- Rule: Use `@future` only for not-yet-implemented or intentionally deferred behavior. Track current runtime/data blockers separately with docs, progress-log entries, and optional tags such as `@blocked-runtime` or `@blocked-data`.
+
+### 30. Future coverage should avoid inherited heavy setup
+- Problem: A future-only test group can consume time in `beforeEach` or shared discovery even though the default runner excludes it.
+- Rule: Keep expensive setup inside the tagged future tests that need it, or share only lightweight auth/page setup across the file.
+
 ## Add New Entries Like This
 - Pattern:
 - Seen in:

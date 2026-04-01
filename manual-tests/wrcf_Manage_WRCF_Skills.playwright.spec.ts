@@ -211,9 +211,14 @@ async function expectSorted(values: string[]): Promise<void> {
   expect(values).toEqual([...values].sort((a, b) => a.localeCompare(b)));
 }
 
-function pendingManageSkillsCase(id: string, title: string, reason: string): void {
-  test(`${id} ${title}`, async () => {
-    test.fixme(true, reason);
+function futureManageSkillsCase(
+  id: string,
+  title: string,
+  reason: string,
+  priority: 'p0' | 'p1' | 'p2' = 'p1'
+): void {
+  test(`${id} @future @${priority} @manage-skills ${title}`, async () => {
+    throw new Error(reason);
   });
 }
 
@@ -238,30 +243,34 @@ test.describe('Manage WRCF Skills sheet-aligned coverage', () => {
     await context.close();
   });
 
-  pendingManageSkillsCase(
+  futureManageSkillsCase(
     'WSKILL-E2E-001',
     'redirected Manage WRCF Skills inherits the selected FG PWO SWO Capability and Proficiency',
     'Current Industry WRCF + Add Skills navigation only passes industryId, not the full CI filter path.'
   );
 
-  pendingManageSkillsCase(
+  futureManageSkillsCase(
     'WSKILL-E2E-002',
     'opening Manage WRCF Skills directly selects the first valid values automatically',
     'Current page loads FG options but leaves the 5 CI filters unselected until the user chooses them.'
   );
 
-  test('WSKILL-E2E-003 filter dropdowns expose only CI-backed options for the current selection chain', async () => {
+  test('WSKILL-E2E-003 @stable @p0 @manage-skills filter dropdowns expose only CI-backed options for the current selection chain', async () => {
     const skillsContextReady = await openSkillsPage(page);
-    test.fixme(!skillsContextReady, noSkillsContextReason);
+    if (!skillsContextReady) {
+      throw new Error(noSkillsContextReason);
+    }
     await expect(filter(page, 0)).toBeVisible();
     await selectCiBackedPath(page);
     expect(await dropdownLabels(filter(page, 3), /^select capability/)).not.toHaveLength(0);
     expect(await dropdownLabels(filter(page, 4), /^select level/)).not.toHaveLength(0);
   });
 
-  test('WSKILL-E2E-004 filter values are shown in ascending order for each active dropdown', async () => {
+  test('WSKILL-E2E-004 @stable @p0 @manage-skills filter values are shown in ascending order for each active dropdown', async () => {
     const skillsContextReady = await openSkillsPage(page);
-    test.fixme(!skillsContextReady, noSkillsContextReason);
+    if (!skillsContextReady) {
+      throw new Error(noSkillsContextReason);
+    }
     const fgLabels = await dropdownLabels(filter(page, 0), /^select fg/);
     await expectSorted(fgLabels);
 
@@ -280,40 +289,44 @@ test.describe('Manage WRCF Skills sheet-aligned coverage', () => {
     await expectSorted(await dropdownLabels(filter(page, 2), /^select swo/));
   });
 
-  pendingManageSkillsCase(
+  futureManageSkillsCase(
     'WSKILL-E2E-005',
     'first load applies filters automatically and loads skills without manual selection',
     'Current page requires explicit 5-filter selection unless a ciId query param is provided.'
   );
 
-  test('WSKILL-E2E-006 skills column resolves for the selected Capability Instance path', async () => {
+  test('WSKILL-E2E-006 @stable @p0 @manage-skills skills column resolves for the selected Capability Instance path', async () => {
     const skillsContextReady = await openSkillsPage(page);
-    test.fixme(!skillsContextReady, noSkillsContextReason);
+    if (!skillsContextReady) {
+      throw new Error(noSkillsContextReason);
+    }
     await selectCiBackedPath(page);
     await expect(column(page, 'Skills')).toBeVisible();
   });
 
-  pendingManageSkillsCase(
+  futureManageSkillsCase(
     'WSKILL-E2E-007',
     'task list shows only records for the selected skill',
     'Needs a deterministic CI path with at least two seeded skills and task data for both.'
   );
 
-  pendingManageSkillsCase(
+  futureManageSkillsCase(
     'WSKILL-E2E-008',
     'control point list shows only records for the selected task',
     'Needs a deterministic task with seeded control points plus a second task for comparison.'
   );
 
-  pendingManageSkillsCase(
+  futureManageSkillsCase(
     'WSKILL-E2E-009',
     'edit icon appears only for the selected skill task and control point rows',
     'Needs stable seeded rows in all three columns for edit-icon visibility checks.'
   );
 
-  test('WSKILL-E2E-010 changing the top CI filters clears stale downstream list state', async () => {
+  test('WSKILL-E2E-010 @stable @p0 @manage-skills changing the top CI filters clears stale downstream list state', async () => {
     const skillsContextReady = await openSkillsPage(page);
-    test.fixme(!skillsContextReady, noSkillsContextReason);
+    if (!skillsContextReady) {
+      throw new Error(noSkillsContextReason);
+    }
     await selectCiBackedPath(page);
     await expect(column(page, 'Skills')).toBeVisible();
     await filter(page, 0).selectOption({ index: 0 });

@@ -191,9 +191,9 @@ async function dropdownOptions(select: Locator): Promise<string[]> {
   );
 }
 
-function pendingCiCase(id: string, title: string, reason: string): void {
-  test(`${id} ${title}`, async () => {
-    test.fixme(true, reason);
+function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+  test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {
+    throw new Error(reason);
   });
 }
 
@@ -216,32 +216,32 @@ test.describe('CI Mapping sheet-aligned coverage', () => {
     await context.close();
   });
 
-  test('CIMAP-E2E-001 shows a saved proficiency with the green mapped indicator for the selected path', async () => {
+  test('CIMAP-E2E-001 @stable @p0 @ci-mapping shows a saved proficiency with the green mapped indicator for the selected path', async () => {
     try {
       await findCapabilityWithState(page, 'saved');
     } catch {
-      test.fixme(true, 'Needs at least one saved CI in the selected local hierarchy path.');
+      throw new Error('Needs at least one saved CI in the selected local hierarchy path.');
     }
 
     await expect(savedProficiencyRows(page).first().locator('.checkbox-btn')).toHaveClass(/saved/);
   });
 
-  test('CIMAP-E2E-002 shows actionable radio buttons for unmapped proficiencies on the selected path', async () => {
+  test('CIMAP-E2E-002 @stable @p0 @ci-mapping shows actionable radio buttons for unmapped proficiencies on the selected path', async () => {
     try {
       await findCapabilityWithState(page, 'unmapped');
     } catch {
-      test.fixme(true, 'Needs at least one unmapped proficiency in the selected local hierarchy path.');
+      throw new Error('Needs at least one unmapped proficiency in the selected local hierarchy path.');
     }
 
     await expect(unmappedProficiencyRows(page).first().locator('.checkbox-btn')).toBeVisible();
     await expect(unmappedProficiencyRows(page).first().locator('.checkbox-btn')).not.toHaveClass(/saved/);
   });
 
-  test('CIMAP-E2E-003 selecting an unmapped proficiency increases the Mappings pending count immediately', async () => {
+  test('CIMAP-E2E-003 @stable @p0 @ci-mapping selecting an unmapped proficiency increases the Mappings pending count immediately', async () => {
     try {
       await findCapabilityWithState(page, 'unmapped');
     } catch {
-      test.fixme(true, 'Needs at least one unmapped proficiency to stage a pending mapping.');
+      throw new Error('Needs at least one unmapped proficiency to stage a pending mapping.');
     }
 
     const before = await pendingCount(page);
@@ -250,11 +250,11 @@ test.describe('CI Mapping sheet-aligned coverage', () => {
     await expect(checkedProficiencyRows(page).first().locator('.checkbox-btn')).toHaveClass(/checked/);
   });
 
-  test('CIMAP-E2E-004 clicking the same pending proficiency again removes it from the Mappings count', async () => {
+  test('CIMAP-E2E-004 @stable @p0 @ci-mapping clicking the same pending proficiency again removes it from the Mappings count', async () => {
     try {
       await findCapabilityWithState(page, 'unmapped');
     } catch {
-      test.fixme(true, 'Needs at least one unmapped proficiency to stage and remove a pending mapping.');
+      throw new Error('Needs at least one unmapped proficiency to stage and remove a pending mapping.');
     }
 
     const before = await pendingCount(page);
@@ -264,11 +264,11 @@ test.describe('CI Mapping sheet-aligned coverage', () => {
     await expect(mappingBadge(page)).toHaveText(String(before));
   });
 
-  test('CIMAP-E2E-005 can stage more than one pending CI combination and keeps the pending count cumulative', async () => {
+  test('CIMAP-E2E-005 @stable @p0 @ci-mapping can stage more than one pending CI combination and keeps the pending count cumulative', async () => {
     try {
       await findCapabilityWithState(page, 'unmapped');
     } catch {
-      test.fixme(true, 'Needs unmapped proficiencies to stage multiple pending mappings.');
+      throw new Error('Needs unmapped proficiencies to stage multiple pending mappings.');
     }
 
     const before = await pendingCount(page);
@@ -295,18 +295,18 @@ test.describe('CI Mapping sheet-aligned coverage', () => {
       }
 
       if (!foundSecond) {
-        test.fixme(true, 'Needs at least two unmapped combinations in the local hierarchy path.');
+        throw new Error('Needs at least two unmapped combinations in the local hierarchy path.');
       }
     }
 
     await expect(mappingBadge(page)).toHaveText(String(before + staged));
   });
 
-  test('CIMAP-E2E-006 clicking an already mapped proficiency does not create a duplicate pending entry', async () => {
+  test('CIMAP-E2E-006 @stable @p0 @ci-mapping clicking an already mapped proficiency does not create a duplicate pending entry', async () => {
     try {
       await findCapabilityWithState(page, 'saved');
     } catch {
-      test.fixme(true, 'Needs at least one saved CI in the selected local hierarchy path.');
+      throw new Error('Needs at least one saved CI in the selected local hierarchy path.');
     }
 
     const before = await pendingCount(page);
@@ -316,17 +316,17 @@ test.describe('CI Mapping sheet-aligned coverage', () => {
     await expect(page.locator('.toast-banner')).toContainText(/already exists/i);
   });
 
-  pendingCiCase('CIMAP-E2E-007', 'proficiency state belongs only to the currently selected FG PWO SWO Capability path', 'Needs at least two deterministic hierarchy paths with different saved CI states.');
-  pendingCiCase('CIMAP-E2E-008', 'proficiency mapping refreshes correctly when capability changes under the same SWO', 'Needs a deterministic SWO with different saved states across multiple capabilities.');
-  pendingCiCase('CIMAP-E2E-009', 'saving pending mappings resets the parent pending counter', 'Needs live save execution plus deterministic cleanup for created CI records.');
-  pendingCiCase('CIMAP-E2E-010', 'closing the popup without save discards parent pending mappings', 'Current UI keeps parent pending cache outside the popup; workbook expects discard-on-close behavior.');
+  futureCiCase('CIMAP-E2E-007', 'proficiency state belongs only to the currently selected FG PWO SWO Capability path', 'Needs at least two deterministic hierarchy paths with different saved CI states.');
+  futureCiCase('CIMAP-E2E-008', 'proficiency mapping refreshes correctly when capability changes under the same SWO', 'Needs a deterministic SWO with different saved states across multiple capabilities.');
+  futureCiCase('CIMAP-E2E-009', 'saving pending mappings resets the parent pending counter', 'Needs live save execution plus deterministic cleanup for created CI records.');
+  futureCiCase('CIMAP-E2E-010', 'closing the popup without save discards parent pending mappings', 'Current UI keeps parent pending cache outside the popup; workbook expects discard-on-close behavior.');
 
-  test('CIMAP-E2E-011 clicking Mappings opens the Manage CI Mapping popup', async () => {
+  test('CIMAP-E2E-011 @stable @p1 @ci-mapping clicking Mappings opens the Manage CI Mapping popup', async () => {
     await openMappingsDialog(page);
     await expect(dialog(page).getByText('Manage CI Mappings', { exact: true })).toBeVisible();
   });
 
-  test('CIMAP-E2E-012 popup defaults inherit the selected Industry Sector, Industry, and FG from Manage Industry WRCF', async () => {
+  test('CIMAP-E2E-012 @stable @p1 @ci-mapping popup defaults inherit the selected Industry Sector, Industry, and FG from Manage Industry WRCF', async () => {
     const parentFilters = page.locator('.filter-bar .filter-select');
     const parentSector = await parentFilters.nth(0).inputValue();
     const parentIndustry = await parentFilters.nth(1).inputValue();
@@ -342,7 +342,7 @@ test.describe('CI Mapping sheet-aligned coverage', () => {
     }
   });
 
-  test('CIMAP-E2E-013 popup filter values are shown in alphabetical order', async () => {
+  test('CIMAP-E2E-013 @stable @p1 @ci-mapping popup filter values are shown in alphabetical order', async () => {
     await openMappingsDialog(page);
     await expect(dropdownOptions(dialogFilter(page, 0))).resolves.toEqual(
       [...await dropdownOptions(dialogFilter(page, 0))].sort((a, b) => a.localeCompare(b))
@@ -355,12 +355,12 @@ test.describe('CI Mapping sheet-aligned coverage', () => {
     );
   });
 
-  test('CIMAP-E2E-014 popup content stays scoped to the inherited sector industry and FG context', async () => {
+  test('CIMAP-E2E-014 @stable @p1 @ci-mapping popup content stays scoped to the inherited sector industry and FG context', async () => {
     try {
       await findCapabilityWithState(page, 'unmapped');
       await toggleFirstUnmappedProficiency(page);
     } catch {
-      test.fixme(true, 'Needs an unmapped proficiency to create a visible pending entry for scope validation.');
+      throw new Error('Needs an unmapped proficiency to create a visible pending entry for scope validation.');
     }
 
     await openMappingsDialog(page);
@@ -370,38 +370,38 @@ test.describe('CI Mapping sheet-aligned coverage', () => {
     await expect(pendingCiRows(page).first()).toBeVisible();
   });
 
-  test('CIMAP-E2E-015 popup groups CI entries under PWO accordions', async () => {
+  test('CIMAP-E2E-015 @stable @p1 @ci-mapping popup groups CI entries under PWO accordions', async () => {
     await openMappingsDialog(page);
     await expect(pwoGroups(page).first()).toBeVisible();
     await expect(pwoHeader(page).first()).toContainText(/^PWO:/);
   });
 
-  pendingCiCase('CIMAP-E2E-016', 'PWO accordions are ordered alphabetically', 'Current popup groups preserve API/cache order; workbook expects explicit alphabetical ordering.');
+  futureCiCase('CIMAP-E2E-016', 'PWO accordions are ordered alphabetically', 'Current popup groups preserve API/cache order; workbook expects explicit alphabetical ordering.');
 
-  test('CIMAP-E2E-017 each popup CI row shows SWO Capability and Proficiency in a readable line item', async () => {
+  test('CIMAP-E2E-017 @stable @p1 @ci-mapping each popup CI row shows SWO Capability and Proficiency in a readable line item', async () => {
     await openMappingsDialog(page);
     await expect(ciRows(page).first()).toContainText(/\+\s+.+\(.+\)\s+.\s+L\d/i);
   });
 
-  test('CIMAP-E2E-018 new unsaved mappings are visually tagged as pending in the popup', async () => {
+  test('CIMAP-E2E-018 @stable @p1 @ci-mapping new unsaved mappings are visually tagged as pending in the popup', async () => {
     try {
       await findCapabilityWithState(page, 'unmapped');
       await toggleFirstUnmappedProficiency(page);
     } catch {
-      test.fixme(true, 'Needs an unmapped proficiency to stage a pending CI.');
+      throw new Error('Needs an unmapped proficiency to stage a pending CI.');
     }
 
     await openMappingsDialog(page);
     await expect(pendingCiRows(page).first()).toContainText(/pending/i);
   });
 
-  test('CIMAP-E2E-019 popup shows only saved or pending CI rows instead of the full unmapped combination space', async () => {
+  test('CIMAP-E2E-019 @stable @p1 @ci-mapping popup shows only saved or pending CI rows instead of the full unmapped combination space', async () => {
     await openMappingsDialog(page);
     await expect(ciRows(page).first()).toBeVisible();
     await expect(dialog(page).getByText('No capability instances found.')).toHaveCount(0);
   });
 
-  test('CIMAP-E2E-020 each PWO accordion badge matches the number of CI rows rendered in that group', async () => {
+  test('CIMAP-E2E-020 @stable @p1 @ci-mapping each PWO accordion badge matches the number of CI rows rendered in that group', async () => {
     await openMappingsDialog(page);
     const groups = await pwoGroups(page).count();
     expect(groups).toBeGreaterThan(0);
@@ -414,12 +414,12 @@ test.describe('CI Mapping sheet-aligned coverage', () => {
     }
   });
 
-  test('CIMAP-E2E-021 deleting a pending mapping removes it from the popup immediately', async () => {
+  test('CIMAP-E2E-021 @stable @p1 @ci-mapping deleting a pending mapping removes it from the popup immediately', async () => {
     try {
       await findCapabilityWithState(page, 'unmapped');
       await toggleFirstUnmappedProficiency(page);
     } catch {
-      test.fixme(true, 'Needs an unmapped proficiency to stage a pending CI.');
+      throw new Error('Needs an unmapped proficiency to stage a pending CI.');
     }
 
     await openMappingsDialog(page);
@@ -428,24 +428,24 @@ test.describe('CI Mapping sheet-aligned coverage', () => {
     await expect(pendingCiRows(page)).toHaveCount(before - 1);
   });
 
-  test('CIMAP-E2E-022 existing saved CI rows expose a delete action in the popup', async () => {
+  test('CIMAP-E2E-022 @stable @p1 @ci-mapping existing saved CI rows expose a delete action in the popup', async () => {
     await openMappingsDialog(page);
     const savedRows = ciRows(page).filter({ hasNot: page.locator('.pending-badge') });
     if ((await savedRows.count()) === 0) {
-      test.fixme(true, 'Needs at least one existing saved CI row in the popup.');
+      throw new Error('Needs at least one existing saved CI row in the popup.');
     }
     await expect(savedRows.first().getByTitle('Delete')).toBeVisible();
   });
 
-  pendingCiCase('CIMAP-E2E-023', 'deleting an existing CI with linked skills shows a dependency warning', 'Needs seeded CI rows with downstream skill dependencies.');
-  pendingCiCase('CIMAP-E2E-024', 'existing CI without downstream dependency can be deleted successfully', 'Needs deterministic childless CI data and cleanup-safe delete coverage.');
+  futureCiCase('CIMAP-E2E-023', 'deleting an existing CI with linked skills shows a dependency warning', 'Needs seeded CI rows with downstream skill dependencies.');
+  futureCiCase('CIMAP-E2E-024', 'existing CI without downstream dependency can be deleted successfully', 'Needs deterministic childless CI data and cleanup-safe delete coverage.');
 
-  test('CIMAP-E2E-025 deleting a pending mapping shows no dependency warning', async () => {
+  test('CIMAP-E2E-025 @stable @p1 @ci-mapping deleting a pending mapping shows no dependency warning', async () => {
     try {
       await findCapabilityWithState(page, 'unmapped');
       await toggleFirstUnmappedProficiency(page);
     } catch {
-      test.fixme(true, 'Needs an unmapped proficiency to stage a pending CI.');
+      throw new Error('Needs an unmapped proficiency to stage a pending CI.');
     }
 
     await openMappingsDialog(page);
@@ -453,14 +453,14 @@ test.describe('CI Mapping sheet-aligned coverage', () => {
     await expect(page.locator('.error-banner')).toHaveCount(0);
   });
 
-  pendingCiCase('CIMAP-E2E-026', 'clicking outside the popup does not close it', 'Current popup backdrop click closes the dialog; workbook expects a non-dismissable outside-click behavior.');
-  pendingCiCase('CIMAP-E2E-027', 'close or cancel leaves no unsaved pending mappings behind', 'Current UI retains parent pending cache after dialog close or cancel.');
-  pendingCiCase('CIMAP-E2E-028', 'save persists all newly pending CI mappings', 'Needs live save execution plus deterministic cleanup for created CI records.');
-  pendingCiCase('CIMAP-E2E-029', 'save resets the pending counter on the parent Mappings button', 'Needs save coverage and deterministic cleanup for created CI records.');
-  pendingCiCase('CIMAP-E2E-030', 'duplicate CI combinations cannot be saved twice', 'Needs controlled duplicate-save setup and backend-visible validation path.');
-  pendingCiCase('CIMAP-E2E-031', 'popup filters show only sector industry and FG combinations that already have mapped or pending data', 'Current popup loads sector, industry, and FG options from master lists rather than mapped-only subsets.');
-  pendingCiCase('CIMAP-E2E-032', 'changing popup filters refreshes accordion content without stale rows', 'Needs deterministic multi-FG mapped data in the local environment.');
-  pendingCiCase('CIMAP-E2E-033', 'pending items from one FG do not appear after switching popup filters to another FG', 'Current popup groups all parent cache entries regardless of selected FG filter.');
-  pendingCiCase('CIMAP-E2E-034', 'partial save failure leaves the popup in a consistent state', 'Needs backend validation conflicts or mixed save success fixtures.');
-  pendingCiCase('CIMAP-E2E-035', 'saved mappings reopen as normal mapped entries rather than pending rows', 'Needs live save execution plus deterministic cleanup for created CI records.');
+  futureCiCase('CIMAP-E2E-026', 'clicking outside the popup does not close it', 'Current popup backdrop click closes the dialog; workbook expects a non-dismissable outside-click behavior.');
+  futureCiCase('CIMAP-E2E-027', 'close or cancel leaves no unsaved pending mappings behind', 'Current UI retains parent pending cache after dialog close or cancel.');
+  futureCiCase('CIMAP-E2E-028', 'save persists all newly pending CI mappings', 'Needs live save execution plus deterministic cleanup for created CI records.');
+  futureCiCase('CIMAP-E2E-029', 'save resets the pending counter on the parent Mappings button', 'Needs save coverage and deterministic cleanup for created CI records.');
+  futureCiCase('CIMAP-E2E-030', 'duplicate CI combinations cannot be saved twice', 'Needs controlled duplicate-save setup and backend-visible validation path.');
+  futureCiCase('CIMAP-E2E-031', 'popup filters show only sector industry and FG combinations that already have mapped or pending data', 'Current popup loads sector, industry, and FG options from master lists rather than mapped-only subsets.');
+  futureCiCase('CIMAP-E2E-032', 'changing popup filters refreshes accordion content without stale rows', 'Needs deterministic multi-FG mapped data in the local environment.');
+  futureCiCase('CIMAP-E2E-033', 'pending items from one FG do not appear after switching popup filters to another FG', 'Current popup groups all parent cache entries regardless of selected FG filter.');
+  futureCiCase('CIMAP-E2E-034', 'partial save failure leaves the popup in a consistent state', 'Needs backend validation conflicts or mixed save success fixtures.');
+  futureCiCase('CIMAP-E2E-035', 'saved mappings reopen as normal mapped entries rather than pending rows', 'Needs live save execution plus deterministic cleanup for created CI records.');
 });

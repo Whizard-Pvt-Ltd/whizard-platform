@@ -10,7 +10,8 @@ Sheet-aligned coverage for the `Manage WRCF` tab in `WRCF End-to-End Test Cases.
 
 - `MIWRCF-E2E-001` through `MIWRCF-E2E-036`
 - executable coverage now includes page load, default sector/industry state, dropdown ordering, FG list visibility/sorting, PWO/SWO column loading, capability visibility, proficiency ordering, and selection persistence
-- workbook rows that require DB comparison, alternate roles, apply-button behavior, or special seeded data are present as explicit pending `fixme` cases with blockers
+- stable runnable coverage is tagged `@stable`
+- workbook rows that require DB comparison, alternate roles, apply-button behavior, or special seeded data are kept in the same spec under `@future`
 
 ## Flow Diagram
 
@@ -32,7 +33,9 @@ Login
 
 - Uses the live WRCF UI
 - Full sheet ID coverage is present even when some rows are still blocked by environment or product prerequisites
-- Uses pending `fixme` tests to keep blocked workbook rows visible in the report count
+- Uses tags instead of permanent `fixme` for future-feature and blocked coverage:
+  - stable coverage runs by default
+  - future coverage remains visible under `@future`
 
 ## Pending Cases And Blockers
 

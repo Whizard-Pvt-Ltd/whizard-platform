@@ -27,6 +27,10 @@
     "create or update companion markdown with each spec",
     "run the relevant priority set after generation",
     "capture failures and update memory files",
+    "future coverage should be tagged and remain visible instead of being permanently skipped",
+    "default suites should exclude future-tagged tests rather than hiding them with long-term fixme/skip",
+    "feature-readiness coverage must not use permanent skip/fixme; keep it executable under @future",
+    "runtime/data blockers must be documented separately from future-feature coverage",
     "do not mark a generated spec as complete unless it has been run or an execution blocker has been documented",
     "if a suite was generated earlier without a trustworthy execution attempt, move it back to revalidation status until rerun"
   ],
@@ -50,6 +54,15 @@
     "do not restate full project background",
     "work on the next pending entity or small batch",
     "use PDFs as the primary product source",
-    "use the workbook as a derived coverage map"
+    "use the workbook as a derived coverage map",
+    "use tags/grouping to separate stable and future coverage without duplicating files"
+  ],
+  "playwright_tag_rules": [
+    "tag stable runnable coverage with @stable",
+    "tag deferred feature coverage with @future",
+    "tag priorities with @p0, @p1, or @p2",
+    "use module tags like @dashboard, @task, or @skills when they improve targeted runs",
+    "default Playwright execution should exclude @future via grep-invert",
+    "explicit future runs should include @future and allow normal failures"
   ]
 }

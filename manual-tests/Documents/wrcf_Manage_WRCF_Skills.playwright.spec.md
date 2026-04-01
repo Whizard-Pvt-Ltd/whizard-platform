@@ -17,13 +17,13 @@ PDF-backed coverage for the WRCF Manage Skills flow, traced to the `Manage WRCF 
 ```text
 Login
   -> open /industry-wrcf
-  -> capture selected industry id
-  -> open /wrcf-skills?industryId=...
-  -> select FG
-  -> select PWO
-  -> select SWO
-  -> select Capability
-  -> select Proficiency
+  -> select CI in Manage Industry WRCF
+     FG -> PWO -> SWO -> Capability -> Proficiency
+  -> open Manage WRCF Skills
+     current UI supports:
+       + Add Skills -> /wrcf-skills?industryId=...
+       Skill+ in Mappings -> /wrcf-skills?capabilityInstanceId=...
+  -> resolve selected CI context on Manage WRCF Skills
   -> inspect Skills / Task / Control Point behavior
 ```
 
@@ -33,12 +33,16 @@ Login
 - Scenario intent comes from `temp/WRCF Functional Specs.pdf` and `temp/WRCF definition & Schema.pdf`
 - Uses the workbook as the case ledger and test-ID source, while keeping unsupported PDF/workbook expectations visible as pending blockers
 - Focuses this first pass on page-level filter behavior and CI-path resolution before the deeper skill/task/control-point CRUD sheets
-- Local execution on 2026-03-31 found no discovered `industryId` that loaded `/wrcf-skills` with Functional Group options, so the executable-path cases are currently gated behind an environment/data blocker instead of failing in shared setup
+- Workbook intent is CI-first: a selected Capability Instance in Manage Industry WRCF should scope Manage WRCF Skills
+- Current UI has two different entry mechanics, which is part of the present mismatch:
+  - `+ Add Skills` carries only `industryId`
+  - `Skill+` in `Manage CI Mappings` carries `capabilityInstanceId`
+- Local execution has shown that the `industryId` path is not sufficient for stable CI-scoped CRUD coverage, so downstream suites are being re-aligned around the selected-CI `Skill+` workflow
 
 ## Pending Cases And Blockers
 
 - `WSKILL-E2E-001`
-  Blocker: current `+ Add Skills` navigation from Industry WRCF only carries `industryId`, not the full selected CI path.
+  Blocker: workbook expects the selected CI to carry forward, but current `+ Add Skills` navigation only carries `industryId`; the more faithful current UI path is `Skill+` from `Manage CI Mappings`.
 - `WSKILL-E2E-002`, `WSKILL-E2E-005`
   Blocker: current page does not auto-select all 5 CI filters on direct open without a `ciId` query param.
 - `WSKILL-E2E-003`, `WSKILL-E2E-004`, `WSKILL-E2E-006`, `WSKILL-E2E-010`

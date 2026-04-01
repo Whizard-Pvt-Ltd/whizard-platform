@@ -27,6 +27,18 @@ Login
           -> edit / save / delete
 ```
 
+## Navigation Notes
+
+- Entry page: `Manage Industry WRCF` at `/industry-wrcf`
+- Parent selections before PWO actions:
+  - Industry Sector
+  - Industry
+  - Functional Group
+- PWO is managed in the `Primary Work Obj.` column after an FG is selected
+- Downstream handoff from a selected PWO is:
+  - PWO -> SWO -> Capability -> Proficiency
+- Delete and parent-scope assertions depend on the currently selected FG context
+
 ## Notes
 
 - Uses reusable auth state under `manual-tests/.auth/`

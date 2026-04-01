@@ -267,9 +267,9 @@ async function selectSwoContext(page: Page): Promise<void> {
   await selectPrimaryWorkObjectWithExistingSwo(page);
 }
 
-function pendingSwoCase(id: string, title: string, reason: string): void {
-  test(`${id} ${title}`, async () => {
-    test.fixme(true, reason);
+function futureSwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+  test(`${id} @future @${priority} @swo ${title}`, async () => {
+    throw new Error(reason);
   });
 }
 
@@ -293,20 +293,20 @@ test.describe('Secondary Work Object sheet-aligned coverage', () => {
     await context.close();
   });
 
-  test('SWO-E2E-001 shows only active and latest published SWO for the selected PWO', async () => {
+  test('SWO-E2E-001 @stable @p0 @swo shows only active and latest published SWO for the selected PWO', async () => {
     await expect(column(page, 'Secondary Work Obj.')).toBeVisible();
   });
 
-  test('SWO-E2E-002 shows the add icon for SWO', async () => {
+  test('SWO-E2E-002 @stable @p0 @swo shows the add icon for SWO', async () => {
     await expect(column(page, 'Secondary Work Obj.').getByTitle('Add')).toBeVisible();
   });
 
-  test('SWO-E2E-003 opens the Create SWO popup from the add icon', async () => {
+  test('SWO-E2E-003 @stable @p0 @swo opens the Create SWO popup from the add icon', async () => {
     await openCreatePanel(page);
     await expect(panel(page)).toBeVisible();
   });
 
-  test('SWO-E2E-004 keeps Name mandatory in the SWO popup', async () => {
+  test('SWO-E2E-004 @stable @p0 @swo keeps Name mandatory in the SWO popup', async () => {
     const beforeCount = await swoItems(page).count();
     await openCreatePanel(page);
     await savePanel(page);
@@ -314,13 +314,13 @@ test.describe('Secondary Work Object sheet-aligned coverage', () => {
     await expect(swoItems(page)).toHaveCount(beforeCount);
   });
 
-  test('SWO-E2E-005 creates a SWO under the selected PWO with valid data', async () => {
+  test('SWO-E2E-005 @stable @p0 @swo creates a SWO under the selected PWO with valid data', async () => {
     const name = uniqueName('SWO');
     await createSwo(page, name, 'Created by Playwright');
     await deleteSwo(page, name);
   });
 
-  test('SWO-E2E-006 blocks duplicate SWO creation under the same PWO', async () => {
+  test('SWO-E2E-006 @stable @p1 @swo blocks duplicate SWO creation under the same PWO', async () => {
     const existing = (await swoItems(page).first().textContent())?.trim();
     if (!existing) throw new Error('No existing SWO available for duplicate test.');
     await openCreatePanel(page);
@@ -329,7 +329,7 @@ test.describe('Secondary Work Object sheet-aligned coverage', () => {
     await expect(panel(page)).toBeVisible();
   });
 
-  test('SWO-E2E-007 blocks trim-aware duplicate SWO creation under the same PWO', async () => {
+  test('SWO-E2E-007 @stable @p1 @swo blocks trim-aware duplicate SWO creation under the same PWO', async () => {
     const existing = (await swoItems(page).first().textContent())?.trim();
     if (!existing) throw new Error('No existing SWO available for duplicate test.');
     await openCreatePanel(page);
@@ -338,21 +338,21 @@ test.describe('Secondary Work Object sheet-aligned coverage', () => {
     await expect(panel(page)).toBeVisible();
   });
 
-  pendingSwoCase('SWO-E2E-008', 'same SWO name under different PWO follows parent-scoped uniqueness rules', 'Needs a deterministic second PWO context and confirmed parent-scoped uniqueness rule.');
+  futureSwoCase('SWO-E2E-008', 'same SWO name under different PWO follows parent-scoped uniqueness rules', 'Needs a deterministic second PWO context and confirmed parent-scoped uniqueness rule.');
 
-  test('SWO-E2E-009 refreshes the SWO list immediately after add', async () => {
+  test('SWO-E2E-009 @stable @p1 @swo refreshes the SWO list immediately after add', async () => {
     const name = uniqueName('SWO Refresh');
     await createSwo(page, name);
     await expect(swoRow(page, name)).toBeVisible();
     await deleteSwo(page, name);
   });
 
-  test('SWO-E2E-010 keeps the SWO list alphabetical after add and update', async () => {
+  test('SWO-E2E-010 @stable @p1 @swo keeps the SWO list alphabetical after add and update', async () => {
     const names = (await swoItems(page).allTextContents()).map(value => value.trim()).filter(Boolean);
     expect(names).toEqual([...names].sort((a, b) => a.localeCompare(b)));
   });
 
-  test('SWO-E2E-011 opens the edit popup with selected SWO values preloaded', async () => {
+  test('SWO-E2E-011 @stable @p1 @swo opens the edit popup with selected SWO values preloaded', async () => {
     const name = (await swoItems(page).first().textContent())?.trim();
     if (!name) throw new Error('No SWO available for edit preload check.');
     await openEditPanel(page, name);
@@ -360,9 +360,9 @@ test.describe('Secondary Work Object sheet-aligned coverage', () => {
     await closePanel(page);
   });
 
-  test('SWO-E2E-012 validates blank and duplicate values on SWO edit', async () => {
+  test('SWO-E2E-012 @future @p1 @swo @blocked-data validates blank and duplicate values on SWO edit', async () => {
     if ((await swoItems(page).count()) < 2) {
-      test.fixme(true, 'Needs at least two SWO rows in the selected PWO for duplicate-edit validation.');
+      throw new Error('Needs at least two SWO rows in the selected PWO for duplicate-edit validation.');
     }
     const firstName = (await swoItems(page).nth(0).textContent())?.trim() || '';
     const secondName = (await swoItems(page).nth(1).textContent())?.trim() || '';
@@ -375,7 +375,7 @@ test.describe('Secondary Work Object sheet-aligned coverage', () => {
     await expect(panel(page)).toBeVisible();
   });
 
-  test('SWO-E2E-013 saves unchanged SWO values without duplicate validation', async () => {
+  test('SWO-E2E-013 @stable @p1 @swo saves unchanged SWO values without duplicate validation', async () => {
     const name = (await swoItems(page).first().textContent())?.trim();
     if (!name) throw new Error('No SWO available for unchanged-save test.');
     await openEditPanel(page, name);
@@ -383,7 +383,7 @@ test.describe('Secondary Work Object sheet-aligned coverage', () => {
     await expect(panel(page)).not.toBeVisible();
   });
 
-  test('SWO-E2E-014 shows updated SWO values in the list after save', async () => {
+  test('SWO-E2E-014 @stable @p1 @swo shows updated SWO values in the list after save', async () => {
     const name = uniqueName('SWO Update');
     const updated = uniqueName('SWO Updated');
     await createSwo(page, name, 'Before update');
@@ -395,24 +395,24 @@ test.describe('Secondary Work Object sheet-aligned coverage', () => {
     await deleteSwo(page, updated);
   });
 
-  pendingSwoCase('SWO-E2E-015', 'asks for confirmation before deleting a SWO', 'Current local SWO delete behavior has not yet been confirmed with a stable confirmation dialog.');
+  futureSwoCase('SWO-E2E-015', 'asks for confirmation before deleting a SWO', 'Current local SWO delete behavior has not yet been confirmed with a stable confirmation dialog.');
 
-  test('SWO-E2E-016 deletes a SWO when no downstream dependency blocks it', async () => {
+  test('SWO-E2E-016 @stable @p1 @swo deletes a SWO when no downstream dependency blocks it', async () => {
     const name = uniqueName('SWO Delete');
     await createSwo(page, name);
     await deleteSwo(page, name);
   });
 
-  pendingSwoCase('SWO-E2E-017', 'blocks SWO delete when downstream mapped data exists', 'Needs seeded downstream mapping data and confirmed delete-block UI behavior.');
+  futureSwoCase('SWO-E2E-017', 'blocks SWO delete when downstream mapped data exists', 'Needs seeded downstream mapping data and confirmed delete-block UI behavior.');
 
-  test('SWO-E2E-018 creates the SWO only under the selected PWO', async () => {
+  test('SWO-E2E-018 @stable @p1 @swo creates the SWO only under the selected PWO', async () => {
     const name = uniqueName('SWO Parent Scope');
     await createSwo(page, name);
     await expect(column(page, 'Secondary Work Obj.')).toContainText(name);
     await deleteSwo(page, name);
   });
 
-  test('SWO-E2E-019 shows valid enum values for Operational Complexity, Asset Criticality, and Failure Frequency', async () => {
+  test('SWO-E2E-019 @stable @p1 @swo shows valid enum values for Operational Complexity, Asset Criticality, and Failure Frequency', async () => {
     await openCreatePanel(page);
     const combos = panel(page).getByRole('combobox');
     expect(await combos.nth(0).locator('option').count()).toBeGreaterThan(0);
@@ -421,5 +421,5 @@ test.describe('Secondary Work Object sheet-aligned coverage', () => {
     await closePanel(page);
   });
 
-  pendingSwoCase('SWO-E2E-020', 'new SWO becomes selectable for downstream CI mapping after successful create', 'Needs CI Mapping workflow coverage and stable downstream selection assertions.');
+  futureSwoCase('SWO-E2E-020', 'new SWO becomes selectable for downstream CI mapping after successful create', 'Needs CI Mapping workflow coverage and stable downstream selection assertions.', 'p2');
 });

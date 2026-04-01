@@ -31,6 +31,17 @@ Login
           -> if needed create child PWO to validate delete dependency block
 ```
 
+## Navigation Notes
+
+- Entry page: `Manage Industry WRCF` at `/industry-wrcf`
+- Parent selections before Functional Group actions:
+  - Industry Sector
+  - Industry
+- Functional Group is the first hierarchy column under the selected industry context
+- Downstream handoff from a selected FG is:
+  - FG -> PWO -> SWO -> Capability -> Proficiency
+- FG tests only exercise the first hierarchy layer and create child PWO data only when needed for delete-dependency coverage
+
 ## Current Run Summary
 
 - Current ordered run artifact: [wrcf-functional-group-results.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/results/wrcf-functional-group-results.md)

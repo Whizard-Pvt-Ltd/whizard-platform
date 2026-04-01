@@ -311,26 +311,26 @@ test.describe('WRCF Functional Group', () => {
     await openWrcfAndSelectIndustryContext(page);
   });
 
-  test('FG-E2E-001 lists functional groups for the selected industry context', async () => {
+  test('FG-E2E-001 @stable @p0 @fg lists functional groups for the selected industry context', async () => {
     await expect(column(page, 'Functional Group')).toContainText('Coal Handling System');
     await expect(column(page, 'Functional Group').locator('.item')).toHaveCount(await column(page, 'Functional Group').locator('.item').count());
   });
 
-  test('FG-E2E-002 shows the add icon in the Functional Group column header', async () => {
+  test('FG-E2E-002 @stable @p0 @fg shows the add icon in the Functional Group column header', async () => {
     await expect(column(page, 'Functional Group').getByTitle('Add')).toBeVisible();
   });
 
-  test('FG-E2E-003 opens the Create Functional Group popup from the add icon', async () => {
+  test('FG-E2E-003 @stable @p0 @fg opens the Create Functional Group popup from the add icon', async () => {
     await openCreatePanel(page);
     await expect(panel(page)).toBeVisible();
   });
 
-  test('FG-E2E-004 shows Create Functional Group as the popup title', async () => {
+  test('FG-E2E-004 @stable @p1 @fg shows Create Functional Group as the popup title', async () => {
     await openCreatePanel(page);
     await expect(panel(page).getByText('Create Functional Group', { exact: true })).toBeVisible();
   });
 
-  test('FG-E2E-005 keeps Name mandatory while Description and Domain Type remain optional', async () => {
+  test('FG-E2E-005 @stable @p0 @fg keeps Name mandatory while Description and Domain Type remain optional', async () => {
     const beforeCount = await column(page, 'Functional Group').locator('.item').count();
 
     await openCreatePanel(page);
@@ -341,7 +341,7 @@ test.describe('WRCF Functional Group', () => {
     await expect(column(page, 'Functional Group').locator('.item')).toHaveCount(beforeCount);
   });
 
-  test('FG-E2E-006 accepts a 50 character name and blocks a 51 character name', async () => {
+  test('FG-E2E-006 @stable @p1 @fg accepts a 50 character name and blocks a 51 character name', async () => {
     const runId = `${Date.now()}${Math.floor(Math.random() * 100)}`;
     const validName = fixedLengthName(50 - runId.length) + runId;
     const tooLongName = fixedLengthName(51 - runId.length) + runId;
@@ -357,7 +357,7 @@ test.describe('WRCF Functional Group', () => {
     await expect(functionalGroupRow(page, tooLongName)).toHaveCount(0);
   });
 
-  test('FG-E2E-007 saves a functional group with Name only', async () => {
+  test('FG-E2E-007 @stable @p0 @fg saves a functional group with Name only', async () => {
     const name = uniqueName('FG Minimal');
 
     await createFunctionalGroup(page, name);
@@ -365,7 +365,7 @@ test.describe('WRCF Functional Group', () => {
     await deleteFunctionalGroup(page, name);
   });
 
-  test('FG-E2E-008 does not save a blank functional group name', async () => {
+  test('FG-E2E-008 @stable @p0 @fg does not save a blank functional group name', async () => {
     const beforeCount = await column(page, 'Functional Group').locator('.item').count();
 
     await openCreatePanel(page);
@@ -375,7 +375,7 @@ test.describe('WRCF Functional Group', () => {
     await expect(column(page, 'Functional Group').locator('.item')).toHaveCount(beforeCount);
   });
 
-  test('FG-E2E-009 blocks duplicate functional group names on add', async () => {
+  test('FG-E2E-009 @stable @p0 @fg blocks duplicate functional group names on add', async () => {
     await openCreatePanel(page);
     await panel(page).getByPlaceholder('Enter Name...').fill('Coal Handling System');
     await savePanel(page);
@@ -384,7 +384,7 @@ test.describe('WRCF Functional Group', () => {
     await expect(errorBanner(page)).toContainText(/duplicate|exists|already/i);
   });
 
-  test('FG-E2E-010 blocks duplicates that differ only by trailing spaces', async () => {
+  test('FG-E2E-010 @stable @p1 @fg blocks duplicates that differ only by trailing spaces', async () => {
     await openCreatePanel(page);
     await panel(page).getByPlaceholder('Enter Name...').fill('Coal Handling System   ');
     await savePanel(page);
@@ -393,7 +393,7 @@ test.describe('WRCF Functional Group', () => {
     await expect(errorBanner(page)).toContainText(/duplicate|exists|already/i);
   });
 
-  test('FG-E2E-011 handles apostrophes and special characters in the name', async () => {
+  test('FG-E2E-011 @stable @p1 @fg handles apostrophes and special characters in the name', async () => {
     const name = uniqueName("FG'01 @");
 
     await createFunctionalGroup(page, name, { description: "Operator's FG @ 01" });
@@ -401,7 +401,7 @@ test.describe('WRCF Functional Group', () => {
     await deleteFunctionalGroup(page, name);
   });
 
-  test('FG-E2E-012 closes the add panel without saving when cancel is used', async () => {
+  test('FG-E2E-012 @stable @p1 @fg closes the add panel without saving when cancel is used', async () => {
     const name = uniqueName('FG Cancel');
 
     await openCreatePanel(page);
@@ -413,7 +413,7 @@ test.describe('WRCF Functional Group', () => {
     await expect(column(page, 'Functional Group')).not.toContainText(name);
   });
 
-  test('FG-E2E-013 refreshes the list immediately after add', async () => {
+  test('FG-E2E-013 @stable @p1 @fg refreshes the list immediately after add', async () => {
     const name = uniqueName('Boiler Auxiliaries');
 
     await createFunctionalGroup(page, name);
@@ -421,7 +421,7 @@ test.describe('WRCF Functional Group', () => {
     await deleteFunctionalGroup(page, name);
   });
 
-  test('FG-E2E-014 keeps the Functional Group list in alphabetical order', async () => {
+  test('FG-E2E-014 @stable @p1 @fg keeps the Functional Group list in alphabetical order', async () => {
     const names = (await functionalGroupItems(page).allTextContents())
       .map(value => value.trim())
       .filter(Boolean);
@@ -429,12 +429,12 @@ test.describe('WRCF Functional Group', () => {
     expect(names).toEqual([...names].sort((a, b) => a.localeCompare(b)));
   });
 
-  test('FG-E2E-015 shows the edit icon when a Functional Group row is selected', async () => {
+  test('FG-E2E-015 @stable @p1 @fg shows the edit icon when a Functional Group row is selected', async () => {
     await functionalGroupItems(page).first().click();
     await expect(column(page, 'Functional Group').getByTitle('Edit')).toBeVisible();
   });
 
-  test('FG-E2E-016 shows Edit Functional Group as the edit popup title', async () => {
+  test('FG-E2E-016 @stable @p1 @fg shows Edit Functional Group as the edit popup title', async () => {
     const itemName = (await functionalGroupItems(page).first().textContent())?.trim();
     if (!itemName) throw new Error('No Functional Group row available for edit title check.');
 
@@ -443,7 +443,7 @@ test.describe('WRCF Functional Group', () => {
     await closePanel(page);
   });
 
-  test('FG-E2E-017 preloads the selected Functional Group details in the edit popup', async () => {
+  test('FG-E2E-017 @stable @p1 @fg preloads the selected Functional Group details in the edit popup', async () => {
     const item = functionalGroupItems(page).first();
     const itemName = (await item.textContent())?.trim();
     if (!itemName) throw new Error('No Functional Group row available for preload check.');
@@ -453,7 +453,7 @@ test.describe('WRCF Functional Group', () => {
     await closePanel(page);
   });
 
-  test('FG-E2E-018 shows delete, save, and close actions in the edit popup', async () => {
+  test('FG-E2E-018 @stable @p1 @fg shows delete, save, and close actions in the edit popup', async () => {
     const itemName = (await functionalGroupItems(page).first().textContent())?.trim();
     if (!itemName) throw new Error('No Functional Group row available for edit action check.');
 
@@ -464,7 +464,7 @@ test.describe('WRCF Functional Group', () => {
     await closePanel(page);
   });
 
-  test('FG-E2E-019 blocks blank-name and duplicate validation on edit', async () => {
+  test('FG-E2E-019 @stable @p1 @fg blocks blank-name and duplicate validation on edit', async () => {
     const sourceName = uniqueName('FG Edit Validation');
     const otherName = uniqueName('FG Edit Duplicate');
 
@@ -485,7 +485,7 @@ test.describe('WRCF Functional Group', () => {
     await deleteFunctionalGroup(page, sourceName);
   });
 
-  test('FG-E2E-020 saves unchanged edits without showing duplicate validation', async () => {
+  test('FG-E2E-020 @stable @p1 @fg saves unchanged edits without showing duplicate validation', async () => {
     const name = uniqueName('FG Unchanged');
 
     await createFunctionalGroup(page, name);
@@ -498,7 +498,7 @@ test.describe('WRCF Functional Group', () => {
     await deleteFunctionalGroup(page, name);
   });
 
-  test('FG-E2E-021 shows updated functional group values in the list after save', async () => {
+  test('FG-E2E-021 @stable @p1 @fg shows updated functional group values in the list after save', async () => {
     const originalName = uniqueName('FG Update');
     const updatedName = uniqueName('FG Updated');
 
@@ -514,7 +514,7 @@ test.describe('WRCF Functional Group', () => {
     await deleteFunctionalGroup(page, updatedName);
   });
 
-  test('FG-E2E-022 asks for confirmation before deleting a functional group', async () => {
+  test('FG-E2E-022 @stable @p1 @fg asks for confirmation before deleting a functional group', async () => {
     const name = uniqueName('FG Confirm Delete');
 
     await createFunctionalGroup(page, name);
@@ -524,14 +524,14 @@ test.describe('WRCF Functional Group', () => {
     await expect(page.getByText(/confirm|are you sure/i)).toBeVisible();
   });
 
-  test('FG-E2E-023 deletes a functional group when it has no child PWO', async () => {
+  test('FG-E2E-023 @stable @p1 @fg deletes a functional group when it has no child PWO', async () => {
     const name = uniqueName('FG Delete');
 
     await createFunctionalGroup(page, name);
     await deleteFunctionalGroup(page, name);
   });
 
-  test('FG-E2E-024 blocks delete when the functional group has linked PWO records', async () => {
+  test('FG-E2E-024 @stable @p1 @fg blocks delete when the functional group has linked PWO records', async () => {
     const fgName = uniqueName('FG With PWO');
     const pwoName = uniqueName('PWO Child');
 
@@ -547,7 +547,7 @@ test.describe('WRCF Functional Group', () => {
     await deleteFunctionalGroup(page, fgName);
   });
 
-  test('FG-E2E-025 shows toaster feedback for validation and success paths', async () => {
+  test('FG-E2E-025 @stable @p1 @fg shows toaster feedback for validation and success paths', async () => {
     const name = uniqueName('FG Toast');
 
     await openCreatePanel(page);

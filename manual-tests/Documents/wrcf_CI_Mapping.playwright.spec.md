@@ -28,6 +28,21 @@ Login
       -> review grouped saved/pending CI entries
 ```
 
+## Navigation Notes
+
+- Entry page: `Manage Industry WRCF` at `/industry-wrcf`
+- Parent selections used before CI mapping assertions:
+  - Industry Sector
+  - Industry
+  - Functional Group
+  - Primary Work Object
+  - Secondary Work Object
+  - Capability
+- CI mapping state is expressed in the `Proficiency Level` column through checkbox states:
+  - unsaved/pending selection
+  - saved/mapped selection
+- The `Mappings` dialog is the review/save layer for Capability Instances and is also the handoff point to downstream `Manage WRCF Skills` via `Skill+`
+
 ## Notes
 
 - Reuses the existing `/industry-wrcf` auth and hierarchy-selection pattern from the completed WRCF specs

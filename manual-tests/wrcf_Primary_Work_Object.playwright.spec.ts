@@ -240,9 +240,9 @@ async function selectPwoContext(page: Page): Promise<{ fgName: string }> {
   return { fgName };
 }
 
-function pendingPwoCase(id: string, title: string, reason: string): void {
-  test(`${id} ${title}`, async () => {
-    test.fixme(true, reason);
+function futurePwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+  test(`${id} @future @${priority} @pwo ${title}`, async () => {
+    throw new Error(reason);
   });
 }
 
@@ -266,20 +266,20 @@ test.describe('Primary Work Object sheet-aligned coverage', () => {
     await context.close();
   });
 
-  test('PWO-E2E-001 shows only active and latest published PWO for the selected FG', async () => {
+  test('PWO-E2E-001 @stable @p0 @pwo shows only active and latest published PWO for the selected FG', async () => {
     await expect(column(page, 'Primary Work Obj.')).toBeVisible();
   });
 
-  test('PWO-E2E-002 shows the add icon for PWO', async () => {
+  test('PWO-E2E-002 @stable @p0 @pwo shows the add icon for PWO', async () => {
     await expect(column(page, 'Primary Work Obj.').getByTitle('Add')).toBeVisible();
   });
 
-  test('PWO-E2E-003 opens the Create PWO popup from the add icon', async () => {
+  test('PWO-E2E-003 @stable @p0 @pwo opens the Create PWO popup from the add icon', async () => {
     await openCreatePanel(page);
     await expect(panel(page)).toBeVisible();
   });
 
-  test('PWO-E2E-004 keeps Name mandatory while strategic, revenue, and downtime fields use valid defaults', async () => {
+  test('PWO-E2E-004 @stable @p0 @pwo keeps Name mandatory while strategic, revenue, and downtime fields use valid defaults', async () => {
     await expect(pwoItems(page).first()).toBeVisible();
     const beforeCount = await pwoItems(page).count();
     await openCreatePanel(page);
@@ -291,13 +291,13 @@ test.describe('Primary Work Object sheet-aligned coverage', () => {
     await expect(pwoItems(page)).toHaveCount(beforeCount);
   });
 
-  test('PWO-E2E-005 creates a PWO under the selected FG with valid data', async () => {
+  test('PWO-E2E-005 @stable @p0 @pwo creates a PWO under the selected FG with valid data', async () => {
     const name = uniqueName('PWO');
     await createPwo(page, name, 'Created by Playwright');
     await deletePwo(page, name);
   });
 
-  test('PWO-E2E-006 blocks duplicate PWO creation under the same FG', async () => {
+  test('PWO-E2E-006 @stable @p1 @pwo blocks duplicate PWO creation under the same FG', async () => {
     const existing = (await pwoItems(page).first().textContent())?.trim();
     if (!existing) throw new Error('No existing PWO available for duplicate test.');
     await openCreatePanel(page);
@@ -306,7 +306,7 @@ test.describe('Primary Work Object sheet-aligned coverage', () => {
     await expect(panel(page)).toBeVisible();
   });
 
-  test('PWO-E2E-007 blocks trim-aware duplicate PWO creation under the same FG', async () => {
+  test('PWO-E2E-007 @stable @p1 @pwo blocks trim-aware duplicate PWO creation under the same FG', async () => {
     const existing = (await pwoItems(page).first().textContent())?.trim();
     if (!existing) throw new Error('No existing PWO available for duplicate test.');
     await openCreatePanel(page);
@@ -315,22 +315,22 @@ test.describe('Primary Work Object sheet-aligned coverage', () => {
     await expect(panel(page)).toBeVisible();
   });
 
-  pendingPwoCase('PWO-E2E-008', 'same PWO name may be allowed in different FG if parent-scoped uniqueness is the business rule', 'Needs a deterministic second FG context and confirmed parent-scoped uniqueness rule.');
+  futurePwoCase('PWO-E2E-008', 'same PWO name may be allowed in different FG if parent-scoped uniqueness is the business rule', 'Needs a deterministic second FG context and confirmed parent-scoped uniqueness rule.');
 
-  test('PWO-E2E-009 refreshes the PWO list immediately after add', async () => {
+  test('PWO-E2E-009 @stable @p1 @pwo refreshes the PWO list immediately after add', async () => {
     const name = uniqueName('PWO Refresh');
     await createPwo(page, name);
     await expect(pwoRow(page, name)).toBeVisible();
     await deletePwo(page, name);
   });
 
-  pendingPwoCase(
+  futurePwoCase(
     'PWO-E2E-010',
     'keeps the PWO list alphabetical after add and update',
     'Current branch data renders the PWO list in a non-alphabetical order; treat as a documented product/data gap until ordering is guaranteed.'
   );
 
-  test('PWO-E2E-011 opens the edit popup with selected PWO values preloaded', async () => {
+  test('PWO-E2E-011 @stable @p1 @pwo opens the edit popup with selected PWO values preloaded', async () => {
     const item = pwoItems(page).first();
     const name = (await item.textContent())?.trim();
     if (!name) throw new Error('No PWO available for edit preload check.');
@@ -339,9 +339,9 @@ test.describe('Primary Work Object sheet-aligned coverage', () => {
     await closePanel(page);
   });
 
-  test('PWO-E2E-012 validates blank and duplicate values on PWO edit', async () => {
+  test('PWO-E2E-012 @future @p1 @pwo @blocked-data validates blank and duplicate values on PWO edit', async () => {
     if ((await pwoItems(page).count()) < 2) {
-      test.fixme(true, 'Needs at least two PWO rows in the selected FG for duplicate-edit validation.');
+      throw new Error('Needs at least two PWO rows in the selected FG for duplicate-edit validation.');
     }
     const firstName = (await pwoItems(page).nth(0).textContent())?.trim() || '';
     const secondName = (await pwoItems(page).nth(1).textContent())?.trim() || '';
@@ -354,7 +354,7 @@ test.describe('Primary Work Object sheet-aligned coverage', () => {
     await expect(panel(page)).toBeVisible();
   });
 
-  test('PWO-E2E-013 saves unchanged PWO values without duplicate validation', async () => {
+  test('PWO-E2E-013 @stable @p1 @pwo saves unchanged PWO values without duplicate validation', async () => {
     const name = (await pwoItems(page).first().textContent())?.trim();
     if (!name) throw new Error('No PWO available for unchanged-save test.');
     await openEditPanel(page, name);
@@ -362,7 +362,7 @@ test.describe('Primary Work Object sheet-aligned coverage', () => {
     await expect(panel(page)).not.toBeVisible();
   });
 
-  test('PWO-E2E-014 shows updated PWO values in the list after save', async () => {
+  test('PWO-E2E-014 @stable @p1 @pwo shows updated PWO values in the list after save', async () => {
     const name = uniqueName('PWO Update');
     const updated = uniqueName('PWO Updated');
     await createPwo(page, name, 'Before update');
@@ -374,17 +374,17 @@ test.describe('Primary Work Object sheet-aligned coverage', () => {
     await deletePwo(page, updated);
   });
 
-  pendingPwoCase('PWO-E2E-015', 'asks for confirmation before deleting a PWO', 'Current local PWO delete behavior has not yet been confirmed with a stable confirmation dialog.');
+  futurePwoCase('PWO-E2E-015', 'asks for confirmation before deleting a PWO', 'Current local PWO delete behavior has not yet been confirmed with a stable confirmation dialog.');
 
-  test('PWO-E2E-016 deletes a PWO when no SWO exists under it', async () => {
+  test('PWO-E2E-016 @stable @p1 @pwo deletes a PWO when no SWO exists under it', async () => {
     const name = uniqueName('PWO Delete');
     await createPwo(page, name);
     await deletePwo(page, name);
   });
 
-  pendingPwoCase('PWO-E2E-017', 'blocks PWO delete when SWO exists under it', 'Needs a seeded or newly created SWO child under the target PWO and confirmed delete-block UI behavior.');
+  futurePwoCase('PWO-E2E-017', 'blocks PWO delete when SWO exists under it', 'Needs a seeded or newly created SWO child under the target PWO and confirmed delete-block UI behavior.');
 
-  test('PWO-E2E-018 creates the PWO only under the currently selected FG', async () => {
+  test('PWO-E2E-018 @stable @p1 @pwo creates the PWO only under the currently selected FG', async () => {
     const fgName = (await column(page, 'Functional Group').locator('.item.selected, .item.active').first().textContent())?.trim()
       || (await column(page, 'Functional Group').locator('.item').first().textContent())?.trim()
       || '';
@@ -397,7 +397,7 @@ test.describe('Primary Work Object sheet-aligned coverage', () => {
     await deletePwo(page, name);
   });
 
-  test('PWO-E2E-019 shows valid enum values for Strategic Importance, Revenue Impact, and Downtime Sensitivity', async () => {
+  test('PWO-E2E-019 @stable @p1 @pwo shows valid enum values for Strategic Importance, Revenue Impact, and Downtime Sensitivity', async () => {
     await openCreatePanel(page);
     const combos = panel(page).getByRole('combobox');
     expect(await combos.nth(0).locator('option').count()).toBeGreaterThan(0);
@@ -406,5 +406,5 @@ test.describe('Primary Work Object sheet-aligned coverage', () => {
     await closePanel(page);
   });
 
-  pendingPwoCase('PWO-E2E-020', 'allows Dependency Links to remain blank while saving', 'Needs confirmed Dependency Links field presence in the current local PWO popup.');
+  futurePwoCase('PWO-E2E-020', 'allows Dependency Links to remain blank while saving', 'Needs confirmed Dependency Links field presence in the current local PWO popup.', 'p2');
 });
