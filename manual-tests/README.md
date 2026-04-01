@@ -21,6 +21,7 @@ manual-tests/
     wrcf_Secondary_Work_Object.playwright.spec.md
     wrcf_Manage_WRCF_Skills.playwright.spec.md
     wrcf_Skills.playwright.spec.md
+    wrcf_Task.playwright.spec.md
     wrcf-source-of-truth.md
   login-page.playwright.spec.ts
   login-page-auth.playwright.spec.ts
@@ -31,6 +32,7 @@ manual-tests/
   wrcf_Secondary_Work_Object.playwright.spec.ts
   wrcf_Manage_WRCF_Skills.playwright.spec.ts
   wrcf_Skills.playwright.spec.ts
+  wrcf_Task.playwright.spec.ts
   results/
 ```
 
@@ -52,6 +54,7 @@ manual-tests/
 - [wrcf_Secondary_Work_Object.playwright.spec.ts](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts): PDF-backed Secondary Work Object coverage traced to the `SWO` workbook tab.
 - [wrcf_Manage_WRCF_Skills.playwright.spec.ts](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts): PDF-backed Manage Skills parent-context coverage traced to the `Manage WRCF Skills` workbook tab.
 - [wrcf_Skills.playwright.spec.ts](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts): PDF-backed Skills coverage traced to the `Skills` workbook tab.
+- [wrcf_Task.playwright.spec.ts](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts): PDF-backed Task coverage traced to the `Task` workbook tab.
 
 ## Recommended Workflow
 
@@ -147,6 +150,7 @@ npx playwright show-report
 - SWO companion doc: [wrcf_Secondary_Work_Object.playwright.spec.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/Documents/wrcf_Secondary_Work_Object.playwright.spec.md)
 - Manage Skills companion doc: [wrcf_Manage_WRCF_Skills.playwright.spec.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/Documents/wrcf_Manage_WRCF_Skills.playwright.spec.md)
 - Skills companion doc: [wrcf_Skills.playwright.spec.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/Documents/wrcf_Skills.playwright.spec.md)
+- Task companion doc: [wrcf_Task.playwright.spec.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/Documents/wrcf_Task.playwright.spec.md)
 
 ## Notes
 
