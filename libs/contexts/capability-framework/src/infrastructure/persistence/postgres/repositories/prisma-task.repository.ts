@@ -6,6 +6,46 @@ import { Task } from '../../../../domain/aggregates/task.aggregate';
 export class PrismaTaskRepository implements ITaskRepository {
   private readonly prisma = getPrisma();
 
+  private async createTask(task: Task): Promise<void> {
+    await this.prisma.task.create({
+      data: {
+        tenantId: BigInt(task.tenantId),
+        skillId: BigInt(task.skillId),
+        name: task.name,
+        description: task.description,
+        frequency: task.frequency,
+        complexity: task.complexity,
+        standardDuration: task.standardDuration ?? 0,
+        requiredProficiencyLevel: task.requiredProficiencyLevel ?? 'L1'
+      }
+    });
+  }
+
+  private isDuplicateTaskIdError(error: unknown): boolean {
+    if (!error || typeof error !== 'object' || !('code' in error)) return false;
+    if (error.code !== 'P2002') return false;
+
+    const target = 'meta' in error && error.meta && typeof error.meta === 'object' && 'target' in error.meta
+      ? error.meta.target
+      : undefined;
+
+    if (Array.isArray(target)) {
+      return target.includes('id');
+    }
+
+    return typeof target === 'string' && target.includes('id');
+  }
+
+  private async resyncTaskIdSequence(): Promise<void> {
+    await this.prisma.$executeRaw`
+      SELECT setval(
+        pg_get_serial_sequence('tasks', 'id'),
+        COALESCE((SELECT MAX(id) FROM tasks), 0) + 1,
+        false
+      )
+    `;
+  }
+
   async findBySkillId(tenantId: string, skillId: string): Promise<Task[]> {
     const rows = await this.prisma.task.findMany({
       where: {
@@ -67,18 +107,16 @@ export class PrismaTaskRepository implements ITaskRepository {
   }
 
   async save(task: Task): Promise<void> {
-    await this.prisma.task.create({
-      data: {
-        tenantId: BigInt(task.tenantId),
-        skillId: BigInt(task.skillId),
-        name: task.name,
-        description: task.description,
-        frequency: task.frequency,
-        complexity: task.complexity,
-        standardDuration: task.standardDuration ?? 0,
-        requiredProficiencyLevel: task.requiredProficiencyLevel ?? 'L1'
+    try {
+      await this.createTask(task);
+    } catch (error) {
+      if (!this.isDuplicateTaskIdError(error)) {
+        throw error;
       }
-    });
+
+      await this.resyncTaskIdSequence();
+      await this.createTask(task);
+    }
   }
 
   async update(task: Task): Promise<void> {
