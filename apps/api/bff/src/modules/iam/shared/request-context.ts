@@ -11,7 +11,7 @@
  * - Permissions (what the actor is allowed to do)
  * - Request tracking (correlation IDs)
  */
-import type { ApiMetaV1 } from '@whizard/identity-access';
+import type { ApiMetaV1 } from './contracts';
 
 /**
  * Tenant types supported by the platform.

@@ -5,7 +5,7 @@ import type {
   RefreshSessionRequestV1,
   StartMfaChallengeRequestV1,
   VerifyMfaChallengeRequestV1
-} from '@whizard/identity-access';
+} from '../shared/contracts';
 import { authorizationPreHandler } from '../shared/authorization-prehandler';
 import { getRequestContext, toApiMeta, type FastifyInstanceLike } from '../shared/request-context';
 

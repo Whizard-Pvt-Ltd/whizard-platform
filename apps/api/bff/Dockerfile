@@ -20,6 +20,7 @@ FROM --platform=$TARGETPLATFORM base AS deps
 # Copy workspace files
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 COPY .npmrc ./
+# COPY apps/api/bff ./apps/api/bff
 
 # Copy app-specific package.json
 COPY apps/api/bff/package.json ./apps/api/bff/

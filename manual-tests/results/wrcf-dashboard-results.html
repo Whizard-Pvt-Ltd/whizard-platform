@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WRCF</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b1220;
+      --panel: #132033;
+      --panel-2: #1a2b43;
+      --text: #edf4ff;
+      --muted: #9bb0d1;
+      --border: #30455f;
+      --passed: #22c55e;
+      --failed: #ef4444;
+      --skipped: #eab308;
+      --other: #60a5fa;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(180deg, #08111f 0%, var(--bg) 100%);
+      color: var(--text);
+    }
+    .wrap {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 28px 20px 40px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 30px;
+      line-height: 1.2;
+    }
+    .subtitle {
+      margin: 0 0 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .stat {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+    }
+    .stat-label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .stat-value {
+      margin-top: 8px;
+      font-size: 28px;
+      font-weight: 700;
+    }
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--panel);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 980px;
+    }
+    th, td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(48, 69, 95, 0.7);
+      vertical-align: top;
+      text-align: left;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    th {
+      position: sticky;
+      top: 0;
+      background: var(--panel-2);
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    tr:last-child td { border-bottom: 0; }
+    .main-row {
+      cursor: pointer;
+    }
+    .main-row:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .case-id {
+      white-space: nowrap;
+      font-weight: 700;
+      width: 120px;
+    }
+    .test-name {
+      min-width: 420px;
+      font-weight: 600;
+    }
+    .duration {
+      white-space: nowrap;
+      width: 110px;
+    }
+    .status {
+      display: inline-block;
+      min-width: 76px;
+      text-align: center;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 0;
+      cursor: pointer;
+    }
+    .status-passed { color: var(--passed); background: rgba(34, 197, 94, 0.14); }
+    .status-failed { color: var(--failed); background: rgba(239, 68, 68, 0.14); }
+    .status-skipped { color: var(--skipped); background: rgba(234, 179, 8, 0.14); }
+    .status-other { color: var(--other); background: rgba(96, 165, 250, 0.14); }
+    .details-row {
+      display: none;
+    }
+    .details-row.is-open {
+      display: table-row;
+    }
+    .details-cell {
+      background: rgba(9, 17, 30, 0.6);
+      padding: 0;
+    }
+    .details-wrap {
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+    .detail-block {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(48, 69, 95, 0.65);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+    .detail-label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+    .notes {
+      color: var(--muted);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .source {
+      color: var(--text);
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 13px;
+    }
+    .classification {
+      white-space: nowrap;
+      width: 190px;
+    }
+    .type-pill {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+    }
+    .type-verified { color: var(--passed); background: rgba(34, 197, 94, 0.14); }
+    .type-pending { color: var(--skipped); background: rgba(234, 179, 8, 0.14); }
+    .type-product { color: #fda4af; background: rgba(244, 63, 94, 0.16); }
+    .type-env { color: #93c5fd; background: rgba(59, 130, 246, 0.16); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>WRCF</h1>
+    <p class="subtitle">Custom point-wise ordered report generated from Playwright JSON output.</p>
+    <div class="stats">
+      <div class="stat"><div class="stat-label">Total</div><div class="stat-value">25</div></div>
+      <div class="stat"><div class="stat-label">Passed</div><div class="stat-value">17</div></div>
+      <div class="stat"><div class="stat-label">Failed</div><div class="stat-value">7</div></div>
+      <div class="stat"><div class="stat-label">Skipped</div><div class="stat-value">1</div></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Test Case ID</th>
+            <th>Test Name</th>
+            <th>Status</th>
+            <th>Failure Type</th>
+            <th>Duration</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="main-row" data-target="details-1">
+              <td class="case-id">WD-001</td>
+              <td class="test-name">uses dashboard as the default page after login</td>
+              <td><button type="button" class="status status-passed" data-target="details-1">Passed</button></td>
+              <td class="classification"><span class="type-pill type-verified">Verified</span></td>
+              <td class="duration">1.0 s</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-1" class="details-row">
+              <td colspan="6" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">uses dashboard as the default page after login</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">Verified</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-2">
+              <td class="case-id">WD-002</td>
+              <td class="test-name">auto-selects the default Industry Sector and Industry on page load</td>
+              <td><button type="button" class="status status-passed" data-target="details-2">Passed</button></td>
+              <td class="classification"><span class="type-pill type-verified">Verified</span></td>
+              <td class="duration">1.8 s</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-2" class="details-row">
+              <td colspan="6" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">auto-selects the default Industry Sector and Industry on page load</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">Verified</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-3">
+              <td class="case-id">WD-003</td>
+              <td class="test-name">loads dashboard cards for the default selected sector and industry</td>
+              <td><button type="button" class="status status-passed" data-target="details-3">Passed</button></td>
+              <td class="classification"><span class="type-pill type-verified">Verified</span></td>
+              <td class="duration">908 ms</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-3" class="details-row">
+              <td colspan="6" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">loads dashboard cards for the default selected sector and industry</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">Verified</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-4">
+              <td class="case-id">WD-004</td>
+              <td class="test-name">displays Industry Sector options in alphabetical order</td>
+              <td><button type="button" class="status status-passed" data-target="details-4">Passed</button></td>
+              <td class="classification"><span class="type-pill type-verified">Verified</span></td>
+              <td class="duration">1.2 s</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-4" class="details-row">
+              <td colspan="6" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">displays Industry Sector options in alphabetical order</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">Verified</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-5">
+              <td class="case-id">WD-005</td>
+              <td class="test-name">shows industries only for the selected Industry Sector and keeps them alphabetically ordered</td>
+              <td><button type="button" class="status status-passed" data-target="details-5">Passed</button></td>
+              <td class="classification"><span class="type-pill type-verified">Verified</span></td>
+              <td class="duration">1.5 s</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-5" class="details-row">
+              <td colspan="6" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">shows industries only for the selected Industry Sector and keeps them alphabetically ordered</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">Verified</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-6">
+              <td class="case-id">WD-006</td>
+              <td class="test-name">refreshes all cards when the user changes Industry within the same sector</td>
+              <td><button type="button" class="status status-passed" data-target="details-6">Passed</button></td>
+              <td class="classification"><span class="type-pill type-verified">Verified</span></td>
+              <td class="duration">1.2 s</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-6" class="details-row">
+              <td colspan="6" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">refreshes all cards when the user changes Industry within the same sector</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">Verified</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-7">
+              <td class="case-id">WD-007</td>
+              <td class="test-name">resets Industry and refreshes dashboard data when Industry Sector changes</td>
+              <td><button type="button" class="status status-passed" data-target="details-7">Passed</button></td>
+              <td class="classification"><span class="type-pill type-verified">Verified</span></td>
+              <td class="duration">1.4 s</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-7" class="details-row">
+              <td colspan="6" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">resets Industry and refreshes dashboard data when Industry Sector changes</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">Verified</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-8">
+              <td class="case-id">WD-008</td>
+              <td class="test-name">does not retain the previous industry metrics after sector or industry selection changes</td>
+              <td><button type="button" class="status status-passed" data-target="details-8">Passed</button></td>
+              <td class="classification"><span class="type-pill type-verified">Verified</span></td>
+              <td class="duration">1.5 s</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-8" class="details-row">
+              <td colspan="6" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">does not retain the previous industry metrics after sector or industry selection changes</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">Verified</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-9">
+              <td class="case-id">WD-009</td>
+              <td class="test-name">renders the current version, draft version, last updated, and validation status fields</td>
+              <td><button type="button" class="status status-passed" data-target="details-9">Passed</button></td>
+              <td class="classification"><span class="type-pill type-verified">Verified</span></td>
+              <td class="duration">989 ms</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-9" class="details-row">
+              <td colspan="6" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">renders the current version, draft version, last updated, and validation status fields</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">Verified</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-10">
+              <td class="case-id">WD-010</td>
+              <td class="test-name">renders all quick action tiles and their current behaviors</td>
+              <td><button type="button" class="status status-passed" data-target="details-10">Passed</button></td>
+              <td class="classification"><span class="type-pill type-verified">Verified</span></td>
+              <td class="duration">1.5 s</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-10" class="details-row">
+              <td colspan="6" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">renders all quick action tiles and their current behaviors</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">Verified</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-11">
+              <td class="case-id">WD-011</td>
+              <td class="test-name">handles partial zero-count states without breaking the dashboard layout</td>
+              <td><button type="button" class="status status-passed" data-target="details-11">Passed</button></td>
+              <td class="classification"><span class="type-pill type-verified">Verified</span></td>
+              <td class="duration">1.2 s</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-11" class="details-row">
+              <td colspan="6" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">handles partial zero-count states without breaking the dashboard layout</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">Verified</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-12">
+              <td class="case-id">WD-012</td>
+              <td class="test-name">hides inactive Industry Sectors from the dashboard filter</td>
+              <td><button type="button" class="status status-failed" data-target="details-12">Failed</button></td>
+              <td class="classification"><span class="type-pill type-product">Product Gap</span></td>
+              <td class="duration">1.2 s</td>
+              <td>Click row or status</td>
+            </tr>
+            <tr id="details-12" class="details-row">
+              <td colspan="6" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">hides inactive Industry Sectors from the dashboard filter</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">Product Gap</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">Error: [2mexpect([22m[31mreceived[39m[2m).[22mnot[2m.[22mtoContain[2m([22m[32mexpected[39m[2m) // indexOf[22m Expected value: not [32m&quot;ZZ Inactive Sector&quot;[39m Received array: [31m[&quot;Manufacturing&quot;, [7m&quot;ZZ Inactive Sector&quot;[27m][39m</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-13">
+              <td class="case-id">WD-013</td>
+              <td class="test-name">hides inactive industries from the Industry dropdown</td>
+              <td><button type="button" class="status status-failed" data-target="details-13">Failed</button></td>
+              <td class="classification"><span class="type-pill type-product">Product Gap</span></td>
+              <td class="duration">1.5 s</td>
+              <td>Click row or status</td>
+            </tr>
+            <tr id="details-13" class="details-row">
+              <td colspan="6" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">hides inactive industries from the Industry dropdown</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">Product Gap</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">Error: [2mexpect([22m[31mreceived[39m[2m).[22mnot[2m.[22mtoContain[2m([22m[32mexpected[39m[2m) // indexOf[22m Expected value: not [32m&quot;ZZ Inactive Industry&quot;[39m Received array: [31m[&quot;Steel Manufacturing&quot;, [7m&quot;ZZ Inactive Industry&quot;[27m][39m</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-14">
+              <td class="case-id">WD-014</td>
+              <td class="test-name">excludes inactive FG PWO SWO CI Skill Task Role and Department records from dashboard counts</td>
+              <td><button type="button" class="status status-passed" data-target="details-14">Passed</button></td>
+              <td class="classification"><span class="type-pill type-verified">Verified</span></td>
+              <td class="duration">1.4 s</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-14" class="details-row">
+              <td colspan="6" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">excludes inactive FG PWO SWO CI Skill Task Role and Department records from dashboard counts</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">Verified</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-15">
+              <td class="case-id">WD-015</td>
+              <td class="test-name">uses only published version data for displayed metrics</td>
+              <td><button type="button" class="status status-passed" data-target="details-15">Passed</button></td>
+              <td class="classification"><span class="type-pill type-verified">Verified</span></td>
+              <td class="duration">942 ms</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-15" class="details-row">
+              <td colspan="6" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">uses only published version data for displayed metrics</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">Verified</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-16">
+              <td class="case-id">WD-016</td>
+              <td class="test-name">shows -- when no draft version exists</td>
+              <td><button type="button" class="status status-failed" data-target="details-16">Failed</button></td>
+              <td class="classification"><span class="type-pill type-product">Product Gap</span></td>
+              <td class="duration">6.0 s</td>
+              <td>Click row or status</td>
+            </tr>
+            <tr id="details-16" class="details-row">
+              <td colspan="6" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">shows -- when no draft version exists</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">Product Gap</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed Locator: locator(&#39;.version-row&#39;) Expected substring: [32m&quot;--&quot;[39m Received string: [31m&quot;Current Version4.1 Published Draft Version4.2 In Progress Last Updated28 Feb 2026Validation Status Validated &quot;[39m Timeout: 5000ms Call log: [2m - Expect &quot;toContainText&quot; with timeout 5000ms[22m [2m - waiting for locator(&#39;.version-row&#39;)[22m [2m 9 × locator resolved to &lt;div class=&quot;version-row&quot; _ngcontent-ng-c1105593656=&quot;&quot;&gt;…&lt;/div&gt;[22m [2m - unexpected value &quot;Current Version4.1 Published Draft Version4.2 In Progress Last Updated28 Feb 2026Validation Status Validated &quot;[22m</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-17">
+              <td class="case-id">WD-017</td>
+              <td class="test-name">shows a no-data state when the selected industry has no published WRCF data</td>
+              <td><button type="button" class="status status-failed" data-target="details-17">Failed</button></td>
+              <td class="classification"><span class="type-pill type-product">Product Gap</span></td>
+              <td class="duration">6.3 s</td>
+              <td>Click row or status</td>
+            </tr>
+            <tr id="details-17" class="details-row">
+              <td colspan="6" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">shows a no-data state when the selected industry has no published WRCF data</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">Product Gap</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed Locator: getByText(&#39;No published WRCF data&#39;) Expected: visible Timeout: 5000ms Error: element(s) not found Call log: [2m - Expect &quot;toBeVisible&quot; with timeout 5000ms[22m [2m - waiting for getByText(&#39;No published WRCF data&#39;)[22m</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-18">
+              <td class="case-id">WD-018</td>
+              <td class="test-name">keeps Last Updated aligned with the selected industry version state</td>
+              <td><button type="button" class="status status-failed" data-target="details-18">Failed</button></td>
+              <td class="classification"><span class="type-pill type-product">Product Gap</span></td>
+              <td class="duration">5.9 s</td>
+              <td>Click row or status</td>
+            </tr>
+            <tr id="details-18" class="details-row">
+              <td colspan="6" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">keeps Last Updated aligned with the selected industry version state</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">Product Gap</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">Error: [2mexpect([22m[31mlocator[39m[2m).not.[22mtoHaveText[2m([22m[32mexpected[39m[2m)[22m failed Locator: locator(&#39;.version-date&#39;) Expected: not [32m&quot;28 Feb 2026&quot;[39m Received: [31m&quot;[7m28 Feb 2026[27m&quot;[39m Timeout: 5000ms Call log: [2m - Expect &quot;not toHaveText&quot; with timeout 5000ms[22m [2m - waiting for locator(&#39;.version-date&#39;)[22m [2m 9 × locator resolved to &lt;span class=&quot;version-date&quot; _ngcontent-ng-c1105593656=&quot;&quot;&gt;28 Feb 2026&lt;/span&gt;[22m [2m - unexpected value &quot;28 Feb 2026&quot;[22m</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-19">
+              <td class="case-id">WD-019</td>
+              <td class="test-name">keeps Validation Status aligned with the selected industry version state</td>
+              <td><button type="button" class="status status-failed" data-target="details-19">Failed</button></td>
+              <td class="classification"><span class="type-pill type-product">Product Gap</span></td>
+              <td class="duration">5.9 s</td>
+              <td>Click row or status</td>
+            </tr>
+            <tr id="details-19" class="details-row">
+              <td colspan="6" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">keeps Validation Status aligned with the selected industry version state</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">Product Gap</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">Error: [2mexpect([22m[31mlocator[39m[2m).not.[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed Locator: locator(&#39;.version-row&#39;) Expected substring: not [32m&quot;Validated&quot;[39m Received string: [31m&quot;Current Version4.1 Published Draft Version4.2 In Progress Last Updated28 Feb 2026Validation Status [7mValidated[27m &quot;[39m Timeout: 5000ms Call log: [2m - Expect &quot;not toContainText&quot; with timeout 5000ms[22m [2m - waiting for locator(&#39;.version-row&#39;)[22m [2m 9 × locator resolved to &lt;div class=&quot;version-row&quot; _ngcontent-ng-c1105593656=&quot;&quot;&gt;…&lt;/div&gt;[22m [2m - unexpected value &quot;Current Version4.1 Published Draft Version4.2 In Progress Last Updated28 Feb 2026Validation Status Validated &quot;[22m</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-20">
+              <td class="case-id">WD-020</td>
+              <td class="test-name">uses published active Capability Instance counts only</td>
+              <td><button type="button" class="status status-passed" data-target="details-20">Passed</button></td>
+              <td class="classification"><span class="type-pill type-verified">Verified</span></td>
+              <td class="duration">1.3 s</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-20" class="details-row">
+              <td colspan="6" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">uses published active Capability Instance counts only</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">Verified</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-21">
+              <td class="case-id">WD-021</td>
+              <td class="test-name">uses published active linked records only for Skills and Tasks counts</td>
+              <td><button type="button" class="status status-passed" data-target="details-21">Passed</button></td>
+              <td class="classification"><span class="type-pill type-verified">Verified</span></td>
+              <td class="duration">1.2 s</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-21" class="details-row">
+              <td colspan="6" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">uses published active linked records only for Skills and Tasks counts</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">Verified</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-22">
+              <td class="case-id">WD-022</td>
+              <td class="test-name">keeps hierarchy card totals aligned to published active counts</td>
+              <td><button type="button" class="status status-passed" data-target="details-22">Passed</button></td>
+              <td class="classification"><span class="type-pill type-verified">Verified</span></td>
+              <td class="duration">1.2 s</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-22" class="details-row">
+              <td colspan="6" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">keeps hierarchy card totals aligned to published active counts</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">Verified</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-23">
+              <td class="case-id">WD-023</td>
+              <td class="test-name">uses active published counts for Roles and Departments cards</td>
+              <td><button type="button" class="status status-passed" data-target="details-23">Passed</button></td>
+              <td class="classification"><span class="type-pill type-verified">Verified</span></td>
+              <td class="duration">1.2 s</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-23" class="details-row">
+              <td colspan="6" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">uses active published counts for Roles and Departments cards</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">Verified</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-24">
+              <td class="case-id">WD-024</td>
+              <td class="test-name">clicking Edit Structure redirects user to Manage Industry WRCF with same selected Industry Sector and Industry carried forward from Dashboard</td>
+              <td><button type="button" class="status status-failed" data-target="details-24">Failed</button></td>
+              <td class="classification"><span class="type-pill type-product">Product Gap</span></td>
+              <td class="duration">6.3 s</td>
+              <td>Click row or status</td>
+            </tr>
+            <tr id="details-24" class="details-row">
+              <td colspan="6" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">clicking Edit Structure redirects user to Manage Industry WRCF with same selected Industry Sector and Industry carried forward from Dashboard</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">Product Gap</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveValue[2m([22m[32mexpected[39m[2m)[22m failed Locator: locator(&#39;.filter-bar .filter-select&#39;).first() Expected: [32m&quot;sector-energy&quot;[39m Received: [31m&quot;&quot;[39m Timeout: 5000ms Call log: [2m - Expect &quot;toHaveValue&quot; with timeout 5000ms[22m [2m - waiting for locator(&#39;.filter-bar .filter-select&#39;).first()[22m [2m 9 × locator resolved to &lt;select ng-reflect-model=&quot;&quot; _ngcontent-ng-c2195223369=&quot;&quot; class=&quot;filter-select ng-untouched ng-pristine ng-valid&quot;&gt;…&lt;/select&gt;[22m [2m - unexpected value &quot;&quot;[22m</div>
+                  </div>
+                </div>
+              </td>
+            </tr><tr class="main-row" data-target="details-25">
+              <td class="case-id">WD-025</td>
+              <td class="test-name">blocks unauthorized users from restricted dashboard actions</td>
+              <td><button type="button" class="status status-skipped" data-target="details-25">Skipped</button></td>
+              <td class="classification"><span class="type-pill type-pending">Pending / Blocked</span></td>
+              <td class="duration">825 ms</td>
+              <td>No extra details</td>
+            </tr>
+            <tr id="details-25" class="details-row">
+              <td colspan="6" class="details-cell">
+                <div class="details-wrap">
+                  <div class="detail-block">
+                    <div class="detail-label">Source</div>
+                    <div class="source">blocks unauthorized users from restricted dashboard actions</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure Type</div>
+                    <div class="notes">Pending / Blocked</div>
+                  </div>
+                  <div class="detail-block">
+                    <div class="detail-label">Failure / Notes</div>
+                    <div class="notes">No additional failure details for this test.</div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script>
+    const toggle = (id) => {
+      const row = document.getElementById(id);
+      if (!row) return;
+      row.classList.toggle('is-open');
+    };
+    document.querySelectorAll('.main-row').forEach((row) => {
+      row.addEventListener('click', () => toggle(row.dataset.target));
+    });
+    document.querySelectorAll('.status').forEach((button) => {
+      button.addEventListener('click', (event) => {
+        event.stopPropagation();
+        toggle(button.dataset.target);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -7,6 +7,10 @@ prisma/dev.db
 prisma/dev.db-journal
 .angular/
 logs/
+playwright-report/
+test-results/
+manual-tests/.auth/
+temp.txt
 
 # NX
 .nx/cache
@@ -16,6 +20,7 @@ logs/
 static/
 dependency-graph.html
 *.tsbuildinfo
+
 .angular
 
 vitest.config.*.timestamp*
