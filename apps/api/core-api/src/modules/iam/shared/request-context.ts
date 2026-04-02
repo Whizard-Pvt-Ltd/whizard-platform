@@ -2,6 +2,14 @@ import type { ApiMetaV1 } from '@whizard/identity-access';
 
 type TenantType = 'SYSTEM' | 'PARENT_CLUB' | 'COLLEGE' | 'COMPANY';
 
+const normalizeTenantId = (tenantId: string, tenantType: TenantType): string => {
+  if (tenantType === 'SYSTEM' && tenantId.trim().toLowerCase() === 'system') {
+    return process.env['SYSTEM_TENANT_ID'] ?? '1';
+  }
+
+  return tenantId;
+};
+
 export interface MultipartFileLike {
   readonly filename: string;
   readonly mimetype: string;
@@ -53,7 +61,10 @@ export interface IamRequestContext {
 export const getRequestContext = (request: FastifyRequestLike): IamRequestContext => {
   const actorUserAccountId = String(request.headers['x-actor-user-account-id'] ?? 'anonymous');
   const tenantType = String(request.headers['x-tenant-type'] ?? 'SYSTEM') as TenantType;
-  const tenantId = String(request.headers['x-tenant-id'] ?? process.env['SYSTEM_TENANT_ID'] ?? '1');
+  const tenantId = normalizeTenantId(
+    String(request.headers['x-tenant-id'] ?? process.env['SYSTEM_TENANT_ID'] ?? '1'),
+    tenantType
+  );
   const permissionsHeader = String(request.headers['x-permissions'] ?? '');
 
   return {

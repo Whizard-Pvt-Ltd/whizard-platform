@@ -19,6 +19,14 @@ import type { ApiMetaV1 } from '@whizard/identity-access';
  */
 type TenantType = 'SYSTEM' | 'PARENT_CLUB' | 'COLLEGE' | 'COMPANY';
 
+const normalizeTenantId = (tenantId: string, tenantType: TenantType): string => {
+  if (tenantType === 'SYSTEM' && tenantId.trim().toLowerCase() === 'system') {
+    return process.env['SYSTEM_TENANT_ID'] ?? '1';
+  }
+
+  return tenantId;
+};
+
 /**
  * Lightweight Fastify request interface.
  * Provides access to HTTP request properties without full Fastify coupling.
@@ -127,7 +135,10 @@ export const getRequestContext = (request: FastifyRequestLike): IamRequestContex
 
   // Extract tenant context (defaults to SYSTEM tenant)
   const tenantType = String(request.headers['x-tenant-type'] ?? 'SYSTEM') as TenantType;
-  const tenantId = String(request.headers['x-tenant-id'] ?? process.env['SYSTEM_TENANT_ID'] ?? '1');
+  const tenantId = normalizeTenantId(
+    String(request.headers['x-tenant-id'] ?? process.env['SYSTEM_TENANT_ID'] ?? '1'),
+    tenantType
+  );
 
   // Parse permissions from comma-separated header value
   const permissionsHeader = String(request.headers['x-permissions'] ?? '');
