@@ -36,6 +36,11 @@ FROM --platform=$TARGETPLATFORM deps AS builder
 # Copy source code
 COPY . .
 
+# Build only BFF runtime workspace libs (no DB/Prisma dependency chain)
+RUN pnpm nx run @whizard/shared-logging:build --skip-nx-cache && \
+    pnpm nx run shared-kernel:build --skip-nx-cache && \
+    pnpm nx run core-api-client:build --skip-nx-cache
+
 # Build only the BFF target in Docker.
 # Avoid transitive Nx task dependencies that can pull DB/Prisma-related libs.
 RUN pnpm nx build bff --skip-nx-cache --excludeTaskDependencies --verbose
