@@ -6,6 +6,45 @@ import { Skill } from '../../../../domain/aggregates/skill.aggregate';
 export class PrismaSkillRepository implements ISkillRepository {
   private readonly prisma = getPrisma();
 
+  private async createSkill(skill: Skill): Promise<void> {
+    await this.prisma.skill.create({
+      data: {
+        tenantId: BigInt(skill.tenantId),
+        capabilityInstanceId: BigInt(skill.capabilityInstanceId),
+        name: skill.name,
+        cognitiveType: skill.cognitiveType,
+        skillCriticality: skill.skillCriticality,
+        recertificationCycleMonths: skill.recertificationCycleMonths,
+        aiImpact: skill.aiImpact
+      }
+    });
+  }
+
+  private isDuplicateSkillIdError(error: unknown): boolean {
+    if (!error || typeof error !== 'object' || !('code' in error)) return false;
+    if (error.code !== 'P2002') return false;
+
+    const target = 'meta' in error && error.meta && typeof error.meta === 'object' && 'target' in error.meta
+      ? error.meta.target
+      : undefined;
+
+    if (Array.isArray(target)) {
+      return target.includes('id');
+    }
+
+    return typeof target === 'string' && target.includes('id');
+  }
+
+  private async resyncSkillIdSequence(): Promise<void> {
+    await this.prisma.$executeRaw`
+      SELECT setval(
+        pg_get_serial_sequence('skills', 'id'),
+        COALESCE((SELECT MAX(id) FROM skills), 0) + 1,
+        false
+      )
+    `;
+  }
+
   async findByCapabilityInstanceId(tenantId: string, capabilityInstanceId: string): Promise<Skill[]> {
     const rows = await this.prisma.skill.findMany({
       where: {
@@ -64,17 +103,16 @@ export class PrismaSkillRepository implements ISkillRepository {
   }
 
   async save(skill: Skill): Promise<void> {
-    await this.prisma.skill.create({
-      data: {
-        tenantId: BigInt(skill.tenantId),
-        capabilityInstanceId: BigInt(skill.capabilityInstanceId),
-        name: skill.name,
-        cognitiveType: skill.cognitiveType,
-        skillCriticality: skill.skillCriticality,
-        recertificationCycleMonths: skill.recertificationCycleMonths,
-        aiImpact: skill.aiImpact
+    try {
+      await this.createSkill(skill);
+    } catch (error) {
+      if (!this.isDuplicateSkillIdError(error)) {
+        throw error;
       }
-    });
+
+      await this.resyncSkillIdSequence();
+      await this.createSkill(skill);
+    }
   }
 
   async update(skill: Skill): Promise<void> {

@@ -2,10 +2,24 @@ import type { FastifyInstanceLike, FastifyRequestLike, FastifyReplyLike } from '
 
 const CORE_API_URL = (process.env.CORE_API_URL || 'http://localhost:3001').replace(/\/$/, '');
 
+const normalizeTenantId = (tenantId: string, tenantType: string): string => {
+  if (tenantType === 'SYSTEM' && tenantId.trim().toLowerCase() === 'system') {
+    return process.env['SYSTEM_TENANT_ID'] ?? '1';
+  }
+
+  return tenantId;
+};
+
 const buildCoreApiHeaders = (request: FastifyRequestLike): Record<string, string> => {
+  const tenantType = String(request.headers['x-tenant-type'] ?? 'SYSTEM');
+  const tenantId = normalizeTenantId(
+    String(request.headers['x-tenant-id'] ?? process.env['SYSTEM_TENANT_ID'] ?? '1'),
+    tenantType
+  );
+
   const headers: Record<string, string> = {
-    'X-Tenant-Type': String(request.headers['x-tenant-type'] ?? 'SYSTEM'),
-    'X-Tenant-Id': String(request.headers['x-tenant-id'] ?? process.env['SYSTEM_TENANT_ID'] ?? '1')
+    'X-Tenant-Type': tenantType,
+    'X-Tenant-Id': tenantId
   };
   if (request.headers['authorization']) {
     headers['Authorization'] = String(request.headers['authorization']);

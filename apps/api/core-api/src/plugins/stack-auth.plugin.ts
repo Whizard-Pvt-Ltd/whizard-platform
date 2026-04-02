@@ -32,6 +32,14 @@ const logger = getOrCreateAppLogger({ service: 'core-api' }).child({
   component: 'stack-auth-plugin',
 });
 
+const normalizeTenantId = (tenantId: string, tenantType: string): string => {
+  if (tenantType === 'SYSTEM' && tenantId.trim().toLowerCase() === 'system') {
+    return process.env['SYSTEM_TENANT_ID'] ?? '1';
+  }
+
+  return tenantId;
+};
+
 // Extend Fastify route options to include skipStackAuth flag
 declare module 'fastify' {
   interface FastifyContextConfig {
@@ -127,24 +135,26 @@ async function stackAuthPlugin(fastify: FastifyInstance) {
 
         logger.debug('User synced to local database', {
           userId: localUser.id.value,
-          tenantId: localUser.tenant.tenantId,
+          tenantId: normalizeTenantId(localUser.tenant.tenantId, localUser.tenant.tenantType),
           tenantType: localUser.tenant.tenantType,
           stackAuthUserId: stackAuthUser.userId,
         });
+
+        const normalizedTenantId = normalizeTenantId(localUser.tenant.tenantId, localUser.tenant.tenantType);
 
         // Set request context headers for downstream handlers
         // These headers are used by authorizationPreHandler and business logic
         request.headers['x-actor-user-account-id'] = localUser.id.value;
         request.headers['x-actor-email'] = stackAuthUser.email ?? '';
         request.headers['x-tenant-type'] = localUser.tenant.tenantType;
-        request.headers['x-tenant-id'] = localUser.tenant.tenantId;
+        request.headers['x-tenant-id'] = normalizedTenantId;
 
         // Bind userId, username and tenantId to the per-request logger so all subsequent
         // log calls on this request (including onResponse) automatically carry this context
         request.log = request.log.child({
           userId: localUser.id.value,
           username: stackAuthUser.email,
-          tenantId: localUser.tenant.tenantId,
+          tenantId: normalizedTenantId,
         });
 
         // Log at info level now that userId is bound — Fastify's built-in "incoming request"
@@ -161,7 +171,7 @@ async function stackAuthPlugin(fastify: FastifyInstance) {
 
         logger.debug('Request context set from Stack Auth user', {
           userId: localUser.id.value,
-          tenantId: localUser.tenant.tenantId,
+          tenantId: normalizedTenantId,
           tenantType: localUser.tenant.tenantType,
           permissions: request.headers['x-permissions'],
         });
