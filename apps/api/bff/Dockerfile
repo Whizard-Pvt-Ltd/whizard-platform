@@ -36,10 +36,9 @@ FROM --platform=$TARGETPLATFORM deps AS builder
 # Copy source code
 COPY . .
 
-# Build with NX (builds libs first with TypeScript, then app with Vite)
-# Force rebuild in Docker to avoid cache issues
-# NOTE: BFF no longer needs Prisma - it calls Core-API via HTTP
-RUN pnpm nx build bff --skip-nx-cache
+# Build only the BFF target in Docker.
+# Avoid transitive Nx task dependencies that can pull DB/Prisma-related libs.
+RUN pnpm nx build bff --skip-nx-cache --excludeTaskDependencies --verbose
 
 # ============================================
 # Stage 4: Deploy (Create pruned production package)
