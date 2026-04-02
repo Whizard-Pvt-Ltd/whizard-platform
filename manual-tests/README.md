@@ -212,6 +212,8 @@ npx playwright show-report
 
 - WRCF behavior and schema come from `temp/WRCF Functional Specs.pdf` and `temp/WRCF definition & Schema.pdf`.
 - `temp/WRCF End-to-End Test Cases_reverified.xlsx` is a derived test-case workbook used for IDs and coverage tracking.
+- Default-behavior tests stay strict. If a test is specifically checking auto-selection, prefill, or carry-forward behavior, it should fail when that behavior is missing.
+- Independent downstream tests should establish their own valid prerequisites when manual reselection does not invalidate the requirement under test.
 - The WSL MCP config referenced in prior notes is not present in this Windows workspace copy.
 - Runtime auth cache is stored under `manual-tests/.auth/` and is gitignored.
 - Ordered result exports are generated into `manual-tests/results/`.

@@ -97,6 +97,20 @@ Most WRCF specs follow this structure:
 
 This allows a suite to remain runnable even when parent data or runtime conditions are not ready.
 
+## Default vs Fallback Rule
+
+WRCF specs should distinguish between two kinds of checks:
+
+- strict default-behavior checks
+- independent behavior checks that only need a valid selected context
+
+Rule:
+
+- if the requirement under test is auto-selection, carry-forward, prefill, or retained default state, the test must stay strict and fail when that default behavior is missing
+- if the requirement under test is downstream behavior such as sorting, filtering, list loading, counts, or child-column refresh, the test should establish the needed sector/industry/path selections itself instead of failing only because defaults were not pre-applied
+
+This keeps failures attached to the real feature under test instead of creating misleading cascade failures.
+
 ## Tag-Based Execution Model
 
 The repo now uses one-file stable/future coverage instead of duplicate specs.

@@ -49,6 +49,11 @@ Use the workbook as the derived case ledger, traceability map, and ID source.
 Use Playwright MCP validation only when necessary to resolve uncertainty.
 Prefer fast, structured continuation over broad re-analysis.
 
+Execution-step rule:
+- if the Excel/workbook step is clear, follow it directly
+- if spec behavior has drifted from that clear step, fix the spec
+- only ask for human intervention when the Excel/workbook step itself is ambiguous, incorrect, or conflicts with the real product intent
+
 ---
 ## Workflow Architecture
 
@@ -149,12 +154,14 @@ Use `manual-tests/` as the implementation and guardrail area.
 
 Treat these as active constraints, not passive notes:
 
+- `manual-tests/architecture.md`
 - `manual-tests/CODEX_PROGRESS_LOG.md`
 - `manual-tests/known_issues.md`
 - `manual-tests/rules.json` (if present)
 
 At the start of every session:
 - read the execution guide
+- read the architecture guide
 - read the progress log
 - read known issues / rules
 - explicitly avoid previously recorded mistakes
@@ -195,6 +202,10 @@ Do not start from scratch for every entity.
 Because the UI and test structures are highly similar, use existing generated specs/docs as templates and guardrails so the remaining sheets can be completed much faster.
 
 Prefer fast continuation over repeated broad re-analysis.
+
+When creating or updating a test case:
+- refer to `manual-tests/architecture.md` for the expected suite structure, stable-vs-future tagging model, fallback-prerequisite rules, and parent-child workflow shape
+- use `architecture.md` to keep new specs aligned with the current repo pattern instead of re-deriving structure from memory
 
 ---
 
@@ -241,6 +252,9 @@ Validation checks should include:
 - progress log is updated
 - future/not-yet-implemented coverage should remain visible and tagged, not permanently hidden with long-term `skip`/`fixme`
 - runtime/data blockers should be tracked separately from `@future` feature coverage
+- default-behavior tests must stay strict when the requirement under test is auto-selection, carry-forward, or prefill behavior
+- independent downstream tests should establish their own valid prerequisites instead of failing only because a default-selection check failed earlier
+- fallback prerequisite setup is allowed only when it does not invalidate the specific requirement under test
 
 These rules may be stored and maintained in:
 - `manual-tests/rules.json`
@@ -288,6 +302,8 @@ Rules:
 - default Playwright runs exclude `@future`
 - explicitly running `@future` tests should execute them normally and allow real failures
 - keep heavy setup inside the tests that need it, especially for `@future` groups
+- during normal rerun and workbook-update cycles, run the spec in the normal default way
+- only run `@future` coverage when the user explicitly asks for it
 
 ---
 

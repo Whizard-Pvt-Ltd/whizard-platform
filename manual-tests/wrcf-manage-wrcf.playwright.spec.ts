@@ -75,6 +75,42 @@ async function selectedValue(select: Locator): Promise<string> {
   return select.inputValue();
 }
 
+async function selectFirstAvailableOption(select: Locator): Promise<string> {
+  const options = await select.locator('option').evaluateAll(nodes =>
+    nodes
+      .map(node => {
+        const option = node as HTMLOptionElement;
+        return {
+          label: option.textContent?.trim() || '',
+          value: option.value,
+        };
+      })
+      .filter(option => option.value && option.label && !/^select /i.test(option.label))
+  );
+
+  if (!options.length) {
+    throw new Error('No selectable options were available.');
+  }
+
+  await select.selectOption(options[0].value);
+  return options[0].label;
+}
+
+async function ensureSectorIndustryContext(page: Page): Promise<void> {
+  const sector = filterSelect(page, 0);
+  const industry = filterSelect(page, 1);
+
+  if (!(await selectedValue(sector))) {
+    await selectFirstAvailableOption(sector);
+  }
+
+  await expect.poll(async () => (await dropdownOptions(industry)).length).toBeGreaterThan(0);
+
+  if (!(await selectedValue(industry))) {
+    await selectFirstAvailableOption(industry);
+  }
+}
+
 async function expectSorted(values: string[]): Promise<void> {
   expect(values).toEqual([...values].sort((a, b) => a.localeCompare(b)));
 }
@@ -139,6 +175,7 @@ test.describe('Manage Industry WRCF sheet-aligned coverage', () => {
   });
 
   test('MIWRCF-E2E-004 @stable @p0 @manage-wrcf shows active Industries for the selected sector in alphabetical order', async () => {
+    await ensureSectorIndustryContext(page);
     const options = await dropdownOptions(filterSelect(page, 1));
     await expectSorted(options);
   });
@@ -155,10 +192,12 @@ test.describe('Manage Industry WRCF sheet-aligned coverage', () => {
   futureManageCase('MIWRCF-E2E-007', 'clicking Apply loads data according to selected Industry Sector and Industry', 'Current local Manage WRCF UI does not expose a stable Apply-button flow to exercise separately.');
 
   test('MIWRCF-E2E-008 @stable @p0 @manage-wrcf Functional Group list shows data for the selected industry context', async () => {
+    await ensureSectorIndustryContext(page);
     await expectNonEmptyItems(page, 'Functional Group');
   });
 
   test('MIWRCF-E2E-009 @stable @p1 @manage-wrcf Functional Group list is ordered alphabetically', async () => {
+    await ensureSectorIndustryContext(page);
     const values = (await itemNames(column(page, 'Functional Group')).allTextContents())
       .map(value => value.trim())
       .filter(Boolean);
@@ -168,6 +207,7 @@ test.describe('Manage Industry WRCF sheet-aligned coverage', () => {
   futureManageCase('MIWRCF-E2E-010', 'first FG is selected by default and edit icon is shown', 'The current UI does not expose a reliable default-selected FG state on initial page load.');
 
   test('MIWRCF-E2E-011 @stable @p0 @manage-wrcf PWO list loads based on selected FG, sector, and industry', async () => {
+    await ensureSectorIndustryContext(page);
     await selectFirstItem(page, 'Functional Group');
     await expect(column(page, 'Primary Work Obj.')).toBeVisible();
   });
@@ -176,6 +216,7 @@ test.describe('Manage Industry WRCF sheet-aligned coverage', () => {
   futureManageCase('MIWRCF-E2E-013', 'changing FG resets PWO, SWO, capability and proficiency to a new valid state', 'Needs deterministic seeded hierarchy data and selection-reset assertions across all lower columns.');
 
   test('MIWRCF-E2E-014 @stable @p0 @manage-wrcf SWO list loads based on selected PWO', async () => {
+    await ensureSectorIndustryContext(page);
     await selectFirstItem(page, 'Functional Group');
     const pwoItems = itemNames(column(page, 'Primary Work Obj.'));
     if (await pwoItems.count()) {
@@ -188,6 +229,10 @@ test.describe('Manage Industry WRCF sheet-aligned coverage', () => {
   futureManageCase('MIWRCF-E2E-016', 'changing PWO resets SWO, capability and proficiency to valid data only', 'Needs deterministic seeded PWO/SWO hierarchy data to verify lower-column resets.');
 
   test('MIWRCF-E2E-017 @stable @p1 @manage-wrcf all active capabilities are shown for the selected SWO in capability-code order', async () => {
+    await ensureSectorIndustryContext(page);
+    await selectFirstItem(page, 'Functional Group');
+    await selectFirstItem(page, 'Primary Work Obj.');
+    await selectFirstItem(page, 'Secondary Work Obj.');
     await expect(column(page, 'Capabilities')).toBeVisible();
     await expect(itemNames(column(page, 'Capabilities')).first()).toBeVisible();
   });
@@ -196,6 +241,11 @@ test.describe('Manage Industry WRCF sheet-aligned coverage', () => {
   futureManageCase('MIWRCF-E2E-019', 'inactive capabilities are not shown even if historic CI exists', 'Requires mixed active/inactive capability fixtures across published history.');
 
   test('MIWRCF-E2E-020 @stable @p1 @manage-wrcf proficiencies are shown in ascending level order for the selected capability area', async () => {
+    await ensureSectorIndustryContext(page);
+    await selectFirstItem(page, 'Functional Group');
+    await selectFirstItem(page, 'Primary Work Obj.');
+    await selectFirstItem(page, 'Secondary Work Obj.');
+    await selectFirstItem(page, 'Capabilities');
     const proficiencies = (await itemNames(column(page, 'Proficiency Level')).allTextContents())
       .map(value => value.trim())
       .filter(Boolean);
@@ -224,6 +274,7 @@ test.describe('Manage Industry WRCF sheet-aligned coverage', () => {
   futureManageCase('MIWRCF-E2E-034', 'page remains usable when industry has large FG/PWO/SWO and CI volume', 'Needs a high-volume seeded industry dataset and explicit performance thresholds.', 'p2');
 
   test('MIWRCF-E2E-035 @stable @p1 @manage-wrcf selected FG highlight remains visible until parent filter changes', async () => {
+    await ensureSectorIndustryContext(page);
     const selectedName = await selectFirstItem(page, 'Functional Group');
     await expect(column(page, 'Functional Group')).toContainText(selectedName);
   });

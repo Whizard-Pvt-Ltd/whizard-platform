@@ -124,26 +124,61 @@ async function gotoDashboard(page: Page): Promise<void> {
 }
 
 function sectorDropdown(page: Page) {
-  return page.locator('.filters-bar select').nth(0);
+  return page.locator('mat-form-field.wrcf-select').nth(0);
 }
 
 function industryDropdown(page: Page) {
-  return page.locator('.filters-bar select').nth(1);
+  return page.locator('mat-form-field.wrcf-select').nth(1);
 }
 
 function statCard(page: Page, label: string) {
-  return page.locator('.stat-card').filter({ hasText: label });
+  return page.getByText(label, { exact: true }).locator('xpath=ancestor::div[1]');
 }
 
 function quickAction(page: Page, label: string) {
-  return page.locator('.action-card').filter({ hasText: label });
+  return page.getByRole('button', { name: new RegExp(label) });
+}
+
+function selectTrigger(page: Page, index: number) {
+  return page.locator('mat-form-field.wrcf-select').nth(index).locator('.mat-mdc-select-trigger');
+}
+
+function selectedValue(page: Page, index: number) {
+  return page.locator('mat-form-field.wrcf-select').nth(index).locator('.mat-mdc-select-value-text');
+}
+
+async function openSelect(page: Page, index: number): Promise<void> {
+  await selectTrigger(page, index).click();
+  await expect(page.locator('[role="listbox"]')).toBeVisible();
+}
+
+async function closeSelect(page: Page): Promise<void> {
+  await page.keyboard.press('Escape');
+  await expect(page.locator('[role="listbox"]')).not.toBeVisible({ timeout: 5000 });
+}
+
+async function chooseSelectOption(page: Page, index: number, label: string): Promise<void> {
+  await openSelect(page, index);
+  await page.locator('[role="option"]').filter({ hasText: new RegExp(`^\\s*${label}\\s*$`) }).first().click();
 }
 
 async function getOptions(page: Page, label: string): Promise<string[]> {
-  const dropdown = label === 'Industry Sector' ? sectorDropdown(page) : industryDropdown(page);
-  return dropdown.locator('option').evaluateAll(
-    options => options.map(option => (option as HTMLOptionElement).textContent?.trim() || '').filter(Boolean)
-  );
+  const index = label === 'Industry Sector' ? 0 : 1;
+  await openSelect(page, index);
+  const options = await page
+    .locator('[role="option"]')
+    .evaluateAll(nodes => nodes.map(node => node.textContent?.trim() || '').filter(Boolean));
+  await closeSelect(page);
+  return options;
+}
+
+async function selectDashboardContext(page: Page, sectorLabel: string, industryLabel: string): Promise<void> {
+  await chooseSelectOption(page, 0, sectorLabel);
+  await expect(selectedValue(page, 0)).toContainText(sectorLabel);
+  await expect.poll(async () => await getOptions(page, 'Industry')).toContain(industryLabel);
+  await chooseSelectOption(page, 1, industryLabel);
+  await expect(selectedValue(page, 1)).toContainText(industryLabel);
+  await expect(page.locator('h2')).toHaveText(industryLabel);
 }
 
 async function expectStatCount(page: Page, label: string, value: number): Promise<void> {
@@ -228,9 +263,9 @@ test.describe('WRCF dashboard', () => {
   test('DASH-E2E-002 @stable @p0 @dashboard auto-selects the default Industry Sector and Industry on page load', async () => {
     await expect
       .poll(async () => ({
-        sector: await sectorDropdown(page).inputValue(),
-        industry: await industryDropdown(page).inputValue(),
-        heading: await page.locator('.industry-name').textContent(),
+        sector: await selectedValue(page, 0).textContent(),
+        industry: await selectedValue(page, 1).textContent(),
+        heading: await page.locator('h2').textContent(),
       }))
       .toMatchObject({
         sector: expect.stringMatching(/.+/),
@@ -238,7 +273,7 @@ test.describe('WRCF dashboard', () => {
         heading: expect.stringMatching(/\S/),
       });
 
-    await expect(page.locator('.industry-name')).not.toHaveText('—');
+    await expect(page.locator('h2')).not.toHaveText('—');
   });
 
   test('DASH-E2E-003 @stable @p0 @dashboard loads dashboard cards for the default selected sector and industry', async () => {
@@ -264,12 +299,12 @@ test.describe('WRCF dashboard', () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
 
-    await sectorDropdown(page).selectOption('sector-energy');
+    await chooseSelectOption(page, 0, 'Energy & Utilities');
     await expect.poll(async () => getOptions(page, 'Industry')).toEqual(['Thermal Power', 'Water Operations']);
     const energyOptions = await getOptions(page, 'Industry');
     expect(energyOptions).toEqual(['Thermal Power', 'Water Operations']);
 
-    await sectorDropdown(page).selectOption('sector-manufacturing');
+    await chooseSelectOption(page, 0, 'Manufacturing');
     await expect.poll(async () => getOptions(page, 'Industry')).toEqual(['Auto Manufacturing', 'Steel Manufacturing']);
     const manufacturingOptions = await getOptions(page, 'Industry');
     expect(manufacturingOptions).toEqual(['Auto Manufacturing', 'Steel Manufacturing']);
@@ -279,11 +314,11 @@ test.describe('WRCF dashboard', () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
 
-    await sectorDropdown(page).selectOption('sector-energy');
+    await chooseSelectOption(page, 0, 'Energy & Utilities');
     const energyOptions = await getOptions(page, 'Industry');
     expect(energyOptions).toEqual([...energyOptions].sort((a, b) => a.localeCompare(b)));
 
-    await sectorDropdown(page).selectOption('sector-manufacturing');
+    await chooseSelectOption(page, 0, 'Manufacturing');
     const manufacturingOptions = await getOptions(page, 'Industry');
     expect(manufacturingOptions).toEqual([...manufacturingOptions].sort((a, b) => a.localeCompare(b)));
   });
@@ -292,13 +327,12 @@ test.describe('WRCF dashboard', () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
 
-    await sectorDropdown(page).selectOption('sector-energy');
-    await industryDropdown(page).selectOption('industry-thermal');
+    await selectDashboardContext(page, 'Energy & Utilities', 'Thermal Power');
     await expectStatCount(page, 'Functional Groups', 11);
     await expectStatCount(page, 'Tasks', 13);
 
-    await industryDropdown(page).selectOption('industry-water');
-    await expect(page.locator('.industry-name')).toHaveText('Water Operations');
+    await chooseSelectOption(page, 1, 'Water Operations');
+    await expect(page.locator('h2')).toHaveText('Water Operations');
     await expectStatCount(page, 'Functional Groups', 1);
     await expectStatCount(page, 'Tasks', 0);
   });
@@ -307,14 +341,12 @@ test.describe('WRCF dashboard', () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
 
-    await sectorDropdown(page).selectOption('sector-energy');
-    await expect(industryDropdown(page)).toHaveValue('industry-thermal');
-    await expect(page.locator('.industry-name')).toHaveText('Thermal Power');
+    await selectDashboardContext(page, 'Energy & Utilities', 'Thermal Power');
     await expectStatCount(page, 'Functional Groups', 11);
 
-    await sectorDropdown(page).selectOption('sector-manufacturing');
-    await expect(industryDropdown(page)).toHaveValue('industry-auto');
-    await expect(page.locator('.industry-name')).toHaveText('Auto Manufacturing');
+    await chooseSelectOption(page, 0, 'Manufacturing');
+    await expect(selectedValue(page, 1)).toContainText('Auto Manufacturing');
+    await expect(page.locator('h2')).toHaveText('Auto Manufacturing');
     await expectStatCount(page, 'Functional Groups', 8);
   });
 
@@ -322,13 +354,12 @@ test.describe('WRCF dashboard', () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
 
-    await sectorDropdown(page).selectOption('sector-manufacturing');
-    await industryDropdown(page).selectOption('industry-steel');
+    await selectDashboardContext(page, 'Manufacturing', 'Steel Manufacturing');
     await expectStatCount(page, 'Primary Work Objective', 6);
     await expectStatCount(page, 'Functional Groups', 5);
 
-    await sectorDropdown(page).selectOption('sector-energy');
-    await expect(page.locator('.industry-name')).toHaveText('Thermal Power');
+    await chooseSelectOption(page, 0, 'Energy & Utilities');
+    await expect(page.locator('h2')).toHaveText('Thermal Power');
     await expect(statCard(page, 'Functional Groups')).not.toContainText('5');
     await expectStatCount(page, 'Functional Groups', 11);
   });
@@ -369,10 +400,9 @@ test.describe('WRCF dashboard', () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
 
-    await sectorDropdown(page).selectOption('sector-energy');
-    await industryDropdown(page).selectOption('industry-water');
+    await selectDashboardContext(page, 'Energy & Utilities', 'Water Operations');
 
-    await expect(page.locator('.industry-name')).toHaveText('Water Operations');
+    await expect(page.locator('h2')).toHaveText('Water Operations');
     await expectStatCount(page, 'Functional Groups', 1);
     await expectStatCount(page, 'Primary Work Objective', 0);
     await expectStatCount(page, 'Secondary Work Objective', 0);
@@ -448,8 +478,7 @@ test.describe('WRCF dashboard', () => {
   test('DASH-E2E-009 @stable @p1 @dashboard excludes inactive FG PWO SWO CI Skill Task Role and Department records from dashboard counts', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
-    await sectorDropdown(page).selectOption('sector-energy');
-    await industryDropdown(page).selectOption('industry-thermal');
+    await selectDashboardContext(page, 'Energy & Utilities', 'Thermal Power');
 
     await expectStatCount(page, 'Functional Groups', 11);
     await expectStatCount(page, 'Primary Work Objective', 7);
@@ -473,8 +502,7 @@ test.describe('WRCF dashboard', () => {
   test('DASH-E2E-013 @stable @p1 @dashboard shows a no-data state when the selected industry has no published WRCF data', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
-    await sectorDropdown(page).selectOption('sector-energy');
-    await industryDropdown(page).selectOption('industry-water');
+    await selectDashboardContext(page, 'Energy & Utilities', 'Water Operations');
     await expect(page.getByText('No published WRCF data')).toBeVisible();
   });
 
@@ -489,16 +517,14 @@ test.describe('WRCF dashboard', () => {
   test('DASH-E2E-019 @stable @p1 @dashboard uses published active Capability Instance counts only', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
-    await sectorDropdown(page).selectOption('sector-energy');
-    await industryDropdown(page).selectOption('industry-thermal');
+    await selectDashboardContext(page, 'Energy & Utilities', 'Thermal Power');
     await expectStatCount(page, 'Capability Instances', 4);
   });
 
   test('DASH-E2E-020 @stable @p1 @dashboard uses published active linked records only for Skills and Tasks counts', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
-    await sectorDropdown(page).selectOption('sector-energy');
-    await industryDropdown(page).selectOption('industry-thermal');
+    await selectDashboardContext(page, 'Energy & Utilities', 'Thermal Power');
     await expectStatCount(page, 'Skills', 9);
     await expectStatCount(page, 'Tasks', 13);
   });
@@ -506,8 +532,7 @@ test.describe('WRCF dashboard', () => {
   test('DASH-E2E-021 @stable @p1 @dashboard keeps hierarchy card totals aligned to published active counts', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
-    await sectorDropdown(page).selectOption('sector-manufacturing');
-    await industryDropdown(page).selectOption('industry-auto');
+    await selectDashboardContext(page, 'Manufacturing', 'Auto Manufacturing');
     await expectStatCount(page, 'Functional Groups', 8);
     await expectStatCount(page, 'Primary Work Objective', 6);
     await expectStatCount(page, 'Secondary Work Objective', 3);
@@ -516,8 +541,7 @@ test.describe('WRCF dashboard', () => {
   test('DASH-E2E-022 @stable @p1 @dashboard uses active published counts for Roles and Departments cards', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
-    await sectorDropdown(page).selectOption('sector-manufacturing');
-    await industryDropdown(page).selectOption('industry-auto');
+    await selectDashboardContext(page, 'Manufacturing', 'Auto Manufacturing');
     await expectStatCount(page, 'Roles', 4);
     await expectStatCount(page, 'Departments', 1);
   });
@@ -525,8 +549,7 @@ test.describe('WRCF dashboard', () => {
   test('DASH-E2E-026 @stable @p1 @dashboard clicking Edit Structure redirects user to Manage Industry WRCF with same selected Industry Sector and Industry carried forward from Dashboard', async () => {
     await mockDashboardApis(page);
     await gotoDashboard(page);
-    await sectorDropdown(page).selectOption('sector-energy');
-    await industryDropdown(page).selectOption('industry-water');
+    await selectDashboardContext(page, 'Energy & Utilities', 'Water Operations');
 
     await quickAction(page, 'Edit Structure').click();
     await expect(page).toHaveURL(/\/industry-wrcf/);

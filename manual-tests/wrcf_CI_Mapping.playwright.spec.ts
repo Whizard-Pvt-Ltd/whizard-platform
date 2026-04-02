@@ -100,8 +100,46 @@ async function openWrcf(page: Page): Promise<void> {
 
 async function selectIndustryContext(page: Page): Promise<void> {
   const filters = page.locator('.filter-bar .filter-select');
-  await expect(filters.nth(0)).toHaveValue(/.+/);
-  await expect(filters.nth(1)).toHaveValue(/.+/);
+  const sector = filters.nth(0);
+  const industry = filters.nth(1);
+
+  const chooseFirstAvailable = async (select: Locator, emptyPattern: RegExp): Promise<void> => {
+    const options = await select.locator('option').evaluateAll(nodes =>
+      nodes
+        .map(node => {
+          const option = node as HTMLOptionElement;
+          return {
+            label: option.textContent?.trim() || '',
+            value: option.value,
+          };
+        })
+        .filter(option => option.value && option.label && !emptyPattern.test(option.label))
+    );
+
+    if (!options.length) {
+      throw new Error('No selectable filter options were available.');
+    }
+
+    await select.selectOption(options[0].value);
+  };
+
+  if (!(await sector.inputValue())) {
+    await chooseFirstAvailable(sector, /^select /i);
+  }
+
+  await expect.poll(
+    async () =>
+      await industry.locator('option').evaluateAll(nodes =>
+        nodes.filter(node => {
+          const option = node as HTMLOptionElement;
+          return Boolean(option.value && option.textContent?.trim() && !/^select /i.test(option.textContent.trim()));
+        }).length
+      )
+  ).toBeGreaterThan(0);
+
+  if (!(await industry.inputValue())) {
+    await chooseFirstAvailable(industry, /^select /i);
+  }
 }
 
 async function clickFirstItem(page: Page, title: string): Promise<string> {

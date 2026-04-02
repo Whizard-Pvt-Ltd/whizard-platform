@@ -123,20 +123,8 @@ function fgItems(page: Page): Locator {
   return column(page, 'Functional Group').locator('.item');
 }
 
-function mappingsDialog(page: Page): Locator {
-  return page.locator('.dialog-panel');
-}
-
 function proficiencyItems(page: Page): Locator {
   return column(page, 'Proficiency Level').locator('.item');
-}
-
-function savedProficiencyRows(page: Page): Locator {
-  return proficiencyItems(page).filter({ has: page.locator('.checkbox-btn.saved') });
-}
-
-function unmappedProficiencyRows(page: Page): Locator {
-  return proficiencyItems(page).filter({ has: page.locator('.checkbox-btn:not(.saved):not(.checked)') });
 }
 
 async function openIndustryWrcf(page: Page): Promise<void> {
@@ -183,51 +171,76 @@ async function clickFirstHierarchyItem(page: Page, title: string): Promise<void>
 async function ensureSelectedCiOnIndustryWrcf(page: Page): Promise<void> {
   await openIndustryWrcf(page);
   await ensureIndustryContext(page);
-  await clickFirstHierarchyItem(page, 'Functional Group');
-  await clickFirstHierarchyItem(page, 'Primary Work Obj.');
-  await clickFirstHierarchyItem(page, 'Secondary Work Obj.');
-  await clickFirstHierarchyItem(page, 'Capabilities');
-  await expect(proficiencyItems(page).first()).toBeVisible();
-
-  if ((await savedProficiencyRows(page).count()) > 0) {
-    return;
-  }
-
-  const unmapped = unmappedProficiencyRows(page).first();
-  await expect(unmapped).toBeVisible();
-  await unmapped.locator('.checkbox-btn').click();
-  await openMappingsDialog(page);
-  await mappingsDialog(page).locator('.btn-save').click();
-  await expect(mappingsDialog(page)).not.toBeVisible();
-  await expect(savedProficiencyRows(page).first()).toBeVisible();
 }
 
-async function enterManageSkillsFromSelectedCi(page: Page): Promise<boolean> {
+async function openManageSkillsFromAddSkills(page: Page): Promise<void> {
   await ensureSelectedCiOnIndustryWrcf(page);
-  await openMappingsDialog(page);
-  const skillPlus = page.getByRole('button', { name: 'Skill+' }).first();
-  if ((await page.getByRole('button', { name: 'Skill+' }).count()) === 0) {
-    await closeMappingsDialog(page);
-    return false;
-  }
-  await skillPlus.click();
+  await page.getByRole('button', { name: /\+?\s*add skills/i }).click();
   await expect(page.getByRole('heading', { name: 'Manage WRCF Skills' })).toBeVisible();
-  await expect(page).toHaveURL(/capabilityInstanceId=/);
-  return true;
+  await expect(page).toHaveURL(/\/wrcf-skills/);
 }
 
-async function openMappingsDialog(page: Page): Promise<void> {
-  await page.getByRole('button', { name: /mappings/i }).click();
-  await expect(page.getByRole('heading', { name: 'Manage CI Mappings' })).toBeVisible();
+async function selectManageSkillsPath(page: Page): Promise<void> {
+  await expect.poll(
+    async () => dropdownLabels(filter(page, 0), /^select fg/),
+    { timeout: 10000, message: 'Waiting for FG options on Manage WRCF Skills' }
+  ).not.toHaveLength(0);
+
+  if (!(await filter(page, 0).inputValue())) {
+    await selectFirstOption(filter(page, 0), /^select fg/);
+  }
+
+  await expect.poll(
+    async () => dropdownLabels(filter(page, 1), /^select pwo/),
+    { timeout: 10000, message: 'Waiting for PWO options on Manage WRCF Skills' }
+  ).not.toHaveLength(0);
+  if (!(await filter(page, 1).inputValue())) {
+    await selectFirstOption(filter(page, 1), /^select pwo/);
+  }
+
+  await expect.poll(
+    async () => dropdownLabels(filter(page, 2), /^select swo/),
+    { timeout: 10000, message: 'Waiting for SWO options on Manage WRCF Skills' }
+  ).not.toHaveLength(0);
+  if (!(await filter(page, 2).inputValue())) {
+    await selectFirstOption(filter(page, 2), /^select swo/);
+  }
+
+  await expect.poll(
+    async () => dropdownLabels(filter(page, 3), /^select capability/),
+    { timeout: 10000, message: 'Waiting for capability options on Manage WRCF Skills' }
+  ).not.toHaveLength(0);
+  if (!(await filter(page, 3).inputValue())) {
+    await selectFirstOption(filter(page, 3), /^select capability/);
+  }
+
+  await expect.poll(
+    async () => dropdownLabels(filter(page, 4), /^select level/),
+    { timeout: 10000, message: 'Waiting for proficiency options on Manage WRCF Skills' }
+  ).not.toHaveLength(0);
+  if (!(await filter(page, 4).inputValue())) {
+    await selectFirstOption(filter(page, 4), /^select level/);
+  }
 }
 
-async function closeMappingsDialog(page: Page): Promise<void> {
-  await page.locator('.dialog-panel .close-btn').click();
-  await expect(page.getByRole('heading', { name: 'Manage CI Mappings' })).not.toBeVisible();
-}
+async function openTaskSheetFromManageSkills(page: Page): Promise<boolean> {
+  let lastError: unknown;
 
-async function openTaskSheetFromSelectedCi(page: Page): Promise<boolean> {
-  return enterManageSkillsFromSelectedCi(page);
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    try {
+      await openManageSkillsFromAddSkills(page);
+      await selectManageSkillsPath(page);
+      return true;
+    } catch (error) {
+      lastError = error;
+      await page.goto(`${appUrl}/industry-wrcf`).catch(() => undefined);
+    }
+  }
+
+  if (lastError) {
+    throw lastError;
+  }
+  return false;
 }
 
 async function selectFirstSkill(page: Page): Promise<boolean> {
@@ -297,13 +310,14 @@ async function createSkill(page: Page, name: string): Promise<void> {
   await column(page, 'Skills').getByTitle('Add').click();
   await expect(panel(page)).toBeVisible();
   await panel(page).getByPlaceholder('Enter skill name...').fill(name);
+  await panel(page).getByPlaceholder('Enter description...').fill('Generated during Task sheet validation.');
   await savePanel(page);
   await expect(panel(page)).not.toBeVisible();
   await expect(skillsItems(page).first()).toBeVisible();
 }
 
 async function assertTaskContextReady(page: Page, runtimeBlocker: string): Promise<void> {
-  const taskContextReady = await openTaskSheetFromSelectedCi(page);
+  const taskContextReady = await openTaskSheetFromManageSkills(page);
   if (!taskContextReady) {
     throw new Error(runtimeBlocker);
   }
@@ -342,9 +356,9 @@ test.describe('Task sheet-aligned coverage', () => {
   let page: Page;
 
   const noTaskContextReason =
-    'Current local workflow cannot create or reuse a selected capability instance and enter Manage WRCF Skills through Skill+ from Manage CI Mappings.';
+    'Current local workflow cannot enter Manage WRCF Skills through + Add Skills and resolve the FG/PWO/SWO/Capability/Level selection path.';
   const noSelectedSkillReason =
-    'No deterministic selected skill row is available after entering Manage WRCF Skills from the selected capability instance, and the local runtime could not create one.';
+    'No deterministic selected skill row is available after entering Manage WRCF Skills from + Add Skills, and the local runtime could not create one.';
   const noExistingTaskReason =
     'No deterministic existing task row is available under the selected skill for edit/delete coverage.';
   const noDuplicateTaskReason =

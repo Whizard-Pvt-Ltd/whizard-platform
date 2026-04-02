@@ -20,14 +20,13 @@ Login
   -> open /industry-wrcf
   -> select Industry Sector
   -> select Industry
+  -> click + Add Skills
+  -> open /wrcf-skills
   -> select FG
   -> select PWO
   -> select SWO
   -> select Capability
-  -> ensure a Capability Instance exists by saving a proficiency selection if needed
-  -> open Mappings
-  -> click Skill+ on a saved CI row
-  -> open /wrcf-skills?capabilityInstanceId=...
+  -> select Proficiency
   -> select existing Skill or create one if none exists
   -> inspect Task column behavior
       -> add / validate / save / edit / delete
@@ -35,12 +34,11 @@ Login
 
 ## Notes
 
-- Reuses the WRCF auth pattern, but now drives the parent workflow through a selected Capability Instance instead of probing `industryId` routes
+- Reuses the WRCF auth pattern and now follows the current user flow through `+ Add Skills` from `Manage Industry WRCF`
 - Scenario intent comes from `temp/WRCF Functional Specs.pdf` (`UC-04 Manage Skills`, `UC-04.2 Create Task`) and `temp/WRCF definition & Schema.pdf`
 - Uses the workbook as the case ledger and test-ID source
-- Depends first on a selected saved Capability Instance in `Manage Industry WRCF`, then on `Manage WRCF Skills`, then on a selected Skill before any Task CRUD behavior can execute
+- Depends first on a selected sector/industry in `Manage Industry WRCF`, then on `Manage WRCF Skills`, then on a selected Skill before any Task CRUD behavior can execute
 - The spec now creates the minimum parent prerequisites when missing:
-  - saves a CI from the selected FG/PWO/SWO/Capability/Proficiency path if needed
   - creates a Skill if the selected CI has no Skill rows yet
 
 ## Pending Cases And Blockers
@@ -54,6 +52,6 @@ Login
   - Tags: `@future` plus priority and blocker tags
   - These stay visible in the same spec and are excluded only from the default run.
 - Current runtime/data blockers:
-  - parent blocker: current local workflow may fail to create or reuse a selected Capability Instance and enter `Manage WRCF Skills` through `Skill+`
-  - local blocker: no deterministic selected Skill row may exist after CI selection, even after the spec attempts to create one
+  - parent blocker: current local workflow may fail to enter `Manage WRCF Skills` through `+ Add Skills` and resolve all five skill filters
+  - local blocker: no deterministic selected Skill row may exist after entering `Manage WRCF Skills`, even after the spec attempts to create one
   - data blocker: duplicate/edit/delete cases may need existing task rows or child control points

@@ -33,6 +33,7 @@ Login
 
 - Uses the live WRCF UI
 - Full sheet ID coverage is present even when some rows are still blocked by environment or product prerequisites
+- Default sector/industry assertions stay strict, but independent downstream hierarchy checks should re-establish a valid sector/industry context when that does not change the requirement under test.
 - Uses tags instead of permanent `fixme` for future-feature and blocked coverage:
   - stable coverage runs by default
   - future coverage remains visible under `@future`

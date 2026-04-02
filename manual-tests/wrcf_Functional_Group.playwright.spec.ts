@@ -106,58 +106,38 @@ async function selectIndustryContext(page: Page): Promise<void> {
     .map((value) => value.trim())
     .filter((value) => value && value !== 'Select Sector...');
 
-  const preferredSectors = [
-    industryContext.sectorName,
-    ...sectorOptions.filter((value) => value !== industryContext.sectorName),
-  ];
+  const sectorName = sectorOptions.includes(industryContext.sectorName)
+    ? industryContext.sectorName
+    : sectorOptions[0];
+  await sectorSelect.selectOption({ label: sectorName });
 
-  for (const sectorName of preferredSectors) {
-    await sectorSelect.selectOption({ label: sectorName });
+  await expect
+    .poll(async () => {
+      return (await industrySelect.locator('option').allTextContents())
+        .map((value) => value.trim())
+        .filter((value) => value && value !== 'Select Industry...');
+    }, {
+      timeout: 10000,
+      message: `Waiting for industries under sector "${sectorName}" to load`,
+    })
+    .not.toHaveLength(0);
 
-    await expect
-      .poll(async () => {
-        return (await industrySelect.locator('option').allTextContents())
-          .map((value) => value.trim())
-          .filter((value) => value && value !== 'Select Industry...');
-      }, {
-        timeout: 10000,
-        message: `Waiting for industries under sector "${sectorName}" to load`,
-      })
-      .not.toHaveLength(0);
+  const industryOptions = (await industrySelect.locator('option').allTextContents())
+    .map((value) => value.trim())
+    .filter((value) => value && value !== 'Select Industry...');
+  const industryName = industryOptions.includes(industryContext.preferredIndustryName)
+    ? industryContext.preferredIndustryName
+    : industryOptions[0];
 
-    const industryOptions = (await industrySelect.locator('option').allTextContents())
-      .map((value) => value.trim())
-      .filter((value) => value && value !== 'Select Industry...');
+  await industrySelect.selectOption({ label: industryName });
 
-    const preferredIndustries = [
-      industryContext.preferredIndustryName,
-      ...industryOptions.filter((value) => value !== industryContext.preferredIndustryName),
-    ];
-
-    for (const industryName of preferredIndustries) {
-      if (!industryOptions.includes(industryName)) continue;
-      await industrySelect.selectOption({ label: industryName });
-
-      const fgItems = column(page, 'Functional Group').locator('.item');
-      const noItems = column(page, 'Functional Group').getByText('No items');
-
-      try {
-        await expect(fgItems.first()).toBeVisible({ timeout: 3000 });
-        return;
-      } catch {
-        const emptyStateVisible = await noItems.isVisible().catch(() => false);
-        if (!emptyStateVisible) {
-          await page.waitForTimeout(500);
-          if (await fgItems.count()) {
-            await expect(fgItems.first()).toBeVisible();
-            return;
-          }
-        }
-      }
-    }
-  }
-
-  throw new Error('No Functional Group items were visible for any available sector and industry combination.');
+  const fgItems = column(page, 'Functional Group').locator('.item');
+  await expect
+    .poll(async () => fgItems.count(), {
+      timeout: 10000,
+      message: `Waiting for Functional Group rows after selecting sector "${sectorName}" and industry "${industryName}"`,
+    })
+    .toBeGreaterThan(0);
 }
 
 function column(page: Page, title: string): Locator {

@@ -22,7 +22,9 @@ Sheet-driven Functional Group coverage aligned to the FG tab in `WRCF End-to-End
 Login
   -> reuse saved auth state when available
   -> /industry-wrcf
-  -> select sector + industry with visible FG rows
+  -> select sector
+  -> select industry
+  -> observe Functional Group list for that selected context
   -> Functional Group column
       -> open add panel
       -> create / validate / cancel
@@ -37,6 +39,9 @@ Login
 - Parent selections before Functional Group actions:
   - Industry Sector
   - Industry
+- Setup rule:
+  - FG tests should first open `Manage Industry WRCF`, then explicitly select sector and industry, then validate the Functional Group list for that chosen context.
+  - They should not keep hopping across multiple sector/industry combinations looking for data.
 - Functional Group is the first hierarchy column under the selected industry context
 - Downstream handoff from a selected FG is:
   - FG -> PWO -> SWO -> Capability -> Proficiency

@@ -36,6 +36,8 @@ Login
 
 - Covers the full dashboard sheet row set with explicit `DASH-E2E-*` IDs
 - Combines current implemented behavior with requirement checks that may intentionally fail until the product is fixed
+- Default-selection cases stay strict.
+- Independent dashboard behavior such as sector filtering, industry filtering, and refresh behavior should establish sector/industry context directly when the UI allows manual reselection.
 - Unauthorized access is still pending because it needs a lower-privilege test user
 
 ## Pending Or Blocked Cases
