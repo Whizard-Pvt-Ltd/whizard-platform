@@ -6,6 +6,46 @@ import { ControlPoint } from '../../../../domain/aggregates/control-point.aggreg
 export class PrismaControlPointRepository implements IControlPointRepository {
   private readonly prisma = getPrisma();
 
+  private async createControlPoint(cp: ControlPoint): Promise<void> {
+    await this.prisma.controlPoint.create({
+      data: {
+        tenantId: BigInt(cp.tenantId),
+        taskId: BigInt(cp.taskId),
+        name: cp.name,
+        description: cp.description,
+        riskLevel: cp.riskLevel,
+        failureImpactType: cp.failureImpactType,
+        kpiThreshold: cp.kpiThreshold,
+        escalationRequired: cp.escalationRequired
+      }
+    });
+  }
+
+  private isDuplicateControlPointIdError(error: unknown): boolean {
+    if (!error || typeof error !== 'object' || !('code' in error)) return false;
+    if (error.code !== 'P2002') return false;
+
+    const target = 'meta' in error && error.meta && typeof error.meta === 'object' && 'target' in error.meta
+      ? error.meta.target
+      : undefined;
+
+    if (Array.isArray(target)) {
+      return target.includes('id');
+    }
+
+    return typeof target === 'string' && target.includes('id');
+  }
+
+  private async resyncControlPointIdSequence(): Promise<void> {
+    await this.prisma.$executeRaw`
+      SELECT setval(
+        pg_get_serial_sequence('control_points', 'id'),
+        COALESCE((SELECT MAX(id) FROM control_points), 0) + 1,
+        false
+      )
+    `;
+  }
+
   async findByTaskId(tenantId: string, taskId: string): Promise<ControlPoint[]> {
     const rows = await this.prisma.controlPoint.findMany({
       where: {
@@ -69,18 +109,16 @@ export class PrismaControlPointRepository implements IControlPointRepository {
   }
 
   async save(cp: ControlPoint): Promise<void> {
-    await this.prisma.controlPoint.create({
-      data: {
-        tenantId: BigInt(cp.tenantId),
-        taskId: BigInt(cp.taskId),
-        name: cp.name,
-        description: cp.description,
-        riskLevel: cp.riskLevel,
-        failureImpactType: cp.failureImpactType,
-        kpiThreshold: cp.kpiThreshold,
-        escalationRequired: cp.escalationRequired
+    try {
+      await this.createControlPoint(cp);
+    } catch (error) {
+      if (!this.isDuplicateControlPointIdError(error)) {
+        throw error;
       }
-    });
+
+      await this.resyncControlPointIdSequence();
+      await this.createControlPoint(cp);
+    }
   }
 
   async update(cp: ControlPoint): Promise<void> {
