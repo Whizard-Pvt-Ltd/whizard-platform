@@ -1,6 +1,7 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 
 @Component({
@@ -70,7 +71,9 @@ export class PdfViewerComponent {
   readonly fileName = input<string>('Document');
   readonly closed = output<void>();
 
-  safeUrl(): string {
-    return this.url();
+  private readonly sanitizer = inject(DomSanitizer);
+
+  safeUrl(): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(this.url());
   }
 }

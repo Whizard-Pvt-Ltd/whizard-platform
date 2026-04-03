@@ -1,0 +1,11 @@
+:host {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.wrcf-field .mat-mdc-text-field-wrapper {
+  background: var(--wrcf-bg-secondary, #0F253F);
+  border-radius: 10px;
+}

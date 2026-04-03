@@ -1,4 +1,4 @@
-import { Component, input, output, computed } from '@angular/core';
+import { Component, input, output, signal, computed } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import type { CollegeListItem } from '../../models/manage-college.models';
 
@@ -13,9 +13,10 @@ export class CollegeListPanelComponent {
   readonly colleges = input<CollegeListItem[]>([]);
   readonly selectedId = input<string | null>(null);
   readonly loading = input<boolean>(false);
-  readonly searchQuery = input<string>('');
 
   readonly collegeSelected = output<string>();
+
+  protected searchQuery = signal('');
 
   protected filteredColleges = computed(() => {
     const q = this.searchQuery().toLowerCase().trim();

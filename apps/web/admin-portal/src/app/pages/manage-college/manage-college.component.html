@@ -19,37 +19,24 @@
       <h1 class="text-2xl font-semibold text-wrcf-text-primary leading-8">Manage College</h1>
     </div>
 
-    <!-- VIEW MODE: search + filter chips + Add button -->
+    <!-- VIEW MODE: filter chips + Add button -->
     @if (mode() === 'list') {
-      <div class="flex-1 flex items-center gap-2 min-w-0 overflow-hidden">
-        <!-- Search -->
-        <div class="flex items-center gap-2 h-9 px-3 rounded-[10px] bg-wrcf-bg-secondary border border-wrcf-border min-w-[180px] max-w-[220px] shrink-0">
-          <mat-icon svgIcon="heroicons_outline:magnifying-glass" class="size-4 text-wrcf-text-secondary shrink-0" />
-          <input
-            type="text"
-            placeholder="Search for college..."
-            [value]="searchQuery()"
-            (input)="searchQuery.set($any($event.target).value)"
-            class="flex-1 bg-transparent text-sm text-wrcf-text-primary placeholder:text-wrcf-text-secondary outline-none border-none min-w-0" />
-        </div>
-
-        <!-- Filter chips -->
-        <div class="flex items-center gap-1.5 overflow-x-auto flex-1 min-w-0 scrollbar-none">
-          @for (chip of filterChips; track chip) {
-            <button
-              type="button"
-              (click)="setActiveChip(chip)"
-              class="shrink-0 px-2.5 py-1 rounded-full text-xs leading-5 border transition-colors duration-150 whitespace-nowrap"
-              [class.bg-wrcf-action]="activeChip() === chip"
-              [class.text-wrcf-text-primary]="activeChip() === chip"
-              [class.border-wrcf-action]="activeChip() === chip"
-              [class.bg-transparent]="activeChip() !== chip"
-              [class.text-wrcf-text-secondary]="activeChip() !== chip"
-              [class.border-wrcf-border]="activeChip() !== chip">
-              {{ chip }}
-            </button>
-          }
-        </div>
+      <!-- Filter chips -->
+      <div class="flex-1 flex items-center gap-1.5 overflow-x-auto min-w-0 scrollbar-none">
+        @for (chip of filterChips; track chip) {
+          <button
+            type="button"
+            (click)="setActiveChip(chip)"
+            class="shrink-0 px-3 py-1 rounded-full text-xs leading-5 border transition-colors duration-150 whitespace-nowrap"
+            [class.bg-wrcf-action]="activeChip() === chip"
+            [class.text-wrcf-text-primary]="activeChip() === chip"
+            [class.border-wrcf-action]="activeChip() === chip"
+            [class.bg-transparent]="activeChip() !== chip"
+            [class.text-wrcf-text-secondary]="activeChip() !== chip"
+            [class.border-wrcf-border]="activeChip() !== chip">
+            {{ chip }}
+          </button>
+        }
       </div>
 
       <!-- Add button -->
@@ -121,7 +108,6 @@
         [colleges]="colleges()"
         [selectedId]="selectedCollegeId"
         [loading]="loading()"
-        [searchQuery]="searchQuery()"
         (collegeSelected)="onCollegeSelected($event)" />
 
       <whizard-college-detail-panel

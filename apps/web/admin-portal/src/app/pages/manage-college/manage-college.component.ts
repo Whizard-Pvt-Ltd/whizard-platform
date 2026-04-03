@@ -49,9 +49,8 @@ export class ManageCollegeComponent implements OnInit {
   protected errorMessage = signal<string | null>(null);
   protected drawerOpen = signal(false);
 
-  // Top bar: search + filter chips
+  // Top bar: filter chips
   protected readonly filterChips = FILTER_CHIPS;
-  protected searchQuery = signal('');
   protected activeChip = signal<string>('College');
 
   // Reference to the form for header button actions

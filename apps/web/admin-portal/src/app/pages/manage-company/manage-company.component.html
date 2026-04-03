@@ -28,37 +28,23 @@
     }
   </header>
 
-  <!-- Full-width filter bar (list mode only) -->
+  <!-- Filter chips bar (list mode only) -->
   @if (mode() === 'list') {
-    <div class="flex items-center gap-3 px-6 py-2.5 border-b border-wrcf-border bg-wrcf-bg-primary shrink-0">
-      <!-- Search -->
-      <div class="flex items-center gap-2 h-9 px-3 rounded-[10px] bg-wrcf-bg-secondary border border-wrcf-border min-w-[180px]">
-        <mat-icon svgIcon="heroicons_outline:magnifying-glass" class="size-3.5 text-wrcf-text-secondary shrink-0" />
-        <input
-          type="text"
-          placeholder="Search for company..."
-          [ngModel]="searchQuery()"
-          (ngModelChange)="searchQuery.set($event)"
-          class="w-36 bg-transparent text-sm text-wrcf-text-primary placeholder-wrcf-text-secondary outline-none border-none" />
-      </div>
-
-      <!-- Filter chips -->
-      <div class="flex items-center gap-1.5 flex-1 overflow-x-auto scrollbar-hide">
-        @for (chip of filterChips; track chip) {
-          <button
-            type="button"
-            (click)="activeChip.set(chip)"
-            class="px-3 py-1 rounded-full text-xs whitespace-nowrap border transition-colors duration-150 shrink-0"
-            [class.bg-wrcf-action]="activeChip() === chip"
-            [class.text-wrcf-text-primary]="activeChip() === chip"
-            [class.border-wrcf-action]="activeChip() === chip"
-            [class.bg-transparent]="activeChip() !== chip"
-            [class.text-wrcf-text-secondary]="activeChip() !== chip"
-            [class.border-wrcf-border]="activeChip() !== chip">
-            {{ chip }}
-          </button>
-        }
-      </div>
+    <div class="flex items-center gap-1.5 px-6 py-2.5 border-b border-wrcf-border bg-wrcf-bg-primary shrink-0 overflow-x-auto scrollbar-none">
+      @for (chip of filterChips; track chip) {
+        <button
+          type="button"
+          (click)="activeChip.set(chip)"
+          class="px-3 py-1 rounded-full text-xs whitespace-nowrap border transition-colors duration-150 shrink-0"
+          [class.bg-wrcf-action]="activeChip() === chip"
+          [class.text-wrcf-text-primary]="activeChip() === chip"
+          [class.border-wrcf-action]="activeChip() === chip"
+          [class.bg-transparent]="activeChip() !== chip"
+          [class.text-wrcf-text-secondary]="activeChip() !== chip"
+          [class.border-wrcf-border]="activeChip() !== chip">
+          {{ chip }}
+        </button>
+      }
     </div>
   }
 
@@ -78,7 +64,7 @@
     <!-- VIEW MODE: list + detail -->
     @if (mode() === 'list') {
       <whizard-company-list-panel
-        [companies]="filteredCompanies()"
+        [companies]="companies()"
         [selectedId]="selectedCompanyId"
         [loading]="loading()"
         (companySelected)="onCompanySelected($event)" />

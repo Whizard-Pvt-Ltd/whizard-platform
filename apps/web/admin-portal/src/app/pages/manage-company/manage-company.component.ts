@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit, computed } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { forkJoin } from 'rxjs';
@@ -39,20 +39,8 @@ export class ManageCompanyComponent implements OnInit {
   ] as const;
 
   protected mode = signal<PageMode>('list');
-  protected searchQuery = signal('');
   protected activeChip = signal('Company');
   protected companies = signal<CompanyListItem[]>([]);
-
-  protected filteredCompanies = computed(() => {
-    const q = this.searchQuery().toLowerCase().trim();
-    const list = this.companies();
-    if (!q) return list;
-    return list.filter(c =>
-      c.name.toLowerCase().includes(q) ||
-      c.companyCode.toLowerCase().includes(q) ||
-      (c.cityName ?? '').toLowerCase().includes(q),
-    );
-  });
   protected selectedCompany = signal<CompanyDetail | null>(null);
   protected clubs = signal<Club[]>([]);
   protected industries = signal<Industry[]>([]);
