@@ -1,10 +1,9 @@
-import { Component, inject, signal, OnInit, HostListener } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, ActivatedRoute } from '@angular/router';
+import { ScrollbarDirective } from '@whizard/shared-ui';
 import type { FunctionalGroup, PrimaryWorkObject, SecondaryWorkObject, Capability, ProficiencyLevel, WrcfEntity, CapabilityInstance } from '../industry-wrcf/models/wrcf.models';
 import type { SkillItem, TaskItem, ControlPointItem, SkillsPanelState } from './models/wrcf-skills.models';
-import { StackAuthService } from '../../core/services/stack-auth.service';
-import { NavDrawerComponent } from '../../shared/nav-drawer/nav-drawer.component';
 import { WrcfColumnComponent } from '../industry-wrcf/components/wrcf-column/wrcf-column.component';
 import { WrcfApiService } from '../industry-wrcf/services/wrcf-api.service';
 import { SkillsPanelComponent } from './components/skills-panel/skills-panel.component';
@@ -13,7 +12,7 @@ import { WrcfSkillsApiService } from './services/wrcf-skills-api.service';
 @Component({
   selector: 'whizard-wrcf-skills',
   standalone: true,
-  imports: [FormsModule, RouterLink, WrcfColumnComponent, SkillsPanelComponent, NavDrawerComponent],
+  imports: [FormsModule, RouterLink, WrcfColumnComponent, SkillsPanelComponent, ScrollbarDirective],
   templateUrl: './wrcf-skills.component.html',
   styleUrl: './wrcf-skills.component.css'
 })
@@ -21,8 +20,6 @@ export class WrcfSkillsComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly wrcfApi = inject(WrcfApiService);
   private readonly skillsApi = inject(WrcfSkillsApiService);
-  private readonly stackAuthService = inject(StackAuthService);
-
   private industryId = '';
   private pendingSelection: {
     fgId: string;
@@ -60,14 +57,7 @@ export class WrcfSkillsComponent implements OnInit {
   protected panel = signal<SkillsPanelState>({ open: false, mode: 'create', entity: 'Skill' });
   protected errorMessage = signal('');
   protected toastMessage = signal('');
-  protected userMenuOpen = signal(false);
-  protected drawerOpen = signal(false);
   protected noIndustry = signal(false);
-
-  protected get userName(): string | null {
-    const user = this.stackAuthService.currentUser();
-    return user?.displayName ?? user?.email?.split('@')[0] ?? null;
-  }
 
   protected get availableCapabilities(): Capability[] {
     const swoId = this.selectedSWOId();
@@ -441,22 +431,6 @@ export class WrcfSkillsComponent implements OnInit {
         error: () => this.showError('Failed to delete control point.')
       });
     }
-  }
-
-  protected toggleUserMenu(): void {
-    this.userMenuOpen.update(v => !v);
-  }
-
-  @HostListener('document:click', ['$event.target'])
-  onDocumentClick(target: HTMLElement): void {
-    if (this.userMenuOpen() && !target.closest('.avatar-wrapper')) {
-      this.userMenuOpen.set(false);
-    }
-  }
-
-  protected logout(): void {
-    this.userMenuOpen.set(false);
-    this.stackAuthService.signOut();
   }
 
   private showError(msg: string): void {

@@ -1,98 +1,142 @@
 @if (!company()) {
-  <div class="flex-1 flex flex-col items-center justify-center gap-3 text-wrcf-text-secondary">
-    <mat-icon svgIcon="heroicons_outline:building-office-2" class="size-16 opacity-30" />
+  <div
+    class="flex-1 flex flex-col items-center justify-center gap-3 text-wrcf-text-secondary"
+  >
+    <mat-icon
+      svgIcon="heroicons_outline:building-office-2"
+      class="size-16 opacity-30"
+    />
     <p class="text-base">Select a company to view details</p>
   </div>
 } @else {
-  <div class="flex-1 flex flex-col overflow-hidden">
-
+  <div class="flex-1 flex flex-col relative" whizardScrollbar>
     <!-- Detail header -->
-    <div class="shrink-0 border-b border-wrcf-border px-8 py-5 bg-wrcf-bg-primary">
-      <div class="flex items-start gap-4">
-        <!-- Logo -->
-        @if (logo?.asset?.url) {
-          <img [src]="logo!.asset!.url" [alt]="company()!.name"
-            class="w-16 h-16 rounded-full object-cover border-2 border-wrcf-border shrink-0" />
-        } @else {
-          <div class="w-16 h-16 rounded-full bg-wrcf-action flex items-center justify-center text-2xl font-bold text-wrcf-text-primary shrink-0 uppercase">
-            {{ getInitial(company()!.name) }}
-          </div>
-        }
+    <div
+      class="flex items-start gap-4 px-8 py-5 border-b border-wrcf-border bg-wrcf-bg-primary shrink-0"
+    >
+      <!-- Logo -->
+      @if (logo?.asset?.url) {
+        <img
+          [src]="logo!.asset!.url"
+          [alt]="company()!.name"
+          class="w-16 h-16 rounded-full object-cover border-2 border-wrcf-border shrink-0"
+        />
+      } @else {
+        <div
+          class="w-16 h-16 rounded-full bg-wrcf-action flex items-center justify-center text-2xl font-bold text-wrcf-text-primary shrink-0 uppercase"
+        >
+          {{ getInitial(company()!.name) }}
+        </div>
+      }
 
-        <div class="flex-1 min-w-0">
-          <!-- Name + Edit -->
-          <div class="flex items-start justify-between gap-3">
-            <h2 class="text-xl font-semibold text-wrcf-text-primary leading-7 truncate">{{ company()!.name }}</h2>
-            <button
-              mat-button
-              type="button"
-              (click)="editClicked.emit()"
-              class="flex items-center gap-1.5 h-8 px-3 rounded-lg border border-wrcf-accent text-wrcf-accent text-xs font-medium hover:bg-wrcf-accent/10 transition-colors shrink-0">
-              <mat-icon svgIcon="heroicons_outline:pencil-square" class="size-3.5" />
-              Edit
-            </button>
-          </div>
+      <div class="flex-1 min-w-0">
+        <!-- Name -->
+        <h2
+          class="text-xl font-semibold text-wrcf-text-primary leading-7 truncate"
+        >
+          {{ company()!.name }}
+        </h2>
 
-          <!-- Company ID -->
-          <p class="text-xs text-wrcf-text-tertiary mt-0.5 mb-2">Company Id : {{ company()!.companyCode }}</p>
+        <!-- Company ID -->
+        <p class="text-xs text-wrcf-text-tertiary mt-0.5 mb-2">
+          Company Id : {{ company()!.companyCode }}
+        </p>
 
-          <!-- Location • Year • Type -->
-          <div class="flex items-center gap-2 flex-wrap">
+        <!-- Location • Year • Type -->
+        <div class="flex items-center gap-2 flex-wrap">
+          @if (company()!.cityName) {
+            <span
+              class="flex items-center gap-1 text-xs text-wrcf-text-secondary"
+            >
+              <mat-icon
+                svgIcon="heroicons_outline:map-pin"
+                class="size-3 text-wrcf-text-tertiary"
+              />
+              {{ company()!.cityName }}
+            </span>
+          }
+          @if (company()!.establishedYear) {
             @if (company()!.cityName) {
-              <span class="flex items-center gap-1 text-xs text-wrcf-text-secondary">
-                <mat-icon svgIcon="heroicons_outline:map-pin" class="size-3 text-wrcf-text-tertiary" />
-                {{ company()!.cityName }}
-              </span>
+              <span class="text-wrcf-text-secondary opacity-30 text-xs">•</span>
             }
-            @if (company()!.establishedYear) {
-              @if (company()!.cityName) { <span class="text-wrcf-text-secondary opacity-30 text-xs">•</span> }
-              <span class="flex items-center gap-1 text-xs text-wrcf-text-secondary">
-                <mat-icon svgIcon="heroicons_outline:calendar" class="size-3 text-wrcf-text-tertiary" />
-                {{ company()!.establishedYear }}
-              </span>
+            <span
+              class="flex items-center gap-1 text-xs text-wrcf-text-secondary"
+            >
+              <mat-icon
+                svgIcon="heroicons_outline:calendar"
+                class="size-3 text-wrcf-text-tertiary"
+              />
+              {{ company()!.establishedYear }}
+            </span>
+          }
+          @if (company()!.companyType) {
+            @if (company()!.cityName || company()!.establishedYear) {
+              <span class="text-wrcf-text-secondary opacity-30 text-xs">•</span>
             }
-            @if (company()!.companyType) {
-              @if (company()!.cityName || company()!.establishedYear) { <span class="text-wrcf-text-secondary opacity-30 text-xs">•</span> }
-              <span class="text-xs px-2 py-0.5 rounded-full bg-wrcf-bg-secondary border border-wrcf-border text-wrcf-text-secondary">
-                {{ company()!.companyType }}
-              </span>
-            }
-          </div>
-
-          <!-- Industry + Clubs -->
-          @if (company()!.industryName || parentClub || associatedClub) {
-            <div class="flex items-center flex-wrap gap-x-3 gap-y-1 mt-2 text-xs">
-              @if (company()!.industryName) {
-                <span class="text-wrcf-text-secondary">Industry Name — <span class="text-wrcf-text-primary">{{ company()!.industryName }}</span></span>
-              }
-              @if (parentClub) {
-                <span class="text-wrcf-text-secondary opacity-40">|</span>
-                <span class="text-wrcf-text-secondary">Parent Club: <span class="text-wrcf-accent">{{ parentClub.name }}</span></span>
-              }
-              @if (associatedClub) {
-                <span class="text-wrcf-text-secondary opacity-40">|</span>
-                <span class="text-wrcf-text-secondary">Associated Club: <span class="text-wrcf-accent">{{ associatedClub.name }}</span></span>
-              }
-            </div>
+            <span
+              class="text-xs px-2 py-0.5 rounded-full bg-wrcf-bg-secondary border border-wrcf-border text-wrcf-text-secondary"
+            >
+              {{ company()!.companyType }}
+            </span>
           }
         </div>
+
+        <!-- Industry + Clubs -->
+        @if (company()!.industryName || parentClub || associatedClub) {
+          <div class="flex items-center flex-wrap gap-x-3 gap-y-1 mt-2 text-xs">
+            @if (company()!.industryName) {
+              <span class="text-wrcf-text-secondary"
+                >Industry Name —
+                <span class="text-wrcf-text-primary">{{
+                  company()!.industryName
+                }}</span></span
+              >
+            }
+            @if (parentClub) {
+              <span class="text-wrcf-text-secondary opacity-40">|</span>
+              <span class="text-wrcf-text-secondary"
+                >Parent Club:
+                <span class="text-wrcf-accent">{{
+                  parentClub.name
+                }}</span></span
+              >
+            }
+            @if (associatedClub) {
+              <span class="text-wrcf-text-secondary opacity-40">|</span>
+              <span class="text-wrcf-text-secondary"
+                >Associated Club:
+                <span class="text-wrcf-accent">{{
+                  associatedClub.name
+                }}</span></span
+              >
+            }
+          </div>
+        }
       </div>
     </div>
 
     <!-- Scrollable content -->
-    <div class="flex-1 overflow-y-auto px-8 py-6 flex flex-col gap-6">
-
+    <div class="flex-1 px-8 py-6 flex flex-col gap-6">
+      åßß
       <!-- About the company -->
       @if (company()!.description) {
         <section>
-          <h3 class="text-base font-semibold text-wrcf-text-primary mb-1">About the company</h3>
-          <h4 class="text-sm font-medium text-wrcf-accent mb-2">Company details</h4>
+          <h3 class="text-base font-semibold text-wrcf-text-primary mb-1">
+            About the company
+          </h3>
+          <h4 class="text-sm font-medium text-wrcf-accent mb-2">
+            Company details
+          </h4>
           <div
             class="text-sm text-wrcf-text-secondary leading-6 overflow-hidden transition-all"
             [class.line-clamp-4]="!descriptionExpanded()"
-            [innerHTML]="company()!.description">
-          </div>
-          <button type="button" (click)="toggleDescription()" class="mt-1 text-xs text-wrcf-accent hover:underline">
+            [innerHTML]="company()!.description"
+          ></div>
+          <button
+            type="button"
+            (click)="toggleDescription()"
+            class="mt-1 text-xs text-wrcf-accent hover:underline"
+          >
             {{ descriptionExpanded() ? 'see less' : '... see more' }}
           </button>
         </section>
@@ -101,26 +145,44 @@
       <!-- Brochure -->
       @if (brochures.length > 0) {
         <section>
-          <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">Company Brochure</h3>
+          <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
+            Company Brochure
+          </h3>
           <div class="flex flex-wrap gap-4">
             @for (item of brochures; track item.mediaAssetId) {
               <div class="flex flex-col gap-2">
                 <button
                   type="button"
-                  (click)="openPdf(item.asset!.url, item.asset?.name ?? 'Brochure')"
-                  class="group relative w-48 h-36 rounded-xl overflow-hidden border border-wrcf-border shadow-sm hover:shadow-md transition-shadow cursor-pointer bg-wrcf-bg-secondary">
+                  (click)="
+                    openPdf(item.asset!.url, item.asset?.name ?? 'Brochure')
+                  "
+                  class="group relative w-48 h-36 rounded-xl overflow-hidden border border-wrcf-border shadow-sm hover:shadow-md transition-shadow cursor-pointer bg-wrcf-bg-secondary"
+                >
                   <iframe
-                    [src]="safeUrl(item.asset!.url + '#page=1&toolbar=0&navpanes=0&scrollbar=0')"
+                    [src]="
+                      safeUrl(
+                        item.asset!.url +
+                          '#page=1&toolbar=0&navpanes=0&scrollbar=0'
+                      )
+                    "
                     class="w-full h-full pointer-events-none"
                     scrolling="no"
-                    frameborder="0">
+                    frameborder="0"
+                  >
                   </iframe>
-                  <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <mat-icon svgIcon="lucideIcons:file-text" class="size-8 text-white" />
+                  <div
+                    class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                  >
+                    <mat-icon
+                      svgIcon="lucideIcons:file-text"
+                      class="size-8 text-white"
+                    />
                   </div>
                 </button>
                 @if (item.asset?.name) {
-                  <p class="text-xs text-wrcf-text-secondary truncate w-48">{{ item.asset!.name }}</p>
+                  <p class="text-xs text-wrcf-text-secondary truncate w-48">
+                    {{ item.asset!.name }}
+                  </p>
                 }
               </div>
             }
@@ -131,26 +193,42 @@
       <!-- Promo Video -->
       @if (promoVideos.length > 0) {
         <section>
-          <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">Promo Video</h3>
-          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+          <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
+            Promo Video
+          </h3>
+          <div
+            class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3"
+          >
             @for (item of promoVideos; track item.mediaAssetId) {
               <div class="flex flex-col gap-1.5">
                 <button
                   type="button"
-                  (click)="openVideo(item.asset!.url, item.asset?.name ?? 'Video')"
-                  class="relative aspect-video rounded-xl overflow-hidden bg-wrcf-bg-secondary border border-wrcf-border group cursor-pointer shadow-sm hover:shadow-md transition-shadow">
+                  (click)="
+                    openVideo(item.asset!.url, item.asset?.name ?? 'Video')
+                  "
+                  class="relative aspect-video rounded-xl overflow-hidden bg-wrcf-bg-secondary border border-wrcf-border group cursor-pointer shadow-sm hover:shadow-md transition-shadow"
+                >
                   <video
                     [src]="item.asset!.url + '#t=1'"
                     muted
                     preload="metadata"
-                    class="w-full h-full object-cover pointer-events-none">
-                  </video>
-                  <div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/55 transition-colors">
-                    <mat-icon svgIcon="heroicons_outline:play-circle" class="size-10 text-white" />
+                    class="w-full h-full object-cover pointer-events-none"
+                  ></video>
+                  <div
+                    class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/55 transition-colors"
+                  >
+                    <mat-icon
+                      svgIcon="heroicons_outline:play-circle"
+                      class="size-10 text-white"
+                    />
                   </div>
                 </button>
                 @if (item.asset?.name) {
-                  <p class="text-[11px] text-wrcf-text-secondary text-center leading-4 px-1 truncate">{{ item.asset!.name }}</p>
+                  <p
+                    class="text-[11px] text-wrcf-text-secondary text-center leading-4 px-1 truncate"
+                  >
+                    {{ item.asset!.name }}
+                  </p>
                 }
               </div>
             }
@@ -161,18 +239,32 @@
       <!-- Gallery -->
       @if (gallery.length > 0) {
         <section>
-          <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">Gallery</h3>
-          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+          <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
+            Gallery
+          </h3>
+          <div
+            class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3"
+          >
             @for (item of gallery; track item.mediaAssetId) {
               <button
                 type="button"
-                (click)="openImage(item.asset!.url, item.asset?.name ?? 'Image')"
-                class="relative h-28 rounded-xl overflow-hidden bg-wrcf-bg-secondary border border-wrcf-border shadow-sm group cursor-pointer">
+                (click)="
+                  openImage(item.asset!.url, item.asset?.name ?? 'Image')
+                "
+                class="relative h-28 rounded-xl overflow-hidden bg-wrcf-bg-secondary border border-wrcf-border shadow-sm group cursor-pointer"
+              >
                 @if (item.asset?.url) {
-                  <img [src]="item.asset!.url" [alt]="item.asset?.name ?? 'Gallery image'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                  <img
+                    [src]="item.asset!.url"
+                    [alt]="item.asset?.name ?? 'Gallery image'"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
                 } @else {
                   <div class="w-full h-full flex items-center justify-center">
-                    <mat-icon svgIcon="heroicons_outline:photo" class="size-8 text-wrcf-text-secondary opacity-40" />
+                    <mat-icon
+                      svgIcon="heroicons_outline:photo"
+                      class="size-8 text-wrcf-text-secondary opacity-40"
+                    />
                   </div>
                 }
               </button>
@@ -184,39 +276,65 @@
       <!-- What We Offer -->
       @if (company()!.whatWeOffer) {
         <section>
-          <h3 class="text-base font-semibold text-wrcf-text-primary mb-2">What We Offer</h3>
-          <div class="rounded-xl bg-wrcf-bg-secondary border border-wrcf-border px-4 py-4 text-sm text-wrcf-text-secondary leading-6" [innerHTML]="company()!.whatWeOffer"></div>
+          <h3 class="text-base font-semibold text-wrcf-text-primary mb-2">
+            What We Offer
+          </h3>
+          <div
+            class="rounded-xl bg-wrcf-bg-secondary border border-wrcf-border px-4 py-4 text-sm text-wrcf-text-secondary leading-6"
+            [innerHTML]="company()!.whatWeOffer"
+          ></div>
         </section>
       }
 
       <!-- Awards & Recognition -->
       @if (company()!.awardsRecognition) {
         <section>
-          <h3 class="text-base font-semibold text-wrcf-text-primary mb-2">Awards & Recognition</h3>
-          <div class="rounded-xl bg-wrcf-bg-secondary border border-wrcf-border px-4 py-4 text-sm text-wrcf-text-secondary leading-6" [innerHTML]="company()!.awardsRecognition"></div>
+          <h3 class="text-base font-semibold text-wrcf-text-primary mb-2">
+            Awards & Recognition
+          </h3>
+          <div
+            class="rounded-xl bg-wrcf-bg-secondary border border-wrcf-border px-4 py-4 text-sm text-wrcf-text-secondary leading-6"
+            [innerHTML]="company()!.awardsRecognition"
+          ></div>
         </section>
       }
 
       <!-- Key Products & Services -->
       @if (company()!.keyProductsServices) {
         <section>
-          <h3 class="text-base font-semibold text-wrcf-text-primary mb-2">Key Company Products & Services</h3>
-          <div class="rounded-xl bg-wrcf-bg-secondary border border-wrcf-border px-4 py-4 text-sm text-wrcf-text-secondary leading-6" [innerHTML]="company()!.keyProductsServices"></div>
+          <h3 class="text-base font-semibold text-wrcf-text-primary mb-2">
+            Key Company Products & Services
+          </h3>
+          <div
+            class="rounded-xl bg-wrcf-bg-secondary border border-wrcf-border px-4 py-4 text-sm text-wrcf-text-secondary leading-6"
+            [innerHTML]="company()!.keyProductsServices"
+          ></div>
         </section>
       }
 
       <!-- Company Key Contacts -->
       @if (company()!.contacts && company()!.contacts.length > 0) {
         <section>
-          <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">Company Key Contacts</h3>
-          <div class="rounded-xl bg-wrcf-bg-secondary border border-wrcf-border px-4 py-4 flex flex-col gap-3">
+          <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
+            Company Key Contacts
+          </h3>
+          <div
+            class="rounded-xl bg-wrcf-bg-secondary border border-wrcf-border px-4 py-4 flex flex-col gap-3"
+          >
             @if (hrCoordinators.length > 0) {
               <div class="pb-3 border-b border-wrcf-border/50">
-                <p class="text-xs text-wrcf-text-secondary mb-2">HR Coordinators</p>
+                <p class="text-xs text-wrcf-text-secondary mb-2">
+                  HR Coordinators
+                </p>
                 <div class="flex flex-wrap gap-2">
                   @for (user of hrCoordinators; track user.id) {
-                    <span class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-wrcf-bg-card border border-wrcf-border text-xs text-wrcf-accent">
-                      <mat-icon svgIcon="heroicons_outline:user-circle" class="size-3.5" />
+                    <span
+                      class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-wrcf-bg-card border border-wrcf-border text-xs text-wrcf-accent"
+                    >
+                      <mat-icon
+                        svgIcon="heroicons_outline:user-circle"
+                        class="size-3.5"
+                      />
                       {{ user.displayName }}
                     </span>
                   }
@@ -225,17 +343,32 @@
             }
 
             <p class="text-xs text-wrcf-text-secondary leading-5">
-              For various administrative and recruitment activities, {{ company()!.name }} has designated key contacts:
+              For various administrative and recruitment activities,
+              {{ company()!.name }} has designated key contacts:
             </p>
 
             <div class="grid grid-cols-2 gap-3">
-              @for (role of ['COMMUNICATION_COORDINATOR', 'RECRUITMENT_HEAD', 'TRAINING_COORDINATOR', 'INTERNSHIP_MENTOR']; track role) {
+              @for (
+                role of [
+                  'COMMUNICATION_COORDINATOR',
+                  'RECRUITMENT_HEAD',
+                  'TRAINING_COORDINATOR',
+                  'INTERNSHIP_MENTOR',
+                ];
+                track role
+              ) {
                 @let contacts = getContactsForRole(role);
                 @if (contacts.length > 0) {
-                  <div class="px-3 py-2.5 rounded-lg bg-wrcf-bg-card border border-wrcf-border">
-                    <p class="text-xs text-wrcf-text-secondary mb-1">{{ role.replace(/_/g, ' ') | titlecase }}</p>
+                  <div
+                    class="px-3 py-2.5 rounded-lg bg-wrcf-bg-card border border-wrcf-border"
+                  >
+                    <p class="text-xs text-wrcf-text-secondary mb-1">
+                      {{ role.replace(/_/g, ' ') | titlecase }}
+                    </p>
                     @for (user of contacts; track user.id) {
-                      <p class="text-sm font-medium text-wrcf-accent">{{ user.displayName }}</p>
+                      <p class="text-sm font-medium text-wrcf-accent">
+                        {{ user.displayName }}
+                      </p>
                     }
                   </div>
                 }
@@ -243,10 +376,19 @@
             </div>
 
             @if (company()!.inquiryEmail) {
-              <div class="pt-3 border-t border-wrcf-border/50 flex flex-wrap items-center gap-1 text-xs">
-                <mat-icon svgIcon="heroicons_outline:envelope" class="size-3.5 text-wrcf-text-secondary" />
+              <div
+                class="pt-3 border-t border-wrcf-border/50 flex flex-wrap items-center gap-1 text-xs"
+              >
+                <mat-icon
+                  svgIcon="heroicons_outline:envelope"
+                  class="size-3.5 text-wrcf-text-secondary"
+                />
                 <span class="text-wrcf-text-secondary">Contact Email:</span>
-                <a [href]="'mailto:' + company()!.inquiryEmail" class="text-wrcf-accent hover:underline">{{ company()!.inquiryEmail }}</a>
+                <a
+                  [href]="'mailto:' + company()!.inquiryEmail"
+                  class="text-wrcf-accent hover:underline"
+                  >{{ company()!.inquiryEmail }}</a
+                >
               </div>
             }
           </div>
@@ -256,34 +398,58 @@
       <!-- Recruitment Highlights -->
       @if (company()!.recruitmentHighlights) {
         <section>
-          <h3 class="text-base font-semibold text-wrcf-text-primary mb-2">Recruitment Highlights</h3>
-          <div class="rounded-xl bg-wrcf-bg-secondary border border-wrcf-border px-4 py-4 text-sm text-wrcf-text-secondary leading-6" [innerHTML]="company()!.recruitmentHighlights"></div>
+          <h3 class="text-base font-semibold text-wrcf-text-primary mb-2">
+            Recruitment Highlights
+          </h3>
+          <div
+            class="rounded-xl bg-wrcf-bg-secondary border border-wrcf-border px-4 py-4 text-sm text-wrcf-text-secondary leading-6"
+            [innerHTML]="company()!.recruitmentHighlights"
+          ></div>
         </section>
       }
 
       <!-- Employee Testimonials -->
       @if (testimonials.length > 0) {
         <section>
-          <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">Employee Testimonials</h3>
-          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+          <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
+            Employee Testimonials
+          </h3>
+          <div
+            class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3"
+          >
             @for (item of testimonials; track item.mediaAssetId) {
               <div class="flex flex-col gap-1.5">
                 <button
                   type="button"
-                  (click)="openVideo(item.asset!.url, item.asset?.name ?? 'Testimonial')"
-                  class="relative aspect-video rounded-xl overflow-hidden bg-wrcf-bg-secondary border border-wrcf-border cursor-pointer group shadow-sm hover:shadow-md transition-shadow">
+                  (click)="
+                    openVideo(
+                      item.asset!.url,
+                      item.asset?.name ?? 'Testimonial'
+                    )
+                  "
+                  class="relative aspect-video rounded-xl overflow-hidden bg-wrcf-bg-secondary border border-wrcf-border cursor-pointer group shadow-sm hover:shadow-md transition-shadow"
+                >
                   <video
                     [src]="item.asset!.url + '#t=1'"
                     muted
                     preload="metadata"
-                    class="w-full h-full object-cover pointer-events-none">
-                  </video>
-                  <div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/55 transition-colors">
-                    <mat-icon svgIcon="heroicons_outline:play-circle" class="size-10 text-white" />
+                    class="w-full h-full object-cover pointer-events-none"
+                  ></video>
+                  <div
+                    class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/55 transition-colors"
+                  >
+                    <mat-icon
+                      svgIcon="heroicons_outline:play-circle"
+                      class="size-10 text-white"
+                    />
                   </div>
                 </button>
                 @if (item.asset?.name) {
-                  <p class="text-[11px] text-wrcf-text-secondary text-center leading-4 px-1 truncate">{{ item.asset!.name }}</p>
+                  <p
+                    class="text-[11px] text-wrcf-text-secondary text-center leading-4 px-1 truncate"
+                  >
+                    {{ item.asset!.name }}
+                  </p>
                 }
               </div>
             }
@@ -294,31 +460,53 @@
       <!-- Placement & Career Development -->
       @if (company()!.placementStats) {
         <section>
-          <h3 class="text-base font-semibold text-wrcf-text-primary mb-2">Placement & Career Development</h3>
-          <div class="rounded-xl bg-wrcf-bg-secondary border border-wrcf-border px-4 py-4 text-sm text-wrcf-text-secondary leading-6" [innerHTML]="company()!.placementStats"></div>
+          <h3 class="text-base font-semibold text-wrcf-text-primary mb-2">
+            Placement & Career Development
+          </h3>
+          <div
+            class="rounded-xl bg-wrcf-bg-secondary border border-wrcf-border px-4 py-4 text-sm text-wrcf-text-secondary leading-6"
+            [innerHTML]="company()!.placementStats"
+          ></div>
         </section>
       }
 
       <!-- Footer -->
-      <footer class="mt-4 pt-4 border-t border-wrcf-border flex items-center justify-between text-xs text-wrcf-text-secondary">
+      <footer
+        class="mt-4 pt-4 border-t border-wrcf-border flex items-center justify-between text-xs text-wrcf-text-secondary"
+      >
         <span>© {{ currentYear }} Whizard. All rights reserved.</span>
         <div class="flex items-center gap-3">
-          <a href="#" class="hover:text-wrcf-accent transition-colors">Terms of Service</a>
+          <a href="#" class="hover:text-wrcf-accent transition-colors"
+            >Terms of Service</a
+          >
           <span class="opacity-30">|</span>
-          <a href="#" class="hover:text-wrcf-accent transition-colors">Privacy Policy</a>
+          <a href="#" class="hover:text-wrcf-accent transition-colors"
+            >Privacy Policy</a
+          >
         </div>
       </footer>
-
     </div>
   </div>
 
   @if (activePdfUrl()) {
-    <whizard-pdf-viewer [url]="activePdfUrl()!" [fileName]="activePdfName()" (closed)="closePdf()" />
+    <whizard-pdf-viewer
+      [url]="activePdfUrl()!"
+      [fileName]="activePdfName()"
+      (closed)="closePdf()"
+    />
   }
   @if (activeVideoUrl()) {
-    <whizard-video-player [url]="activeVideoUrl()!" [title]="activeVideoTitle()" (closed)="closeVideo()" />
+    <whizard-video-player
+      [url]="activeVideoUrl()!"
+      [title]="activeVideoTitle()"
+      (closed)="closeVideo()"
+    />
   }
   @if (activeImageUrl()) {
-    <whizard-image-lightbox [url]="activeImageUrl()!" [alt]="activeImageAlt()" (closed)="closeImage()" />
+    <whizard-image-lightbox
+      [url]="activeImageUrl()!"
+      [alt]="activeImageAlt()"
+      (closed)="closeImage()"
+    />
   }
 }

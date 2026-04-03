@@ -1,0 +1,42 @@
+# Full Layout
+
+## Overview
+<!-- One paragraph: what this enhancement does, which existing feature it improves, and why. -->
+Need to update the all current screen Layout as we need to have constant UI-UX
+
+## Current Behaviour
+<!-- Describe how the feature works today before this enhancement. -->
+1. Top bar which is part of layout will show  Page header that will be dynamic use LAYOUT_AUTH_SERVICE to share the routed page header and title over the title bar.
+2. Add the favicon over the title bar as apps/web/admin-portal/assets/favicon.png.
+3. Provide the profile icon over the top bar of layout o the right side after the schema-switcher retaining current Options to open in menu.
+4. Every feature will all has it component header which will hold the all buttons like edit, preview, back, add etc on the right ride as per the page.
+
+
+## Desired Behaviour
+<!-- Describe how it should work after the enhancement. Be specific. -->
+
+## Default Behaviours
+<!-- Auto-select rules, pre-population, initial state changes if any. -->
+
+## Changes to Entities & Attributes
+<!-- Only list fields/entities that are added, changed, or removed.
+     For each: Name, Type, Mandatory (*), Options if dropdown. -->
+
+## User Flows
+<!-- Step-by-step flows that change or are newly introduced.
+     e.g. "1. Click Export → 2. Choose format → 3. Download file" -->
+
+## Business Rules & Constraints
+<!-- New or changed validation rules, guard conditions, cascading effects. -->
+
+## DB Notes
+<!-- New columns, indexes, or table changes needed. State "No DB changes" if none. -->
+
+## Scope
+<!-- Explicit list of what must be changed: frontend, API, migration, tests. -->
+
+## Out of Scope
+<!-- Anything explicitly NOT part of this enhancement to avoid scope creep. -->
+
+## Notes / Edge Cases
+<!-- Gotchas, open questions, cross-feature dependencies. -->

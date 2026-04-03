@@ -1,19 +1,20 @@
 import { Component, input, output, signal, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { ScrollbarDirective } from '@whizard/shared-ui';
 import type { CompanyListItem } from '../../models/manage-company.models';
 
 @Component({
   selector: 'whizard-company-list-panel',
   standalone: true,
-  imports: [MatIconModule, FormsModule],
+  imports: [MatIconModule, FormsModule, ScrollbarDirective],
   templateUrl: './company-list-panel.component.html',
   styleUrl: './company-list-panel.component.css',
 })
 export class CompanyListPanelComponent {
   readonly companies = input<CompanyListItem[]>([]);
   readonly selectedId = input<string | null>(null);
-  readonly loading = input<boolean>(false);
+  readonly loading = input<boolean>(true);
 
   readonly companySelected = output<string>();
 

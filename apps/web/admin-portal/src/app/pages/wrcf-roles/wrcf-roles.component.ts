@@ -1,11 +1,10 @@
 import { Component, inject, signal, computed, OnInit, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { ScrollbarDirective } from '@whizard/shared-ui';
 import { forkJoin } from 'rxjs';
 import type { Industry, FunctionalGroup, PrimaryWorkObject, SecondaryWorkObject, Capability, ProficiencyLevel, CapabilityInstance } from '../industry-wrcf/models/wrcf.models';
 import type { Department, IndustryRole, PendingCIMapping, RolesPanelState } from './models/wrcf-roles.models';
-import { StackAuthService } from '../../core/services/stack-auth.service';
-import { NavDrawerComponent } from '../../shared/nav-drawer/nav-drawer.component';
 import { WrcfColumnComponent } from '../industry-wrcf/components/wrcf-column/wrcf-column.component';
 import { WrcfApiService } from '../industry-wrcf/services/wrcf-api.service';
 import { CIMappingsDialogComponent } from './components/ci-mappings-dialog/ci-mappings-dialog.component';
@@ -15,15 +14,13 @@ import { WrcfRolesApiService } from './services/wrcf-roles-api.service';
 @Component({
   selector: 'whizard-wrcf-roles',
   standalone: true,
-  imports: [FormsModule, RouterLink, WrcfColumnComponent, RolesPanelComponent, CIMappingsDialogComponent, NavDrawerComponent],
+  imports: [FormsModule, WrcfColumnComponent, RolesPanelComponent, CIMappingsDialogComponent, ScrollbarDirective],
   templateUrl: './wrcf-roles.component.html',
   styleUrl: './wrcf-roles.component.css'
 })
 export class WrcfRolesComponent implements OnInit {
   private readonly wrcfApi = inject(WrcfApiService);
   private readonly rolesApi = inject(WrcfRolesApiService);
-  private readonly stackAuthService = inject(StackAuthService);
-
   protected industries = signal<Industry[]>([]);
   protected departments = signal<Department[]>([]);
   protected roles = signal<IndustryRole[]>([]);
@@ -52,16 +49,9 @@ export class WrcfRolesComponent implements OnInit {
 
   protected panel = signal<RolesPanelState>({ open: false, mode: 'create', entity: 'Department' });
   protected mappingsDialogOpen = signal(false);
-  protected drawerOpen = signal(false);
   protected addDropdownOpen = signal(false);
   protected editDropdownOpen = signal(false);
   protected errorMessage = signal<string | null>(null);
-  protected userMenuOpen = signal(false);
-
-  protected get userName(): string | null {
-    const user = this.stackAuthService.currentUser();
-    return user?.displayName ?? user?.email?.split('@')[0] ?? null;
-  }
 
   protected get availableCapabilities(): Capability[] {
     const swoId = this.selectedSWOId();
@@ -496,26 +486,14 @@ export class WrcfRolesComponent implements OnInit {
     this.checkedProficiencyIds.set([]);
   }
 
-  protected toggleUserMenu(): void {
-    this.userMenuOpen.update(v => !v);
-  }
-
   @HostListener('document:click', ['$event.target'])
   onDocumentClick(target: HTMLElement): void {
-    if (this.userMenuOpen() && !target.closest('.avatar-wrapper')) {
-      this.userMenuOpen.set(false);
-    }
     if (this.addDropdownOpen() && !target.closest('.add-split-btn')) {
       this.addDropdownOpen.set(false);
     }
     if (this.editDropdownOpen() && !target.closest('.add-split-btn')) {
       this.editDropdownOpen.set(false);
     }
-  }
-
-  protected logout(): void {
-    this.userMenuOpen.set(false);
-    this.stackAuthService.signOut();
   }
 
   private showError(msg: string): void {

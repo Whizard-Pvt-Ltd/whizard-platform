@@ -1,0 +1,46 @@
+# Layout
+
+## Overview
+<!-- One paragraph: what this feature does and why it exists. -->
+Refer the given project /Users/slpl/Desktop/office_work_space/fuse-theme/theme  and build a layout of UI which will be using common UI components.
+Layout in main portal and all the small component will i shared UI components holind data as per the login and tantnet Id. Use nnavidat item by cretaing 
+navigation list in admin-portal same as the give project /Users/slpl/Desktop/office_work_space/fuse-theme/them.
+
+## Default Behaviours
+<!-- Auto-select rules, pre-population, initial state.
+     e.g. "Select first sector/industry on load", "Pre-fill form with last used value" -->
+1. Currently we have a shared nav in admin-portal.
+2. All the top header need to give in all feature components that duplicate the code.
+
+## Entities & Attributes
+<!-- One sub-section per entity. For each field: Name, Type, Mandatory (*), Options if dropdown. -->
+1. A layout component in admin-portal and which will have all the shared components like scheme-switcher, notifications, user and sidebar.
+2. Use same components given i project reference and implement it in our context.
+3. For user use same component but provide a logout menu-button
+
+
+### <Entity 1>
+- Field Name* — Type (e.g. Text, Number, Dropdown: Option A / Option B)
+
+### <Entity 2>
+- Field Name — Type
+
+## User Flows
+<!-- Step-by-step flows the user goes through.
+     e.g. "1. Select department → 2. Click + Role → 3. Fill form → 4. Save" -->
+
+## Business Rules & Constraints
+<!-- Validation rules, cascading restrictions, guard conditions.
+     e.g. "Cannot create Role unless a Department is selected" -->
+
+## DB Notes
+<!-- Tables needed, key columns, relationships, audit fields (created_by, created_on etc.) -->
+
+## Scope
+<!-- Explicit list of what must be built: frontend, API, migration, tests. -->
+
+## Out of Scope
+<!-- Anything explicitly NOT part of this feature to avoid scope creep. -->
+
+## Notes / Edge Cases
+<!-- Gotchas, open questions, cross-feature dependencies. -->

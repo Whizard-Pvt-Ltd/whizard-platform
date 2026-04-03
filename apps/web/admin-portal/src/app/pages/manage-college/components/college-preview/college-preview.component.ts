@@ -7,6 +7,7 @@ import type { CollegeDetail, Club, CollegeMediaItem } from '../../models/manage-
 @Component({
   selector: 'whizard-college-preview',
   standalone: true,
+  host: { class: 'flex-1 min-h-0 flex flex-col' },
   imports: [MatButtonModule, MatIconModule, PdfViewerComponent],
   templateUrl: './college-preview.component.html',
   styleUrl: './college-preview.component.css',
