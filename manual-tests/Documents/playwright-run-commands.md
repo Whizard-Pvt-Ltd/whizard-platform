@@ -21,7 +21,7 @@ export TEST_LOGIN_PASSWORD='Whizard@123'
 
 ## Tag-Based Runs
 
-Run the default stable Playwright set. `@future` is excluded automatically.
+Run the default Playwright set. `@future` is included in normal runs.
 
 ```bash
 TEST_LOGIN_EMAIL='sandeeps@whizard.com' TEST_LOGIN_PASSWORD='Whizard@123' corepack pnpm test:playwright:stable
@@ -33,7 +33,7 @@ Run only stable `@p0` coverage.
 TEST_LOGIN_EMAIL='sandeeps@whizard.com' TEST_LOGIN_PASSWORD='Whizard@123' corepack pnpm test:playwright:stable:p0
 ```
 
-Run authored `@future` coverage explicitly.
+Run only authored `@future` coverage explicitly.
 
 ```bash
 TEST_LOGIN_EMAIL='sandeeps@whizard.com' TEST_LOGIN_PASSWORD='Whizard@123' corepack pnpm test:playwright:future
@@ -91,7 +91,65 @@ TEST_LOGIN_EMAIL='sandeeps@whizard.com' TEST_LOGIN_PASSWORD='Whizard@123' corepa
 TEST_LOGIN_EMAIL='sandeeps@whizard.com' TEST_LOGIN_PASSWORD='Whizard@123' corepack pnpm test:wrcf:functional-group:ordered
 ```
 
+## Run All In One Go
+
+Run all current WRCF suites in one command:
+
+```bash
+export TEST_LOGIN_EMAIL='sandeeps@whizard.com'
+export TEST_LOGIN_PASSWORD='Whizard@123'
+corepack pnpm exec playwright test manual-tests/wrcf*.playwright.spec.ts manual-tests/wrcf_*.playwright.spec.ts --workers=1
+```
+
+Run everything under `manual-tests/` in one command:
+
+```bash
+export TEST_LOGIN_EMAIL='sandeeps@whizard.com'
+export TEST_LOGIN_PASSWORD='Whizard@123'
+corepack pnpm exec playwright test manual-tests --workers=1
+```
+
 ## Direct Spec Runs
+
+Copy-paste sheet for running each WRCF suite one by one:
+
+```bash
+export TEST_LOGIN_EMAIL='sandeeps@whizard.com'
+export TEST_LOGIN_PASSWORD='Whizard@123'
+
+# All WRCF suites
+corepack pnpm exec playwright test manual-tests/wrcf*.playwright.spec.ts manual-tests/wrcf_*.playwright.spec.ts --workers=1
+
+# Dashboard
+corepack pnpm exec playwright test manual-tests/wrcf-dashboard.playwright.spec.ts --workers=1
+
+# Manage WRCF
+corepack pnpm exec playwright test manual-tests/wrcf-manage-wrcf.playwright.spec.ts --workers=1
+
+# Functional Group
+corepack pnpm exec playwright test manual-tests/wrcf_Functional_Group.playwright.spec.ts --workers=1
+
+# Primary Work Object
+corepack pnpm exec playwright test manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts --workers=1
+
+# Secondary Work Object
+corepack pnpm exec playwright test manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts --workers=1
+
+# CI Mapping
+corepack pnpm exec playwright test manual-tests/wrcf_CI_Mapping.playwright.spec.ts --workers=1
+
+# Manage WRCF Skills
+corepack pnpm exec playwright test manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts --workers=1
+
+# Skills
+corepack pnpm exec playwright test manual-tests/wrcf_Skills.playwright.spec.ts --workers=1
+
+# Task
+corepack pnpm exec playwright test manual-tests/wrcf_Task.playwright.spec.ts --workers=1
+
+# Control Point
+corepack pnpm exec playwright test manual-tests/wrcf_Control_Point.playwright.spec.ts --workers=1
+```
 
 Login page smoke:
 
@@ -159,16 +217,16 @@ Skills:
 TEST_LOGIN_EMAIL='sandeeps@whizard.com' TEST_LOGIN_PASSWORD='Whizard@123' corepack pnpm exec playwright test manual-tests/wrcf_Skills.playwright.spec.ts
 ```
 
-Task stable only:
+Task:
 
 ```bash
 TEST_LOGIN_EMAIL='sandeeps@whizard.com' TEST_LOGIN_PASSWORD='Whizard@123' corepack pnpm exec playwright test manual-tests/wrcf_Task.playwright.spec.ts
 ```
 
-Task future only:
+Control Point:
 
 ```bash
-TEST_LOGIN_EMAIL='sandeeps@whizard.com' TEST_LOGIN_PASSWORD='Whizard@123' PW_INCLUDE_FUTURE=1 corepack pnpm exec playwright test manual-tests/wrcf_Task.playwright.spec.ts --grep @future
+TEST_LOGIN_EMAIL='sandeeps@whizard.com' TEST_LOGIN_PASSWORD='Whizard@123' corepack pnpm exec playwright test manual-tests/wrcf_Control_Point.playwright.spec.ts
 ```
 
 ## HTML Report Runs
@@ -193,8 +251,5 @@ corepack pnpm exec playwright show-report
 
 ## Notes
 
-- Only `wrcf_Task.playwright.spec.ts` is fully migrated to the new `@stable` / `@future` model right now.
-- `wrcf-dashboard.playwright.spec.ts` has a small tagged stable slice.
-- `wrcf-manage-wrcf.playwright.spec.ts` is also tag-migrated for `@stable` / `@future`.
-- Other WRCF suites still contain legacy `fixme`-based future coverage until they are migrated.
+- Current normal runs include `@future` unless you explicitly filter it out.
 - Workbook tag meanings and maintenance rules are documented in [workbook-tagging-guide.md](/home/sama/new-repo/whizard-platform/manual-tests/Documents/workbook-tagging-guide.md).

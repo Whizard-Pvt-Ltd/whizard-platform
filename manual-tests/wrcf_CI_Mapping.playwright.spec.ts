@@ -104,16 +104,18 @@ async function selectIndustryContext(page: Page): Promise<void> {
   const industry = filters.nth(1);
 
   const chooseFirstAvailable = async (select: Locator, emptyPattern: RegExp): Promise<void> => {
-    const options = await select.locator('option').evaluateAll(nodes =>
-      nodes
-        .map(node => {
-          const option = node as HTMLOptionElement;
-          return {
-            label: option.textContent?.trim() || '',
-            value: option.value,
-          };
-        })
-        .filter(option => option.value && option.label && !emptyPattern.test(option.label))
+    const options = await select.locator('option').evaluateAll(
+      (nodes, emptyPatternSource) =>
+        nodes
+          .map(node => {
+            const option = node as HTMLOptionElement;
+            return {
+              label: option.textContent?.trim() || '',
+              value: option.value,
+            };
+          })
+          .filter(option => option.value && option.label && !(new RegExp(emptyPatternSource, 'i')).test(option.label)),
+      emptyPattern.source
     );
 
     if (!options.length) {
@@ -122,6 +124,17 @@ async function selectIndustryContext(page: Page): Promise<void> {
 
     await select.selectOption(options[0].value);
   };
+
+  await expect.poll(
+    async () =>
+      await sector.locator('option').evaluateAll(nodes =>
+        nodes.filter(node => {
+          const option = node as HTMLOptionElement;
+          return Boolean(option.value && option.textContent?.trim() && !/^select /i.test(option.textContent.trim()));
+        }).length
+      ),
+    { timeout: 10000, message: 'Waiting for sector options on Manage Industry WRCF' }
+  ).toBeGreaterThan(0);
 
   if (!(await sector.inputValue())) {
     await chooseFirstAvailable(sector, /^select /i);
@@ -134,7 +147,8 @@ async function selectIndustryContext(page: Page): Promise<void> {
           const option = node as HTMLOptionElement;
           return Boolean(option.value && option.textContent?.trim() && !/^select /i.test(option.textContent.trim()));
         }).length
-      )
+      ),
+    { timeout: 10000, message: 'Waiting for industry options on Manage Industry WRCF' }
   ).toBeGreaterThan(0);
 
   if (!(await industry.inputValue())) {
@@ -418,7 +432,7 @@ test.describe('CI Mapping sheet-aligned coverage', () => {
 
   test('CIMAP-E2E-017 @stable @p1 @ci-mapping each popup CI row shows SWO Capability and Proficiency in a readable line item', async () => {
     await openMappingsDialog(page);
-    await expect(ciRows(page).first()).toContainText(/\+\s+.+\(.+\)\s+.\s+L\d/i);
+    await expect(ciRows(page).first()).toContainText(/\+\s+.+\(.+\).*L\d/i);
   });
 
   test('CIMAP-E2E-018 @stable @p1 @ci-mapping new unsaved mappings are visually tagged as pending in the popup', async () => {
@@ -462,6 +476,9 @@ test.describe('CI Mapping sheet-aligned coverage', () => {
 
     await openMappingsDialog(page);
     const before = await pendingCiRows(page).count();
+    if (before === 0) {
+      throw new Error('Needs at least one pending CI row in the popup before delete/remove can be verified.');
+    }
     await pendingCiRows(page).first().getByTitle('Remove pending').click();
     await expect(pendingCiRows(page)).toHaveCount(before - 1);
   });

@@ -53,6 +53,10 @@ Execution-step rule:
 - if the Excel/workbook step is clear, follow it directly
 - if spec behavior has drifted from that clear step, fix the spec
 - only ask for human intervention when the Excel/workbook step itself is ambiguous, incorrect, or conflicts with the real product intent
+- when a user request has ambiguous scope, the assistant must restate the intended action and ask for confirmation before executing
+- do not silently narrow or expand the requested scope based on recent context
+- for runtime validation, treat the currently running app on `localhost:4200` as the live behavior truth, because it may contain fixes newer than the local workspace code
+- when runtime behavior on `localhost` differs from the checked-out code, prefer the live UI behavior for validation/debugging notes and avoid assuming the local source has the latest fix until confirmed
 
 ---
 ## Workflow Architecture
@@ -292,18 +296,18 @@ Recommended execution strategy:
 Keep stable and future coverage in the same spec files.
 
 - `@stable`: default-run coverage that should execute now and fail normally if broken
-- `@future`: authored now from PDFs, workbook rows, screenshots, or Figma, but excluded from the default run
+- `@future`: authored now from PDFs, workbook rows, screenshots, or Figma, and included in normal runs unless the user explicitly says to exclude it
 - `@p0`, `@p1`, `@p2`: priority tags
 - module tags such as `@dashboard`, `@task`, `@skills`
 - blocker tags such as `@blocked-runtime` or `@blocked-data` only to classify why a currently runnable test might fail
 
 Rules:
 - do not use permanent `fixme`/`skip` for future-feature readiness
-- default Playwright runs exclude `@future`
-- explicitly running `@future` tests should execute them normally and allow real failures
+- default Playwright runs include `@future` unless the user explicitly says to exclude it
+- explicitly running only `@future` tests should execute them normally and allow real failures
 - keep heavy setup inside the tests that need it, especially for `@future` groups
 - during normal rerun and workbook-update cycles, run the spec in the normal default way
-- only run `@future` coverage when the user explicitly asks for it
+- do not exclude `@future` coverage unless the user explicitly asks for it
 
 ---
 
@@ -449,7 +453,7 @@ After generating each spec:
 
 Do not run everything every time.
 Run according to priority and impact.
-Default runs should exclude future-tagged tests. Future tests should be runnable explicitly when needed.
+Default runs should include future-tagged tests unless the user explicitly asks for a stable-only or filtered pass. Future tests should still be runnable explicitly when needed.
 
 Recommended commands:
 

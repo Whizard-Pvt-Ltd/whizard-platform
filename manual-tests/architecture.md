@@ -116,14 +116,14 @@ This keeps failures attached to the real feature under test instead of creating 
 The repo now uses one-file stable/future coverage instead of duplicate specs.
 
 - `@stable` tests run in the default Playwright flow
-- `@future` tests stay authored in the same spec file but are excluded by default with `grepInvert`
+- `@future` tests stay authored in the same spec file and are included in normal runs unless the user explicitly asks to exclude them
 - `@p0`, `@p1`, and `@p2` enable smaller priority runs
 - module tags such as `@dashboard` and `@task` support targeted execution
 
 Default behavior:
 
-- `playwright.config.ts` excludes `@future` unless `PW_INCLUDE_FUTURE=1`
-- explicit future runs use `--grep @future`
+- `playwright.config.ts` includes `@future` in normal runs
+- explicit future-only runs use `--grep @future`
 
 ## Blocker Model
 

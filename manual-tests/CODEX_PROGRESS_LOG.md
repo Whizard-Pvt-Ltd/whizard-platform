@@ -11,6 +11,9 @@ Use it to preserve continuity across sessions, prevent repeated mistakes, and tr
 - [x] Manage WRCF
 - [x] Functional Group
 
+### Generated with stable slice passing
+- [x] Control Point
+- [x] Role Mapping
 
 ### Needs revalidation / regeneration
 - [ ] PWO
@@ -22,14 +25,14 @@ Use it to preserve continuity across sessions, prevent repeated mistakes, and tr
 - [x] Skills
 ### Generated but blocked on environment validation
 - [x] Task
+### Generated but blocked on current Roles runtime
+- [x] Roles
+
 ### Pending
-- Control Point
-- Roles
-- Role Mapping
-- Companies
+- [ ] Internship
 
 ### Recommended Next Target
-- Control Point after frontend/WRCF runtime is available again
+- Internship
 
 ## Reusable Working Notes
 
@@ -65,6 +68,11 @@ Add one entry after each meaningful generation/run/debug cycle.
 - 2026-03-31: Generated `wrcf_Skills.playwright.spec.ts` plus companion markdown from the `Skills` workbook tab, using the WRCF PDFs for product intent and the workbook as the case ledger. Executed a focused pass (`SKL-E2E-001`, `003`, `004`, `005`) and the full suite. Result: 4 skipped in the focused run and 15 skipped in the full run, all cleanly gated by the parent `Manage WRCF Skills` context blocker or by seeded-skill/task data requirements.
 - 2026-04-01: Generated `wrcf_Task.playwright.spec.ts` plus companion markdown from the `Task` workbook tab, using the WRCF PDFs for product intent and the workbook as the case ledger. Attempted a focused pass (`TSK-E2E-001` through `004`) and the full suite. Current blocker is earlier than task-context validation: frontend preflight to `http://localhost:4200/login` timed out, so the suite is recorded as generated but blocked on environment validation.
 - 2026-04-01: Introduced tag-based stable-vs-future Playwright execution. Added repo-level default exclusion for `@future`, scripts for stable, future, and stable `@p0` coverage, tagged a stable dashboard slice, and converted `wrcf_Task.playwright.spec.ts` away from `fixme`-driven future coverage. Stable Task cases (`TSK-E2E-001` through `004`) now fail normally on real runtime/data issues; future Task coverage (`TSK-E2E-005` through `014`) remains visible under `@future`.
+- 2026-04-02: Generated `wrcf_Control_Point.playwright.spec.ts` plus companion markdown from the `Control Point` workbook tab, following the same `+ Add Skills -> Manage WRCF Skills -> Skill -> Task -> Control Point` path as the fixed Task suite. Verified the Control Point UI/panel against the current app code while generating. Stable default run result: 5 passed. Documented one important mismatch: the UI marks `Escalation Required` and `Evidence Type` as required, but current component enforcement/model parity only clearly enforces `Name`, `Risk Level`, and `Failure Impact Type`, so the stronger enum/required-coverage rows remain authored under `@future` pending source/runtime alignment.
+- 2026-04-02: Generated `wrcf_Roles.playwright.spec.ts` plus companion markdown from the `Roles` workbook tab. Verified the current `Manage WRCF Roles` page is `Industry -> Department -> Role`, not a skills-style hierarchy page. Current runtime results: role create/edit entry coverage partially works, but no seeded departments are available on first load and role save does not complete reliably, so downstream role edit/delete coverage is blocked by a real runtime issue rather than a missing-default cascade.
+- 2026-04-02: Generated `wrcf_Role_Mapping.playwright.spec.ts` plus companion markdown from the `Role Mapping` workbook tab. Verified the current mapping UI is the `Manage CI Mappings` dialog inside `Manage WRCF Roles`, not a separate page. Stable validation for `RMAP-E2E-002` passes: mapping action remains unavailable until a role is selected. Most remaining rows are currently blocked by workbook/UI mismatch (department-scoped columns before role selection), missing seeded roles/mappings, or the current Roles save/runtime blockers.
+- 2026-04-03: Generated `wrcf_Companies.playwright.spec.ts` plus companion markdown from the `Companies` workbook tab. Verified that the live runtime only exposes a `Manage Company` CRUD page at `/manage-company`, not the company-WRCF dashboard / override / upgrade surface described by `COMP-E2E-001` through `019`. Added a small stable current-runtime baseline (`COMP-CUR-001` through `006`) for list/detail/form/preview behavior and kept the workbook company-WRCF scenarios authored in the same file as explicit `@future` blockers.
+- 2026-04-03: Added `College` and `Internship` sheets to `WRCF End-to-End Test Cases_reverified-v2.xlsx`. Generated `wrcf_College.playwright.spec.ts` plus companion markdown from the new `College` tab using `temp/College Student Onbaording FS.pdf` and the latest `manage-college` implementation in `/home/sama/repo/whizard-platform` as references. Stable coverage targets the live `Manage College` list/detail/form/preview surface; student-onboarding cases remain authored as future blockers because that page is not currently exposed in the live admin runtime.
 
 ## Pending Clarifications
 - None yet

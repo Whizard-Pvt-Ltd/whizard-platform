@@ -20,6 +20,8 @@
     "if an Excel/workbook step is clear, follow it directly during test execution design",
     "if spec behavior drifts from a clear workbook step, fix the spec instead of reinterpreting the step",
     "ask for human intervention only when the workbook step itself is ambiguous, wrong, or conflicts with product intent",
+    "when a user request has ambiguous scope, restate the intended action and ask for confirmation before executing",
+    "do not silently narrow or expand the requested scope based on recent context",
     "if Excel libraries are unavailable, read the xlsx zip/xml payload directly"
   ],
   "acceptance_rules": [
@@ -47,7 +49,9 @@
   "environment_rules": [
     "for authenticated WRCF runs, verify frontend 4200 and backend ports 3000 and 3001 are reachable before debugging selectors",
     "prefer explicit service-readiness checks in authenticated workbook-driven specs so backend outages fail fast",
-    "if service preflight passes but login still hangs, document the auth/runtime blocker separately instead of attributing it to selector issues"
+    "if service preflight passes but login still hangs, document the auth/runtime blocker separately instead of attributing it to selector issues",
+    "for runtime validation, treat the live app on localhost:4200 as the current behavior truth because it may include fixes newer than the local workspace code",
+    "if localhost behavior differs from checked-out source code, prefer the live UI behavior for validation notes and confirm before assuming the workspace code is current"
   ],
   "priority_rules": {
     "P0": "critical user journeys",
@@ -67,8 +71,8 @@
     "tag deferred feature coverage with @future",
     "tag priorities with @p0, @p1, or @p2",
     "use module tags like @dashboard, @task, or @skills when they improve targeted runs",
-    "default Playwright execution should exclude @future via grep-invert",
-    "explicit future runs should include @future and allow normal failures",
-    "during normal reruns, run specs in the default way and include @future only when explicitly requested by the user"
+    "default Playwright execution should include @future unless the user explicitly asks to exclude it",
+    "explicit future-only runs can still use --grep @future when targeted coverage is needed",
+    "during normal reruns, run specs in the default way and include @future until the user says otherwise"
   ]
 }
