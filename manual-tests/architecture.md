@@ -42,7 +42,7 @@ These preserve workflow state, reusable lessons, and validation rules between se
 These are the runnable test suites. For WRCF, each sheet/entity normally gets its own spec.
 
 3. Companion documentation
-- `Documents/*.playwright.spec.md`
+- `Documents/PlaywrightDocuments/*.playwright.spec.md`
 - `Documents/wrcf-source-of-truth.md`
 
 These explain intent, coverage, blockers, and traceability for each suite.

@@ -9,7 +9,14 @@ PDF-backed coverage for the WRCF Task flow, traced to the `Task` tab in `WRCF En
 ## Covered Tests
 
 - `TSK-E2E-001` through `TSK-E2E-014`
-- stable runnable coverage currently targets the lowest-cost task checks: add-icon visibility, create-popup visibility, mandatory-field validation, and valid-save behavior
+- stable runnable coverage currently targets:
+  - add-icon visibility
+  - create-popup visibility
+  - mandatory-field validation
+  - valid-save behavior
+  - close-without-save behavior
+  - proficiency option validation
+  - optional standard-duration behavior
 - future workbook rows remain authored in the same spec file under `@future` instead of permanent `fixme`
 - runtime/data blockers are tracked separately from `@future` coverage through explicit failure messages and blocker tags
 
@@ -45,12 +52,15 @@ Login
 
 - Stable default cases:
   - `TSK-E2E-001` through `TSK-E2E-004`
-  - Tags: `@stable @p0 @task`
+  - `TSK-E2E-007`
+  - `TSK-E2E-013`
+  - `TSK-E2E-014`
+  - Tags: `@stable` with `@p0/@p2 @task`
   - These run in the default Playwright flow and should fail normally if the parent CI workflow, `Manage WRCF Skills` handoff, or selected Skill context is broken.
 - Future-authored cases:
-  - `TSK-E2E-005` through `TSK-E2E-014`
+  - `TSK-E2E-005`, `006`, `008`, `009`, `010`, `011`, `012`
   - Tags: `@future` plus priority and blocker tags
-  - These stay visible in the same spec and are excluded only from the default run.
+  - These stay visible in the same spec and are included in normal runs unless explicitly filtered out.
 - Current runtime/data blockers:
   - parent blocker: current local workflow may fail to enter `Manage WRCF Skills` through `+ Add Skills` and resolve all five skill filters
   - local blocker: no deterministic selected Skill row may exist after entering `Manage WRCF Skills`, even after the spec attempts to create one

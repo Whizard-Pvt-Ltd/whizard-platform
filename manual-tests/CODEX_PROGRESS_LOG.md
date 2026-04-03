@@ -29,7 +29,7 @@ Use it to preserve continuity across sessions, prevent repeated mistakes, and tr
 - [x] Roles
 
 ### Pending
-- [ ] Internship
+- [x] Internship
 
 ### Recommended Next Target
 - Internship
@@ -73,6 +73,8 @@ Add one entry after each meaningful generation/run/debug cycle.
 - 2026-04-02: Generated `wrcf_Role_Mapping.playwright.spec.ts` plus companion markdown from the `Role Mapping` workbook tab. Verified the current mapping UI is the `Manage CI Mappings` dialog inside `Manage WRCF Roles`, not a separate page. Stable validation for `RMAP-E2E-002` passes: mapping action remains unavailable until a role is selected. Most remaining rows are currently blocked by workbook/UI mismatch (department-scoped columns before role selection), missing seeded roles/mappings, or the current Roles save/runtime blockers.
 - 2026-04-03: Generated `wrcf_Companies.playwright.spec.ts` plus companion markdown from the `Companies` workbook tab. Verified that the live runtime only exposes a `Manage Company` CRUD page at `/manage-company`, not the company-WRCF dashboard / override / upgrade surface described by `COMP-E2E-001` through `019`. Added a small stable current-runtime baseline (`COMP-CUR-001` through `006`) for list/detail/form/preview behavior and kept the workbook company-WRCF scenarios authored in the same file as explicit `@future` blockers.
 - 2026-04-03: Added `College` and `Internship` sheets to `WRCF End-to-End Test Cases_reverified-v2.xlsx`. Generated `wrcf_College.playwright.spec.ts` plus companion markdown from the new `College` tab using `temp/College Student Onbaording FS.pdf` and the latest `manage-college` implementation in `/home/sama/repo/whizard-platform` as references. Stable coverage targets the live `Manage College` list/detail/form/preview surface; student-onboarding cases remain authored as future blockers because that page is not currently exposed in the live admin runtime.
+- 2026-04-03: Generated `wrcf_Internship.playwright.spec.ts` plus companion markdown from the `Internship` tab using `temp/Internship SRS.pdf` and the latest admin code reference in `/home/sama/repo/whizard-platform`. Current result is intentionally a doc/workbook-driven future suite: the SRS describes a dedicated Internship module with multiple screens, but no runnable Internship page/module is exposed on `localhost:4200` yet.
+- 2026-04-03: Reviewed `@future` coverage across the current sheets against docs, localhost runtime, and the latest code reference. Retagged `TSK-E2E-007`, `TSK-E2E-013`, and `TSK-E2E-014` from `@future` to `@stable` because they now execute real task behavior. Verified `TSK-E2E-007` and `TSK-E2E-013` pass; `TSK-E2E-014` now remains as a truthful stable failure on the optional standard-duration behavior.
 
 ## Pending Clarifications
 - None yet

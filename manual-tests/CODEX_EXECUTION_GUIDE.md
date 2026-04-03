@@ -22,7 +22,7 @@ Main goals:
 
 You are continuing Playwright test generation work in this repo.
 
-Source material is inside the `temp/` folder. Use these as primary references:
+Source material is inside the `temp/` folder. Use these as the documentation reference layer:
 - `temp/WRCF Functional Specs.pdf`
 - `temp/WRCF definition & Schema.pdf`
 - `temp/WRCF End-to-End Test Cases_reverified.xlsx`
@@ -56,6 +56,7 @@ Execution-step rule:
 - when a user request has ambiguous scope, the assistant must restate the intended action and ask for confirmation before executing
 - do not silently narrow or expand the requested scope based on recent context
 - for runtime validation, treat the currently running app on `localhost:4200` as the live behavior truth, because it may contain fixes newer than the local workspace code
+- use the latest code reference from `/home/sama/repo/whizard-platform` when checking implementation details, selectors, or probable backend/frontend behavior
 - when runtime behavior on `localhost` differs from the checked-out code, prefer the live UI behavior for validation/debugging notes and avoid assuming the local source has the latest fix until confirmed
 
 ---
@@ -179,22 +180,25 @@ If `known_issues.md` or `rules.json` does not exist yet, create and maintain the
 
 Use sources in this order:
 
-1. **Existing `manual-tests/` specs/docs**
-   - First reference for structure, naming, style, scenario format, and pending-case handling.
-   - Reuse before inventing.
+1. **Docs in `temp/`**
+   - Product and requirements inspiration layer.
+   - Use PDFs/workbooks here for business meaning, flow intent, and traceability.
 
-2. **WRCF PDFs in `temp/`**
-   - Product source of truth for expected behavior and schema intent.
+2. **Live app on `localhost:4200`**
+   - Runtime truth for what actually works today.
+   - Use this for current navigation, field visibility, actual blockers, and behavior verification.
 
-3. **Workbook in `temp/`**
-   - Derived ledger for case IDs, coverage mapping, and execution planning.
+3. **Latest code reference at `/home/sama/repo/whizard-platform`**
+   - Use this as the implementation reference when you need to understand components, routes, APIs, or selectors.
+   - Treat it as a helper reference, not a higher truth than the live app.
 
-4. **Playwright MCP / Playwright UI validation**
-   - Use Playwright MCP as the preferred targeted inspection/validation layer when workbook rows or docs are ambiguous.
-   - Use it to inspect selectors, confirm actual UI flow, verify page structure, validate field presence/order, and resolve mismatches between docs and UI.
-   - Do not use MCP for broad re-exploration when an existing stable pattern already exists.
+4. **Existing `manual-tests/` specs/docs**
+   - Reuse these for structure, naming, style, scenario format, and pending-case handling.
 
-5. **Human intervention**
+5. **Playwright MCP / targeted UI validation**
+   - Use only when you need focused validation beyond normal Playwright execution.
+
+6. **Human intervention**
    - Ask when access, seeded data, expected behavior, or product intent remains unclear after reasonable checking.
 
 ---

@@ -8,23 +8,26 @@ This directory stores manual Playwright MCP findings and the repo artifacts deri
 manual-tests/
   README.md
   Documents/
+    README.md
+    PlaywrightDocuments/
+      README.md
+      login-page.playwright.spec.md
+      login-page-auth.playwright.spec.md
+      wrcf-manage-wrcf.playwright.spec.md
+      wrcf-dashboard.playwright.spec.md
+      wrcf_Functional_Group.playwright.spec.md
+      wrcf_Primary_Work_Object.playwright.spec.md
+      wrcf_Secondary_Work_Object.playwright.spec.md
+      wrcf_Manage_WRCF_Skills.playwright.spec.md
+      wrcf_Skills.playwright.spec.md
+      wrcf_Task.playwright.spec.md
+      wrcf_Control_Point.playwright.spec.md
     TESTING_PROTOCOL.md
     playwright-run-commands.md
     workbook-tagging-guide.md
     login-page-mcp-test-cases.md
     login-page-smoke-test.md
     login-page-accessibility-and-ux-findings.md
-    login-page.playwright.spec.md
-    login-page-auth.playwright.spec.md
-    wrcf-manage-wrcf.playwright.spec.md
-    wrcf-dashboard.playwright.spec.md
-    wrcf_Functional_Group.playwright.spec.md
-    wrcf_Primary_Work_Object.playwright.spec.md
-    wrcf_Secondary_Work_Object.playwright.spec.md
-    wrcf_Manage_WRCF_Skills.playwright.spec.md
-    wrcf_Skills.playwright.spec.md
-    wrcf_Task.playwright.spec.md
-    wrcf_Control_Point.playwright.spec.md
     wrcf-source-of-truth.md
   login-page.playwright.spec.ts
   login-page-auth.playwright.spec.ts
@@ -80,6 +83,8 @@ manual-tests/
 Quick command reference:
 - Bash commands for each current spec: [playwright-run-commands.md](/home/sama/new-repo/whizard-platform/manual-tests/Documents/playwright-run-commands.md)
 - Workbook execution-tag maintenance: [workbook-tagging-guide.md](/home/sama/new-repo/whizard-platform/manual-tests/Documents/workbook-tagging-guide.md)
+- Document map for this folder: [README.md](/home/sama/new-repo/whizard-platform/manual-tests/Documents/README.md)
+- Playwright companion docs: [README.md](/home/sama/new-repo/whizard-platform/manual-tests/Documents/PlaywrightDocuments/README.md)
 
 Set the login credentials in the same PowerShell window before running any authenticated Playwright suite:
 
@@ -257,12 +262,12 @@ npx playwright show-report
 - Login UX report: [login-page-accessibility-and-ux-findings.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/Documents/login-page-accessibility-and-ux-findings.md)
 - MCP test cases: [login-page-mcp-test-cases.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/Documents/login-page-mcp-test-cases.md)
 - Ordered FG results: [wrcf-functional-group-results.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/results/wrcf-functional-group-results.md)
-- PWO companion doc: [wrcf_Primary_Work_Object.playwright.spec.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/Documents/wrcf_Primary_Work_Object.playwright.spec.md)
-- SWO companion doc: [wrcf_Secondary_Work_Object.playwright.spec.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/Documents/wrcf_Secondary_Work_Object.playwright.spec.md)
-- Manage Skills companion doc: [wrcf_Manage_WRCF_Skills.playwright.spec.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/Documents/wrcf_Manage_WRCF_Skills.playwright.spec.md)
-- Skills companion doc: [wrcf_Skills.playwright.spec.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/Documents/wrcf_Skills.playwright.spec.md)
-- Task companion doc: [wrcf_Task.playwright.spec.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/Documents/wrcf_Task.playwright.spec.md)
-- Control Point companion doc: [wrcf_Control_Point.playwright.spec.md](/c:/Users/sande/OneDrive/Documents/Codex/whizard-platform/manual-tests/Documents/wrcf_Control_Point.playwright.spec.md)
+- PWO companion doc: [wrcf_Primary_Work_Object.playwright.spec.md](/home/sama/new-repo/whizard-platform/manual-tests/Documents/PlaywrightDocuments/wrcf_Primary_Work_Object.playwright.spec.md)
+- SWO companion doc: [wrcf_Secondary_Work_Object.playwright.spec.md](/home/sama/new-repo/whizard-platform/manual-tests/Documents/PlaywrightDocuments/wrcf_Secondary_Work_Object.playwright.spec.md)
+- Manage Skills companion doc: [wrcf_Manage_WRCF_Skills.playwright.spec.md](/home/sama/new-repo/whizard-platform/manual-tests/Documents/PlaywrightDocuments/wrcf_Manage_WRCF_Skills.playwright.spec.md)
+- Skills companion doc: [wrcf_Skills.playwright.spec.md](/home/sama/new-repo/whizard-platform/manual-tests/Documents/PlaywrightDocuments/wrcf_Skills.playwright.spec.md)
+- Task companion doc: [wrcf_Task.playwright.spec.md](/home/sama/new-repo/whizard-platform/manual-tests/Documents/PlaywrightDocuments/wrcf_Task.playwright.spec.md)
+- Control Point companion doc: [wrcf_Control_Point.playwright.spec.md](/home/sama/new-repo/whizard-platform/manual-tests/Documents/PlaywrightDocuments/wrcf_Control_Point.playwright.spec.md)
 
 ## Notes
 

@@ -436,7 +436,7 @@ test.describe('Task sheet-aligned coverage', () => {
     await expect(panel(page).locator('.error-msg')).not.toHaveText('');
   });
 
-  test('TSK-E2E-007 @future @p2 @task does not create a task when the create panel is closed without save', async () => {
+  test('TSK-E2E-007 @stable @p2 @task does not create a task when the create panel is closed without save', async () => {
     await assertTaskContextReady(page, noTaskContextReason);
     await assertSelectedSkill(page, noSelectedSkillReason);
     const beforeCount = await taskItems(page).count();
@@ -496,7 +496,7 @@ test.describe('Task sheet-aligned coverage', () => {
     await expect(taskRow(page, taskName)).toHaveCount(0);
   });
 
-  test('TSK-E2E-013 @future @p2 @task validates required proficiency level against allowed values', async () => {
+  test('TSK-E2E-013 @stable @p2 @task validates required proficiency level against allowed values', async () => {
     await assertTaskContextReady(page, noTaskContextReason);
     await assertSelectedSkill(page, noSelectedSkillReason);
     await openCreateTaskPanel(page);
@@ -511,7 +511,7 @@ test.describe('Task sheet-aligned coverage', () => {
     expect(options.slice(1).every(option => Boolean(option.label && option.value))).toBe(true);
   });
 
-  test('TSK-E2E-014 @future @p2 @task allows standard duration to remain blank when the field is optional', async () => {
+  test('TSK-E2E-014 @stable @p2 @task allows standard duration to remain blank when the field is optional', async () => {
     await assertTaskContextReady(page, noTaskContextReason);
     await assertSelectedSkill(page, noSelectedSkillReason);
     await openCreateTaskPanel(page);
