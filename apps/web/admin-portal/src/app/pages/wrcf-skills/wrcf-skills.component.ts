@@ -24,6 +24,13 @@ export class WrcfSkillsComponent implements OnInit {
   private readonly stackAuthService = inject(StackAuthService);
 
   private industryId = '';
+  private pendingSelection: {
+    fgId: string;
+    pwoId: string;
+    swoId: string;
+    capabilityId: string;
+    proficiencyId: string;
+  } | null = null;
 
   protected fgList = signal<FunctionalGroup[]>([]);
   protected pwoList = signal<PrimaryWorkObject[]>([]);
@@ -94,6 +101,11 @@ export class WrcfSkillsComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       const ciId = params['capabilityInstanceId'];
       const industryId = params['industryId'];
+      const fgId = params['fgId'] ?? '';
+      const pwoId = params['pwoId'] ?? '';
+      const swoId = params['swoId'] ?? '';
+      const capabilityId = params['capabilityId'] ?? '';
+      const proficiencyId = params['proficiencyId'] ?? '';
 
       if (ciId) {
         this.resolvedCiId.set(ciId);
@@ -102,9 +114,14 @@ export class WrcfSkillsComponent implements OnInit {
       }
 
       if (industryId) {
+        this.noIndustry.set(false);
         this.industryId = industryId;
+        this.pendingSelection = { fgId, pwoId, swoId, capabilityId, proficiencyId };
         this.wrcfApi.listFGs(industryId).subscribe({
-          next: fgs => this.fgList.set(fgs),
+          next: fgs => {
+            this.fgList.set(fgs);
+            this.restoreSelectionFromQuery();
+          },
           error: () => this.fgList.set([])
         });
       } else {
@@ -126,11 +143,17 @@ export class WrcfSkillsComponent implements OnInit {
     this.clearSkillsDown();
     if (fgId) {
       this.wrcfApi.listPWOs(fgId).subscribe({
-        next: pwos => this.pwoList.set(pwos),
+        next: pwos => {
+          this.pwoList.set(pwos);
+          this.restoreSelectionFromQuery();
+        },
         error: () => this.pwoList.set([])
       });
       this.wrcfApi.listCIs(this.industryId || undefined, fgId).subscribe({
-        next: cis => this.allCIs.set(cis),
+        next: cis => {
+          this.allCIs.set(cis);
+          this.restoreSelectionFromQuery();
+        },
         error: () => this.allCIs.set([])
       });
     }
@@ -146,7 +169,10 @@ export class WrcfSkillsComponent implements OnInit {
     this.clearSkillsDown();
     if (pwoId) {
       this.wrcfApi.listSWOs(pwoId).subscribe({
-        next: swos => this.swoList.set(swos),
+        next: swos => {
+          this.swoList.set(swos);
+          this.restoreSelectionFromQuery();
+        },
         error: () => this.swoList.set([])
       });
     }
@@ -165,11 +191,70 @@ export class WrcfSkillsComponent implements OnInit {
     this.selectedProficiencyId.set('');
     this.resolvedCiId.set(null);
     this.clearSkillsDown();
+    this.restoreSelectionFromQuery();
   }
 
   protected onProficiencyChange(proficiencyId: string): void {
     this.selectedProficiencyId.set(proficiencyId);
     this.tryResolveCi();
+    this.restoreSelectionFromQuery();
+  }
+
+  private restoreSelectionFromQuery(): void {
+    const selection = this.pendingSelection;
+    if (!selection) return;
+
+    if (selection.fgId && !this.selectedFGId()) {
+      const hasFg = this.fgList().some(fg => fg.id === selection.fgId);
+      if (hasFg) {
+        this.onFGChange(selection.fgId);
+        return;
+      }
+    }
+
+    if (selection.pwoId && this.selectedFGId() && !this.selectedPWOId() && this.pwoList().length > 0) {
+      const hasPwo = this.pwoList().some(pwo => pwo.id === selection.pwoId);
+      if (hasPwo) {
+        this.onPWOChange(selection.pwoId);
+        return;
+      }
+    }
+
+    if (selection.swoId && this.selectedPWOId() && !this.selectedSWOId() && this.swoList().length > 0) {
+      const hasSwo = this.swoList().some(swo => swo.id === selection.swoId);
+      if (hasSwo) {
+        this.onSWOChange(selection.swoId);
+        return;
+      }
+    }
+
+    if (selection.capabilityId && this.selectedSWOId() && !this.selectedCapabilityId() && this.allCIs().length > 0) {
+      const hasCapability = this.availableCapabilities.some(capability => capability.id === selection.capabilityId);
+      if (hasCapability) {
+        this.onCapabilityChange(selection.capabilityId);
+        return;
+      }
+    }
+
+    if (selection.proficiencyId && this.selectedCapabilityId() && !this.selectedProficiencyId()) {
+      const hasProficiency = this.availableProficiencies.some(
+        proficiency => proficiency.id === selection.proficiencyId
+      );
+      if (hasProficiency) {
+        this.onProficiencyChange(selection.proficiencyId);
+      }
+    }
+
+    const restoredAllRequestedSelections =
+      (!selection.fgId || this.selectedFGId() === selection.fgId) &&
+      (!selection.pwoId || this.selectedPWOId() === selection.pwoId) &&
+      (!selection.swoId || this.selectedSWOId() === selection.swoId) &&
+      (!selection.capabilityId || this.selectedCapabilityId() === selection.capabilityId) &&
+      (!selection.proficiencyId || this.selectedProficiencyId() === selection.proficiencyId);
+
+    if (restoredAllRequestedSelections) {
+      this.pendingSelection = null;
+    }
   }
 
   private tryResolveCi(): void {

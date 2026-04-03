@@ -42,7 +42,7 @@
               "fileReplacements": [
                 {
                   "replace": "apps/web/admin-portal/src/environments/environment.ts",
-                  "with": "apps/web/admin-portal/src/environments/environment.prod.ts"
+                  "with": "apps/web/admin-portal/src/environments/environment.test.ts"
                 }
               ],
               "optimization": true,
@@ -55,6 +55,18 @@
                 {
                   "replace": "apps/web/admin-portal/src/environments/environment.ts",
                   "with": "apps/web/admin-portal/src/environments/environment.dev.ts"
+                }
+              ],
+              "optimization": true,
+              "sourceMap": false,
+              "outputHashing": "all",
+              "extractLicenses": true
+            },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/web/admin-portal/src/environments/environment.ts",
+                  "with": "apps/web/admin-portal/src/environments/environment.staging.ts"
                 }
               ],
               "optimization": true,
