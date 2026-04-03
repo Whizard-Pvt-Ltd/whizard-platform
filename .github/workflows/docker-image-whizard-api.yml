@@ -108,6 +108,11 @@ jobs:
             context: .
             image: whizard-club-web-dev
             build_env: dev
+          - name: admin-portal-staging
+            dockerfile: apps/web/admin-portal/Dockerfile
+            context: .
+            image: whizard-club-web-staging
+            build_env: staging
           - name: admin-portal-test
             dockerfile: apps/web/admin-portal/Dockerfile
             context: .

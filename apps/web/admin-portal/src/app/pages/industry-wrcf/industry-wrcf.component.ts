@@ -237,7 +237,17 @@ export class IndustryWrcfComponent implements OnInit {
       this.showError('Please select an Industry Sector and Industry first.');
       return;
     }
-    this.router.navigate(['/wrcf-skills'], { queryParams: { industryId } });
+
+    this.router.navigate(['/wrcf-skills'], {
+      queryParams: {
+        industryId,
+        fgId: this.selectedFG()?.id ?? null,
+        pwoId: this.selectedPWO()?.id ?? null,
+        swoId: this.selectedSWO()?.id ?? null,
+        capabilityId: this.selectedCapabilityId() || null,
+        proficiencyId: this.selectedProficiencyId() || null
+      }
+    });
   }
 
   protected onCISavedDeleted(id: string): void {
