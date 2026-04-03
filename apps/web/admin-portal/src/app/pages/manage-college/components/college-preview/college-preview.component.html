@@ -20,18 +20,25 @@
   <div class="flex-1 overflow-y-auto">
     <div class="max-w-4xl mx-auto px-8 py-8 flex flex-col gap-8">
 
-      <!-- Header -->
-      <div class="flex items-center gap-5">
-        @if (college().logoUrl) {
-          <img [src]="college().logoUrl" [alt]="college().name" class="w-20 h-20 rounded-full object-cover border-2 border-wrcf-border" />
-        } @else {
-          <div class="w-20 h-20 rounded-full bg-wrcf-action flex items-center justify-center text-3xl font-semibold text-wrcf-text-primary">
-            {{ getInitial(college().name) }}
+      <!-- Header: banner + logo + name -->
+      <div class="rounded-2xl overflow-hidden border border-wrcf-border">
+        <!-- Banner -->
+        <div class="relative h-36 bg-wrcf-bg-secondary">
+          <div class="w-full h-full bg-gradient-to-r from-wrcf-action/40 to-wrcf-bg-card"></div>
+        </div>
+        <!-- Logo + Name -->
+        <div class="bg-wrcf-bg-card px-6 pb-5 flex items-end gap-5 -mt-10">
+          @if (college().logoUrl) {
+            <img [src]="college().logoUrl" [alt]="college().name" class="w-20 h-20 rounded-full object-cover border-2 border-wrcf-border bg-wrcf-bg-primary shadow-md shrink-0" />
+          } @else {
+            <div class="w-20 h-20 rounded-full bg-wrcf-action flex items-center justify-center text-3xl font-semibold text-wrcf-text-primary border-2 border-wrcf-border shadow-md shrink-0">
+              {{ getInitial(college().name) }}
+            </div>
+          }
+          <div class="pb-1">
+            <h1 class="text-2xl font-semibold text-wrcf-text-primary leading-8">{{ college().name }}</h1>
+            <p class="text-sm text-wrcf-text-tertiary mt-0.5">{{ college().collegeCode }}</p>
           </div>
-        }
-        <div>
-          <h1 class="text-3xl font-semibold text-wrcf-text-primary leading-8">{{ college().name }}</h1>
-          <p class="text-sm text-wrcf-text-tertiary mt-1">{{ college().collegeCode }}</p>
         </div>
       </div>
 
@@ -82,16 +89,29 @@
       @if (brochures.length > 0) {
         <section class="flex flex-col gap-3">
           <h2 class="text-xl font-medium text-wrcf-text-primary leading-7">College Brochure</h2>
-          <div class="flex flex-col gap-2">
+          <div class="flex flex-col gap-4">
             @for (item of brochures; track item.mediaAssetId) {
-              <button
-                type="button"
-                (click)="openPdf(item.asset!.url, item.asset!.name)"
-                class="flex items-center gap-3 px-4 py-3 rounded-xl bg-wrcf-bg-card border border-wrcf-border hover:border-wrcf-accent transition-colors text-left">
-                <mat-icon svgIcon="lucideIcons:file-text" class="size-5 text-wrcf-text-tertiary shrink-0" />
-                <span class="text-sm text-wrcf-text-primary truncate flex-1">{{ item.asset?.name ?? 'Brochure' }}</span>
-                <mat-icon svgIcon="heroicons_outline:arrow-top-right-on-square" class="size-4 text-wrcf-text-secondary" />
-              </button>
+              <div class="flex flex-col gap-2">
+                @if (item.asset?.thumbnailUrl) {
+                  <button
+                    type="button"
+                    (click)="openPdf(item.asset!.url, item.asset!.name)"
+                    class="group relative w-52 h-40 rounded-xl overflow-hidden border border-wrcf-border shadow-sm hover:shadow-md transition-shadow">
+                    <img [src]="item.asset!.thumbnailUrl" class="w-full h-full object-cover" alt="Brochure preview" />
+                    <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <mat-icon svgIcon="lucideIcons:file-text" class="size-10 text-white" />
+                    </div>
+                  </button>
+                }
+                <button
+                  type="button"
+                  (click)="openPdf(item.asset!.url, item.asset!.name)"
+                  class="flex items-center gap-3 px-4 py-3 rounded-xl bg-wrcf-bg-card border border-wrcf-border hover:border-wrcf-accent transition-colors text-left w-52">
+                  <mat-icon svgIcon="lucideIcons:file-text" class="size-4 text-wrcf-text-tertiary shrink-0" />
+                  <span class="text-sm text-wrcf-text-primary truncate flex-1">{{ item.asset?.name ?? 'Brochure' }}</span>
+                  <mat-icon svgIcon="heroicons_outline:arrow-top-right-on-square" class="size-3.5 text-wrcf-text-secondary" />
+                </button>
+              </div>
             }
           </div>
         </section>
@@ -101,14 +121,18 @@
       @if (videos.length > 0) {
         <section class="flex flex-col gap-3">
           <h2 class="text-xl font-medium text-wrcf-text-primary leading-7">Promotional Videos</h2>
-          <div class="grid grid-cols-3 gap-4">
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             @for (item of videos; track item.mediaAssetId) {
-              <div class="relative aspect-video rounded-2xl overflow-hidden bg-wrcf-bg-card border border-wrcf-border group cursor-pointer">
+              <div class="relative aspect-video rounded-2xl overflow-hidden bg-wrcf-bg-card border border-wrcf-border group cursor-pointer shadow-sm hover:shadow-md transition-shadow">
                 @if (item.asset?.thumbnailUrl) {
                   <img [src]="item.asset!.thumbnailUrl" class="w-full h-full object-cover" />
+                } @else {
+                  <div class="w-full h-full flex items-center justify-center">
+                    <mat-icon svgIcon="heroicons_outline:video-camera" class="size-10 text-wrcf-text-secondary opacity-40" />
+                  </div>
                 }
-                <div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/50 transition-colors">
-                  <mat-icon svgIcon="heroicons_outline:play-circle" class="size-12 text-wrcf-text-primary" />
+                <div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/55 transition-colors">
+                  <mat-icon svgIcon="heroicons_outline:play-circle" class="size-12 text-white" />
                 </div>
               </div>
             }
@@ -120,11 +144,15 @@
       @if (gallery.length > 0) {
         <section class="flex flex-col gap-3">
           <h2 class="text-xl font-medium text-wrcf-text-primary leading-7">Campus Gallery</h2>
-          <div class="grid grid-cols-3 gap-4">
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             @for (item of gallery; track item.mediaAssetId) {
-              <div class="aspect-video rounded-2xl overflow-hidden bg-wrcf-bg-card border border-wrcf-border">
+              <div class="relative h-32 rounded-2xl overflow-hidden bg-wrcf-bg-card border border-wrcf-border shadow-sm group">
                 @if (item.asset?.url) {
-                  <img [src]="item.asset!.url" class="w-full h-full object-cover" />
+                  <img [src]="item.asset!.url" [alt]="item.asset?.name ?? 'Campus image'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                } @else {
+                  <div class="w-full h-full flex items-center justify-center">
+                    <mat-icon svgIcon="heroicons_outline:photo" class="size-10 text-wrcf-text-secondary opacity-40" />
+                  </div>
                 }
               </div>
             }
@@ -138,20 +166,20 @@
           <h2 class="text-xl font-medium text-wrcf-text-primary leading-7">Local Club Chapters</h2>
           <div class="grid grid-cols-2 gap-4">
             @for (club of collegeClubs; track club.id) {
-              <div class="px-5 py-4 rounded-2xl bg-wrcf-bg-card border border-wrcf-border">
-                <div class="flex items-center gap-2.5 mb-2">
-                  @if (club.logoUrl) {
-                    <img [src]="club.logoUrl" class="w-7 h-7 rounded-full object-cover" />
-                  } @else {
-                    <div class="w-7 h-7 rounded-full bg-wrcf-action flex items-center justify-center text-xs font-semibold text-wrcf-text-primary">
-                      {{ getInitial(club.name) }}
-                    </div>
-                  }
-                  <p class="text-sm font-medium text-wrcf-text-primary">{{ club.name }}</p>
-                </div>
-                @if (club.description) {
-                  <p class="text-sm text-wrcf-text-secondary line-clamp-2">{{ club.description }}</p>
+              <div class="flex items-center h-28 rounded-2xl bg-wrcf-bg-card border border-wrcf-border shadow-sm hover:shadow-md hover:bg-wrcf-bg-secondary transition-all duration-150 cursor-pointer overflow-hidden group">
+                @if (club.logoUrl) {
+                  <img [src]="club.logoUrl" class="h-full w-28 shrink-0 object-cover object-center p-4 rounded-full" />
+                } @else {
+                  <div class="w-16 h-16 ml-4 rounded-full bg-wrcf-action flex items-center justify-center text-lg font-semibold text-wrcf-text-primary shrink-0">
+                    {{ getInitial(club.name) }}
+                  </div>
                 }
+                <div class="flex-auto flex flex-col justify-center px-4 min-w-0">
+                  <p class="text-sm font-semibold text-wrcf-text-primary line-clamp-1">{{ club.name }}</p>
+                  @if (club.description) {
+                    <p class="text-sm text-wrcf-text-secondary line-clamp-2 mt-1">{{ club.description }}</p>
+                  }
+                </div>
               </div>
             }
           </div>
@@ -162,9 +190,11 @@
       @if (college().degreesOffered) {
         <section class="flex flex-col gap-3">
           <h2 class="text-xl font-medium text-wrcf-text-primary leading-7">Degrees Offered</h2>
-          <div
-            class="text-sm text-wrcf-text-secondary leading-6 p-5 rounded-2xl bg-wrcf-bg-card border border-wrcf-border"
-            [innerHTML]="college().degreesOffered">
+          <div class="p-5 rounded-2xl bg-wrcf-bg-card border border-wrcf-border shadow-sm flex flex-col gap-3">
+            <div
+              class="text-sm text-wrcf-text-secondary leading-6"
+              [innerHTML]="college().degreesOffered">
+            </div>
           </div>
         </section>
       }
@@ -173,13 +203,22 @@
       @if (college().contacts && college().contacts.length > 0) {
         <section class="flex flex-col gap-3">
           <h2 class="text-xl font-medium text-wrcf-text-primary leading-7">Key Contacts</h2>
-          <div class="grid grid-cols-2 gap-4">
-            @for (contact of college().contacts; track contact.userId) {
-              <div class="px-5 py-4 rounded-2xl bg-wrcf-bg-card border border-wrcf-border">
-                <p class="text-xs text-wrcf-text-secondary mb-1 uppercase tracking-wide">{{ contact.role.replace(/_/g, ' ') }}</p>
-                <p class="text-sm font-medium text-wrcf-text-primary">
-                  {{ contact.userName ?? contact.userEmail ?? contact.userId }}
-                </p>
+          <div class="p-5 rounded-2xl bg-wrcf-bg-card border border-wrcf-border shadow-sm flex flex-col gap-3">
+            <p class="text-xs text-wrcf-text-secondary leading-5">
+              For various administrative and student-related activities, {{ college().name }} has designated key contacts:
+            </p>
+            <ul class="flex flex-col gap-2.5">
+              @for (contact of college().contacts; track contact.userId) {
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="w-56 shrink-0 font-medium text-wrcf-text-primary">{{ contact.role.replace(/_/g, ' ') }}:</span>
+                  <span class="text-wrcf-accent flex-1">{{ contact.userName ?? contact.userEmail ?? contact.userId }}</span>
+                </li>
+              }
+            </ul>
+            @if (college().inquiryEmail) {
+              <div class="pt-3 border-t border-wrcf-border/50 flex flex-wrap items-center gap-1 text-sm">
+                <span class="text-wrcf-text-secondary">For inquiries, reach out via email:</span>
+                <a [href]="'mailto:' + college().inquiryEmail" class="text-wrcf-accent hover:underline font-medium">{{ college().inquiryEmail }}</a>
               </div>
             }
           </div>

@@ -1,4 +1,4 @@
-<div class="flex flex-col h-full overflow-hidden">
+<div class="flex flex-col h-full w-full overflow-hidden">
 
   <!-- Top bar -->
   <div class="flex items-center justify-between px-6 py-3 border-b border-wrcf-border bg-wrcf-bg-primary shrink-0">
@@ -215,7 +215,7 @@
   <!-- Tab: Details -->
   @if (activeTab() === 'details') {
     <div class="flex-1 overflow-y-auto px-6 py-5" [formGroup]="form">
-      <div class="max-w-3xl flex flex-col gap-8">
+      <div class="flex flex-col gap-8">
 
         <!-- Company Details -->
         <section>

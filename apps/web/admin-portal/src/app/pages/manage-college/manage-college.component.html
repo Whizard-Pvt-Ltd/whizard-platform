@@ -23,18 +23,15 @@
           <button
             type="button"
             (click)="setActiveChip(chip)"
-            class="shrink-0 px-2.5 py-1 rounded-full text-xs leading-5 border transition-colors duration-150 whitespace-nowrap"
+            class="shrink-0 px-3 py-1 rounded-full text-xs leading-5 border transition-colors duration-150 whitespace-nowrap"
             [class.bg-wrcf-action]="activeChip() === chip"
-            [class.text-wrcf-text-primary]="activeChip() === chip"
-            [class.border-wrcf-action]="activeChip() === chip"
-            [class.bg-transparent]="activeChip() !== chip"
             [class.text-wrcf-text-secondary]="activeChip() !== chip"
-            [class.border-wrcf-border]="activeChip() !== chip">
+            [class.border-wrcf-border]="activeChip() !== chip" >
             {{ chip }}
           </button>
         }
       </div>
-
+ 
       <!-- Add button -->
       <button
         type="button"
