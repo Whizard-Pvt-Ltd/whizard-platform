@@ -45,6 +45,7 @@
     "prisma:migrate:dev": "prisma migrate dev",
     "prisma:migrate:deploy": "prisma migrate deploy",
     "prisma:migrate:reset": "prisma migrate reset",
+    "db:seed": "tsx prisma/seeds/index.ts",
     "db:setup": "bash tools/scripts/db-setup.sh",
     "bootstrap": "bash tools/scripts/bootstrap.sh",
     "verify:env": "bash tools/scripts/verify-env.sh",
