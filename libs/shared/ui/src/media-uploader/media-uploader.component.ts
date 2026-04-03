@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, input, output, signal, ViewChild, ElementRef } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 export interface UploadedFile {
@@ -29,7 +29,8 @@ const MAX_SIZE_BYTES = 2 * 1024 * 1024;
         [accept]="accept()"
         [multiple]="multiple()"
         class="hidden"
-        (change)="onFileChange($event)" />
+        (change)="onFileChange($event)"
+        (click)="$event.stopPropagation()" />
 
       <mat-icon [svgIcon]="iconName()" class="upload-icon" />
       <p class="upload-label">{{ label() }}</p>
@@ -70,8 +71,14 @@ export class MediaUploaderComponent {
   readonly iconType = input<'image' | 'video' | 'pdf' | 'any'>('any');
   readonly filesSelected = output<UploadedFile[]>();
 
+  @ViewChild('fileInput') private fileInputRef!: ElementRef<HTMLInputElement>;
+
   protected dragging = signal(false);
   protected errorMessage = signal<string | null>(null);
+
+  openFilePicker(): void {
+    this.fileInputRef?.nativeElement.click();
+  }
 
   protected iconName(): string {
     const map: Record<string, string> = {

@@ -50,7 +50,7 @@ export const registerCollegeOperationsRoutes = (
           name: String(body['name']),
           affiliatedUniversity: String(body['affiliatedUniversity']),
           cityId: body['cityId'] ? String(body['cityId']) : null,
-          cityName: body['cityName'] ? String(body['cityName']) : null,
+          cityCode: body['cityCode'] ? String(body['cityCode']) : null,
           collegeType: String(body['collegeType']),
           establishedYear: body['establishedYear'] ? Number(body['establishedYear']) : null,
           description: body['description'] ? String(body['description']) : null,

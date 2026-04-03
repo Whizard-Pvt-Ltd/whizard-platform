@@ -4,52 +4,35 @@
 
   <!-- Header -->
   <header class="h-16 bg-wrcf-bg-primary px-8 flex items-center gap-4 border-b border-wrcf-border shrink-0">
-
     <!-- Left: hamburger + title -->
     <div class="flex items-center gap-4 shrink-0">
       <button
         type="button"
         (click)="drawerOpen.set(true)"
         class="flex items-center justify-center w-9 h-9 rounded-lg hover:bg-wrcf-bg-secondary transition-colors">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round" class="text-wrcf-text-primary">
-          <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />
-        </svg>
+        <mat-icon svgIcon="lucideIcons:panel-left" class="size-4 text-wrcf-text-secondary shrink-0" />
       </button>
       <h1 class="text-2xl font-semibold text-wrcf-text-primary leading-8">Manage College</h1>
     </div>
 
-    <!-- VIEW MODE: search + filter chips + Add button -->
+    <!-- VIEW MODE: filter chips + Add button -->
     @if (mode() === 'list') {
-      <div class="flex-1 flex items-center gap-2 min-w-0 overflow-hidden">
-        <!-- Search -->
-        <div class="flex items-center gap-2 h-9 px-3 rounded-[10px] bg-wrcf-bg-secondary border border-wrcf-border min-w-[180px] max-w-[220px] shrink-0">
-          <mat-icon svgIcon="heroicons_outline:magnifying-glass" class="size-4 text-wrcf-text-secondary shrink-0" />
-          <input
-            type="text"
-            placeholder="Search for college..."
-            [value]="searchQuery()"
-            (input)="searchQuery.set($any($event.target).value)"
-            class="flex-1 bg-transparent text-sm text-wrcf-text-primary placeholder:text-wrcf-text-secondary outline-none border-none min-w-0" />
-        </div>
-
-        <!-- Filter chips -->
-        <div class="flex items-center gap-1.5 overflow-x-auto flex-1 min-w-0 scrollbar-none">
-          @for (chip of filterChips; track chip) {
-            <button
-              type="button"
-              (click)="setActiveChip(chip)"
-              class="shrink-0 px-2.5 py-1 rounded-full text-xs leading-5 border transition-colors duration-150 whitespace-nowrap"
-              [class.bg-wrcf-action]="activeChip() === chip"
-              [class.text-wrcf-text-primary]="activeChip() === chip"
-              [class.border-wrcf-action]="activeChip() === chip"
-              [class.bg-transparent]="activeChip() !== chip"
-              [class.text-wrcf-text-secondary]="activeChip() !== chip"
-              [class.border-wrcf-border]="activeChip() !== chip">
-              {{ chip }}
-            </button>
-          }
-        </div>
+      <!-- Filter chips -->
+      <div class="flex items-center gap-1.5 overflow-x-auto flex-1 min-w-0 scrollbar-none">
+        @for (chip of filterChips; track chip) {
+          <button
+            type="button"
+            (click)="setActiveChip(chip)"
+            class="shrink-0 px-2.5 py-1 rounded-full text-xs leading-5 border transition-colors duration-150 whitespace-nowrap"
+            [class.bg-wrcf-action]="activeChip() === chip"
+            [class.text-wrcf-text-primary]="activeChip() === chip"
+            [class.border-wrcf-action]="activeChip() === chip"
+            [class.bg-transparent]="activeChip() !== chip"
+            [class.text-wrcf-text-secondary]="activeChip() !== chip"
+            [class.border-wrcf-border]="activeChip() !== chip">
+            {{ chip }}
+          </button>
+        }
       </div>
 
       <!-- Add button -->
@@ -67,29 +50,39 @@
       <div class="flex-1"></div>
       <div class="flex items-center gap-3">
         <button
+          mat-stroked-button
+          type="button"
+          (click)="onBackClicked()"
+          class="h-10 px-4 rounded-[10px] border border-wrcf-border text-wrcf-text-secondary text-sm font-medium hover:border-wrcf-text-primary hover:text-wrcf-text-primary transition-colors flex items-center gap-1.5">
+          <mat-icon svgIcon="heroicons_outline:arrow-left" class="size-4" />
+          Back
+        </button>
+        <button
+          mat-flat-button
           type="button"
           (click)="onPreviewClicked()"
-          class="h-10 px-4 rounded-[10px] border border-wrcf-border bg-wrcf-action text-wrcf-text-primary text-sm font-medium hover:border-wrcf-text-secondary transition-colors">
+          class="h-10 px-4 rounded-[10px] bg-wrcf-bg-secondary border border-wrcf-border text-wrcf-text-primary text-sm font-medium hover:border-wrcf-text-secondary transition-colors">
           Preview
         </button>
         <button
+          mat-flat-button
           type="button"
           (click)="onHeaderSave()"
-          class="h-10 px-4 rounded-[10px] border border-wrcf-border bg-wrcf-action text-wrcf-text-primary text-sm font-medium hover:border-wrcf-text-secondary transition-colors">
+          class="h-10 px-4 rounded-[10px] bg-wrcf-action text-wrcf-text-primary text-sm font-medium hover:bg-wrcf-action-hover transition-colors">
           Save
         </button>
         <button
+          mat-flat-button
           type="button"
           (click)="onHeaderPublish()"
           [disabled]="!formIsValid()"
           class="h-10 px-4 rounded-[10px] text-sm font-medium transition-colors"
-          [class.bg-wrcf-primary]="formIsValid()"
+          [class.bg-wrcf-accent]="formIsValid()"
           [class.text-wrcf-bg-primary]="formIsValid()"
-          [class.hover:opacity-90]="formIsValid()"
           [class.bg-wrcf-bg-secondary]="!formIsValid()"
           [class.text-wrcf-text-secondary]="!formIsValid()"
           [class.cursor-not-allowed]="!formIsValid()">
-          Sent to publish
+          Send to publish
         </button>
       </div>
     }
@@ -121,7 +114,6 @@
         [colleges]="colleges()"
         [selectedId]="selectedCollegeId"
         [loading]="loading()"
-        [searchQuery]="searchQuery()"
         (collegeSelected)="onCollegeSelected($event)" />
 
       <whizard-college-detail-panel

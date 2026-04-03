@@ -1,3 +1,4 @@
+import { getPrisma } from '@whizard/shared-infrastructure';
 import type { ICollegeRepository } from '../../domain/repositories/college.repository.js';
 import type { CreateCollegeCommand } from '../commands/create-college.command.js';
 import type { CollegeDetailDto } from '../dto/college.dto.js';
@@ -13,12 +14,21 @@ export class CreateCollegeCommandHandler {
       throw Object.assign(new Error(`College with name "${cmd.name}" already exists`), { name: 'DomainException' });
     }
 
+    let cityCode = cmd.cityCode ?? null;
+    if (!cityCode && cmd.cityId) {
+      const cityRow = await getPrisma().city.findUnique({
+        where: { id: BigInt(cmd.cityId) },
+        select: { cityCode: true },
+      });
+      cityCode = cityRow?.cityCode ?? null;
+    }
+
     const college = College.create({
       tenantId: cmd.tenantId,
       name: cmd.name,
       affiliatedUniversity: cmd.affiliatedUniversity,
       cityId: cmd.cityId,
-      cityName: cmd.cityName,
+      cityCode,
       collegeType: cmd.collegeType,
       establishedYear: cmd.establishedYear,
       description: cmd.description,
@@ -31,6 +41,11 @@ export class CreateCollegeCommandHandler {
     college.update({ clubIds: cmd.clubIds, programIds: cmd.programIds });
     const savedId = await this.collegeRepo.save(college);
     const saved = await this.collegeRepo.findById(savedId);
-    return toCollegeDetailDto(saved!, null);
+
+    const cityRow = cityCode && cmd.cityId
+      ? await getPrisma().city.findUnique({ where: { id: BigInt(cmd.cityId) }, select: { name: true } })
+      : null;
+
+    return toCollegeDetailDto(saved!, cityRow?.name ?? null);
   }
 }

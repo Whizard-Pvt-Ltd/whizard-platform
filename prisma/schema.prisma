@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["fullTextSearch"]
+  previewFeatures = ["fullTextSearchPostgres"]
   engineType      = "library"
 }
 
@@ -428,6 +428,7 @@ model City {
   publicUuid String    @unique @default(uuid()) @map("public_uuid")
   name       String
   state      String
+  cityCode   String?   @map("city_code")
   isActive   Boolean   @default(true) @map("is_active")
   colleges   College[]
   companies  Company[]

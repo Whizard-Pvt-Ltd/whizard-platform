@@ -1,3 +1,4 @@
+import { getPrisma } from '@whizard/shared-infrastructure';
 import type { ICollegeRepository } from '../../domain/repositories/college.repository.js';
 import type { UpdateCollegeCommand } from '../commands/update-college.command.js';
 import type { CollegeDetailDto } from '../dto/college.dto.js';
@@ -36,6 +37,28 @@ export class UpdateCollegeCommandHandler {
     });
 
     await this.collegeRepo.save(college);
-    return toCollegeDetailDto(college, null);
+
+    const prisma = getPrisma();
+    const effectiveCityId = college.cityId;
+    const [cityRow, userRows] = await Promise.all([
+      effectiveCityId
+        ? prisma.city.findUnique({ where: { id: BigInt(effectiveCityId) }, select: { name: true } })
+        : Promise.resolve(null),
+      college.contacts.length > 0
+        ? prisma.userAccount.findMany({
+            where: { id: { in: college.contacts.map(c => BigInt(c.userId)) } },
+            select: { id: true, primaryEmail: true },
+          })
+        : Promise.resolve([]),
+    ]);
+
+    const userMap = new Map(
+      userRows.map(u => [
+        u.id.toString(),
+        { displayName: u.primaryEmail.split('@')[0] ?? u.primaryEmail, email: u.primaryEmail },
+      ]),
+    );
+
+    return toCollegeDetailDto(college, cityRow?.name ?? null, userMap);
   }
 }

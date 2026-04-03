@@ -4,6 +4,20 @@ const prisma = new PrismaClient();
 
 const SYSTEM_TENANT_UUID = 'a0000000-0000-0000-0000-000000000001';
 
+// ── College tenant UUIDs ──────────────────────────────────────────────────────
+const TENANT_IITB_UUID    = 'e1000000-0000-0000-0000-000000000001';
+const TENANT_NITK_UUID    = 'e1000000-0000-0000-0000-000000000002';
+const TENANT_IIMA_UUID    = 'e1000000-0000-0000-0000-000000000003';
+const TENANT_DCE_UUID     = 'e1000000-0000-0000-0000-000000000004';
+const TENANT_BITS_UUID    = 'e1000000-0000-0000-0000-000000000005';
+
+// ── College UUIDs ─────────────────────────────────────────────────────────────
+const COLLEGE_IITB_UUID   = 'f2000000-0000-0000-0000-000000000001';
+const COLLEGE_NITK_UUID   = 'f2000000-0000-0000-0000-000000000002';
+const COLLEGE_IIMA_UUID   = 'f2000000-0000-0000-0000-000000000003';
+const COLLEGE_DCE_UUID    = 'f2000000-0000-0000-0000-000000000004';
+const COLLEGE_BITS_UUID   = 'f2000000-0000-0000-0000-000000000005';
+
 async function seedCollegeOperations(): Promise<void> {
 
   // ── College contact users (seed first so we have BigInt IDs for createdBy) ─
@@ -52,33 +66,33 @@ async function seedCollegeOperations(): Promise<void> {
 
   // ── Cities ────────────────────────────────────────────────────────────────
   const cities = [
-    { uuid: '94531aad-4763-47d7-ab16-df64c16375cd', name: 'Mumbai',        state: 'Maharashtra' },
-    { uuid: '808741a2-6ab3-4154-80b1-c5c2b24dcdf0', name: 'Delhi',         state: 'Delhi' },
-    { uuid: 'e9efee21-c405-42ab-974e-db31b0c53cbb', name: 'Bengaluru',     state: 'Karnataka' },
-    { uuid: 'c833be91-8c46-43ad-9635-84a6cc780736', name: 'Hyderabad',     state: 'Telangana' },
-    { uuid: 'df70c349-f1db-4049-99bb-92a22d402357', name: 'Chennai',       state: 'Tamil Nadu' },
-    { uuid: '385e4c40-65f0-4001-a966-fa6ed4eff48f', name: 'Pune',          state: 'Maharashtra' },
-    { uuid: '2dbd3833-5233-4e6b-9989-3a7cb8bdb74a', name: 'Kolkata',       state: 'West Bengal' },
-    { uuid: '6f35ae51-8648-43c0-b093-39e77556e9ed', name: 'Ahmedabad',     state: 'Gujarat' },
-    { uuid: 'c682843e-0607-4ce1-898d-37b3b7c62182', name: 'Jaipur',        state: 'Rajasthan' },
-    { uuid: '16303308-bbf5-4c53-a522-4b0db56b5f63', name: 'Lucknow',       state: 'Uttar Pradesh' },
-    { uuid: 'b356c9b7-6b4c-4fa1-95fe-7e114bbc42de', name: 'Chandigarh',    state: 'Punjab' },
-    { uuid: '69967d0f-d964-4833-8798-6a54776de52b', name: 'Bhopal',        state: 'Madhya Pradesh' },
-    { uuid: 'a0e37bb5-15d5-496b-acaf-d0d5c6f978cd', name: 'Indore',        state: 'Madhya Pradesh' },
-    { uuid: 'b8498327-a44a-41c9-9ee8-861fdcebd6f7', name: 'Nagpur',        state: 'Maharashtra' },
-    { uuid: '73db095e-88d5-4ac6-9229-cd96fa0ed582', name: 'Coimbatore',    state: 'Tamil Nadu' },
-    { uuid: '166f1566-db10-4f43-bd35-19756d6bbb6f', name: 'Kochi',         state: 'Kerala' },
-    { uuid: '639ebb65-6024-48a7-b0ae-52fa7785234b', name: 'Visakhapatnam', state: 'Andhra Pradesh' },
-    { uuid: '31e77755-dc7d-4d57-8924-7d85a173dc1e', name: 'Surat',         state: 'Gujarat' },
-    { uuid: 'b84f8afe-101d-4f17-87bb-3cd1b61078f6', name: 'Patna',         state: 'Bihar' },
-    { uuid: 'e6fa7b31-50bf-4b06-8dfd-35b36a26a321', name: 'Bhubaneswar',   state: 'Odisha' },
+    { uuid: '94531aad-4763-47d7-ab16-df64c16375cd', name: 'Mumbai',        state: 'Maharashtra',    cityCode: 'MUMR' },
+    { uuid: '808741a2-6ab3-4154-80b1-c5c2b24dcdf0', name: 'Delhi',         state: 'Delhi',          cityCode: 'DELH' },
+    { uuid: 'e9efee21-c405-42ab-974e-db31b0c53cbb', name: 'Bengaluru',     state: 'Karnataka',      cityCode: 'BLOR' },
+    { uuid: 'c833be91-8c46-43ad-9635-84a6cc780736', name: 'Hyderabad',     state: 'Telangana',      cityCode: 'HYDD' },
+    { uuid: 'df70c349-f1db-4049-99bb-92a22d402357', name: 'Chennai',       state: 'Tamil Nadu',     cityCode: 'CHEN' },
+    { uuid: '385e4c40-65f0-4001-a966-fa6ed4eff48f', name: 'Pune',          state: 'Maharashtra',    cityCode: 'PUNE' },
+    { uuid: '2dbd3833-5233-4e6b-9989-3a7cb8bdb74a', name: 'Kolkata',       state: 'West Bengal',    cityCode: 'KOLK' },
+    { uuid: '6f35ae51-8648-43c0-b093-39e77556e9ed', name: 'Ahmedabad',     state: 'Gujarat',        cityCode: 'AHDM' },
+    { uuid: 'c682843e-0607-4ce1-898d-37b3b7c62182', name: 'Jaipur',        state: 'Rajasthan',      cityCode: 'JPUR' },
+    { uuid: '16303308-bbf5-4c53-a522-4b0db56b5f63', name: 'Lucknow',       state: 'Uttar Pradesh',  cityCode: 'LKNW' },
+    { uuid: 'b356c9b7-6b4c-4fa1-95fe-7e114bbc42de', name: 'Chandigarh',    state: 'Punjab',         cityCode: 'CHGR' },
+    { uuid: '69967d0f-d964-4833-8798-6a54776de52b', name: 'Bhopal',        state: 'Madhya Pradesh', cityCode: 'BHPL' },
+    { uuid: 'a0e37bb5-15d5-496b-acaf-d0d5c6f978cd', name: 'Indore',        state: 'Madhya Pradesh', cityCode: 'INDR' },
+    { uuid: 'b8498327-a44a-41c9-9ee8-861fdcebd6f7', name: 'Nagpur',        state: 'Maharashtra',    cityCode: 'NGPR' },
+    { uuid: '73db095e-88d5-4ac6-9229-cd96fa0ed582', name: 'Coimbatore',    state: 'Tamil Nadu',     cityCode: 'COBE' },
+    { uuid: '166f1566-db10-4f43-bd35-19756d6bbb6f', name: 'Kochi',         state: 'Kerala',         cityCode: 'KCHI' },
+    { uuid: '639ebb65-6024-48a7-b0ae-52fa7785234b', name: 'Visakhapatnam', state: 'Andhra Pradesh', cityCode: 'VIZG' },
+    { uuid: '31e77755-dc7d-4d57-8924-7d85a173dc1e', name: 'Surat',         state: 'Gujarat',        cityCode: 'SURT' },
+    { uuid: 'b84f8afe-101d-4f17-87bb-3cd1b61078f6', name: 'Patna',         state: 'Bihar',          cityCode: 'PATN' },
+    { uuid: 'e6fa7b31-50bf-4b06-8dfd-35b36a26a321', name: 'Bhubaneswar',   state: 'Odisha',         cityCode: 'BBSR' },
   ];
 
   for (const city of cities) {
     await prisma.city.upsert({
       where: { publicUuid: city.uuid },
-      update: {},
-      create: { publicUuid: city.uuid, name: city.name, state: city.state, isActive: true }
+      update: { cityCode: city.cityCode },
+      create: { publicUuid: city.uuid, name: city.name, state: city.state, cityCode: city.cityCode, isActive: true }
     });
   }
   console.log('Cities seeded.');
@@ -178,6 +192,203 @@ async function seedCollegeOperations(): Promise<void> {
     }
   }
   console.log('Degree programs and specializations seeded.');
+
+  // ── College Tenants ───────────────────────────────────────────────────────
+  const collegeTenantDefs = [
+    { uuid: TENANT_IITB_UUID, name: 'IIT Bombay'                         },
+    { uuid: TENANT_NITK_UUID, name: 'NIT Karnataka'                      },
+    { uuid: TENANT_IIMA_UUID, name: 'IIM Ahmedabad'                      },
+    { uuid: TENANT_DCE_UUID,  name: 'Delhi College of Engineering'        },
+    { uuid: TENANT_BITS_UUID, name: 'BITS Pilani Hyderabad'              },
+  ];
+
+  for (const t of collegeTenantDefs) {
+    await prisma.tenant.upsert({
+      where:  { publicUuid: t.uuid },
+      update: {},
+      create: { publicUuid: t.uuid, name: t.name, type: 'COLLEGE', isActive: true },
+    });
+  }
+  console.log('College tenants seeded.');
+
+  const collegeTenantRecords = await prisma.tenant.findMany({
+    where: { publicUuid: { in: collegeTenantDefs.map(t => t.uuid) } },
+    select: { id: true, publicUuid: true },
+  });
+  const collegeTenantIdMap = new Map(collegeTenantRecords.map(r => [r.publicUuid, r.id]));
+
+  // ── Resolve city IDs ──────────────────────────────────────────────────────
+  const cityRecords = await prisma.city.findMany({ where: { isActive: true }, select: { id: true, name: true } });
+  const cityByName  = new Map(cityRecords.map(c => [c.name, c.id]));
+
+  // ── Resolve degree program IDs ─────────────────────────────────────────────
+  const progRecords = await prisma.degreeProgram.findMany({ select: { id: true, name: true } });
+  const progByName  = new Map(progRecords.map(p => [p.name, p.id]));
+
+  // ── Resolve club IDs ───────────────────────────────────────────────────────
+  const clubRecords = await prisma.club.findMany({ select: { id: true, name: true } });
+  const clubByName  = new Map(clubRecords.map(c => [c.name, c.id]));
+
+  // ── Colleges ───────────────────────────────────────────────────────────────
+  const collegeDefs = [
+    {
+      uuid:                COLLEGE_IITB_UUID,
+      tenantUuid:          TENANT_IITB_UUID,
+      collegeCode:         'IITB-001',
+      name:                'Indian Institute of Technology Bombay',
+      affiliatedUniversity:'University of Mumbai',
+      cityName:            'Mumbai',
+      collegeType:         'ENGINEERING',
+      establishedYear:     1958,
+      description:         'Premier autonomous public technical and research university located in Powai, Mumbai.',
+      degreesOffered:      'B.Tech, M.Tech, Ph.D',
+      placementHighlights: 'Avg CTC ₹20 LPA; recruiters include Google, Microsoft, Goldman Sachs.',
+      inquiryEmail:        'admissions@iitb.ac.in',
+      programs:            ['B.Tech', 'M.Tech', 'Ph.D'],
+      clubs:               ['Coding Club', 'Robotics Club', 'Entrepreneurship Cell', 'NSS Unit'],
+      contactUserUuid:     '0e64ef80-0885-4dfb-bb3a-914b74c29ac4',
+      contactRole:         'VICE_CHANCELLOR',
+    },
+    {
+      uuid:                COLLEGE_NITK_UUID,
+      tenantUuid:          TENANT_NITK_UUID,
+      collegeCode:         'NITK-001',
+      name:                'National Institute of Technology Karnataka',
+      affiliatedUniversity:'NIT Karnataka (Deemed University)',
+      cityName:            'Bengaluru',
+      collegeType:         'ENGINEERING',
+      establishedYear:     1960,
+      description:         'One of the top National Institutes of Technology situated in Surathkal, Karnataka.',
+      degreesOffered:      'B.Tech, M.Tech, Ph.D',
+      placementHighlights: 'Avg CTC ₹14 LPA; top recruiters include Infosys, Wipro, Amazon.',
+      inquiryEmail:        'admissions@nitk.ac.in',
+      programs:            ['B.Tech', 'M.Tech', 'Ph.D'],
+      clubs:               ['Coding Club', 'Design Thinkers Hub', 'Sports Club', 'NSS Unit'],
+      contactUserUuid:     '1de69661-1178-4de8-bc03-45a3c8875042',
+      contactRole:         'VICE_CHANCELLOR',
+    },
+    {
+      uuid:                COLLEGE_IIMA_UUID,
+      tenantUuid:          TENANT_IIMA_UUID,
+      collegeCode:         'IIMA-001',
+      name:                'Indian Institute of Management Ahmedabad',
+      affiliatedUniversity:'IIM Ahmedabad (Autonomous)',
+      cityName:            'Ahmedabad',
+      collegeType:         'MANAGEMENT',
+      establishedYear:     1961,
+      description:         'India\'s premier business school renowned for its MBA programme and case-study pedagogy.',
+      degreesOffered:      'MBA, Ph.D',
+      placementHighlights: 'Avg CTC ₹35 LPA; top recruiters include McKinsey, BCG, JP Morgan.',
+      inquiryEmail:        'pgp@iima.ac.in',
+      programs:            ['MBA', 'Ph.D'],
+      clubs:               ['Entrepreneurship Cell', 'Debate Society', 'Cultural Club'],
+      contactUserUuid:     '5da2d0d1-3bdf-44f1-95d8-1c37fa2fd99a',
+      contactRole:         'PLACEMENT_HEAD',
+    },
+    {
+      uuid:                COLLEGE_DCE_UUID,
+      tenantUuid:          TENANT_DCE_UUID,
+      collegeCode:         'DCE-001',
+      name:                'Delhi College of Engineering',
+      affiliatedUniversity:'Delhi Technological University',
+      cityName:            'Delhi',
+      collegeType:         'ENGINEERING',
+      establishedYear:     1941,
+      description:         'One of India\'s oldest engineering colleges, now part of Delhi Technological University.',
+      degreesOffered:      'B.Tech, M.Tech, Diploma',
+      placementHighlights: 'Avg CTC ₹12 LPA; top recruiters include TCS, HCL, Adobe.',
+      inquiryEmail:        'admissions@dce.edu',
+      programs:            ['B.Tech', 'M.Tech', 'Diploma'],
+      clubs:               ['Coding Club', 'Solar Energy Club', 'Innovators Tech Club', 'Sports Club'],
+      contactUserUuid:     '2c21d2e3-20b2-413f-abe3-ca9de909d3c6',
+      contactRole:         'COORDINATOR',
+    },
+    {
+      uuid:                COLLEGE_BITS_UUID,
+      tenantUuid:          TENANT_BITS_UUID,
+      collegeCode:         'BITS-HYD-001',
+      name:                'BITS Pilani Hyderabad Campus',
+      affiliatedUniversity:'Birla Institute of Technology and Science, Pilani',
+      cityName:            'Hyderabad',
+      collegeType:         'ENGINEERING',
+      establishedYear:     2008,
+      description:         'Part of the prestigious BITS Pilani system, offering integrated dual-degree and B.Tech programmes.',
+      degreesOffered:      'B.Tech, M.Tech',
+      placementHighlights: 'Avg CTC ₹16 LPA; top recruiters include Samsung, Oracle, Qualcomm.',
+      inquiryEmail:        'admissions@hyderabad.bits-pilani.ac.in',
+      programs:            ['B.Tech', 'M.Tech'],
+      clubs:               ['Coding Club', 'Robotics Club', 'Design Thinkers Hub', 'Cultural Club', 'NSS Unit'],
+      contactUserUuid:     '2c21d2e3-20b2-413f-abe3-ca9de909d3c6',
+      contactRole:         'PLACEMENT_COORDINATOR',
+    },
+  ];
+
+  for (const col of collegeDefs) {
+    const tenantId = collegeTenantIdMap.get(col.tenantUuid)!;
+    const cityId   = col.cityName ? (cityByName.get(col.cityName) ?? null) : null;
+
+    const collegeRecord = await prisma.college.upsert({
+      where:  { publicUuid: col.uuid },
+      update: {},
+      create: {
+        publicUuid:           col.uuid,
+        tenantId,
+        collegeCode:          col.collegeCode,
+        name:                 col.name,
+        affiliatedUniversity: col.affiliatedUniversity,
+        cityId,
+        collegeType:          col.collegeType,
+        establishedYear:      col.establishedYear,
+        description:          col.description,
+        degreesOffered:       col.degreesOffered,
+        placementHighlights:  col.placementHighlights,
+        inquiryEmail:         col.inquiryEmail,
+        status:               1,
+        isActive:             true,
+        createdBy,
+      },
+    });
+
+    // ── Degree program mappings ──────────────────────────────────────────────
+    for (const progName of col.programs) {
+      const programId = progByName.get(progName);
+      if (!programId) continue;
+      await prisma.collegeDegreeProgram.upsert({
+        where:  { collegeId_programId: { collegeId: collegeRecord.id, programId } },
+        update: {},
+        create: { collegeId: collegeRecord.id, programId },
+      });
+    }
+
+    // ── Club mappings ────────────────────────────────────────────────────────
+    for (const clubName of col.clubs) {
+      const clubId = clubByName.get(clubName);
+      if (!clubId) continue;
+      await prisma.clubCollege.upsert({
+        where:  { collegeId_clubId: { collegeId: collegeRecord.id, clubId } },
+        update: {},
+        create: { collegeId: collegeRecord.id, clubId },
+      });
+    }
+
+    // ── College contact ───────────────────────────────────────────────────────
+    const contactUser = await prisma.userAccount.findUniqueOrThrow({
+      where:  { publicUuid: col.contactUserUuid },
+      select: { id: true },
+    });
+    await prisma.collegeContact.upsert({
+      where:  { collegeId_role: { collegeId: collegeRecord.id, role: col.contactRole } },
+      update: {},
+      create: {
+        collegeId: collegeRecord.id,
+        userId:    contactUser.id,
+        role:      col.contactRole,
+        isActive:  true,
+        createdBy,
+      },
+    });
+  }
+  console.log('Colleges, degree program mappings, club mappings, and contacts seeded.');
 
   console.log('College operations seed completed successfully.');
 }

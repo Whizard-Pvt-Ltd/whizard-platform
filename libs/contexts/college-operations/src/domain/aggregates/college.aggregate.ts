@@ -1,4 +1,3 @@
-import { randomUUID } from 'crypto';
 import type { ContactRole } from '../value-objects/contact-role.vo.js';
 import type { MediaRole } from '../value-objects/media-role.vo.js';
 import { CollegeStatus } from '../value-objects/college-status.vo.js';
@@ -79,11 +78,11 @@ export class College {
     this._contacts = props.contacts;
   }
 
-  static create(props: Omit<CollegeProps, 'id' | 'status' | 'isActive' | 'clubIds' | 'programIds' | 'mediaItems' | 'contacts' | 'collegeCode'> & { cityName?: string | null }): College {
+  static create(props: Omit<CollegeProps, 'id' | 'status' | 'isActive' | 'clubIds' | 'programIds' | 'mediaItems' | 'contacts' | 'collegeCode'> & { cityCode?: string | null }): College {
     const year = new Date().getFullYear();
-    const city = (props.cityName ?? 'UNK').toUpperCase().replace(/\s+/g, '-').slice(0, 10);
-    const suffix = randomUUID().replace(/-/g, '').slice(0, 8).toUpperCase();
-    const collegeCode = `${city}-${year}-${suffix}`;
+    const code = (props.cityCode ?? 'UNKN').toUpperCase().slice(0, 4);
+    const seq = String(Math.floor(Math.random() * 900) + 100);
+    const collegeCode = `CLG-${year}-${code}-${seq}`;
 
     return new College({
       ...props,
