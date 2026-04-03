@@ -1,5 +1,5 @@
 import {
-  Component, input, output, signal, OnChanges, SimpleChanges, inject,
+  Component, input, output, signal, OnChanges, SimpleChanges, inject, ViewChild,
 } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -41,7 +41,9 @@ export class CollegeFormComponent implements OnChanges {
   readonly saved = output<CollegeFormValue>();
   readonly published = output<CollegeFormValue>();
   readonly cancelled = output<void>();
-  readonly mediaUploadRequested = output<{ file: File; type: string }>();
+  readonly mediaUploadRequested = output<{ file: File; type: string; role: string }>();
+
+  @ViewChild('logoUploader') private logoUploaderRef!: MediaUploaderComponent;
 
   private readonly fb = inject(FormBuilder);
 
@@ -129,19 +131,23 @@ export class CollegeFormComponent implements OnChanges {
     return this.form.valid;
   }
 
+  protected openLogoPicker(): void {
+    this.logoUploaderRef?.openFilePicker();
+  }
+
   protected onLogoSelected(files: UploadedFile[]): void {
     const f = files[0];
     if (f) {
       this.logoFile.set(f.file);
       this.logoPreview.set(f.preview);
-      this.mediaUploadRequested.emit({ file: f.file, type: 'image' });
+      this.mediaUploadRequested.emit({ file: f.file, type: 'image', role: 'logo' });
     }
   }
 
   protected onBrochureSelected(files: UploadedFile[]): void {
     this.brochureFiles.update(prev => [...prev, ...files]);
     for (const f of files) {
-      this.mediaUploadRequested.emit({ file: f.file, type: 'pdf' });
+      this.mediaUploadRequested.emit({ file: f.file, type: 'pdf', role: 'brochure' });
     }
   }
 
@@ -152,7 +158,7 @@ export class CollegeFormComponent implements OnChanges {
   protected onVideoSelected(files: UploadedFile[]): void {
     this.videoFiles.update(prev => [...prev, ...files]);
     for (const f of files) {
-      this.mediaUploadRequested.emit({ file: f.file, type: 'video' });
+      this.mediaUploadRequested.emit({ file: f.file, type: 'video', role: 'promotional_video' });
     }
   }
 
@@ -163,7 +169,7 @@ export class CollegeFormComponent implements OnChanges {
   protected onGallerySelected(files: UploadedFile[]): void {
     this.galleryFiles.update(prev => [...prev, ...files]);
     for (const f of files) {
-      this.mediaUploadRequested.emit({ file: f.file, type: 'image' });
+      this.mediaUploadRequested.emit({ file: f.file, type: 'image', role: 'campus_gallery' });
     }
   }
 

@@ -4,7 +4,7 @@ export interface CreateCollegeCommand {
   name: string;
   affiliatedUniversity: string;
   cityId: string | null;
-  cityName: string | null;
+  cityCode: string | null;
   collegeType: string;
   establishedYear: number | null;
   description: string | null;

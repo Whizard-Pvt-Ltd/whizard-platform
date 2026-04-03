@@ -57,6 +57,14 @@
           }
         </div>
       </div>
+      <button
+        mat-flat-button
+        type="button"
+        (click)="editClicked.emit()"
+        class="h-10 px-4 rounded-[10px] bg-wrcf-action text-wrcf-text-primary text-sm font-medium hover:bg-wrcf-action-hover transition-colors shrink-0 flex items-center gap-1.5">
+        <mat-icon svgIcon="heroicons_outline:pencil-square" class="size-4" />
+        Edit
+      </button>
     </div>
 
     <!-- Scrollable content -->

@@ -15,7 +15,11 @@ export function toCollegeListItemDto(college: College, logoUrl: string | null, c
   };
 }
 
-export function toCollegeDetailDto(college: College, cityName: string | null): CollegeDetailDto {
+export function toCollegeDetailDto(
+  college: College,
+  cityName: string | null,
+  userMap?: Map<string, { displayName: string; email: string }>,
+): CollegeDetailDto {
   return {
     id: college.id,
     tenantId: college.tenantId,
@@ -35,6 +39,9 @@ export function toCollegeDetailDto(college: College, cityName: string | null): C
     clubIds: college.clubIds,
     programIds: college.programIds,
     mediaItems: college.mediaItems.map(m => ({ mediaAssetId: m.mediaAssetId, mediaRole: m.mediaRole, sortOrder: m.sortOrder, asset: null })),
-    contacts: college.contacts.map(c => ({ userId: c.userId, role: c.role })),
+    contacts: college.contacts.map(c => {
+      const user = userMap?.get(c.userId);
+      return { userId: c.userId, role: c.role, userName: user?.displayName, userEmail: user?.email };
+    }),
   };
 }

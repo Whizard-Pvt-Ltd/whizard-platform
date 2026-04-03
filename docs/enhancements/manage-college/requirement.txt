@@ -1,0 +1,54 @@
+# Manage College
+claude --resume 6e87064e-b911-4a2b-bd9e-262fd92b6a6c
+## Overview
+<!-- One paragraph: what this enhancement does, which existing feature it improves, and why. -->
+Need to up date the UI-UX as per the given Screenshot-ui. In current system we have given search i the top bar remove it form top add it in the 
+left college panel. For Right detail part refer Screenshot-ui-2 align all the details as per given in Screenshot.improves Local Club Chapters card as per give mockup.
+College Key Contacts details showing the id its should show name. Scrolling should applied over full scree in right panel. If needed use perfect Scrolling to improve the current scrollbar.
+ 
+
+## Current Behaviour
+<!-- Describe how the feature works today before this enhancement. -->
+UI is ot as per the give mockup. Edit button is not showing icon use mat-flat-button for button ui.
+
+## Desired Behaviour
+<!-- Describe how it should work after the enhancement. Be specific. -->
+1. Update the left panel with search bar give u screenshot-ui-1
+2. Update the right panel as per the screenshot-ui-2
+3. Local Chapters Club card need to improve as per the give ui.
+4. During edit user should able to add logo image.
+5. Edit ico is not showing and use mat-flat-button for each button.
+6 Image and video upload is not working and it upload ui and image ui after adding height should be same
+7. Quill Editor UI is not as per the give in screenshot-ui-3.
+8. Increase the width of left panel in edit component so that search and  filter get align.
+9. Add the back button on edit screen.
+10.  Increase the width of left panel in detail page also.
+11. For college code use four digit of city and rest same if needed add city code in city table.
+12. College Key Contacts should show name not is id.
+
+
+## Default Behaviours
+<!-- Auto-select rules, pre-population, initial state changes if any. -->
+
+## Changes to Entities & Attributes
+<!-- Only list fields/entities that are added, changed, or removed.
+     For each: Name, Type, Mandatory (*), Options if dropdown. -->
+
+## User Flows
+<!-- Step-by-step flows that change or are newly introduced.
+     e.g. "1. Click Export → 2. Choose format → 3. Download file" -->
+
+## Business Rules & Constraints
+<!-- New or changed validation rules, guard conditions, cascading effects. -->
+
+## DB Notes
+<!-- New columns, indexes, or table changes needed. State "No DB changes" if none. -->
+
+## Scope
+<!-- Explicit list of what must be changed: frontend, API, migration, tests. -->
+
+## Out of Scope
+<!-- Anything explicitly NOT part of this enhancement to avoid scope creep. -->
+
+## Notes / Edge Cases
+<!-- Gotchas, open questions, cross-feature dependencies. -->

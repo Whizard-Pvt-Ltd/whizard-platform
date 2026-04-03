@@ -1,4 +1,4 @@
-import { Component, input, output, signal, computed } from '@angular/core';
+import { Component, input, output, computed, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import type { CollegeListItem } from '../../models/manage-college.models';
 

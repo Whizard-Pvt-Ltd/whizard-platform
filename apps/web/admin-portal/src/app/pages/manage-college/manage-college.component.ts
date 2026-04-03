@@ -1,9 +1,10 @@
 import { Component, inject, signal, OnInit, computed, viewChild } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { forkJoin } from 'rxjs';
 import type {
   CollegeListItem, CollegeDetail, Club, DegreeProgram, City, UserContact,
-  MediaAsset, CollegeFormValue, PageMode,
+  MediaAsset, CollegeFormValue, PageMode, CollegeMediaItem,
 } from './models/manage-college.models';
 import { NavDrawerComponent } from '../../shared/nav-drawer/nav-drawer.component';
 import { CollegeDetailPanelComponent } from './components/college-detail-panel/college-detail-panel.component';
@@ -23,6 +24,7 @@ const FILTER_CHIPS = [
   standalone: true,
   imports: [
     MatIconModule,
+    MatButtonModule,
     NavDrawerComponent,
     CollegeListPanelComponent,
     CollegeDetailPanelComponent,
@@ -49,11 +51,12 @@ export class ManageCollegeComponent implements OnInit {
   protected errorMessage = signal<string | null>(null);
   protected drawerOpen = signal(false);
 
-  // Top bar: filter chips
+  // Tracks media items uploaded during this edit session
+  private pendingMediaItems = signal<CollegeMediaItem[]>([]);
+
   protected readonly filterChips = FILTER_CHIPS;
   protected activeChip = signal<string>('College');
 
-  // Reference to the form for header button actions
   private readonly formRef = viewChild(CollegeFormComponent);
   protected formIsValid = computed(() => this.formRef()?.isValid ?? false);
 
@@ -107,28 +110,46 @@ export class ManageCollegeComponent implements OnInit {
 
   protected onAddClicked(): void {
     this.selectedCollege.set(null);
+    this.pendingMediaItems.set([]);
     this.mode.set('create');
   }
 
   protected onEditClicked(): void {
     if (this.selectedCollege()) {
+      this.pendingMediaItems.set([]);
       this.mode.set('edit');
     }
   }
 
-  protected onFormCancelled(): void {
+  protected onBackClicked(): void {
+    this.pendingMediaItems.set([]);
     this.mode.set('list');
+  }
+
+  protected onFormCancelled(): void {
+    this.pendingMediaItems.set([]);
+    this.mode.set('list');
+  }
+
+  private buildMediaItems(): CollegeMediaItem[] {
+    const existing = this.selectedCollege()?.mediaItems ?? [];
+    const pending = this.pendingMediaItems();
+    const pendingRoles = new Set(pending.map(m => m.mediaRole));
+    const kept = existing.filter(m => !pendingRoles.has(m.mediaRole));
+    return [...kept, ...pending].map((m, i) => ({ ...m, sortOrder: i }));
   }
 
   protected onSaved(formValue: CollegeFormValue): void {
     const existing = this.selectedCollege();
+    const mediaItems = this.buildMediaItems();
     if (existing) {
-      this.api.updateCollege(existing.id, formValue).subscribe({
+      this.api.updateCollege(existing.id, { ...formValue, mediaItems }).subscribe({
         next: updated => {
           this.selectedCollege.set(updated);
           this.colleges.update(list =>
             list.map(c => c.id === updated.id ? updated : c),
           );
+          this.pendingMediaItems.set([]);
           this.mode.set('list');
         },
         error: () => this.showError('Failed to save college.'),
@@ -138,6 +159,7 @@ export class ManageCollegeComponent implements OnInit {
         next: created => {
           this.selectedCollege.set(created);
           this.colleges.update(list => [created, ...list]);
+          this.pendingMediaItems.set([]);
           this.mode.set('list');
         },
         error: () => this.showError('Failed to create college.'),
@@ -147,6 +169,7 @@ export class ManageCollegeComponent implements OnInit {
 
   protected onPublished(formValue: CollegeFormValue): void {
     const existing = this.selectedCollege();
+    const mediaItems = this.buildMediaItems();
 
     const doPublish = (id: string) => {
       this.api.publishCollege(id).subscribe({
@@ -155,6 +178,7 @@ export class ManageCollegeComponent implements OnInit {
           this.colleges.update(list =>
             list.map(c => c.id === published.id ? published : c),
           );
+          this.pendingMediaItems.set([]);
           this.mode.set('list');
         },
         error: () => this.showError('Failed to publish college.'),
@@ -162,7 +186,7 @@ export class ManageCollegeComponent implements OnInit {
     };
 
     if (existing) {
-      this.api.updateCollege(existing.id, formValue).subscribe({
+      this.api.updateCollege(existing.id, { ...formValue, mediaItems }).subscribe({
         next: updated => {
           this.selectedCollege.set(updated);
           doPublish(updated.id);
@@ -181,18 +205,29 @@ export class ManageCollegeComponent implements OnInit {
     }
   }
 
-  protected onMediaUploadRequested(event: { file: File; type: string }): void {
+  protected onMediaUploadRequested(event: { file: File; type: string; role?: string }): void {
     const assetType = event.type as 'image' | 'video' | 'pdf';
+    const role = event.role;
+    const currentRoleCount = role
+      ? this.pendingMediaItems().filter(m => m.mediaRole === role).length
+      : 0;
+
     this.api.uploadMediaAsset(event.file, assetType).subscribe({
       next: asset => {
         this.mediaAssets.update(list => [asset, ...list]);
+        if (role) {
+          this.pendingMediaItems.update(items => {
+            const filtered = role === 'logo' ? items.filter(m => m.mediaRole !== 'logo') : items;
+            return [...filtered, { mediaAssetId: asset.id, mediaRole: role, sortOrder: currentRoleCount, asset: null }];
+          });
+        }
       },
       error: () => this.showError('Failed to upload media asset.'),
     });
   }
 
   protected onMediaAssetSelected(_asset: MediaAsset): void {
-    // Media asset selected from library — can be used to attach to form in future
+    // Media asset selected from library panel — reserved for future drag-to-attach
   }
 
   protected onPreviewClicked(): void {

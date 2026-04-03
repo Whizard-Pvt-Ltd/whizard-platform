@@ -23,7 +23,7 @@ import Quill from 'quill';
     }
 
     .quill-editor-container {
-      background: var(--wrcf-bg-card, #1E293B);
+      background: var(--wrcf-bg-primary, #0F172A);
       border: 1px solid var(--wrcf-border, #484E5D);
       border-radius: 8px;
       color: var(--wrcf-text-primary, #E8F0FA);
@@ -98,9 +98,12 @@ export class QuillEditorComponent implements ControlValueAccessor, AfterViewInit
       placeholder: this.placeholder(),
       modules: {
         toolbar: this.readonly() ? false : [
-          ['bold', 'italic', 'underline'],
+          ['bold', 'italic'],
+          ['blockquote', 'code-block'],
+          [{ header: 1 }, { header: 2 }],
           [{ list: 'ordered' }, { list: 'bullet' }],
-          ['clean'],
+          [{ script: 'sub' }, { script: 'super' }],
+          [{ indent: '-1' }, { indent: '+1' }],
         ],
       },
     });

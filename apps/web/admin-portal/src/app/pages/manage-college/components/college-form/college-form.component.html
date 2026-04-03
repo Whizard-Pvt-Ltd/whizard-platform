@@ -26,24 +26,26 @@
           <div class="flex flex-col items-center justify-center">
             <button
               type="button"
+              (click)="openLogoPicker()"
               class="w-20 h-20 rounded-full border-2 border-dashed border-wrcf-border bg-wrcf-bg-secondary flex items-center justify-center overflow-hidden cursor-pointer hover:border-wrcf-accent transition-colors relative group">
               @if (logoPreview()) {
                 <img [src]="logoPreview()!" class="w-full h-full object-cover" />
                 <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                  <mat-icon svgIcon="heroicons_outline:plus" class="size-5 text-white" />
+                  <mat-icon svgIcon="heroicons_outline:camera" class="size-5 text-white" />
                 </div>
               } @else {
                 <mat-icon svgIcon="heroicons_outline:plus" class="size-7 text-wrcf-text-secondary" />
               }
             </button>
             <whizard-media-uploader
+              #logoUploader
               accept="image/*"
               [multiple]="false"
-              label="College Thumbnail"
+              label="College Logo"
               iconType="image"
               (filesSelected)="onLogoSelected($event)"
-              class="hidden-uploader" />
-            <span class="text-xs text-wrcf-text-secondary mt-1.5">College Thumbnail</span>
+              class="hidden" />
+            <span class="text-xs text-wrcf-text-secondary mt-1.5">College Logo</span>
           </div>
 
           <div class="flex flex-col justify-center">
@@ -106,12 +108,12 @@
 
       <!-- Section: College details (description) -->
       <section>
-        <h3 class="text-base font-semibold text-wrcf-text-primary mb-4">
-          College details <span class="text-red-400">*</span>
+        <h3 class="text-base font-semibold text-wrcf-accent mb-4">
+          College Details <span class="text-red-400">*</span>
         </h3>
         <whizard-quill-editor
           formControlName="description"
-          placeholder="Describe the college..." />
+          placeholder="Insert text here ..." />
       </section>
 
       <!-- Section: College Brochure -->
@@ -123,11 +125,12 @@
             [multiple]="false"
             label="Upload Brochure Here"
             iconType="pdf"
-            (filesSelected)="onBrochureSelected($event)" />
+            (filesSelected)="onBrochureSelected($event)"
+            class="min-h-[120px] block" />
         } @else {
           <div class="flex flex-col gap-2">
             @for (f of brochureFiles(); track f.file.name; let i = $index) {
-              <div class="flex items-center gap-3 px-3 py-2 rounded-lg bg-wrcf-bg-secondary border border-wrcf-border">
+              <div class="flex items-center gap-3 px-3 min-h-[120px] rounded-lg bg-wrcf-bg-secondary border border-wrcf-border">
                 <mat-icon svgIcon="lucideIcons:file-text" class="size-4 text-wrcf-text-tertiary shrink-0" />
                 <span class="text-sm text-wrcf-text-primary flex-1 truncate">{{ f.file.name }}</span>
                 <button type="button" (click)="removeBrochure(i)" class="text-wrcf-text-secondary hover:text-red-400 transition-colors">
@@ -165,13 +168,15 @@
             </div>
           }
           <!-- Upload slot -->
-          <whizard-media-uploader
-            accept="video/*"
-            [multiple]="true"
-            label="Upload Videos Here"
-            iconType="video"
-            (filesSelected)="onVideoSelected($event)"
-            class="aspect-video" />
+          <div class="aspect-video">
+            <whizard-media-uploader
+              accept="video/*"
+              [multiple]="true"
+              label="Upload Videos Here"
+              iconType="video"
+              (filesSelected)="onVideoSelected($event)"
+              class="h-full block" />
+          </div>
         </div>
       </section>
 
@@ -204,13 +209,15 @@
             </div>
           }
           <!-- Upload slot -->
-          <whizard-media-uploader
-            accept="image/*"
-            [multiple]="true"
-            label="Upload Images Here"
-            iconType="image"
-            (filesSelected)="onGallerySelected($event)"
-            class="aspect-video" />
+          <div class="aspect-video">
+            <whizard-media-uploader
+              accept="image/*"
+              [multiple]="true"
+              label="Upload Images Here"
+              iconType="image"
+              (filesSelected)="onGallerySelected($event)"
+              class="h-full block" />
+          </div>
         </div>
       </section>
 
@@ -231,10 +238,10 @@
 
       <!-- Section: Degrees Offered -->
       <section>
-        <h3 class="text-base font-semibold text-wrcf-text-primary mb-4">Degrees Offered</h3>
+        <h3 class="text-base font-semibold text-wrcf-accent mb-4">Degrees Offered</h3>
         <whizard-quill-editor
           formControlName="degreesOffered"
-          placeholder="List degrees offered..." />
+          placeholder="Insert text here ..." />
       </section>
 
       <!-- Section: College Key Contacts -->
@@ -272,10 +279,10 @@
 
       <!-- Section: Placement Highlights -->
       <section class="mb-8">
-        <h3 class="text-base font-semibold text-wrcf-text-primary mb-4">Placement Highlights</h3>
+        <h3 class="text-base font-semibold text-wrcf-accent mb-4">Placement Highlights</h3>
         <whizard-quill-editor
           formControlName="placementHighlights"
-          placeholder="Highlight placement records, top recruiters..." />
+          placeholder="Insert text here ..." />
       </section>
 
     </div>
