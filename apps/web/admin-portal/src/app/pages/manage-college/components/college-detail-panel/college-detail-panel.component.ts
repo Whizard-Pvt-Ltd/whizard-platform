@@ -2,22 +2,22 @@ import { Component, input, output, signal, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { PdfViewerComponent, VideoPlayerComponent, ImageLightboxComponent } from '@whizard/shared-ui';
+import { PdfViewerComponent, VideoPlayerComponent, ImageLightboxComponent, ScrollbarDirective } from '@whizard/shared-ui';
 import type { CollegeDetail, Club, UserContact, CollegeMediaItem, CollegeContact } from '../../models/manage-college.models';
 
 @Component({
   selector: 'whizard-college-detail-panel',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, PdfViewerComponent, VideoPlayerComponent, ImageLightboxComponent],
+  imports: [MatButtonModule, MatIconModule, PdfViewerComponent, VideoPlayerComponent, ImageLightboxComponent, ScrollbarDirective],
   templateUrl: './college-detail-panel.component.html',
   styleUrl: './college-detail-panel.component.css',
+  host: { class: 'flex-1 min-h-0 flex flex-col' },
 })
 export class CollegeDetailPanelComponent {
   readonly college = input<CollegeDetail | null>(null);
   readonly clubs = input<Club[]>([]);
   readonly users = input<UserContact[]>([]);
 
-  readonly editClicked = output<void>();
   readonly previewPdf = output<string>();
 
   private readonly sanitizer = inject(DomSanitizer);

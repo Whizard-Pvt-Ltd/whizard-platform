@@ -12,6 +12,7 @@ type AssetFilter = 'all' | 'image' | 'video' | 'pdf';
 @Component({
   selector: 'whizard-media-library-panel',
   standalone: true,
+  host: { class: 'flex-1 min-h-0 flex flex-col' },
   imports: [FormsModule, MatFormFieldModule, MatIconModule, MatSelectModule, MediaUploaderComponent],
   templateUrl: './media-library-panel.component.html',
   styleUrl: './media-library-panel.component.css',

@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AdminLayoutComponent } from '@whizard/shared-ui';
 import { authGuard } from './core/guards/auth.guard';
 import { IndustryWrcfComponent } from './pages/industry-wrcf/industry-wrcf.component';
 import { LoginPageComponent } from './pages/login/login-page.component';
@@ -14,62 +15,62 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginPageComponent,
-    title: 'Whizard Admin Login'
+    title: 'Whizard Admin Login',
   },
   {
     path: 'signup',
     component: SignupPageComponent,
-    title: 'Whizard Admin Signup'
-  },
-  {
-    path: 'dashboard',
-    component: WrcfDashboardComponent,
-    title: 'Industry WRCF Dashboard',
-    canActivate: [authGuard]
-  },
-  {
-    path: 'profile',
-    component: EnhancedProfilePageComponent,
-    title: 'Account Settings',
-    canActivate: [authGuard]
-  },
-  {
-    path: 'industry-wrcf',
-    component: IndustryWrcfComponent,
-    title: 'Manage Industry WRCF',
-    canActivate: [authGuard]
-  },
-  {
-    path: 'wrcf-skills',
-    component: WrcfSkillsComponent,
-    title: 'Manage WRCF Skills',
-    canActivate: [authGuard]
-  },
-  {
-    path: 'wrcf-roles',
-    component: WrcfRolesComponent,
-    title: 'Manage WRCF Roles',
-    canActivate: [authGuard]
-  },
-  {
-    path: 'manage-college',
-    component: ManageCollegeComponent,
-    title: 'Manage College',
-    canActivate: [authGuard]
-  },
-  {
-    path: 'manage-company',
-    component: ManageCompanyComponent,
-    title: 'Manage Company',
-    canActivate: [authGuard]
+    title: 'Whizard Admin Signup',
   },
   {
     path: '',
-    redirectTo: 'dashboard',
-    pathMatch: 'full'
+    component: AdminLayoutComponent,
+    canActivate: [authGuard],
+    children: [
+      {
+        path: 'dashboard',
+        component: WrcfDashboardComponent,
+        title: 'Industry WRCF Dashboard',
+      },
+      {
+        path: 'profile',
+        component: EnhancedProfilePageComponent,
+        title: 'Account Settings',
+      },
+      {
+        path: 'industry-wrcf',
+        component: IndustryWrcfComponent,
+        title: 'Manage Industry WRCF',
+      },
+      {
+        path: 'wrcf-skills',
+        component: WrcfSkillsComponent,
+        title: 'Manage WRCF Skills',
+      },
+      {
+        path: 'wrcf-roles',
+        component: WrcfRolesComponent,
+        title: 'Manage WRCF Roles',
+      },
+      {
+        path: 'manage-college',
+        component: ManageCollegeComponent,
+        title: 'Manage College',
+      },
+      {
+        path: 'manage-company',
+        component: ManageCompanyComponent,
+        title: 'Manage Company',
+      },
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
+      },
+    ],
   },
   {
     path: '**',
-    redirectTo: ''
-  }
+    redirectTo: '',
+  },
 ];

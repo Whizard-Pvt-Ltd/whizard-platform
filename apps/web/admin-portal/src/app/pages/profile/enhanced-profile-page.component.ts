@@ -1,5 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { ScrollbarDirective } from "@whizard/shared-ui";
+import { format, fromUnixTime } from 'date-fns';
 import { StackAuthService } from '../../core/services/stack-auth.service';
 
 /**
@@ -16,7 +18,7 @@ import { StackAuthService } from '../../core/services/stack-auth.service';
 @Component({
   selector: 'admin-enhanced-profile-page',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, ScrollbarDirective],
   templateUrl: './enhanced-profile-page.component.html',
   styleUrls: ['./enhanced-profile-page.component.css']
 })
@@ -41,7 +43,7 @@ export class EnhancedProfilePageComponent implements OnInit {
       try {
         const payload = JSON.parse(atob(token.split('.')[1]));
         if (payload.iat) {
-          this.createdAt.set(new Date(payload.iat * 1000).toLocaleString());
+          this.createdAt.set(format(fromUnixTime(payload.iat), 'PPpp'));
         }
       } catch (error) {
         console.error('Failed to decode token:', error);

@@ -1,45 +1,26 @@
-<whizard-nav-drawer [open]="drawerOpen()" (closed)="drawerOpen.set(false)" />
-
-<div class="flex flex-col h-screen bg-wrcf-bg-primary font-sans overflow-hidden">
+<div class="flex flex-col h-full bg-wrcf-bg-primary font-sans overflow-hidden">
 
   <!-- Header -->
   <header class="h-16 bg-wrcf-bg-primary px-8 flex items-center gap-4 border-b border-wrcf-border shrink-0">
-    <!-- Left: hamburger + title -->
-    <div class="flex items-center gap-4 shrink-0">
-      <button
-        type="button"
-        (click)="drawerOpen.set(true)"
-        class="flex items-center justify-center w-9 h-9 rounded-lg hover:bg-wrcf-bg-secondary transition-colors">
-        <mat-icon svgIcon="lucideIcons:panel-left" class="size-4 text-wrcf-text-secondary shrink-0" />
-      </button>
-      <h1 class="text-2xl font-semibold text-wrcf-text-primary leading-8">Manage College</h1>
-    </div>
-
-    <!-- VIEW MODE: filter chips + Add button -->
     @if (mode() === 'list') {
-      <!-- Filter chips -->
-      <div class="flex items-center gap-1.5 overflow-x-auto flex-1 min-w-0 scrollbar-none">
-        @for (chip of filterChips; track chip) {
+      <div class="ml-auto flex items-center gap-3">
+        @if (selectedCollege()) {
           <button
             type="button"
-            (click)="setActiveChip(chip)"
-            class="shrink-0 px-3 py-1 rounded-full text-xs leading-5 border transition-colors duration-150 whitespace-nowrap"
-            [class.bg-wrcf-action]="activeChip() === chip"
-            [class.text-wrcf-text-secondary]="activeChip() !== chip"
-            [class.border-wrcf-border]="activeChip() !== chip" >
-            {{ chip }}
+            (click)="onEditClicked()"
+            class="shrink-0 flex items-center gap-1.5 h-10 px-4 rounded-[10px] border border-wrcf-border text-wrcf-text-secondary text-sm font-medium hover:border-wrcf-text-primary hover:text-wrcf-text-primary transition-colors">
+            <mat-icon svgIcon="heroicons_outline:pencil-square" class="size-4" />
+            Edit
           </button>
         }
+        <button
+          type="button"
+          (click)="onAddClicked()"
+          class="shrink-0 flex items-center gap-1.5 h-10 px-4 rounded-[10px] bg-wrcf-action text-wrcf-text-primary text-sm font-medium hover:bg-wrcf-action-hover transition-colors">
+          <mat-icon svgIcon="heroicons_outline:plus" class="size-4" />
+          Add
+        </button>
       </div>
- 
-      <!-- Add button -->
-      <button
-        type="button"
-        (click)="onAddClicked()"
-        class="shrink-0 flex items-center gap-1.5 h-10 px-4 rounded-[10px] bg-wrcf-action text-wrcf-text-primary text-sm font-medium hover:bg-wrcf-action-hover transition-colors">
-        <mat-icon svgIcon="heroicons_outline:plus" class="size-4" />
-        Add
-      </button>
     }
 
     <!-- EDIT / CREATE / PREVIEW MODE: action buttons -->
@@ -84,10 +65,6 @@
       </div>
     }
 
-    <!-- User avatar -->
-    <div class="shrink-0 w-9 h-9 rounded-full bg-wrcf-bg-secondary border border-wrcf-border flex items-center justify-center">
-      <mat-icon svgIcon="heroicons_outline:user-circle" class="size-5 text-wrcf-text-secondary" />
-    </div>
   </header>
 
   <!-- Error banner -->
@@ -116,8 +93,7 @@
       <whizard-college-detail-panel
         [college]="selectedCollege()"
         [clubs]="clubs()"
-        [users]="users()"
-        (editClicked)="onEditClicked()" />
+        [users]="users()" />
     }
 
     <!-- EDIT / CREATE MODE: media library + form -->

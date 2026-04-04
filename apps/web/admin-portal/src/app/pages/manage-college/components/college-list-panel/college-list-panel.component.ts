@@ -1,18 +1,19 @@
 import { Component, input, output, computed, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { ScrollbarDirective } from '@whizard/shared-ui';
 import type { CollegeListItem } from '../../models/manage-college.models';
 
 @Component({
   selector: 'whizard-college-list-panel',
   standalone: true,
-  imports: [MatIconModule],
+  imports: [MatIconModule, ScrollbarDirective],
   templateUrl: './college-list-panel.component.html',
   styleUrl: './college-list-panel.component.css',
 })
 export class CollegeListPanelComponent {
   readonly colleges = input<CollegeListItem[]>([]);
   readonly selectedId = input<string | null>(null);
-  readonly loading = input<boolean>(false);
+  readonly loading = input<boolean>(true);
 
   readonly collegeSelected = output<string>();
 

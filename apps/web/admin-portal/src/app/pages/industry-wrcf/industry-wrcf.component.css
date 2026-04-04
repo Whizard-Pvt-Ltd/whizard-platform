@@ -1,28 +1,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
 :host {
-  --bg-primary:    #0F172A;
-  --bg-secondary:  #0F253F;
-  --bg-card:       #1E293B;
-  --bg-selected:   #2D2A5A;
-  --text-primary:  #E8F0FA;
-  --text-secondary:#7F94AE;
-  --text-tertiary: #8AB4F8;
-  --text-muted:    #A8B7C2;
-  --border:        #484E5D;
-  --action:        #314DDF;
-  --action-hover:  #263FCC;
-  --accent:        #00BFFF;
+  --bg-primary: #0f172a;
+  --bg-secondary: #0f253f;
+  --bg-card: #1e293b;
+  --bg-selected: #2d2a5a;
+  --text-primary: #e8f0fa;
+  --text-secondary: #7f94ae;
+  --text-tertiary: #8ab4f8;
+  --text-muted: #a8b7c2;
+  --border: #484e5d;
+  --action: #314ddf;
+  --action-hover: #263fcc;
+  --accent: #00bfff;
 
-  display: block;
-  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  height: 100vh;
+  overflow: hidden;
   font-family: 'Poppins', sans-serif;
   background: var(--bg-primary);
   color: var(--text-primary);
 }
 
 .page {
-  min-height: 100dvh;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -101,8 +107,8 @@
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  background: #1E293B;
-  border: 1px solid #484E5D;
+  background: #1e293b;
+  border: 1px solid #484e5d;
   border-radius: 10px;
   min-width: 160px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
@@ -119,7 +125,7 @@
   font-family: 'Poppins', sans-serif;
   font-size: 15px;
   font-weight: 400;
-  color: #E8F0FA;
+  color: #e8f0fa;
   text-decoration: none;
   background: transparent;
   border: none;
@@ -129,12 +135,12 @@
 }
 
 .user-menu-item:hover {
-  background: #0F253F;
+  background: #0f253f;
 }
 
 .user-menu-logout {
   color: #fca5a5;
-  border-top: 1px solid #484E5D;
+  border-top: 1px solid #484e5d;
 }
 
 /* ── Filter bar ── */
@@ -265,12 +271,12 @@
 }
 
 .toast-banner {
-  background: #1E293B;
-  border-left: 4px solid #00BFFF;
+  background: #1e293b;
+  border-left: 4px solid #00bfff;
   margin: 12px 32px 0;
   padding: 12px 20px;
   font-size: 14px;
-  color: #E8F0FA;
+  color: #e8f0fa;
   border-radius: 0 6px 6px 0;
 }
 
@@ -280,7 +286,7 @@
   display: flex;
   flex-direction: column;
   padding: 16px 32px;
-  overflow-x: auto;
+  position: relative;
   min-height: 0;
 }
 

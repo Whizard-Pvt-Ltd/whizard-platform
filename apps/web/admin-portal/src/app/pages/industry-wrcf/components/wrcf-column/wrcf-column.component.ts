@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { ScrollbarDirective } from '@whizard/shared-ui';
 import { WrcfEntity } from '../../models/wrcf.models';
 
 @Component({
@@ -6,6 +7,7 @@ import { WrcfEntity } from '../../models/wrcf.models';
   standalone: true,
   templateUrl: './wrcf-column.component.html',
   styleUrl: './wrcf-column.component.css',
+  imports: [ScrollbarDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WrcfColumnComponent {

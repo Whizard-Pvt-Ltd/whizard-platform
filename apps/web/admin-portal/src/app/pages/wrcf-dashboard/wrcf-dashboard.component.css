@@ -1,3 +1,11 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
 /* mat-form-field overrides for WRCF dropdown style */
 .wrcf-select .mat-mdc-form-field-flex {
   height: 40px;
