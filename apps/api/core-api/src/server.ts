@@ -23,6 +23,7 @@ import Fastify from 'fastify';
 import { startCoreApi } from './main';
 import { registerCollegeOperationsCoreApiRuntime } from './modules/college-operations/runtime';
 import { registerCompanyOrganizationCoreApiRuntime } from './modules/company-organization/runtime';
+import { registerInternshipHiringCoreApiRuntime } from './modules/internship-hiring/runtime';
 import { registerWrcfCoreApiRuntime } from './modules/wrcf/runtime';
 import stackAuthPlugin from './plugins/stack-auth.plugin';
 
@@ -165,6 +166,18 @@ async function bootstrap() {
     bootstrapLogger.info('Company Organization runtime registered successfully');
   } catch (error) {
     bootstrapLogger.error('Failed to register Company Organization runtime', {
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+    throw error;
+  }
+
+  // Register Internship Hiring routes
+  bootstrapLogger.info('Registering Internship Hiring runtime');
+  try {
+    await registerInternshipHiringCoreApiRuntime(fastify);
+    bootstrapLogger.info('Internship Hiring runtime registered successfully');
+  } catch (error) {
+    bootstrapLogger.error('Failed to register Internship Hiring runtime', {
       error: error instanceof Error ? error.message : 'Unknown error'
     });
     throw error;

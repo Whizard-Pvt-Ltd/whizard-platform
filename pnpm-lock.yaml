@@ -286,6 +286,9 @@ importers:
       '@whizard/identity-access':
         specifier: workspace:*
         version: link:../../../libs/contexts/identity-access
+      '@whizard/internship-hiring':
+        specifier: workspace:*
+        version: link:../../../libs/contexts/internship-hiring
       '@whizard/shared-infrastructure':
         specifier: workspace:*
         version: link:../../../libs/shared/infrastructure
@@ -454,6 +457,18 @@ importers:
       typescript:
         specifier: 5.9.3
         version: 5.9.3
+
+  libs/contexts/internship-hiring:
+    dependencies:
+      '@prisma/client':
+        specifier: 6.19.2
+        version: 6.19.2(prisma@6.19.2(typescript@5.9.3))(typescript@5.9.3)
+      '@whizard/shared-infrastructure':
+        specifier: workspace:*
+        version: link:../../shared/infrastructure
+      '@whizard/shared-kernel':
+        specifier: workspace:*
+        version: link:../../shared/kernel
 
   libs/shared/core-api-client:
     devDependencies:

@@ -23,6 +23,7 @@ import Fastify from 'fastify';
 import { startBff } from './main';
 import { registerCollegeOperationsBffModule } from './modules/college-operations/college-operations.bff.module';
 import { registerCompanyOrganizationBffModule } from './modules/company-organization/company-organization.bff.module';
+import { registerInternshipHiringBffModule } from './modules/internship-hiring/internship-hiring.bff.module';
 import { registerWrcfBffModule } from './modules/wrcf/wrcf.module';
 
 // Server configuration from environment variables
@@ -148,6 +149,18 @@ async function bootstrap() {
     bootstrapLogger.info('Company Organization BFF module registered successfully');
   } catch (error) {
     bootstrapLogger.error('Failed to register Company Organization BFF module', {
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+    throw error;
+  }
+
+  // Register Internship Hiring BFF module
+  bootstrapLogger.info('Registering Internship Hiring BFF module');
+  try {
+    await registerInternshipHiringBffModule(fastify);
+    bootstrapLogger.info('Internship Hiring BFF module registered successfully');
+  } catch (error) {
+    bootstrapLogger.error('Failed to register Internship Hiring BFF module', {
       error: error instanceof Error ? error.message : 'Unknown error'
     });
     throw error;

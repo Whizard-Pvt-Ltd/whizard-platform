@@ -5,6 +5,7 @@ import { IndustryWrcfComponent } from './pages/industry-wrcf/industry-wrcf.compo
 import { LoginPageComponent } from './pages/login/login-page.component';
 import { ManageCollegeComponent } from './pages/manage-college/manage-college.component';
 import { ManageCompanyComponent } from './pages/manage-company/manage-company.component';
+import { ManageInternshipComponent } from './pages/manage-internship/manage-internship.component';
 import { EnhancedProfilePageComponent } from './pages/profile/enhanced-profile-page.component';
 import { SignupPageComponent } from './pages/signup/signup-page.component';
 import { WrcfDashboardComponent } from './pages/wrcf-dashboard/wrcf-dashboard.component';
@@ -21,6 +22,12 @@ export const routes: Routes = [
     path: 'signup',
     component: SignupPageComponent,
     title: 'Whizard Admin Signup',
+  },
+  {
+    path: 'manage-internship',
+    component: ManageInternshipComponent,
+    title: 'Manage Internship',
+    canActivate: [authGuard]
   },
   {
     path: '',

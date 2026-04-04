@@ -1,0 +1,22 @@
+{
+  "name": "@whizard/internship-hiring",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Internship Hiring bounded context",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.4.1",
+    "@whizard/shared-infrastructure": "workspace:*",
+    "@whizard/shared-kernel": "workspace:*"
+  }
+}

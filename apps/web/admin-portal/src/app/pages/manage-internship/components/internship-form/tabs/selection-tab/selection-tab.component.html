@@ -1,0 +1,158 @@
+<div class="flex flex-col p-6 space-y-8 overflow-y-auto">
+
+  <!-- Offer Letter Documents -->
+  <div>
+    <h3 class="text-xl font-semibold text-wrcf-accent mb-4">Offer Letter Documents</h3>
+
+    <div class="space-y-3">
+      <!-- Offer letter template -->
+      <div class="flex items-center gap-4">
+        <span class="flex-1 text-sm text-wrcf-text-primary font-medium">Offer Letter Template</span>
+        <label class="flex items-center gap-2 h-10 px-4 rounded-[10px] bg-wrcf-action text-white text-sm font-medium cursor-pointer hover:bg-wrcf-action-hover transition-colors">
+          <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-4"></mat-icon>
+          @if (formValue().offerLetterTemplateUrl) {
+            {{ formValue().offerLetterTemplateUrl }}
+          } @else {
+            Upload
+          }
+          <input type="file" accept=".pdf" class="sr-only" (change)="onOfferLetterSelected($event)" />
+        </label>
+      </div>
+
+      <!-- Terms & conditions -->
+      <div class="flex items-center gap-4">
+        <span class="flex-1 text-sm text-wrcf-text-primary font-medium">Terms & Condition for acceptance</span>
+        <label class="flex items-center gap-2 h-10 px-4 rounded-[10px] bg-wrcf-action text-white text-sm font-medium cursor-pointer hover:bg-wrcf-action-hover transition-colors">
+          <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-4"></mat-icon>
+          @if (formValue().termsConditionUrl) {
+            {{ formValue().termsConditionUrl }}
+          } @else {
+            Upload
+          }
+          <input type="file" accept=".pdf" class="sr-only" (change)="onTermsSelected($event)" />
+        </label>
+      </div>
+    </div>
+
+    <!-- Offer letter release method -->
+    <div class="mt-4">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Offer Letter Release — Select Method</mat-label>
+        <mat-select [ngModel]="formValue().offerLetterReleaseMethod" (ngModelChange)="emit({offerLetterReleaseMethod: $event})">
+          @for (method of offerReleaseMethods; track method) {
+            <mat-option [value]="method">{{ method }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Assign Internship Co-ordinator -->
+  <div>
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-xl font-semibold text-wrcf-accent">Assign Internship Co-ordinator</h3>
+      <button mat-icon-button color="primary" (click)="addBatch()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+
+    @for (batch of formValue().batches; track batch.id; let i = $index) {
+      <div class="mb-4 rounded-xl border border-wrcf-border bg-wrcf-bg-secondary p-4">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-sm font-semibold text-wrcf-text-primary">Internship Batch {{ i + 1 }}</span>
+          <div class="flex items-center gap-2">
+            <button mat-stroked-button class="text-xs h-7 px-2">List</button>
+            <button mat-stroked-button class="text-xs h-7 px-2">Create</button>
+            <button mat-icon-button color="warn" (click)="removeBatch(i)">
+              <mat-icon svgIcon="heroicons_outline:trash"></mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Batch Size</mat-label>
+            <input matInput type="number" min="1"
+              [ngModel]="batch.batchSize"
+              (ngModelChange)="updateBatch(i, {batchSize: +$event})" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Internship Co-ordinator</mat-label>
+            <input matInput type="text" placeholder="Search user..."
+              [ngModel]="batch.coordinatorUserId ?? ''"
+              (ngModelChange)="updateBatch(i, {coordinatorUserId: $event || null})" />
+          </mat-form-field>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Internship Process & Expectation -->
+  <div>
+    <h3 class="text-xl font-semibold text-wrcf-accent mb-4">Internship Process & Expectation</h3>
+    <div class="grid grid-cols-2 gap-4">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Select Plant</mat-label>
+        <input matInput type="text" placeholder="Plant name" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Select Functional Group</mat-label>
+        <input matInput type="text" placeholder="Functional group"
+          [ngModel]="formValue().functionalGroupId ?? ''"
+          (ngModelChange)="emit({functionalGroupId: $event || null})" />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Pre-Internship Communication -->
+  <div>
+    <h3 class="text-xl font-semibold text-wrcf-accent mb-2">Pre-Internship Communication</h3>
+    <mat-form-field appearance="outline" class="w-full">
+      <textarea matInput rows="5" placeholder="Welcome message, instructions..."
+        [ngModel]="formValue().preInternshipCommunication ?? ''"
+        (ngModelChange)="emit({preInternshipCommunication: $event || null})">
+      </textarea>
+    </mat-form-field>
+  </div>
+
+  <!-- Pre-read Courses -->
+  <div>
+    <div class="flex items-center justify-between mb-3">
+      <h3 class="text-xl font-semibold text-wrcf-accent">Add Pre-read Courses</h3>
+    </div>
+    @for (course of formValue().preReadCourses; track $index) {
+      <div class="flex items-center gap-3 mb-2 px-3 py-2 rounded-lg bg-wrcf-bg-secondary border border-wrcf-border">
+        <mat-icon svgIcon="heroicons_outline:document" class="text-wrcf-accent shrink-0"></mat-icon>
+        <span class="flex-1 text-sm text-wrcf-text-primary truncate">{{ course.name }}</span>
+        <button mat-icon-button color="warn" (click)="removeCourse($index)">
+          <mat-icon svgIcon="heroicons_outline:trash"></mat-icon>
+        </button>
+      </div>
+    }
+    <label class="flex flex-col items-center justify-center h-24 rounded-lg border-2 border-dashed border-wrcf-border cursor-pointer hover:border-wrcf-accent transition-colors mt-2">
+      <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-7 text-wrcf-text-secondary"></mat-icon>
+      <span class="text-xs text-wrcf-text-secondary mt-1">Drop Courses Here</span>
+      <input type="file" accept=".pdf" class="sr-only" (change)="addCourse($event)" />
+    </label>
+  </div>
+
+  <!-- Pre-read Articles -->
+  <div>
+    <div class="flex items-center justify-between mb-3">
+      <h3 class="text-xl font-semibold text-wrcf-accent">Add Pre-read Articles</h3>
+    </div>
+    @for (article of formValue().preReadArticles; track $index) {
+      <div class="flex items-center gap-3 mb-2 px-3 py-2 rounded-lg bg-wrcf-bg-secondary border border-wrcf-border">
+        <mat-icon svgIcon="heroicons_outline:document" class="text-wrcf-accent shrink-0"></mat-icon>
+        <span class="flex-1 text-sm text-wrcf-text-primary truncate">{{ article.name }}</span>
+        <button mat-icon-button color="warn" (click)="removeArticle($index)">
+          <mat-icon svgIcon="heroicons_outline:trash"></mat-icon>
+        </button>
+      </div>
+    }
+    <label class="flex flex-col items-center justify-center h-24 rounded-lg border-2 border-dashed border-wrcf-border cursor-pointer hover:border-wrcf-accent transition-colors mt-2">
+      <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-7 text-wrcf-text-secondary"></mat-icon>
+      <span class="text-xs text-wrcf-text-secondary mt-1">Drop Articles Here</span>
+      <input type="file" accept=".pdf" class="sr-only" (change)="addArticle($event)" />
+    </label>
+  </div>
+</div>
