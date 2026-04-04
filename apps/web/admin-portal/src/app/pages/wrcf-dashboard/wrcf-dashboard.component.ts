@@ -114,7 +114,12 @@ export class WrcfDashboardComponent implements OnInit {
   }
 
   protected navigateToCapabilities(): void {
-    this.router.navigate(['/industry-wrcf']);
+    this.router.navigate(['/industry-wrcf'], {
+      queryParams: {
+        sectorId: this.sectorControl.value,
+        industryId: this.industryControl.value
+      }
+    });
   }
 
   protected navigateToRoles(): void {

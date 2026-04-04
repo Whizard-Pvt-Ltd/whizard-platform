@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, signal, OnInit, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { StackAuthService } from '../../core/services/stack-auth.service';
 import { NavDrawerComponent } from '../../shared/nav-drawer/nav-drawer.component';
@@ -27,6 +27,7 @@ export class IndustryWrcfComponent implements OnInit {
   private readonly apiService = inject(WrcfApiService);
   private readonly stackAuthService = inject(StackAuthService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   protected sectors: IndustrySector[] = [];
   protected capabilities: Capability[] = [];
@@ -84,7 +85,19 @@ export class IndustryWrcfComponent implements OnInit {
 
   ngOnInit(): void {
     this.apiService.listSectors().subscribe({
-      next: sectors => { this.sectors = sectors; },
+      next: sectors => {
+        this.sectors = sectors;
+
+        const requestedSectorId = this.route.snapshot.queryParamMap.get('sectorId');
+        const requestedIndustryId = this.route.snapshot.queryParamMap.get('industryId');
+        const initialSectorId = sectors.some(sector => sector.id === requestedSectorId)
+          ? requestedSectorId ?? ''
+          : sectors[0]?.id ?? '';
+
+        if (initialSectorId) {
+          this.loadIndustriesForSector(initialSectorId, requestedIndustryId);
+        }
+      },
       error: () => { this.sectors = []; }
     });
 
@@ -100,13 +113,7 @@ export class IndustryWrcfComponent implements OnInit {
   }
 
   protected onSectorChange(sectorId: string): void {
-    this.selectedSectorId.set(sectorId);
-    this.selectedIndustryId.set('');
-    this.resetFromIndustry();
-    this.apiService.listIndustries(sectorId).subscribe({
-      next: industries => this.industries.set(industries),
-      error: () => this.industries.set([])
-    });
+    this.loadIndustriesForSector(sectorId);
   }
 
   protected onIndustryChange(industryId: string): void {
@@ -474,5 +481,26 @@ export class IndustryWrcfComponent implements OnInit {
   private showError(message: string): void {
     this.errorMessage.set(message);
     setTimeout(() => this.errorMessage.set(''), 4000);
+  }
+
+  private loadIndustriesForSector(sectorId: string, preferredIndustryId?: string | null): void {
+    this.selectedSectorId.set(sectorId);
+    this.selectedIndustryId.set('');
+    this.resetFromIndustry();
+
+    this.apiService.listIndustries(sectorId).subscribe({
+      next: industries => {
+        this.industries.set(industries);
+
+        const initialIndustryId = industries.some(industry => industry.id === preferredIndustryId)
+          ? preferredIndustryId ?? ''
+          : industries[0]?.id ?? '';
+
+        if (initialIndustryId) {
+          this.onIndustryChange(initialIndustryId);
+        }
+      },
+      error: () => this.industries.set([])
+    });
   }
 }
