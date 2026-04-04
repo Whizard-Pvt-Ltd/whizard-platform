@@ -14,7 +14,7 @@ import type {
   imports: [TitleCasePipe, MatButtonModule, MatIconModule, PdfViewerComponent, VideoPlayerComponent, ImageLightboxComponent, ScrollbarDirective],
   templateUrl: './company-detail-panel.component.html',
   styleUrl: './company-detail-panel.component.css',
-  host: { class: 'flex-1 min-h-0 flex flex-col' },
+  // host: { class: 'flex-1 min-h-0 flex flex-col' },
 })
 export class CompanyDetailPanelComponent {
   readonly company = input<CompanyDetail | null>(null);

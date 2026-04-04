@@ -146,6 +146,9 @@ ALTER TABLE "role_capability_instances" DROP CONSTRAINT "role_capability_instanc
 ALTER TABLE "roles" DROP CONSTRAINT "roles_department_id_fkey";
 
 -- DropForeignKey
+ALTER TABLE "roles" DROP CONSTRAINT "roles_industry_id_fkey";
+
+-- DropForeignKey
 ALTER TABLE "roles" DROP CONSTRAINT "roles_tenant_id_fkey";
 
 -- DropForeignKey
@@ -592,23 +595,23 @@ ALTER TABLE "internships" ADD CONSTRAINT "internships_functional_group_id_fkey" 
 -- AddForeignKey
 ALTER TABLE "internship_batches" ADD CONSTRAINT "internship_batches_internship_id_fkey" FOREIGN KEY ("internship_id") REFERENCES "internships"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
--- RenameIndex
-ALTER INDEX "colleges_media_assets_college_id_media_asset_id_role_key" RENAME TO "colleges_media_assets_college_id_media_asset_id_media_role_key";
+-- RenameIndex (skipped - already applied)
+-- ALTER INDEX "colleges_media_assets_college_id_media_asset_id_role_key" RENAME TO "colleges_media_assets_college_id_media_asset_id_media_role_key";
 
--- RenameIndex
-ALTER INDEX "colleges_media_assets_college_id_role_idx" RENAME TO "colleges_media_assets_college_id_media_role_idx";
+-- RenameIndex (skipped - already applied)
+-- ALTER INDEX "colleges_media_assets_college_id_role_idx" RENAME TO "colleges_media_assets_college_id_media_role_idx";
 
--- RenameIndex
-ALTER INDEX "companies_media_assets_company_id_media_asset_id_role_key" RENAME TO "companies_media_assets_company_id_media_asset_id_media_role_key";
+-- RenameIndex (skipped - already applied)
+-- ALTER INDEX "companies_media_assets_company_id_media_asset_id_role_key" RENAME TO "companies_media_assets_company_id_media_asset_id_media_role_key";
 
--- RenameIndex
-ALTER INDEX "companies_media_assets_company_id_role_idx" RENAME TO "companies_media_assets_company_id_media_role_idx";
+-- RenameIndex (skipped - already applied)
+-- ALTER INDEX "companies_media_assets_company_id_role_idx" RENAME TO "companies_media_assets_company_id_media_role_idx";
 
--- RenameIndex
-ALTER INDEX "company_contacts_company_id_user_id_role_key" RENAME TO "company_contacts_company_id_user_id_contact_role_key";
+-- RenameIndex (skipped - already applied)
+-- ALTER INDEX "company_contacts_company_id_user_id_role_key" RENAME TO "company_contacts_company_id_user_id_contact_role_key";
 
--- RenameIndex
-ALTER INDEX "department_functional_groups_dept_fg_key" RENAME TO "department_functional_groups_department_id_functional_group_key";
+-- RenameIndex (skipped - already applied)
+-- ALTER INDEX "department_functional_groups_dept_fg_key" RENAME TO "department_functional_groups_department_id_functional_group_key";
 
--- RenameIndex
-ALTER INDEX "role_capability_instances_role_id_ci_id_key" RENAME TO "role_capability_instances_role_id_capability_instance_id_key";
+-- RenameIndex (skipped - already applied)
+-- ALTER INDEX "role_capability_instances_role_id_ci_id_key" RENAME TO "role_capability_instances_role_id_capability_instance_id_key";

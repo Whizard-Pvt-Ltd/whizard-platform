@@ -2,7 +2,6 @@ import { Component, inject, signal, OnInit, computed, ChangeDetectionStrategy } 
 import type {
   InternshipDetail, InternshipFormValue, PageMode,
 } from './models/manage-internship.models';
-import { NavDrawerComponent } from '../../shared/nav-drawer/nav-drawer.component';
 import { AssessmentLibraryPanelComponent } from './components/assessment-library-panel/assessment-library-panel.component';
 import { InternshipDetailPanelComponent } from './components/internship-detail-panel/internship-detail-panel.component';
 import { InternshipFormComponent } from './components/internship-form/internship-form.component';
@@ -96,7 +95,6 @@ function detailToForm(detail: InternshipDetail): InternshipFormValue {
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NavDrawerComponent,
     InternshipListPanelComponent,
     InternshipDetailPanelComponent,
     AssessmentLibraryPanelComponent,

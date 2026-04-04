@@ -23,12 +23,7 @@ export const routes: Routes = [
     component: SignupPageComponent,
     title: 'Whizard Admin Signup',
   },
-  {
-    path: 'manage-internship',
-    component: ManageInternshipComponent,
-    title: 'Manage Internship',
-    canActivate: [authGuard]
-  },
+ 
   {
     path: '',
     component: AdminLayoutComponent,
@@ -68,6 +63,12 @@ export const routes: Routes = [
         path: 'manage-company',
         component: ManageCompanyComponent,
         title: 'Manage Company',
+      },
+      {
+        path: 'manage-internship',
+        component: ManageInternshipComponent,
+        title: 'Manage Internship',
+        canActivate: [authGuard]
       },
       {
         path: '',
