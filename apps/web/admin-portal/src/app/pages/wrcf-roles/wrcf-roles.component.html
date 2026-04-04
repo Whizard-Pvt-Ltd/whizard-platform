@@ -1,8 +1,18 @@
 <div class="page" style="height: 90dvh;" whizardScrollbar>
   <div class="filter-bar">
     <div class="filter-group">
+      <label class="filter-label">Industry Sector</label>
+      <select class="filter-select" [ngModel]="selectedSectorId()" (ngModelChange)="onSectorChange($event)">
+        <option [value]="null">Select Sector...</option>
+        @for (sector of sectors(); track sector.id) {
+          <option [value]="sector.id">{{ sector.name }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="filter-group">
       <label class="filter-label">Industry</label>
-      <select class="filter-select" [ngModel]="selectedIndustryId()" (ngModelChange)="onIndustryChange($event)">
+      <select class="filter-select" [ngModel]="selectedIndustryId()" (ngModelChange)="onIndustryChange($event)" [disabled]="!selectedSectorId()">
         <option [value]="null">Select Industry...</option>
         @for (ind of industries(); track ind.id) {
           <option [value]="ind.id">{{ ind.name }}</option>

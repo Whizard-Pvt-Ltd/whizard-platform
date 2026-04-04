@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ScrollbarDirective } from '@whizard/shared-ui';
 import { forkJoin } from 'rxjs';
-import type { Industry, FunctionalGroup, PrimaryWorkObject, SecondaryWorkObject, Capability, ProficiencyLevel, CapabilityInstance } from '../industry-wrcf/models/wrcf.models';
+import type { IndustrySector, Industry, FunctionalGroup, PrimaryWorkObject, SecondaryWorkObject, Capability, ProficiencyLevel, CapabilityInstance } from '../industry-wrcf/models/wrcf.models';
 import type { Department, IndustryRole, PendingCIMapping, RolesPanelState } from './models/wrcf-roles.models';
 import { WrcfColumnComponent } from '../industry-wrcf/components/wrcf-column/wrcf-column.component';
 import { WrcfApiService } from '../industry-wrcf/services/wrcf-api.service';
@@ -21,10 +21,12 @@ import { WrcfRolesApiService } from './services/wrcf-roles-api.service';
 export class WrcfRolesComponent implements OnInit {
   private readonly wrcfApi = inject(WrcfApiService);
   private readonly rolesApi = inject(WrcfRolesApiService);
+  protected sectors = signal<IndustrySector[]>([]);
   protected industries = signal<Industry[]>([]);
   protected departments = signal<Department[]>([]);
   protected roles = signal<IndustryRole[]>([]);
 
+  protected selectedSectorId = signal<string | null>(null);
   protected selectedIndustryId = signal<string | null>(null);
   protected selectedDepartmentId = signal<string | null>(null);
   protected selectedRoleId = signal<string | null>(null);
@@ -106,19 +108,44 @@ export class WrcfRolesComponent implements OnInit {
 
     this.wrcfApi.listSectors().subscribe({
       next: sectors => {
+        this.sectors.set(sectors);
         if (sectors.length === 0) return;
-        this.wrcfApi.listIndustries(sectors[0].id).subscribe({
-          next: industries => {
-            this.industries.set(industries);
-            if (industries.length > 0) {
-              this.selectIndustry(industries[0].id);
-            }
-          },
-          error: () => {}
-        });
+        this.selectSector(sectors[0].id, false);
       },
       error: () => {}
     });
+  }
+
+  private selectSector(sectorId: string, guard: boolean): void {
+    if (guard && this.pendingMappings().length > 0) {
+      const proceed = confirm('You have unsaved CI mappings. Discard and continue?');
+      if (!proceed) return;
+      this.pendingMappings.set([]);
+    }
+
+    this.selectedSectorId.set(sectorId);
+    this.industries.set([]);
+    this.selectedIndustryId.set(null);
+    this.departments.set([]);
+    this.roles.set([]);
+    this.selectedDepartmentId.set(null);
+    this.selectedRoleId.set(null);
+    this.resetColumns();
+
+    this.wrcfApi.listIndustries(sectorId).subscribe({
+      next: industries => {
+        this.industries.set(industries);
+        if (industries.length > 0) {
+          this.selectIndustry(industries[0].id);
+        }
+      },
+      error: () => {}
+    });
+  }
+
+  protected onSectorChange(sectorId: string): void {
+    if (!sectorId) return;
+    this.selectSector(sectorId, true);
   }
 
   private selectIndustry(industryId: string): void {
