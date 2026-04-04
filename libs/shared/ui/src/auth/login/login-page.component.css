@@ -13,7 +13,7 @@
   --danger: #ff8f8f;
 
   display: block;
-  min-height: 100dvh;
+  
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
@@ -33,8 +33,8 @@
 }
 
 .login-shell {
-  min-height: 100dvh;
   display: grid;
+  height: 100dvh;
   grid-template-columns: 58% 42%;
   background:
     radial-gradient(40rem 40rem at 2% 6%, rgba(30, 60, 130, 0.2) 0%, transparent 68%),

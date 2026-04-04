@@ -958,7 +958,7 @@ mat-card {
 
 .mat-drawer-container {
   display: flex;
-  flex: 1 1 auto;
+  /* flex: 1 1 auto; */
   background: var(--mat-sidenav-container-background-color);
 
   .mat-drawer {
@@ -971,7 +971,7 @@ mat-card {
 
   .mat-drawer-content {
     display: flex;
-    flex: 1 1 auto;
+    /* flex: 1 1 auto; */
     flex-direction: column;
     height: auto;
     background: var(--mat-sidenav-content-background-color);

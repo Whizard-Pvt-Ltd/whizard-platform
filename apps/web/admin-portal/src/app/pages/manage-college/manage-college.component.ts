@@ -6,7 +6,6 @@ import type {
   CollegeListItem, CollegeDetail, Club, DegreeProgram, City, UserContact,
   MediaAsset, CollegeFormValue, PageMode, CollegeMediaItem,
 } from './models/manage-college.models';
-import { NavDrawerComponent } from '../../shared/nav-drawer/nav-drawer.component';
 import { CollegeDetailPanelComponent } from './components/college-detail-panel/college-detail-panel.component';
 import { CollegeFormComponent } from './components/college-form/college-form.component';
 import { CollegeListPanelComponent } from './components/college-list-panel/college-list-panel.component';
@@ -14,18 +13,12 @@ import { CollegePreviewComponent } from './components/college-preview/college-pr
 import { MediaLibraryPanelComponent } from './components/media-library-panel/media-library-panel.component';
 import { ManageCollegeApiService } from './services/manage-college-api.service';
 
-const FILTER_CHIPS = [
-  'Club', 'Project', 'Job', 'Internship', 'Mentor',
-  'College', 'Company', 'Event', 'Student Profile', 'All Filters',
-] as const;
-
 @Component({
   selector: 'whizard-manage-college',
   standalone: true,
   imports: [
     MatIconModule,
     MatButtonModule,
-    NavDrawerComponent,
     CollegeListPanelComponent,
     CollegeDetailPanelComponent,
     CollegeFormComponent,
@@ -49,13 +42,8 @@ export class ManageCollegeComponent implements OnInit {
   protected loading = signal(false);
   protected mediaLoading = signal(false);
   protected errorMessage = signal<string | null>(null);
-  protected drawerOpen = signal(false);
-
   // Tracks media items uploaded during this edit session
   private pendingMediaItems = signal<CollegeMediaItem[]>([]);
-
-  protected readonly filterChips = FILTER_CHIPS;
-  protected activeChip = signal<string>('College');
 
   private readonly formRef = viewChild(CollegeFormComponent);
   protected formIsValid = computed(() => this.formRef()?.isValid ?? false);
@@ -245,10 +233,6 @@ export class ManageCollegeComponent implements OnInit {
 
   protected onHeaderPublish(): void {
     this.formRef()?.doPublish();
-  }
-
-  protected setActiveChip(chip: string): void {
-    this.activeChip.set(chip);
   }
 
   private showError(msg: string): void {

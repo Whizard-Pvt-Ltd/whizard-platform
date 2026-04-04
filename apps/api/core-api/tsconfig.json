@@ -6,7 +6,8 @@
   "references": [
     { "path": "../../../libs/shared/infrastructure" },
     { "path": "../../../libs/contexts/identity-access" },
-    { "path": "../../../libs/contexts/capability-framework" }
+    { "path": "../../../libs/contexts/capability-framework" },
+    { "path": "../../../libs/contexts/internship-hiring" }
   ],
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

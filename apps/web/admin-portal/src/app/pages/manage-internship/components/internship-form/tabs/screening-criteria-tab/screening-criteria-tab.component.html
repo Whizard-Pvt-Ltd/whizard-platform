@@ -1,0 +1,181 @@
+<div class="flex flex-col p-6 space-y-8 overflow-y-auto">
+
+  <!-- Screening Questions (adapted from groomr ScreeningQuestionsComponent) -->
+  <div>
+    <div class="flex items-center space-x-4 mb-4">
+      <span class="text-xl font-semibold text-wrcf-accent">Screening Questions</span>
+      <span class="text-sm font-medium text-wrcf-text-secondary">(This section will include mandatory questions that all applicants must have to answer.)</span>
+      <button mat-icon-button color="primary" (click)="addQuestion()" class="ml-auto">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+
+    @for (q of formValue().screeningQuestions; track $index) {
+      <div class="mb-4 rounded-xl border border-wrcf-border bg-wrcf-bg-secondary p-4">
+        <div class="grid grid-cols-2 gap-4 items-center">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Question {{ $index + 1 }}</mat-label>
+            <input matInput [ngModel]="q.question" (ngModelChange)="updateQuestion($index, 'question', $event)" />
+          </mat-form-field>
+          <div class="flex items-center gap-2">
+            <mat-form-field appearance="outline" class="flex-1">
+              <mat-label>Expected Answer</mat-label>
+              <input matInput [ngModel]="q.expectedAnswer" (ngModelChange)="updateQuestion($index, 'expectedAnswer', $event)" />
+            </mat-form-field>
+            <button mat-icon-button color="warn" (click)="removeQuestion($index)">
+              <mat-icon svgIcon="heroicons_outline:trash"></mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+    @if (formValue().screeningQuestions.length === 0) {
+      <p class="text-sm text-wrcf-text-secondary italic">No questions added yet. Click + to add.</p>
+    }
+  </div>
+
+  <!-- Eligibility Check (adapted from groomr EligibilityCheckComponent) -->
+  <div>
+    <div class="flex items-center space-x-4 mb-4">
+      <span class="text-xl font-semibold text-wrcf-accent">Eligibility Check</span>
+      <span class="text-sm font-medium text-wrcf-text-secondary">(All students applying for this job must meet the eligibility criteria in this before moving forward.)</span>
+    </div>
+
+    <div class="grid grid-cols-2 gap-6 rounded-xl border border-wrcf-border bg-wrcf-bg-secondary p-4">
+      <div class="flex items-center space-x-4">
+        <label class="w-1/2 text-sm font-medium text-wrcf-text-primary">Min. Club Points</label>
+        <mat-form-field appearance="outline" class="flex-1">
+          <input matInput type="number" min="0"
+            [ngModel]="getEligibility().minClubPoints ?? ''"
+            (ngModelChange)="updateEligibility({minClubPoints: $event ? +$event : null})" />
+        </mat-form-field>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <label class="w-1/2 text-sm font-medium text-wrcf-text-primary">Min. Internships</label>
+        <mat-form-field appearance="outline" class="flex-1">
+          <input matInput type="number" min="0"
+            [ngModel]="getEligibility().minInternships ?? ''"
+            (ngModelChange)="updateEligibility({minInternships: $event ? +$event : null})" />
+        </mat-form-field>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <label class="w-1/2 text-sm font-medium text-wrcf-text-primary">Min. Projects</label>
+        <mat-form-field appearance="outline" class="flex-1">
+          <input matInput type="number" min="0"
+            [ngModel]="getEligibility().minProjects ?? ''"
+            (ngModelChange)="updateEligibility({minProjects: $event ? +$event : null})" />
+        </mat-form-field>
+      </div>
+
+      <div class="flex items-center justify-between gap-4">
+        <div class="flex items-center space-x-4 flex-1">
+          <label class="w-1/2 text-sm font-medium text-wrcf-text-primary">Min. Club Certification</label>
+          <mat-form-field appearance="outline" class="flex-1">
+            <mat-select [ngModel]="getEligibility().minClubCertification" (ngModelChange)="updateEligibility({minClubCertification: $event})">
+              <mat-option [value]="null">None</mat-option>
+              @for (level of certLevels; track level) {
+                <mat-option [value]="level">{{ level }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <button mat-flat-button color="primary" class="shrink-0">
+          Check
+          <mat-icon svgIcon="heroicons_outline:check" class="ml-1"></mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Assessment PDF upload (new in whizard — groomr used assessment library dropdown) -->
+  <div>
+    <div class="flex items-center space-x-4 mb-4">
+      <span class="text-xl font-semibold text-wrcf-accent">Assessment</span>
+      <span class="text-sm text-wrcf-text-secondary">(This assignment will be assigned and become mandatory for all students have applied for this job.)</span>
+      <button mat-icon-button color="primary" (click)="addAssessment()" class="ml-auto">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+
+    @for (a of formValue().assessments; track $index) {
+      <div class="mb-4 rounded-xl border border-wrcf-border bg-wrcf-bg-secondary p-4">
+        <!-- PDF drop area -->
+        <label class="flex flex-col items-center justify-center h-24 rounded-lg border-2 border-dashed border-wrcf-border cursor-pointer hover:border-wrcf-accent transition-colors mb-3">
+          @if (a.pdfUrl) {
+            <mat-icon svgIcon="heroicons_outline:document-check" class="size-7 text-wrcf-accent"></mat-icon>
+            <span class="text-xs text-wrcf-accent mt-1">{{ a.pdfUrl }}</span>
+          } @else {
+            <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-7 text-wrcf-text-secondary"></mat-icon>
+            <span class="text-xs text-wrcf-text-secondary mt-1">Drop Assessment Here</span>
+          }
+          <input type="file" accept=".pdf" class="sr-only" (change)="onAssessmentFileSelected($event, $index)" />
+        </label>
+
+        <div class="grid grid-cols-3 gap-4 items-center">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Min. Assessment Score</mat-label>
+            <input matInput type="number" min="0" max="100"
+              [ngModel]="a.minScore"
+              (ngModelChange)="updateAssessment($index, {minScore: +$event})" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Assessment Weightage</mat-label>
+            <input matInput type="number" min="0" max="100"
+              [ngModel]="a.weightage"
+              (ngModelChange)="updateAssessment($index, {weightage: +$event})" />
+          </mat-form-field>
+          <div class="flex justify-end">
+            <button mat-icon-button color="warn" (click)="removeAssessment($index)">
+              <mat-icon svgIcon="heroicons_outline:trash"></mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+    @if (formValue().assessments.length === 0) {
+      <div class="flex flex-col items-center justify-center h-24 rounded-lg border-2 border-dashed border-wrcf-border cursor-pointer hover:border-wrcf-accent transition-colors" (click)="addAssessment()">
+        <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-7 text-wrcf-text-secondary"></mat-icon>
+        <span class="text-xs text-wrcf-text-secondary mt-1">Drop Assessment Here</span>
+      </div>
+    }
+  </div>
+
+  <!-- Interview Rubric -->
+  <div>
+    <div class="flex items-center space-x-4 mb-4">
+      <span class="text-xl font-semibold text-wrcf-accent">Interview Rubric</span>
+      <span class="text-sm text-wrcf-text-secondary">(The students will be assessed on the interview rubric provided in the below setting.)</span>
+    </div>
+
+    <div class="rounded-xl border border-wrcf-border bg-wrcf-bg-secondary p-4">
+      <!-- PDF drop area -->
+      <label class="flex flex-col items-center justify-center h-24 rounded-lg border-2 border-dashed border-wrcf-border cursor-pointer hover:border-wrcf-accent transition-colors mb-3">
+        @if (getInterviewRubric().pdfUrl) {
+          <mat-icon svgIcon="heroicons_outline:document-check" class="size-7 text-wrcf-accent"></mat-icon>
+          <span class="text-xs text-wrcf-accent mt-1">{{ getInterviewRubric().pdfUrl }}</span>
+        } @else {
+          <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-7 text-wrcf-text-secondary"></mat-icon>
+          <span class="text-xs text-wrcf-text-secondary mt-1">Drop Interview Rubric Here</span>
+        }
+        <input type="file" accept=".pdf" class="sr-only" (change)="onRubricFileSelected($event)" />
+      </label>
+
+      <div class="grid grid-cols-2 gap-4">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Min. Interview Score</mat-label>
+          <input matInput type="number" min="0" max="100"
+            [ngModel]="getInterviewRubric().minScore"
+            (ngModelChange)="updateInterviewRubric({minScore: +$event})" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Interview Weightage (%)</mat-label>
+          <input matInput type="number" min="0" max="100"
+            [ngModel]="getInterviewRubric().weightage"
+            (ngModelChange)="updateInterviewRubric({weightage: +$event})" />
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>

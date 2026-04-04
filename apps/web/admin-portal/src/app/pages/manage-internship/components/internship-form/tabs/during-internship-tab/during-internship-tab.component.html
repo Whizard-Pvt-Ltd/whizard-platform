@@ -1,0 +1,137 @@
+<div class="flex flex-col p-6 space-y-8 overflow-y-auto">
+
+  <!-- Total Weeks -->
+  <div>
+    <h3 class="text-xl font-semibold text-wrcf-accent mb-4">Internship Schedule</h3>
+    <div class="grid grid-cols-2 gap-4">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Total Weeks</mat-label>
+        <input matInput type="number" min="1"
+          [ngModel]="formValue().totalWeeks ?? ''"
+          (ngModelChange)="emit({totalWeeks: $event ? +$event : null})" />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Weekly Schedule Entries -->
+  <div>
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-xl font-semibold text-wrcf-accent">Weekly Schedule</h3>
+      <button mat-icon-button color="primary" (click)="addWeeklyEntry()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+
+    @if (formValue().weeklySchedule.length === 0) {
+      <p class="text-sm text-wrcf-text-secondary italic">No schedule entries yet. Click + to add a week block.</p>
+    }
+
+    <mat-accordion multi class="space-y-3">
+      @for (entry of formValue().weeklySchedule; track $index) {
+        <mat-expansion-panel class="rounded-xl border border-wrcf-border bg-wrcf-bg-secondary shadow-none">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="text-sm font-semibold text-wrcf-text-primary">
+              Week Block {{ $index + 1 }}
+              @if (entry.functionalGroupId) {
+                <span class="ml-2 text-wrcf-text-secondary font-normal">— {{ entry.functionalGroupId }}</span>
+              }
+            </mat-panel-title>
+            <mat-panel-description class="text-xs text-wrcf-text-secondary">
+              {{ entry.noOfWeeks }} week(s)
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <div class="pt-2 pb-4 space-y-4">
+            <div class="grid grid-cols-3 gap-4">
+              <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Functional Group</mat-label>
+                <input matInput type="text" placeholder="Group ID or name"
+                  [ngModel]="entry.functionalGroupId"
+                  (ngModelChange)="updateEntry($index, {functionalGroupId: $event})" />
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Capability Instance</mat-label>
+                <input matInput type="text" placeholder="Capability ID"
+                  [ngModel]="entry.capabilityInstanceId"
+                  (ngModelChange)="updateEntry($index, {capabilityInstanceId: $event})" />
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="w-full">
+                <mat-label>No. of Weeks</mat-label>
+                <input matInput type="number" min="1"
+                  [ngModel]="entry.noOfWeeks"
+                  (ngModelChange)="updateEntry($index, {noOfWeeks: +$event})" />
+              </mat-form-field>
+            </div>
+
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Coordinator / Functional Mentor</mat-label>
+              <input matInput type="text" placeholder="User ID or name"
+                [ngModel]="entry.coordinatorUserId"
+                (ngModelChange)="updateEntry($index, {coordinatorUserId: $event})" />
+            </mat-form-field>
+
+            <!-- Tasks -->
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-semibold text-wrcf-text-primary">Tasks</span>
+                <button mat-icon-button color="primary"
+                  (click)="updateEntry($index, {tasks: [...entry.tasks, {title: '', evidence: ''}]})">
+                  <mat-icon class="text-base">add</mat-icon>
+                </button>
+              </div>
+
+              @if (entry.tasks.length === 0) {
+                <p class="text-xs text-wrcf-text-secondary italic">No tasks added. Click + to add.</p>
+              }
+
+              @for (task of entry.tasks; track $index; let ti = $index) {
+                <div class="flex items-center gap-3 mb-2">
+                  <mat-form-field appearance="outline" class="flex-1">
+                    <mat-label>Task {{ ti + 1 }}</mat-label>
+                    <input matInput type="text"
+                      [ngModel]="task.title"
+                      (ngModelChange)="updateEntry($index, {tasks: entry.tasks.map((t, j) => j === ti ? {...t, title: $event} : t)})" />
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="flex-1">
+                    <mat-label>Evidence Required</mat-label>
+                    <input matInput type="text"
+                      [ngModel]="task.evidence"
+                      (ngModelChange)="updateEntry($index, {tasks: entry.tasks.map((t, j) => j === ti ? {...t, evidence: $event} : t)})" />
+                  </mat-form-field>
+                  <button mat-icon-button color="warn"
+                    (click)="updateEntry($index, {tasks: entry.tasks.filter((_, j) => j !== ti)})">
+                    <mat-icon svgIcon="heroicons_outline:trash"></mat-icon>
+                  </button>
+                </div>
+              }
+            </div>
+
+            <div class="flex justify-end">
+              <button mat-icon-button color="warn" (click)="removeWeeklyEntry($index)">
+                <mat-icon svgIcon="heroicons_outline:trash"></mat-icon>
+              </button>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      }
+    </mat-accordion>
+  </div>
+
+  <!-- Mid-Term Feedback -->
+  <div>
+    <h3 class="text-xl font-semibold text-wrcf-accent mb-4">Mid-Term Feedback</h3>
+    <div class="grid grid-cols-2 gap-4">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Mid-Term Feedback Date</mat-label>
+        <input matInput [matDatepicker]="midTermPicker"
+          [ngModel]="getMidTermDate()"
+          (ngModelChange)="onMidTermDateChange($event)" />
+        <mat-datepicker-toggle matIconSuffix [for]="midTermPicker"></mat-datepicker-toggle>
+        <mat-datepicker #midTermPicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
+
+</div>

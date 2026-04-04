@@ -1,38 +1,4 @@
 <div class="page">
-  <header class="page-header">
-    <div class="header-left">
-      <span class="menu-icon" (click)="drawerOpen.set(true)">☰</span>
-      <h1 class="page-title">Manage WRCF Skills</h1>
-    </div>
-    <div class="header-right">
-      <span class="user-name">{{ userName || 'Admin' }}</span>
-      <div class="avatar-wrapper">
-        <span class="avatar" (click)="toggleUserMenu()">{{ (userName || 'A').charAt(0).toUpperCase() }}</span>
-        @if (userMenuOpen()) {
-        <div class="user-menu">
-          <a routerLink="/profile" class="user-menu-item" (click)="userMenuOpen.set(false)">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="8" r="4" />
-              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
-            </svg>
-            Profile
-          </a>
-          <button class="user-menu-item user-menu-logout" (click)="logout()">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-              <polyline points="16 17 21 12 16 7" />
-              <line x1="21" y1="12" x2="9" y2="12" />
-            </svg>
-            Logout
-          </button>
-        </div>
-        }
-      </div>
-    </div>
-  </header>
-
   @if (noIndustry()) {
   <div class="no-industry-msg">
     Please navigate here from the <a routerLink="/industry-wrcf" class="back-link">Industry WRCF</a> page with an
@@ -111,19 +77,19 @@
   <div class="no-ci-msg">Select all 5 filters above to manage skills for a Capability Instance.</div>
   }
 
-  <div class="workspace">
+  <div class="workspace" >
     <div class="columns-grid">
       <whizard-wrcf-column title="Skills" [items]="skillsAsEntities" [selectedId]="selectedSkill()?.id ?? null"
         [readonly]="!resolvedCiId()" (itemSelected)="onSkillSelect($event)" (addClicked)="openSkillPanel('create')"
-        (editClicked)="onSkillEditClicked($event)" />
+        (editClicked)="onSkillEditClicked($event)" style="height: 90vh;" whizardScrollbar/>
 
       <whizard-wrcf-column title="Task" [items]="tasksAsEntities" [selectedId]="selectedTask()?.id ?? null"
         [readonly]="!selectedSkill()" (itemSelected)="onTaskSelect($event)" (addClicked)="openTaskPanel('create')"
-        (editClicked)="onTaskEditClicked($event)" />
+        (editClicked)="onTaskEditClicked($event)" style="height: 90vh;" whizardScrollbar />
 
       <whizard-wrcf-column title="Control Point" [items]="controlPointsAsEntities" [selectedId]="null"
         [readonly]="!selectedTask()" (itemSelected)="onControlPointSelect($event)"
-        (addClicked)="openControlPointPanel('create')" (editClicked)="onControlPointEditClicked($event)" />
+        (addClicked)="openControlPointPanel('create')" (editClicked)="onControlPointEditClicked($event)" style="height: 90vh;" whizardScrollbar />
     </div>
   </div>
 

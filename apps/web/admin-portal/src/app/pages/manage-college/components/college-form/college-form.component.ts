@@ -17,6 +17,7 @@ import { COLLEGE_TYPES, CONTACT_ROLES } from '../../models/manage-college.models
 @Component({
   selector: 'whizard-college-form',
   standalone: true,
+  // host: { class: 'flex-1 min-h-0 flex flex-col' },
   imports: [
     ReactiveFormsModule,
     MatButtonModule,

@@ -1,0 +1,868 @@
+# Internship Management
+This is a feature where user should be able to add view Internship
+The Internship Module is a subsystem within the Whizard ecosystem.
+
+High-level functions include:
+1. Details of Internship
+2. Screen Criteria
+3. selection
+4. During Internship
+5. Final submission
+
+
+## Overview
+<!-- One paragraph: what this feature does and why it exists. -->
+the feature will have two functionality mainly
+1. list view of Internship with details of internship (refer screen shot)
+2. add internship in which case left side pannel will have assessment (mock for now) and on right hand side it will have these five section to be filled Out
+
+High-level functions include:
+1. Details of Internship
+2. Screen Criteria
+3. selection
+4. During Internship
+5. Final submission
+
+## Default Behaviours
+<!-- Auto-select rules, pre-population, initial state.
+     e.g. "Select first sector/industry on load", "Pre-fill form with last used value" -->
+
+## Entities & Attributes
+<!-- One sub-section per entity. For each field: Name, Type, Mandatory (*), Options if dropdown. -->
+1. Details
+     Internship banner (image upload view)
+     Internship title (text field)
+     No of vacancies (number)
+     Location (comes from city model and drop down)
+     Stipend (number)
+     Duration in month (number)
+     Application deadline (date)
+     internshipType (toggle onSite/remote)
+     About section  
+          Internship detail (rich text)
+          Role Overview (rich text)
+          Key Responsibility (Rich text)
+          Eligibility Requirement (Rich text)
+          Internship Timeline & Work Schedule (Rich Text)
+          Internship completion Perks and benefit (rich text)
+          Selection Process (rich text)
+          Contact information (rich text)
+2. Screening Criteria
+     1. Screening question (one or More)(json in backend and show list of questions and expected answers)
+     2. Eligibility Check ( can go as JSOn object in backend)
+          - min club point (number)
+          - min Project (number)
+          - min internships (number)
+          - Min Club certification
+     3. Assessment (one or MOre) ( can go as json in DB)
+          - Attach assesment PDF
+          - min Assesment score (number)
+          - Assesment Weightage
+     4. Interview Rubric
+          - Attach Interview rubric here (PDF)
+          - min Interview score (number)
+          - Interview Weightage (number percentage)
+3. Selection
+     1. Offer Letter Document (. JSON in DB)
+          - attach Opper letter template PDF
+          - Term and condition letter PDF
+     2. Offer letter release (field)
+          - Selct method
+     3. Assign Internship Co-ordinator (one or many)
+          - internship batch - list - create 
+               - batch size ( number ),
+               -  INternship coordinator (user drop down)
+     4. Internship Process and execution
+          - Select plant (drop down)
+          - Select Functional group ( comes from functional group and store the ID)
+     5. Pre Internship 
+          - Rich text
+     6. Add pre read course (PDF)
+     7. Add pre Read Articles (PDF)
+4. During Internship
+     1. Total number of weeks
+     2. Weekly schedule (JSON in DB)
+          Functional group
+          Capability instance
+          Internship co-ordinator
+          No of weeks
+          - When user clicks on add it should show all the tasks for that capabilityu instance of r those number of weeks and then user can select
+     3. Mid term feedback section
+          Scheduled on (date )
+5. Final submission
+     Select Documents (select)
+     Document& guidelines (rich text)
+     Add presentation Rubric
+          - Drop rubric here
+          - min score (% drop down)
+          - Presentation weightage (%)
+     Certificate template (upload)
+
+
+
+
+## UX implementaiton
+Look at the screenshots but since we have laredy a app demo implemented with similar in groomer folder in angular refer that UX and implement accordingly
+
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+ Plan: Internship Management — Frontend UX (Groomr → Whizard Port)                                                                                
+                                                                                                                                                  
+ Context                                                                                                                                          
+
+ The groomr-web-master app has a production-ready Angular internship module that mirrors the 5-section structure of the whizard internship
+ management requirements. Rather than building from scratch, this plan documents what can be ported as-is, what needs adaptation, and what must   
+ be built fresh to fit the whizard admin portal (Angular 19 standalone, WRCF Design System v3.2, dark theme, Poppins font).                       
+                                                                                                                                                  
+ ---
+ Source Location
+
+ /Users/puneetsharma/work/sandeep/groomr-web-master/src/app/modules/internship-management/
+
+ ---
+ Section-by-Section Analysis
+
+ Section 1 — Details (basicDetail step)
+
+ Groomr file: internship-fields-new.component (Details tab logic)
+
+ ┌───────────────────────────────────────┬────────────────┬──────────────────────────────────────────────────────────────────────────────────┐
+ │                 Field                 │ Groomr has it? │                                      Notes                                       │
+ ├───────────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+ │ Banner/logo upload                    │ ✓              │ Uses custom file uploader with preview                                           │
+ ├───────────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+ │ Internship title (dropdown)           │ ✓              │ Dropdown-based in groomr; whizard may need free-text                             │
+ ├───────────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+ │ No of vacancies                       │ ✓              │ Number input                                                                     │
+ ├───────────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+ │ Location (city dropdown)              │ ✓              │ Multi-select in groomr; whizard needs single City FK                             │
+ ├───────────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+ │ Stipend                               │ ✓              │ Text input                                                                       │
+ ├───────────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+ │ Duration in months                    │ ✓              │ Dropdown                                                                         │
+ ├───────────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+ │ Application deadline                  │ ✓              │ Date picker (MatDatepicker)                                                      │
+ ├───────────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+ │ Internship type (onSite/remote)       │ ✓              │ Slide toggle                                                                     │
+ ├───────────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+ │ Rich text: Internship Detail          │ ✓              │ Quill editor                                                                     │
+ ├───────────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+ │ Rich text: Role Overview              │ ✓              │ Quill editor                                                                     │
+ ├───────────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+ │ Rich text: Key Responsibilities       │ ✓              │ Quill editor                                                                     │
+ ├───────────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+ │ Rich text: Eligibility & Requirements │ ✓              │ Quill editor                                                                     │
+ ├───────────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+ │ Rich text: Timeline & Work Schedule   │ ✓              │ Quill editor (labeled workSchedule)                                              │
+ ├───────────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+ │ Rich text: Perks and Benefits         │ ✓              │ Quill editor (labeled internshipCompletion)                                      │
+ ├───────────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+ │ Rich text: Selection Process          │ ✓              │ Quill editor                                                                     │
+ ├───────────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────────────────────────┤
+ │ Contact Information                   │ ~              │ Groomr has contact person dropdown + email/mobile; whizard needs rich text field │
+ └───────────────────────────────────────┴────────────────┴──────────────────────────────────────────────────────────────────────────────────┘
+
+ Verdict: ~90% reusable. Port the form layout and Quill editor wiring directly. Replace contact person dropdown with a rich text field.
+
+ ---
+ Section 2 — Screening Criteria (screening step)
+
+ Groomr files: internship-fields-new.component + ScreeningQuestionsComponent + EligibilityCheckComponent
+
+ ┌───────────────────────────────────────────┬────────────────┬─────────────────────────────────────────────────────────┐
+ │                  Feature                  │ Groomr has it? │                          Notes                          │
+ ├───────────────────────────────────────────┼────────────────┼─────────────────────────────────────────────────────────┤
+ │ Screening questions (dynamic list)        │ ✓              │ ScreeningQuestionsComponent — fully reusable            │
+ ├───────────────────────────────────────────┼────────────────┼─────────────────────────────────────────────────────────┤
+ │ Question text + expected answer           │ ✓              │ Supported                                               │
+ ├───────────────────────────────────────────┼────────────────┼─────────────────────────────────────────────────────────┤
+ │ Question ordering                         │ ✓              │ Drag-drop via CDK                                       │
+ ├───────────────────────────────────────────┼────────────────┼─────────────────────────────────────────────────────────┤
+ │ Eligibility check: min club points        │ ✓              │ clubScore field                                         │
+ ├───────────────────────────────────────────┼────────────────┼─────────────────────────────────────────────────────────┤
+ │ Eligibility check: min projects           │ ✓              │ projects field                                          │
+ ├───────────────────────────────────────────┼────────────────┼─────────────────────────────────────────────────────────┤
+ │ Eligibility check: min internships        │ ✗              │ Not in groomr — needs new field                         │
+ ├───────────────────────────────────────────┼────────────────┼─────────────────────────────────────────────────────────┤
+ │ Eligibility check: min club certification │ ✓              │ clubCertificate dropdown                                │
+ ├───────────────────────────────────────────┼────────────────┼─────────────────────────────────────────────────────────┤
+ │ Eligibility check modal (count preview)   │ ✓              │ EligibilityCheckComponent — reusable                    │
+ ├───────────────────────────────────────────┼────────────────┼─────────────────────────────────────────────────────────┤
+ │ Assessment: PDF upload                    │ ✗              │ Groomr uses assessment library dropdown, not PDF upload │
+ ├───────────────────────────────────────────┼────────────────┼─────────────────────────────────────────────────────────┤
+ │ Assessment: min score + weightage         │ ✓              │ Score + weightage fields exist                          │
+ ├───────────────────────────────────────────┼────────────────┼─────────────────────────────────────────────────────────┤
+ │ Interview rubric: PDF upload              │ ✗              │ Not in groomr                                           │
+ ├───────────────────────────────────────────┼────────────────┼─────────────────────────────────────────────────────────┤
+ │ Interview rubric: min score + weightage   │ ✓              │ techInterviewScore, techInterviewWeightage fields       │
+ └───────────────────────────────────────────┴────────────────┴─────────────────────────────────────────────────────────┘
+
+ Verdict: ~70% reusable. ScreeningQuestionsComponent and EligibilityCheckComponent port directly. Assessment and interview rubric need PDF upload
+  fields added (groomr used dropdown-linked assessments; whizard requires direct PDF upload).
+
+ ---
+ Section 3 — Selection (selection step)
+
+ Groomr files: Selection-related logic in internship-fields-new.component
+
+ ┌────────────────────────────────────────────┬────────────────┬───────────────────────────────────────────────────────────────────┐
+ │                  Feature                   │ Groomr has it? │                               Notes                               │
+ ├────────────────────────────────────────────┼────────────────┼───────────────────────────────────────────────────────────────────┤
+ │ Offer letter template PDF upload           │ ✗              │ Not in groomr                                                     │
+ ├────────────────────────────────────────────┼────────────────┼───────────────────────────────────────────────────────────────────┤
+ │ Terms & conditions PDF upload              │ ✗              │ Not in groomr                                                     │
+ ├────────────────────────────────────────────┼────────────────┼───────────────────────────────────────────────────────────────────┤
+ │ Offer letter release method                │ ✗              │ Not in groomr                                                     │
+ ├────────────────────────────────────────────┼────────────────┼───────────────────────────────────────────────────────────────────┤
+ │ Internship batch: batch size               │ ✗              │ Not in groomr                                                     │
+ ├────────────────────────────────────────────┼────────────────┼───────────────────────────────────────────────────────────────────┤
+ │ Internship batch: coordinator dropdown     │ ~              │ Groomr has interviewer/contact person dropdowns; pattern reusable │
+ ├────────────────────────────────────────────┼────────────────┼───────────────────────────────────────────────────────────────────┤
+ │ Process execution: select plant            │ ✗              │ Not in groomr                                                     │
+ ├────────────────────────────────────────────┼────────────────┼───────────────────────────────────────────────────────────────────┤
+ │ Process execution: select functional group │ ✗              │ Not in groomr                                                     │
+ ├────────────────────────────────────────────┼────────────────┼───────────────────────────────────────────────────────────────────┤
+ │ Pre-internship rich text                   │ ✗              │ Not in groomr                                                     │
+ ├────────────────────────────────────────────┼────────────────┼───────────────────────────────────────────────────────────────────┤
+ │ Pre-read courses (PDF upload list)         │ ✗              │ Not in groomr                                                     │
+ ├────────────────────────────────────────────┼────────────────┼───────────────────────────────────────────────────────────────────┤
+ │ Pre-read articles (PDF upload list)        │ ✗              │ Not in groomr                                                     │
+ └────────────────────────────────────────────┴────────────────┴───────────────────────────────────────────────────────────────────┘
+
+ Verdict: ~15% reusable (only patterns for coordinator dropdowns). This section is the most different — groomr's Selection focuses on
+ interview/scoring configuration while whizard's focuses on offer documents + batch management + pre-read materials. Build fresh using WRCF
+ patterns.
+
+ ---
+ Section 4 — During Internship (milestones step)
+
+ Groomr files: during-internship.component, internship-log-book.service
+
+ ┌────────────────────────────────────────┬────────────────┬──────────────────────────────────────────────────────────────┐
+ │                Feature                 │ Groomr has it? │                            Notes                             │
+ ├────────────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────┤
+ │ Total number of weeks                  │ ~              │ Groomr uses "milestones" not weeks-based                     │
+ ├────────────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────┤
+ │ Weekly schedule: functional group      │ ~              │ Groomr has coreCompetencyId — similar concept                │
+ ├────────────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────┤
+ │ Weekly schedule: capability instance   │ ✓              │ Groomr has competencyId (CapabilityInstance)                 │
+ ├────────────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────┤
+ │ Weekly schedule: coordinator           │ ✓              │ functionalMentor                                             │
+ ├────────────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────┤
+ │ Weekly schedule: no of weeks per phase │ ✗              │ Groomr treats each milestone as a unit, not week-count-based │
+ ├────────────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────┤
+ │ Task checklist display                 │ ✓              │ Expansion panel with task list, evidence per task            │
+ ├────────────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────┤
+ │ Mid-term feedback: scheduled date      │ ✓              │ Date picker in during-internship.component                   │
+ └────────────────────────────────────────┴────────────────┴──────────────────────────────────────────────────────────────┘
+
+ Verdict: ~55% reusable. The task display pattern (expansion panels, evidence fields) ports directly. The weekly schedule model (N-week phases)
+ is structurally different from groomr's milestone model — the schedule builder panel needs to be adapted. DuringInternshipComponent provides
+ good UI scaffolding but the data model binding must change.
+
+ ---
+ Section 5 — Final Submission (finalSubmission step)
+
+ Groomr files: final-submission.component
+
+ ┌─────────────────────────────────┬────────────────┬──────────────────────────────────────────────────────────────────┐
+ │             Feature             │ Groomr has it? │                              Notes                               │
+ ├─────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────────┤
+ │ Select document type            │ ~              │ Groomr shows document grid, not a type selector                  │
+ ├─────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────────┤
+ │ Document guidelines (rich text) │ ✗              │ Not in groomr                                                    │
+ ├─────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────────┤
+ │ Presentation rubric: PDF upload │ ✗              │ Groomr uses star-rating rubric, not PDF-based                    │
+ ├─────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────────┤
+ │ Min presentation score          │ ~              │ Groomr has rating (1-5 stars), not % threshold                   │
+ ├─────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────────┤
+ │ Presentation weightage %        │ ✗              │ Not in groomr                                                    │
+ ├─────────────────────────────────┼────────────────┼──────────────────────────────────────────────────────────────────┤
+ │ Certificate template upload     │ ~              │ Groomr shows certificate preview/generation, not template upload │
+ └─────────────────────────────────┴────────────────┴──────────────────────────────────────────────────────────────────┘
+
+ Verdict: ~30% reusable. The document-grid layout and certificate preview card port as visual patterns. The rubric and scoring model is different
+  (groomr = star ratings, whizard = PDF rubric + % thresholds). Build the form fresh; reuse visual card layout.
+
+ ---
+ Internship List View
+
+ Groomr file: internship-listing.component
+
+ ┌─────────────────────────────────────┬────────────────┬────────────────────────────────────────────────────────┐
+ │               Feature               │ Groomr has it? │                         Notes                          │
+ ├─────────────────────────────────────┼────────────────┼────────────────────────────────────────────────────────┤
+ │ Left sidebar card list              │ ✓              │ Card list with title, location, deadline, status badge │
+ ├─────────────────────────────────────┼────────────────┼────────────────────────────────────────────────────────┤
+ │ Right panel: tabbed form view       │ ✓              │ 5-tab navigation using internshipTabList               │
+ ├─────────────────────────────────────┼────────────────┼────────────────────────────────────────────────────────┤
+ │ Filter bar (status, type, location) │ ✓              │ InternshipsFilterComponent                             │
+ ├─────────────────────────────────────┼────────────────┼────────────────────────────────────────────────────────┤
+ │ Search with debounce                │ ✓              │ Autocomplete search input                              │
+ ├─────────────────────────────────────┼────────────────┼────────────────────────────────────────────────────────┤
+ │ Archive/unarchive action            │ ✓              │ internshipArchive()                                    │
+ ├─────────────────────────────────────┼────────────────┼────────────────────────────────────────────────────────┤
+ │ Status badges                       │ ✓              │ Color-coded badges for all states                      │
+ └─────────────────────────────────────┴────────────────┴────────────────────────────────────────────────────────┘
+
+ Verdict: 85% reusable as structural skeleton. Must restyle to WRCF Design System (dark theme, bg.card, action button colors, Poppins font).
+ Layout pattern is directly applicable.
+
+ ---
+ Components: Reuse vs Adapt vs Build
+
+ ┌─────────────────────────────────┬──────────┬────────────────────────────────────────┬────────────────────────────────────────────────────┐
+ │            Component            │  Action  │                 Source                 │                       Notes                        │
+ ├─────────────────────────────────┼──────────┼────────────────────────────────────────┼────────────────────────────────────────────────────┤
+ │ InternshipListingComponent      │ Adapt    │ internship-listing.component           │ Restyle to WRCF; replace Fuse sidebar with WRCF    │
+ │                                 │          │                                        │ Selection Column spec                              │
+ ├─────────────────────────────────┼──────────┼────────────────────────────────────────┼────────────────────────────────────────────────────┤
+ │ InternshipCreateUpdateComponent │ Adapt    │ internship-create-update.component     │ Thin shell wrapping tab navigation — port directly │
+ ├─────────────────────────────────┼──────────┼────────────────────────────────────────┼────────────────────────────────────────────────────┤
+ │ Details tab form                │ Adapt    │ internship-fields-new.component        │ Keep all Quill editors, form controls; restyle     │
+ │                                 │          │                                        │ inputs to WRCF                                     │
+ ├─────────────────────────────────┼──────────┼────────────────────────────────────────┼────────────────────────────────────────────────────┤
+ │ ScreeningQuestionsComponent     │ Port     │ Shared component in groomr             │ Extract, re-import in whizard; no logic changes    │
+ │                                 │ as-is    │                                        │                                                    │
+ ├─────────────────────────────────┼──────────┼────────────────────────────────────────┼────────────────────────────────────────────────────┤
+ │ EligibilityCheckComponent       │ Port     │ Shared component in groomr             │ Modal pattern identical; restyle only              │
+ │                                 │ as-is    │                                        │                                                    │
+ ├─────────────────────────────────┼──────────┼────────────────────────────────────────┼────────────────────────────────────────────────────┤
+ │ Screening criteria tab          │ Adapt    │ internship-fields-new.component        │ Add "min internships" field; swap assessment       │
+ │                                 │          │                                        │ library dropdown for PDF upload                    │
+ ├─────────────────────────────────┼──────────┼────────────────────────────────────────┼────────────────────────────────────────────────────┤
+ │ Selection tab                   │ Build    │ —                                      │ No equivalent in groomr                            │
+ │                                 │ fresh    │                                        │                                                    │
+ ├─────────────────────────────────┼──────────┼────────────────────────────────────────┼────────────────────────────────────────────────────┤
+ │ During internship tab           │ Adapt    │ during-internship.component            │ Change data model from milestones to               │
+ │                                 │          │                                        │ week-schedule; keep expansion panel pattern        │
+ ├─────────────────────────────────┼──────────┼────────────────────────────────────────┼────────────────────────────────────────────────────┤
+ │ Final submission tab            │ Adapt    │ final-submission.component             │ Keep document grid + certificate card; replace     │
+ │                                 │          │                                        │ star-rating rubric with PDF upload + % fields      │
+ ├─────────────────────────────────┼──────────┼────────────────────────────────────────┼────────────────────────────────────────────────────┤
+ │ InternshipsFilterComponent      │ Adapt    │ internships-filter.component           │ Filter UI pattern reusable; restyle                │
+ ├─────────────────────────────────┼──────────┼────────────────────────────────────────┼────────────────────────────────────────────────────┤
+ │ InternshipsPreviewComponent     │ Port     │ internships-preview.component          │ Read-only preview layout — restyle only            │
+ ├─────────────────────────────────┼──────────┼────────────────────────────────────────┼────────────────────────────────────────────────────┤
+ │ Rich text editor wrapper        │ Port     │ Quill config in groomr                 │ Reuse QuillModuleConstent configuration            │
+ │                                 │ as-is    │                                        │                                                    │
+ ├─────────────────────────────────┼──────────┼────────────────────────────────────────┼────────────────────────────────────────────────────┤
+ │ File upload pattern             │ Port     │ Custom file input + FileUploadService  │ PDF/image upload behaviour identical               │
+ │                                 │ as-is    │ pattern                                │                                                    │
+ ├─────────────────────────────────┼──────────┼────────────────────────────────────────┼────────────────────────────────────────────────────┤
+ │ Tab list model                  │ Port     │ models/tab-list.ts                     │ Same 5-step enum structure; rename labels to match │
+ │                                 │ as-is    │                                        │  whizard                                           │
+ └─────────────────────────────────┴──────────┴────────────────────────────────────────┴────────────────────────────────────────────────────┘
+
+ ---
+ Shared Infrastructure to Port
+
+ ┌──────────────────────────────────┬─────────────────────────────────────────────────┬─────────────────────────────────────────────────────┐
+ │               Item               │                   Groomr path                   │                        Notes                        │
+ ├──────────────────────────────────┼─────────────────────────────────────────────────┼─────────────────────────────────────────────────────┤
+ │ InternshipService API client     │ core/services/internship.service.ts             │ Replace groomr endpoints with whizard BFF routes    │
+ ├──────────────────────────────────┼─────────────────────────────────────────────────┼─────────────────────────────────────────────────────┤
+ │ InternshipApplicationService     │ core/services/internship-application.service.ts │ Port pattern; update endpoints                      │
+ ├──────────────────────────────────┼─────────────────────────────────────────────────┼─────────────────────────────────────────────────────┤
+ │ Tab list model                   │ models/tab-list.ts                              │ Identical 5-step structure                          │
+ ├──────────────────────────────────┼─────────────────────────────────────────────────┼─────────────────────────────────────────────────────┤
+ │ BaseAPIService extension pattern │ groomr core                                     │ Whizard has its own base service; adapt wiring only │
+ └──────────────────────────────────┴─────────────────────────────────────────────────┴─────────────────────────────────────────────────────┘
+
+ ---
+ Styling Delta (WRCF Design System)
+
+ All ported components need these visual changes:
+
+ ┌────────────────────────────────────────────────┬────────────────────────────────────────────────────┐
+ │                     Groomr                     │                   Whizard (WRCF)                   │
+ ├────────────────────────────────────────────────┼────────────────────────────────────────────────────┤
+ │ Light theme (white backgrounds)                │ Dark theme (bg.primary: #0F172A, bg.card: #1E293B) │
+ ├────────────────────────────────────────────────┼────────────────────────────────────────────────────┤
+ │ Roboto/Inter font                              │ Poppins only                                       │
+ ├────────────────────────────────────────────────┼────────────────────────────────────────────────────┤
+ │ Fuse components (FuseCard, FuseSkeleton, etc.) │ WRCF equivalents from libs/shared/ui/              │
+ ├────────────────────────────────────────────────┼────────────────────────────────────────────────────┤
+ │ Tailwind bg-white, text-gray-*                 │ WRCF CSS variables (--bg-card, --text-primary)     │
+ ├────────────────────────────────────────────────┼────────────────────────────────────────────────────┤
+ │ Angular Material default theme                 │ Override to WRCF dark theme tokens                 │
+ ├────────────────────────────────────────────────┼────────────────────────────────────────────────────┤
+ │ action color = Fuse default purple             │ action: #314DDF, accent: #00BFFF                   │
+ └────────────────────────────────────────────────┴────────────────────────────────────────────────────┘
+
+ ---
+ Implementation Order
+
+ 1. Port list shell — InternshipListingComponent with WRCF Selection Column layout (sidebar + right panel)
+ 2. Port Details tab — form controls + Quill editors + file upload; restyle
+ 3. Port Screening tab — ScreeningQuestionsComponent + EligibilityCheckComponent; add missing fields
+ 4. Build Selection tab — offer documents, batch management, functional group, pre-read materials (fresh build)
+ 5. Adapt During Internship tab — weekly schedule builder + task expansion panel
+ 6. Adapt Final Submission tab — document grid + PDF rubric + % scoring fields
+ 7. Wire service layer — InternshipService pointing to whizard BFF routes
+
+ ---
+ Critical Files
+
+ ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┬───────────┐
+ │                                                             File                                                              │   Role    │
+ ├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┼───────────┤
+ │ groomr/src/app/modules/internship-management/internships/internship-listing/internship-listing.component.*                    │ List view │
+ │                                                                                                                               │  shell    │
+ ├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┼───────────┤
+ │ groomr/src/app/modules/internship-management/internships/components/internship-fields-new/internship-fields-new.component.*   │ All 5 tab │
+ │                                                                                                                               │  forms    │
+ ├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┼───────────┤
+ │ groomr/src/app/modules/internship-management/internships-application/components/during-internship/during-internship.component │ During in │
+ │ .*                                                                                                                            │ ternship  │
+ │                                                                                                                               │ tab       │
+ ├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┼───────────┤
+ │                                                                                                                               │ Final sub │
+ │ groomr/src/app/modules/internship-management/internships-application/components/final-submission/final-submission.component.* │ mission   │
+ │                                                                                                                               │ tab       │
+ ├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┼───────────┤
+ │                                                                                                                               │ Tab navig │
+ │ groomr/src/app/modules/internship-management/models/tab-list.ts                                                               │ ation     │
+ │                                                                                                                               │ model     │
+ ├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┼───────────┤
+ │                                                                                                                               │ API       │
+ │ groomr/src/app/core/services/internship.service.ts                                                                            │ service   │
+ │                                                                                                                               │ pattern   │
+ ├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┼───────────┤
+ │                                                                                                                               │ Target    │
+ │ whizard/apps/web/admin-portal/src/                                                                                            │ portal    │
+ │                                                                                                                               │ location  │
+ ├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┼───────────┤
+ │                                                                                                                               │ WRCF      │
+ │ whizard/libs/shared/ui/                                                                                                       │ shared co │
+ │                                                                                                                               │ mponents  │
+ └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┴───────────┘
+
+ ---
+ Verification
+
+ - All 5 tabs render correctly in the whizard admin portal at port 4200
+ - Details form saves and re-loads rich text content
+ - Screening questions add/remove/reorder
+ - Eligibility check modal displays correct student count
+ - File upload works for banner image, assessment PDFs, rubric PDFs
+ - Weekly schedule entries add/remove in During Internship tab
+ - Final submission form saves correctly
+
+## Business Rules & Constraints
+<!-- Validation rules, cascading restrictions, guard conditions.
+     e.g. "Cannot create Role unless a Department is selected" -->
+
+## DB Notes
+<!-- Tables needed, key columns, relationships, audit fields (created_by, created_on etc.) -->
+Plan: Internship Management — DB Schema Design         
+
+ Context
+
+ The internship management feature lets companies create and manage internship programs through a 5-section form: Details, Screening Criteria,
+ Selection, During Internship, and Final Submission. No Prisma models for this exist yet — the internship-hiring bounded context directory is in
+ place but its domain/infrastructure layers are empty (greenfield).
+
+ This plan covers only the DB schema (Prisma models + migration). Backend DDD layers and frontend are separate follow-on tasks.
+
+ ---
+ Critical Files
+
+ ┌──────────────────────┬─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │         File         │                                                       Action                                                        │
+ ├──────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │ prisma/schema.prisma │ Add 10 new models; add back-relation fields to Tenant, Company, City, FunctionalGroup, CapabilityInstance,          │
+ │                      │ UserAccount                                                                                                         │
+ └──────────────────────┴─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+ ---
+ Tables (10 total)
+
+ ┌─────────────────────────────┬────────────────────────────────┬───────────────┬────────────────────────────────────────────────────────────┐
+ │            Model            │             @@map              │     Type      │                          Purpose                           │
+ ├─────────────────────────────┼────────────────────────────────┼───────────────┼────────────────────────────────────────────────────────────┤
+ │ Internship                  │ internships                    │ Root          │ All scalar/FK fields from Details, Selection, During       │
+ │                             │                                │ aggregate     │ Internship                                                 │
+ ├─────────────────────────────┼────────────────────────────────┼───────────────┼────────────────────────────────────────────────────────────┤
+ │ InternshipAbout             │ internship_abouts              │ 1-1 child     │ 8 rich-text "About" fields (wide/variable-size, kept       │
+ │                             │                                │               │ separate)                                                  │
+ ├─────────────────────────────┼────────────────────────────────┼───────────────┼────────────────────────────────────────────────────────────┤
+ │ InternshipScreeningQuestion │ internship_screening_questions │ 1-many        │ Screening questions with order                             │
+ ├─────────────────────────────┼────────────────────────────────┼───────────────┼────────────────────────────────────────────────────────────┤
+ │ InternshipEligibilityCheck  │ internship_eligibility_checks  │ 1-1 child     │ Threshold criteria (club points, projects, internships,    │
+ │                             │                                │               │ certs)                                                     │
+ ├─────────────────────────────┼────────────────────────────────┼───────────────┼────────────────────────────────────────────────────────────┤
+ │ InternshipAssessment        │ internship_assessments         │ 1-many        │ PDF assessments with min score + weightage                 │
+ ├─────────────────────────────┼────────────────────────────────┼───────────────┼────────────────────────────────────────────────────────────┤
+ │ InternshipInterviewRubric   │ internship_interview_rubrics   │ 1-1 child     │ Interview rubric PDF + scoring                             │
+ ├─────────────────────────────┼────────────────────────────────┼───────────────┼────────────────────────────────────────────────────────────┤
+ │ InternshipBatch             │ internship_batches             │ 1-many        │ Cohort batches with coordinator assignment                 │
+ ├─────────────────────────────┼────────────────────────────────┼───────────────┼────────────────────────────────────────────────────────────┤
+ │ InternshipPreReadMaterial   │ internship_pre_read_materials  │ 1-many        │ Pre-read courses + articles (ordered)                      │
+ ├─────────────────────────────┼────────────────────────────────┼───────────────┼────────────────────────────────────────────────────────────┤
+ │ InternshipWeeklySchedule    │ internship_weekly_schedules    │ 1-many        │ Weekly schedule phases (FG + CI + coordinator + weeks      │
+ │                             │                                │               │ count)                                                     │
+ ├─────────────────────────────┼────────────────────────────────┼───────────────┼────────────────────────────────────────────────────────────┤
+ │ InternshipFinalSubmission   │ internship_final_submissions   │ 1-1 child     │ Document type, guidelines, rubric, certificate template    │
+ └─────────────────────────────┴────────────────────────────────┴───────────────┴────────────────────────────────────────────────────────────┘
+
+ ---
+ Normalization Decisions
+
+ Folded directly onto internships (avoids joins on the common "load internship" path):
+ - Offer documents: offerLetterTemplatePdfUrl, termsConditionsPdfUrl, releaseMethod
+ - Process execution: plant (String — no Plant model exists yet), functionalGroupId
+ - Pre-internship: preInternshipContent (rich text, Section 3 concern, not Section 1)
+ - During: totalWeeks, midtermFeedbackDate
+
+ Kept separate for InternshipAbout: 8 large rich-text fields would bloat the root row and hurt list-view index scans.
+
+ Kept separate for 1-1 children (EligibilityCheck, InterviewRubric, FinalSubmission): each is a distinct lifecycle phase that may be absent in
+ draft state, and they are queried independently.
+
+ ---
+ Prisma Models
+
+ // ─── Internship Hiring ────────────────────────────────────────────────────────
+
+ model Internship {
+   id                         BigInt    @id @default(autoincrement())
+   publicUuid                 String    @unique @default(uuid()) @map("public_uuid")
+   version                    Float     @default(1)
+   isActive                   Boolean   @default(true) @map("is_active")
+
+   // Ownership
+   tenantId                   BigInt    @map("tenant_id")
+   tenant                     Tenant    @relation(fields: [tenantId], references: [id])
+   companyId                  BigInt    @map("company_id")
+   company                    Company   @relation(fields: [companyId], references: [id])
+
+   // Section 1: Details (scalars)
+   bannerImageUrl             String?   @map("banner_image_url")
+   title                      String    @db.VarChar(255)
+   noOfVacancies              Int       @map("no_of_vacancies")
+   cityId                     BigInt    @map("city_id")
+   city                       City      @relation(fields: [cityId], references: [id])
+   stipend                    Float
+   durationMonths             Int       @map("duration_months")
+   applicationDeadline        DateTime  @map("application_deadline")
+   internshipType             String    @map("internship_type") @db.VarChar(20)
+   // internshipType: "onSite" | "remote"
+
+   // Section 3: Selection (folded scalars)
+   offerLetterTemplatePdfUrl  String?   @map("offer_letter_template_pdf_url")
+   termsConditionsPdfUrl      String?   @map("terms_conditions_pdf_url")
+   releaseMethod              String?   @map("release_method") @db.VarChar(50)
+   plant                      String?   @db.VarChar(100)
+   functionalGroupId          BigInt?   @map("functional_group_id")
+   functionalGroup            FunctionalGroup? @relation(fields: [functionalGroupId], references: [id])
+   preInternshipContent       String?   @map("pre_internship_content")
+
+   // Section 4: During Internship (folded scalars)
+   totalWeeks                 Int?      @map("total_weeks")
+   midtermFeedbackDate        DateTime? @map("midterm_feedback_date")
+
+   // Audit
+   createdAt                  DateTime  @default(now()) @map("created_at")
+   createdBy                  BigInt    @map("created_by")
+   updatedAt                  DateTime  @default(now()) @updatedAt @map("updated_at")
+   updatedBy                  BigInt?   @map("updated_by")
+
+   // Relations
+   about                      InternshipAbout?
+   screeningQuestions         InternshipScreeningQuestion[]
+   eligibilityCheck           InternshipEligibilityCheck?
+   assessments                InternshipAssessment[]
+   interviewRubric            InternshipInterviewRubric?
+   batches                    InternshipBatch[]
+   preReadMaterials           InternshipPreReadMaterial[]
+   weeklySchedules            InternshipWeeklySchedule[]
+   finalSubmission            InternshipFinalSubmission?
+
+   @@index([tenantId, isActive])
+   @@index([tenantId, companyId])
+   @@index([applicationDeadline])
+   @@map("internships")
+ }
+
+ model InternshipAbout {
+   id                      BigInt      @id @default(autoincrement())
+   publicUuid              String      @unique @default(uuid()) @map("public_uuid")
+   version                 Float       @default(1)
+   isActive                Boolean     @default(true) @map("is_active")
+
+   internshipId            BigInt      @unique @map("internship_id")
+   internship              Internship  @relation(fields: [internshipId], references: [id])
+
+   internshipDetail        String?     @map("internship_detail")
+   roleOverview            String?     @map("role_overview")
+   keyResponsibility       String?     @map("key_responsibility")
+   eligibilityRequirement  String?     @map("eligibility_requirement")
+   timelineWorkSchedule    String?     @map("timeline_work_schedule")
+   perksAndBenefits        String?     @map("perks_and_benefits")
+   selectionProcess        String?     @map("selection_process")
+   contactInformation      String?     @map("contact_information")
+
+   createdAt               DateTime    @default(now()) @map("created_at")
+   createdBy               BigInt      @map("created_by")
+   updatedAt               DateTime    @default(now()) @updatedAt @map("updated_at")
+   updatedBy               BigInt?     @map("updated_by")
+
+   @@map("internship_abouts")
+ }
+
+ model InternshipScreeningQuestion {
+   id             BigInt      @id @default(autoincrement())
+   publicUuid     String      @unique @default(uuid()) @map("public_uuid")
+   version        Float       @default(1)
+   isActive       Boolean     @default(true) @map("is_active")
+
+   internshipId   BigInt      @map("internship_id")
+   internship     Internship  @relation(fields: [internshipId], references: [id])
+
+   questionText   String      @map("question_text")
+   expectedAnswer String?     @map("expected_answer")
+   orderIndex     Int         @map("order_index")
+
+   createdAt      DateTime    @default(now()) @map("created_at")
+   createdBy      BigInt      @map("created_by")
+   updatedAt      DateTime    @default(now()) @updatedAt @map("updated_at")
+   updatedBy      BigInt?     @map("updated_by")
+
+   @@index([internshipId, orderIndex])
+   @@map("internship_screening_questions")
+ }
+
+ model InternshipEligibilityCheck {
+   id                    BigInt      @id @default(autoincrement())
+   publicUuid            String      @unique @default(uuid()) @map("public_uuid")
+   version               Float       @default(1)
+   isActive              Boolean     @default(true) @map("is_active")
+
+   internshipId          BigInt      @unique @map("internship_id")
+   internship            Internship  @relation(fields: [internshipId], references: [id])
+
+   minClubPoints         Int?        @map("min_club_points")
+   minProjects           Int?        @map("min_projects")
+   minInternships        Int?        @map("min_internships")
+   minClubCertification  Int?        @map("min_club_certification")
+
+   createdAt             DateTime    @default(now()) @map("created_at")
+   createdBy             BigInt      @map("created_by")
+   updatedAt             DateTime    @default(now()) @updatedAt @map("updated_at")
+   updatedBy             BigInt?     @map("updated_by")
+
+   @@map("internship_eligibility_checks")
+ }
+
+ model InternshipAssessment {
+   id             BigInt      @id @default(autoincrement())
+   publicUuid     String      @unique @default(uuid()) @map("public_uuid")
+   version        Float       @default(1)
+   isActive       Boolean     @default(true) @map("is_active")
+
+   internshipId   BigInt      @map("internship_id")
+   internship     Internship  @relation(fields: [internshipId], references: [id])
+
+   name           String      @db.VarChar(255)
+   pdfUrl         String?     @map("pdf_url")
+   minScore       Float       @map("min_score")
+   weightage      Float
+
+   createdAt      DateTime    @default(now()) @map("created_at")
+   createdBy      BigInt      @map("created_by")
+   updatedAt      DateTime    @default(now()) @updatedAt @map("updated_at")
+   updatedBy      BigInt?     @map("updated_by")
+
+   @@index([internshipId])
+   @@map("internship_assessments")
+ }
+
+ model InternshipInterviewRubric {
+   id             BigInt      @id @default(autoincrement())
+   publicUuid     String      @unique @default(uuid()) @map("public_uuid")
+   version        Float       @default(1)
+   isActive       Boolean     @default(true) @map("is_active")
+
+   internshipId   BigInt      @unique @map("internship_id")
+   internship     Internship  @relation(fields: [internshipId], references: [id])
+
+   pdfUrl         String?     @map("pdf_url")
+   minScore       Float       @map("min_score")
+   weightage      Float
+
+   createdAt      DateTime    @default(now()) @map("created_at")
+   createdBy      BigInt      @map("created_by")
+   updatedAt      DateTime    @default(now()) @updatedAt @map("updated_at")
+   updatedBy      BigInt?     @map("updated_by")
+
+   @@map("internship_interview_rubrics")
+ }
+
+ model InternshipBatch {
+   id              BigInt       @id @default(autoincrement())
+   publicUuid      String       @unique @default(uuid()) @map("public_uuid")
+   version         Float        @default(1)
+   isActive        Boolean      @default(true) @map("is_active")
+
+   internshipId    BigInt       @map("internship_id")
+   internship      Internship   @relation(fields: [internshipId], references: [id])
+
+   batchSize       Int          @map("batch_size")
+   coordinatorId   BigInt       @map("coordinator_id")
+   coordinator     UserAccount  @relation(fields: [coordinatorId], references: [id])
+
+   createdAt       DateTime     @default(now()) @map("created_at")
+   createdBy       BigInt       @map("created_by")
+   updatedAt       DateTime     @default(now()) @updatedAt @map("updated_at")
+   updatedBy       BigInt?      @map("updated_by")
+
+   @@index([internshipId])
+   @@index([coordinatorId])
+   @@map("internship_batches")
+ }
+
+ model InternshipPreReadMaterial {
+   id             BigInt      @id @default(autoincrement())
+   publicUuid     String      @unique @default(uuid()) @map("public_uuid")
+   version        Float       @default(1)
+   isActive       Boolean     @default(true) @map("is_active")
+
+   internshipId   BigInt      @map("internship_id")
+   internship     Internship  @relation(fields: [internshipId], references: [id])
+
+   type           String      @db.VarChar(20)
+   // type: "course" | "article"
+   title          String      @db.VarChar(255)
+   pdfUrl         String?     @map("pdf_url")
+   orderIndex     Int         @map("order_index")
+
+   createdAt      DateTime    @default(now()) @map("created_at")
+   createdBy      BigInt      @map("created_by")
+   updatedAt      DateTime    @default(now()) @updatedAt @map("updated_at")
+   updatedBy      BigInt?     @map("updated_by")
+
+   @@index([internshipId, orderIndex])
+   @@map("internship_pre_read_materials")
+ }
+
+ model InternshipWeeklySchedule {
+   id                    BigInt             @id @default(autoincrement())
+   publicUuid            String             @unique @default(uuid()) @map("public_uuid")
+   version               Float              @default(1)
+   isActive              Boolean            @default(true) @map("is_active")
+
+   internshipId          BigInt             @map("internship_id")
+   internship            Internship         @relation(fields: [internshipId], references: [id])
+
+   functionalGroupId     BigInt             @map("functional_group_id")
+   functionalGroup       FunctionalGroup    @relation(fields: [functionalGroupId], references: [id])
+   capabilityInstanceId  BigInt             @map("capability_instance_id")
+   capabilityInstance    CapabilityInstance @relation(fields: [capabilityInstanceId], references: [id])
+   coordinatorId         BigInt             @map("coordinator_id")
+   coordinator           UserAccount        @relation(fields: [coordinatorId], references: [id])
+
+   numberOfWeeks         Int                @map("number_of_weeks")
+   orderIndex            Int                @map("order_index")
+
+   createdAt             DateTime           @default(now()) @map("created_at")
+   createdBy             BigInt             @map("created_by")
+   updatedAt             DateTime           @default(now()) @updatedAt @map("updated_at")
+   updatedBy             BigInt?            @map("updated_by")
+
+   @@index([internshipId, orderIndex])
+   @@index([functionalGroupId])
+   @@map("internship_weekly_schedules")
+ }
+
+ model InternshipFinalSubmission {
+   id                         BigInt      @id @default(autoincrement())
+   publicUuid                 String      @unique @default(uuid()) @map("public_uuid")
+   version                    Float       @default(1)
+   isActive                   Boolean     @default(true) @map("is_active")
+
+   internshipId               BigInt      @unique @map("internship_id")
+   internship                 Internship  @relation(fields: [internshipId], references: [id])
+
+   documentType               String?     @map("document_type") @db.VarChar(100)
+   documentGuidelines         String?     @map("document_guidelines")
+   presentationRubricPdfUrl   String?     @map("presentation_rubric_pdf_url")
+   minPresentationScore       Float?      @map("min_presentation_score")
+   presentationWeightage      Float?      @map("presentation_weightage")
+   certificateTemplatePdfUrl  String?     @map("certificate_template_pdf_url")
+
+   createdAt                  DateTime    @default(now()) @map("created_at")
+   createdBy                  BigInt      @map("created_by")
+   updatedAt                  DateTime    @default(now()) @updatedAt @map("updated_at")
+   updatedBy                  BigInt?     @map("updated_by")
+
+   @@map("internship_final_submissions")
+ }
+
+ ---
+ Back-relation additions required to existing models
+
+ These fields must be appended to existing models in schema.prisma:
+
+ // On Tenant:
+ internships  Internship[]
+
+ // On Company:
+ internships  Internship[]
+
+ // On City:
+ internships  Internship[]
+
+ // On FunctionalGroup:
+ internships            Internship[]
+ internshipSchedules    InternshipWeeklySchedule[]
+
+ // On CapabilityInstance:
+ internshipSchedules    InternshipWeeklySchedule[]
+
+ // On UserAccount:
+ internshipBatches      InternshipBatch[]
+ internshipSchedules    InternshipWeeklySchedule[]
+
+ ---
+ FK Reference Map
+
+ ┌─────────────────────────────┬──────────────────────┬──────────────────────┐
+ │         Child table         │          FK          │        Target        │
+ ├─────────────────────────────┼──────────────────────┼──────────────────────┤
+ │ internships                 │ tenantId             │ tenants              │
+ ├─────────────────────────────┼──────────────────────┼──────────────────────┤
+ │ internships                 │ companyId            │ companies            │
+ ├─────────────────────────────┼──────────────────────┼──────────────────────┤
+ │ internships                 │ cityId               │ cities               │
+ ├─────────────────────────────┼──────────────────────┼──────────────────────┤
+ │ internships                 │ functionalGroupId    │ functional_groups    │
+ ├─────────────────────────────┼──────────────────────┼──────────────────────┤
+ │ All child tables            │ internshipId         │ internships          │
+ ├─────────────────────────────┼──────────────────────┼──────────────────────┤
+ │ internship_batches          │ coordinatorId        │ user_accounts        │
+ ├─────────────────────────────┼──────────────────────┼──────────────────────┤
+ │ internship_weekly_schedules │ functionalGroupId    │ functional_groups    │
+ ├─────────────────────────────┼──────────────────────┼──────────────────────┤
+ │ internship_weekly_schedules │ capabilityInstanceId │ capability_instances │
+ ├─────────────────────────────┼──────────────────────┼──────────────────────┤
+ │ internship_weekly_schedules │ coordinatorId        │ user_accounts        │
+ └─────────────────────────────┴──────────────────────┴──────────────────────┘
+
+## Scope
+<!-- Explicit list of what must be built: frontend, API, migration, tests. -->
+
+## Out of Scope
+<!-- Anything explicitly NOT part of this feature to avoid scope creep. -->
+
+## Notes / Edge Cases
+<!-- Gotchas, open questions, cross-feature dependencies. -->
+
+  ---                                                                                                                                             
+  Seed Data Needed (prisma/seeds/internship-hiring.seed.ts)
+                                                                                                                                                  
+  - 2–3 coordinator user accounts (UserAccount rows for internship coordinator dropdowns)
+  - Verify wrcf-reference.seed.ts seeds FunctionalGroups + CapabilityInstances (weekly schedule needs these)                                      
+  - 2–3 sample internships across companies (one each in draft, published, closed status)                                                         
+  - For each internship: all child table rows populated — about section, 3 screening questions, eligibility check, 2 assessments, 1 interview     
+  rubric, 1 batch, 2 pre-read materials, 3 weekly schedule phases, 1 final submission config                                                      
+  - Register the new seed in prisma/seeds/index.ts after company-organization.seed.ts    

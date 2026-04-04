@@ -1,180 +1,278 @@
-<whizard-nav-drawer [open]="drawerOpen()" (closed)="drawerOpen.set(false)" />
+<div
+  class="bg-wrcf-bg-primary font-sans text-wrcf-text-primary h-full relative" style="height: 90dvh;" whizardScrollbar
+>
+    <!-- Filters -->
+    <div class="px-8 py-5 flex gap-4 items-end">
+      <div class="flex flex-col gap-1">
+        <label class="text-xs text-wrcf-text-secondary leading-4"
+          >Industry Sector</label
+        >
+        <mat-form-field appearance="outline" class="w-52 wrcf-select">
+          <mat-select [formControl]="sectorControl">
+            @for (sector of sectors(); track sector.id) {
+              <mat-option [value]="sector.id">{{ sector.name }}</mat-option>
+            }
+          </mat-select>
+          <mat-icon
+            matSuffix
+            class="size-3.5 text-wrcf-text-secondary"
+            svgIcon="heroicons_outline:chevron-down"
+          />
+        </mat-form-field>
+      </div>
 
-<div class="min-h-screen bg-[#0F172A] font-sans text-[#E8F0FA]">
-
-  <!-- Header -->
-  <header class="h-16 bg-[#0F172A] px-8 flex items-center justify-between border-b border-[#484E5D]">
-    <div class="flex items-center gap-4">
-      <button mat-icon-button (click)="drawerOpen.set(true)" class="text-[#E8F0FA]">
-        <mat-icon class="size-5" svgIcon="heroicons_outline:bars-3" />
-      </button>
-      <span class="text-3xl font-semibold leading-8">Industry WRCF Dashboard</span>
+      <div class="flex flex-col gap-1">
+        <label class="text-xs text-wrcf-text-secondary leading-4"
+          >Industry</label
+        >
+        <mat-form-field appearance="outline" class="w-52 wrcf-select">
+          <mat-select [formControl]="industryControl">
+            @for (industry of industries(); track industry.id) {
+              <mat-option [value]="industry.id">{{ industry.name }}</mat-option>
+            }
+          </mat-select>
+          <mat-icon
+            matSuffix
+            class="size-3.5 text-wrcf-text-secondary"
+            svgIcon="heroicons_outline:chevron-down"
+          />
+        </mat-form-field>
+      </div>
     </div>
-    <div class="relative">
-      <button mat-icon-button (click)="userMenuOpen.set(!userMenuOpen())" class="p-0">
-        <div class="w-10 h-10 rounded-full bg-[#314DDF] text-[#E8F0FA] text-base font-semibold flex items-center justify-center">
-          {{ (userName || 'U')[0].toUpperCase() }}
+
+    <!-- Industry title -->
+    <div class="px-8 pb-4">
+      <span class="block text-sm text-wrcf-accent leading-4.5">Industry</span>
+      <h2 class="text-3xl font-semibold leading-8 text-wrcf-text-primary]">
+        {{ industries().find(i => i.id === industryControl.value)?.name ?? '—' }}
+      </h2>
+    </div>
+
+    <!-- Version row -->
+    <div
+      class="mx-8 mb-4 bg-wrcf-bg-secondary border border-wrcf-border rounded-xl grid grid-cols-4"
+    >
+      <div class="px-5 py-4 flex flex-col gap-2">
+        <span class="text-sm text-wrcf-text-tertiary` leading-4.5"
+          >Current Version</span
+        >
+        <div class="flex items-center gap-2">
+          <span class="text-2xl font-medium text-wrcf-text-primary]">4.1</span>
+          <span
+            class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-[#00C853]/15 text-[#00C853] border border-[#00C853]/30"
+          >
+            <mat-icon class="size-2.5" svgIcon="heroicons_outline:check" />
+            Published
+          </span>
         </div>
-      </button>
-      @if (userMenuOpen()) {
-        <div class="absolute top-[calc(100%+8px)] right-0 bg-[#1E293B] border border-[#484E5D] rounded-[10px] px-4 py-3 whitespace-nowrap z-50">
-          <span class="text-sm text-[#E8F0FA]">{{ userName }}</span>
+      </div>
+      <div class="px-5 py-4 flex flex-col gap-2 border-l border-wrcf-border">
+        <span class="text-sm text-wrcf-text-tertiary` leading-4.5"
+          >Draft Version</span
+        >
+        <div class="flex items-center gap-2">
+          <span class="text-2xl font-medium text-wrcf-text-primary]">4.2</span>
+          <span
+            class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-[#FFA500]/15 text-[#FFA500] border border-[#FFA500]/30"
+          >
+            <mat-icon class="size-2.5" svgIcon="lucideIcons:clock" />
+            In Progress
+          </span>
         </div>
-      }
+      </div>
+      <div class="px-5 py-4 flex flex-col gap-2 border-l border-wrcf-border">
+        <span class="text-sm text-wrcf-text-tertiary` leading-4.5"
+          >Last Updated</span
+        >
+        <div class="flex items-center gap-2">
+          <span class="text-base text-wrcf-text-primary]">28 Feb 2026</span>
+        </div>
+      </div>
+      <div class="px-5 py-4 flex flex-col gap-2 border-l border-wrcf-border">
+        <span class="text-sm text-wrcf-text-tertiary` leading-4.5"
+          >Validation Status</span
+        >
+        <div class="flex items-center gap-2">
+          <span
+            class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-[#00C853]/15 text-[#00C853] border border-[#00C853]/30"
+          >
+            <mat-icon class="size-2.5" svgIcon="heroicons_outline:check" />
+            Validated
+          </span>
+        </div>
+      </div>
     </div>
-  </header>
 
-  <!-- Filters -->
-  <div class="px-8 py-5 flex gap-4 items-end">
-    <div class="flex flex-col gap-1">
-      <label class="text-xs text-[#7F94AE] leading-4">Industry Sector</label>
-      <mat-form-field appearance="outline" class="w-52 wrcf-select">
-        <mat-select [formControl]="sectorControl">
-          @for (sector of sectors(); track sector.id) {
-            <mat-option [value]="sector.id">{{ sector.name }}</mat-option>
-          }
-        </mat-select>
-        <mat-icon matSuffix class="size-3.5 text-[#7F94AE]" svgIcon="heroicons_outline:chevron-down" />
-      </mat-form-field>
+    <!-- Stats grid -->
+    <div class="mx-8 mb-4 grid grid-cols-3 gap-3">
+      <div
+        class="bg-wrcf-bg-card border border-wrcf-border rounded-xl px-5 py-6 flex flex-col items-center gap-3 min-h-27.5 justify-center"
+      >
+        <span class="text-lg font-medium text-center text-wrcf-text-tertiary`"
+          >Functional Groups</span
+        >
+        <span class="text-4xl font-bold text-center text-wrcf-text-tertiary`">{{
+          formatCount(stats().functionalGroups)
+        }}</span>
+      </div>
+      <div
+        class="bg-wrcf-bg-card border border-wrcf-border rounded-xl px-5 py-6 flex flex-col items-center gap-3 min-h-27.5 justify-center"
+      >
+        <span class="text-lg font-medium text-center text-[#FF6B6B]"
+          >Primary Work Objective</span
+        >
+        <span class="text-4xl font-bold text-center text-[#FF6B6B]">{{
+          formatCount(stats().primaryWorkObjects)
+        }}</span>
+      </div>
+      <div
+        class="bg-wrcf-bg-card border border-wrcf-border rounded-xl px-5 py-6 flex flex-col items-center gap-3 min-h-27.5 justify-center"
+      >
+        <span class="text-lg font-medium text-center text-[#B57BFF]"
+          >Secondary Work Objective</span
+        >
+        <span class="text-4xl font-bold text-center text-[#B57BFF]">{{
+          formatCount(stats().secondaryWorkObjects)
+        }}</span>
+      </div>
+      <div
+        class="bg-wrcf-bg-card border border-wrcf-border rounded-xl px-5 py-6 flex flex-col items-center gap-3 min-h-27.5 justify-center"
+      >
+        <span class="text-lg font-medium text-center text-[#FFA500]"
+          >Capability Instances</span
+        >
+        <span class="text-4xl font-bold text-center text-[#FFA500]">{{
+          formatCount(stats().capabilityInstances)
+        }}</span>
+      </div>
+      <div
+        class="bg-wrcf-bg-card border border-wrcf-border rounded-xl px-5 py-6 flex flex-col items-center gap-3 min-h-27.5 justify-center"
+      >
+        <span class="text-lg font-medium text-center text-[#FF69B4]"
+          >Skills</span
+        >
+        <span class="text-4xl font-bold text-center text-[#FF69B4]">{{
+          formatCount(stats().skills)
+        }}</span>
+      </div>
+      <div
+        class="bg-wrcf-bg-card border border-wrcf-border rounded-xl px-5 py-6 flex flex-col items-center gap-3 min-h-27.5 justify-center"
+      >
+        <span class="text-lg font-medium text-center text-[#00E676]"
+          >Tasks</span
+        >
+        <span class="text-4xl font-bold text-center text-[#00E676]">{{
+          formatCount(stats().tasks)
+        }}</span>
+      </div>
+      <!-- Last row — 2 cards centred -->
+      <div class="col-span-3 flex justify-center gap-3">
+        <div
+          class="bg-wrcf-bg-card border border-wrcf-border rounded-xl px-5 py-6 flex flex-col items-center gap-3 min-h-27.5 justify-center w-[calc((100%-24px)/3)]"
+        >
+          <span class="text-lg font-medium text-center text-[#FFD700]"
+            >Roles</span
+          >
+          <span class="text-4xl font-bold text-center text-[#FFD700]">{{
+            formatCount(stats().roles)
+          }}</span>
+        </div>
+        <div
+          class="bg-wrcf-bg-card border border-wrcf-border rounded-xl px-5 py-6 flex flex-col items-center gap-3 min-h-27.5 justify-center w-[calc((100%-24px)/3)]"
+        >
+          <span class="text-lg font-medium text-center text-wrcf-accent"
+            >Departments</span
+          >
+          <span class="text-4xl font-bold text-center text-wrcf-accent">{{
+            formatCount(stats().departments)
+          }}</span>
+        </div>
+      </div>
     </div>
 
-    <div class="flex flex-col gap-1">
-      <label class="text-xs text-[#7F94AE] leading-4">Industry</label>
-      <mat-form-field appearance="outline" class="w-52 wrcf-select">
-        <mat-select [formControl]="industryControl">
-          @for (industry of industries(); track industry.id) {
-            <mat-option [value]="industry.id">{{ industry.name }}</mat-option>
-          }
-        </mat-select>
-        <mat-icon matSuffix class="size-3.5 text-[#7F94AE]" svgIcon="heroicons_outline:chevron-down" />
-      </mat-form-field>
-    </div>
+    <!-- Quick Actions -->
+    <div class="mx-8 mb-8">
+      <h3
+        class="text-base font-medium text-wrcf-text-primary] leading-5.5 mb-3"
+      >
+        Quick Actions
+      </h3>
+      <div class="grid grid-cols-4 gap-3">
+        <button
+          class="bg-wrcf-bg-card border border-wrcf-border rounded-xl px-4 py-5 flex flex-col items-start gap-2 cursor-pointer text-left w-full transition-[background,border-color] duration-150 hover:bg-[#0F253F] hover:border-[#00BFFF]"
+          (click)="navigateToCapabilities()"
+        >
+          <div class="flex items-center">
+            <mat-icon
+              class="size-7 text-[#FF6B6B]"
+              svgIcon="lucideIcons:layout-grid"
+            />
+          </div>
+          <span
+            class="text-base font-medium text-wrcf-text-primary] leading-5.5"
+            >Edit Structure</span
+          >
+          <span class="text-xs text-wrcf-text-secondary leading-4"
+            >Modify framework layout</span
+          >
+        </button>
+
+        <button
+          class="bg-wrcf-bg-card border border-wrcf-border rounded-xl px-4 py-5 flex flex-col items-start gap-2 cursor-pointer text-left w-full transition-[background,border-color] duration-150 hover:bg-[#0F253F] hover:border-[#00BFFF]"
+          (click)="navigateToRoles()"
+        >
+          <div class="flex items-center">
+            <mat-icon
+              class="size-7 text-wrcf-accent"
+              svgIcon="heroicons_outline:users"
+            />
+          </div>
+          <span
+            class="text-base font-medium text-wrcf-text-primary] leading-5.5"
+            >Manage Roles</span
+          >
+          <span class="text-xs text-wrcf-text-secondary leading-4"
+            >Define user roles</span
+          >
+        </button>
+
+        <button
+          class="bg-wrcf-bg-card border border-wrcf-border rounded-xl px-4 py-5 flex flex-col items-start gap-2 cursor-pointer text-left w-full transition-[background,border-color] duration-150 hover:bg-[#0F253F] hover:border-[#00BFFF]"
+          (click)="openVersionHistory()"
+        >
+          <div class="flex items-center">
+            <mat-icon
+              class="size-7 text-[#B57BFF]"
+              svgIcon="heroicons_outline:document"
+            />
+          </div>
+          <span
+            class="text-base font-medium text-wrcf-text-primary] leading-5.5"
+            >Version History</span
+          >
+          <span class="text-xs text-wrcf-text-secondary leading-4"
+            >View past versions</span
+          >
+        </button>
+
+        <button
+          class="bg-wrcf-bg-card border border-wrcf-border rounded-xl px-4 py-5 flex flex-col items-start gap-2 cursor-pointer text-left w-full transition-[background,border-color] duration-150 hover:bg-[#0F253F] hover:border-[#00BFFF]"
+          (click)="openPublishDraft()"
+        >
+          <div class="flex items-center">
+            <mat-icon
+              class="size-7 text-wrcf-text-tertiary`"
+              svgIcon="heroicons_outline:arrow-top-right-on-square"
+            />
+          </div>
+          <span
+            class="text-base font-medium text-wrcf-text-primary] leading-5.5"
+            >Publish Draft</span
+          >
+          <span class="text-xs text-wrcf-text-secondary leading-4"
+            >Publish new draft</span
+          >
+        </button>
+      </div>
   </div>
-
-  <!-- Industry title -->
-  <div class="px-8 pb-4">
-    <span class="block text-sm text-[#00BFFF] leading-4.5">Industry</span>
-    <h2 class="text-3xl font-semibold leading-8 text-[#E8F0FA]">
-      {{ industries().find(i => i.id === industryControl.value)?.name ?? '—' }}
-    </h2>
-  </div>
-
-  <!-- Version row -->
-  <div class="mx-8 mb-4 bg-[#0F253F] border border-[#484E5D] rounded-xl grid grid-cols-4">
-    <div class="px-5 py-4 flex flex-col gap-2">
-      <span class="text-sm text-[#8AB4F8] leading-4.5">Current Version</span>
-      <div class="flex items-center gap-2">
-        <span class="text-2xl font-medium text-[#E8F0FA]">4.1</span>
-        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-[#00C853]/15 text-[#00C853] border border-[#00C853]/30">
-          <mat-icon class="size-2.5" svgIcon="heroicons_outline:check" />
-          Published
-        </span>
-      </div>
-    </div>
-    <div class="px-5 py-4 flex flex-col gap-2 border-l border-[#484E5D]">
-      <span class="text-sm text-[#8AB4F8] leading-4.5">Draft Version</span>
-      <div class="flex items-center gap-2">
-        <span class="text-2xl font-medium text-[#E8F0FA]">4.2</span>
-        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-[#FFA500]/15 text-[#FFA500] border border-[#FFA500]/30">
-          <mat-icon class="size-2.5" svgIcon="lucideIcons:clock" />
-          In Progress
-        </span>
-      </div>
-    </div>
-    <div class="px-5 py-4 flex flex-col gap-2 border-l border-[#484E5D]">
-      <span class="text-sm text-[#8AB4F8] leading-4.5">Last Updated</span>
-      <div class="flex items-center gap-2">
-        <span class="text-base text-[#E8F0FA]">28 Feb 2026</span>
-      </div>
-    </div>
-    <div class="px-5 py-4 flex flex-col gap-2 border-l border-[#484E5D]">
-      <span class="text-sm text-[#8AB4F8] leading-4.5">Validation Status</span>
-      <div class="flex items-center gap-2">
-        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-[#00C853]/15 text-[#00C853] border border-[#00C853]/30">
-          <mat-icon class="size-2.5" svgIcon="heroicons_outline:check" />
-          Validated
-        </span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Stats grid -->
-  <div class="mx-8 mb-4 grid grid-cols-3 gap-3">
-    <div class="bg-[#1E293B] border border-[#484E5D] rounded-xl px-5 py-6 flex flex-col items-center gap-3 min-h-27.5 justify-center">
-      <span class="text-lg font-medium text-center text-[#8AB4F8]">Functional Groups</span>
-      <span class="text-4xl font-bold text-center text-[#8AB4F8]">{{ formatCount(stats().functionalGroups) }}</span>
-    </div>
-    <div class="bg-[#1E293B] border border-[#484E5D] rounded-xl px-5 py-6 flex flex-col items-center gap-3 min-h-27.5 justify-center">
-      <span class="text-lg font-medium text-center text-[#FF6B6B]">Primary Work Objective</span>
-      <span class="text-4xl font-bold text-center text-[#FF6B6B]">{{ formatCount(stats().primaryWorkObjects) }}</span>
-    </div>
-    <div class="bg-[#1E293B] border border-[#484E5D] rounded-xl px-5 py-6 flex flex-col items-center gap-3 min-h-27.5 justify-center">
-      <span class="text-lg font-medium text-center text-[#B57BFF]">Secondary Work Objective</span>
-      <span class="text-4xl font-bold text-center text-[#B57BFF]">{{ formatCount(stats().secondaryWorkObjects) }}</span>
-    </div>
-    <div class="bg-[#1E293B] border border-[#484E5D] rounded-xl px-5 py-6 flex flex-col items-center gap-3 min-h-27.5 justify-center">
-      <span class="text-lg font-medium text-center text-[#FFA500]">Capability Instances</span>
-      <span class="text-4xl font-bold text-center text-[#FFA500]">{{ formatCount(stats().capabilityInstances) }}</span>
-    </div>
-    <div class="bg-[#1E293B] border border-[#484E5D] rounded-xl px-5 py-6 flex flex-col items-center gap-3 min-h-27.5 justify-center">
-      <span class="text-lg font-medium text-center text-[#FF69B4]">Skills</span>
-      <span class="text-4xl font-bold text-center text-[#FF69B4]">{{ formatCount(stats().skills) }}</span>
-    </div>
-    <div class="bg-[#1E293B] border border-[#484E5D] rounded-xl px-5 py-6 flex flex-col items-center gap-3 min-h-27.5 justify-center">
-      <span class="text-lg font-medium text-center text-[#00E676]">Tasks</span>
-      <span class="text-4xl font-bold text-center text-[#00E676]">{{ formatCount(stats().tasks) }}</span>
-    </div>
-    <!-- Last row — 2 cards centred -->
-    <div class="col-span-3 flex justify-center gap-3">
-      <div class="bg-[#1E293B] border border-[#484E5D] rounded-xl px-5 py-6 flex flex-col items-center gap-3 min-h-27.5 justify-center w-[calc((100%-24px)/3)]">
-        <span class="text-lg font-medium text-center text-[#FFD700]">Roles</span>
-        <span class="text-4xl font-bold text-center text-[#FFD700]">{{ formatCount(stats().roles) }}</span>
-      </div>
-      <div class="bg-[#1E293B] border border-[#484E5D] rounded-xl px-5 py-6 flex flex-col items-center gap-3 min-h-27.5 justify-center w-[calc((100%-24px)/3)]">
-        <span class="text-lg font-medium text-center text-[#00BFFF]">Departments</span>
-        <span class="text-4xl font-bold text-center text-[#00BFFF]">{{ formatCount(stats().departments) }}</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Quick Actions -->
-  <div class="mx-8 mb-8">
-    <h3 class="text-base font-medium text-[#E8F0FA] leading-5.5 mb-3">Quick Actions</h3>
-    <div class="grid grid-cols-4 gap-3">
-
-      <button class="bg-[#1E293B] border border-[#484E5D] rounded-xl px-4 py-5 flex flex-col items-start gap-2 cursor-pointer text-left w-full transition-[background,border-color] duration-150 hover:bg-[#0F253F] hover:border-[#00BFFF]" (click)="navigateToCapabilities()">
-        <div class="flex items-center">
-          <mat-icon class="size-7 text-[#FF6B6B]" svgIcon="lucideIcons:layout-grid" />
-        </div>
-        <span class="text-base font-medium text-[#E8F0FA] leading-5.5">Edit Structure</span>
-        <span class="text-xs text-[#7F94AE] leading-4">Modify framework layout</span>
-      </button>
-
-      <button class="bg-[#1E293B] border border-[#484E5D] rounded-xl px-4 py-5 flex flex-col items-start gap-2 cursor-pointer text-left w-full transition-[background,border-color] duration-150 hover:bg-[#0F253F] hover:border-[#00BFFF]" (click)="navigateToRoles()">
-        <div class="flex items-center">
-          <mat-icon class="size-7 text-[#00BFFF]" svgIcon="heroicons_outline:users" />
-        </div>
-        <span class="text-base font-medium text-[#E8F0FA] leading-5.5">Manage Roles</span>
-        <span class="text-xs text-[#7F94AE] leading-4">Define user roles</span>
-      </button>
-
-      <button class="bg-[#1E293B] border border-[#484E5D] rounded-xl px-4 py-5 flex flex-col items-start gap-2 cursor-pointer text-left w-full transition-[background,border-color] duration-150 hover:bg-[#0F253F] hover:border-[#00BFFF]" (click)="openVersionHistory()">
-        <div class="flex items-center">
-          <mat-icon class="size-7 text-[#B57BFF]" svgIcon="heroicons_outline:document" />
-        </div>
-        <span class="text-base font-medium text-[#E8F0FA] leading-5.5">Version History</span>
-        <span class="text-xs text-[#7F94AE] leading-4">View past versions</span>
-      </button>
-
-      <button class="bg-[#1E293B] border border-[#484E5D] rounded-xl px-4 py-5 flex flex-col items-start gap-2 cursor-pointer text-left w-full transition-[background,border-color] duration-150 hover:bg-[#0F253F] hover:border-[#00BFFF]" (click)="openPublishDraft()">
-        <div class="flex items-center">
-          <mat-icon class="size-7 text-[#8AB4F8]" svgIcon="heroicons_outline:arrow-top-right-on-square" />
-        </div>
-        <span class="text-base font-medium text-[#E8F0FA] leading-5.5">Publish Draft</span>
-        <span class="text-xs text-[#7F94AE] leading-4">Publish new draft</span>
-      </button>
-
-    </div>
-  </div>
-
 </div>

@@ -2,13 +2,13 @@ import { Component, inject, signal, HostListener } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
+import { ScrollbarDirective } from '@whizard/shared-ui';
 import { StackAuthService } from '../../core/services/stack-auth.service';
-import { NavDrawerComponent } from '../../shared/nav-drawer/nav-drawer.component';
 
 @Component({
   selector: 'whizard-dashboard',
   standalone: true,
-  imports: [RouterLink, NavDrawerComponent, MatIconModule, MatButtonModule],
+  imports: [RouterLink, MatIconModule, MatButtonModule, ScrollbarDirective],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })

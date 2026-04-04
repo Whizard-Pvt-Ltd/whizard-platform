@@ -1,0 +1,30 @@
+@import 'perfect-scrollbar/css/perfect-scrollbar.css';
+
+/* Style perfect-scrollbar to match WRCF design system */
+.ps .ps__rail-x:hover,
+.ps .ps__rail-y:hover,
+.ps .ps__rail-x:focus,
+.ps .ps__rail-y:focus,
+.ps .ps__rail-x.ps--clicking,
+.ps .ps__rail-y.ps--clicking {
+  background-color: transparent;
+  opacity: 0.9;
+}
+
+.ps__thumb-x,
+.ps__thumb-y {
+  background-color: #484E5D;
+  border-radius: 6px;
+}
+
+.ps__rail-y:hover > .ps__thumb-y,
+.ps__rail-y.ps--clicking .ps__thumb-y {
+  background-color: #7F94AE;
+  width: 6px;
+}
+
+.ps__rail-x:hover > .ps__thumb-x,
+.ps__rail-x.ps--clicking .ps__thumb-x {
+  background-color: #7F94AE;
+  height: 6px;
+}

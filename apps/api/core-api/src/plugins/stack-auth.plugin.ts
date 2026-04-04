@@ -157,7 +157,7 @@ async function stackAuthPlugin(fastify: FastifyInstance) {
         // TODO: Fetch user permissions from database and set X-Permissions header
         // For now, grant all admin permissions
         request.headers['x-permissions'] =
-          'WRCF.MANAGE,COLLEGE.MANAGE,COMPANY.MANAGE,IAM.READ,IAM.WRITE';
+          'WRCF.MANAGE,COLLEGE.MANAGE,COMPANY.MANAGE,INTERNSHIP.MANAGE,IAM.READ,IAM.WRITE';
 
         logger.debug('Request context set from Stack Auth user', {
           userId: localUser.id.value,

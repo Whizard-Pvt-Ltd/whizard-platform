@@ -1,0 +1,104 @@
+<div class="flex flex-col p-6 space-y-6 overflow-y-auto">
+
+  <!-- Banner upload -->
+  <div class="flex flex-col gap-2">
+    <span class="text-sm font-semibold text-wrcf-text-secondary">Internship Banner</span>
+    <div class="relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-full ring-4 ring-wrcf-border bg-wrcf-bg-secondary">
+      <div class="absolute inset-0 z-10 bg-black bg-opacity-50"></div>
+      <div class="absolute inset-0 z-20 flex items-center justify-center gap-2">
+        <input id="banner-file-input" class="pointer-events-none invisible absolute h-0 w-0 opacity-0"
+          type="file" accept="image/jpeg,image/png" (change)="onBannerSelected($event)" />
+        <label class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full hover:bg-white/10" for="banner-file-input">
+          <mat-icon class="text-white" svgIcon="heroicons_outline:photo"></mat-icon>
+        </label>
+        @if (localBannerUrl()) {
+          <button type="button" mat-icon-button (click)="emit({bannerImageUrl: null}); localBannerUrl.set(null)">
+            <mat-icon class="text-red-400" svgIcon="heroicons_outline:trash"></mat-icon>
+          </button>
+        }
+      </div>
+      @if (localBannerUrl()) {
+        <img class="h-full w-full object-cover" [src]="localBannerUrl()" />
+      }
+    </div>
+  </div>
+
+  <!-- Basic fields grid -->
+  <div class="grid w-full grid-cols-2 items-center gap-4">
+
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Internship Title</mat-label>
+      <input matInput type="text" placeholder="e.g. UI/UX Intern"
+        [ngModel]="formValue().title"
+        (ngModelChange)="emit({title: $event})" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>No. of Vacancies</mat-label>
+      <input matInput type="number" min="1"
+        [ngModel]="formValue().vacancies"
+        (ngModelChange)="emit({vacancies: +$event})" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Location</mat-label>
+      <mat-select [ngModel]="formValue().cityId" (ngModelChange)="emit({cityId: $event})">
+        <mat-option [value]="null">— None —</mat-option>
+        @for (city of cities(); track city.id) {
+          <mat-option [value]="city.id">{{ city.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Stipend (₹)</mat-label>
+      <input matInput type="number" min="0" placeholder="45,000"
+        [ngModel]="formValue().stipend ?? ''"
+        (ngModelChange)="emit({stipend: $event ? +$event : null})" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Duration (in Months)</mat-label>
+      <input matInput type="number" min="1" max="24"
+        [ngModel]="formValue().durationMonths"
+        (ngModelChange)="emit({durationMonths: +$event})" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Application Deadline</mat-label>
+      <input matInput [matDatepicker]="deadlinePicker"
+        [ngModel]="getDeadlineDate()"
+        (ngModelChange)="onDeadlineChange($event)"
+        readonly />
+      <mat-datepicker-toggle matIconSuffix [for]="deadlinePicker"></mat-datepicker-toggle>
+      <mat-datepicker #deadlinePicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <!-- Internship type toggle (adapted from groomr mat-slide-toggle) -->
+  <div class="flex items-center gap-4">
+    <span class="font-semibold text-wrcf-text-secondary">Internship Type</span>
+    <span [class.text-wrcf-accent]="formValue().internshipType === 'ONSITE'" [class.text-wrcf-text-secondary]="formValue().internshipType !== 'ONSITE'">On-Site</span>
+    <mat-slide-toggle color="primary"
+      [ngModel]="formValue().internshipType === 'REMOTE'"
+      (ngModelChange)="emit({internshipType: $event ? 'REMOTE' : 'ONSITE'})">
+    </mat-slide-toggle>
+    <span [class.text-wrcf-accent]="formValue().internshipType === 'REMOTE'" [class.text-wrcf-text-secondary]="formValue().internshipType !== 'REMOTE'">Remote</span>
+  </div>
+
+  <!-- Rich text section (quill-editor → textarea for now; swap with QuillEditorComponent later) -->
+  <div class="mt-2 space-y-6">
+    <h3 class="text-xl font-semibold text-wrcf-accent">About the Internship</h3>
+    @for (field of richTextFields; track field.key) {
+      <div class="w-full space-y-2">
+        <div class="font-semibold tracking-tight text-wrcf-text-secondary">{{ field.label }}</div>
+        <mat-form-field appearance="outline" class="w-full">
+          <textarea matInput rows="5"
+            [ngModel]="getFieldValue(field.key)"
+            (ngModelChange)="updateRichTextField(field.key, $event)">
+          </textarea>
+        </mat-form-field>
+      </div>
+    }
+  </div>
+</div>

@@ -6,7 +6,6 @@ import type {
   CompanyListItem, CompanyDetail, Club, Industry, City, UserContact,
   MediaAsset, CompanyFormValue, PageMode,
 } from './models/manage-company.models';
-import { NavDrawerComponent } from '../../shared/nav-drawer/nav-drawer.component';
 import { CompanyDetailPanelComponent } from './components/company-detail-panel/company-detail-panel.component';
 import { CompanyFormComponent } from './components/company-form/company-form.component';
 import { CompanyListPanelComponent } from './components/company-list-panel/company-list-panel.component';
@@ -20,7 +19,6 @@ import { ManageCompanyApiService } from './services/manage-company-api.service';
   imports: [
     FormsModule,
     MatIconModule,
-    NavDrawerComponent,
     CompanyListPanelComponent,
     CompanyDetailPanelComponent,
     CompanyFormComponent,
@@ -33,13 +31,7 @@ import { ManageCompanyApiService } from './services/manage-company-api.service';
 export class ManageCompanyComponent implements OnInit {
   private readonly api = inject(ManageCompanyApiService);
 
-  protected readonly filterChips = [
-    'Club', 'Project', 'Job', 'Internship', 'Mentor',
-    'College', 'Company', 'Event', 'Student Profile', 'All Filters',
-  ] as const;
-
   protected mode = signal<PageMode>('list');
-  protected activeChip = signal('Company');
   protected companies = signal<CompanyListItem[]>([]);
   protected selectedCompany = signal<CompanyDetail | null>(null);
   protected clubs = signal<Club[]>([]);
@@ -50,8 +42,6 @@ export class ManageCompanyComponent implements OnInit {
   protected loading = signal(false);
   protected mediaLoading = signal(false);
   protected errorMessage = signal<string | null>(null);
-  protected drawerOpen = signal(false);
-
   protected get selectedCompanyId(): string | null {
     return this.selectedCompany()?.id ?? null;
   }

@@ -1,0 +1,234 @@
+import { getPrisma } from '@whizard/shared-infrastructure';
+import type {
+  ScreeningQuestion,
+  EligibilityCheck,
+  AssessmentItem,
+  InterviewRubric,
+  WeeklyScheduleEntry,
+  FileItem,
+  InternshipBatchProps,
+} from '../../../domain/aggregates/internship.aggregate.js';
+import type { IInternshipRepository, InternshipListFilter } from '../../../domain/repositories/internship.repository.js';
+import { Internship } from '../../../domain/aggregates/internship.aggregate.js';
+import { InternshipStatus } from '../../../domain/value-objects/internship-status.vo.js';
+import { InternshipType } from '../../../domain/value-objects/internship-type.vo.js';
+
+export class PrismaInternshipRepository implements IInternshipRepository {
+  private get prisma() { return getPrisma(); }
+
+  private resolveTenantId(numericId: string): bigint {
+    return BigInt(numericId);
+  }
+
+  private async resolveUserId(publicUuid: string): Promise<bigint> {
+    const user = await this.prisma.userAccount.findUnique({ where: { publicUuid }, select: { id: true } });
+    if (!user) throw new Error(`User not found: ${publicUuid}`);
+    return user.id;
+  }
+
+  private async resolveCityId(publicUuid: string): Promise<bigint | null> {
+    const city = await this.prisma.city.findUnique({ where: { publicUuid }, select: { id: true } });
+    return city?.id ?? null;
+  }
+
+  private async resolveFunctionalGroupId(publicUuid: string): Promise<bigint | null> {
+    const fg = await this.prisma.functionalGroup.findUnique({ where: { publicUuid }, select: { id: true } });
+    return fg?.id ?? null;
+  }
+
+  async findById(id: string): Promise<Internship | null> {
+    const row = await this.prisma.internship.findUnique({
+      where:   { publicUuid: id },
+      include: { batches: true },
+    });
+    if (!row) return null;
+    return this.toDomain(row);
+  }
+
+  async findAll(filter: InternshipListFilter): Promise<Internship[]> {
+    const tenantId = this.resolveTenantId(filter.tenantId);
+    const rows = await this.prisma.internship.findMany({
+      where: {
+        tenantId,
+        ...(filter.status && { status: filter.status as 'DRAFT' | 'PUBLISHED' | 'ARCHIVED' }),
+        ...(filter.search && { title: { contains: filter.search, mode: 'insensitive' as const } }),
+      },
+      include:  { batches: true },
+      orderBy:  { createdOn: 'desc' },
+    });
+    return rows.map(r => this.toDomain(r));
+  }
+
+  async save(internship: Internship): Promise<string> {
+    const tenantId          = this.resolveTenantId(internship.tenantId);
+    const createdBy         = await this.resolveUserId(internship.createdBy);
+    const cityId            = internship.cityId ? await this.resolveCityId(internship.cityId) : null;
+    const functionalGroupId = internship.functionalGroupId ? await this.resolveFunctionalGroupId(internship.functionalGroupId) : null;
+    const data = {
+      tenantId,
+      title:                      internship.title,
+      bannerImageUrl:             internship.bannerImageUrl,
+      vacancies:                  internship.vacancies,
+      cityId,
+      stipend:                    internship.stipend,
+      durationMonths:             internship.durationMonths,
+      applicationDeadline:        internship.applicationDeadline,
+      internshipType:             internship.internshipType as 'ONSITE' | 'REMOTE',
+      status:                     internship.status as 'DRAFT' | 'PUBLISHED' | 'ARCHIVED',
+      internshipDetail:           internship.internshipDetail,
+      roleOverview:               internship.roleOverview,
+      keyResponsibilities:        internship.keyResponsibilities,
+      eligibilityRequirements:    internship.eligibilityRequirements,
+      timelineWorkSchedule:       internship.timelineWorkSchedule,
+      perksAndBenefits:           internship.perksAndBenefits,
+      selectionProcess:           internship.selectionProcess,
+      contactInformation:         internship.contactInformation,
+      screeningQuestions:         internship.screeningQuestions as unknown as object,
+      eligibilityCheck:           internship.eligibilityCheck as unknown as object ?? undefined,
+      assessments:                internship.assessments as unknown as object,
+      interviewRubric:            internship.interviewRubric as unknown as object ?? undefined,
+      offerLetterTemplateUrl:     internship.offerLetterTemplateUrl,
+      termsConditionUrl:          internship.termsConditionUrl,
+      offerLetterReleaseMethod:   internship.offerLetterReleaseMethod,
+      functionalGroupId,
+      preInternshipCommunication: internship.preInternshipCommunication,
+      preReadCourses:             internship.preReadCourses as unknown as object,
+      preReadArticles:            internship.preReadArticles as unknown as object,
+      totalWeeks:                 internship.totalWeeks,
+      weeklySchedule:             internship.weeklySchedule as unknown as object,
+      midTermFeedbackDate:        internship.midTermFeedbackDate,
+      finalSubmissionDocuments:   internship.finalSubmissionDocuments as unknown as object,
+      documentGuidelines:         internship.documentGuidelines,
+      presentationRubricUrl:      internship.presentationRubricUrl,
+      minPresentationScore:       internship.minPresentationScore,
+      presentationWeightage:      internship.presentationWeightage,
+      certificateTemplateUrl:     internship.certificateTemplateUrl,
+      createdBy,
+    };
+
+    const record = await this.prisma.$transaction(async (tx) => {
+      const upserted = await tx.internship.upsert({
+        where:  { publicUuid: internship.id },
+        update: data,
+        create: { ...data, publicUuid: internship.id },
+        select: { id: true, publicUuid: true },
+      });
+
+      // Sync batches
+      await tx.internshipBatch.deleteMany({ where: { internshipId: upserted.id } });
+      if (internship.batches.length > 0) {
+        const batchData = await Promise.all(internship.batches.map(async b => ({
+          internshipId:      upserted.id,
+          batchSize:         b.batchSize,
+          coordinatorUserId: b.coordinatorUserId ? await this.resolveUserId(b.coordinatorUserId) : null,
+        })));
+        await tx.internshipBatch.createMany({ data: batchData });
+      }
+
+      return upserted;
+    });
+
+    return record.publicUuid;
+  }
+
+  async delete(id: string): Promise<void> {
+    await this.prisma.internship.delete({ where: { publicUuid: id } });
+  }
+
+  private toDomain(row: {
+    id: bigint;
+    publicUuid: string;
+    tenantId: bigint;
+    title: string;
+    bannerImageUrl: string | null;
+    vacancies: number;
+    cityId: bigint | null;
+    stipend: unknown;
+    durationMonths: number;
+    applicationDeadline: Date | null;
+    internshipType: string;
+    status: string;
+    internshipDetail: string | null;
+    roleOverview: string | null;
+    keyResponsibilities: string | null;
+    eligibilityRequirements: string | null;
+    timelineWorkSchedule: string | null;
+    perksAndBenefits: string | null;
+    selectionProcess: string | null;
+    contactInformation: string | null;
+    screeningQuestions: unknown;
+    eligibilityCheck: unknown;
+    assessments: unknown;
+    interviewRubric: unknown;
+    offerLetterTemplateUrl: string | null;
+    termsConditionUrl: string | null;
+    offerLetterReleaseMethod: string | null;
+    functionalGroupId: bigint | null;
+    preInternshipCommunication: string | null;
+    preReadCourses: unknown;
+    preReadArticles: unknown;
+    totalWeeks: number | null;
+    weeklySchedule: unknown;
+    midTermFeedbackDate: Date | null;
+    finalSubmissionDocuments: unknown;
+    documentGuidelines: string | null;
+    presentationRubricUrl: string | null;
+    minPresentationScore: unknown;
+    presentationWeightage: unknown;
+    certificateTemplateUrl: string | null;
+    createdBy: bigint;
+    createdOn: Date;
+    updatedOn: Date;
+    batches?: Array<{ publicUuid: string; batchSize: number; coordinatorUserId: bigint | null; createdOn: Date }>;
+  }): Internship {
+    return Internship.reconstitute({
+      id:                          row.publicUuid,
+      tenantId:                    row.tenantId.toString(),
+      title:                       row.title,
+      bannerImageUrl:              row.bannerImageUrl,
+      vacancies:                   row.vacancies,
+      cityId:                      row.cityId?.toString() ?? null,
+      stipend:                     row.stipend != null ? Number(row.stipend) : null,
+      durationMonths:              row.durationMonths,
+      applicationDeadline:         row.applicationDeadline,
+      internshipType:              row.internshipType as InternshipType,
+      status:                      row.status as InternshipStatus,
+      internshipDetail:            row.internshipDetail,
+      roleOverview:                row.roleOverview,
+      keyResponsibilities:         row.keyResponsibilities,
+      eligibilityRequirements:     row.eligibilityRequirements,
+      timelineWorkSchedule:        row.timelineWorkSchedule,
+      perksAndBenefits:            row.perksAndBenefits,
+      selectionProcess:            row.selectionProcess,
+      contactInformation:          row.contactInformation,
+      screeningQuestions:          (row.screeningQuestions as ScreeningQuestion[]) ?? [],
+      eligibilityCheck:            (row.eligibilityCheck as EligibilityCheck | null) ?? null,
+      assessments:                 (row.assessments as AssessmentItem[]) ?? [],
+      interviewRubric:             (row.interviewRubric as InterviewRubric | null) ?? null,
+      offerLetterTemplateUrl:      row.offerLetterTemplateUrl,
+      termsConditionUrl:           row.termsConditionUrl,
+      offerLetterReleaseMethod:    row.offerLetterReleaseMethod,
+      functionalGroupId:           row.functionalGroupId?.toString() ?? null,
+      preInternshipCommunication:  row.preInternshipCommunication,
+      preReadCourses:              (row.preReadCourses as FileItem[]) ?? [],
+      preReadArticles:             (row.preReadArticles as FileItem[]) ?? [],
+      batches:                     (row.batches ?? []).map(b => ({
+        id:                b.publicUuid,
+        batchSize:         b.batchSize,
+        coordinatorUserId: b.coordinatorUserId?.toString() ?? null,
+      }) as InternshipBatchProps),
+      totalWeeks:                  row.totalWeeks,
+      weeklySchedule:              (row.weeklySchedule as WeeklyScheduleEntry[]) ?? [],
+      midTermFeedbackDate:         row.midTermFeedbackDate,
+      finalSubmissionDocuments:    (row.finalSubmissionDocuments as string[]) ?? [],
+      documentGuidelines:          row.documentGuidelines,
+      presentationRubricUrl:       row.presentationRubricUrl,
+      minPresentationScore:        row.minPresentationScore != null ? Number(row.minPresentationScore) : null,
+      presentationWeightage:       row.presentationWeightage != null ? Number(row.presentationWeightage) : null,
+      certificateTemplateUrl:      row.certificateTemplateUrl,
+      createdBy:                   row.createdBy.toString(),
+      createdOn:                   row.createdOn,
+      updatedOn:                   row.updatedOn,
+    });
+  }
+}

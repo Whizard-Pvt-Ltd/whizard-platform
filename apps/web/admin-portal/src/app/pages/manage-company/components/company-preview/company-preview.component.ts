@@ -7,6 +7,7 @@ import type { CompanyDetail, Club, UserContact, CompanyMediaItem, CompanyClubIte
 @Component({
   selector: 'whizard-company-preview',
   standalone: true,
+  // host: { class: 'flex-1 min-h-0 flex flex-col' },
   imports: [TitleCasePipe, MatButtonModule, MatIconModule],
   templateUrl: './company-preview.component.html',
   styleUrl: './company-preview.component.css',

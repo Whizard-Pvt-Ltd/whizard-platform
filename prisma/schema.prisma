@@ -57,6 +57,7 @@ model Tenant {
   departments                Department[]
   departmentFunctionalGroups DepartmentFunctionalGroup[]
   roles                      Role[]
+  internships                Internship[]
 
   @@map("tenants")
 }
@@ -122,6 +123,7 @@ model FunctionalGroup {
   pwos                       PrimaryWorkObject[]
   capabilityInstances        CapabilityInstance[]
   departmentFunctionalGroups DepartmentFunctionalGroup[]
+  internships                Internship[]
 
   @@map("functional_groups")
 }
@@ -430,8 +432,9 @@ model City {
   state      String
   cityCode   String?   @map("city_code")
   isActive   Boolean   @default(true) @map("is_active")
-  colleges   College[]
-  companies  Company[]
+  colleges      College[]
+  companies     Company[]
+  internships   Internship[]
 
   @@index([state])
   @@map("cities")
@@ -776,4 +779,90 @@ model CompanyCompensationStat {
   @@unique([companyId, year])
   @@index([companyId])
   @@map("company_compensation_stats")
+}
+
+// ─── Internship Hiring ────────────────────────────────────────────────────────
+
+enum InternshipType {
+  ONSITE
+  REMOTE
+}
+
+enum InternshipStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model Internship {
+  id                        BigInt            @id @default(autoincrement())
+  publicUuid                String            @unique @default(uuid()) @map("public_uuid")
+  tenantId                  BigInt            @map("tenant_id")
+  tenant                    Tenant            @relation(fields: [tenantId], references: [id])
+  title                     String            @db.VarChar(200)
+  bannerImageUrl            String?           @map("banner_image_url")
+  vacancies                 Int               @default(1)
+  cityId                    BigInt?           @map("city_id")
+  city                      City?             @relation(fields: [cityId], references: [id])
+  stipend                   Decimal?          @db.Decimal(12, 2)
+  durationMonths            Int               @map("duration_months")
+  applicationDeadline       DateTime?         @map("application_deadline")
+  internshipType            InternshipType    @default(ONSITE) @map("internship_type")
+  status                    InternshipStatus  @default(DRAFT)
+  // About section
+  internshipDetail          String?           @map("internship_detail") @db.Text
+  roleOverview              String?           @map("role_overview") @db.Text
+  keyResponsibilities       String?           @map("key_responsibilities") @db.Text
+  eligibilityRequirements   String?           @map("eligibility_requirements") @db.Text
+  timelineWorkSchedule      String?           @map("timeline_work_schedule") @db.Text
+  perksAndBenefits          String?           @map("perks_and_benefits") @db.Text
+  selectionProcess          String?           @map("selection_process") @db.Text
+  contactInformation        String?           @map("contact_information") @db.Text
+  // Screening criteria (JSON)
+  screeningQuestions        Json?             @map("screening_questions")
+  eligibilityCheck          Json?             @map("eligibility_check")
+  assessments               Json?
+  interviewRubric           Json?             @map("interview_rubric")
+  // Selection
+  offerLetterTemplateUrl    String?           @map("offer_letter_template_url")
+  termsConditionUrl         String?           @map("terms_condition_url")
+  offerLetterReleaseMethod  String?           @map("offer_letter_release_method")
+  functionalGroupId         BigInt?           @map("functional_group_id")
+  functionalGroup           FunctionalGroup?  @relation(fields: [functionalGroupId], references: [id])
+  preInternshipCommunication String?          @map("pre_internship_communication") @db.Text
+  preReadCourses            Json?             @map("pre_read_courses")
+  preReadArticles           Json?             @map("pre_read_articles")
+  // During internship
+  totalWeeks                Int?              @map("total_weeks")
+  weeklySchedule            Json?             @map("weekly_schedule")
+  midTermFeedbackDate       DateTime?         @map("mid_term_feedback_date")
+  // Final submission
+  finalSubmissionDocuments  Json?             @map("final_submission_documents")
+  documentGuidelines        String?           @map("document_guidelines") @db.Text
+  presentationRubricUrl     String?           @map("presentation_rubric_url")
+  minPresentationScore      Decimal?          @map("min_presentation_score") @db.Decimal(5, 2)
+  presentationWeightage     Decimal?          @map("presentation_weightage") @db.Decimal(5, 2)
+  certificateTemplateUrl    String?           @map("certificate_template_url")
+  // Audit
+  createdBy                 BigInt            @map("created_by")
+  createdOn                 DateTime          @default(now()) @map("created_on")
+  updatedOn                 DateTime          @updatedAt @map("updated_on")
+  batches                   InternshipBatch[]
+
+  @@index([tenantId])
+  @@index([status])
+  @@map("internships")
+}
+
+model InternshipBatch {
+  id                  BigInt      @id @default(autoincrement())
+  publicUuid          String      @unique @default(uuid()) @map("public_uuid")
+  internshipId        BigInt      @map("internship_id")
+  internship          Internship  @relation(fields: [internshipId], references: [id], onDelete: Cascade)
+  batchSize           Int         @map("batch_size")
+  coordinatorUserId   BigInt?     @map("coordinator_user_id")
+  createdOn           DateTime    @default(now()) @map("created_on")
+
+  @@index([internshipId])
+  @@map("internship_batches")
 }

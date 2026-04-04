@@ -1,0 +1,80 @@
+<div class="flex flex-col p-6 space-y-8 overflow-y-auto">
+
+  <!-- Select Documents -->
+  <div>
+    <h3 class="text-xl font-semibold text-wrcf-accent mb-4">Select Documents</h3>
+    <div class="rounded-xl border border-wrcf-border bg-wrcf-bg-secondary p-4 grid grid-cols-2 gap-3">
+      @for (doc of documentOptions; track doc) {
+        <label class="flex items-center gap-3 cursor-pointer">
+          <mat-checkbox
+            [checked]="isDocumentSelected(doc)"
+            (change)="toggleDocument(doc)"
+            color="primary">
+          </mat-checkbox>
+          <span class="text-sm text-wrcf-text-primary">{{ doc }}</span>
+        </label>
+      }
+    </div>
+  </div>
+
+  <!-- Document Guidelines -->
+  <div>
+    <h3 class="text-xl font-semibold text-wrcf-accent mb-4">Document &amp; Guidelines</h3>
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Guidelines for document submission</mat-label>
+      <textarea matInput rows="6" placeholder="Describe submission guidelines..."
+        [ngModel]="formValue().documentGuidelines ?? ''"
+        (ngModelChange)="emit({documentGuidelines: $event || null})">
+      </textarea>
+    </mat-form-field>
+  </div>
+
+  <!-- Presentation Rubric -->
+  <div>
+    <h3 class="text-xl font-semibold text-wrcf-accent mb-4">Presentation Rubric</h3>
+    <div class="rounded-xl border border-wrcf-border bg-wrcf-bg-secondary p-4 space-y-4">
+      <!-- PDF drop area -->
+      <label class="flex flex-col items-center justify-center h-24 rounded-lg border-2 border-dashed border-wrcf-border cursor-pointer hover:border-wrcf-accent transition-colors">
+        @if (formValue().presentationRubricUrl) {
+          <mat-icon svgIcon="heroicons_outline:document-check" class="size-7 text-wrcf-accent"></mat-icon>
+          <span class="text-xs text-wrcf-accent mt-1">{{ formValue().presentationRubricUrl }}</span>
+        } @else {
+          <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-7 text-wrcf-text-secondary"></mat-icon>
+          <span class="text-xs text-wrcf-text-secondary mt-1">Drop Rubric Here</span>
+        }
+        <input type="file" accept=".pdf" class="sr-only" (change)="onRubricSelected($event)" />
+      </label>
+
+      <div class="grid grid-cols-2 gap-4">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Min. Presentation Score (%)</mat-label>
+          <input matInput type="number" min="0" max="100"
+            [ngModel]="formValue().minPresentationScore ?? ''"
+            (ngModelChange)="emit({minPresentationScore: $event ? +$event : null})" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Presentation Weightage (%)</mat-label>
+          <input matInput type="number" min="0" max="100"
+            [ngModel]="formValue().presentationWeightage ?? ''"
+            (ngModelChange)="emit({presentationWeightage: $event ? +$event : null})" />
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  <!-- Certificate Template -->
+  <div>
+    <h3 class="text-xl font-semibold text-wrcf-accent mb-4">Certificate Template</h3>
+    <label class="flex flex-col items-center justify-center h-24 rounded-lg border-2 border-dashed border-wrcf-border cursor-pointer hover:border-wrcf-accent transition-colors">
+      @if (formValue().certificateTemplateUrl) {
+        <mat-icon svgIcon="heroicons_outline:document-check" class="size-7 text-wrcf-accent"></mat-icon>
+        <span class="text-xs text-wrcf-accent mt-1">{{ formValue().certificateTemplateUrl }}</span>
+      } @else {
+        <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-7 text-wrcf-text-secondary"></mat-icon>
+        <span class="text-xs text-wrcf-text-secondary mt-1">Upload Certificate Template</span>
+      }
+      <input type="file" accept=".pdf,.png,.jpg" class="sr-only" (change)="onCertificateSelected($event)" />
+    </label>
+  </div>
+
+</div>

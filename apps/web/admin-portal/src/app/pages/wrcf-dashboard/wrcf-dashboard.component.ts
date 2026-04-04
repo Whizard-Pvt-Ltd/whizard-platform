@@ -6,10 +6,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
+import { ScrollbarDirective } from "@whizard/shared-ui";
 import type { IndustrySector, Industry } from '../industry-wrcf/models/wrcf.models';
 import type { WrcfDashboardStats } from './models/wrcf-dashboard.models';
-import { StackAuthService } from '../../core/services/stack-auth.service';
-import { NavDrawerComponent } from '../../shared/nav-drawer/nav-drawer.component';
 import { WrcfApiService } from '../industry-wrcf/services/wrcf-api.service';
 import { PublishDraftDialogComponent } from './components/publish-draft-dialog/publish-draft-dialog.component';
 import { VersionHistoryDialogComponent } from './components/version-history-dialog/version-history-dialog.component';
@@ -21,19 +20,18 @@ import { WrcfDashboardApiService } from './services/wrcf-dashboard-api.service';
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    NavDrawerComponent,
     MatButtonModule,
     MatFormFieldModule,
     MatSelectModule,
     MatIconModule,
-  ],
+    ScrollbarDirective
+],
   templateUrl: './wrcf-dashboard.component.html',
   styleUrl: './wrcf-dashboard.component.css'
 })
 export class WrcfDashboardComponent implements OnInit {
   private readonly wrcfApi = inject(WrcfApiService);
   private readonly dashboardApi = inject(WrcfDashboardApiService);
-  private readonly stackAuthService = inject(StackAuthService);
   private readonly router = inject(Router);
   private readonly matDialog = inject(MatDialog);
 
@@ -41,17 +39,10 @@ export class WrcfDashboardComponent implements OnInit {
   protected industries = signal<Industry[]>([]);
   protected stats = signal<WrcfDashboardStats>(EMPTY_STATS);
 
-  protected drawerOpen = signal(false);
-  protected userMenuOpen = signal(false);
   protected loading = signal(false);
 
   protected sectorControl = new FormControl<string | null>(null);
   protected industryControl = new FormControl<string | null>(null);
-
-  protected get userName(): string | null {
-    const user = this.stackAuthService.currentUser();
-    return user?.displayName ?? user?.email?.split('@')[0] ?? null;
-  }
 
   ngOnInit(): void {
     this.wrcfApi.listSectors().subscribe(sectors => {

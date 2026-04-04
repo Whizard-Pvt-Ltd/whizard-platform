@@ -1,9 +1,9 @@
 import { TitleCasePipe } from '@angular/common';
-import { Component, input, output, signal, computed, inject } from '@angular/core';
+import { Component, input, signal, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { PdfViewerComponent, VideoPlayerComponent, ImageLightboxComponent } from '@whizard/shared-ui';
+import { PdfViewerComponent, VideoPlayerComponent, ImageLightboxComponent, ScrollbarDirective } from '@whizard/shared-ui';
 import type {
   CompanyDetail, Club, UserContact, CompanyMediaItem, CompanyClubItem,
 } from '../../models/manage-company.models';
@@ -11,17 +11,15 @@ import type {
 @Component({
   selector: 'whizard-company-detail-panel',
   standalone: true,
-  imports: [TitleCasePipe, MatButtonModule, MatIconModule, PdfViewerComponent, VideoPlayerComponent, ImageLightboxComponent],
+  imports: [TitleCasePipe, MatButtonModule, MatIconModule, PdfViewerComponent, VideoPlayerComponent, ImageLightboxComponent, ScrollbarDirective],
   templateUrl: './company-detail-panel.component.html',
   styleUrl: './company-detail-panel.component.css',
+  // host: { class: 'flex-1 min-h-0 flex flex-col' },
 })
 export class CompanyDetailPanelComponent {
   readonly company = input<CompanyDetail | null>(null);
   readonly clubs = input<Club[]>([]);
   readonly users = input<UserContact[]>([]);
-
-  readonly editClicked = output<void>();
-  readonly previewClicked = output<void>();
 
   private readonly sanitizer = inject(DomSanitizer);
 

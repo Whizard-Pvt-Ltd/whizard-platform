@@ -1,10 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject, signal, OnInit, HostListener } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ScrollbarDirective } from '@whizard/shared-ui';
 import { forkJoin } from 'rxjs';
-import { StackAuthService } from '../../core/services/stack-auth.service';
-import { NavDrawerComponent } from '../../shared/nav-drawer/nav-drawer.component';
 import { ManageCIMappingsComponent } from './components/manage-ci-mappings/manage-ci-mappings.component';
 import { WrcfColumnComponent } from './components/wrcf-column/wrcf-column.component';
 import { WrcfPanelComponent } from './components/wrcf-panel/wrcf-panel.component';
@@ -19,13 +18,12 @@ import { WrcfApiService } from './services/wrcf-api.service';
 @Component({
   selector: 'whizard-industry-wrcf',
   standalone: true,
-  imports: [FormsModule, RouterLink, WrcfColumnComponent, WrcfPanelComponent, ManageCIMappingsComponent, NavDrawerComponent, ],
+  imports: [FormsModule, WrcfColumnComponent, WrcfPanelComponent, ManageCIMappingsComponent, ScrollbarDirective],
   templateUrl: './industry-wrcf.component.html',
   styleUrl: './industry-wrcf.component.css',
 })
 export class IndustryWrcfComponent implements OnInit {
   private readonly apiService = inject(WrcfApiService);
-  private readonly stackAuthService = inject(StackAuthService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
@@ -48,8 +46,6 @@ export class IndustryWrcfComponent implements OnInit {
 
   protected panel = signal<PanelState>({ open: false, mode: 'create', entityType: 'FG' });
   protected errorMessage = signal<string>('');
-  protected userMenuOpen = signal<boolean>(false);
-  protected drawerOpen = signal(false);
 
   protected ciCache = signal<CIPendingEntry[]>([]);
   protected existingCIs = signal<CapabilityInstance[]>([]);
@@ -76,11 +72,6 @@ export class IndustryWrcfComponent implements OnInit {
 
   protected get profCheckboxMode(): boolean {
     return !!(this.selectedSWO() && this.selectedCapabilityId());
-  }
-
-  protected get userName(): string | null {
-    const user = this.stackAuthService.currentUser();
-    return user?.displayName ?? user?.email?.split('@')[0] ?? null;
   }
 
   ngOnInit(): void {
@@ -349,22 +340,6 @@ export class IndustryWrcfComponent implements OnInit {
         }
       });
     }
-  }
-
-  protected toggleUserMenu(): void {
-    this.userMenuOpen.update(v => !v);
-  }
-
-  @HostListener('document:click', ['$event.target'])
-  onDocumentClick(target: HTMLElement): void {
-    if (this.userMenuOpen() && !target.closest('.avatar-wrapper')) {
-      this.userMenuOpen.set(false);
-    }
-  }
-
-  protected logout(): void {
-    this.userMenuOpen.set(false);
-    this.stackAuthService.signOut();
   }
 
   private handleCreate(entityType: EntityType, payload: Partial<FunctionalGroup | PrimaryWorkObject | SecondaryWorkObject>): void {
