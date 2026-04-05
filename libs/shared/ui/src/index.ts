@@ -29,6 +29,8 @@ export type { UploadedFile } from './media-uploader/media-uploader.component.js'
 
 // Layout
 export { AdminLayoutComponent } from './layout/layout.component.js';
+export { PageActionsService } from './layout/page-actions.service.js';
+export type { PageAction } from './layout/page-actions.service.js';
 export { AdminSidebarComponent } from './layout/sidebar.component.js';
 export { NavigationComponent } from './layout/navigation.component.js';
 export { SchemeSwitcherComponent } from './layout/scheme-switcher.component.js';

@@ -1,83 +1,49 @@
-
-<div class="flex flex-col h-screen bg-wrcf-bg-primary font-sans overflow-hidden">
-
-  <!-- Header -->
-  <header class="h-16 bg-wrcf-bg-primary px-8 flex items-center justify-between border-b border-wrcf-border shrink-0">
-    <div class="flex items-center gap-4">
-      <button
-        type="button"
-        (click)="drawerOpen.set(true)"
-        class="flex items-center justify-center w-9 h-9 rounded-lg hover:bg-wrcf-bg-secondary transition-colors">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-wrcf-text-primary">
-          <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />
-        </svg>
-      </button>
-      <h1 class="text-2xl font-semibold text-wrcf-text-primary leading-8">Manage Internship</h1>
-    </div>
-
-    <div class="flex items-center gap-3">
-      @if (mode() === 'list') {
-        <button
-          type="button"
-          (click)="onAddClicked()"
-          class="flex items-center gap-1.5 h-9 px-4 rounded-[10px] bg-wrcf-action text-wrcf-text-primary text-sm font-medium hover:bg-wrcf-action-hover transition-colors shrink-0">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
-          </svg>
-          Add
-        </button>
-      }
-
-      @if (mode() === 'edit' || mode() === 'create') {
-        <button
-          type="button"
-          (click)="onCancelClicked()"
-          class="h-9 px-4 rounded-[10px] border border-wrcf-border text-wrcf-text-secondary text-sm font-medium hover:bg-wrcf-bg-secondary transition-colors shrink-0">
-          Cancel
-        </button>
-        <button
-          type="button"
-          [disabled]="saving()"
-          (click)="onSaveClicked()"
-          class="h-9 px-4 rounded-[10px] border border-wrcf-border text-wrcf-text-primary text-sm font-medium hover:bg-wrcf-bg-secondary transition-colors shrink-0 disabled:opacity-50">
-          Save
-        </button>
-        <button
-          type="button"
-          [disabled]="saving()"
-          (click)="onPublishClicked()"
-          class="h-9 px-4 rounded-[10px] bg-wrcf-action text-wrcf-text-primary text-sm font-medium hover:bg-wrcf-action-hover transition-colors shrink-0 disabled:opacity-50">
-          Publish
-        </button>
-      }
-    </div>
-  </header>
-
+<div class="flex flex-col h-full bg-wrcf-bg-primary font-sans overflow-hidden">
   <!-- Error banner -->
   @if (errorMessage()) {
-    <div class="flex items-center justify-between px-8 py-3 bg-red-950/50 border-b border-red-800/50 text-sm text-red-300 shrink-0">
+    <div
+      class="flex items-center justify-between px-8 py-3 bg-red-950/50 border-b border-red-800/50 text-sm text-red-300 shrink-0"
+    >
       <span>{{ errorMessage() }}</span>
-      <button type="button" (click)="errorMessage.set(null)" class="ml-4 text-red-400 hover:text-red-200 transition-colors">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <button
+        type="button"
+        (click)="errorMessage.set(null)"
+        class="ml-4 text-red-400 hover:text-red-200 transition-colors"
+      >
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
       </button>
     </div>
   }
 
   <!-- Main workspace -->
   <div class="flex-1 flex overflow-hidden">
-
     <!-- LIST MODE: internship list (left) + read-only detail panel (right) -->
     @if (mode() === 'list') {
       <whizard-internship-list-panel
+        class="flex flex-col"
+        style="height: 100dvh"
+        whizardScrollbar="true"
         [internships]="internships()"
         [selectedId]="selectedId()"
         [loading]="loading()"
-        (internshipSelected)="onInternshipSelected($event)" />
+        (internshipSelected)="onInternshipSelected($event)"
+      />
 
       <whizard-internship-detail-panel
-        class="flex-1 flex flex-col overflow-hidden"
+        class="flex-1 flex flex-col h-full"
         [internship]="selectedInternship()"
-        (editClicked)="onEditClicked()" />
+        (editClicked)="onEditClicked()"
+      />
     }
 
     <!-- EDIT / CREATE MODE: assessment library (left) + editable form (right) -->
@@ -88,9 +54,9 @@
         <whizard-internship-form
           [formValue]="formValue()"
           (formChanged)="onFormChanged($event)"
-          class="flex-1 overflow-hidden" />
+          class="flex-1 overflow-hidden"
+        />
       </div>
     }
-
   </div>
 </div>

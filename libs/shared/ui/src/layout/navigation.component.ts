@@ -32,7 +32,7 @@ import { NavigationItem } from './navigation.types';
       @for (section of navigation(); track section.id) {
         <div class="flex flex-col px-3">
           <div
-            class="px-3 py-1.5 text-[11px] font-semibold tracking-[0.08em] uppercase"
+            class="px-3 py-1.5 text-xs font-medium tracking-[0.08em] uppercase"
             style="color: #7F94AE"
           >
             {{ section.label }}
@@ -59,8 +59,8 @@ import { NavigationItem } from './navigation.types';
                 cdkMonitorElementFocus
                 ngTreeItem
                 routerLinkActive="nav-item-active"
-                class="nav-item flex cursor-pointer items-center gap-x-3 h-12 rounded-lg px-3 select-none transition-[background,border-color] duration-120"
-                style="border-left: 3px solid transparent; color: #E8F0FA; font-size: 15px;"
+                class="nav-item flex cursor-pointer items-center gap-x-3 h-12 rounded-md px-3 select-none transition-[background,border-color] duration-120"
+                style="border-left: 2px solid transparent; color: #E8F0FA; font-size: 15px;"
                 [parent]="parent"
                 [value]="node.id"
                 [label]="node.label"

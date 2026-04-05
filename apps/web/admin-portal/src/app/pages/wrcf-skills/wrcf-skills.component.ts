@@ -13,6 +13,7 @@ import { WrcfSkillsApiService } from './services/wrcf-skills-api.service';
   selector: 'whizard-wrcf-skills',
   standalone: true,
   imports: [FormsModule, RouterLink, WrcfColumnComponent, SkillsPanelComponent, ScrollbarDirective],
+  host: { class: 'flex-1 min-h-0 flex flex-col overflow-hidden' },
   templateUrl: './wrcf-skills.component.html',
   styleUrl: './wrcf-skills.component.css'
 })

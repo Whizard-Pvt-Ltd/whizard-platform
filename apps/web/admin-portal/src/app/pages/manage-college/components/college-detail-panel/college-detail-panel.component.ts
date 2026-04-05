@@ -11,7 +11,6 @@ import type { CollegeDetail, Club, UserContact, CollegeMediaItem, CollegeContact
   imports: [MatButtonModule, MatIconModule, PdfViewerComponent, VideoPlayerComponent, ImageLightboxComponent, ScrollbarDirective],
   templateUrl: './college-detail-panel.component.html',
   styleUrl: './college-detail-panel.component.css',
-  // host: { class: 'flex-1 min-h-0 flex flex-col' },
 })
 export class CollegeDetailPanelComponent {
   readonly college = input<CollegeDetail | null>(null);

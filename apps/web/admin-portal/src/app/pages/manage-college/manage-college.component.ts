@@ -1,6 +1,7 @@
-import { Component, inject, signal, OnInit, computed, viewChild } from '@angular/core';
+import { Component, inject, signal, OnInit, OnDestroy, computed, viewChild, effect } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { PageActionsService } from '@whizard/shared-ui';
 import { forkJoin } from 'rxjs';
 import type {
   CollegeListItem, CollegeDetail, Club, DegreeProgram, City, UserContact,
@@ -28,8 +29,9 @@ import { ManageCollegeApiService } from './services/manage-college-api.service';
   templateUrl: './manage-college.component.html',
   styleUrl: './manage-college.component.css',
 })
-export class ManageCollegeComponent implements OnInit {
+export class ManageCollegeComponent implements OnInit, OnDestroy {
   private readonly api = inject(ManageCollegeApiService);
+  private readonly pageActions = inject(PageActionsService);
 
   protected mode = signal<PageMode>('list');
   protected colleges = signal<CollegeListItem[]>([]);
@@ -50,6 +52,37 @@ export class ManageCollegeComponent implements OnInit {
 
   protected get selectedCollegeId(): string | null {
     return this.selectedCollege()?.id ?? null;
+  }
+
+  constructor() {
+    effect(() => {
+      const m = this.mode();
+      const isValid = this.formIsValid();
+      if (m === 'list') {
+        const hasSelected = !!this.selectedCollege();
+        this.pageActions.set([
+          ...(hasSelected ? [{ label: 'Edit', icon: 'heroicons_outline:pencil-square', variant: 'outline' as const, action: () => this.onEditClicked() }] : []),
+          { label: 'Add', icon: 'heroicons_outline:plus', variant: 'primary', action: () => this.onAddClicked() },
+        ]);
+      } else if (m === 'edit' || m === 'create') {
+        this.pageActions.set([
+          { label: 'Back', icon: 'heroicons_outline:arrow-left', variant: 'outline', action: () => this.onBackClicked() },
+          { label: 'Preview', variant: 'secondary', action: () => this.onPreviewClicked() },
+          { label: 'Save', variant: 'outline', action: () => this.onHeaderSave() },
+          { label: 'Send to Publish', variant: 'primary', disabled: !isValid, action: () => this.onHeaderPublish() },
+        ]);
+      } else if (m === 'preview') {
+        this.pageActions.set([
+          { label: 'Back', icon: 'heroicons_outline:arrow-left', variant: 'outline', action: () => this.onBackClicked() },
+          { label: 'Save', variant: 'outline', action: () => this.onHeaderSave() },
+          { label: 'Send to Publish', variant: 'primary', disabled: !isValid, action: () => this.onHeaderPublish() },
+        ]);
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.pageActions.clear();
   }
 
   ngOnInit(): void {

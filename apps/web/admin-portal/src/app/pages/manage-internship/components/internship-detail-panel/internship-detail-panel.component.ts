@@ -1,8 +1,9 @@
-import { DatePipe } from '@angular/common';
-import { Component, input, output, computed, ChangeDetectionStrategy } from '@angular/core';
+import { DatePipe, SlicePipe, UpperCasePipe } from '@angular/common';
+import { Component, input, output, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
+import { ScrollbarDirective } from "@whizard/shared-ui";
 import type { InternshipDetail } from '../../models/manage-internship.models';
 import { STATUS_LABELS, STATUS_COLORS } from '../../models/manage-internship.models';
 
@@ -12,7 +13,8 @@ interface AboutSection { label: string; value: string | null; }
   selector: 'whizard-internship-detail-panel',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DatePipe, MatTabsModule, MatIconModule, MatButtonModule],
+  encapsulation: ViewEncapsulation.None,
+  imports: [DatePipe, SlicePipe, UpperCasePipe, MatTabsModule, MatIconModule, MatButtonModule, ScrollbarDirective],
   templateUrl: './internship-detail-panel.component.html',
 })
 export class InternshipDetailPanelComponent {

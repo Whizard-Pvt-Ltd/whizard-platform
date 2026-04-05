@@ -19,6 +19,7 @@ import { WrcfApiService } from './services/wrcf-api.service';
   selector: 'whizard-industry-wrcf',
   standalone: true,
   imports: [FormsModule, WrcfColumnComponent, WrcfPanelComponent, ManageCIMappingsComponent, ScrollbarDirective],
+  host: { class: 'flex-1 min-h-0 flex flex-col overflow-hidden' },
   templateUrl: './industry-wrcf.component.html',
   styleUrl: './industry-wrcf.component.css',
 })

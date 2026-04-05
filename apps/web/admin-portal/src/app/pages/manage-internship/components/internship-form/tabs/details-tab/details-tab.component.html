@@ -1,4 +1,4 @@
-<div class="flex flex-col p-6 space-y-6 overflow-y-auto">
+<div class="flex flex-col h-full p-6 space-y-6">
 
   <!-- Banner upload -->
   <div class="flex flex-col gap-2">
@@ -88,7 +88,7 @@
 
   <!-- Rich text section (quill-editor → textarea for now; swap with QuillEditorComponent later) -->
   <div class="mt-2 space-y-6">
-    <h3 class="text-xl font-semibold text-wrcf-accent">About the Internship</h3>
+    <h3 class="text-[22px] font-medium text-wrcf-text-primary leading-6.25">About the Internship</h3>
     @for (field of richTextFields; track field.key) {
       <div class="w-full space-y-2">
         <div class="font-semibold tracking-tight text-wrcf-text-secondary">{{ field.label }}</div>

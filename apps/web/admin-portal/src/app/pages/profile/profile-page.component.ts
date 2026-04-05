@@ -16,6 +16,7 @@ import { StackAuthService } from '../../core/services/stack-auth.service';
   selector: 'admin-profile-page',
   standalone: true,
   imports: [UserProfileComponent, CommonModule],
+  host: { class: 'flex-1 min-h-0 flex flex-col overflow-y-auto' },
   template: '<whizard-user-profile [authService]="stackAuthService" />'
 })
 export class ProfilePageComponent {

@@ -1,3 +1,4 @@
+import { DecimalPipe } from '@angular/common';
 import { Component, input, output, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,7 +9,7 @@ import { STATUS_LABELS, STATUS_COLORS } from '../../models/manage-internship.mod
   selector: 'whizard-internship-list-panel',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, MatIconModule],
+  imports: [FormsModule, MatIconModule, DecimalPipe],
   templateUrl: './internship-list-panel.component.html',
 })
 export class InternshipListPanelComponent {
@@ -40,5 +41,9 @@ export class InternshipListPanelComponent {
   protected formatDeadline(iso: string | null): string {
     if (!iso) return '—';
     return new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: '2-digit' });
+  }
+
+  protected getInitial(title: string): string {
+    return title.charAt(0).toUpperCase();
   }
 }

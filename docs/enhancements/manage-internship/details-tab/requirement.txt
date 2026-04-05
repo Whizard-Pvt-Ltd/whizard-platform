@@ -1,0 +1,40 @@
+# Manage Internship — Details Tab UI
+claude --resume 2d283fb0-f09b-4632-8c20-06c4132b7022
+## Overview
+<!-- One paragraph: what this enhancement does, which existing feature it improves, and why. -->
+Imporev the left side UI as per given ui use same typograpfy for the titele and mata data.
+Tabs should be o the top of the detaill page annd need to how detaill page as per the goiven UI
+tab need not to ahve border bottom or top only selected tab should be hilleighted with order blue
+
+
+## Current Behaviour
+<!-- Describe how the feature works today before this enhancement. -->
+
+## Desired Behaviour
+<!-- Describe how it should work after the enhancement. Be specific. -->
+
+## Default Behaviours
+<!-- Auto-select rules, pre-population, initial state changes if any. -->
+
+## Changes to Entities & Attributes
+<!-- Only list fields/entities that are added, changed, or removed.
+     For each: Name, Type, Mandatory (*), Options if dropdown. -->
+
+## User Flows
+<!-- Step-by-step flows that change or are newly introduced.
+     e.g. "1. Click Export → 2. Choose format → 3. Download file" -->
+
+## Business Rules & Constraints
+<!-- New or changed validation rules, guard conditions, cascading effects. -->
+
+## DB Notes
+<!-- New columns, indexes, or table changes needed. State "No DB changes" if none. -->
+
+## Scope
+<!-- Explicit list of what must be changed: frontend, API, migration, tests. -->
+
+## Out of Scope
+<!-- Anything explicitly NOT part of this enhancement to avoid scope creep. -->
+
+## Notes / Edge Cases
+<!-- Gotchas, open questions, cross-feature dependencies. -->

@@ -1,5 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { MatTabsModule, MatTabContent } from '@angular/material/tabs';
+import { ScrollbarDirective } from '@whizard/shared-ui';
 import type { InternshipFormValue } from '../../models/manage-internship.models';
 import { DetailsTabComponent } from './tabs/details-tab/details-tab.component';
 import { DuringInternshipTabComponent } from './tabs/during-internship-tab/during-internship-tab.component';
@@ -11,12 +12,14 @@ import { SelectionTabComponent } from './tabs/selection-tab/selection-tab.compon
   selector: 'whizard-internship-form',
   standalone: true,
   imports: [
-    MatTabsModule, MatTabContent,
+    MatTabsModule,
+    MatTabContent,
     DetailsTabComponent,
     ScreeningCriteriaTabComponent,
     SelectionTabComponent,
     DuringInternshipTabComponent,
     FinalSubmissionTabComponent,
+    ScrollbarDirective,
   ],
   templateUrl: './internship-form.component.html',
 })

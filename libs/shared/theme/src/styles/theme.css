@@ -1,8 +1,8 @@
 /* -------------------------------------------------------------------------- */
 /* Tailwind theme extensions (app must @import 'tailwindcss' first)          */
 /* -------------------------------------------------------------------------- */
+@import 'tailwindcss' important;
 @import './tailwind/variants.css';
-@import 'tailwindcss';
 @import './tailwind/theme.css';
 @import './tailwind/utilities.css';
 

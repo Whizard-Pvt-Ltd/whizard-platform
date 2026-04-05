@@ -15,6 +15,7 @@ import { WrcfRolesApiService } from './services/wrcf-roles-api.service';
   selector: 'whizard-wrcf-roles',
   standalone: true,
   imports: [FormsModule, WrcfColumnComponent, RolesPanelComponent, CIMappingsDialogComponent, ScrollbarDirective],
+  host: { class: 'flex-1 min-h-0 flex flex-col overflow-hidden' },
   templateUrl: './wrcf-roles.component.html',
   styleUrl: './wrcf-roles.component.css'
 })

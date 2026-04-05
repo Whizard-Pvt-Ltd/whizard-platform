@@ -67,6 +67,26 @@ export const ADMIN_NAVIGATION: NavigationItem[] = [
     ],
   },
   {
+    id: 'internships-management',
+    label: 'Internship Management',
+    children: [
+      {
+        id: 'manage-internship',
+        label: 'Internships',
+        icon: 'lucideIcons:brain-circuit',
+        route: '/manage-internship',
+        activeOptions: { exact: false },
+      },
+      {
+        id: 'manage-internship-submission',
+        label: 'Internships Submission',
+        icon: 'lucideIcons:ticket-check',
+        route: '/manage-company',
+        activeOptions: { exact: false },
+      },
+    ],  
+  },
+  {
     id: 'account',
     label: 'Account',
     children: [

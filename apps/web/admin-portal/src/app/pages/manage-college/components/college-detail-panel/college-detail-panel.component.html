@@ -1,427 +1,432 @@
-@if (!college()) {
-  <div
-    class="flex-1 flex flex-col items-center justify-center gap-3 text-wrcf-text-secondary"
-  >
-    <mat-icon
-      svgIcon="heroicons_outline:building-library"
-      class="size-16 opacity-30"
-    />
-    <p class="text-base">Select a college to view details</p>
-  </div>
-} @else {
-  <div class="flex-1 flex flex-col relative" whizardScrollbar>
-    <!-- Header -->
+<div class="flex flex-col flex-1 min-w-0">
+  @if (!college()) {
     <div
-      class="flex items-start gap-4 px-8 py-5 border-b border-wrcf-border bg-wrcf-bg-primary shrink-0"
+      class="flex-1 flex flex-col items-center justify-center gap-3 text-wrcf-text-secondary"
     >
-      @if (college()!.logoUrl) {
-        <img
-          [src]="college()!.logoUrl"
-          [alt]="college()!.name"
-          class="w-16 h-16 rounded-full object-cover border-2 border-wrcf-border shrink-0"
-        />
-      } @else {
-        <div
-          class="w-16 h-16 rounded-full bg-wrcf-action flex items-center justify-center text-2xl font-semibold text-wrcf-text-primary shrink-0 uppercase"
-        >
-          {{ getInitial(college()!.name) }}
-        </div>
-      }
-
-      <div class="flex-1 min-w-0">
-        <div class="flex items-start justify-between gap-3">
-          <h2
-            class="text-xl font-semibold text-wrcf-text-primary leading-7 truncate"
+      <mat-icon
+        svgIcon="heroicons_outline:building-library"
+        class="size-16 opacity-30"
+      />
+      <p class="text-base">Select a college to view details</p>
+    </div>
+  } @else {
+    <div class="flex-1 flex flex-col relative" whizardScrollbar>
+      <!-- Header -->
+      <div
+        class="flex items-start gap-4 px-8 py-5 border-b border-wrcf-border bg-wrcf-bg-primary shrink-0"
+      >
+        @if (college()!.logoUrl) {
+          <img
+            [src]="college()!.logoUrl"
+            [alt]="college()!.name"
+            class="w-16 h-16 rounded-full object-cover border-2 border-wrcf-border shrink-0"
+          />
+        } @else {
+          <div
+            class="w-16 h-16 rounded-full bg-wrcf-action flex items-center justify-center text-2xl font-semibold text-wrcf-text-primary shrink-0 uppercase"
           >
-            {{ college()!.name }}
-          </h2>
-        </div>
-        <p class="text-xs text-wrcf-text-tertiary mt-0.5 mb-2">
-          College Id : {{ college()!.collegeCode }}
-        </p>
+            {{ getInitial(college()!.name) }}
+          </div>
+        }
 
-        <div class="flex items-center gap-2 flex-wrap">
-          @if (college()!.affiliatedUniversity) {
-            <span
-              class="flex items-center gap-1 text-xs text-wrcf-text-secondary"
+        <div class="flex-1 min-w-0">
+          <div class="flex items-start justify-between gap-3">
+            <h2
+              class="text-xl font-semibold text-wrcf-text-primary leading-7 truncate"
             >
-              <mat-icon
-                svgIcon="heroicons_outline:globe-alt"
-                class="size-3 text-wrcf-text-tertiary"
-              />
-              {{ college()!.affiliatedUniversity }}
-            </span>
-          }
-          @if (college()!.cityName) {
-            <span class="text-wrcf-text-secondary opacity-30 text-xs">•</span>
-            <span
-              class="flex items-center gap-1 text-xs text-wrcf-text-secondary"
-            >
-              <mat-icon
-                svgIcon="heroicons_outline:map-pin"
-                class="size-3 text-wrcf-text-tertiary"
-              />
-              {{ college()!.cityName }}
-            </span>
-          }
-          @if (college()!.establishedYear) {
-            <span class="text-wrcf-text-secondary opacity-30 text-xs">•</span>
-            <span
-              class="flex items-center gap-1 text-xs text-wrcf-text-secondary"
-            >
-              <mat-icon
-                svgIcon="heroicons_outline:calendar"
-                class="size-3 text-wrcf-text-tertiary"
-              />
-              {{ college()!.establishedYear }}
-            </span>
-          }
-          @if (college()!.collegeType) {
-            <span class="text-wrcf-text-secondary opacity-30 text-xs">•</span>
-            <span
-              class="text-xs px-2 py-0.5 rounded-full bg-wrcf-bg-secondary border border-wrcf-border text-wrcf-text-secondary"
-            >
-              {{ college()!.collegeType }}
-            </span>
-          }
+              {{ college()!.name }}
+            </h2>
+          </div>
+          <p class="text-xs text-wrcf-text-tertiary mt-0.5 mb-2">
+            College Id : {{ college()!.collegeCode }}
+          </p>
+
+          <div class="flex items-center gap-2 flex-wrap">
+            @if (college()!.affiliatedUniversity) {
+              <span
+                class="flex items-center gap-1 text-xs text-wrcf-text-secondary"
+              >
+                <mat-icon
+                  svgIcon="heroicons_outline:globe-alt"
+                  class="size-3 text-wrcf-text-tertiary"
+                />
+                {{ college()!.affiliatedUniversity }}
+              </span>
+            }
+            @if (college()!.cityName) {
+              <span class="text-wrcf-text-secondary opacity-30 text-xs">•</span>
+              <span
+                class="flex items-center gap-1 text-xs text-wrcf-text-secondary"
+              >
+                <mat-icon
+                  svgIcon="heroicons_outline:map-pin"
+                  class="size-3 text-wrcf-text-tertiary"
+                />
+                {{ college()!.cityName }}
+              </span>
+            }
+            @if (college()!.establishedYear) {
+              <span class="text-wrcf-text-secondary opacity-30 text-xs">•</span>
+              <span
+                class="flex items-center gap-1 text-xs text-wrcf-text-secondary"
+              >
+                <mat-icon
+                  svgIcon="heroicons_outline:calendar"
+                  class="size-3 text-wrcf-text-tertiary"
+                />
+                {{ college()!.establishedYear }}
+              </span>
+            }
+            @if (college()!.collegeType) {
+              <span class="text-wrcf-text-secondary opacity-30 text-xs">•</span>
+              <span
+                class="text-xs px-2 py-0.5 rounded-full bg-wrcf-bg-secondary border border-wrcf-border text-wrcf-text-secondary"
+              >
+                {{ college()!.collegeType }}
+              </span>
+            }
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Scrollable content -->
-    <div class="flex-1 px-8 py-6 flex flex-col gap-6">
-      <!-- About the college -->
-      @if (college()!.description) {
-        <section>
-          <h3 class="text-lg font-semibold text-wrcf-text-primary mb-3">
-            About the college
-          </h3>
-          <p class="text-sm text-wrcf-text-tertiary font-medium mb-2">
-            College details
-          </p>
-          <div
-            class="text-sm text-wrcf-text-secondary leading-6 overflow-hidden transition-all duration-300"
-            [class.line-clamp-3]="!aboutExpanded()"
-            [innerHTML]="college()!.description"
-          ></div>
-          <button
-            type="button"
-            (click)="toggleAbout()"
-            class="mt-1 text-xs text-wrcf-accent hover:underline"
-          >
-            {{ aboutExpanded() ? 'See less' : '...see more' }}
-          </button>
-        </section>
-      }
+      <!-- Scrollable content -->
+      <div class="flex-1 px-8 py-6 flex flex-col gap-6">
+        <!-- About the college -->
+        @if (college()!.description) {
+          <section>
+            <h3 class="text-lg font-semibold text-wrcf-text-primary mb-3">
+              About the college
+            </h3>
+            <p class="text-sm text-wrcf-text-tertiary font-medium mb-2">
+              College details
+            </p>
+            <div
+              class="text-sm text-wrcf-text-secondary leading-6 overflow-hidden transition-all duration-300"
+              [class.line-clamp-3]="!aboutExpanded()"
+              [innerHTML]="college()!.description"
+            ></div>
+            <button
+              type="button"
+              (click)="toggleAbout()"
+              class="mt-1 text-xs text-wrcf-accent hover:underline"
+            >
+              {{ aboutExpanded() ? 'See less' : '...see more' }}
+            </button>
+          </section>
+        }
 
-      <!-- College Brochure -->
-      @if (brochures.length > 0) {
-        <section>
-          <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
-            College Brochure
-          </h3>
-          <div class="flex flex-wrap gap-4">
-            @for (item of brochures; track item.mediaAssetId) {
-              <div class="flex flex-col gap-2">
-                <button
-                  type="button"
-                  (click)="
-                    openPdf(item.asset!.url, item.asset?.name ?? 'Brochure')
-                  "
-                  class="group relative w-48 h-36 rounded-xl overflow-hidden border border-wrcf-border shadow-sm hover:shadow-md transition-shadow cursor-pointer bg-wrcf-bg-secondary"
-                >
-                  <iframe
-                    [src]="
-                      safeUrl(
-                        item.asset!.url +
-                          '#page=1&toolbar=0&navpanes=0&scrollbar=0'
-                      )
+        <!-- College Brochure -->
+        @if (brochures.length > 0) {
+          <section>
+            <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
+              College Brochure
+            </h3>
+            <div class="flex flex-wrap gap-4">
+              @for (item of brochures; track item.mediaAssetId) {
+                <div class="flex flex-col gap-2">
+                  <button
+                    type="button"
+                    (click)="
+                      openPdf(item.asset!.url, item.asset?.name ?? 'Brochure')
                     "
-                    class="w-full h-full pointer-events-none"
-                    scrolling="no"
-                    frameborder="0"
+                    class="group relative w-48 h-36 rounded-xl overflow-hidden border border-wrcf-border shadow-sm hover:shadow-md transition-shadow cursor-pointer bg-wrcf-bg-secondary"
                   >
-                  </iframe>
-                  <div
-                    class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
-                  >
-                    <mat-icon
-                      svgIcon="lucideIcons:file-text"
-                      class="size-8 text-white"
-                    />
-                  </div>
-                </button>
-                @if (item.asset?.name) {
-                  <p class="text-xs text-wrcf-text-secondary truncate w-48">
-                    {{ item.asset!.name }}
-                  </p>
-                }
-              </div>
-            }
-          </div>
-        </section>
-      }
-
-      <!-- Promotional Videos -->
-      @if (videos.length > 0) {
-        <section>
-          <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
-            Promotional Videos
-          </h3>
-          <div
-            class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3"
-          >
-            @for (item of videos; track item.mediaAssetId) {
-              <div class="flex flex-col gap-1.5">
-                <button
-                  type="button"
-                  (click)="
-                    openVideo(item.asset!.url, item.asset?.name ?? 'Video')
-                  "
-                  class="relative aspect-video rounded-xl overflow-hidden bg-wrcf-bg-secondary border border-wrcf-border group cursor-pointer shadow-sm hover:shadow-md transition-shadow"
-                >
-                  <video
-                    [src]="item.asset!.url + '#t=1'"
-                    muted
-                    preload="metadata"
-                    class="w-full h-full object-cover pointer-events-none"
-                  ></video>
-                  <div
-                    class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/55 transition-colors"
-                  >
-                    <mat-icon
-                      svgIcon="heroicons_outline:play-circle"
-                      class="size-10 text-white"
-                    />
-                  </div>
-                </button>
-                @if (item.asset?.name) {
-                  <p
-                    class="text-[11px] text-wrcf-text-secondary text-center leading-4 px-1 truncate"
-                  >
-                    {{ item.asset!.name }}
-                  </p>
-                }
-              </div>
-            }
-          </div>
-        </section>
-      }
-
-      <!-- Campus Gallery -->
-      @if (gallery.length > 0) {
-        <section>
-          <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
-            Campus Gallery
-          </h3>
-          <div
-            class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3"
-          >
-            @for (item of gallery; track item.mediaAssetId) {
-              <button
-                type="button"
-                (click)="
-                  openImage(item.asset!.url, item.asset?.name ?? 'Campus image')
-                "
-                class="relative h-28 rounded-xl overflow-hidden bg-wrcf-bg-secondary border border-wrcf-border shadow-sm group cursor-pointer"
-              >
-                @if (item.asset?.url) {
-                  <img
-                    [src]="item.asset!.url"
-                    [alt]="item.asset?.name ?? 'Campus image'"
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                } @else {
-                  <div class="w-full h-full flex items-center justify-center">
-                    <mat-icon
-                      svgIcon="heroicons_outline:photo"
-                      class="size-8 text-wrcf-text-secondary opacity-40"
-                    />
-                  </div>
-                }
-              </button>
-            }
-          </div>
-        </section>
-      }
-
-      <!-- Local Club Chapters -->
-      @if (collegeClubs.length > 0) {
-        <section>
-          <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
-            Local Club Chapters
-          </h3>
-          <div class="grid grid-cols-2 gap-3">
-            @for (club of collegeClubs; track club.id) {
-              <div
-                class="flex items-center h-24 rounded-xl bg-wrcf-bg-secondary border border-wrcf-border shadow-sm hover:shadow-md hover:bg-wrcf-bg-card transition-all duration-150 cursor-pointer overflow-hidden group"
-              >
-                @if (club.logoUrl) {
-                  <img
-                    [src]="club.logoUrl"
-                    class="h-full w-24 shrink-0 object-cover object-center p-3 rounded-full"
-                  />
-                } @else {
-                  <div
-                    class="w-16 h-16 ml-3 rounded-full bg-wrcf-action flex items-center justify-center text-base font-semibold text-wrcf-text-primary shrink-0"
-                  >
-                    {{ getInitial(club.name) }}
-                  </div>
-                }
-                <div class="flex-1 min-w-0 px-3">
-                  <p
-                    class="text-sm font-semibold text-wrcf-text-primary line-clamp-1"
-                  >
-                    {{ club.name }}
-                  </p>
-                  @if (club.description) {
-                    <p
-                      class="text-xs text-wrcf-text-secondary line-clamp-2 mt-0.5"
+                    <iframe
+                      [src]="
+                        safeUrl(
+                          item.asset!.url +
+                            '#page=1&toolbar=0&navpanes=0&scrollbar=0'
+                        )
+                      "
+                      class="w-full h-full pointer-events-none"
+                      scrolling="no"
+                      frameborder="0"
                     >
-                      {{ club.description }}
+                    </iframe>
+                    <div
+                      class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                    >
+                      <mat-icon
+                        svgIcon="lucideIcons:file-text"
+                        class="size-8 text-white"
+                      />
+                    </div>
+                  </button>
+                  @if (item.asset?.name) {
+                    <p class="text-xs text-wrcf-text-secondary truncate w-48">
+                      {{ item.asset!.name }}
                     </p>
                   }
                 </div>
-              </div>
-            }
-          </div>
-        </section>
-      }
+              }
+            </div>
+          </section>
+        }
 
-      <!-- Degrees Offered -->
-      @if (college()!.degreesOffered) {
-        <section>
-          <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
-            Degrees Offered
-          </h3>
-          <div
-            class="rounded-xl bg-wrcf-bg-secondary border border-wrcf-border px-4 py-4 flex flex-col gap-3"
-          >
+        <!-- Promotional Videos -->
+        @if (videos.length > 0) {
+          <section>
+            <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
+              Promotional Videos
+            </h3>
+            <div
+              class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3"
+            >
+              @for (item of videos; track item.mediaAssetId) {
+                <div class="flex flex-col gap-1.5">
+                  <button
+                    type="button"
+                    (click)="
+                      openVideo(item.asset!.url, item.asset?.name ?? 'Video')
+                    "
+                    class="relative aspect-video rounded-xl overflow-hidden bg-wrcf-bg-secondary border border-wrcf-border group cursor-pointer shadow-sm hover:shadow-md transition-shadow"
+                  >
+                    <video
+                      [src]="item.asset!.url + '#t=1'"
+                      muted
+                      preload="metadata"
+                      class="w-full h-full object-cover pointer-events-none"
+                    ></video>
+                    <div
+                      class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/55 transition-colors"
+                    >
+                      <mat-icon
+                        svgIcon="heroicons_outline:play-circle"
+                        class="size-10 text-white"
+                      />
+                    </div>
+                  </button>
+                  @if (item.asset?.name) {
+                    <p
+                      class="text-[11px] text-wrcf-text-secondary text-center leading-4 px-1 truncate"
+                    >
+                      {{ item.asset!.name }}
+                    </p>
+                  }
+                </div>
+              }
+            </div>
+          </section>
+        }
+
+        <!-- Campus Gallery -->
+        @if (gallery.length > 0) {
+          <section>
+            <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
+              Campus Gallery
+            </h3>
+            <div
+              class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3"
+            >
+              @for (item of gallery; track item.mediaAssetId) {
+                <button
+                  type="button"
+                  (click)="
+                    openImage(
+                      item.asset!.url,
+                      item.asset?.name ?? 'Campus image'
+                    )
+                  "
+                  class="relative h-28 rounded-xl overflow-hidden bg-wrcf-bg-secondary border border-wrcf-border shadow-sm group cursor-pointer"
+                >
+                  @if (item.asset?.url) {
+                    <img
+                      [src]="item.asset!.url"
+                      [alt]="item.asset?.name ?? 'Campus image'"
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  } @else {
+                    <div class="w-full h-full flex items-center justify-center">
+                      <mat-icon
+                        svgIcon="heroicons_outline:photo"
+                        class="size-8 text-wrcf-text-secondary opacity-40"
+                      />
+                    </div>
+                  }
+                </button>
+              }
+            </div>
+          </section>
+        }
+
+        <!-- Local Club Chapters -->
+        @if (collegeClubs.length > 0) {
+          <section>
+            <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
+              Local Club Chapters
+            </h3>
+            <div class="grid grid-cols-2 gap-3">
+              @for (club of collegeClubs; track club.id) {
+                <div
+                  class="flex items-center h-24 rounded-xl bg-wrcf-bg-secondary border border-wrcf-border shadow-sm hover:shadow-md hover:bg-wrcf-bg-card transition-all duration-150 cursor-pointer overflow-hidden group"
+                >
+                  @if (club.logoUrl) {
+                    <img
+                      [src]="club.logoUrl"
+                      class="h-full w-24 shrink-0 object-cover object-center p-3 rounded-full"
+                    />
+                  } @else {
+                    <div
+                      class="w-16 h-16 ml-3 rounded-full bg-wrcf-action flex items-center justify-center text-base font-semibold text-wrcf-text-primary shrink-0"
+                    >
+                      {{ getInitial(club.name) }}
+                    </div>
+                  }
+                  <div class="flex-1 min-w-0 px-3">
+                    <p
+                      class="text-sm font-semibold text-wrcf-text-primary line-clamp-1"
+                    >
+                      {{ club.name }}
+                    </p>
+                    @if (club.description) {
+                      <p
+                        class="text-xs text-wrcf-text-secondary line-clamp-2 mt-0.5"
+                      >
+                        {{ club.description }}
+                      </p>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          </section>
+        }
+
+        <!-- Degrees Offered -->
+        @if (college()!.degreesOffered) {
+          <section>
+            <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
+              Degrees Offered
+            </h3>
+            <div
+              class="rounded-xl bg-wrcf-bg-secondary border border-wrcf-border px-4 py-4 flex flex-col gap-3"
+            >
+              <div
+                class="text-sm text-wrcf-text-secondary leading-6"
+                [innerHTML]="college()!.degreesOffered"
+              ></div>
+            </div>
+          </section>
+        }
+
+        <!-- College Key Contacts -->
+        @if (college()!.contacts && college()!.contacts.length > 0) {
+          <section>
+            <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
+              College Key Contacts
+            </h3>
+            <div
+              class="rounded-xl bg-wrcf-bg-secondary border border-wrcf-border px-4 py-4 flex flex-col gap-3"
+            >
+              @let vc = getContactByRole('VICE_CHANCELLOR');
+              @if (vc) {
+                <div
+                  class="flex items-center gap-2 text-sm pb-3 border-b border-wrcf-border/50"
+                >
+                  <span class="text-wrcf-text-primary font-medium w-52 shrink-0"
+                    >Vice Chancellor:</span
+                  >
+                  <a class="text-wrcf-accent hover:underline cursor-pointer">{{
+                    vc.userName ?? vc.userEmail ?? vc.userId
+                  }}</a>
+                </div>
+              }
+
+              @if (college()!.contacts && college()!.contacts.length > 0) {
+                <p class="text-xs text-wrcf-text-secondary leading-5">
+                  For various administrative and student-related activities,
+                  {{ college()!.name }} has designated key contacts:
+                </p>
+              }
+
+              <ul class="flex flex-col gap-2">
+                @for (contact of nonVcContacts; track contact.userId) {
+                  <li class="flex items-start gap-2 text-sm">
+                    <span
+                      class="w-52 shrink-0 font-medium text-wrcf-text-primary"
+                    >
+                      @switch (contact.role) {
+                        @case ('GROOM_COORDINATOR') {
+                          College Groom Coordinator:
+                        }
+                        @case ('COORDINATOR') {
+                          College Communication Coordinator:
+                        }
+                        @case ('PLACEMENT_HEAD') {
+                          Placement Head:
+                        }
+                        @case ('PLACEMENT_COORDINATOR') {
+                          Placement Coordinator:
+                        }
+                        @default {
+                          {{ contact.role.replace(/_/g, ' ') }}:
+                        }
+                      }
+                    </span>
+                    <a
+                      class="text-wrcf-accent hover:underline cursor-pointer flex-1"
+                      >{{
+                        contact.userName ?? contact.userEmail ?? contact.userId
+                      }}</a
+                    >
+                  </li>
+                }
+              </ul>
+
+              @if (college()!.inquiryEmail) {
+                <div
+                  class="pt-3 border-t border-wrcf-border/50 flex flex-wrap items-center gap-1 text-sm"
+                >
+                  <span class="text-wrcf-text-secondary"
+                    >For inquiries, students and stakeholders can reach out via
+                    email:</span
+                  >
+                  <a
+                    [href]="'mailto:' + college()!.inquiryEmail"
+                    class="text-wrcf-accent hover:underline font-medium"
+                    >{{ college()!.inquiryEmail }}</a
+                  >
+                </div>
+              }
+            </div>
+          </section>
+        }
+
+        <!-- Placement Highlights -->
+        @if (college()!.placementHighlights) {
+          <section>
+            <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
+              Placement Highlights
+            </h3>
             <div
               class="text-sm text-wrcf-text-secondary leading-6"
-              [innerHTML]="college()!.degreesOffered"
+              [innerHTML]="college()!.placementHighlights"
             ></div>
-          </div>
-        </section>
-      }
-
-      <!-- College Key Contacts -->
-      @if (college()!.contacts && college()!.contacts.length > 0) {
-        <section>
-          <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
-            College Key Contacts
-          </h3>
-          <div
-            class="rounded-xl bg-wrcf-bg-secondary border border-wrcf-border px-4 py-4 flex flex-col gap-3"
-          >
-            @let vc = getContactByRole('VICE_CHANCELLOR');
-            @if (vc) {
-              <div
-                class="flex items-center gap-2 text-sm pb-3 border-b border-wrcf-border/50"
-              >
-                <span class="text-wrcf-text-primary font-medium w-52 shrink-0"
-                  >Vice Chancellor:</span
-                >
-                <a class="text-wrcf-accent hover:underline cursor-pointer">{{
-                  vc.userName ?? vc.userEmail ?? vc.userId
-                }}</a>
-              </div>
-            }
-
-            @if (college()!.contacts && college()!.contacts.length > 0) {
-              <p class="text-xs text-wrcf-text-secondary leading-5">
-                For various administrative and student-related activities,
-                {{ college()!.name }} has designated key contacts:
-              </p>
-            }
-
-            <ul class="flex flex-col gap-2">
-              @for (contact of nonVcContacts; track contact.userId) {
-                <li class="flex items-start gap-2 text-sm">
-                  <span
-                    class="w-52 shrink-0 font-medium text-wrcf-text-primary"
-                  >
-                    @switch (contact.role) {
-                      @case ('GROOM_COORDINATOR') {
-                        College Groom Coordinator:
-                      }
-                      @case ('COORDINATOR') {
-                        College Communication Coordinator:
-                      }
-                      @case ('PLACEMENT_HEAD') {
-                        Placement Head:
-                      }
-                      @case ('PLACEMENT_COORDINATOR') {
-                        Placement Coordinator:
-                      }
-                      @default {
-                        {{ contact.role.replace(/_/g, ' ') }}:
-                      }
-                    }
-                  </span>
-                  <a
-                    class="text-wrcf-accent hover:underline cursor-pointer flex-1"
-                    >{{
-                      contact.userName ?? contact.userEmail ?? contact.userId
-                    }}</a
-                  >
-                </li>
-              }
-            </ul>
-
-            @if (college()!.inquiryEmail) {
-              <div
-                class="pt-3 border-t border-wrcf-border/50 flex flex-wrap items-center gap-1 text-sm"
-              >
-                <span class="text-wrcf-text-secondary"
-                  >For inquiries, students and stakeholders can reach out via
-                  email:</span
-                >
-                <a
-                  [href]="'mailto:' + college()!.inquiryEmail"
-                  class="text-wrcf-accent hover:underline font-medium"
-                  >{{ college()!.inquiryEmail }}</a
-                >
-              </div>
-            }
-          </div>
-        </section>
-      }
-
-      <!-- Placement Highlights -->
-      @if (college()!.placementHighlights) {
-        <section>
-          <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
-            Placement Highlights
-          </h3>
-          <div
-            class="text-sm text-wrcf-text-secondary leading-6"
-            [innerHTML]="college()!.placementHighlights"
-          ></div>
-        </section>
-      }
+          </section>
+        }
+      </div>
     </div>
-  </div>
 
-  @if (activePdfUrl()) {
-    <whizard-pdf-viewer
-      [url]="activePdfUrl()!"
-      [fileName]="activePdfName()"
-      (closed)="closePdf()"
-    />
+    @if (activePdfUrl()) {
+      <whizard-pdf-viewer
+        [url]="activePdfUrl()!"
+        [fileName]="activePdfName()"
+        (closed)="closePdf()"
+      />
+    }
+    @if (activeVideoUrl()) {
+      <whizard-video-player
+        [url]="activeVideoUrl()!"
+        [title]="activeVideoTitle()"
+        (closed)="closeVideo()"
+      />
+    }
+    @if (activeImageUrl()) {
+      <whizard-image-lightbox
+        [url]="activeImageUrl()!"
+        [alt]="activeImageAlt()"
+        (closed)="closeImage()"
+      />
+    }
   }
-  @if (activeVideoUrl()) {
-    <whizard-video-player
-      [url]="activeVideoUrl()!"
-      [title]="activeVideoTitle()"
-      (closed)="closeVideo()"
-    />
-  }
-  @if (activeImageUrl()) {
-    <whizard-image-lightbox
-      [url]="activeImageUrl()!"
-      [alt]="activeImageAlt()"
-      (closed)="closeImage()"
-    />
-  }
-}
+</div>

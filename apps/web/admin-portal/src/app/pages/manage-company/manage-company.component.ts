@@ -1,6 +1,7 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit, OnDestroy, effect } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { PageActionsService } from '@whizard/shared-ui';
 import { forkJoin } from 'rxjs';
 import type {
   CompanyListItem, CompanyDetail, Club, Industry, City, UserContact,
@@ -16,6 +17,7 @@ import { ManageCompanyApiService } from './services/manage-company-api.service';
 @Component({
   selector: 'whizard-manage-company',
   standalone: true,
+  host: { class: 'flex-1 min-h-0 flex flex-col overflow-hidden' },
   imports: [
     FormsModule,
     MatIconModule,
@@ -28,8 +30,9 @@ import { ManageCompanyApiService } from './services/manage-company-api.service';
   templateUrl: './manage-company.component.html',
   styleUrl: './manage-company.component.css',
 })
-export class ManageCompanyComponent implements OnInit {
+export class ManageCompanyComponent implements OnInit, OnDestroy {
   private readonly api = inject(ManageCompanyApiService);
+  private readonly pageActions = inject(PageActionsService);
 
   protected mode = signal<PageMode>('list');
   protected companies = signal<CompanyListItem[]>([]);
@@ -44,6 +47,32 @@ export class ManageCompanyComponent implements OnInit {
   protected errorMessage = signal<string | null>(null);
   protected get selectedCompanyId(): string | null {
     return this.selectedCompany()?.id ?? null;
+  }
+
+  constructor() {
+    effect(() => {
+      const m = this.mode();
+      if (m === 'list') {
+        const hasSelected = !!this.selectedCompany();
+        this.pageActions.set([
+          ...(hasSelected ? [{ label: 'Edit', icon: 'heroicons_outline:pencil-square', variant: 'outline' as const, action: () => this.onEditClicked() }] : []),
+          { label: 'Add', icon: 'heroicons_outline:plus', variant: 'primary', action: () => this.onAddClicked() },
+        ]);
+      } else if (m === 'edit' || m === 'create') {
+        this.pageActions.set([
+          { label: 'Back', icon: 'heroicons_outline:arrow-left', variant: 'outline', action: () => this.onFormCancelled() },
+          { label: 'Preview', variant: 'secondary', action: () => this.onPreviewClicked() },
+        ]);
+      } else if (m === 'preview') {
+        this.pageActions.set([
+          { label: 'Back', icon: 'heroicons_outline:arrow-left', variant: 'outline', action: () => this.onBackFromPreview() },
+        ]);
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.pageActions.clear();
   }
 
   ngOnInit(): void {

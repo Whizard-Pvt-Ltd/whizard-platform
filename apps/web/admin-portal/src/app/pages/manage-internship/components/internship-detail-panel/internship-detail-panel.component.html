@@ -1,163 +1,342 @@
-<div class="flex flex-col h-full overflow-hidden bg-wrcf-bg-card">
-
+<div class="flex flex-col flex-1 min-w-0 h-full">
   @if (!internship()) {
-    <div class="flex-1 flex flex-col items-center justify-center text-wrcf-text-secondary p-8">
+    <div
+      class="flex-1 flex flex-col items-center justify-center text-wrcf-text-secondary p-8"
+    >
       <p class="text-sm">Select an internship from the list to view details.</p>
     </div>
   } @else {
-
-    <!-- Header -->
-    <div class="shrink-0 px-6 pt-5 pb-4 border-b border-wrcf-border">
-      <div class="flex items-start justify-between gap-4">
-        <div class="flex-1 min-w-0">
-          <h2 class="text-xl font-semibold text-wrcf-text-primary truncate">{{ internship()!.title }}</h2>
-          <div class="flex items-center gap-3 mt-1 flex-wrap">
-            <span class="text-xs px-2 py-0.5 rounded-full font-medium"
-              [class]="statusColors[internship()!.status] ?? 'bg-gray-500/20 text-gray-400'">
-              {{ statusLabels[internship()!.status] ?? internship()!.status }}
-            </span>
-            <span class="text-xs text-wrcf-text-secondary">{{ internship()!.internshipType }}</span>
-            @if (internship()!.cityName) {
-              <span class="text-xs text-wrcf-text-secondary">{{ internship()!.cityName }}</span>
-            }
-          </div>
-        </div>
-        <button mat-flat-button (click)="editClicked.emit()"
-          class="shrink-0 h-9 px-4 rounded-[10px] bg-wrcf-action text-wrcf-text-primary text-sm">
-          Edit
-        </button>
-      </div>
-
-      <div class="grid grid-cols-4 gap-3 mt-4">
-        <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border px-3 py-2">
-          <p class="text-[11px] text-wrcf-text-secondary">Vacancies</p>
-          <p class="text-sm font-semibold text-wrcf-text-primary mt-0.5">{{ internship()!.vacancies }}</p>
-        </div>
-        <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border px-3 py-2">
-          <p class="text-[11px] text-wrcf-text-secondary">Duration</p>
-          <p class="text-sm font-semibold text-wrcf-text-primary mt-0.5">{{ internship()!.durationMonths }} mo</p>
-        </div>
-        @if (internship()!.stipend) {
-          <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border px-3 py-2">
-            <p class="text-[11px] text-wrcf-text-secondary">Stipend</p>
-            <p class="text-sm font-semibold text-wrcf-text-primary mt-0.5">₹{{ internship()!.stipend }}</p>
-          </div>
-        }
-        @if (internship()!.applicationDeadline) {
-          <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border px-3 py-2">
-            <p class="text-[11px] text-wrcf-text-secondary">Deadline</p>
-            <p class="text-sm font-semibold text-wrcf-text-primary mt-0.5">{{ internship()!.applicationDeadline | date:'mediumDate' }}</p>
-          </div>
-        }
-      </div>
-    </div>
-
-    <!-- Tabs -->
-    <mat-tab-group animationDuration="0ms" class="flex-1 min-h-0">
-
+    <!-- ── Tab group ──────────────────────────────────────────── -->
+    <mat-tab-group animationDuration="2000ms" class="flex-1" >
+      <!-- DETAILS -->
       <mat-tab label="Details">
-        <div class="p-5 space-y-5">
-          @if (aboutSections().every(s => !s.value)) {
-            <p class="text-sm text-wrcf-text-secondary italic">No details added yet.</p>
-          }
-          @for (section of aboutSections(); track section.label) {
-            @if (section.value) {
-              <div>
-                <p class="text-xs font-semibold text-wrcf-text-secondary uppercase tracking-wide mb-1">{{ section.label }}</p>
-                <p class="text-sm text-wrcf-text-primary whitespace-pre-wrap leading-relaxed">{{ section.value }}</p>
+        <div >
+          <!-- ── Header ─────────────────────────────────────────────── -->
+          <div class="shrink-0 px-6 pt-4 pb-4 border-b border-wrcf-border">
+            <!-- Row 1: thumbnail · title · edit button -->
+            <div class="flex items-start gap-4">
+              <!-- Thumbnail / letter avatar -->
+              @if (internship()!.bannerImageUrl) {
+                <img
+                  [src]="internship()!.bannerImageUrl"
+                  [alt]="internship()!.title"
+                  class="w-14 h-14 rounded-lg object-cover shrink-0"
+                />
+              } @else {
+                <div
+                  class="w-14 h-14 rounded-lg bg-wrcf-action flex items-center justify-center text-wrcf-text-primary text-2xl font-bold shrink-0"
+                >
+                  {{ internship()!.title.charAt(0).toUpperCase() }}
+                </div>
+              }
+
+              <!-- Title + meta -->
+              <div class="flex-1 min-w-0">
+                <h2
+                  class="text-xl font-bold text-wrcf-text-primary leading-tight truncate"
+                >
+                  {{ internship()!.title }}
+                </h2>
+
+                <!-- Inline meta chips -->
+                <div
+                  class="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1 text-xs text-wrcf-text-secondary"
+                >
+                  @if (internship()!.cityName) {
+                    <span class="flex items-center gap-0.5">
+                      <mat-icon
+                        svgIcon="lucideIcons:map-pin"
+                        class="size-3 shrink-0"
+                      />
+                      {{ internship()!.cityName }}
+                    </span>
+                  }
+                  <span class="flex items-center gap-0.5">
+                    <mat-icon
+                      svgIcon="lucideIcons:users"
+                      class="size-3 shrink-0"
+                    />
+                    {{ internship()!.vacancies }} Vacanc{{
+                      internship()!.vacancies === 1 ? 'y' : 'ies'
+                    }}
+                  </span>
+                  <span class="flex items-center gap-0.5">
+                    <mat-icon
+                      svgIcon="lucideIcons:clock"
+                      class="size-3 shrink-0"
+                    />
+                    {{ internship()!.durationMonths }} Month{{
+                      internship()!.durationMonths === 1 ? '' : 's'
+                    }}
+                  </span>
+                  @if (internship()!.stipend) {
+                    <span class="flex items-center gap-0.5">
+                      <mat-icon
+                        svgIcon="lucideIcons:indian-rupee"
+                        class="size-3 shrink-0"
+                      />
+                      {{ internship()!.stipend }}
+                    </span>
+                  }
+                  @if (internship()!.applicationDeadline) {
+                    <span class="flex items-center gap-0.5">
+                      <mat-icon
+                        svgIcon="lucideIcons:calendar"
+                        class="size-3 shrink-0"
+                      />
+                      {{ internship()!.applicationDeadline | date: 'd MMM yy' }}
+                    </span>
+                  }
+                  <span
+                    >·
+                    {{
+                      internship()!.internshipType === 'ONSITE'
+                        ? 'On-site'
+                        : 'Remote'
+                    }}</span
+                  >
+                </div>
+
+                <!-- Row 3: status badge + internship ID / posting date -->
+                <div
+                  class="flex items-center justify-between mt-2 gap-4 flex-wrap"
+                >
+                  <div class="flex items-center gap-1.5">
+                    <mat-icon
+                      svgIcon="lucideIcons:bolt"
+                      class="size-3.5 text-wrcf-accent shrink-0"
+                    />
+                    <span
+                      class="text-xs px-2 py-0.5 rounded-full font-medium"
+                      [class]="
+                        statusColors[internship()!.status] ??
+                        'bg-blue-500/20 text-blue-400'
+                      "
+                    >
+                      {{
+                        statusLabels[internship()!.status] ??
+                          internship()!.status
+                      }}
+                    </span>
+                  </div>
+                  <div
+                    class="flex items-center gap-4 text-xs text-wrcf-text-secondary shrink-0"
+                  >
+                    <span
+                      >Internship Id:
+                      <span class="text-wrcf-text-tertiary font-medium">{{
+                        internship()!.id | slice: 0 : 8 | uppercase
+                      }}</span></span
+                    >
+                    @if (internship()!.createdOn) {
+                      <span
+                        >Posting Date:
+                        <span class="text-wrcf-text-tertiary">{{
+                          internship()!.createdOn | date: 'd MMM yy'
+                        }}</span></span
+                      >
+                    }
+                  </div>
+                </div>
               </div>
+
+              <!-- Edit button -->
+              <button
+                (click)="editClicked.emit()"
+                class="shrink-0 flex items-center gap-1.5 h-9 px-4 rounded-[10px] bg-wrcf-action text-wrcf-text-primary text-sm font-medium hover:bg-wrcf-action-hover transition-colors"
+              >
+                <mat-icon
+                  svgIcon="lucideIcons:pencil-square"
+                  class="size-4 shrink-0"
+                />
+                Edit
+              </button>
+            </div>
+          </div>
+
+          <div class="h-full px-6 py-5 space-y-6">
+            <h3 class="text-lg font-bold text-wrcf-text-primary">
+              About the internship
+            </h3>
+
+            @if (aboutSections().every(s => !s.value)) {
+              <p class="text-sm text-wrcf-text-secondary italic">
+                No details added yet.
+              </p>
             }
-          }
+
+            @for (section of aboutSections(); track section.label) {
+              @if (section.value) {
+                <div class="space-y-2">
+                  <p class="text-sm font-semibold text-wrcf-accent">
+                    {{ section.label }}
+                  </p>
+                  <p
+                    class="text-sm text-wrcf-text-primary whitespace-pre-wrap leading-relaxed"
+                  >
+                    {{ section.value }}
+                  </p>
+                </div>
+              }
+            }
+          </div>
         </div>
       </mat-tab>
 
-      <mat-tab label="Screening">
-        <div class="p-5 space-y-5">
-          @if (internship()!.screeningQuestions.length === 0 && internship()!.assessments.length === 0 && !internship()!.interviewRubric) {
-            <p class="text-sm text-wrcf-text-secondary italic">No screening criteria configured.</p>
+      <!-- SCREENING CRITERIA -->
+      <mat-tab label="Screening Criteria">
+        <div class="overflow-y-auto h-full px-6 py-5 space-y-6">
+          @if (
+            internship()!.screeningQuestions.length === 0 &&
+            internship()!.assessments.length === 0 &&
+            !internship()!.interviewRubric
+          ) {
+            <p class="text-sm text-wrcf-text-secondary italic">
+              No screening criteria configured.
+            </p>
           }
           @if (internship()!.screeningQuestions.length > 0) {
-            <div>
-              <p class="text-xs font-semibold text-wrcf-text-secondary uppercase tracking-wide mb-2">Screening Questions</p>
-              <div class="space-y-2">
-                @for (q of internship()!.screeningQuestions; track $index) {
-                  <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border px-4 py-3">
-                    <p class="text-sm text-wrcf-text-primary">{{ q.question }}</p>
-                    @if (q.expectedAnswer) {
-                      <p class="text-xs text-wrcf-text-secondary mt-1">Expected: {{ q.expectedAnswer }}</p>
-                    }
-                  </div>
-                }
-              </div>
+            <div class="space-y-3">
+              <p class="text-sm font-semibold text-wrcf-accent">
+                Screening Questions
+              </p>
+              @for (q of internship()!.screeningQuestions; track $index) {
+                <div
+                  class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border px-4 py-3"
+                >
+                  <p class="text-sm text-wrcf-text-primary">{{ q.question }}</p>
+                  @if (q.expectedAnswer) {
+                    <p class="text-xs text-wrcf-text-secondary mt-1">
+                      Expected: {{ q.expectedAnswer }}
+                    </p>
+                  }
+                </div>
+              }
             </div>
           }
           @if (internship()!.assessments.length > 0) {
-            <div>
-              <p class="text-xs font-semibold text-wrcf-text-secondary uppercase tracking-wide mb-2">Assessments</p>
+            <div class="space-y-3">
+              <p class="text-sm font-semibold text-wrcf-accent">Assessments</p>
               @for (a of internship()!.assessments; track $index) {
-                <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border px-4 py-3 flex items-center gap-4 mb-2">
-                  <mat-icon svgIcon="heroicons_outline:document" class="text-wrcf-accent shrink-0"></mat-icon>
-                  <span class="flex-1 text-sm text-wrcf-text-primary truncate">{{ a.pdfUrl || 'Assessment ' + ($index + 1) }}</span>
-                  <span class="text-xs text-wrcf-text-secondary shrink-0">Min: {{ a.minScore }}% · Weight: {{ a.weightage }}%</span>
+                <div
+                  class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border px-4 py-3 flex items-center gap-4"
+                >
+                  <mat-icon
+                    svgIcon="lucideIcons:document"
+                    class="text-wrcf-accent shrink-0"
+                  ></mat-icon>
+                  <span
+                    class="flex-1 text-sm text-wrcf-text-primary truncate"
+                    >{{ a.pdfUrl || 'Assessment ' + ($index + 1) }}</span
+                  >
+                  <span class="text-xs text-wrcf-text-secondary shrink-0"
+                    >Min: {{ a.minScore }}% · Weight: {{ a.weightage }}%</span
+                  >
                 </div>
               }
             </div>
           }
           @if (internship()!.interviewRubric?.pdfUrl) {
-            <div>
-              <p class="text-xs font-semibold text-wrcf-text-secondary uppercase tracking-wide mb-2">Interview Rubric</p>
-              <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border px-4 py-3 flex items-center gap-4">
-                <mat-icon svgIcon="heroicons_outline:document" class="text-wrcf-accent shrink-0"></mat-icon>
-                <span class="flex-1 text-sm text-wrcf-text-primary truncate">{{ internship()!.interviewRubric!.pdfUrl }}</span>
-                <span class="text-xs text-wrcf-text-secondary shrink-0">Min: {{ internship()!.interviewRubric!.minScore }}% · Weight: {{ internship()!.interviewRubric!.weightage }}%</span>
+            <div class="space-y-3">
+              <p class="text-sm font-semibold text-wrcf-accent">
+                Interview Rubric
+              </p>
+              <div
+                class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border px-4 py-3 flex items-center gap-4"
+              >
+                <mat-icon
+                  svgIcon="lucideIcons:document"
+                  class="text-wrcf-accent shrink-0"
+                ></mat-icon>
+                <span class="flex-1 text-sm text-wrcf-text-primary truncate">{{
+                  internship()!.interviewRubric!.pdfUrl
+                }}</span>
+                <span class="text-xs text-wrcf-text-secondary shrink-0"
+                  >Min: {{ internship()!.interviewRubric!.minScore }}% · Weight:
+                  {{ internship()!.interviewRubric!.weightage }}%</span
+                >
               </div>
             </div>
           }
         </div>
       </mat-tab>
 
+      <!-- SELECTION -->
       <mat-tab label="Selection">
-        <div class="p-5 space-y-5">
-          @if (internship()!.batches.length === 0 && !internship()!.preInternshipCommunication && internship()!.preReadCourses.length === 0 && internship()!.preReadArticles.length === 0) {
-            <p class="text-sm text-wrcf-text-secondary italic">No selection details configured.</p>
+        <div class="overflow-y-auto h-full px-6 py-5 space-y-6">
+          @if (
+            internship()!.batches.length === 0 &&
+            !internship()!.preInternshipCommunication &&
+            internship()!.preReadCourses.length === 0 &&
+            internship()!.preReadArticles.length === 0
+          ) {
+            <p class="text-sm text-wrcf-text-secondary italic">
+              No selection details configured.
+            </p>
           }
           @if (internship()!.batches.length > 0) {
-            <div>
-              <p class="text-xs font-semibold text-wrcf-text-secondary uppercase tracking-wide mb-2">Batches</p>
+            <div class="space-y-3">
+              <p class="text-sm font-semibold text-wrcf-accent">Batches</p>
               @for (b of internship()!.batches; track b.id) {
-                <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border px-4 py-3 flex items-center justify-between mb-2">
-                  <span class="text-sm text-wrcf-text-primary">Batch · Size: {{ b.batchSize }}</span>
+                <div
+                  class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border px-4 py-3 flex items-center justify-between"
+                >
+                  <span class="text-sm text-wrcf-text-primary"
+                    >Batch · Size: {{ b.batchSize }}</span
+                  >
                   @if (b.coordinatorUserId) {
-                    <span class="text-xs text-wrcf-text-secondary">Coordinator: {{ b.coordinatorUserId }}</span>
+                    <span class="text-xs text-wrcf-text-secondary"
+                      >Coordinator: {{ b.coordinatorUserId }}</span
+                    >
                   }
                 </div>
               }
             </div>
           }
           @if (internship()!.preInternshipCommunication) {
-            <div>
-              <p class="text-xs font-semibold text-wrcf-text-secondary uppercase tracking-wide mb-1">Pre-Internship Communication</p>
-              <p class="text-sm text-wrcf-text-primary whitespace-pre-wrap leading-relaxed">{{ internship()!.preInternshipCommunication }}</p>
+            <div class="space-y-2">
+              <p class="text-sm font-semibold text-wrcf-accent">
+                Pre-Internship Communication
+              </p>
+              <p
+                class="text-sm text-wrcf-text-primary whitespace-pre-wrap leading-relaxed"
+              >
+                {{ internship()!.preInternshipCommunication }}
+              </p>
             </div>
           }
           @if (internship()!.preReadCourses.length > 0) {
-            <div>
-              <p class="text-xs font-semibold text-wrcf-text-secondary uppercase tracking-wide mb-2">Pre-read Courses</p>
+            <div class="space-y-2">
+              <p class="text-sm font-semibold text-wrcf-accent">
+                Pre-read Courses
+              </p>
               @for (c of internship()!.preReadCourses; track $index) {
-                <div class="flex items-center gap-2 mb-1">
-                  <mat-icon svgIcon="heroicons_outline:document" class="size-4 text-wrcf-accent shrink-0"></mat-icon>
-                  <span class="text-sm text-wrcf-text-primary">{{ c.name }}</span>
+                <div class="flex items-center gap-2">
+                  <mat-icon
+                    svgIcon="lucideIcons:document"
+                    class="size-4 text-wrcf-accent shrink-0"
+                  ></mat-icon>
+                  <span class="text-sm text-wrcf-text-primary">{{
+                    c.name
+                  }}</span>
                 </div>
               }
             </div>
           }
           @if (internship()!.preReadArticles.length > 0) {
-            <div>
-              <p class="text-xs font-semibold text-wrcf-text-secondary uppercase tracking-wide mb-2">Pre-read Articles</p>
+            <div class="space-y-2">
+              <p class="text-sm font-semibold text-wrcf-accent">
+                Pre-read Articles
+              </p>
               @for (a of internship()!.preReadArticles; track $index) {
-                <div class="flex items-center gap-2 mb-1">
-                  <mat-icon svgIcon="heroicons_outline:document" class="size-4 text-wrcf-accent shrink-0"></mat-icon>
-                  <span class="text-sm text-wrcf-text-primary">{{ a.name }}</span>
+                <div class="flex items-center gap-2">
+                  <mat-icon
+                    svgIcon="lucideIcons:document"
+                    class="size-4 text-wrcf-accent shrink-0"
+                  ></mat-icon>
+                  <span class="text-sm text-wrcf-text-primary">{{
+                    a.name
+                  }}</span>
                 </div>
               }
             </div>
@@ -165,30 +344,49 @@
         </div>
       </mat-tab>
 
-      <mat-tab label="During">
-        <div class="p-5 space-y-5">
-          @if (!internship()!.totalWeeks && internship()!.weeklySchedule.length === 0 && !internship()!.midTermFeedbackDate) {
-            <p class="text-sm text-wrcf-text-secondary italic">No schedule configured.</p>
+      <!-- DURING INTERNSHIP -->
+      <mat-tab label="During Internship">
+        <div class="overflow-y-auto h-full px-6 py-5 space-y-6">
+          @if (
+            !internship()!.totalWeeks &&
+            internship()!.weeklySchedule.length === 0 &&
+            !internship()!.midTermFeedbackDate
+          ) {
+            <p class="text-sm text-wrcf-text-secondary italic">
+              No schedule configured.
+            </p>
           }
           @if (internship()!.totalWeeks) {
-            <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border px-4 py-3">
-              <p class="text-xs text-wrcf-text-secondary">Total Weeks</p>
-              <p class="text-sm font-semibold text-wrcf-text-primary mt-0.5">{{ internship()!.totalWeeks }}</p>
+            <div class="space-y-1">
+              <p class="text-sm font-semibold text-wrcf-accent">Total Weeks</p>
+              <p class="text-sm text-wrcf-text-primary">
+                {{ internship()!.totalWeeks }}
+              </p>
             </div>
           }
           @if (internship()!.weeklySchedule.length > 0) {
-            <div>
-              <p class="text-xs font-semibold text-wrcf-text-secondary uppercase tracking-wide mb-2">Weekly Schedule</p>
+            <div class="space-y-3">
+              <p class="text-sm font-semibold text-wrcf-accent">
+                Weekly Schedule
+              </p>
               @for (entry of internship()!.weeklySchedule; track $index) {
-                <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border px-4 py-3 mb-2">
+                <div
+                  class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border px-4 py-3"
+                >
                   <div class="flex items-center justify-between mb-1">
-                    <span class="text-sm font-semibold text-wrcf-text-primary">Week Block {{ $index + 1 }}</span>
-                    <span class="text-xs text-wrcf-text-secondary">{{ entry.noOfWeeks }} week(s)</span>
+                    <span class="text-sm font-semibold text-wrcf-text-primary"
+                      >Week Block {{ $index + 1 }}</span
+                    >
+                    <span class="text-xs text-wrcf-text-secondary"
+                      >{{ entry.noOfWeeks }} week(s)</span
+                    >
                   </div>
                   @if (entry.tasks.length > 0) {
                     <ul class="mt-2 space-y-1">
                       @for (task of entry.tasks; track $index) {
-                        <li class="text-xs text-wrcf-text-primary">• {{ task.title }}</li>
+                        <li class="text-xs text-wrcf-text-primary">
+                          · {{ task.title }}
+                        </li>
                       }
                     </ul>
                   }
@@ -197,54 +395,95 @@
             </div>
           }
           @if (internship()!.midTermFeedbackDate) {
-            <div>
-              <p class="text-xs font-semibold text-wrcf-text-secondary uppercase tracking-wide mb-1">Mid-Term Feedback Date</p>
-              <p class="text-sm text-wrcf-text-primary">{{ internship()!.midTermFeedbackDate | date:'mediumDate' }}</p>
+            <div class="space-y-1">
+              <p class="text-sm font-semibold text-wrcf-accent">
+                Mid-Term Feedback Date
+              </p>
+              <p class="text-sm text-wrcf-text-primary">
+                {{ internship()!.midTermFeedbackDate | date: 'mediumDate' }}
+              </p>
             </div>
           }
         </div>
       </mat-tab>
 
-      <mat-tab label="Final">
-        <div class="p-5 space-y-5">
-          @if (internship()!.finalSubmissionDocuments.length === 0 && !internship()!.documentGuidelines && !internship()!.presentationRubricUrl) {
-            <p class="text-sm text-wrcf-text-secondary italic">No final submission details configured.</p>
+      <!-- FINAL SUBMISSION -->
+      <mat-tab label="Final Submission">
+        <div class="overflow-y-auto h-full px-6 py-5 space-y-6">
+          @if (
+            internship()!.finalSubmissionDocuments.length === 0 &&
+            !internship()!.documentGuidelines &&
+            !internship()!.presentationRubricUrl
+          ) {
+            <p class="text-sm text-wrcf-text-secondary italic">
+              No final submission details configured.
+            </p>
           }
           @if (internship()!.finalSubmissionDocuments.length > 0) {
-            <div>
-              <p class="text-xs font-semibold text-wrcf-text-secondary uppercase tracking-wide mb-2">Required Documents</p>
+            <div class="space-y-2">
+              <p class="text-sm font-semibold text-wrcf-accent">
+                Required Documents
+              </p>
               <div class="flex flex-wrap gap-2">
-                @for (doc of internship()!.finalSubmissionDocuments; track doc) {
-                  <span class="px-2 py-1 rounded-full bg-wrcf-bg-secondary border border-wrcf-border text-xs text-wrcf-text-primary">{{ doc }}</span>
+                @for (
+                  doc of internship()!.finalSubmissionDocuments;
+                  track doc
+                ) {
+                  <span
+                    class="px-3 py-1 rounded-full bg-wrcf-bg-secondary border border-wrcf-border text-xs text-wrcf-text-primary"
+                  >
+                    {{ doc }}
+                  </span>
                 }
               </div>
             </div>
           }
           @if (internship()!.documentGuidelines) {
-            <div>
-              <p class="text-xs font-semibold text-wrcf-text-secondary uppercase tracking-wide mb-1">Document Guidelines</p>
-              <p class="text-sm text-wrcf-text-primary whitespace-pre-wrap leading-relaxed">{{ internship()!.documentGuidelines }}</p>
+            <div class="space-y-2">
+              <p class="text-sm font-semibold text-wrcf-accent">
+                Document Guidelines
+              </p>
+              <p
+                class="text-sm text-wrcf-text-primary whitespace-pre-wrap leading-relaxed"
+              >
+                {{ internship()!.documentGuidelines }}
+              </p>
             </div>
           }
           @if (internship()!.presentationRubricUrl) {
-            <div>
-              <p class="text-xs font-semibold text-wrcf-text-secondary uppercase tracking-wide mb-2">Presentation Rubric</p>
-              <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border px-4 py-3 flex items-center gap-4">
-                <mat-icon svgIcon="heroicons_outline:document" class="text-wrcf-accent shrink-0"></mat-icon>
-                <span class="flex-1 text-sm text-wrcf-text-primary truncate">{{ internship()!.presentationRubricUrl }}</span>
-                <span class="text-xs text-wrcf-text-secondary shrink-0">Min: {{ internship()!.minPresentationScore }}% · Weight: {{ internship()!.presentationWeightage }}%</span>
+            <div class="space-y-2">
+              <p class="text-sm font-semibold text-wrcf-accent">
+                Presentation Rubric
+              </p>
+              <div
+                class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border px-4 py-3 flex items-center gap-4"
+              >
+                <mat-icon
+                  svgIcon="lucideIcons:document"
+                  class="text-wrcf-accent shrink-0"
+                ></mat-icon>
+                <span class="flex-1 text-sm text-wrcf-text-primary truncate">{{
+                  internship()!.presentationRubricUrl
+                }}</span>
+                <span class="text-xs text-wrcf-text-secondary shrink-0">
+                  Min: {{ internship()!.minPresentationScore }}% · Weight:
+                  {{ internship()!.presentationWeightage }}%
+                </span>
               </div>
             </div>
           }
           @if (internship()!.certificateTemplateUrl) {
-            <div>
-              <p class="text-xs font-semibold text-wrcf-text-secondary uppercase tracking-wide mb-1">Certificate Template</p>
-              <p class="text-sm text-wrcf-text-primary">{{ internship()!.certificateTemplateUrl }}</p>
+            <div class="space-y-1">
+              <p class="text-sm font-semibold text-wrcf-accent">
+                Certificate Template
+              </p>
+              <p class="text-sm text-wrcf-text-primary">
+                {{ internship()!.certificateTemplateUrl }}
+              </p>
             </div>
           }
         </div>
       </mat-tab>
-
     </mat-tab-group>
   }
 </div>

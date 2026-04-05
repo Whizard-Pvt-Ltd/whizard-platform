@@ -19,6 +19,7 @@ import { StackAuthService } from '../../core/services/stack-auth.service';
   selector: 'admin-enhanced-profile-page',
   standalone: true,
   imports: [RouterLink, ScrollbarDirective],
+  host: { class: 'flex-1 min-h-0 flex flex-col overflow-y-auto' },
   templateUrl: './enhanced-profile-page.component.html',
   styleUrls: ['./enhanced-profile-page.component.css']
 })

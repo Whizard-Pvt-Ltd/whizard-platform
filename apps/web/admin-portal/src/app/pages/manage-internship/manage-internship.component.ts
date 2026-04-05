@@ -1,4 +1,5 @@
-import { Component, inject, signal, OnInit, computed, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, signal, OnInit, OnDestroy, computed, effect, ChangeDetectionStrategy } from '@angular/core';
+import { PageActionsService, ScrollbarDirective } from '@whizard/shared-ui';
 import type {
   InternshipDetail, InternshipFormValue, PageMode,
 } from './models/manage-internship.models';
@@ -93,20 +94,21 @@ function detailToForm(detail: InternshipDetail): InternshipFormValue {
 @Component({
   selector: 'whizard-manage-internship',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     InternshipListPanelComponent,
     InternshipDetailPanelComponent,
     AssessmentLibraryPanelComponent,
     InternshipFormComponent,
+    ScrollbarDirective,
   ],
   templateUrl: './manage-internship.component.html',
 })
-export class ManageInternshipComponent implements OnInit {
+export class ManageInternshipComponent implements OnInit, OnDestroy {
   private readonly api = inject(ManageInternshipApiService);
+  private readonly pageActions = inject(PageActionsService);
 
   protected mode = signal<PageMode>('list');
-  protected drawerOpen = signal(false);
   protected loading = signal(false);
   protected errorMessage = signal<string | null>(null);
   protected internships = signal<InternshipDetail[]>([]);
@@ -114,7 +116,51 @@ export class ManageInternshipComponent implements OnInit {
   protected formValue = signal<InternshipFormValue>({ ...EMPTY_FORM });
   protected saving = signal(false);
 
-  protected readonly selectedId = computed(() => this.selectedInternship()?.id ?? null);
+  protected readonly selectedId = computed(
+    () => this.selectedInternship()?.id ?? null,
+  );
+
+  constructor() {
+    effect(() => {
+      const m = this.mode();
+      const isSaving = this.saving();
+      if (m === 'list') {
+        this.pageActions.set([
+          {
+            label: 'Add',
+            icon: 'heroicons_outline:plus',
+            variant: 'primary',
+            action: () => this.onAddClicked(),
+          },
+        ]);
+      } else {
+        this.pageActions.set([
+          {
+            label: 'Cancel',
+            variant: 'outline',
+            disabled: isSaving,
+            action: () => this.onCancelClicked(),
+          },
+          {
+            label: 'Save',
+            variant: 'outline',
+            disabled: isSaving,
+            action: () => this.onSaveClicked(),
+          },
+          {
+            label: 'Publish',
+            variant: 'primary',
+            disabled: isSaving,
+            action: () => this.onPublishClicked(),
+          },
+        ]);
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.pageActions.clear();
+  }
 
   ngOnInit(): void {
     this.loadList();
@@ -123,7 +169,7 @@ export class ManageInternshipComponent implements OnInit {
   private loadList(): void {
     this.loading.set(true);
     this.api.listInternships().subscribe({
-      next: list => {
+      next: (list) => {
         this.internships.set(list);
         this.loading.set(false);
         if (list.length > 0) {
@@ -143,7 +189,7 @@ export class ManageInternshipComponent implements OnInit {
   }
 
   protected onInternshipSelected(id: string): void {
-    const detail = this.internships().find(i => i.id === id);
+    const detail = this.internships().find((i) => i.id === id);
     if (detail) this.selectInternship(detail);
   }
 
@@ -162,7 +208,7 @@ export class ManageInternshipComponent implements OnInit {
   }
 
   protected onFormChanged(patch: Partial<InternshipFormValue>): void {
-    this.formValue.update(v => ({ ...v, ...patch }));
+    this.formValue.update((v) => ({ ...v, ...patch }));
   }
 
   protected onSaveClicked(): void {
@@ -172,9 +218,11 @@ export class ManageInternshipComponent implements OnInit {
 
     if (existing) {
       this.api.updateInternship(existing.id, form).subscribe({
-        next: updated => {
+        next: (updated) => {
           this.selectedInternship.set(updated);
-          this.internships.update(list => list.map(i => i.id === updated.id ? updated : i));
+          this.internships.update((list) =>
+            list.map((i) => (i.id === updated.id ? updated : i)),
+          );
           this.saving.set(false);
           this.mode.set('list');
         },
@@ -185,9 +233,9 @@ export class ManageInternshipComponent implements OnInit {
       });
     } else {
       this.api.createInternship(form).subscribe({
-        next: created => {
+        next: (created) => {
           this.selectedInternship.set(created);
-          this.internships.update(list => [created, ...list]);
+          this.internships.update((list) => [created, ...list]);
           this.saving.set(false);
           this.mode.set('list');
         },
@@ -206,9 +254,11 @@ export class ManageInternshipComponent implements OnInit {
 
     const doPublish = (id: string) => {
       this.api.publishInternship(id).subscribe({
-        next: published => {
+        next: (published) => {
           this.selectedInternship.set(published);
-          this.internships.update(list => list.map(i => i.id === published.id ? published : i));
+          this.internships.update((list) =>
+            list.map((i) => (i.id === published.id ? published : i)),
+          );
           this.saving.set(false);
           this.mode.set('list');
         },
@@ -221,7 +271,7 @@ export class ManageInternshipComponent implements OnInit {
 
     if (existing) {
       this.api.updateInternship(existing.id, form).subscribe({
-        next: updated => doPublish(updated.id),
+        next: (updated) => doPublish(updated.id),
         error: () => {
           this.saving.set(false);
           this.showError('Failed to save before publishing.');
@@ -229,8 +279,8 @@ export class ManageInternshipComponent implements OnInit {
       });
     } else {
       this.api.createInternship(form).subscribe({
-        next: created => {
-          this.internships.update(list => [created, ...list]);
+        next: (created) => {
+          this.internships.update((list) => [created, ...list]);
           doPublish(created.id);
         },
         error: () => {

@@ -6,7 +6,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
-import { ScrollbarDirective } from "@whizard/shared-ui";
 import type { IndustrySector, Industry } from '../industry-wrcf/models/wrcf.models';
 import type { WrcfDashboardStats } from './models/wrcf-dashboard.models';
 import { WrcfApiService } from '../industry-wrcf/services/wrcf-api.service';
@@ -24,8 +23,8 @@ import { WrcfDashboardApiService } from './services/wrcf-dashboard-api.service';
     MatFormFieldModule,
     MatSelectModule,
     MatIconModule,
-    ScrollbarDirective
 ],
+  // host: { class: 'flex-1 min-h-0 flex flex-col overflow-hidden' },
   templateUrl: './wrcf-dashboard.component.html',
   styleUrl: './wrcf-dashboard.component.css'
 })

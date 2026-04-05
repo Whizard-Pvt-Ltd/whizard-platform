@@ -1,10 +1,13 @@
-<mat-tab-group animationDuration="0ms" class="internship-form-tabs h-full">
-
+<mat-tab-group animationDuration="1000ms" class="internship-form-tabs h-full">
   <mat-tab label="Details">
     <ng-template matTabContent>
       <whizard-details-tab
+        class="flex flex-col"
+        style="height: 100dvh"
+        whizardScrollbar="true"
         [formValue]="formValue()"
-        (formChanged)="formChanged.emit($event)">
+        (formChanged)="formChanged.emit($event)"
+      >
       </whizard-details-tab>
     </ng-template>
   </mat-tab>
@@ -12,8 +15,12 @@
   <mat-tab label="Screening Criteria">
     <ng-template matTabContent>
       <whizard-screening-criteria-tab
+        class="flex flex-col"
+        style="height: 100dvh"
+        whizardScrollbar="true"
         [formValue]="formValue()"
-        (formChanged)="formChanged.emit($event)">
+        (formChanged)="formChanged.emit($event)"
+      >
       </whizard-screening-criteria-tab>
     </ng-template>
   </mat-tab>
@@ -21,8 +28,12 @@
   <mat-tab label="Selection">
     <ng-template matTabContent>
       <whizard-selection-tab
+        class="flex flex-col"
+        style="height: 100dvh"
+        whizardScrollbar="true"
         [formValue]="formValue()"
-        (formChanged)="formChanged.emit($event)">
+        (formChanged)="formChanged.emit($event)"
+      >
       </whizard-selection-tab>
     </ng-template>
   </mat-tab>
@@ -30,8 +41,12 @@
   <mat-tab label="During Internship">
     <ng-template matTabContent>
       <whizard-during-internship-tab
+        class="flex flex-col"
+        style="height: 100dvh"
+        whizardScrollbar="true"
         [formValue]="formValue()"
-        (formChanged)="formChanged.emit($event)">
+        (formChanged)="formChanged.emit($event)"
+      >
       </whizard-during-internship-tab>
     </ng-template>
   </mat-tab>
@@ -39,10 +54,13 @@
   <mat-tab label="Final Submission">
     <ng-template matTabContent>
       <whizard-final-submission-tab
+        class="flex flex-col"
+        style="height: 100dvh"
+        whizardScrollbar="true"
         [formValue]="formValue()"
-        (formChanged)="formChanged.emit($event)">
+        (formChanged)="formChanged.emit($event)"
+      >
       </whizard-final-submission-tab>
     </ng-template>
   </mat-tab>
-
 </mat-tab-group>

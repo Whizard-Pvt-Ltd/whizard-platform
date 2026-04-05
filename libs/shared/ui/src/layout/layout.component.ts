@@ -12,6 +12,7 @@ import {
 } from '@angular/material/sidenav';
 import {
   NavigationEnd,
+  NavigationStart,
   Router,
   RouterLink,
   RouterOutlet,
@@ -19,6 +20,7 @@ import {
 import { filter, map } from 'rxjs';
 import { LAYOUT_AUTH_SERVICE } from './auth.token';
 import { NotificationsComponent } from './notifications.component';
+import { PageActionsService } from './page-actions.service';
 import { SchemeSwitcherComponent } from './scheme-switcher.component';
 import { AdminSidebarComponent } from './sidebar.component';
 
@@ -43,13 +45,13 @@ import { AdminSidebarComponent } from './sidebar.component';
   template: `
     <mat-sidenav-container style="height: 100dvh; background: #0F172A;">
       <mat-sidenav
-        class="w-65"
+        class=""
         [mode]="isMobile() ? 'over' : 'side'"
         [opened]="!isMobile()"
         [disableClose]="!isMobile()"
         fixedInViewport
         #sidenav="matSidenav"
-        style="border: none; background: transparent;"
+        style="border: none; background: transparent; width: 280px; overflow: hidden;"
       >
         <whizard-admin-sidebar />
       </mat-sidenav>
@@ -65,11 +67,11 @@ import { AdminSidebarComponent } from './sidebar.component';
           <!-- Hamburger — mobile only -->
           <button
             matIconButton
-            class="lg:hidden"
+          
             (click)="sidenav.toggle()"
             style="color: #E8F0FA"
           >
-            <mat-icon svgIcon="lucideIcons:panel-left" />
+            <mat-icon svgIcon="lucideIcons:panel-left"  class="size-6"/>
           </button>
 
           <!-- Page title -->
@@ -78,6 +80,30 @@ import { AdminSidebarComponent } from './sidebar.component';
             style="color: #E8F0FA; font-family: Poppins, sans-serif;"
             >{{ pageTitle() }}</span
           >
+
+          <!-- Page action buttons (registered by each page) -->
+          @if (pageActions.actions().length > 0) {
+            <div class="flex items-center gap-x-2 shrink-0">
+              @for (action of pageActions.actions(); track action.label) {
+                <button
+                  type="button"
+                  [disabled]="action.disabled ?? false"
+                  (click)="action.action()"
+                  class="flex items-center gap-1.5 h-9 px-4 rounded-[10px] text-sm font-medium transition-colors shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
+                  [class]="action.variant === 'primary'
+                    ? 'bg-[#314DDF] text-[#E8F0FA] hover:bg-[#263FCC]'
+                    : action.variant === 'secondary'
+                      ? 'bg-[#00BFFF] text-[#0F172A] hover:bg-[#00a8e0]'
+                      : 'border border-[#484E5D] text-[#7F94AE] hover:border-[#E8F0FA] hover:text-[#E8F0FA]'"
+                >
+                  @if (action.icon) {
+                    <mat-icon [svgIcon]="action.icon" class="size-4" />
+                  }
+                  {{ action.label }}
+                </button>
+              }
+            </div>
+          }
 
           <!-- Right actions -->
           <div class="flex items-center gap-x-1 shrink-0">
@@ -95,8 +121,8 @@ import { AdminSidebarComponent } from './sidebar.component';
           </div>
         </div>
 
-        <!-- Page content — flex container so routed component fills via flex:1 -->
-        <div class="flex-1 min-h-0 flex flex-col overflow-hidden">
+        <!-- Page content — scrollable container for routed components -->
+        <div class="flex-1 min-h-0 flex flex-col overflow-y-auto">
           <router-outlet />
         </div>
       </mat-sidenav-content>
@@ -119,6 +145,7 @@ export class AdminLayoutComponent {
   private breakpointObserver = inject(BreakpointObserver);
   private router = inject(Router);
   private authService = inject(LAYOUT_AUTH_SERVICE);
+  protected readonly pageActions = inject(PageActionsService);
 
   protected isMobile = toSignal(
     this.breakpointObserver
@@ -134,6 +161,12 @@ export class AdminLayoutComponent {
     ),
     { initialValue: this.currentRouteTitle() },
   );
+
+  constructor() {
+    this.router.events
+      .pipe(filter((e) => e instanceof NavigationStart))
+      .subscribe(() => this.pageActions.clear());
+  }
 
   protected initials = computed(() => {
     const user = this.authService.currentUser();

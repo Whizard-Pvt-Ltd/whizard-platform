@@ -34,6 +34,7 @@ export const provideIcons = (): EnvironmentProviders =>
 
       const trust = (svg: string) => domSanitizer.bypassSecurityTrustHtml(svg);
 
+      // Hero icons
       matIconRegistry.addSvgIconSetLiteralInNamespace(
         'heroicons_outline',
         trust(HEROICONS_OUTLINE),

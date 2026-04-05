@@ -29,7 +29,7 @@ import { UserMenuComponent } from './user-menu.component';
     >
       <div class="flex items-center gap-x-2.5 flex-auto">
         <div
-          class="size-8 rounded-lg flex items-center justify-center text-sm font-bold shrink-0"
+          class="size-8 rounded-md flex items-center justify-center text-sm font-bold shrink-0"
           style="background: #314DDF; color: #E8F0FA"
         >
           W
@@ -55,7 +55,7 @@ import { UserMenuComponent } from './user-menu.component';
     </div>
 
     <!-- Navigation -->
-    <div class="flex-auto overflow-y-auto py-4" whizardScrollbar>
+    <div class="flex-auto py-4" whizardScrollbar>
       <whizard-navigation [items]="navigationItems" />
 
       <!-- User -->
