@@ -65,6 +65,9 @@ Execution-step rule:
 - `localhost:4200` should only be treated as the live behavior truth when the work is explicitly local/current-runtime validation
 - use the latest code reference from `/home/sama/repo/whizard-platform` when checking implementation details, selectors, or probable backend/frontend behavior
 - when runtime behavior in the confirmed environment differs from the checked-out code, prefer the live UI behavior for validation/debugging notes and avoid assuming the local source has the latest fix until confirmed
+- for large reruns, do not batch by sheet count alone
+- prefer batches of roughly `100-120` Playwright tests per run
+- if the requested scope is much larger, split it into multiple runs of about `100-120` tests each and tell the user that this is the recommended execution strategy
 
 ---
 ## Workflow Architecture

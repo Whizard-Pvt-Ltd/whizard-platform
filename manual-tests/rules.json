@@ -58,6 +58,11 @@
     "for local validation, treat localhost:4200 as the current behavior truth because it may include fixes newer than the local workspace code",
     "if the confirmed environment behavior differs from checked-out source code, prefer the live UI behavior for validation notes and confirm before assuming the workspace code is current"
   ],
+  "large_run_rules": [
+    "do not size rerun batches by sheet count alone",
+    "prefer rerun batches of about 100-120 Playwright tests per run",
+    "if the requested scope is much larger, split it into multiple runs of roughly 100-120 tests and tell the user that this is the recommended execution strategy"
+  ],
   "priority_rules": {
     "P0": "critical user journeys",
     "P1": "edge cases",

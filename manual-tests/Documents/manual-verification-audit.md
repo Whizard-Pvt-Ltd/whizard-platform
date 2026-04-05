@@ -62,6 +62,44 @@ For the disputed rows above:
 - add/update notes only after revalidation
 - avoid mapping UI-only visual issues to existing functional order cases
 
+## False Positives Found in `temp/a.txt`
+
+These older conclusions should no longer be treated as trustworthy:
+
+- `DASH-E2E-004`
+  - older conclusion in `a.txt`: `pass`
+  - corrected conclusion: `fail` on `test`
+  - reason: the old dashboard test used mocked data / brittle popup logic; real visible Industry Sector order on `test` is not alphabetical
+
+- `DASH-E2E-006`
+  - older conclusion in `a.txt`: `pass`, but mixed with the same untrustworthy dashboard selector path
+  - corrected conclusion: `pass` on `test`, now validated with the real dropdown interaction
+
+- `MIWRCF-E2E-002`
+  - older conclusion in `a.txt`: `pass`
+  - corrected conclusion: `fail` on `test`
+  - reason: Industry Sector order is not alphabetical on the manual-test environment
+
+- `MIWRCF-E2E-020`
+  - older conclusion in `a.txt`: `fail`
+  - corrected conclusion: `pass`
+  - reason: this was a label-format assertion problem, not an ordering problem
+
+- `WSKILL-E2E-004`
+  - older conclusion in `a.txt`: effectively provisional because the test was blocked by setup on `test`
+  - corrected conclusion: `fail` on `test`
+  - reason: after removing localhost-only readiness checks, the dropdown order is genuinely not ascending
+
+- `WSKILL-E2E-006`
+  - older conclusion in `a.txt`: provisional / blocked on `test`
+  - corrected conclusion: `pass` on `test`
+  - reason: after removing localhost-only readiness checks, the selected CI path resolves correctly
+
+- `PWO-E2E-010`
+  - older reading from `a.txt`: looked like a concrete ordering issue
+  - corrected conclusion: still provisional
+  - reason: the current spec remains an explicit `@future` blocker and is not yet a live executed ordering verdict
+
 ## Focused Recheck Results (2026-04-05)
 
 ### Confirmed as Trustworthy Current Results
@@ -136,7 +174,12 @@ Environment used:
   - earlier result: `passed`
   - updated conclusion: do **not** trust those earlier passes
   - why: the old dashboard sort tests were still using mocked data or a brittle dropdown path, and manual screenshot evidence on `test` shows Industry Sector order is not alphabetical
-  - current status after patching out mocks: still blocked by dashboard dropdown selector/runtime interaction, so there is no trustworthy automated pass yet
+  - latest patched rerun on `test`:
+    - `DASH-E2E-004` = `fail`
+    - `DASH-E2E-006` = `pass`
+  - meaning:
+    - Industry Sector order is genuinely not alphabetical on `test`
+    - Industry order under the selected sector is alphabetical on `test`
 
 - `DASH-E2E-026`
   - result: `failed`

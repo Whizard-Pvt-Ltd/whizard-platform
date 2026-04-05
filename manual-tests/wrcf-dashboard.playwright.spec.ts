@@ -123,6 +123,7 @@ async function ensureAuthenticatedPage(browser: Browser): Promise<{ context: Bro
 async function gotoDashboard(page: Page): Promise<void> {
   await page.goto(`${appUrl}/dashboard`);
   await expect(page.getByText('Industry WRCF Dashboard')).toBeVisible();
+  await page.waitForLoadState('networkidle');
 }
 
 function sectorDropdown(page: Page) {
@@ -157,6 +158,16 @@ function openOptionLocator(page: Page) {
 
 async function openSelect(page: Page, index: number): Promise<void> {
   await selectTrigger(page, index).click();
+  if ((await openOptionLocator(page).count()) === 0) {
+    await page.waitForTimeout(500);
+    await page.locator('mat-form-field.wrcf-select').nth(index).locator('mat-select').click({ force: true });
+  }
+  await expect
+    .poll(async () => await openOptionLocator(page).count(), {
+      timeout: 7000,
+      message: `Waiting for dashboard select ${index} options to open`,
+    })
+    .toBeGreaterThan(0);
   await expect(openOptionLocator(page).first()).toBeVisible();
 }
 
