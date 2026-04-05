@@ -115,6 +115,10 @@ async function expectSorted(values: string[]): Promise<void> {
   expect(values).toEqual([...values].sort((a, b) => a.localeCompare(b)));
 }
 
+function normalizeProficiencyLabel(value: string): string {
+  return value.replace(/\s*-\s*/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
 async function expectNonEmptyItems(page: Page, title: string): Promise<void> {
   await expect(itemNames(column(page, title)).first()).toBeVisible();
 }
@@ -247,7 +251,7 @@ test.describe('Manage Industry WRCF sheet-aligned coverage', () => {
     await selectFirstItem(page, 'Secondary Work Obj.');
     await selectFirstItem(page, 'Capabilities');
     const proficiencies = (await itemNames(column(page, 'Proficiency Level')).allTextContents())
-      .map(value => value.trim())
+      .map(value => normalizeProficiencyLabel(value))
       .filter(Boolean);
     expect(proficiencies).toEqual([
       'L1 Plant Awareness',

@@ -55,9 +55,16 @@ Execution-step rule:
 - only ask for human intervention when the Excel/workbook step itself is ambiguous, incorrect, or conflicts with the real product intent
 - when a user request has ambiguous scope, the assistant must restate the intended action and ask for confirmation before executing
 - do not silently narrow or expand the requested scope based on recent context
-- for runtime validation, treat the currently running app on `localhost:4200` as the live behavior truth, because it may contain fixes newer than the local workspace code
+- treat environment as an explicit validation dimension:
+  - `local` = `localhost:4200`
+  - `test` = `https://test.whizard.club`
+  - `dev` = `https://dev.whizard.club`
+- if the user references a specific environment, a source artifact clearly comes from a specific environment, or the target environment is otherwise uncertain, restate the environment you plan to use and ask for confirmation before validating or rerunning
+- do not assume `localhost` when the evidence or prior testing source points to `test` or `dev`
+- for runtime validation, use the confirmed target environment as the behavior truth for that validation pass
+- `localhost:4200` should only be treated as the live behavior truth when the work is explicitly local/current-runtime validation
 - use the latest code reference from `/home/sama/repo/whizard-platform` when checking implementation details, selectors, or probable backend/frontend behavior
-- when runtime behavior on `localhost` differs from the checked-out code, prefer the live UI behavior for validation/debugging notes and avoid assuming the local source has the latest fix until confirmed
+- when runtime behavior in the confirmed environment differs from the checked-out code, prefer the live UI behavior for validation/debugging notes and avoid assuming the local source has the latest fix until confirmed
 
 ---
 ## Workflow Architecture
@@ -184,9 +191,13 @@ Use sources in this order:
    - Product and requirements inspiration layer.
    - Use PDFs/workbooks here for business meaning, flow intent, and traceability.
 
-2. **Live app on `localhost:4200`**
-   - Runtime truth for what actually works today.
-   - Use this for current navigation, field visibility, actual blockers, and behavior verification.
+2. **Confirmed runtime environment**
+   - Runtime truth for what actually works in the environment being validated.
+   - Environment map:
+     - `local` = `localhost:4200`
+     - `test` = `https://test.whizard.club`
+     - `dev` = `https://dev.whizard.club`
+   - Use the environment that matches the source of the bug report, manual test run, or the user's explicit instruction.
 
 3. **Latest code reference at `/home/sama/repo/whizard-platform`**
    - Use this as the implementation reference when you need to understand components, routes, APIs, or selectors.

@@ -7,6 +7,7 @@ const loginEmail = process.env.TEST_LOGIN_EMAIL;
 const loginPassword = process.env.TEST_LOGIN_PASSWORD;
 const authDir = path.join(process.cwd(), 'manual-tests', '.auth');
 const authStatePath = path.join(authDir, 'wrcf-swo.json');
+const isLocalApp = /localhost(?::4200)?/.test(appUrl);
 
 async function assertServiceAvailable(url: string, label: string): Promise<void> {
   const controller = new AbortController();
@@ -31,8 +32,10 @@ async function assertServiceAvailable(url: string, label: string): Promise<void>
 
 async function assertLocalServicesReady(): Promise<void> {
   await assertServiceAvailable(`${appUrl}/login`, 'Frontend login');
-  await assertServiceAvailable('http://localhost:3000', 'BFF');
-  await assertServiceAvailable('http://localhost:3001', 'Core API');
+  if (isLocalApp) {
+    await assertServiceAvailable('http://localhost:3000', 'BFF');
+    await assertServiceAvailable('http://localhost:3001', 'Core API');
+  }
 }
 
 function uniqueName(prefix: string): string {

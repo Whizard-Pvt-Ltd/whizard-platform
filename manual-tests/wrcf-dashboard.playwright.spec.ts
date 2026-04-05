@@ -80,6 +80,8 @@ const mockedStatsByIndustry: Record<string, DashboardStats> = {
   },
 };
 
+const isLocalApp = /localhost(?::4200)?/.test(appUrl);
+
 function envelope<T>(data: T) {
   return { success: true, data, meta: {} };
 }
@@ -147,26 +149,34 @@ function selectedValue(page: Page, index: number) {
   return page.locator('mat-form-field.wrcf-select').nth(index).locator('.mat-mdc-select-value-text');
 }
 
+function openOptionLocator(page: Page) {
+  return page.locator(
+    '.cdk-overlay-pane [role="option"], .cdk-overlay-pane mat-option, .mat-mdc-select-panel [role="option"], .mat-mdc-option'
+  );
+}
+
 async function openSelect(page: Page, index: number): Promise<void> {
   await selectTrigger(page, index).click();
-  await expect(page.locator('[role="listbox"]')).toBeVisible();
+  await expect(openOptionLocator(page).first()).toBeVisible();
 }
 
 async function closeSelect(page: Page): Promise<void> {
   await page.keyboard.press('Escape');
-  await expect(page.locator('[role="listbox"]')).not.toBeVisible({ timeout: 5000 });
+  await expect(openOptionLocator(page).first()).not.toBeVisible({ timeout: 5000 });
 }
 
 async function chooseSelectOption(page: Page, index: number, label: string): Promise<void> {
   await openSelect(page, index);
-  await page.locator('[role="option"]').filter({ hasText: new RegExp(`^\\s*${label}\\s*$`) }).first().click();
+  await openOptionLocator(page).filter({ hasText: new RegExp(`^\\s*${label}\\s*$`) }).first().click();
 }
 
 async function getOptions(page: Page, label: string): Promise<string[]> {
   const index = label === 'Industry Sector' ? 0 : 1;
   await openSelect(page, index);
   const options = await page
-    .locator('[role="option"]')
+    .locator(
+      '.cdk-overlay-pane [role="option"], .cdk-overlay-pane mat-option, .mat-mdc-select-panel [role="option"], .mat-mdc-option'
+    )
     .evaluateAll(nodes => nodes.map(node => node.textContent?.trim() || '').filter(Boolean));
   await closeSelect(page);
   return options;
@@ -288,7 +298,9 @@ test.describe('WRCF dashboard', () => {
   });
 
   test('DASH-E2E-004 @stable @p1 @dashboard displays Industry Sector options in alphabetical order', async () => {
-    await mockDashboardApis(page);
+    if (isLocalApp) {
+      await mockDashboardApis(page);
+    }
     await gotoDashboard(page);
 
     const options = await getOptions(page, 'Industry Sector');
@@ -311,7 +323,9 @@ test.describe('WRCF dashboard', () => {
   });
 
   test('DASH-E2E-006 @stable @p1 @dashboard keeps industries under the selected sector in alphabetical order', async () => {
-    await mockDashboardApis(page);
+    if (isLocalApp) {
+      await mockDashboardApis(page);
+    }
     await gotoDashboard(page);
 
     await chooseSelectOption(page, 0, 'Energy & Utilities');

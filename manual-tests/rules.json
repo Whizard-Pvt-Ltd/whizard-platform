@@ -21,6 +21,7 @@
     "if spec behavior drifts from a clear workbook step, fix the spec instead of reinterpreting the step",
     "ask for human intervention only when the workbook step itself is ambiguous, wrong, or conflicts with product intent",
     "when a user request has ambiguous scope, restate the intended action and ask for confirmation before executing",
+    "when a user request or source artifact implies a specific environment, restate the environment you plan to use and ask for confirmation before validating or rerunning if there is any ambiguity",
     "do not silently narrow or expand the requested scope based on recent context",
     "if Excel libraries are unavailable, read the xlsx zip/xml payload directly"
   ],
@@ -47,11 +48,15 @@
     "trace if available"
   ],
   "environment_rules": [
+    "environment aliases: local = localhost:4200, test = https://test.whizard.club, dev = https://dev.whizard.club",
+    "do not assume localhost by default when the bug source, manual testing source, or user wording points to test or dev",
+    "if manual testing was performed in a named environment, validate those findings in the same environment unless the user explicitly asks for a different one",
+    "if the target environment is unclear, ask for confirmation before running validation or reruns",
     "for authenticated WRCF runs, verify frontend 4200 and backend ports 3000 and 3001 are reachable before debugging selectors",
     "prefer explicit service-readiness checks in authenticated workbook-driven specs so backend outages fail fast",
     "if service preflight passes but login still hangs, document the auth/runtime blocker separately instead of attributing it to selector issues",
-    "for runtime validation, treat the live app on localhost:4200 as the current behavior truth because it may include fixes newer than the local workspace code",
-    "if localhost behavior differs from checked-out source code, prefer the live UI behavior for validation notes and confirm before assuming the workspace code is current"
+    "for local validation, treat localhost:4200 as the current behavior truth because it may include fixes newer than the local workspace code",
+    "if the confirmed environment behavior differs from checked-out source code, prefer the live UI behavior for validation notes and confirm before assuming the workspace code is current"
   ],
   "priority_rules": {
     "P0": "critical user journeys",
