@@ -52,6 +52,7 @@ export class IndustryWrcfComponent implements OnInit {
 
   protected panel = signal<PanelState>({ open: false, mode: 'create', entityType: 'FG' });
   protected errorMessage = signal<string>('');
+  protected panelError = signal<string>('');
 
   protected ciCache = signal<CIPendingEntry[]>([]);
   protected existingCIs = signal<CapabilityInstance[]>([]);
@@ -298,6 +299,7 @@ export class IndustryWrcfComponent implements OnInit {
   }
 
   protected openPanel(mode: 'create' | 'edit', entityType: EntityType, data?: WrcfEntity): void {
+    this.panelError.set('');
     this.panel.set({
       open: true,
       mode,
@@ -307,6 +309,7 @@ export class IndustryWrcfComponent implements OnInit {
   }
 
   protected closePanel(): void {
+    this.panelError.set('');
     this.panel.set({ ...this.panel(), open: false });
   }
 
@@ -327,7 +330,7 @@ export class IndustryWrcfComponent implements OnInit {
         next: () => {
           this.apiService.listFGs(this.selectedIndustryId()).subscribe({
             next: fgs => {
-              this.fgList.set(fgs);
+              this.fgList.set([...fgs].sort((a, b) => a.name.localeCompare(b.name)));
               if (this.selectedFG()?.id === id) {
                 this.selectedFG.set(null);
                 this.pwoList.set([]);
@@ -339,7 +342,7 @@ export class IndustryWrcfComponent implements OnInit {
         },
         error: (err: HttpErrorResponse) => {
           const msg = err.error?.error?.message ?? 'Delete failed.';
-          this.showError(msg);
+          this.panelError.set(msg);
         }
       });
     } else if (entityType === 'PWO') {
@@ -358,7 +361,7 @@ export class IndustryWrcfComponent implements OnInit {
         },
         error: (err: HttpErrorResponse) => {
           const msg = err.error?.error?.message ?? 'Delete failed.';
-          this.showError(msg);
+          this.panelError.set(msg);
         }
       });
     } else {
@@ -374,7 +377,7 @@ export class IndustryWrcfComponent implements OnInit {
         },
         error: (err: HttpErrorResponse) => {
           const msg = err.error?.error?.message ?? 'Delete failed.';
-          this.showError(msg);
+          this.panelError.set(msg);
         }
       });
     }
@@ -391,10 +394,10 @@ export class IndustryWrcfComponent implements OnInit {
       }).subscribe({
         next: () => {
           this.apiService.listFGs(this.selectedIndustryId()).subscribe({
-            next: fgs => { this.fgList.set(fgs); this.closePanel(); }
+            next: fgs => { this.fgList.set([...fgs].sort((a, b) => a.name.localeCompare(b.name))); this.closePanel(); }
           });
         },
-        error: () => this.showError('Failed to create Functional Group.')
+        error: (err: HttpErrorResponse) => this.showError(err.error?.error?.message ?? 'Failed to create Functional Group.')
       });
     } else if (entityType === 'PWO') {
       const pwo = payload as Partial<PrimaryWorkObject>;
@@ -441,10 +444,10 @@ export class IndustryWrcfComponent implements OnInit {
       this.apiService.updateFG(id, { name: fg.name, description: fg.description, domainType: fg.domainType }).subscribe({
         next: () => {
           this.apiService.listFGs(this.selectedIndustryId()).subscribe({
-            next: fgs => { this.fgList.set(fgs); this.closePanel(); }
+            next: fgs => { this.fgList.set([...fgs].sort((a, b) => a.name.localeCompare(b.name))); this.closePanel(); }
           });
         },
-        error: () => this.showError('Failed to update Functional Group.')
+        error: (err: HttpErrorResponse) => this.showError(err.error?.error?.message ?? 'Failed to update Functional Group.')
       });
     } else if (entityType === 'PWO') {
       const pwo = payload as Partial<PrimaryWorkObject>;

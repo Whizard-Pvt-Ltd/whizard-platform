@@ -109,6 +109,7 @@
     <div class="panel-backdrop" (click)="closePanel()"></div>
     <whizard-wrcf-panel
       [state]="panel()"
+      [panelError]="panelError()"
       (save)="onPanelSave($event)"
       (delete)="onPanelDelete($event)"
       (close)="closePanel()"

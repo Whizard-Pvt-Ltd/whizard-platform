@@ -13,6 +13,8 @@ export interface SecondaryWorkObjectProps {
   assetCriticality: ImpactLevelValue;
   failureFrequency: ImpactLevelValue;
   isActive: boolean;
+  createdBy?: string;
+  updatedBy?: string;
 }
 
 export interface CreateSecondaryWorkObjectProps {
@@ -24,6 +26,7 @@ export interface CreateSecondaryWorkObjectProps {
   operationalComplexity: ImpactLevelValue;
   assetCriticality: ImpactLevelValue;
   failureFrequency: ImpactLevelValue;
+  createdBy?: string;
 }
 
 export class SecondaryWorkObject {
@@ -39,6 +42,8 @@ export class SecondaryWorkObject {
   assetCriticality: ImpactLevelValue;
   failureFrequency: ImpactLevelValue;
   isActive: boolean;
+  createdBy?: string;
+  updatedBy?: string;
 
   private constructor(props: SecondaryWorkObjectProps) {
     this.id = props.id;
@@ -51,6 +56,8 @@ export class SecondaryWorkObject {
     this.assetCriticality = props.assetCriticality;
     this.failureFrequency = props.failureFrequency;
     this.isActive = props.isActive;
+    this.createdBy = props.createdBy;
+    this.updatedBy = props.updatedBy;
   }
 
   static create(props: CreateSecondaryWorkObjectProps): SecondaryWorkObject {
@@ -65,12 +72,13 @@ export class SecondaryWorkObject {
     return new SecondaryWorkObject(props);
   }
 
-  update(props: Partial<Pick<SecondaryWorkObjectProps, 'name' | 'description' | 'operationalComplexity' | 'assetCriticality' | 'failureFrequency'>>): void {
+  update(props: Partial<Pick<SecondaryWorkObjectProps, 'name' | 'description' | 'operationalComplexity' | 'assetCriticality' | 'failureFrequency' | 'updatedBy'>>): void {
     if (props.name !== undefined) this.name = props.name;
     if (props.description !== undefined) this.description = props.description;
     if (props.operationalComplexity !== undefined) this.operationalComplexity = props.operationalComplexity;
     if (props.assetCriticality !== undefined) this.assetCriticality = props.assetCriticality;
     if (props.failureFrequency !== undefined) this.failureFrequency = props.failureFrequency;
+    if (props.updatedBy !== undefined) this.updatedBy = props.updatedBy;
     this._domainEvents.push(new SwoUpdatedEvent(this.id, this.tenantId, { name: this.name }));
   }
 

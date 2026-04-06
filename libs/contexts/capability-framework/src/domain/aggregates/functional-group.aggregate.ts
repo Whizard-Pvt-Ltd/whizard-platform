@@ -15,6 +15,8 @@ export interface FunctionalGroupProps {
   description?: string;
   domainType: DomainType;
   isActive: boolean;
+  createdBy?: string;
+  updatedBy?: string;
 }
 
 export interface CreateFunctionalGroupProps {
@@ -24,6 +26,7 @@ export interface CreateFunctionalGroupProps {
   name: string;
   description?: string;
   domainType: DomainType;
+  createdBy?: string;
 }
 
 export class FunctionalGroup {
@@ -37,6 +40,8 @@ export class FunctionalGroup {
   description?: string;
   domainType: DomainType;
   isActive: boolean;
+  createdBy?: string;
+  updatedBy?: string;
 
   private constructor(props: FunctionalGroupProps) {
     this.id = props.id;
@@ -47,6 +52,8 @@ export class FunctionalGroup {
     this.description = props.description;
     this.domainType = props.domainType;
     this.isActive = props.isActive;
+    this.createdBy = props.createdBy;
+    this.updatedBy = props.updatedBy;
   }
 
   static create(props: CreateFunctionalGroupProps): FunctionalGroup {
@@ -65,10 +72,11 @@ export class FunctionalGroup {
     return new FunctionalGroup(props);
   }
 
-  update(props: Partial<Pick<FunctionalGroupProps, 'name' | 'description' | 'domainType'>>): void {
+  update(props: Partial<Pick<FunctionalGroupProps, 'name' | 'description' | 'domainType' | 'updatedBy'>>): void {
     if (props.name !== undefined) this.name = props.name;
     if (props.description !== undefined) this.description = props.description;
     if (props.domainType !== undefined) this.domainType = props.domainType;
+    if (props.updatedBy !== undefined) this.updatedBy = props.updatedBy;
     this._domainEvents.push(
       new FunctionalGroupUpdatedEvent(this.id, this.tenantId, { name: this.name })
     );

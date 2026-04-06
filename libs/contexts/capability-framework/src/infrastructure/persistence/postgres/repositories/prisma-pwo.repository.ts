@@ -18,6 +18,7 @@ export class PrismaPwoRepository implements IPwoRepository {
       versionId: String(row.version),
       functionalGroupId: row.functionalGroupId.toString(),
       name: row.name,
+      description: row.description ?? undefined,
       strategicImportance: row.strategicImportanceLevel as StrategicImportance,
       revenueImpact: resolveImpactLevel(row.revenueImpactLevel, CRITICALITY_LEVELS),
       downtimeSensitivity: resolveImpactLevel(row.downtimeSensitivity, CRITICALITY_LEVELS),
@@ -39,6 +40,7 @@ export class PrismaPwoRepository implements IPwoRepository {
         versionId: String(row.version),
         functionalGroupId: row.functionalGroupId.toString(),
         name: row.name,
+        description: row.description ?? undefined,
         strategicImportance: row.strategicImportanceLevel as StrategicImportance,
         revenueImpact: resolveImpactLevel(row.revenueImpactLevel, CRITICALITY_LEVELS),
         downtimeSensitivity: resolveImpactLevel(row.downtimeSensitivity, CRITICALITY_LEVELS),
@@ -50,25 +52,32 @@ export class PrismaPwoRepository implements IPwoRepository {
   async save(pwo: PrimaryWorkObject): Promise<void> {
     const tenantId = BigInt(pwo.tenantId);
     const functionalGroupId = BigInt(pwo.functionalGroupId);
+    const createdBy = pwo.createdBy ? BigInt(pwo.createdBy) : undefined;
+    const updatedBy = pwo.updatedBy ? BigInt(pwo.updatedBy) : undefined;
 
     await this.prisma.primaryWorkObject.upsert({
       where: { id: BigInt(pwo.id) },
       update: {
         name: pwo.name,
+        description: pwo.description,
         strategicImportanceLevel: pwo.strategicImportance,
         revenueImpactLevel: pwo.revenueImpact.label,
         downtimeSensitivity: pwo.downtimeSensitivity.label,
-        isActive: pwo.isActive
+        isActive: pwo.isActive,
+        ...(updatedBy !== undefined && { updatedBy })
       },
       create: {
         tenantId,
         version: Number(pwo.versionId ?? 1),
         functionalGroupId,
         name: pwo.name,
+        description: pwo.description,
         strategicImportanceLevel: pwo.strategicImportance,
         revenueImpactLevel: pwo.revenueImpact.label,
         downtimeSensitivity: pwo.downtimeSensitivity.label,
-        isActive: pwo.isActive
+        isActive: pwo.isActive,
+        ...(createdBy !== undefined && { createdBy }),
+        ...(updatedBy !== undefined && { updatedBy })
       }
     });
   }

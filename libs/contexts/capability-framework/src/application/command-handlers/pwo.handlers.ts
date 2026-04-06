@@ -24,6 +24,9 @@ export class CreatePWOCommandHandler {
 
   async execute(cmd: CreatePWOCommand): Promise<PwoDto> {
     logger.debug('Creating PWO', { userId: cmd.actorUserId, tenantId: cmd.tenantId, functionalGroupId: cmd.functionalGroupId, name: cmd.name });
+    if (cmd.name.length > 50) {
+      throw new DomainException('Primary Work Object name must not exceed 50 characters');
+    }
     const pwo = PrimaryWorkObject.create({
       tenantId: cmd.tenantId,
       functionalGroupId: cmd.functionalGroupId,
@@ -31,7 +34,8 @@ export class CreatePWOCommandHandler {
       description: cmd.description,
       strategicImportance: cmd.strategicImportance,
       revenueImpact: cmd.revenueImpact,
-      downtimeSensitivity: cmd.downtimeSensitivity
+      downtimeSensitivity: cmd.downtimeSensitivity,
+      createdBy: cmd.actorUserId
     });
     await this.pwoRepo.save(pwo);
     logger.info('PWO created', { userId: cmd.actorUserId, tenantId: pwo.tenantId, pwoId: pwo.id, name: pwo.name });
@@ -49,12 +53,16 @@ export class UpdatePWOCommandHandler {
       logger.warn('PWO not found', { userId: cmd.actorUserId, tenantId: cmd.tenantId, pwoId: cmd.id });
       throw new DomainException(`PrimaryWorkObject ${cmd.id} not found`);
     }
+    if (cmd.name !== undefined && cmd.name.length > 50) {
+      throw new DomainException('Primary Work Object name must not exceed 50 characters');
+    }
     pwo.update({
       name: cmd.name,
       description: cmd.description,
       strategicImportance: cmd.strategicImportance,
       revenueImpact: cmd.revenueImpact,
-      downtimeSensitivity: cmd.downtimeSensitivity
+      downtimeSensitivity: cmd.downtimeSensitivity,
+      updatedBy: cmd.actorUserId
     });
     await this.pwoRepo.save(pwo);
     logger.info('PWO updated', { userId: cmd.actorUserId, tenantId: cmd.tenantId, pwoId: pwo.id });

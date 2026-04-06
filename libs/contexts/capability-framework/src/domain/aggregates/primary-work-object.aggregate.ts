@@ -14,6 +14,8 @@ export interface PrimaryWorkObjectProps {
   revenueImpact: ImpactLevelValue;
   downtimeSensitivity: ImpactLevelValue;
   isActive: boolean;
+  createdBy?: string;
+  updatedBy?: string;
 }
 
 export interface CreatePrimaryWorkObjectProps {
@@ -25,6 +27,7 @@ export interface CreatePrimaryWorkObjectProps {
   strategicImportance: StrategicImportance;
   revenueImpact: ImpactLevelValue;
   downtimeSensitivity: ImpactLevelValue;
+  createdBy?: string;
 }
 
 export class PrimaryWorkObject {
@@ -40,6 +43,8 @@ export class PrimaryWorkObject {
   revenueImpact: ImpactLevelValue;
   downtimeSensitivity: ImpactLevelValue;
   isActive: boolean;
+  createdBy?: string;
+  updatedBy?: string;
 
   private constructor(props: PrimaryWorkObjectProps) {
     this.id = props.id;
@@ -52,6 +57,8 @@ export class PrimaryWorkObject {
     this.revenueImpact = props.revenueImpact;
     this.downtimeSensitivity = props.downtimeSensitivity;
     this.isActive = props.isActive;
+    this.createdBy = props.createdBy;
+    this.updatedBy = props.updatedBy;
   }
 
   static create(props: CreatePrimaryWorkObjectProps): PrimaryWorkObject {
@@ -69,12 +76,13 @@ export class PrimaryWorkObject {
     return new PrimaryWorkObject(props);
   }
 
-  update(props: Partial<Pick<PrimaryWorkObjectProps, 'name' | 'description' | 'strategicImportance' | 'revenueImpact' | 'downtimeSensitivity'>>): void {
+  update(props: Partial<Pick<PrimaryWorkObjectProps, 'name' | 'description' | 'strategicImportance' | 'revenueImpact' | 'downtimeSensitivity' | 'updatedBy'>>): void {
     if (props.name !== undefined) this.name = props.name;
     if (props.description !== undefined) this.description = props.description;
     if (props.strategicImportance !== undefined) this.strategicImportance = props.strategicImportance;
     if (props.revenueImpact !== undefined) this.revenueImpact = props.revenueImpact;
     if (props.downtimeSensitivity !== undefined) this.downtimeSensitivity = props.downtimeSensitivity;
+    if (props.updatedBy !== undefined) this.updatedBy = props.updatedBy;
     this._domainEvents.push(new PwoUpdatedEvent(this.id, this.tenantId, { name: this.name }));
   }
 
