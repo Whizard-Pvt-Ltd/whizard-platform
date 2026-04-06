@@ -10,6 +10,7 @@ export class GetInternshipByIdQueryHandler {
   async execute(query: GetInternshipByIdQuery): Promise<InternshipDetailDto> {
     const internship = await this.repo.findById(query.id);
     if (!internship) throw new InternshipNotFoundException(query.id);
-    return toInternshipDetailDto(internship, null);
+    const cityName = internship.cityId ? await this.repo.findCityName(internship.cityId) : null;
+    return toInternshipDetailDto(internship, cityName);
   }
 }
