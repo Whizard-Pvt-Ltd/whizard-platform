@@ -43,35 +43,33 @@ import { AdminSidebarComponent } from './sidebar.component';
     NotificationsComponent,
   ],
   template: `
-    <mat-sidenav-container style="height: 100dvh; background: #0F172A;">
+    <mat-sidenav-container>
       <mat-sidenav
-        class=""
+        class="w-70 border-r border-neutral-200 scheme-dark dark:border-neutral-800 dark:bg-primary-950"
         [mode]="isMobile() ? 'over' : 'side'"
         [opened]="!isMobile()"
         [disableClose]="!isMobile()"
         fixedInViewport
         #sidenav="matSidenav"
-        style="border: none; background: transparent; width: 280px; overflow: hidden;"
       >
         <whizard-admin-sidebar />
       </mat-sidenav>
 
       <mat-sidenav-content
-        style="background: #0F172A; display: flex; flex-direction: column; overflow: hidden;"
+        class="flex flex-col overflow-hidden dark:border-neutral-800 dark:bg-primary-950"
       >
         <!-- Top bar — always visible -->
         <div
           class="flex items-center h-16 px-4 shrink-0 gap-x-3"
-          style="background: #0F172A; border-bottom: 1px solid #484E5D"
+          style=" border-bottom: 1px solid #484E5D"
         >
           <!-- Hamburger — mobile only -->
           <button
             matIconButton
-          
             (click)="sidenav.toggle()"
             style="color: #E8F0FA"
           >
-            <mat-icon svgIcon="lucideIcons:panel-left"  class="size-6"/>
+            <mat-icon svgIcon="lucideIcons:panel-left" class="size-6" />
           </button>
 
           <!-- Page title -->
@@ -90,11 +88,13 @@ import { AdminSidebarComponent } from './sidebar.component';
                   [disabled]="action.disabled ?? false"
                   (click)="action.action()"
                   class="flex items-center gap-1.5 h-9 px-4 rounded-[10px] text-sm font-medium transition-colors shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
-                  [class]="action.variant === 'primary'
-                    ? 'bg-[#314DDF] text-[#E8F0FA] hover:bg-[#263FCC]'
-                    : action.variant === 'secondary'
-                      ? 'bg-[#00BFFF] text-[#0F172A] hover:bg-[#00a8e0]'
-                      : 'border border-[#484E5D] text-[#7F94AE] hover:border-[#E8F0FA] hover:text-[#E8F0FA]'"
+                  [class]="
+                    action.variant === 'primary'
+                      ? 'bg-[#314DDF] text-[#E8F0FA] hover:bg-[#263FCC]'
+                      : action.variant === 'secondary'
+                        ? 'bg-[#00BFFF] text-[#0F172A] hover:bg-[#00a8e0]'
+                        : 'border border-[#484E5D] text-[#7F94AE] hover:border-[#E8F0FA] hover:text-[#E8F0FA]'
+                  "
                 >
                   @if (action.icon) {
                     <mat-icon [svgIcon]="action.icon" class="size-4" />

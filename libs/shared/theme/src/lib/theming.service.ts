@@ -17,7 +17,7 @@ export class ThemingService {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly themeConfig = inject(THEME_CONFIG);
   private readonly isBrowser = isPlatformBrowser(this.platformId);
-  private readonly storageKey = 'whizard-admin-scheme';
+  private readonly storageKey = 'scheme';
   private readonly rootEl = this.document.documentElement;
   private readonly themeStyleEl = this.document.createElement('style');
   private readonly mediaQuery = this.isBrowser
