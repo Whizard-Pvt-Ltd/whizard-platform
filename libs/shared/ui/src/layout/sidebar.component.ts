@@ -17,10 +17,6 @@ import { UserMenuComponent } from './user-menu.component';
     MatIconModule,
     ScrollbarDirective,
   ],
-  host: {
-    class: 'flex w-full flex-auto flex-col',
-    style: 'background: #0F253F; border-right: 1px solid #484E5D;',
-  },
   template: `
     <!-- Header -->
     <div

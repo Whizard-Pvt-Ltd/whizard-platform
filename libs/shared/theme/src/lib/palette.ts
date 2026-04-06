@@ -195,6 +195,8 @@ export class TonalPalette {
 
   /**
    * Get a specific color by its hue.
+   * @param value
+   * @param format
    */
   hue(value: number, format: 'hex' | 'oklch' = 'oklch'): string | null {
     const color = this.palette.find((c) => c.hue === value);

@@ -26,6 +26,11 @@
               },
               {
                 "glob": "**/*",
+                "input": "public",
+                "output": "assets"
+              },
+              {
+                "glob": "**/*",
                 "input": "libs/shared/ui/src/assets",
                 "output": "assets"
               },

@@ -2,12 +2,13 @@
 /* Base styles                                                                */
 /* -------------------------------------------------------------------------- */
 @layer base {
+
   /* Enable keyword support for size interpolation */
   :root {
     interpolate-size: allow-keywords;
   }
 
-  /* Ensure root elements fill the viewport; overflow hidden removes native body scrollbar */
+  /* Ensure root elements fill the viewport */
   html,
   body {
     display: flex;
@@ -15,15 +16,14 @@
     flex: 1 1 auto;
     min-height: 100%;
     width: 100%;
-    overflow: hidden;
+    overflow-x: clip;
   }
 
   /* Ensure routed component always fills the remaining vertical space */
-  router-outlet + * {
+  router-outlet+* {
     display: flex;
     flex-direction: column;
     flex: 1 1 auto;
-    min-height: 100%;
     width: 100%;
   }
 
@@ -33,10 +33,8 @@
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: light-dark(
-      var(--color-neutral-200),
-      var(--color-neutral-800)
-    );
+    border-color: light-dark(var(--color-neutral-400),
+        var(--color-neutral-700));
   }
 
   /* Disable focus outline by default */
@@ -50,15 +48,14 @@
   *:focus-visible:not(.cdk-program-focused),
   .cdk-keyboard-focused {
     outline: var(--color-primary-600) solid 2px;
-    outline-offset: 0.125rem; /* 2px */
+    outline-offset: 0.125rem;
+    /* 2px */
   }
 
   /* Base colors */
   body {
-    background-color: light-dark(
-      var(--color-neutral-100),
-      var(--color-neutral-950)
-    );
+    background-color: light-dark(var(--color-primary-50),
+        var(--color-primary-950));
     color: light-dark(var(--color-neutral-950), var(--color-white));
   }
 }
