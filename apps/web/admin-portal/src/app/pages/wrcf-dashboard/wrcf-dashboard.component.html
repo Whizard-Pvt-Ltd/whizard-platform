@@ -2,7 +2,7 @@
   class="bg-wrcf-bg-primary font-sans text-wrcf-text-primary relative"
 >
     <!-- Filters -->
-    <div class="px-8 py-5 flex gap-4 items-end">
+    <div class="px-8 py-3 flex gap-4 items-end bg-wrcf-bg-secondary border-b border-wrcf-border">
       <div class="flex flex-col gap-1">
         <label class="text-xs text-wrcf-text-secondary leading-4"
           >Industry Sector</label
@@ -13,11 +13,6 @@
               <mat-option [value]="sector.id">{{ sector.name }}</mat-option>
             }
           </mat-select>
-          <mat-icon
-            matSuffix
-            class="size-3.5 text-wrcf-text-secondary"
-            svgIcon="heroicons_outline:chevron-down"
-          />
         </mat-form-field>
       </div>
 
@@ -31,11 +26,6 @@
               <mat-option [value]="industry.id">{{ industry.name }}</mat-option>
             }
           </mat-select>
-          <mat-icon
-            matSuffix
-            class="size-3.5 text-wrcf-text-secondary"
-            svgIcon="heroicons_outline:chevron-down"
-          />
         </mat-form-field>
       </div>
     </div>
