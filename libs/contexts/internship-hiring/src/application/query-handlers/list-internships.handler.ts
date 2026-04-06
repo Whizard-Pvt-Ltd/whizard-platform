@@ -12,6 +12,14 @@ export class ListInternshipsQueryHandler {
       search:   query.search,
       status:   query.status,
     });
-    return internships.map(i => toInternshipDetailDto(i, null));
+
+    const cityIds = [...new Set(internships.map(i => i.cityId).filter(Boolean) as string[])];
+    const cityNameMap = new Map<string, string>();
+    await Promise.all(cityIds.map(async id => {
+      const name = await this.repo.findCityName(id);
+      if (name) cityNameMap.set(id, name);
+    }));
+
+    return internships.map(i => toInternshipDetailDto(i, i.cityId ? (cityNameMap.get(i.cityId) ?? null) : null));
   }
 }

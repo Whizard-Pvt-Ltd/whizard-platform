@@ -5,3 +5,13 @@
 /* -------------------------------------------------------------------------- */
 @import '../../../../libs/shared/theme/src/styles/theme.css';
 @import 'quill/dist/quill.snow.css';
+
+/* -------------------------------------------------------------------------- */
+/* Rich text rendered via [innerHTML]                                         */
+/* -------------------------------------------------------------------------- */
+.rich-text p   { margin-bottom: 0.5rem; }
+.rich-text ul  { list-style: disc;    padding-left: 1.25rem; margin-bottom: 0.5rem; }
+.rich-text ol  { list-style: decimal; padding-left: 1.25rem; margin-bottom: 0.5rem; }
+.rich-text li  { margin-bottom: 0.25rem; }
+.rich-text strong, .rich-text b { font-weight: 600; }
+.rich-text a   { color: #00BFFF; text-decoration: underline; }

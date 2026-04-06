@@ -11,7 +11,16 @@
       "typescript": "5.9.3",
       "prisma": "6.19.2",
       "@prisma/client": "6.19.2",
-      "eslint-visitor-keys": "^4.2.0"
+      "eslint-visitor-keys": "^4.2.0",
+      "@angular/router": "21.2.7",
+      "@angular/common": "21.2.7",
+      "@angular/core": "21.2.7",
+      "@angular/compiler": "21.2.7",
+      "@angular/compiler-cli": "21.2.7",
+      "@angular/platform-browser": "21.2.7",
+      "@angular/platform-browser-dynamic": "21.2.7",
+      "@angular/forms": "21.2.7",
+      "@angular/animations": "21.2.7"
     }
   },
   "scripts": {
