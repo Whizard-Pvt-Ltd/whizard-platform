@@ -8,7 +8,14 @@ import type { CollegeDetail, Club, UserContact, CollegeMediaItem, CollegeContact
 @Component({
   selector: 'whizard-college-detail-panel',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, PdfViewerComponent, VideoPlayerComponent, ImageLightboxComponent, ScrollbarDirective],
+  imports: [
+    MatButtonModule,
+    MatIconModule,
+    PdfViewerComponent,
+    VideoPlayerComponent,
+    ImageLightboxComponent,
+    ScrollbarDirective,
+  ],
   templateUrl: './college-detail-panel.component.html',
   styleUrl: './college-detail-panel.component.css',
 })
@@ -16,6 +23,7 @@ export class CollegeDetailPanelComponent {
   readonly college = input<CollegeDetail | null>(null);
   readonly clubs = input<Club[]>([]);
   readonly users = input<UserContact[]>([]);
+  readonly editClicked = output<void>();
 
   readonly previewPdf = output<string>();
 
@@ -42,45 +50,88 @@ export class CollegeDetailPanelComponent {
   ];
 
   protected get brochures(): CollegeMediaItem[] {
-    const real = this.college()?.mediaItems.filter(m => m.mediaRole === 'brochure') ?? [];
+    const real =
+      this.college()?.mediaItems.filter((m) => m.mediaRole === 'brochure') ??
+      [];
     if (real.length > 0) return real;
-    return [{
-      mediaAssetId: 'mock-brochure-1', mediaRole: 'brochure', sortOrder: 0,
-      asset: { id: 'mock-brochure-1', url: 'assets/pdfs/Whizard-SRS.pdf', thumbnailUrl: null, name: 'Whizard-SRS.pdf', key: 'mock', type: 'pdf', mimeType: 'application/pdf', sizeBytes: 0 },
-    }];
+    return [
+      {
+        mediaAssetId: 'mock-brochure-1',
+        mediaRole: 'brochure',
+        sortOrder: 0,
+        asset: {
+          id: 'mock-brochure-1',
+          url: 'assets/pdfs/Whizard-SRS.pdf',
+          thumbnailUrl: null,
+          name: 'Whizard-SRS.pdf',
+          key: 'mock',
+          type: 'pdf',
+          mimeType: 'application/pdf',
+          sizeBytes: 0,
+        },
+      },
+    ];
   }
 
   protected get videos(): CollegeMediaItem[] {
-    const real = this.college()?.mediaItems.filter(m => m.mediaRole === 'video') ?? [];
+    const real =
+      this.college()?.mediaItems.filter((m) => m.mediaRole === 'video') ?? [];
     if (real.length > 0) return real;
-    return [1, 2, 3].map(i => ({
-      mediaAssetId: `mock-vid-${i}`, mediaRole: 'video', sortOrder: i,
-      asset: { id: `mock-vid-${i}`, url: 'assets/videos/turtlelow.mp4', thumbnailUrl: null, name: `Promo Video ${i}`, key: 'mock', type: 'video', mimeType: 'video/mp4', sizeBytes: 0 },
+    return [1, 2, 3].map((i) => ({
+      mediaAssetId: `mock-vid-${i}`,
+      mediaRole: 'video',
+      sortOrder: i,
+      asset: {
+        id: `mock-vid-${i}`,
+        url: 'assets/videos/turtlelow.mp4',
+        thumbnailUrl: null,
+        name: `Promo Video ${i}`,
+        key: 'mock',
+        type: 'video',
+        mimeType: 'video/mp4',
+        sizeBytes: 0,
+      },
     }));
   }
 
   protected get gallery(): CollegeMediaItem[] {
-    const real = this.college()?.mediaItems.filter(m => m.mediaRole === 'gallery') ?? [];
+    const real =
+      this.college()?.mediaItems.filter((m) => m.mediaRole === 'gallery') ?? [];
     if (real.length > 0) return real;
-    return CollegeDetailPanelComponent.MOCK_IMAGES.slice(3, 9).map((url, i) => ({
-      mediaAssetId: `mock-gallery-${i}`, mediaRole: 'gallery', sortOrder: i,
-      asset: { id: `mock-gallery-${i}`, url, thumbnailUrl: url, name: `Campus Image ${i + 1}`, key: 'mock', type: 'image', mimeType: 'image/png', sizeBytes: 0 },
-    }));
+    return CollegeDetailPanelComponent.MOCK_IMAGES.slice(3, 9).map(
+      (url, i) => ({
+        mediaAssetId: `mock-gallery-${i}`,
+        mediaRole: 'gallery',
+        sortOrder: i,
+        asset: {
+          id: `mock-gallery-${i}`,
+          url,
+          thumbnailUrl: url,
+          name: `Campus Image ${i + 1}`,
+          key: 'mock',
+          type: 'image',
+          mimeType: 'image/png',
+          sizeBytes: 0,
+        },
+      }),
+    );
   }
 
   protected get collegeClubs(): Club[] {
     const college = this.college();
     if (!college) return [];
     const ids = new Set(college.clubIds);
-    return this.clubs().filter(c => ids.has(c.id));
+    return this.clubs().filter((c) => ids.has(c.id));
   }
 
   protected getContactByRole(role: string): CollegeContact | undefined {
-    return this.college()?.contacts.find(c => c.role === role);
+    return this.college()?.contacts.find((c) => c.role === role);
   }
 
   protected get nonVcContacts(): CollegeContact[] {
-    return this.college()?.contacts.filter(c => c.role !== 'VICE_CHANCELLOR') ?? [];
+    return (
+      this.college()?.contacts.filter((c) => c.role !== 'VICE_CHANCELLOR') ?? []
+    );
   }
 
   protected safeUrl(url: string): SafeResourceUrl {
@@ -101,16 +152,20 @@ export class CollegeDetailPanelComponent {
     this.activeVideoUrl.set(url);
     this.activeVideoTitle.set(title);
   }
-  protected closeVideo(): void { this.activeVideoUrl.set(null); }
+  protected closeVideo(): void {
+    this.activeVideoUrl.set(null);
+  }
 
   protected openImage(url: string, alt: string): void {
     this.activeImageUrl.set(url);
     this.activeImageAlt.set(alt);
   }
-  protected closeImage(): void { this.activeImageUrl.set(null); }
+  protected closeImage(): void {
+    this.activeImageUrl.set(null);
+  }
 
   protected toggleAbout(): void {
-    this.aboutExpanded.update(v => !v);
+    this.aboutExpanded.update((v) => !v);
   }
 
   protected getInitial(name: string): string {

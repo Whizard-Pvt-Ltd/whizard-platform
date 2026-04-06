@@ -1,6 +1,7 @@
 import { Component, signal, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { ScrollbarDirective } from '@whizard/shared-ui';
 import type { MockAssessment } from '../../models/manage-internship.models';
 
 const MOCK_ASSESSMENTS: MockAssessment[] = [
@@ -16,7 +17,7 @@ const MOCK_ASSESSMENTS: MockAssessment[] = [
 @Component({
   selector: 'whizard-assessment-library-panel',
   standalone: true,
-  imports: [FormsModule, MatIconModule],
+  imports: [FormsModule, MatIconModule, ScrollbarDirective],
   templateUrl: './assessment-library-panel.component.html',
 })
 export class AssessmentLibraryPanelComponent {

@@ -1,4 +1,4 @@
-<div class="flex flex-col flex-1 min-w-0">
+<div class="flex flex-col flex-1 min-w-0" style="height: 90dvh">
   @if (!college()) {
     <div
       class="flex-1 flex flex-col items-center justify-center gap-3 text-wrcf-text-secondary"
@@ -10,7 +10,7 @@
       <p class="text-base">Select a college to view details</p>
     </div>
   } @else {
-    <div class="flex-1 flex flex-col relative" whizardScrollbar>
+    <div class="flex-1 flex flex-col" whizardScrollbar="true">
       <!-- Header -->
       <div
         class="flex items-start gap-4 px-8 py-5 border-b border-wrcf-border bg-wrcf-bg-primary shrink-0"
@@ -87,6 +87,13 @@
             }
           </div>
         </div>
+
+        <!-- Edit button -->
+        <button (click)="editClicked.emit()"
+          class="shrink-0 flex items-center gap-1.5 h-9 px-4 rounded-[10px] bg-wrcf-action text-wrcf-text-primary text-sm font-medium hover:bg-wrcf-action-hover transition-colors">
+          <mat-icon svgIcon="lucideIcons:pencil-square" class="size-4 shrink-0" />
+          Edit
+        </button>
       </div>
 
       <!-- Scrollable content -->

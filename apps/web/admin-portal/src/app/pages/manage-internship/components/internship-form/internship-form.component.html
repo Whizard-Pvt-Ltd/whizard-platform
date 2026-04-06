@@ -1,11 +1,13 @@
 <mat-tab-group animationDuration="1000ms" class="internship-form-tabs h-full">
   <mat-tab label="Details">
-    <ng-template matTabContent>
+    <ng-template matTabContent class="overflow-y-hidden">
       <whizard-details-tab
         class="flex flex-col"
-        style="height: 100dvh"
+        style="height: 80dvh"
         whizardScrollbar="true"
         [formValue]="formValue()"
+        [cities]="cities()"
+        [industryRoles]="industryRoles()"
         (formChanged)="formChanged.emit($event)"
       >
       </whizard-details-tab>
@@ -16,7 +18,7 @@
     <ng-template matTabContent>
       <whizard-screening-criteria-tab
         class="flex flex-col"
-        style="height: 100dvh"
+        style="height: 80dvh"
         whizardScrollbar="true"
         [formValue]="formValue()"
         (formChanged)="formChanged.emit($event)"
@@ -29,7 +31,7 @@
     <ng-template matTabContent>
       <whizard-selection-tab
         class="flex flex-col"
-        style="height: 100dvh"
+        style="height: 80dvh"
         whizardScrollbar="true"
         [formValue]="formValue()"
         (formChanged)="formChanged.emit($event)"
@@ -42,7 +44,7 @@
     <ng-template matTabContent>
       <whizard-during-internship-tab
         class="flex flex-col"
-        style="height: 100dvh"
+        style="height: 80dvh"
         whizardScrollbar="true"
         [formValue]="formValue()"
         (formChanged)="formChanged.emit($event)"
@@ -55,7 +57,7 @@
     <ng-template matTabContent>
       <whizard-final-submission-tab
         class="flex flex-col"
-        style="height: 100dvh"
+        style="height: 80dvh"
         whizardScrollbar="true"
         [formValue]="formValue()"
         (formChanged)="formChanged.emit($event)"

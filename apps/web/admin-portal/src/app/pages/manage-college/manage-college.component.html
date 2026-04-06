@@ -1,12 +1,25 @@
 <div class="flex flex-col h-full bg-wrcf-bg-primary font-sans overflow-hidden">
-
   <!-- Error banner -->
   @if (errorMessage()) {
-    <div class="flex items-center justify-between px-8 py-3 bg-red-950/50 border-b border-red-800/50 text-sm text-red-300 shrink-0">
+    <div
+      class="flex items-center justify-between px-8 py-3 bg-red-950/50 border-b border-red-800/50 text-sm text-red-300 shrink-0"
+    >
       <span>{{ errorMessage() }}</span>
-      <button type="button" (click)="errorMessage.set(null)" class="ml-4 text-red-400 hover:text-red-200 transition-colors">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      <button
+        type="button"
+        (click)="errorMessage.set(null)"
+        class="ml-4 text-red-400 hover:text-red-200 transition-colors"
+      >
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
         </svg>
       </button>
     </div>
@@ -14,19 +27,21 @@
 
   <!-- Main workspace -->
   <div class="flex-1 flex overflow-hidden">
-
     <!-- VIEW MODE: list + detail -->
     @if (mode() === 'list') {
       <whizard-college-list-panel
         [colleges]="colleges()"
         [selectedId]="selectedCollegeId"
         [loading]="loading()"
-        (collegeSelected)="onCollegeSelected($event)" />
+        (collegeSelected)="onCollegeSelected($event)"
+      />
 
       <whizard-college-detail-panel
         [college]="selectedCollege()"
         [clubs]="clubs()"
-        [users]="users()" />
+        [users]="users()"
+        (editClicked)="onEditClicked()"
+      />
     }
 
     <!-- EDIT / CREATE MODE: media library + form -->
@@ -35,7 +50,8 @@
         [assets]="mediaAssets()"
         [loading]="mediaLoading()"
         (assetSelected)="onMediaAssetSelected($event)"
-        (uploadRequested)="onMediaUploadRequested($event)" />
+        (uploadRequested)="onMediaUploadRequested($event)"
+      />
 
       <whizard-college-form
         [college]="mode() === 'edit' ? selectedCollege() : null"
@@ -47,7 +63,8 @@
         (saved)="onSaved($event)"
         (published)="onPublished($event)"
         (cancelled)="onFormCancelled()"
-        (mediaUploadRequested)="onMediaUploadRequested($event)" />
+        (mediaUploadRequested)="onMediaUploadRequested($event)"
+      />
     }
 
     <!-- PREVIEW MODE: media library + preview -->
@@ -56,13 +73,14 @@
         [assets]="mediaAssets()"
         [loading]="mediaLoading()"
         (assetSelected)="onMediaAssetSelected($event)"
-        (uploadRequested)="onMediaUploadRequested($event)" />
+        (uploadRequested)="onMediaUploadRequested($event)"
+      />
 
       <whizard-college-preview
         [college]="selectedCollege()!"
         [clubs]="clubs()"
-        (backClicked)="onBackFromPreview()" />
+        (backClicked)="onBackFromPreview()"
+      />
     }
-
   </div>
 </div>

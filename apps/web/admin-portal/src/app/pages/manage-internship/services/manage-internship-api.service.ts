@@ -5,6 +5,8 @@ import type {
   InternshipListItem,
   InternshipDetail,
   InternshipFormValue,
+  City,
+  IndustryRole,
 } from '../models/manage-internship.models';
 import { environment } from '../../../../environments/environment';
 
@@ -51,6 +53,18 @@ export class ManageInternshipApiService {
   archiveInternship(id: string): Observable<InternshipDetail> {
     return this.http
       .post<ApiEnvelope<InternshipDetail>>(`${this.base}/${id}/archive`, {})
+      .pipe(map(r => r.data));
+  }
+
+  listCities(): Observable<City[]> {
+    return this.http
+      .get<ApiEnvelope<City[]>>(`${environment.bffApiUrl}/companies/cities`)
+      .pipe(map(r => r.data));
+  }
+
+  listIndustryRoles(): Observable<IndustryRole[]> {
+    return this.http
+      .get<ApiEnvelope<IndustryRole[]>>(`${environment.bffApiUrl}/wrcf/roles`)
       .pipe(map(r => r.data));
   }
 

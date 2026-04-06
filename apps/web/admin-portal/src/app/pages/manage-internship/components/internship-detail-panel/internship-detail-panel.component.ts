@@ -3,7 +3,6 @@ import { Component, input, output, computed, ChangeDetectionStrategy, ViewEncaps
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
-import { ScrollbarDirective } from "@whizard/shared-ui";
 import type { InternshipDetail } from '../../models/manage-internship.models';
 import { STATUS_LABELS, STATUS_COLORS } from '../../models/manage-internship.models';
 
@@ -14,7 +13,7 @@ interface AboutSection { label: string; value: string | null; }
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [DatePipe, SlicePipe, UpperCasePipe, MatTabsModule, MatIconModule, MatButtonModule, ScrollbarDirective],
+  imports: [DatePipe, SlicePipe, UpperCasePipe, MatTabsModule, MatIconModule, MatButtonModule],
   templateUrl: './internship-detail-panel.component.html',
 })
 export class InternshipDetailPanelComponent {

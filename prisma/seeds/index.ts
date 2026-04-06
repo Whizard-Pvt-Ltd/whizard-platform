@@ -5,6 +5,7 @@ const seeds = [
   'wrcf-reference.seed.ts',
   'company-organization.seed.ts',
   'college-operations.seed.ts',
+  'wrcf-roles.seed.ts',
   'internship-hiring.seed.ts',
 ];
 

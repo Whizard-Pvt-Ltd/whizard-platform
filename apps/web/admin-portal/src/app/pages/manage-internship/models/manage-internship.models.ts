@@ -137,6 +137,11 @@ export interface City {
   state: string | null;
 }
 
+export interface IndustryRole {
+  id: string;
+  name: string;
+}
+
 export interface FunctionalGroup {
   id: string;
   name: string;

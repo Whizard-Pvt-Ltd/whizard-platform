@@ -16,8 +16,8 @@ export class PrismaIndustryRoleRepository implements IIndustryRoleRepository {
     const rows = await this.prisma.role.findMany({
       where: {
         tenantId: BigInt(tenantId),
-        departmentId: BigInt(departmentId),
-        isActive: true
+        ...(departmentId ? { departmentId: BigInt(departmentId) } : {}),
+        isActive: true,
       },
       orderBy: { name: 'asc' }
     });

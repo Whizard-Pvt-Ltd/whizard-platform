@@ -61,7 +61,6 @@ export class ManageCollegeComponent implements OnInit, OnDestroy {
       if (m === 'list') {
         const hasSelected = !!this.selectedCollege();
         this.pageActions.set([
-          ...(hasSelected ? [{ label: 'Edit', icon: 'heroicons_outline:pencil-square', variant: 'outline' as const, action: () => this.onEditClicked() }] : []),
           { label: 'Add', icon: 'heroicons_outline:plus', variant: 'primary', action: () => this.onAddClicked() },
         ]);
       } else if (m === 'edit' || m === 'create') {

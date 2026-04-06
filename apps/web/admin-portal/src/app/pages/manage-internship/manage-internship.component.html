@@ -48,11 +48,14 @@
 
     <!-- EDIT / CREATE MODE: assessment library (left) + editable form (right) -->
     @if (mode() === 'edit' || mode() === 'create') {
-      <whizard-assessment-library-panel />
+  
+      <whizard-assessment-library-panel  class="flex" style="height: 90dvh;"/>
 
-      <div class="flex-1 flex flex-col overflow-hidden bg-wrcf-bg-card">
+      <div class="flex-1 flex flex-col overflow-hidden">
         <whizard-internship-form
           [formValue]="formValue()"
+          [cities]="cities()"
+          [industryRoles]="industryRoles()"
           (formChanged)="onFormChanged($event)"
           class="flex-1 overflow-hidden"
         />

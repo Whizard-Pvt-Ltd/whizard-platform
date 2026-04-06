@@ -1,7 +1,7 @@
 import { Component, inject, signal, OnInit, OnDestroy, computed, effect, ChangeDetectionStrategy } from '@angular/core';
 import { PageActionsService, ScrollbarDirective } from '@whizard/shared-ui';
 import type {
-  InternshipDetail, InternshipFormValue, PageMode,
+  InternshipDetail, InternshipFormValue, PageMode, City, IndustryRole,
 } from './models/manage-internship.models';
 import { AssessmentLibraryPanelComponent } from './components/assessment-library-panel/assessment-library-panel.component';
 import { InternshipDetailPanelComponent } from './components/internship-detail-panel/internship-detail-panel.component';
@@ -115,6 +115,8 @@ export class ManageInternshipComponent implements OnInit, OnDestroy {
   protected selectedInternship = signal<InternshipDetail | null>(null);
   protected formValue = signal<InternshipFormValue>({ ...EMPTY_FORM });
   protected saving = signal(false);
+  protected cities = signal<City[]>([]);
+  protected industryRoles = signal<IndustryRole[]>([]);
 
   protected readonly selectedId = computed(
     () => this.selectedInternship()?.id ?? null,
@@ -164,6 +166,8 @@ export class ManageInternshipComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadList();
+    this.api.listCities().subscribe(c => this.cities.set(c));
+    this.api.listIndustryRoles().subscribe(r => this.industryRoles.set(r));
   }
 
   private loadList(): void {

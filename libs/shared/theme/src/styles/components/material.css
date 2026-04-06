@@ -604,12 +604,12 @@ mat-card {
   --form-field-font-optical-sizing: var(--font-optical-sizing);
   --form-field-font-smoothing: var(--font-smoothing);
 
-  --form-field-font-size: var(--text-base); /* 14px */
+  --form-field-font-size: var(--text-lg); /* 14px */
   --form-field-line-height: var(--leading-5); /* 20px */
   --form-field-font-weight: var(--font-weight-normal);
   --form-field-letter-spacing: var(--tracking-normal);
 
-  --form-field-label-font-size: var(--text-base); /* 14px */
+  --form-field-label-font-size: var(--text-lg); /* 14px */
   --form-field-label-line-height: var(--leading-5); /* 20px */
   --form-field-label-font-weight: var(--font-weight-medium);
   --form-field-label-letter-spacing: var(--tracking-normal);
@@ -926,6 +926,125 @@ mat-card {
   /* Mobile font size adjustment */
   @media screen and (max-width: 640px) {
     --form-field-font-size: var(--text-xl); /* 16px */
+  }
+}
+
+.wrcf-outline.mat-mdc-form-field.mat-form-field-appearance-outline {
+  /* Cancel the Fuse "label floats above field" margin */
+  margin-top: 0 !important;
+
+  &:has(.mat-mdc-text-field-wrapper:not(.mdc-text-field--no-label)) {
+    margin-top: 0 !important;
+  }
+
+  .mat-mdc-text-field-wrapper {
+    /* Remove Fuse's box border — the MDC notch segments draw the border */
+    border: none !important;
+    box-shadow: none !important;
+    background: var(--color-wrcf-bg-secondary) !important;
+    border-radius: 8px !important;
+    overflow: visible !important;
+    padding: 0 !important;
+
+    &::after { display: none !important; }
+
+    .mat-mdc-form-field-flex {
+      padding: 0 !important;
+
+      /* ── Re-enable the three MDC notch segments ────────────────────────── */
+      .mdc-notched-outline {
+        .mdc-notched-outline__leading {
+          display: block !important;
+          border-width: 1px !important;
+          border-style: solid !important;
+          border-color: var(--color-wrcf-border) !important;
+          border-right: none !important;
+          min-width: 12px !important;
+          border-radius: 8px 0 0 8px !important;
+        }
+
+        .mdc-notched-outline__trailing {
+          display: block !important;
+          flex: 1 !important;
+          border-width: 1px !important;
+          border-style: solid !important;
+          border-color: var(--color-wrcf-border) !important;
+          border-left: none !important;
+          border-radius: 0 8px 8px 0 !important;
+        }
+
+        .mdc-notched-outline__notch {
+          border-width: 1px !important;
+          border-style: solid !important;
+          border-color: var(--color-wrcf-border) !important;
+          border-left: none !important;
+          border-right: none !important;
+          /* auto lets the label's layout width size the notch gap */
+          width: auto !important;
+          max-width: calc(100% - 2rem) !important;
+          padding: 0 4px !important;
+
+          /* ── Label resting (centred in field) ─────────────────────────── */
+          label {
+            top: 50% !important;
+            left: 0 !important;
+            transform: translateY(-50%) !important;
+            transform-origin: left center !important;
+            transition:
+              transform 150ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 150ms !important;
+            font-size: 16px !important;
+            line-height: 1.25 !important;
+            color: var(--color-wrcf-text-secondary) !important;
+            max-width: 100% !important;
+          }
+        }
+
+        /* ── Notched state: label floats to top border ─────────────────── */
+        &.mdc-notched-outline--notched {
+          .mdc-notched-outline__notch {
+            border-top: none !important;
+
+            label {
+              top: 0 !important;
+              transform: translateY(-50%) scale(0.75) !important;
+            }
+          }
+        }
+      }
+
+      /* Actual input / select lives here */
+      .mat-mdc-form-field-infix {
+        position: relative;
+        z-index: 1;
+        padding: 14px 16px !important;
+        min-height: unset !important;
+      }
+    }
+  }
+
+  /* ── Focused: swap border to accent ─────────────────────────────────────── */
+  &.mat-focused .mat-mdc-text-field-wrapper {
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__trailing,
+    .mdc-notched-outline__notch {
+      border-color: var(--color-primary-600) !important;
+    }
+    .mdc-notched-outline__notch label {
+      color: var(--color-primary-600) !important;
+    }
+  }
+
+     /* Focus */
+     &.mat-focused {
+       --form-field-outline-color: var(--color-primary-600);
+     }
+
+  /* ── Error: red border ───────────────────────────────────────────────────── */
+  &:not(.mat-focused) .mdc-text-field--invalid .mdc-notched-outline__leading,
+  &:not(.mat-focused) .mdc-text-field--invalid .mdc-notched-outline__trailing,
+  &:not(.mat-focused) .mdc-text-field--invalid .mdc-notched-outline__notch {
+    border-color: var(--color-wrcf-error) !important;
   }
 }
 

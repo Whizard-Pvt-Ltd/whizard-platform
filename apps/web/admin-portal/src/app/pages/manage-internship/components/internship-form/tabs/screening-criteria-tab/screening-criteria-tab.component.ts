@@ -1,10 +1,6 @@
-import { Component, input, output, signal } from '@angular/core';
-import { inject } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import type { InternshipFormValue, ScreeningQuestion, EligibilityCheck, AssessmentItem, InterviewRubric } from '../../../../models/manage-internship.models';
@@ -14,7 +10,7 @@ const CERT_LEVELS = ['Basic', 'Intermediate', 'Advanced', 'Expert'];
 @Component({
   selector: 'whizard-screening-criteria-tab',
   standalone: true,
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatIconModule, MatButtonModule, MatDialogModule],
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatSelectModule],
   templateUrl: './screening-criteria-tab.component.html',
 })
 export class ScreeningCriteriaTabComponent {
@@ -22,7 +18,6 @@ export class ScreeningCriteriaTabComponent {
   readonly formChanged = output<Partial<InternshipFormValue>>();
 
   protected readonly certLevels = CERT_LEVELS;
-  protected showEligibilityModal = signal(false);
 
   // --- Screening questions (adapted from groomr ScreeningQuestionsComponent) ---
   protected addQuestion(): void {
