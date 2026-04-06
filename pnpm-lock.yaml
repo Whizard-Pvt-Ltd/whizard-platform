@@ -9,13 +9,22 @@ overrides:
   prisma: 6.19.2
   '@prisma/client': 6.19.2
   eslint-visitor-keys: ^4.2.0
+  '@angular/router': 21.2.7
+  '@angular/common': 21.2.7
+  '@angular/core': 21.2.7
+  '@angular/compiler': 21.2.7
+  '@angular/compiler-cli': 21.2.7
+  '@angular/platform-browser': 21.2.7
+  '@angular/platform-browser-dynamic': 21.2.7
+  '@angular/forms': 21.2.7
+  '@angular/animations': 21.2.7
 
 importers:
 
   .:
     dependencies:
       '@angular/animations':
-        specifier: ^21.2.3
+        specifier: 21.2.7
         version: 21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))
       '@angular/aria':
         specifier: ^21.2.3
@@ -24,25 +33,25 @@ importers:
         specifier: ^21.2.3
         version: 21.2.5(@angular/common@21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@21.2.7(@angular/animations@21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2)
       '@angular/common':
-        specifier: ^21.2.3
+        specifier: 21.2.7
         version: 21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
       '@angular/compiler':
-        specifier: ^21.2.3
+        specifier: 21.2.7
         version: 21.2.7
       '@angular/core':
-        specifier: ^21.2.3
+        specifier: 21.2.7
         version: 21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1)
       '@angular/forms':
-        specifier: ^21.2.3
+        specifier: 21.2.7
         version: 21.2.7(@angular/common@21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@21.2.7(@angular/animations@21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2)
       '@angular/material':
         specifier: ^21.2.3
         version: 21.2.5(dc933d4e5369763e2fc417482d6b8d39)
       '@angular/platform-browser':
-        specifier: ^21.2.3
+        specifier: 21.2.7
         version: 21.2.7(@angular/animations@21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))
       '@angular/router':
-        specifier: ^21.2.3
+        specifier: 21.2.7
         version: 21.2.7(@angular/common@21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@21.2.7(@angular/animations@21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2)
       '@aws-sdk/client-s3':
         specifier: ^3.1020.0
@@ -130,7 +139,7 @@ importers:
         specifier: ^21.2.3
         version: 21.2.6(@types/node@22.19.15)(chokidar@5.0.0)
       '@angular/compiler-cli':
-        specifier: ^21.2.3
+        specifier: 21.2.7
         version: 21.2.7(@angular/compiler@21.2.7)(typescript@5.9.3)
       '@nx/angular':
         specifier: 22.6.1
@@ -342,28 +351,28 @@ importers:
   apps/web/admin-portal:
     dependencies:
       '@angular/animations':
-        specifier: ^21.2.3
+        specifier: 21.2.7
         version: 21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))
       '@angular/aria':
         specifier: ^21.2.3
         version: 21.2.5(@angular/cdk@21.2.5(@angular/common@21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@21.2.7(@angular/animations@21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2))(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))
       '@angular/common':
-        specifier: ^21.2.3
+        specifier: 21.2.7
         version: 21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
       '@angular/compiler':
-        specifier: ^21.2.3
+        specifier: 21.2.7
         version: 21.2.7
       '@angular/core':
-        specifier: ^21.2.3
+        specifier: 21.2.7
         version: 21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1)
       '@angular/forms':
-        specifier: ^21.2.3
+        specifier: 21.2.7
         version: 21.2.7(@angular/common@21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@21.2.7(@angular/animations@21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2)
       '@angular/platform-browser':
-        specifier: ^21.2.3
+        specifier: 21.2.7
         version: 21.2.7(@angular/animations@21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))
       '@angular/router':
-        specifier: ^21.2.3
+        specifier: 21.2.7
         version: 21.2.7(@angular/common@21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@21.2.7(@angular/animations@21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@21.2.7(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.7(@angular/compiler@21.2.7)(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2)
       rxjs:
         specifier: ^7.8.1
@@ -379,7 +388,7 @@ importers:
         specifier: ^21.2.3
         version: 21.2.6(@types/node@22.19.15)(chokidar@5.0.0)
       '@angular/compiler-cli':
-        specifier: ^21.2.3
+        specifier: 21.2.7
         version: 21.2.7(@angular/compiler@21.2.7)(typescript@5.9.3)
       typescript:
         specifier: 5.9.3
@@ -628,10 +637,10 @@ packages:
     resolution: {integrity: sha512-eUWcWiMOUg01QyJkaO/csyTy8ZecW2HrMvOlgM+IWLagDyqFQVcSwcx9/NJy/42YA+EtpBcCnXPK3vk5NVob7w==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
     peerDependencies:
-      '@angular/compiler-cli': ^21.0.0
-      '@angular/core': ^21.0.0
+      '@angular/compiler-cli': 21.2.7
+      '@angular/core': 21.2.7
       '@angular/localize': ^21.0.0
-      '@angular/platform-browser': ^21.0.0
+      '@angular/platform-browser': 21.2.7
       '@angular/platform-server': ^21.0.0
       '@angular/service-worker': ^21.0.0
       '@angular/ssr': ^21.2.6
@@ -748,17 +757,17 @@ packages:
     resolution: {integrity: sha512-4MLzsSbQWOTHWc8QeX3gKU6vb8zARgrwYmXqbPHOMFUakZ6EMDDIZOaTc/cjc3S40jjwi4czPFsnWtbEyTT3fw==}
     peerDependencies:
       '@angular/cdk': 21.2.5
-      '@angular/core': ^21.0.0 || ^22.0.0
+      '@angular/core': 21.2.7
 
   '@angular/build@21.2.6':
     resolution: {integrity: sha512-PJltYl9/INfz8nZ/KHf39nqlmt3c9PR0jJaZt6hhCPENyAf4PwQpm28erkJmbOYO864goIuws41lduYXyDqQ0Q==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
     peerDependencies:
-      '@angular/compiler': ^21.0.0
-      '@angular/compiler-cli': ^21.0.0
-      '@angular/core': ^21.0.0
+      '@angular/compiler': 21.2.7
+      '@angular/compiler-cli': 21.2.7
+      '@angular/core': 21.2.7
       '@angular/localize': ^21.0.0
-      '@angular/platform-browser': ^21.0.0
+      '@angular/platform-browser': 21.2.7
       '@angular/platform-server': ^21.0.0
       '@angular/service-worker': ^21.0.0
       '@angular/ssr': ^21.2.6
@@ -799,9 +808,9 @@ packages:
   '@angular/cdk@21.2.5':
     resolution: {integrity: sha512-F1sVqMAGYoiJNYYaR2cerqTo7IqpxQ3ZtMDxR3rtB0rSSd5UPOIQoqpsfSd6uH8FVnuzKaBII8Mg6YrjClFsng==}
     peerDependencies:
-      '@angular/common': ^21.0.0 || ^22.0.0
-      '@angular/core': ^21.0.0 || ^22.0.0
-      '@angular/platform-browser': ^21.0.0 || ^22.0.0
+      '@angular/common': 21.2.7
+      '@angular/core': 21.2.7
+      '@angular/platform-browser': 21.2.7
       rxjs: ^6.5.3 || ^7.4.0
 
   '@angular/cli@21.2.6':
@@ -857,10 +866,10 @@ packages:
     resolution: {integrity: sha512-hSil2QUKObjF73EbhUEA5xAZx0/o9r/AFrkRsxa2z9e11jSjlKJHrYuY1tMIFv3SpzK33EYf58IXOBJVwt0iIw==}
     peerDependencies:
       '@angular/cdk': 21.2.5
-      '@angular/common': ^21.0.0 || ^22.0.0
-      '@angular/core': ^21.0.0 || ^22.0.0
-      '@angular/forms': ^21.0.0 || ^22.0.0
-      '@angular/platform-browser': ^21.0.0 || ^22.0.0
+      '@angular/common': 21.2.7
+      '@angular/core': 21.2.7
+      '@angular/forms': 21.2.7
+      '@angular/platform-browser': 21.2.7
       rxjs: ^6.5.3 || ^7.4.0
 
   '@angular/platform-browser@21.2.7':
@@ -3038,7 +3047,7 @@ packages:
     resolution: {integrity: sha512-SU6aMvFz/0uM2WhIGrZ/QexEIqT/VdLfcmy7OYAxOd3w7u2wqQao/1uSOEJo+BR+B48QYf7Z5LLpS8t1mWZYKQ==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
     peerDependencies:
-      '@angular/compiler-cli': ^21.0.0
+      '@angular/compiler-cli': 21.2.7
       typescript: 5.9.3
       webpack: ^5.54.0
 
@@ -9427,9 +9436,9 @@ snapshots:
       tree-kill: 1.2.2
       tslib: 2.8.1
       typescript: 5.9.3
-      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3)
+      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)
       webpack-dev-middleware: 7.4.5(tslib@2.8.1)(webpack@5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3))
-      webpack-dev-server: 5.2.3(tslib@2.8.1)(webpack@5.105.4(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2))
+      webpack-dev-server: 5.2.3(tslib@2.8.1)(webpack@5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3))
       webpack-merge: 6.0.1
       webpack-subresource-integrity: 5.1.0(webpack@5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3))
     optionalDependencies:
@@ -9466,8 +9475,8 @@ snapshots:
     dependencies:
       '@angular-devkit/architect': 0.2102.6(chokidar@5.0.0)
       rxjs: 7.8.2
-      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3)
-      webpack-dev-server: 5.2.3(tslib@2.8.1)(webpack@5.105.4(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2))
+      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)
+      webpack-dev-server: 5.2.3(tslib@2.8.1)(webpack@5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3))
     transitivePeerDependencies:
       - chokidar
 
@@ -12395,7 +12404,7 @@ snapshots:
     dependencies:
       '@angular/compiler-cli': 21.2.7(@angular/compiler@21.2.7)(typescript@5.9.3)
       typescript: 5.9.3
-      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3)
+      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)
 
   '@noble/hashes@1.4.0': {}
 
@@ -14642,7 +14651,7 @@ snapshots:
     dependencies:
       '@babel/core': 7.29.0
       find-up: 5.0.0
-      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3)
+      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)
 
   babel-loader@9.2.1(@babel/core@7.29.0)(webpack@5.105.4(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)):
     dependencies:
@@ -15068,7 +15077,7 @@ snapshots:
       schema-utils: 4.3.3
       serialize-javascript: 7.0.5
       tinyglobby: 0.2.15
-      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3)
+      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)
 
   copy-webpack-plugin@14.0.0(webpack@5.105.4(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)):
     dependencies:
@@ -15160,7 +15169,7 @@ snapshots:
       semver: 7.7.4
     optionalDependencies:
       '@rspack/core': 1.6.8(@swc/helpers@0.5.21)
-      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3)
+      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)
 
   css-minimizer-webpack-plugin@8.0.0(esbuild@0.24.2)(lightningcss@1.32.0)(webpack@5.105.4(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)):
     dependencies:
@@ -16651,7 +16660,7 @@ snapshots:
       less: 4.4.2
     optionalDependencies:
       '@rspack/core': 1.6.8(@swc/helpers@0.5.21)
-      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3)
+      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)
 
   less-loader@12.3.2(@rspack/core@1.6.8(@swc/helpers@0.5.21))(less@4.5.1)(webpack@5.105.4(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)):
     dependencies:
@@ -16697,7 +16706,7 @@ snapshots:
     dependencies:
       webpack-sources: 3.3.4
     optionalDependencies:
-      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3)
+      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)
 
   license-webpack-plugin@4.0.2(webpack@5.105.4(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)):
     dependencies:
@@ -16990,7 +16999,7 @@ snapshots:
     dependencies:
       schema-utils: 4.3.3
       tapable: 2.3.2
-      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3)
+      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)
 
   mini-css-extract-plugin@2.4.7(webpack@5.105.4(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)):
     dependencies:
@@ -17766,7 +17775,7 @@ snapshots:
       semver: 7.7.4
     optionalDependencies:
       '@rspack/core': 1.6.8(@swc/helpers@0.5.21)
-      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3)
+      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)
     transitivePeerDependencies:
       - typescript
 
@@ -18352,7 +18361,7 @@ snapshots:
       '@rspack/core': 1.6.8(@swc/helpers@0.5.21)
       sass: 1.97.3
       sass-embedded: 1.99.0
-      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3)
+      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)
 
   sass-loader@16.0.7(@rspack/core@1.6.8(@swc/helpers@0.5.21))(sass-embedded@1.99.0)(sass@1.99.0)(webpack@5.105.4(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)):
     dependencies:
@@ -18606,7 +18615,7 @@ snapshots:
     dependencies:
       iconv-lite: 0.6.3
       source-map-js: 1.2.1
-      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3)
+      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)
 
   source-map-loader@5.0.0(webpack@5.105.4(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)):
     dependencies:
@@ -18794,6 +18803,17 @@ snapshots:
       minizlib: 3.1.0
       yallist: 5.0.0
 
+  terser-webpack-plugin@5.4.0(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)(webpack@5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3)):
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.31
+      jest-worker: 27.5.1
+      schema-utils: 4.3.3
+      terser: 5.46.0
+      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)
+    optionalDependencies:
+      '@swc/core': 1.15.21(@swc/helpers@0.5.21)
+      esbuild: 0.24.2
+
   terser-webpack-plugin@5.4.0(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)(webpack@5.105.4(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
@@ -18804,17 +18824,6 @@ snapshots:
     optionalDependencies:
       '@swc/core': 1.15.21(@swc/helpers@0.5.21)
       esbuild: 0.24.2
-
-  terser-webpack-plugin@5.4.0(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3)(webpack@5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3)):
-    dependencies:
-      '@jridgewell/trace-mapping': 0.3.31
-      jest-worker: 27.5.1
-      schema-utils: 4.3.3
-      terser: 5.46.0
-      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3)
-    optionalDependencies:
-      '@swc/core': 1.15.21(@swc/helpers@0.5.21)
-      esbuild: 0.27.3
 
   terser@5.46.0:
     dependencies:
@@ -19199,7 +19208,7 @@ snapshots:
       range-parser: 1.2.1
       schema-utils: 4.3.3
     optionalDependencies:
-      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3)
+      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)
     transitivePeerDependencies:
       - tslib
 
@@ -19215,6 +19224,45 @@ snapshots:
       webpack: 5.105.4(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)
     transitivePeerDependencies:
       - tslib
+
+  webpack-dev-server@5.2.3(tslib@2.8.1)(webpack@5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3)):
+    dependencies:
+      '@types/bonjour': 3.5.13
+      '@types/connect-history-api-fallback': 1.5.4
+      '@types/express': 4.17.25
+      '@types/express-serve-static-core': 4.19.8
+      '@types/serve-index': 1.9.4
+      '@types/serve-static': 1.15.10
+      '@types/sockjs': 0.3.36
+      '@types/ws': 8.18.1
+      ansi-html-community: 0.0.8
+      bonjour-service: 1.3.0
+      chokidar: 3.6.0
+      colorette: 2.0.20
+      compression: 1.8.1
+      connect-history-api-fallback: 2.0.0
+      express: 4.22.1
+      graceful-fs: 4.2.11
+      http-proxy-middleware: 2.0.9(@types/express@4.17.25)
+      ipaddr.js: 2.3.0
+      launch-editor: 2.13.2
+      open: 10.2.0
+      p-retry: 6.2.1
+      schema-utils: 4.3.3
+      selfsigned: 5.5.0
+      serve-index: 1.9.2
+      sockjs: 0.3.24
+      spdy: 4.0.2
+      webpack-dev-middleware: 7.4.5(tslib@2.8.1)(webpack@5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3))
+      ws: 8.20.0
+    optionalDependencies:
+      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - tslib
+      - utf-8-validate
 
   webpack-dev-server@5.2.3(tslib@2.8.1)(webpack@5.105.4(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)):
     dependencies:
@@ -19274,14 +19322,14 @@ snapshots:
   webpack-subresource-integrity@5.1.0(webpack@5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3)):
     dependencies:
       typed-assert: 1.0.9
-      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3)
+      webpack: 5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)
 
   webpack-subresource-integrity@5.1.0(webpack@5.105.4(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)):
     dependencies:
       typed-assert: 1.0.9
       webpack: 5.105.4(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)
 
-  webpack@5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3):
+  webpack@5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2):
     dependencies:
       '@types/eslint-scope': 3.7.7
       '@types/estree': 1.0.8
@@ -19305,7 +19353,7 @@ snapshots:
       neo-async: 2.6.2
       schema-utils: 4.3.3
       tapable: 2.3.2
-      terser-webpack-plugin: 5.4.0(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3)(webpack@5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3))
+      terser-webpack-plugin: 5.4.0(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.24.2)(webpack@5.105.2(@swc/core@1.15.21(@swc/helpers@0.5.21))(esbuild@0.27.3))
       watchpack: 2.5.1
       webpack-sources: 3.3.4
     transitivePeerDependencies:

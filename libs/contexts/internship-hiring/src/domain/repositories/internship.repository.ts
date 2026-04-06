@@ -11,4 +11,5 @@ export interface IInternshipRepository {
   findById(id: string): Promise<Internship | null>;
   findAll(filter: InternshipListFilter): Promise<Internship[]>;
   delete(id: string): Promise<void>;
+  findCityName(cityNumericId: string): Promise<string | null>;
 }

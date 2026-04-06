@@ -52,6 +52,7 @@ export interface InternshipListItem {
   applicationDeadline: string | null;
   internshipType: string;
   status: string;
+  applicantsCount?: number | null;
 }
 
 export interface InternshipDetail extends InternshipListItem {

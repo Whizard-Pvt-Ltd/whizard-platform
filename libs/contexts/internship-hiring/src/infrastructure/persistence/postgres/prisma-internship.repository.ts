@@ -59,6 +59,11 @@ export class PrismaInternshipRepository implements IInternshipRepository {
     return rows.map(r => this.toDomain(r));
   }
 
+  async findCityName(cityNumericId: string): Promise<string | null> {
+    const city = await this.prisma.city.findUnique({ where: { id: BigInt(cityNumericId) }, select: { name: true } });
+    return city?.name ?? null;
+  }
+
   async save(internship: Internship): Promise<string> {
     const tenantId          = this.resolveTenantId(internship.tenantId);
     const createdBy         = await this.resolveUserId(internship.createdBy);

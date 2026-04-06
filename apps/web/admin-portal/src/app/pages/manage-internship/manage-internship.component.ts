@@ -193,7 +193,7 @@ export class ManageInternshipComponent implements OnInit, OnDestroy {
   }
 
   protected onInternshipSelected(id: string): void {
-    const detail = this.internships().find((i) => i.id === id);
+    const detail = this.internships().find(i => i.id === id);
     if (detail) this.selectInternship(detail);
   }
 
