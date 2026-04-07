@@ -62,8 +62,22 @@ export interface InternshipListItem {
   applicantsCount?: number | null;
 }
 
+export interface CompanyListItem {
+  id: string;
+  tenantId: string;
+  name: string;
+  companyCode: string;
+}
+
+export interface CoordinatorUser {
+  id: string;
+  name: string;
+  email: string;
+}
+
 export interface InternshipDetail extends InternshipListItem {
   tenantId: string;
+  companyTenantId: string | null;
   cityId: string | null;
   internshipDetail: string | null;
   roleOverview: string | null;

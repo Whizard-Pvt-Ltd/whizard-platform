@@ -8,9 +8,10 @@ export class ListInternshipsQueryHandler {
 
   async execute(query: ListInternshipsQuery): Promise<InternshipDetailDto[]> {
     const internships = await this.repo.findAll({
-      tenantId: query.tenantId,
-      search:   query.search,
-      status:   query.status,
+      tenantId:        query.tenantId,
+      companyTenantId: query.companyTenantId,
+      search:          query.search,
+      status:          query.status,
     });
 
     const cityIds = [...new Set(internships.map(i => i.cityId).filter(Boolean) as string[])];

@@ -8,15 +8,26 @@ export class PrismaUserAccountRepository implements UserAccountRepository {
 
   async findByEmail(email: string): Promise<UserAccount | null> {
     const row = await this.prisma.userAccount.findUnique({
-      where: { primaryEmail: email }
+      where: { primaryEmail: email },
+      include: { tenantMemberships: true }
     });
-
-    return row ? toUserAccountDomain(row) : null;
+    return row ? toUserAccountDomain(row, row.tenantMemberships) : null;
   }
 
   async findById(id: string): Promise<UserAccount | null> {
-    const row = await this.prisma.userAccount.findUnique({ where: { publicUuid: id } });
-    return row ? toUserAccountDomain(row) : null;
+    const row = await this.prisma.userAccount.findUnique({
+      where: { publicUuid: id },
+      include: { tenantMemberships: true }
+    });
+    return row ? toUserAccountDomain(row, row.tenantMemberships) : null;
+  }
+
+  async findByStackAuthId(stackAuthId: string): Promise<UserAccount | null> {
+    const row = await this.prisma.userAccount.findUnique({
+      where: { stackAuthId },
+      include: { tenantMemberships: true }
+    });
+    return row ? toUserAccountDomain(row, row.tenantMemberships) : null;
   }
 
   async save(userAccount: UserAccount): Promise<void> {
@@ -36,11 +47,25 @@ export class PrismaUserAccountRepository implements UserAccountRepository {
           mfaRequired: model.mfaRequired,
           activatedAt: model.activatedAt,
           lastLoginAt: model.lastLoginAt,
+          ...(model.stackAuthUserId && { stackAuthId: model.stackAuthUserId }),
           version: { increment: 1 }
         }
       });
+
+      for (const membership of model.tenantMemberships) {
+        await this.prisma.userAccountTenant.upsert({
+          where: { userAccountId_tenantId: { userAccountId: existing.id, tenantId: BigInt(membership.tenantId) } },
+          update: { isActive: membership.status === 'ACTIVE' },
+          create: {
+            userAccountId: existing.id,
+            tenantId: BigInt(membership.tenantId),
+            tenantType: membership.tenantType,
+            isActive: membership.status === 'ACTIVE'
+          }
+        });
+      }
     } else {
-      await this.prisma.userAccount.create({
+      const created = await this.prisma.userAccount.create({
         data: {
           publicUuid: model.id,
           primaryLoginId: model.email,
@@ -49,9 +74,21 @@ export class PrismaUserAccountRepository implements UserAccountRepository {
           mfaRequired: model.mfaRequired,
           createdAt: model.createdAt,
           activatedAt: model.activatedAt,
-          lastLoginAt: model.lastLoginAt
+          lastLoginAt: model.lastLoginAt,
+          stackAuthId: model.stackAuthUserId ?? undefined
         }
       });
+
+      for (const membership of model.tenantMemberships) {
+        await this.prisma.userAccountTenant.create({
+          data: {
+            userAccountId: created.id,
+            tenantId: BigInt(membership.tenantId),
+            tenantType: membership.tenantType,
+            isActive: membership.status === 'ACTIVE'
+          }
+        });
+      }
     }
   }
 }

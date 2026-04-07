@@ -23,6 +23,7 @@ export const toInternshipDetailDto = (
 ): InternshipDetailDto => ({
   id:                          internship.id,
   tenantId:                    internship.tenantId,
+  companyTenantId:             internship.companyTenantId,
   title:                       internship.title,
   bannerImageUrl:              internship.bannerImageUrl,
   vacancies:                   internship.vacancies,

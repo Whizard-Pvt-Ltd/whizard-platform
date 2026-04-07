@@ -66,6 +66,7 @@ export interface CompanyCompensationStatDto {
 
 export interface CompanyListItemDto {
   id: string;
+  tenantId: string;
   companyCode: string;
   name: string;
   cityName: string | null;
@@ -77,7 +78,6 @@ export interface CompanyListItemDto {
 }
 
 export interface CompanyDetailDto extends CompanyListItemDto {
-  tenantId: string;
   industryId: string | null;
   cityId: string | null;
   description: string | null;

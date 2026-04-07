@@ -2,8 +2,9 @@ import { Component, inject, signal, OnInit, OnDestroy, computed, effect, ChangeD
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { PageActionsService, ScrollbarDirective } from '@whizard/shared-ui';
 import type {
-  InternshipDetail, InternshipFormValue, PageMode, City, IndustryRole,
+  InternshipDetail, InternshipFormValue, PageMode, City, IndustryRole, CompanyListItem,
 } from './models/manage-internship.models';
+import { AuthContextService } from '../../core/services/auth-context.service';
 import { AssessmentLibraryPanelComponent } from './components/assessment-library-panel/assessment-library-panel.component';
 import { InternshipDetailPanelComponent } from './components/internship-detail-panel/internship-detail-panel.component';
 import { InternshipFormComponent } from './components/internship-form/internship-form.component';
@@ -121,6 +122,7 @@ function detailToForm(detail: InternshipDetail): InternshipFormValue {
 export class ManageInternshipComponent implements OnInit, OnDestroy {
   private readonly api = inject(ManageInternshipApiService);
   private readonly pageActions = inject(PageActionsService);
+  protected readonly authCtx = inject(AuthContextService);
 
   protected mode = signal<PageMode>('list');
   protected loading = signal(false);
@@ -131,6 +133,11 @@ export class ManageInternshipComponent implements OnInit, OnDestroy {
   protected saving = signal(false);
   protected cities = signal<City[]>([]);
   protected industryRoles = signal<IndustryRole[]>([]);
+  protected companies = signal<CompanyListItem[]>([]);
+
+  protected readonly isAdminOrSystemUser = computed(() =>
+    this.authCtx.tenantType() === 'ADMIN' || this.authCtx.tenantType() === 'SYSTEM'
+  );
 
   protected readonly selectedId = computed(
     () => this.selectedInternship()?.id ?? null,
@@ -179,9 +186,20 @@ export class ManageInternshipComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    if (!this.authCtx.isLoaded()) {
+      this.authCtx.load().subscribe(() => this.init());
+    } else {
+      this.init();
+    }
+  }
+
+  private init(): void {
     this.loadList();
     this.api.listCities().subscribe(c => this.cities.set(c));
     this.api.listIndustryRoles().subscribe(r => this.industryRoles.set(r));
+    if (this.isAdminOrSystemUser()) {
+      this.api.listCompaniesForSelector().subscribe(c => this.companies.set(c));
+    }
   }
 
   private loadList(): void {
@@ -209,6 +227,11 @@ export class ManageInternshipComponent implements OnInit, OnDestroy {
   protected onInternshipSelected(id: string): void {
     const detail = this.internships().find(i => i.id === id);
     if (detail) this.selectInternship(detail);
+  }
+
+  protected onCompanySelected(tenantId: string): void {
+    this.authCtx.selectedCompanyTenantId.set(tenantId || null);
+    this.loadList();
   }
 
   protected onAddClicked(): void {

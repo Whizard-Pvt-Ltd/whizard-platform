@@ -6,6 +6,11 @@ const prisma = new PrismaClient();
 const TENANT_SYSTEM_UUID   = 'a0000000-0000-0000-0000-000000000001'; // id=1, default tenant
 const TENANT_TCS_UUID      = 'b1000000-0000-0000-0000-000000000001';
 const TENANT_TECHNOVA_UUID = 'b1000000-0000-0000-0000-000000000002';
+const TENANT_HDFC_UUID     = 'b1000000-0000-0000-0000-000000000003';
+const TENANT_AMAZON_UUID   = 'b1000000-0000-0000-0000-000000000005';
+
+const INT_HDFC_FINTECH_UUID  = 'a3000000-0000-0000-0000-000000000008';
+const INT_AMAZON_SDE_UUID    = 'a3000000-0000-0000-0000-000000000009';
 
 const USER_ANANYA_UUID = 'd1000000-0000-0000-0000-000000000001';
 const USER_ROHIT_UUID  = 'd1000000-0000-0000-0000-000000000002';
@@ -31,7 +36,7 @@ async function seedInternshipHiring(): Promise<void> {
 
   // ── Resolve existing tenant IDs ───────────────────────────────────────────
   const tenantRecords = await prisma.tenant.findMany({
-    where: { publicUuid: { in: [TENANT_SYSTEM_UUID, TENANT_TCS_UUID, TENANT_TECHNOVA_UUID] } },
+    where: { publicUuid: { in: [TENANT_SYSTEM_UUID, TENANT_TCS_UUID, TENANT_TECHNOVA_UUID, TENANT_HDFC_UUID, TENANT_AMAZON_UUID] } },
     select: { id: true, publicUuid: true },
   });
   if (tenantRecords.length === 0) {
@@ -41,6 +46,8 @@ async function seedInternshipHiring(): Promise<void> {
   const systemTenantId   = tenantMap.get(TENANT_SYSTEM_UUID)!;
   const tcsTenantId      = tenantMap.get(TENANT_TCS_UUID)!;
   const technovaTenantId = tenantMap.get(TENANT_TECHNOVA_UUID)!;
+  const hdfcTenantId     = tenantMap.get(TENANT_HDFC_UUID) ?? null;
+  const amazonTenantId   = tenantMap.get(TENANT_AMAZON_UUID) ?? null;
 
   // ── Resolve user IDs ──────────────────────────────────────────────────────
   const userRecords = await prisma.userAccount.findMany({
@@ -188,6 +195,7 @@ async function seedInternshipHiring(): Promise<void> {
     {
       uuid: INT_SYS_FULLSTACK_UUID,
       tenantId: systemTenantId,
+      companyTenantId: tcsTenantId,
       title: 'Full Stack Web Development Intern',
       vacancies: 12,
       cityId: bangalore?.id ?? null,
@@ -251,6 +259,7 @@ async function seedInternshipHiring(): Promise<void> {
     {
       uuid: INT_SYS_PRODUCT_UUID,
       tenantId: systemTenantId,
+      companyTenantId: tcsTenantId,
       title: 'Product Management Intern',
       vacancies: 4,
       cityId: mumbai?.id ?? null,
@@ -295,6 +304,7 @@ async function seedInternshipHiring(): Promise<void> {
     {
       uuid: INT_TCS_SDET_UUID,
       tenantId: tcsTenantId,
+      companyTenantId: tcsTenantId,
       title: 'Software Development Engineering Intern',
       vacancies: 15,
       cityId: bangalore?.id ?? null,
@@ -347,6 +357,7 @@ async function seedInternshipHiring(): Promise<void> {
     {
       uuid: INT_TCS_CLOUD_UUID,
       tenantId: tcsTenantId,
+      companyTenantId: tcsTenantId,
       title: 'Cloud Engineering Intern',
       vacancies: 10,
       cityId: hyderabad?.id ?? null,
@@ -403,6 +414,7 @@ async function seedInternshipHiring(): Promise<void> {
     {
       uuid: INT_TCS_DATA_UUID,
       tenantId: tcsTenantId,
+      companyTenantId: tcsTenantId,
       title: 'Data Analytics Intern',
       vacancies: 8,
       cityId: bangalore?.id ?? null,
@@ -447,6 +459,7 @@ async function seedInternshipHiring(): Promise<void> {
     {
       uuid: INT_NOVA_AI_UUID,
       tenantId: technovaTenantId,
+      companyTenantId: technovaTenantId,
       title: 'AI/ML Research Intern',
       vacancies: 6,
       cityId: bangalore?.id ?? null,
@@ -515,6 +528,7 @@ async function seedInternshipHiring(): Promise<void> {
     {
       uuid: INT_NOVA_CYBER_UUID,
       tenantId: technovaTenantId,
+      companyTenantId: technovaTenantId,
       title: 'Cybersecurity Analyst Intern',
       vacancies: 5,
       cityId: mumbai?.id ?? null,
@@ -566,6 +580,110 @@ async function seedInternshipHiring(): Promise<void> {
         { uuid: 'a4000000-0000-0000-0000-000000000005', batchSize: 5, coordinatorUserId: rohitId },
       ],
     },
+    // HDFC Bank — Finance Technology Internship (PUBLISHED)
+    ...(hdfcTenantId ? [{
+      uuid: INT_HDFC_FINTECH_UUID,
+      tenantId: systemTenantId,
+      companyTenantId: hdfcTenantId,
+      title: 'Finance Technology Intern',
+      vacancies: 8,
+      cityId: mumbai?.id ?? null,
+      stipend: 22000,
+      durationMonths: 3,
+      applicationDeadline: new Date('2026-06-30'),
+      internshipType: InternshipType.ONSITE,
+      status: InternshipStatus.PUBLISHED,
+      functionalGroupId: systemFgEngId,
+      internshipDetail: '<p>Join HDFC Bank\'s FinTech team to build and modernize digital banking infrastructure. You will work on payment systems, API integrations, and data pipelines that serve millions of customers daily.</p>',
+      roleOverview: '<p>As a FinTech Intern, you will contribute to backend services powering HDFC\'s digital banking platforms, including NetBanking, mobile apps, and merchant payment solutions.</p>',
+      keyResponsibilities: '<ul><li>Develop REST APIs for banking transactions</li><li>Build data pipelines for fraud detection dashboards</li><li>Integrate with payment gateways (NPCI, UPI)</li><li>Write automated test suites for financial workflows</li></ul>',
+      eligibilityRequirements: '<ul><li>B.Tech/B.E. in CS/IT (final year preferred)</li><li>Knowledge of Java or Python</li><li>Understanding of REST APIs and databases</li><li>Interest in financial systems and regulatory compliance</li></ul>',
+      timelineWorkSchedule: null,
+      perksAndBenefits: '<ul><li>Stipend of ₹22,000/month</li><li>Certificate of completion</li><li>Mentorship by senior banking technologists</li><li>PPO consideration for top performers</li></ul>',
+      selectionProcess: '<p><strong>Step 1:</strong> Resume screening<br/><strong>Step 2:</strong> Online aptitude + coding test<br/><strong>Step 3:</strong> Technical interview</p>',
+      contactInformation: '<p><strong>Contact:</strong> campus.recruitment@hdfcbank.com</p>',
+      screeningQuestions: [
+        { question: 'What do you know about UPI and how does a UPI transaction work?', expectedAnswer: 'Should describe the NPCI infrastructure, VPA addresses, and real-time settlement.' },
+        { question: 'How would you secure a financial API endpoint?', expectedAnswer: 'Should mention OAuth2, rate limiting, input validation, TLS, and audit logging.' },
+      ],
+      eligibilityCheck: { minClubPoints: 40, minProjects: 1, minInternships: 0, minClubCertification: 0 },
+      assessments: [{ name: 'Banking Technology Fundamentals', pdfUrl: null, minScore: 60, weightage: 100 }],
+      interviewRubric: { pdfUrl: null, minScore: 60, weightage: 100, criteria: ['Technical Knowledge', 'Financial Domain', 'Communication'] },
+      offerLetterTemplateUrl: null,
+      termsConditionUrl: null,
+      offerLetterReleaseMethod: 'MANUAL',
+      preInternshipCommunication: null,
+      preReadCourses: [{ title: 'Introduction to Banking Technology', pdfUrl: null, orderIndex: 1 }],
+      preReadArticles: [{ title: 'How UPI Works — NPCI Technical Overview', pdfUrl: null, orderIndex: 1 }],
+      totalWeeks: 12,
+      weeklySchedule: null,
+      midTermFeedbackDate: new Date('2026-08-15'),
+      finalSubmissionDocuments: [
+        { type: 'PROJECT_REPORT', label: 'FinTech Project Report', required: true },
+        { type: 'PROJECT_PRESENTATION', label: 'Demo Presentation', required: true },
+      ],
+      documentGuidelines: null,
+      presentationRubricUrl: null,
+      minPresentationScore: 55,
+      presentationWeightage: 25,
+      certificateTemplateUrl: null,
+      createdBy: priyaId,
+      batches: [
+        { uuid: 'a4000000-0000-0000-0000-000000000007', batchSize: 8, coordinatorUserId: priyaId },
+      ],
+    }] : []),
+
+    // Amazon — SDE/Cloud Internship (PUBLISHED)
+    ...(amazonTenantId ? [{
+      uuid: INT_AMAZON_SDE_UUID,
+      tenantId: systemTenantId,
+      companyTenantId: amazonTenantId,
+      title: 'Software Development / Cloud Intern',
+      vacancies: 10,
+      cityId: hyderabad?.id ?? null,
+      stipend: 40000,
+      durationMonths: 3,
+      applicationDeadline: new Date('2026-05-31'),
+      internshipType: InternshipType.ONSITE,
+      status: InternshipStatus.PUBLISHED,
+      functionalGroupId: systemFgEngId,
+      internshipDetail: '<p>Amazon SDE Internship offers a world-class engineering experience. You will be embedded in a product team, own a meaningful project end-to-end, and present your work to senior engineers at the end of your internship.</p>',
+      roleOverview: '<p>As an SDE Intern, you will design and implement production-grade software features on AWS infrastructure, following Amazon\'s Leadership Principles and high engineering bar.</p>',
+      keyResponsibilities: '<ul><li>Design and implement software features in Java or Python</li><li>Deploy services on AWS (Lambda, EC2, DynamoDB, S3)</li><li>Write comprehensive unit and integration tests</li><li>Participate in design reviews and code reviews</li><li>Present final project to engineering leadership</li></ul>',
+      eligibilityRequirements: '<ul><li>B.Tech/M.Tech in CS or related field (final year)</li><li>Strong data structures and algorithms foundation</li><li>Proficiency in Java, Python, or C++</li><li>CGPA ≥ 8.0 preferred</li></ul>',
+      timelineWorkSchedule: null,
+      perksAndBenefits: '<ul><li>Stipend of ₹40,000/month</li><li>AWS credits for personal projects</li><li>Full-time return offer consideration</li><li>Mentorship by Amazon Senior SDEs</li></ul>',
+      selectionProcess: '<p><strong>Round 1:</strong> Online DSA assessment (90 mins)<br/><strong>Round 2:</strong> Technical interview — coding + system design<br/><strong>Round 3:</strong> Bar raiser interview</p>',
+      contactInformation: '<p><strong>Contact:</strong> university@amazon.com</p>',
+      screeningQuestions: [
+        { question: 'Describe a challenging technical problem you solved and how you approached it.', expectedAnswer: 'Should demonstrate structured problem-solving, technical depth, and measurable outcome.' },
+      ],
+      eligibilityCheck: { minClubPoints: 80, minProjects: 3, minInternships: 1, minClubCertification: 1 },
+      assessments: [{ name: 'DSA Online Assessment', pdfUrl: null, minScore: 70, weightage: 100 }],
+      interviewRubric: { pdfUrl: null, minScore: 75, weightage: 100, criteria: ['Problem Solving', 'Coding Quality', 'System Design', 'Leadership Principles'] },
+      offerLetterTemplateUrl: null,
+      termsConditionUrl: null,
+      offerLetterReleaseMethod: 'AUTOMATED',
+      preInternshipCommunication: null,
+      preReadCourses: [{ title: 'AWS Cloud Practitioner Essentials', pdfUrl: null, orderIndex: 1 }],
+      preReadArticles: [{ title: 'Amazon Leadership Principles — Deep Dive', pdfUrl: null, orderIndex: 1 }],
+      totalWeeks: 12,
+      weeklySchedule: null,
+      midTermFeedbackDate: new Date('2026-08-01'),
+      finalSubmissionDocuments: [
+        { type: 'PROJECT_REPORT', label: 'Design Document + Implementation Report', required: true },
+        { type: 'PROJECT_PRESENTATION', label: 'Final Demo to Engineering Team', required: true },
+      ],
+      documentGuidelines: null,
+      presentationRubricUrl: null,
+      minPresentationScore: 65,
+      presentationWeightage: 30,
+      certificateTemplateUrl: null,
+      createdBy: ananyaId,
+      batches: [
+        { uuid: 'a4000000-0000-0000-0000-000000000008', batchSize: 10, coordinatorUserId: adityaId },
+      ],
+    }] : []),
   ];
 
   // ── Upsert internships + batches ──────────────────────────────────────────
@@ -578,6 +696,7 @@ async function seedInternshipHiring(): Promise<void> {
       create: {
         publicUuid: def.uuid,
         tenantId: internshipData.tenantId,
+        companyTenantId: internshipData.companyTenantId ?? null,
         title: internshipData.title,
         vacancies: internshipData.vacancies,
         cityId: internshipData.cityId,
