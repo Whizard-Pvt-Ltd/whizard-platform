@@ -12,32 +12,32 @@
 
       <!-- Scalars grid -->
       <div class="grid grid-cols-3 gap-3">
-        <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border p-3">
-          <p class="text-xs text-wrcf-text-secondary mb-1">Location</p>
-          <p class="text-sm font-medium text-wrcf-text-primary">{{ detail().cityName ?? '—' }}</p>
+        <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border p-3">
+          <p class="text-xs text-whizard-text-secondary mb-1">Location</p>
+          <p class="text-sm font-medium text-whizard-text-primary">{{ detail().cityName ?? '—' }}</p>
         </div>
-        <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border p-3">
-          <p class="text-xs text-wrcf-text-secondary mb-1">Vacancies</p>
-          <p class="text-sm font-medium text-wrcf-text-primary">{{ detail().vacancies }}</p>
+        <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border p-3">
+          <p class="text-xs text-whizard-text-secondary mb-1">Vacancies</p>
+          <p class="text-sm font-medium text-whizard-text-primary">{{ detail().vacancies }}</p>
         </div>
-        <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border p-3">
-          <p class="text-xs text-wrcf-text-secondary mb-1">Duration</p>
-          <p class="text-sm font-medium text-wrcf-text-primary">{{ detail().durationMonths }} month(s)</p>
+        <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border p-3">
+          <p class="text-xs text-whizard-text-secondary mb-1">Duration</p>
+          <p class="text-sm font-medium text-whizard-text-primary">{{ detail().durationMonths }} month(s)</p>
         </div>
-        <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border p-3">
-          <p class="text-xs text-wrcf-text-secondary mb-1">Type</p>
-          <p class="text-sm font-medium text-wrcf-text-primary">{{ detail().internshipType === 'REMOTE' ? 'Remote' : 'On-Site' }}</p>
+        <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border p-3">
+          <p class="text-xs text-whizard-text-secondary mb-1">Type</p>
+          <p class="text-sm font-medium text-whizard-text-primary">{{ detail().internshipType === 'REMOTE' ? 'Remote' : 'On-Site' }}</p>
         </div>
         @if (detail().stipend) {
-          <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border p-3">
-            <p class="text-xs text-wrcf-text-secondary mb-1">Stipend</p>
-            <p class="text-sm font-medium text-wrcf-text-primary">₹{{ detail().stipend }}</p>
+          <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border p-3">
+            <p class="text-xs text-whizard-text-secondary mb-1">Stipend</p>
+            <p class="text-sm font-medium text-whizard-text-primary">₹{{ detail().stipend }}</p>
           </div>
         }
         @if (detail().applicationDeadline) {
-          <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border p-3">
-            <p class="text-xs text-wrcf-text-secondary mb-1">Application Deadline</p>
-            <p class="text-sm font-medium text-wrcf-text-primary">{{ detail().applicationDeadline | slice:0:10 }}</p>
+          <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border p-3">
+            <p class="text-xs text-whizard-text-secondary mb-1">Application Deadline</p>
+            <p class="text-sm font-medium text-whizard-text-primary">{{ detail().applicationDeadline | slice:0:10 }}</p>
           </div>
         }
       </div>
@@ -46,8 +46,8 @@
       @for (section of aboutSections; track section.key) {
         @if (getField(section.key)) {
           <div>
-            <h3 class="text-sm font-semibold text-wrcf-accent mb-2">{{ section.label }}</h3>
-            <p class="text-sm text-wrcf-text-primary whitespace-pre-wrap leading-relaxed">{{ getField(section.key) }}</p>
+            <h3 class="text-sm font-semibold text-whizard-accent mb-2">{{ section.label }}</h3>
+            <p class="text-sm text-whizard-text-primary whitespace-pre-wrap leading-relaxed">{{ getField(section.key) }}</p>
           </div>
         }
       }
@@ -60,12 +60,12 @@
 
       @if (detail().screeningQuestions.length > 0) {
         <div>
-          <h3 class="text-sm font-semibold text-wrcf-accent mb-3">Screening Questions</h3>
+          <h3 class="text-sm font-semibold text-whizard-accent mb-3">Screening Questions</h3>
           @for (q of detail().screeningQuestions; track $index) {
-            <div class="mb-3 rounded-lg bg-wrcf-bg-secondary border border-wrcf-border p-3">
-              <p class="text-xs text-wrcf-text-secondary mb-1">Q{{ $index + 1 }}</p>
-              <p class="text-sm text-wrcf-text-primary mb-1">{{ q.question }}</p>
-              <p class="text-xs text-wrcf-text-secondary">Expected: {{ q.expectedAnswer }}</p>
+            <div class="mb-3 rounded-lg bg-whizard-bg-secondary border border-whizard-border p-3">
+              <p class="text-xs text-whizard-text-secondary mb-1">Q{{ $index + 1 }}</p>
+              <p class="text-sm text-whizard-text-primary mb-1">{{ q.question }}</p>
+              <p class="text-xs text-whizard-text-secondary">Expected: {{ q.expectedAnswer }}</p>
             </div>
           }
         </div>
@@ -73,30 +73,30 @@
 
       @if (detail().eligibilityCheck) {
         <div>
-          <h3 class="text-sm font-semibold text-wrcf-accent mb-3">Eligibility Check</h3>
+          <h3 class="text-sm font-semibold text-whizard-accent mb-3">Eligibility Check</h3>
           <div class="grid grid-cols-2 gap-3">
             @if (detail().eligibilityCheck!.minClubPoints != null) {
-              <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border p-3">
-                <p class="text-xs text-wrcf-text-secondary mb-1">Min. Club Points</p>
-                <p class="text-sm font-medium text-wrcf-text-primary">{{ detail().eligibilityCheck!.minClubPoints }}</p>
+              <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border p-3">
+                <p class="text-xs text-whizard-text-secondary mb-1">Min. Club Points</p>
+                <p class="text-sm font-medium text-whizard-text-primary">{{ detail().eligibilityCheck!.minClubPoints }}</p>
               </div>
             }
             @if (detail().eligibilityCheck!.minProjects != null) {
-              <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border p-3">
-                <p class="text-xs text-wrcf-text-secondary mb-1">Min. Projects</p>
-                <p class="text-sm font-medium text-wrcf-text-primary">{{ detail().eligibilityCheck!.minProjects }}</p>
+              <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border p-3">
+                <p class="text-xs text-whizard-text-secondary mb-1">Min. Projects</p>
+                <p class="text-sm font-medium text-whizard-text-primary">{{ detail().eligibilityCheck!.minProjects }}</p>
               </div>
             }
             @if (detail().eligibilityCheck!.minInternships != null) {
-              <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border p-3">
-                <p class="text-xs text-wrcf-text-secondary mb-1">Min. Internships</p>
-                <p class="text-sm font-medium text-wrcf-text-primary">{{ detail().eligibilityCheck!.minInternships }}</p>
+              <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border p-3">
+                <p class="text-xs text-whizard-text-secondary mb-1">Min. Internships</p>
+                <p class="text-sm font-medium text-whizard-text-primary">{{ detail().eligibilityCheck!.minInternships }}</p>
               </div>
             }
             @if (detail().eligibilityCheck!.minClubCertification) {
-              <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border p-3">
-                <p class="text-xs text-wrcf-text-secondary mb-1">Min. Certification</p>
-                <p class="text-sm font-medium text-wrcf-text-primary">{{ detail().eligibilityCheck!.minClubCertification }}</p>
+              <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border p-3">
+                <p class="text-xs text-whizard-text-secondary mb-1">Min. Certification</p>
+                <p class="text-sm font-medium text-whizard-text-primary">{{ detail().eligibilityCheck!.minClubCertification }}</p>
               </div>
             }
           </div>
@@ -105,11 +105,11 @@
 
       @if (detail().assessments.length > 0) {
         <div>
-          <h3 class="text-sm font-semibold text-wrcf-accent mb-3">Assessments</h3>
+          <h3 class="text-sm font-semibold text-whizard-accent mb-3">Assessments</h3>
           @for (a of detail().assessments; track $index) {
-            <div class="mb-2 rounded-lg bg-wrcf-bg-secondary border border-wrcf-border p-3 flex items-center justify-between">
-              <span class="text-sm text-wrcf-text-primary truncate">{{ a.pdfUrl }}</span>
-              <span class="text-xs text-wrcf-text-secondary ml-3 shrink-0">Min {{ a.minScore }}% · Weight {{ a.weightage }}%</span>
+            <div class="mb-2 rounded-lg bg-whizard-bg-secondary border border-whizard-border p-3 flex items-center justify-between">
+              <span class="text-sm text-whizard-text-primary truncate">{{ a.pdfUrl }}</span>
+              <span class="text-xs text-whizard-text-secondary ml-3 shrink-0">Min {{ a.minScore }}% · Weight {{ a.weightage }}%</span>
             </div>
           }
         </div>
@@ -117,16 +117,16 @@
 
       @if (detail().interviewRubric) {
         <div>
-          <h3 class="text-sm font-semibold text-wrcf-accent mb-3">Interview Rubric</h3>
-          <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border p-3 flex items-center justify-between">
-            <span class="text-sm text-wrcf-text-primary truncate">{{ detail().interviewRubric!.pdfUrl }}</span>
-            <span class="text-xs text-wrcf-text-secondary ml-3 shrink-0">Min {{ detail().interviewRubric!.minScore }}% · Weight {{ detail().interviewRubric!.weightage }}%</span>
+          <h3 class="text-sm font-semibold text-whizard-accent mb-3">Interview Rubric</h3>
+          <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border p-3 flex items-center justify-between">
+            <span class="text-sm text-whizard-text-primary truncate">{{ detail().interviewRubric!.pdfUrl }}</span>
+            <span class="text-xs text-whizard-text-secondary ml-3 shrink-0">Min {{ detail().interviewRubric!.minScore }}% · Weight {{ detail().interviewRubric!.weightage }}%</span>
           </div>
         </div>
       }
 
       @if (detail().screeningQuestions.length === 0 && !detail().eligibilityCheck && detail().assessments.length === 0 && !detail().interviewRubric) {
-        <p class="text-sm text-wrcf-text-secondary italic">No screening criteria configured.</p>
+        <p class="text-sm text-whizard-text-secondary italic">No screening criteria configured.</p>
       }
     </div>
   </mat-tab>
@@ -137,24 +137,24 @@
 
       @if (detail().offerLetterTemplateUrl || detail().termsConditionUrl || detail().offerLetterReleaseMethod) {
         <div>
-          <h3 class="text-sm font-semibold text-wrcf-accent mb-3">Offer Documents</h3>
+          <h3 class="text-sm font-semibold text-whizard-accent mb-3">Offer Documents</h3>
           <div class="grid grid-cols-1 gap-3">
             @if (detail().offerLetterTemplateUrl) {
-              <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border p-3">
-                <p class="text-xs text-wrcf-text-secondary mb-1">Offer Letter Template</p>
-                <p class="text-sm text-wrcf-text-primary truncate">{{ detail().offerLetterTemplateUrl }}</p>
+              <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border p-3">
+                <p class="text-xs text-whizard-text-secondary mb-1">Offer Letter Template</p>
+                <p class="text-sm text-whizard-text-primary truncate">{{ detail().offerLetterTemplateUrl }}</p>
               </div>
             }
             @if (detail().termsConditionUrl) {
-              <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border p-3">
-                <p class="text-xs text-wrcf-text-secondary mb-1">Terms &amp; Conditions</p>
-                <p class="text-sm text-wrcf-text-primary truncate">{{ detail().termsConditionUrl }}</p>
+              <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border p-3">
+                <p class="text-xs text-whizard-text-secondary mb-1">Terms &amp; Conditions</p>
+                <p class="text-sm text-whizard-text-primary truncate">{{ detail().termsConditionUrl }}</p>
               </div>
             }
             @if (detail().offerLetterReleaseMethod) {
-              <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border p-3">
-                <p class="text-xs text-wrcf-text-secondary mb-1">Release Method</p>
-                <p class="text-sm text-wrcf-text-primary">{{ detail().offerLetterReleaseMethod }}</p>
+              <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border p-3">
+                <p class="text-xs text-whizard-text-secondary mb-1">Release Method</p>
+                <p class="text-sm text-whizard-text-primary">{{ detail().offerLetterReleaseMethod }}</p>
               </div>
             }
           </div>
@@ -163,10 +163,10 @@
 
       @if (detail().batches.length > 0) {
         <div>
-          <h3 class="text-sm font-semibold text-wrcf-accent mb-3">Batches</h3>
+          <h3 class="text-sm font-semibold text-whizard-accent mb-3">Batches</h3>
           @for (b of detail().batches; track b.id) {
-            <div class="mb-2 rounded-lg bg-wrcf-bg-secondary border border-wrcf-border p-3">
-              <p class="text-sm text-wrcf-text-primary">Batch size: {{ b.batchSize }}</p>
+            <div class="mb-2 rounded-lg bg-whizard-bg-secondary border border-whizard-border p-3">
+              <p class="text-sm text-whizard-text-primary">Batch size: {{ b.batchSize }}</p>
             </div>
           }
         </div>
@@ -174,24 +174,24 @@
 
       @if (detail().preReadCourses.length > 0 || detail().preReadArticles.length > 0) {
         <div>
-          <h3 class="text-sm font-semibold text-wrcf-accent mb-3">Pre-Read Materials</h3>
+          <h3 class="text-sm font-semibold text-whizard-accent mb-3">Pre-Read Materials</h3>
           @for (c of detail().preReadCourses; track $index) {
-            <div class="mb-2 rounded-lg bg-wrcf-bg-secondary border border-wrcf-border p-3">
-              <p class="text-xs text-wrcf-text-secondary mb-1">Course</p>
-              <p class="text-sm text-wrcf-text-primary truncate">{{ c.name }}</p>
+            <div class="mb-2 rounded-lg bg-whizard-bg-secondary border border-whizard-border p-3">
+              <p class="text-xs text-whizard-text-secondary mb-1">Course</p>
+              <p class="text-sm text-whizard-text-primary truncate">{{ c.name }}</p>
             </div>
           }
           @for (a of detail().preReadArticles; track $index) {
-            <div class="mb-2 rounded-lg bg-wrcf-bg-secondary border border-wrcf-border p-3">
-              <p class="text-xs text-wrcf-text-secondary mb-1">Article</p>
-              <p class="text-sm text-wrcf-text-primary truncate">{{ a.name }}</p>
+            <div class="mb-2 rounded-lg bg-whizard-bg-secondary border border-whizard-border p-3">
+              <p class="text-xs text-whizard-text-secondary mb-1">Article</p>
+              <p class="text-sm text-whizard-text-primary truncate">{{ a.name }}</p>
             </div>
           }
         </div>
       }
 
       @if (!detail().offerLetterTemplateUrl && !detail().termsConditionUrl && detail().batches.length === 0 && detail().preReadCourses.length === 0) {
-        <p class="text-sm text-wrcf-text-secondary italic">No selection details configured.</p>
+        <p class="text-sm text-whizard-text-secondary italic">No selection details configured.</p>
       }
     </div>
   </mat-tab>
@@ -201,25 +201,25 @@
     <div class="p-6 space-y-6 overflow-y-auto h-full">
 
       @if (detail().totalWeeks) {
-        <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border p-3">
-          <p class="text-xs text-wrcf-text-secondary mb-1">Total Weeks</p>
-          <p class="text-sm font-medium text-wrcf-text-primary">{{ detail().totalWeeks }}</p>
+        <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border p-3">
+          <p class="text-xs text-whizard-text-secondary mb-1">Total Weeks</p>
+          <p class="text-sm font-medium text-whizard-text-primary">{{ detail().totalWeeks }}</p>
         </div>
       }
 
       @if (detail().weeklySchedule.length > 0) {
         <div>
-          <h3 class="text-sm font-semibold text-wrcf-accent mb-3">Weekly Schedule</h3>
+          <h3 class="text-sm font-semibold text-whizard-accent mb-3">Weekly Schedule</h3>
           @for (entry of detail().weeklySchedule; track $index) {
-            <div class="mb-3 rounded-xl border border-wrcf-border bg-wrcf-bg-secondary p-4">
+            <div class="mb-3 rounded-xl border border-whizard-border bg-whizard-bg-secondary p-4">
               <div class="flex items-center justify-between mb-2">
-                <p class="text-sm font-semibold text-wrcf-text-primary">Week Block {{ $index + 1 }}</p>
-                <span class="text-xs text-wrcf-text-secondary">{{ entry.noOfWeeks }} week(s)</span>
+                <p class="text-sm font-semibold text-whizard-text-primary">Week Block {{ $index + 1 }}</p>
+                <span class="text-xs text-whizard-text-secondary">{{ entry.noOfWeeks }} week(s)</span>
               </div>
               @if (entry.tasks.length > 0) {
                 <ul class="space-y-1 mt-2">
                   @for (task of entry.tasks; track $index) {
-                    <li class="text-sm text-wrcf-text-primary">• {{ task.title }}</li>
+                    <li class="text-sm text-whizard-text-primary">• {{ task.title }}</li>
                   }
                 </ul>
               }
@@ -229,14 +229,14 @@
       }
 
       @if (detail().midTermFeedbackDate) {
-        <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border p-3">
-          <p class="text-xs text-wrcf-text-secondary mb-1">Mid-Term Feedback Date</p>
-          <p class="text-sm font-medium text-wrcf-text-primary">{{ detail().midTermFeedbackDate | slice:0:10 }}</p>
+        <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border p-3">
+          <p class="text-xs text-whizard-text-secondary mb-1">Mid-Term Feedback Date</p>
+          <p class="text-sm font-medium text-whizard-text-primary">{{ detail().midTermFeedbackDate | slice:0:10 }}</p>
         </div>
       }
 
       @if (!detail().totalWeeks && detail().weeklySchedule.length === 0 && !detail().midTermFeedbackDate) {
-        <p class="text-sm text-wrcf-text-secondary italic">No schedule configured.</p>
+        <p class="text-sm text-whizard-text-secondary italic">No schedule configured.</p>
       }
     </div>
   </mat-tab>
@@ -247,10 +247,10 @@
 
       @if (detail().finalSubmissionDocuments.length > 0) {
         <div>
-          <h3 class="text-sm font-semibold text-wrcf-accent mb-3">Required Documents</h3>
+          <h3 class="text-sm font-semibold text-whizard-accent mb-3">Required Documents</h3>
           <div class="flex flex-wrap gap-2">
             @for (doc of detail().finalSubmissionDocuments; track doc) {
-              <span class="px-3 py-1 rounded-full text-xs border border-wrcf-border bg-wrcf-bg-secondary text-wrcf-text-primary">{{ doc }}</span>
+              <span class="px-3 py-1 rounded-full text-xs border border-whizard-border bg-whizard-bg-secondary text-whizard-text-primary">{{ doc }}</span>
             }
           </div>
         </div>
@@ -258,25 +258,25 @@
 
       @if (detail().documentGuidelines) {
         <div>
-          <h3 class="text-sm font-semibold text-wrcf-accent mb-2">Document Guidelines</h3>
-          <p class="text-sm text-wrcf-text-primary whitespace-pre-wrap leading-relaxed">{{ detail().documentGuidelines }}</p>
+          <h3 class="text-sm font-semibold text-whizard-accent mb-2">Document Guidelines</h3>
+          <p class="text-sm text-whizard-text-primary whitespace-pre-wrap leading-relaxed">{{ detail().documentGuidelines }}</p>
         </div>
       }
 
       @if (detail().presentationRubricUrl || detail().minPresentationScore != null || detail().presentationWeightage != null) {
         <div>
-          <h3 class="text-sm font-semibold text-wrcf-accent mb-3">Presentation Rubric</h3>
+          <h3 class="text-sm font-semibold text-whizard-accent mb-3">Presentation Rubric</h3>
           <div class="grid grid-cols-2 gap-3">
             @if (detail().minPresentationScore != null) {
-              <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border p-3">
-                <p class="text-xs text-wrcf-text-secondary mb-1">Min. Score</p>
-                <p class="text-sm font-medium text-wrcf-text-primary">{{ detail().minPresentationScore }}%</p>
+              <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border p-3">
+                <p class="text-xs text-whizard-text-secondary mb-1">Min. Score</p>
+                <p class="text-sm font-medium text-whizard-text-primary">{{ detail().minPresentationScore }}%</p>
               </div>
             }
             @if (detail().presentationWeightage != null) {
-              <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border p-3">
-                <p class="text-xs text-wrcf-text-secondary mb-1">Weightage</p>
-                <p class="text-sm font-medium text-wrcf-text-primary">{{ detail().presentationWeightage }}%</p>
+              <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border p-3">
+                <p class="text-xs text-whizard-text-secondary mb-1">Weightage</p>
+                <p class="text-sm font-medium text-whizard-text-primary">{{ detail().presentationWeightage }}%</p>
               </div>
             }
           </div>
@@ -284,14 +284,14 @@
       }
 
       @if (detail().certificateTemplateUrl) {
-        <div class="rounded-lg bg-wrcf-bg-secondary border border-wrcf-border p-3">
-          <p class="text-xs text-wrcf-text-secondary mb-1">Certificate Template</p>
-          <p class="text-sm text-wrcf-text-primary truncate">{{ detail().certificateTemplateUrl }}</p>
+        <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border p-3">
+          <p class="text-xs text-whizard-text-secondary mb-1">Certificate Template</p>
+          <p class="text-sm text-whizard-text-primary truncate">{{ detail().certificateTemplateUrl }}</p>
         </div>
       }
 
       @if (detail().finalSubmissionDocuments.length === 0 && !detail().documentGuidelines && !detail().presentationRubricUrl) {
-        <p class="text-sm text-wrcf-text-secondary italic">No final submission details configured.</p>
+        <p class="text-sm text-whizard-text-secondary italic">No final submission details configured.</p>
       }
     </div>
   </mat-tab>

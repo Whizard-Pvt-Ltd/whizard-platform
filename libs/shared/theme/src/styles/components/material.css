@@ -875,7 +875,7 @@
 
     --form-field-bg-color: light-dark(
       var(--color-white),
-      var(--color-primary-900)
+      var(--color-primary-950)
     );
 
     --form-field-border-color: light-dark(
@@ -917,6 +917,53 @@
     @media screen and (max-width: 640px) {
       --form-field-font-size: var(--text-lg);
       /* 16px */
+    }
+
+    /* ── Whizard Design System form field variant ──────────────────────── */
+    &.whizard-outline {
+      --form-field-font-size: 0.875rem;       /* 14px */
+      --form-field-line-height: 1.25rem;      /* 20px */
+      --form-field-font-weight: 500;          /* Medium */
+      --form-field-letter-spacing: 0.009rem;  /* 0.15px */
+      --form-field-label-font-size: 0.875rem; /* 14px */
+      --form-field-label-font-weight: 500;    /* Medium */
+      --form-field-border-radius: 0.5rem;     /* 8px */
+      --form-field-padding-y: 0.75rem;        /* 12px */
+      --form-field-padding-x: 1rem;           /* 16px */
+
+      --form-field-bg-color: light-dark(
+        var(--color-white),
+        var(--color-whizard-bg-main)
+      );
+      --form-field-border-color: light-dark(
+        var(--color-whizard-border),
+        var(--color-whizard-border)
+      );
+      --form-field-text-color: light-dark(
+        var(--color-whizard-text-primary),
+        var(--color-whizard-text-primary)
+      );
+      --form-field-placeholder-color: light-dark(
+        var(--color-whizard-text-secondary),
+        var(--color-whizard-text-secondary)
+      );
+      --form-field-affix-color: light-dark(
+        var(--color-whizard-text-secondary),
+        var(--color-whizard-text-secondary)
+      );
+      --form-field-shadow-color: color-mix(
+        in oklch,
+        var(--color-black),
+        transparent 90%
+      );
+
+      &.mat-focused {
+        --form-field-outline-color: var(--color-whizard-accent);
+      }
+
+      .mdc-notched-outline__notch {
+        border-right: none;
+      }
     }
   }
 

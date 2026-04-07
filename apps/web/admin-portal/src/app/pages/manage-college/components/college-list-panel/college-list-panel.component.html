@@ -1,22 +1,21 @@
 <div
-  class="flex flex-col h-full bg-wrcf-bg-card border-r border-wrcf-border overflow-hidden w-100"
-
+  class="flex flex-col h-full border-r border-neutral-700 overflow-hidden w-100"
 >
   <!-- Search bar -->
-  <div class="px-3 py-3 border-b border-wrcf-border shrink-0">
+  <div class="px-3 py-3 border-b border-neutral-700 shrink-0">
     <div
-      class="flex items-center gap-2 h-9 px-3 rounded-[10px] bg-wrcf-bg-secondary border border-wrcf-border"
+      class="flex items-center gap-2 h-9 px-3 rounded-[10px] bg-primary-900 border border-neutral-700"
     >
       <mat-icon
         svgIcon="heroicons_outline:magnifying-glass"
-        class="size-4 text-wrcf-text-secondary shrink-0"
+        class="size-4 shrink-0"
       />
       <input
         type="text"
-        placeholder="Search for college..."
+        placeholder="Search for College..."
         [value]="searchQuery()"
         (input)="searchQuery.set($any($event.target).value)"
-        class="flex-1 bg-transparent text-sm text-wrcf-text-primary placeholder:text-wrcf-text-secondary outline-none border-none min-w-0"
+        class="flex-1 bg-transparent text-sm text-neutral-100 placeholder:text-neutral-400 outline-none border-none min-w-0"
       />
     </div>
   </div>
@@ -26,15 +25,13 @@
     @if (loading()) {
       @for (i of [1, 2, 3, 4, 5, 6, 8]; track i) {
         <div
-          class="flex items-center gap-4 px-4 py-4 border-b border-wrcf-border/40 animate-pulse"
+          class="flex items-center gap-4 px-4 py-4 border-b border-neutral-700/40 animate-pulse"
         >
-          <div
-            class="w-14 h-14 rounded-full bg-wrcf-bg-secondary shrink-0"
-          ></div>
+          <div class="w-12 h-12 rounded-full bg-primary-900 shrink-0"></div>
           <div class="flex-1 flex flex-col gap-2.5">
-            <div class="h-3.5 rounded bg-wrcf-bg-secondary w-3/4"></div>
-            <div class="h-2.5 rounded bg-wrcf-bg-secondary w-1/2"></div>
-            <div class="h-2.5 rounded bg-wrcf-bg-secondary w-2/3"></div>
+            <div class="h-3.5 rounded bg-primary-900 w-3/4"></div>
+            <div class="h-2.5 rounded bg-primary-900 w-1/2"></div>
+            <div class="h-2.5 rounded bg-primary-900 w-2/3"></div>
           </div>
         </div>
       }
@@ -42,9 +39,9 @@
       <div class="flex flex-col items-center justify-center py-12 gap-2 px-4">
         <mat-icon
           svgIcon="heroicons_outline:building-library"
-          class="size-10 text-wrcf-text-secondary opacity-40"
+          class="size-4 opacity-40"
         />
-        <span class="text-sm text-wrcf-text-secondary text-center"
+        <span class="text-sm text-neutral-400 text-center"
           >No colleges found</span
         >
       </div>
@@ -53,11 +50,11 @@
         <button
           type="button"
           (click)="selectCollege(college.id)"
-          class="w-full text-left px-3 py-3 border-b border-wrcf-border/40 transition-colors duration-150 relative"
-          [class.bg-wrcf-bg-selected]="selectedId() === college.id"
+          class="w-full text-left px-3 py-3 border-b border-neutral-700/40 transition-colors duration-150 relative"
+          [class.bg-primary-800]="selectedId() === college.id"
           [class.border-l-4]="selectedId() === college.id"
-          [class.border-l-wrcf-accent]="selectedId() === college.id"
-          [class.hover:bg-wrcf-bg-secondary]="selectedId() !== college.id"
+          [class.border-l-[#00BFFF]]="selectedId() === college.id"
+          [class.hover:bg-primary-900]="selectedId() !== college.id"
         >
           <div class="flex items-start gap-2.5">
             <!-- Logo / initial -->
@@ -65,11 +62,11 @@
               <img
                 [src]="college.logoUrl"
                 [alt]="college.name"
-                class="w-10 h-10 rounded-full object-cover shrink-0 mt-0.5"
+                class="w-12 h-12 rounded-full object-cover shrink-0 mt-0.5"
               />
             } @else {
               <div
-                class="w-10 h-10 rounded-full bg-wrcf-action flex items-center justify-center text-wrcf-text-primary text-sm font-semibold shrink-0 mt-0.5"
+                class="w-12 h-12 rounded-full bg-primary-600 flex items-center justify-center text-neutral-100 text-sm font-semibold shrink-0 mt-0.5"
               >
                 {{ getInitial(college.name) }}
               </div>
@@ -77,13 +74,11 @@
 
             <div class="flex-1 min-w-0">
               <!-- Name -->
-              <p
-                class="text-sm font-semibold text-wrcf-text-primary truncate leading-5"
-              >
+              <p class="text-sm font-semibold text-primary truncate leading-5">
                 {{ college.name }}
               </p>
               <!-- College Id -->
-              <p class="text-xs text-wrcf-text-tertiary leading-4 mt-0.5">
+              <p class="text-xs text-primary-300 leading-4 mt-0.5">
                 College Id : {{ college.collegeCode }}
               </p>
 
@@ -91,7 +86,7 @@
               <div class="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 items-center">
                 @if (college.cityName) {
                   <span
-                    class="flex items-center gap-0.5 text-xs text-wrcf-text-secondary leading-4"
+                    class="flex items-center gap-0.5 text-xs text-neutral-400 leading-4"
                   >
                     <mat-icon
                       svgIcon="heroicons_outline:map-pin"
@@ -102,7 +97,7 @@
                 }
                 @if (college.establishedYear) {
                   <span
-                    class="flex items-center gap-0.5 text-xs text-wrcf-text-secondary leading-4"
+                    class="flex items-center gap-0.5 text-xs text-neutral-400 leading-4"
                   >
                     <mat-icon
                       svgIcon="heroicons_outline:calendar"
@@ -111,9 +106,15 @@
                     {{ college.establishedYear }}
                   </span>
                 }
-                <span class="text-xs text-wrcf-text-secondary leading-4">{{
-                  college.collegeType
-                }}</span>
+                <span
+                  class="flex items-center gap-0.5 text-xs text-neutral-400 leading-4"
+                >
+                  <mat-icon
+                    svgIcon="heroicons_outline:shield-check"
+                    class="size-3 shrink-0"
+                  />
+                  {{ college.collegeType }}
+                </span>
               </div>
             </div>
           </div>

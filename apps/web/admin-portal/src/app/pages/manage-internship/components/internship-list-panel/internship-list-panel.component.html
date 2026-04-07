@@ -1,17 +1,17 @@
-<div class="flex flex-col h-full bg-wrcf-bg-primary border-r border-wrcf-border overflow-hidden w-[466px] shrink-0">
+<div class="flex flex-col h-full bg-whizard-bg-main border-r border-whizard-border overflow-hidden w-[466px] shrink-0">
 
   <!-- Search bar -->
   <div class="shrink-0 px-[8px] pt-[6px] pb-[15px]">
-    <div class="flex items-center h-[48px] px-[8px] rounded-[10px] bg-wrcf-bg-secondary shadow-[0px_4px_12px_0px_rgba(13,10,44,0.06)]">
+    <div class="flex items-center h-[48px] px-[8px] rounded-[10px] bg-whizard-bg-secondary shadow-[0px_4px_12px_0px_rgba(13,10,44,0.06)]">
       <div class="flex items-center justify-center w-[33px] shrink-0">
-        <mat-icon svgIcon="lucideIcons:search" class="size-[24px] text-wrcf-text-secondary" />
+        <mat-icon svgIcon="lucideIcons:search" class="size-[24px] text-whizard-text-secondary" />
       </div>
       <input
         type="text"
         placeholder="Search for Internship..."
         [ngModel]="searchQuery()"
         (ngModelChange)="searchQuery.set($event)"
-        class="flex-1 bg-transparent text-[15px] text-wrcf-text-primary placeholder:text-wrcf-text-secondary outline-none border-none min-w-0"
+        class="flex-1 bg-transparent text-[15px] text-whizard-text-primary placeholder:text-whizard-text-secondary outline-none border-none min-w-0"
       />
     </div>
   </div>
@@ -21,28 +21,28 @@
     @if (loading()) {
       @for (i of [1, 2, 3, 4, 5]; track i) {
         <div class="flex items-center gap-[18px] p-[15px] border-t border-white/5 animate-pulse">
-          <div class="w-[60px] h-[60px] rounded-lg bg-wrcf-bg-secondary shrink-0"></div>
+          <div class="w-[60px] h-[60px] rounded-lg bg-whizard-bg-secondary shrink-0"></div>
           <div class="flex-1 space-y-2">
-            <div class="h-4 rounded bg-wrcf-bg-secondary w-3/4"></div>
-            <div class="h-3 rounded bg-wrcf-bg-secondary w-full"></div>
-            <div class="h-3 rounded bg-wrcf-bg-secondary w-1/2"></div>
+            <div class="h-4 rounded bg-whizard-bg-secondary w-3/4"></div>
+            <div class="h-3 rounded bg-whizard-bg-secondary w-full"></div>
+            <div class="h-3 rounded bg-whizard-bg-secondary w-1/2"></div>
           </div>
         </div>
       }
     } @else if (filteredInternships().length === 0) {
       <div class="flex flex-col items-center justify-center py-16 gap-2">
-        <mat-icon svgIcon="lucideIcons:briefcase" class="size-12 text-wrcf-text-secondary opacity-40" />
-        <span class="text-sm text-wrcf-text-secondary text-center">No internships found</span>
+        <mat-icon svgIcon="lucideIcons:briefcase" class="size-12 text-whizard-text-secondary opacity-40" />
+        <span class="text-sm text-whizard-text-secondary text-center">No internships found</span>
       </div>
     } @else {
       @for (item of filteredInternships(); track item.id) {
         <div
           (click)="select(item.id)"
           class="w-full cursor-pointer border-t border-white/5 border-l-4 transition-colors duration-150"
-          [class.border-l-wrcf-accent]="selectedId() === item.id"
+          [class.border-l-whizard-accent]="selectedId() === item.id"
           [class.border-l-transparent]="selectedId() !== item.id"
-          [class.bg-wrcf-bg-secondary]="selectedId() === item.id"
-          [class.hover:bg-wrcf-bg-secondary]="selectedId() !== item.id"
+          [class.bg-whizard-bg-secondary]="selectedId() === item.id"
+          [class.hover:bg-whizard-bg-secondary]="selectedId() !== item.id"
         >
           <div class="flex items-center gap-[18px] p-[15px]">
 
@@ -55,7 +55,7 @@
               />
             } @else {
               <div
-                class="w-[60px] h-[60px] rounded-lg bg-wrcf-action flex items-center justify-center text-white text-xl font-bold shrink-0"
+                class="w-[60px] h-[60px] rounded-lg bg-whizard-action flex items-center justify-center text-white text-xl font-bold shrink-0"
               >
                 {{ getInitial(item.title) }}
               </div>
@@ -65,12 +65,12 @@
             <div class="flex flex-col gap-[5px] flex-1 min-w-0">
 
               <!-- Title -->
-              <p class="text-[18px] font-semibold text-wrcf-text-primary leading-[1.3] truncate">
+              <p class="text-[18px] font-semibold text-whizard-text-primary leading-[1.3] truncate">
                 {{ item.title }}
               </p>
 
               <!-- Row 1: city · vacancies · duration · On-site/Remote -->
-              <div class="flex items-center gap-[6px] text-[14px] text-wrcf-text-secondary font-medium flex-wrap">
+              <div class="flex items-center gap-[6px] text-[14px] text-whizard-text-secondary font-medium flex-wrap">
                 @if (item.cityName) {
                   <span class="flex items-center gap-[3px]">
                     <mat-icon svgIcon="lucideIcons:map-pin" class="size-[18px] shrink-0" />
@@ -91,7 +91,7 @@
 
               <!-- Row 2: stipend · deadline -->
               @if (item.stipend || item.applicationDeadline) {
-                <div class="flex items-center gap-[8px] text-[14px] text-wrcf-text-secondary font-medium">
+                <div class="flex items-center gap-[8px] text-[14px] text-whizard-text-secondary font-medium">
                   @if (item.stipend) {
                     <span class="flex items-center gap-[5px]">
                       <mat-icon svgIcon="lucideIcons:indian-rupee" class="size-[18px] shrink-0" />
@@ -109,11 +109,11 @@
 
               <!-- Row 3: status · applicants -->
               <div class="flex items-center gap-[7px] text-[14px] font-medium">
-                <mat-icon svgIcon="lucideIcons:bolt" class="size-[18px] text-wrcf-accent shrink-0" />
-                <span class="text-wrcf-accent">{{ statusLabels[item.status] ?? item.status }}</span>
+                <mat-icon svgIcon="lucideIcons:bolt" class="size-[18px] text-whizard-accent shrink-0" />
+                <span class="text-whizard-accent">{{ statusLabels[item.status] ?? item.status }}</span>
                 @if (item.applicantsCount != null) {
-                  <span class="text-wrcf-text-secondary">·</span>
-                  <span class="text-wrcf-text-secondary">{{ item.applicantsCount }} applicants</span>
+                  <span class="text-whizard-text-secondary">·</span>
+                  <span class="text-whizard-text-secondary">{{ item.applicantsCount }} applicants</span>
                 }
               </div>
             </div>

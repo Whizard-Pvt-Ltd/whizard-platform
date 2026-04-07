@@ -171,4 +171,12 @@ export class CollegeDetailPanelComponent {
   protected getInitial(name: string): string {
     return name.charAt(0).toUpperCase();
   }
+
+  protected getVideoCategory(name: string): string {
+    const lower = name.toLowerCase();
+    if (lower.includes('journey')) return 'OUR JOURNEY';
+    if (lower.includes('guest') || lower.includes('speech')) return 'GUEST SPEECH';
+    if (lower.includes('campus') || lower.includes('tour')) return 'CAMPUS TOUR';
+    return 'VIDEO';
+  }
 }

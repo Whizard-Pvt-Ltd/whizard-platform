@@ -2,8 +2,8 @@
 
   <!-- Select Documents -->
   <div>
-    <h3 class="text-xl font-semibold text-wrcf-accent mb-4">Select Documents</h3>
-    <div class="rounded-xl border border-wrcf-border bg-wrcf-bg-secondary p-4 grid grid-cols-2 gap-3">
+    <h3 class="text-xl font-semibold text-whizard-accent mb-4">Select Documents</h3>
+    <div class="rounded-xl border border-whizard-border bg-whizard-bg-secondary p-4 grid grid-cols-2 gap-3">
       @for (doc of documentOptions; track doc) {
         <label class="flex items-center gap-3 cursor-pointer">
           <mat-checkbox
@@ -11,7 +11,7 @@
             (change)="toggleDocument(doc)"
             color="primary">
           </mat-checkbox>
-          <span class="text-sm text-wrcf-text-primary">{{ doc }}</span>
+          <span class="text-sm text-whizard-text-primary">{{ doc }}</span>
         </label>
       }
     </div>
@@ -19,7 +19,7 @@
 
   <!-- Document Guidelines -->
   <div>
-    <h3 class="text-xl font-semibold text-wrcf-accent mb-4">Document &amp; Guidelines</h3>
+    <h3 class="text-xl font-semibold text-whizard-accent mb-4">Document &amp; Guidelines</h3>
     <mat-form-field appearance="outline" class="w-full">
       <mat-label>Guidelines for document submission</mat-label>
       <textarea matInput rows="6" placeholder="Describe submission guidelines..."
@@ -31,16 +31,16 @@
 
   <!-- Presentation Rubric -->
   <div>
-    <h3 class="text-xl font-semibold text-wrcf-accent mb-4">Presentation Rubric</h3>
-    <div class="rounded-xl border border-wrcf-border bg-wrcf-bg-secondary p-4 space-y-4">
+    <h3 class="text-xl font-semibold text-whizard-accent mb-4">Presentation Rubric</h3>
+    <div class="rounded-xl border border-whizard-border bg-whizard-bg-secondary p-4 space-y-4">
       <!-- PDF drop area -->
-      <label class="flex flex-col items-center justify-center h-24 rounded-lg border-2 border-dashed border-wrcf-border cursor-pointer hover:border-wrcf-accent transition-colors">
+      <label class="flex flex-col items-center justify-center h-24 rounded-lg border-2 border-dashed border-whizard-border cursor-pointer hover:border-whizard-accent transition-colors">
         @if (formValue().presentationRubricUrl) {
-          <mat-icon svgIcon="heroicons_outline:document-check" class="size-7 text-wrcf-accent"></mat-icon>
-          <span class="text-xs text-wrcf-accent mt-1">{{ formValue().presentationRubricUrl }}</span>
+          <mat-icon svgIcon="heroicons_outline:document-check" class="size-7 text-whizard-accent"></mat-icon>
+          <span class="text-xs text-whizard-accent mt-1">{{ formValue().presentationRubricUrl }}</span>
         } @else {
-          <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-7 text-wrcf-text-secondary"></mat-icon>
-          <span class="text-xs text-wrcf-text-secondary mt-1">Drop Rubric Here</span>
+          <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-7 text-whizard-text-secondary"></mat-icon>
+          <span class="text-xs text-whizard-text-secondary mt-1">Drop Rubric Here</span>
         }
         <input type="file" accept=".pdf" class="sr-only" (change)="onRubricSelected($event)" />
       </label>
@@ -64,14 +64,14 @@
 
   <!-- Certificate Template -->
   <div>
-    <h3 class="text-xl font-semibold text-wrcf-accent mb-4">Certificate Template</h3>
-    <label class="flex flex-col items-center justify-center h-24 rounded-lg border-2 border-dashed border-wrcf-border cursor-pointer hover:border-wrcf-accent transition-colors">
+    <h3 class="text-xl font-semibold text-whizard-accent mb-4">Certificate Template</h3>
+    <label class="flex flex-col items-center justify-center h-24 rounded-lg border-2 border-dashed border-whizard-border cursor-pointer hover:border-whizard-accent transition-colors">
       @if (formValue().certificateTemplateUrl) {
-        <mat-icon svgIcon="heroicons_outline:document-check" class="size-7 text-wrcf-accent"></mat-icon>
-        <span class="text-xs text-wrcf-accent mt-1">{{ formValue().certificateTemplateUrl }}</span>
+        <mat-icon svgIcon="heroicons_outline:document-check" class="size-7 text-whizard-accent"></mat-icon>
+        <span class="text-xs text-whizard-accent mt-1">{{ formValue().certificateTemplateUrl }}</span>
       } @else {
-        <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-7 text-wrcf-text-secondary"></mat-icon>
-        <span class="text-xs text-wrcf-text-secondary mt-1">Upload Certificate Template</span>
+        <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-7 text-whizard-text-secondary"></mat-icon>
+        <span class="text-xs text-whizard-text-secondary mt-1">Upload Certificate Template</span>
       }
       <input type="file" accept=".pdf,.png,.jpg" class="sr-only" (change)="onCertificateSelected($event)" />
     </label>
