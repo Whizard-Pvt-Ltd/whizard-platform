@@ -1,4 +1,5 @@
 import { Component, inject, signal, OnInit, OnDestroy, computed, effect, ChangeDetectionStrategy } from '@angular/core';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { PageActionsService, ScrollbarDirective } from '@whizard/shared-ui';
 import type {
   InternshipDetail, InternshipFormValue, PageMode, City, IndustryRole,
@@ -100,8 +101,21 @@ function detailToForm(detail: InternshipDetail): InternshipFormValue {
     InternshipDetailPanelComponent,
     AssessmentLibraryPanelComponent,
     InternshipFormComponent,
+    MatSidenavModule,
     ScrollbarDirective,
   ],
+  styles: `
+    :host ::ng-deep .mat-drawer-container {
+      background: var(--color-whizard-bg-main);
+    }
+    :host ::ng-deep .mat-drawer {
+      background: var(--color-whizard-bg-main);
+      border-right-color: var(--color-whizard-border);
+    }
+    :host ::ng-deep .mat-drawer-content {
+      background: var(--color-whizard-bg-main);
+    }
+  `,
   templateUrl: './manage-internship.component.html',
 })
 export class ManageInternshipComponent implements OnInit, OnDestroy {

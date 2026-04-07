@@ -17,7 +17,7 @@ import Quill from 'quill';
 
 @Component({
   selector: 'whizard-quill-editor',
-  standalone: true,
+  encapsulation: ViewEncapsulation.None,
   template: `
     <div
       class="qe-wrapper"
@@ -90,21 +90,18 @@ import Quill from 'quill';
       /* ── Outer wrapper ─────────────────────────────────────────── */
       .qe-wrapper {
         position: relative;
-        background: light-dark(var(--color-white), var(--color-primary-900));
-        border: 1px solid var(--wrcf-border, #484e5d);
+        background: var(--color-whizard-bg-fields);
+        border: none;
         border-radius: 8px;
-        color: var(--wrcf-text-primary, #e8f0fa);
-        font-family: 'Poppins', sans-serif;
+        color: var(--color-whizard-text-primary);
+        font-family: var(--font-whizard-display);
         font-size: 15px;
         display: flex;
         flex-direction: column;
         overflow: hidden;
-        transition: border-color 0.15s;
       }
       .qe-wrapper:focus-within {
-        border-color: var(--wrcf-accent, #00bfff);
-        box-shadow: 0 0 0 2px
-          color-mix(in srgb, var(--wrcf-accent, #00bfff) 25%, transparent);
+        border: 2px solid var(--color-whizard-action);
       }
 
       /* ── Eye toggle button ─────────────────────────────────────── */
@@ -119,10 +116,10 @@ import Quill from 'quill';
         width: 24px;
         height: 24px;
         padding: 0;
-        border: 1px solid var(--wrcf-border, #484e5d);
+        border: 1px solid var(--color-whizard-border);
         border-radius: 6px;
-        background: var(--wrcf-bg-secondary, #0f253f);
-        color: var(--wrcf-text-secondary, #7f94ae);
+        background: var(--color-whizard-bg-secondary);
+        color: var(--color-whizard-text-secondary);
         cursor: pointer;
         transition:
           color 0.15s,
@@ -131,22 +128,22 @@ import Quill from 'quill';
       }
       .qe-toggle:hover,
       .qe-toolbar-visible .qe-toggle {
-        color: var(--wrcf-accent, #00bfff);
-        border-color: var(--wrcf-accent, #00bfff);
+        color: var(--color-whizard-accent);
+        border-color: var(--color-whizard-accent);
         background: color-mix(
           in srgb,
-          var(--wrcf-accent, #00bfff) 10%,
-          var(--wrcf-bg-secondary, #0f253f)
+          var(--color-whizard-accent) 10%,
+          var(--color-whizard-bg-secondary)
         );
       }
 
       /* ── Quill toolbar ─────────────────────────────────────────── */
       .qe-wrapper .ql-toolbar.ql-snow {
-        display: none; /* hidden by default (bubble-like) */
+        display: none;
         border: none;
-        border-bottom: 1px solid var(--wrcf-border, #484e5d);
+        border-bottom: 1px solid var(--color-whizard-border);
         border-radius: 0;
-        background: var(--wrcf-bg-secondary, #0f253f);
+        background: var(--color-whizard-bg-secondary);
         padding: 0;
       }
       .qe-toolbar-visible .ql-toolbar.ql-snow {
@@ -162,22 +159,22 @@ import Quill from 'quill';
         flex: 1;
         min-height: 160px;
         overflow: auto;
-        font-family: 'Poppins', sans-serif;
+        font-family: var(--font-whizard-body);
         font-size: 15px;
-        color: var(--wrcf-text-primary, #e8f0fa);
+        color: var(--color-whizard-text-primary);
         background: transparent;
-        border-bottom-left-radius: 8px;
-        border-bottom-right-radius: 8px;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
       }
 
       /* ── Editor area ───────────────────────────────────────────── */
       .qe-wrapper .ql-editor {
         min-height: 120px;
         padding: 12px 16px;
-        padding-right: 40px; /* clear the eye button */
-        color: var(--wrcf-text-primary, #e8f0fa);
+        padding-right: 40px;
+        color: var(--color-whizard-text-primary);
         background: transparent;
-        line-height: 1.6;
+        line-height: 1.7;
         text-align: justify;
         text-justify: inter-word;
         hyphens: auto;
@@ -185,10 +182,10 @@ import Quill from 'quill';
         white-space: normal;
       }
       .qe-toolbar-visible .ql-editor {
-        padding-right: 16px; /* toolbar visible → button no longer overlaps */
+        padding-right: 16px;
       }
       .qe-wrapper .ql-editor.ql-blank::before {
-        color: var(--wrcf-text-secondary, #7f94ae);
+        color: var(--color-whizard-text-secondary);
         font-style: normal;
         left: 16px;
       }
@@ -196,13 +193,13 @@ import Quill from 'quill';
       /* ── Toolbar icon colours ──────────────────────────────────── */
       .qe-wrapper .ql-stroke,
       .qe-wrapper .ql-stroke-mitter {
-        stroke: var(--wrcf-text-secondary, #7f94ae);
+        stroke: var(--color-whizard-text-secondary);
       }
       .qe-wrapper .ql-fill {
-        fill: var(--wrcf-text-secondary, #7f94ae);
+        fill: var(--color-whizard-text-secondary);
       }
       .qe-wrapper .ql-picker {
-        color: var(--wrcf-text-secondary, #7f94ae);
+        color: var(--color-whizard-text-secondary);
       }
 
       /* Hover / active state → accent */
@@ -213,60 +210,61 @@ import Quill from 'quill';
       .qe-wrapper .ql-picker-label.ql-active,
       .qe-wrapper .ql-picker-item:hover,
       .qe-wrapper .ql-picker-item.ql-selected {
-        color: var(--wrcf-accent, #00bfff) !important;
+        color: var(--color-whizard-accent) !important;
       }
       .qe-wrapper .ql-toolbar button:hover .ql-stroke,
       .qe-wrapper .ql-toolbar button.ql-active .ql-stroke {
-        stroke: var(--wrcf-accent, #00bfff) !important;
+        stroke: var(--color-whizard-accent) !important;
       }
       .qe-wrapper .ql-toolbar button:hover .ql-fill,
       .qe-wrapper .ql-toolbar button.ql-active .ql-fill {
-        fill: var(--wrcf-accent, #00bfff) !important;
+        fill: var(--color-whizard-accent) !important;
       }
 
       /* ── Picker dropdown ───────────────────────────────────────── */
       .qe-wrapper .ql-picker.ql-expanded .ql-picker-label {
-        border-color: var(--wrcf-border, #484e5d);
+        border-color: var(--color-whizard-border);
       }
       .qe-wrapper .ql-picker.ql-expanded .ql-picker-options {
         z-index: 10 !important;
-        background: var(--wrcf-bg-card, #1e293b);
-        border-color: var(--wrcf-border, #484e5d);
+        background: var(--color-whizard-bg-card);
+        border-color: var(--color-whizard-border);
       }
       .qe-wrapper .ql-picker-item {
-        color: var(--wrcf-text-primary, #e8f0fa);
+        color: var(--color-whizard-text-primary);
       }
 
       /* ── Link tooltip ──────────────────────────────────────────── */
       .qe-wrapper .ql-tooltip {
-        background: var(--wrcf-bg-card, #1e293b);
-        border: 1px solid var(--wrcf-border, #484e5d);
+        background: var(--color-whizard-bg-card);
+        border: 1px solid var(--color-whizard-border);
         border-radius: 6px;
-        color: var(--wrcf-text-secondary, #7f94ae);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        color: var(--color-whizard-text-secondary);
+        box-shadow: 0 4px 12px
+          light-dark(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.4));
         padding: 4px 12px;
         white-space: nowrap;
       }
       .qe-wrapper .ql-tooltip::before {
-        color: var(--wrcf-text-secondary, #7f94ae);
+        color: var(--color-whizard-text-secondary);
       }
       .qe-wrapper .ql-tooltip .ql-action,
       .qe-wrapper .ql-tooltip .ql-remove {
-        color: var(--wrcf-accent, #00bfff);
-        border-color: var(--wrcf-border, #484e5d);
+        color: var(--color-whizard-accent);
+        border-color: var(--color-whizard-border);
       }
       .qe-wrapper .ql-tooltip .ql-action::after {
-        border-right-color: var(--wrcf-border, #484e5d) !important;
+        border-right-color: var(--color-whizard-border) !important;
       }
       .qe-wrapper .ql-tooltip input {
-        background: var(--wrcf-bg-secondary, #0f253f) !important;
-        border: 1px solid var(--wrcf-border, #484e5d) !important;
+        background: var(--color-whizard-bg-secondary) !important;
+        border: 1px solid var(--color-whizard-border) !important;
         border-radius: 4px;
-        color: var(--wrcf-text-primary, #e8f0fa) !important;
+        color: var(--color-whizard-text-primary) !important;
         outline: none;
       }
       .qe-wrapper .ql-tooltip input:focus {
-        border-color: var(--wrcf-accent, #00bfff) !important;
+        border-color: var(--color-whizard-accent) !important;
       }
 
       /* ── Readonly mode ─────────────────────────────────────────── */
@@ -308,7 +306,7 @@ import Quill from 'quill';
         cursor: default;
         color: inherit !important;
         background: transparent !important;
-        line-height: 1.6;
+        line-height: 1.7;
         text-align: justify;
         text-justify: inter-word;
         hyphens: auto;
@@ -325,7 +323,6 @@ import Quill from 'quill';
       multi: true,
     },
   ],
-  encapsulation: ViewEncapsulation.None,
 })
 export class QuillEditorComponent
   implements ControlValueAccessor, AfterViewInit, OnDestroy
@@ -364,13 +361,8 @@ export class QuillEditorComponent
           this.readonly() || this.view()
             ? false
             : [
-                ['bold', 'italic', 'underline'],
-                ['blockquote', 'code-block'],
-                [{ header: 1 }, { header: 2 }],
+                ['bold', 'italic'],
                 [{ list: 'ordered' }, { list: 'bullet' }],
-                [{ script: 'sub' }, { script: 'super' }],
-                [{ indent: '-1' }, { indent: '+1' }],
-                ['link'],
                 ['clean'],
               ],
       },

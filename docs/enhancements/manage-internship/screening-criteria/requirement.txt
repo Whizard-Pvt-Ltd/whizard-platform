@@ -1,0 +1,116 @@
+# Manage Internship — Screening Criteria Tab UI
+
+## Overview
+Enhance the Screening Criteria tab in the Manage Internship create/edit form to match the Figma design.
+Three main improvements: fix the Eligibility Check field layout, replace file-upload based Assessment
+and Interview Rubric sections with a drag-and-drop flow from the left-panel Assessment Library,
+and make Score/Weightage fields global (apply to all items in the list).
+
+## Current Behaviour
+- Eligibility Check fields are closely spaced with `gap-4`, not matching the Figma layout.
+- Assessment section uses hidden file `<input>` for PDF upload per assessment slot.
+- Each assessment has its own Score and Weightage fields (per-item).
+- Interview Rubric is a single item with file upload and its own Score/Weightage.
+- No drag-and-drop interaction between the left Assessment Library panel and the form.
+
+## Desired Behaviour
+1. **Eligibility Check**: Fields arranged in two rows with `justify-between` spacing.
+   - Row 1: Min. Club Points (left) — large gap — Min. Internships (right), max-width ~768px.
+   - Row 2: Min. Projects (left) — Min. Club Certification dropdown + Check button grouped on the right.
+
+2. **Assessment (drag-drop)**:
+   - Left panel cards are `draggable`. User drags an assessment card from the library and drops it
+     onto a drop zone in the Assessment section.
+   - Initially one empty drop zone is shown. Clicking the + button adds a new empty drop zone.
+   - Dropping a library item onto a zone fills it with the assessment title and a document icon.
+   - Each filled zone has an x button to clear/remove it.
+   - Drop zones highlight with an accent border on dragover.
+
+3. **Global Score & Weightage (Assessment)**:
+   - Min. Assessment Score and Assessment Weightage fields appear once below all drop zones.
+   - Changing these values applies to ALL assessment items in the list.
+
+4. **Interview Rubric (drag-drop)** — same pattern as Assessment:
+   - Multiple drop zones, + button to add slots, drag from library to fill.
+   - Global Min. Interview Score and Interview Weightage fields below the zones.
+
+## Default Behaviours
+- When no assessments exist, one empty drop zone is visible (inviting first drop).
+- When no interview rubric items exist, one empty drop zone is visible.
+- New empty slots created by + button have score/weightage synced from the global fields.
+- Dropping on an already-filled slot replaces the previous item.
+
+## Changes to Entities & Attributes
+
+### AssessmentItem (modified)
+| Field          | Type   | Mandatory | Notes                        |
+|----------------|--------|-----------|------------------------------|
+| assessmentId   | string | *         | NEW — Library item ID        |
+| title          | string | *         | NEW — Library item title     |
+| pdfUrl         | string |           | Kept for backward compat     |
+| minScore       | number | *         | Synced globally in UI        |
+| weightage      | number | *         | Synced globally in UI        |
+
+### InterviewRubricItem (new)
+| Field          | Type   | Mandatory | Notes                        |
+|----------------|--------|-----------|------------------------------|
+| assessmentId   | string | *         | Library item ID              |
+| title          | string | *         | Library item title           |
+
+### InterviewRubric (modified)
+| Field          | Type                  | Mandatory | Notes                          |
+|----------------|-----------------------|-----------|--------------------------------|
+| items          | InterviewRubricItem[] | *         | NEW — replaces single pdfUrl   |
+| minScore       | number                | *         | Unchanged                      |
+| weightage      | number                | *         | Unchanged                      |
+
+### ASSESSMENT_DRAG_TYPE (new constant)
+Exported from `assessment-library-panel.component.ts` as `'application/whizard-assessment'`.
+Used as the MIME type for `dataTransfer.setData` / `getData` in the HTML5 drag-drop flow.
+
+## User Flows
+
+### Adding an Assessment
+1. User sees the Assessment section with an empty drop zone ("Drop Assessment Here").
+2. User drags a card from the left Assessment Library panel.
+3. Card is dropped onto the drop zone — zone shows the assessment title.
+4. User clicks + to add another drop zone.
+5. User drags a different card onto the new zone.
+6. User sets Min. Assessment Score and Assessment Weightage — values apply to all items.
+
+### Removing an Assessment
+1. User clicks the x button on a filled drop zone.
+2. The slot is removed from the list.
+
+### Adding an Interview Rubric
+Same flow as Assessment but in the Interview Rubric section.
+
+## Business Rules & Constraints
+- Score and Weightage values are integers 0–100.
+- Dropping on an empty-state zone (when array is empty) creates the first item.
+- Dropping on an existing slot replaces that slot's assessment reference.
+- The drag data uses a custom MIME type (`application/whizard-assessment`) to prevent
+  accepting arbitrary browser drags.
+
+## DB Notes
+- `AssessmentItem` gains `assessmentId` and `title` fields.
+- `InterviewRubric` shape changes: `pdfUrl` removed, `items` array added.
+- Migration needed if these fields are persisted server-side (currently frontend-only mock data).
+
+## Scope
+- Frontend only: `screening-criteria-tab` component (HTML + TS), `assessment-library-panel` component,
+  `manage-internship.models.ts`.
+- No backend, API, or database changes.
+
+## Out of Scope
+- Actual API integration for persisting assessment library references.
+- Reordering drop zones via drag (only library-to-zone drag is supported).
+- Mobile / responsive layout — desktop only (1440px canvas).
+- Other tabs (Details, Selection, During Internship, Final Submission) — unchanged.
+
+## Notes / Edge Cases
+- The left panel and the screening criteria tab are sibling components in separate DOM branches
+  (mat-sidenav vs mat-sidenav-content). HTML5 native drag-and-drop is used instead of CDK
+  `cdkDragDrop` because CDK requires connected drop lists within the same tree.
+- If a user drags the same assessment to two different slots, both slots will hold the same
+  assessment — no duplicate prevention is enforced (can be added later if needed).

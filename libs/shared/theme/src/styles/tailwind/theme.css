@@ -3,14 +3,11 @@
 /* -------------------------------------------------------------------------- */
 @theme {
   /* Font family */
-  --font-sans: RedHatDisplay-Regular, system-ui;
+  --font-sans: 'Red Hat Display', system-ui;
   --font-sans--font-feature-settings: 'salt';
 
-  --font-display: RedHatDisplay-Regular, system-ui;
+  --font-display: 'Red Hat Display', system-ui;
   --font-display--font-feature-settings: 'salt';
-
-  /* --font-mono: 'Geist Mono', ui-monospace;
-  --font-mono--font-feature-settings: 'ss01', 'ss02', 'cv02', 'cv06'; */
 
   /* Font configuration */
   --font-smoothing: antialiased;
@@ -144,7 +141,7 @@
     oklch(95.0% 0.010 254.0),   /* light: #F1F5F9 */
     oklch(26.1% 0.057 254.0)    /* dark:  #0F253F */
   );
-  --color-whizard-bg-fields-heading: light-dark(
+  --color-whizard-bg-fields: light-dark(
     oklch(91.0% 0.015 254.0),   /* light: #E2E8F0 */
     oklch(26.1% 0.057 254.0)    /* dark:  #0F253F */
   );
@@ -160,11 +157,7 @@
   /* ── Brand / Action colors ───────────────────────────────────────────── */
   --color-whizard-action: oklch(50.0% 0.223 268.2);        /* #314DDF */
   --color-whizard-action-hover: oklch(45.0% 0.210 268.2);  /* #263FCC */
-  --color-whizard-accent: light-dark(
-    oklch(55.0% 0.170 231.7),   /* light: #0284C7 */
-    oklch(75.5% 0.153 231.7)    /* dark:  #00BFFF */
-  );
-
+  
   /* ── Text colors ─────────────────────────────────────────────────────── */
   --color-whizard-text-primary: light-dark(
     oklch(20.8% 0.040 265.8),   /* light: #0F172A */

@@ -19,21 +19,47 @@ import { SelectionTabComponent } from './tabs/selection-tab/selection-tab.compon
     SelectionTabComponent,
     DuringInternshipTabComponent,
     FinalSubmissionTabComponent,
-    ScrollbarDirective,
+    ScrollbarDirective
   ],
   styles: `
-    :host ::ng-deep .mat-mdc-tab-body.mat-mdc-tab-body-active {
-      position: relative;
-      overflow-x: hidden;
-      overflow-y: hidden; /* ✅ kill the tab-body scroll */
-      z-index: 1;
-      flex-grow: 1;
+    :host ::ng-deep .mat-mdc-tab-body-wrapper {
+      flex: 1;
     }
 
-    /* Also target the inner wrapper Angular adds */
+    :host ::ng-deep .mat-mdc-tab-body.mat-mdc-tab-body-active {
+      position: relative;
+      overflow: visible;
+      z-index: 1;
+    }
+
     :host ::ng-deep .mat-mdc-tab-body-content {
-      overflow: hidden; /* ✅ this is the actual scrollable div, disable it */
-      height: 100%;
+      overflow: visible;
+    }
+
+    :host ::ng-deep .mat-mdc-tab-header {
+      border-bottom: 1px solid var(--color-whizard-border);
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: var(--color-whizard-bg-main);
+    }
+
+    :host ::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+      color: var(--color-whizard-text-gray);
+      font-family: var(--font-whizard-display);
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: 0.15px;
+    }
+
+    :host ::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+      color: var(--color-whizard-text-primary);
+    }
+
+    :host ::ng-deep .mat-mdc-tab-header .mdc-tab-indicator__content--underline {
+      border-color: var(--color-whizard-action);
+      border-top-width: 4px;
+      border-radius: 4px;
     }
   `,
   templateUrl: './internship-form.component.html',

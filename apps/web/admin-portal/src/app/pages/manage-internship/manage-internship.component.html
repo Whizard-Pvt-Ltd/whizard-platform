@@ -26,12 +26,10 @@
   }
 
   <!-- Main workspace -->
-  <div class="flex-1 flex overflow-hidden">
-    <!-- LIST MODE: internship list (left) + read-only detail panel (right) -->
-    @if (mode() === 'list') {
+  @if (mode() === 'list') {
+    <div class="flex-1 flex overflow-hidden">
       <whizard-internship-list-panel
-        class="flex flex-col"
-        whizardScrollbar="true"
+        class="flex flex-col shrink-0"
         [internships]="internships()"
         [selectedId]="selectedId()"
         [loading]="loading()"
@@ -39,25 +37,36 @@
       />
 
       <whizard-internship-detail-panel
+        class="flex-1 overflow-hidden"
         [internship]="selectedInternship()"
         (editClicked)="onEditClicked()"
       />
-    }
+    </div>
+  }
 
-    <!-- EDIT / CREATE MODE: assessment library (left) + editable form (right) -->
-    @if (mode() === 'edit' || mode() === 'create') {
-  
-      <whizard-assessment-library-panel  class="flex" style="height: 90dvh;"/>
+  @if (mode() === 'edit' || mode() === 'create') {
+    <mat-sidenav-container class="flex-1">
+      <!-- Left drawer: Assessment library panel -->
+      <mat-sidenav
+        mode="side"
+        opened
+        disableClose
+        class="w-116.5 border-r border-whizard-border bg-whizard-bg-main shadow-[1px_2px_15px_0px_rgba(0,0,0,0.3)] h-[90dvh] overflow-hidden"
+      >
+        <whizard-assessment-library-panel class="flex flex-col" />
+      </mat-sidenav>
 
-      <div class="flex-1 flex flex-col overflow-hidden">
+      <!-- Main content: Internship form -->
+      <mat-sidenav-content
+        class="overflow-hidden"
+      >
         <whizard-internship-form
           [formValue]="formValue()"
           [cities]="cities()"
           [industryRoles]="industryRoles()"
           (formChanged)="onFormChanged($event)"
-          class="flex-1 overflow-hidden"
         />
-      </div>
-    }
-  </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  }
 </div>
