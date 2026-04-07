@@ -7,6 +7,7 @@ const seeds = [
   'college-operations.seed.ts',
   'wrcf-roles.seed.ts',
   'internship-hiring.seed.ts',
+  'users.seed.ts',
 ];
 
 const seedsDir = path.resolve(__dirname);

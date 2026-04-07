@@ -61,19 +61,25 @@ export class StackAuthUserSyncService {
   async syncUser(stackAuthUser: StackAuthUser): Promise<UserAccount> {
     const now = new Date();
 
-    // Check if user already exists in local DB by email
-    if (stackAuthUser.email) {
-      const existingUser = await this.userAccountRepository.findByEmail(stackAuthUser.email);
+    // 1. Look up by Stack Auth user ID first (preferred — avoids email collision edge cases)
+    const byStackId = await this.userAccountRepository.findByStackAuthId(stackAuthUser.userId);
+    if (byStackId) {
+      byStackId.markLogin(now);
+      await this.userAccountRepository.save(byStackId);
+      return byStackId;
+    }
 
-      if (existingUser) {
-        // User already exists - mark login and save
-        existingUser.markLogin(now);
-        await this.userAccountRepository.save(existingUser);
-        return existingUser;
+    // 2. Fall back to email lookup for users created before stack_auth_id was persisted
+    if (stackAuthUser.email) {
+      const byEmail = await this.userAccountRepository.findByEmail(stackAuthUser.email);
+      if (byEmail) {
+        byEmail.markLogin(now);
+        await this.userAccountRepository.save(byEmail);
+        return byEmail;
       }
     }
 
-    // User doesn't exist - create new local account
+    // 3. Brand new user — create and persist
     return this.createLocalUserFromStackAuth(stackAuthUser, now);
   }
 
@@ -132,15 +138,7 @@ export class StackAuthUserSyncService {
    * @returns Local user account or null
    */
   async findLocalUserByStackAuthId(stackAuthUserId: string): Promise<UserAccount | null> {
-    // TODO: Implement proper external identifier lookup
-    // For now, this is a placeholder
-    // In production, query the federated identity / external identifier binding table
-    // to find the local user ID associated with this Stack Auth user ID
-
-    // Temporary implementation - this won't work without email
-    // throw new Error('Stack Auth user ID lookup not yet implemented. Use email lookup instead.');
-
-    return null;
+    return this.userAccountRepository.findByStackAuthId(stackAuthUserId);
   }
 }
 

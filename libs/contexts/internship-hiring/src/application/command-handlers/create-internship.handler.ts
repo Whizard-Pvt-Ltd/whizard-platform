@@ -13,6 +13,7 @@ export class CreateInternshipCommandHandler {
     const internship = Internship.create({
       id:                          randomUUID(),
       tenantId:                    cmd.tenantId,
+      companyTenantId:             cmd.companyTenantId ?? null,
       title:                       cmd.title,
       bannerImageUrl:              cmd.bannerImageUrl ?? null,
       vacancies:                   cmd.vacancies,

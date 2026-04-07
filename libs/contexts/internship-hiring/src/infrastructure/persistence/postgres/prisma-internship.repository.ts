@@ -47,9 +47,15 @@ export class PrismaInternshipRepository implements IInternshipRepository {
 
   async findAll(filter: InternshipListFilter): Promise<Internship[]> {
     const tenantId = this.resolveTenantId(filter.tenantId);
+    // When a company is selected, scope by companyTenantId alone so results include
+    // both company-owned internships (tenantId = company) and system-owned internships
+    // assigned to that company (tenantId = system, companyTenantId = company).
+    const scopeFilter = filter.companyTenantId
+      ? { companyTenantId: BigInt(filter.companyTenantId) }
+      : { tenantId };
     const rows = await this.prisma.internship.findMany({
       where: {
-        tenantId,
+        ...scopeFilter,
         ...(filter.status && { status: filter.status as 'DRAFT' | 'PUBLISHED' | 'ARCHIVED' }),
         ...(filter.search && { title: { contains: filter.search, mode: 'insensitive' as const } }),
       },
@@ -71,6 +77,7 @@ export class PrismaInternshipRepository implements IInternshipRepository {
     const functionalGroupId = internship.functionalGroupId ? await this.resolveFunctionalGroupId(internship.functionalGroupId) : null;
     const data = {
       tenantId,
+      companyTenantId:            internship.companyTenantId ? BigInt(internship.companyTenantId) : null,
       title:                      internship.title,
       bannerImageUrl:             internship.bannerImageUrl,
       vacancies:                  internship.vacancies,
@@ -144,6 +151,7 @@ export class PrismaInternshipRepository implements IInternshipRepository {
     id: bigint;
     publicUuid: string;
     tenantId: bigint;
+    companyTenantId: bigint | null;
     title: string;
     bannerImageUrl: string | null;
     vacancies: number;
@@ -189,6 +197,7 @@ export class PrismaInternshipRepository implements IInternshipRepository {
     return Internship.reconstitute({
       id:                          row.publicUuid,
       tenantId:                    row.tenantId.toString(),
+      companyTenantId:             row.companyTenantId?.toString() ?? null,
       title:                       row.title,
       bannerImageUrl:              row.bannerImageUrl,
       vacancies:                   row.vacancies,

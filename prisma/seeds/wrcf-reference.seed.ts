@@ -1,57 +1,75 @@
+import fs from 'fs';
+import path from 'path';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
 async function seedWrcfReference(): Promise<void> {
-  // ─── Industry sectors ──────────────────────────────────────────────────────
+  // Truncate all WRCF tables in reverse-dependency order and reset sequences
   await prisma.$executeRawUnsafe(`
-    INSERT INTO industry_sectors (name, description, type, is_active)
-    VALUES
-      ('Energy & Utilities', 'Power generation and utility industries',          'ASSET_INTENSIVE',        true),
-      ('Manufacturing',      'Discrete and process manufacturing industries',    'DISCRETE_MANUFACTURING', true)
-    ON CONFLICT (name) DO NOTHING
+    TRUNCATE TABLE
+      tasks,
+      skills,
+      role_capability_instances,
+      control_points,
+      learner_evidences,
+      capability_instances,
+      roles,
+      department_functional_groups,
+      departments,
+      swos,
+      pwos,
+      capabilities,
+      proficiencies,
+      functional_groups,
+      industries,
+      industry_sectors
+    RESTART IDENTITY CASCADE
   `);
 
-  // ─── Industries ────────────────────────────────────────────────────────────
-  // Use subqueries so sector_id resolves to the BigInt PK automatically
-  await prisma.$executeRawUnsafe(`
-    INSERT INTO industries (sector_id, name, is_active)
-    VALUES
-      ((SELECT id FROM industry_sectors WHERE name = 'Energy & Utilities'),  'Thermal Power Plant', true),
-      ((SELECT id FROM industry_sectors WHERE name = 'Energy & Utilities'),  'Wind Energy',         true),
-      ((SELECT id FROM industry_sectors WHERE name = 'Manufacturing'),       'Steel Manufacturing', true)
-    ON CONFLICT (sector_id, name) DO NOTHING
-  `);
+  // Execute INSERT statements from the SQL file.
+  // Disable FK checks so insert order doesn't matter.
+  const sqlFile = path.join(__dirname, 'wrcf-reference.sql');
+  const statements = fs.readFileSync(sqlFile, 'utf-8')
+    .split('\n')
+    .map(line => line.trim())
+    .filter(line => line.startsWith('INSERT'));
 
-  // ─── Proficiencies ─────────────────────────────────────────────────────────
-  // level must be L1–L5 (VARCHAR); label values are enforced by DB CHECK constraint.
-  // L3 and L4 labels contain the literal string \u2013 (not an en dash character) — must match exactly.
-  await prisma.$executeRawUnsafe(`
-    INSERT INTO proficiencies (level, label, description, is_active)
-    VALUES
-      ('L1', 'Plant Awareness',                       'Basic awareness of plant systems',          true),
-      ('L2', 'Assisted Execution',                    'Can execute tasks with assistance',         true),
-      ('L3', 'Conditional Independence \\u2013 Supervised', 'Can work independently under supervision',  true),
-      ('L4', 'Conditional Independence \\u2013 Scoped',     'Independent within defined scope',          true),
-      ('L5', 'Full Independence',                     'Fully independent operation',               true)
-    ON CONFLICT (level) DO NOTHING
-  `);
+  await prisma.$executeRawUnsafe(`SET session_replication_role = 'replica'`);
+  try {
+    for (const stmt of statements) {
+      await prisma.$executeRawUnsafe(stmt);
+    }
+  } finally {
+    await prisma.$executeRawUnsafe(`SET session_replication_role = 'origin'`);
+  }
 
-  // ─── Capabilities ──────────────────────────────────────────────────────────
-  await prisma.$executeRawUnsafe(`
-    INSERT INTO capabilities (code, name, type, is_active)
-    VALUES
-      ('CAP-01', 'Fundamental Principles',    'Cognitive',   true),
-      ('CAP-02', 'System Understanding',      'Cognitive',   true),
-      ('CAP-03', 'Operational Execution',     'Execution',   true),
-      ('CAP-04', 'Routine Maintenance',       'Execution',   true),
-      ('CAP-05', 'Fault Diagnosis',           'Diagnostic',  true),
-      ('CAP-06', 'Root Cause Analysis',       'Diagnostic',  true),
-      ('CAP-07', 'First Response Resolution', 'Execution',   true)
-    ON CONFLICT (code) DO NOTHING
-  `);
+  // Reset sequences to max(id) + 1 to avoid conflicts on future inserts
+  const sequences: [string, string][] = [
+    ['capabilities_id_seq',              'capabilities'],
+    ['capability_instances_id_seq',      'capability_instances'],
+    ['control_points_id_seq',            'control_points'],
+    ['department_functional_groups_id_seq', 'department_functional_groups'],
+    ['departments_id_seq',               'departments'],
+    ['functional_groups_id_seq',         'functional_groups'],
+    ['industries_id_seq',                'industries'],
+    ['industry_sectors_id_seq',          'industry_sectors'],
+    ['proficiencies_id_seq',             'proficiencies'],
+    ['pwos_id_seq',                      'pwos'],
+    ['roles_id_seq',                     'roles'],
+    ['role_capability_instances_id_seq', 'role_capability_instances'],
+    ['skills_id_seq',                    'skills'],
+    ['swos_id_seq',                      'swos'],
+    ['tasks_id_seq',                     'tasks'],
+  ];
 
-  console.log('WRCF reference data seeded successfully.');
+  for (const [seq, table] of sequences) {
+    await prisma.$executeRawUnsafe(
+      `SELECT setval('${seq}', COALESCE((SELECT MAX(id) FROM ${table}), 1))`
+    );
+  }
+
+  console.log(`WRCF reference data seeded (${statements.length} statements).`);
 }
 
 seedWrcfReference()

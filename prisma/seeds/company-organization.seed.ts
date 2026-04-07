@@ -328,6 +328,32 @@ async function seedCompanyOrganization(): Promise<void> {
   }
 
   console.log('Hiring stats, roles, domains, compensation stats seeded.');
+
+  // ── Assign users to company tenants ──────────────────────────────────────
+  const technovaTenantId = tenantIdMap.get(TENANT_TECHNOVA_UUID)!;
+  const tcsTenantId      = tenantIdMap.get(TENANT_TCS_UUID)!;
+
+  const technovaUserUuids = [USER_ANANYA_UUID, USER_ROHIT_UUID, USER_NEHA_UUID, USER_VIKRAM_UUID, USER_SHRUTI_UUID, USER_ADITYA_UUID];
+  const tcsUserUuids      = [USER_PRIYA_UUID, USER_RAHUL_UUID, USER_DIVYA_UUID, USER_KARAN_UUID];
+
+  for (const uuid of technovaUserUuids) {
+    const userId = userIdMap.get(uuid)!;
+    await prisma.userAccountTenant.upsert({
+      where:  { userAccountId_tenantId: { userAccountId: userId, tenantId: technovaTenantId } },
+      update: { isActive: true },
+      create: { userAccountId: userId, tenantId: technovaTenantId, tenantType: 'COMPANY' },
+    });
+  }
+  for (const uuid of tcsUserUuids) {
+    const userId = userIdMap.get(uuid)!;
+    await prisma.userAccountTenant.upsert({
+      where:  { userAccountId_tenantId: { userAccountId: userId, tenantId: tcsTenantId } },
+      update: { isActive: true },
+      create: { userAccountId: userId, tenantId: tcsTenantId, tenantType: 'COMPANY' },
+    });
+  }
+  console.log('User-tenant assignments seeded.');
+
   console.log('Company organization seed completed successfully.');
 }
 

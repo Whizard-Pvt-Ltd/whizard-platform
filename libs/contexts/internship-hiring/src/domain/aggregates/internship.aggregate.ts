@@ -47,6 +47,7 @@ export interface FileItem {
 export interface InternshipProps {
   id: string;
   tenantId: string;
+  companyTenantId: string | null;
   title: string;
   bannerImageUrl: string | null;
   vacancies: number;
@@ -102,6 +103,7 @@ export class Internship {
   readonly createdBy: string;
   readonly createdOn: Date;
 
+  private _companyTenantId: string | null;
   private _title: string;
   private _bannerImageUrl: string | null;
   private _vacancies: number;
@@ -145,6 +147,7 @@ export class Internship {
   private constructor(props: InternshipProps) {
     this.id                          = props.id;
     this.tenantId                    = props.tenantId;
+    this._companyTenantId            = props.companyTenantId;
     this.createdBy                   = props.createdBy;
     this.createdOn                   = props.createdOn;
     this._title                      = props.title;
@@ -192,6 +195,7 @@ export class Internship {
     const now = new Date();
     return new Internship({
       ...props,
+      companyTenantId: props.companyTenantId ?? null,
       status:    InternshipStatus.Draft,
       createdOn: now,
       updatedOn: now,
@@ -202,6 +206,7 @@ export class Internship {
     return new Internship(props);
   }
 
+  get companyTenantId()            { return this._companyTenantId; }
   get title()                      { return this._title; }
   get bannerImageUrl()             { return this._bannerImageUrl; }
   get vacancies()                  { return this._vacancies; }
@@ -243,6 +248,7 @@ export class Internship {
   get updatedOn()                  { return this._updatedOn; }
 
   update(fields: Partial<Omit<InternshipProps, 'id' | 'tenantId' | 'status' | 'createdBy' | 'createdOn' | 'updatedOn'>>): void {
+    if (fields.companyTenantId            !== undefined) this._companyTenantId            = fields.companyTenantId;
     if (fields.title                      !== undefined) this._title                      = fields.title;
     if (fields.bannerImageUrl             !== undefined) this._bannerImageUrl             = fields.bannerImageUrl;
     if (fields.vacancies                  !== undefined) this._vacancies                  = fields.vacancies;

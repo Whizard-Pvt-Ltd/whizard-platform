@@ -10,6 +10,9 @@ const buildCoreApiHeaders = (request: FastifyRequestLike): Record<string, string
   if (request.headers['authorization']) {
     headers['Authorization'] = String(request.headers['authorization']);
   }
+  if (request.headers['x-company-tenant-id']) {
+    headers['X-Company-Tenant-Id'] = String(request.headers['x-company-tenant-id']);
+  }
   return headers;
 };
 
@@ -51,6 +54,7 @@ export const registerInternshipHiringBffRoutes = (app: FastifyInstanceLike): voi
   app.route({ method: 'GET',  url: '/',                 handler: (req, rep) => forwardToCore('GET',  '/api/internships',                req, rep) });
   app.route({ method: 'POST', url: '/',                 handler: (req, rep) => forwardToCore('POST', '/api/internships',                req, rep) });
   app.route({ method: 'POST', url: '/files/upload',     handler: (req, rep) => forwardToCore('POST', '/api/internships/files/upload',   req, rep) });
+  app.route({ method: 'GET',  url: '/coordinators',     handler: (req, rep) => forwardToCore('GET',  '/api/internships/coordinators',   req, rep) });
   app.route({ method: 'GET',  url: '/:id',              handler: (req, rep) => forwardToCore('GET',  '/api/internships/:id',            req, rep) });
   app.route({ method: 'PUT',  url: '/:id',              handler: (req, rep) => forwardToCore('PUT',  '/api/internships/:id',            req, rep) });
   app.route({ method: 'POST', url: '/:id/publish',      handler: (req, rep) => forwardToCore('POST', '/api/internships/:id/publish',    req, rep) });

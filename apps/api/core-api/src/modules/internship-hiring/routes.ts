@@ -1,3 +1,4 @@
+import { getPrisma } from '@whizard/shared-infrastructure';
 import { getOrCreateAppLogger } from '@whizard/shared-logging';
 import type { InternshipHiringModuleDependencies } from './runtime';
 import { authorizationPreHandler } from '../iam/shared/authorization-prehandler';
@@ -7,6 +8,14 @@ const logger = getOrCreateAppLogger({ service: 'core-api' }).child({ component: 
 
 const isDomainException = (err: unknown): err is Error =>
   err instanceof Error && err.name === 'DomainException';
+
+const resolveCompanyTenantId = (
+  ctx: ReturnType<typeof getRequestContext>,
+  request: Parameters<typeof getRequestContext>[0],
+): string | undefined =>
+  ctx.tenantType === 'COMPANY'
+    ? ctx.tenantId
+    : ((request.headers['x-company-tenant-id'] as string | undefined) || undefined);
 
 export const registerInternshipHiringRoutes = (
   app: FastifyInstanceLike,
@@ -21,9 +30,11 @@ export const registerInternshipHiringRoutes = (
     handler: async (request, reply) => {
       const ctx = getRequestContext(request);
       const { search, status } = (request.query as Record<string, string | undefined>);
-      logger.debug('Listing internships', { ...getLogContext(request), userId: ctx.actorUserAccountId, tenantId: ctx.tenantId });
+      const companyTenantId = resolveCompanyTenantId(ctx, request);
+      logger.debug('Listing internships', { ...getLogContext(request), userId: ctx.actorUserAccountId, tenantId: ctx.tenantId, companyTenantId });
       const data = await deps.listInternships.execute({
         tenantId: ctx.tenantId,
+        companyTenantId,
         search,
         status,
       });
@@ -39,11 +50,13 @@ export const registerInternshipHiringRoutes = (
     handler: async (request, reply) => {
       const ctx  = getRequestContext(request);
       const body = request.body as Record<string, unknown>;
-      logger.debug('Creating internship', { ...getLogContext(request), userId: ctx.actorUserAccountId, tenantId: ctx.tenantId });
+      const companyTenantId = resolveCompanyTenantId(ctx, request);
+      logger.debug('Creating internship', { ...getLogContext(request), userId: ctx.actorUserAccountId, tenantId: ctx.tenantId, companyTenantId });
       const data = await deps.createInternship.execute({
         ...(body as Record<string, unknown>),
-        actorUserId: ctx.actorUserAccountId,
-        tenantId:    ctx.tenantId,
+        actorUserId:     ctx.actorUserAccountId,
+        tenantId:        ctx.tenantId,
+        companyTenantId: companyTenantId ?? null,
       } as never);
       reply.status(201).send({ success: true, data, meta: toApiMeta(request) });
     },
@@ -69,6 +82,45 @@ export const registerInternshipHiringRoutes = (
         buffer,
       });
       reply.status(201).send({ success: true, data, meta: toApiMeta(request) });
+    },
+  });
+
+  // GET /api/internships/coordinators?companyTenantId=xxx
+  app.route({
+    method: 'GET',
+    url: '/coordinators',
+    preHandler: authorizationPreHandler('INTERNSHIP.MANAGE'),
+    handler: async (request, reply) => {
+      const ctx = getRequestContext(request);
+      const companyTenantId = resolveCompanyTenantId(ctx, request)
+        ?? (request.query as Record<string, string>)['companyTenantId'];
+
+      if (!companyTenantId) {
+        return reply.status(400).send({ success: false, error: 'companyTenantId is required' });
+      }
+
+      const prisma = getPrisma();
+      const contacts = await prisma.companyContact.findMany({
+        where: {
+          company: { tenantId: BigInt(companyTenantId) },
+          isActive: true,
+        },
+      });
+
+      const userIds = contacts.map(c => c.userId);
+      const users = await prisma.userAccount.findMany({
+        where: { id: { in: userIds } },
+        select: { id: true, publicUuid: true, primaryEmail: true },
+      });
+      const userMap = new Map(users.map(u => [u.id.toString(), u]));
+
+      const data = contacts.flatMap(c => {
+        const u = userMap.get(c.userId.toString());
+        if (!u) return [];
+        return [{ id: u.publicUuid, email: u.primaryEmail, name: u.primaryEmail, role: c.contactRole }];
+      });
+
+      reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
     },
   });
 

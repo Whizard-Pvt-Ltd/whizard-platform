@@ -364,13 +364,8 @@ export class QuillEditorComponent
           this.readonly() || this.view()
             ? false
             : [
-                ['bold', 'italic', 'underline'],
-                ['blockquote', 'code-block'],
-                [{ header: 1 }, { header: 2 }],
+                ['bold', 'italic'],
                 [{ list: 'ordered' }, { list: 'bullet' }],
-                [{ script: 'sub' }, { script: 'super' }],
-                [{ indent: '-1' }, { indent: '+1' }],
-                ['link'],
                 ['clean'],
               ],
       },
