@@ -7,6 +7,14 @@ import { resolveImpactLevel, CRITICALITY_LEVELS } from '../../../../domain/value
 export class PrismaPwoRepository implements IPwoRepository {
   private readonly prisma = getPrisma();
 
+  private async resolveUserBigInt(uuid: string): Promise<bigint | undefined> {
+    const user = await this.prisma.userAccount.findUnique({
+      where: { publicUuid: uuid },
+      select: { id: true }
+    });
+    return user?.id ?? undefined;
+  }
+
   async findById(id: string): Promise<PrimaryWorkObject | null> {
     const row = await this.prisma.primaryWorkObject.findUnique({
       where: { id: BigInt(id) }
@@ -52,6 +60,8 @@ export class PrismaPwoRepository implements IPwoRepository {
   async save(pwo: PrimaryWorkObject): Promise<void> {
     const tenantId = BigInt(pwo.tenantId);
     const functionalGroupId = BigInt(pwo.functionalGroupId);
+    const createdBy = pwo.createdBy ? await this.resolveUserBigInt(pwo.createdBy) : undefined;
+    const updatedBy = pwo.updatedBy ? await this.resolveUserBigInt(pwo.updatedBy) : undefined;
 
     await this.prisma.primaryWorkObject.upsert({
       where: { id: BigInt(pwo.id) },
@@ -61,7 +71,8 @@ export class PrismaPwoRepository implements IPwoRepository {
         strategicImportanceLevel: pwo.strategicImportance,
         revenueImpactLevel: pwo.revenueImpact.label,
         downtimeSensitivity: pwo.downtimeSensitivity.label,
-        isActive: pwo.isActive
+        isActive: pwo.isActive,
+        ...(updatedBy !== undefined && { updatedBy })
       },
       create: {
         tenantId,
@@ -72,7 +83,9 @@ export class PrismaPwoRepository implements IPwoRepository {
         strategicImportanceLevel: pwo.strategicImportance,
         revenueImpactLevel: pwo.revenueImpact.label,
         downtimeSensitivity: pwo.downtimeSensitivity.label,
-        isActive: pwo.isActive
+        isActive: pwo.isActive,
+        ...(createdBy !== undefined && { createdBy }),
+        ...(updatedBy !== undefined && { updatedBy })
       }
     });
   }

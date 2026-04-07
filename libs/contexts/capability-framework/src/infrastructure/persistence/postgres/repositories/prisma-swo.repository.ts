@@ -6,6 +6,14 @@ import { resolveImpactLevel, CRITICALITY_LEVELS, COMPLEXITY_LEVELS, FREQUENCY_LE
 export class PrismaSwoRepository implements ISwoRepository {
   private readonly prisma = getPrisma();
 
+  private async resolveUserBigInt(uuid: string): Promise<bigint | undefined> {
+    const user = await this.prisma.userAccount.findUnique({
+      where: { publicUuid: uuid },
+      select: { id: true }
+    });
+    return user?.id ?? undefined;
+  }
+
   async findById(id: string): Promise<SecondaryWorkObject | null> {
     const row = await this.prisma.secondaryWorkObject.findUnique({
       where: { id: BigInt(id) }
@@ -51,6 +59,8 @@ export class PrismaSwoRepository implements ISwoRepository {
   async save(swo: SecondaryWorkObject): Promise<void> {
     const tenantId = BigInt(swo.tenantId);
     const pwoId = BigInt(swo.pwoId);
+    const createdBy = swo.createdBy ? await this.resolveUserBigInt(swo.createdBy) : undefined;
+    const updatedBy = swo.updatedBy ? await this.resolveUserBigInt(swo.updatedBy) : undefined;
 
     await this.prisma.secondaryWorkObject.upsert({
       where: { id: BigInt(swo.id) },
@@ -60,7 +70,8 @@ export class PrismaSwoRepository implements ISwoRepository {
         operationalComplexity: swo.operationalComplexity.label,
         assetCriticality: swo.assetCriticality.label,
         failureFrequency: swo.failureFrequency.label,
-        isActive: swo.isActive
+        isActive: swo.isActive,
+        ...(updatedBy !== undefined && { updatedBy })
       },
       create: {
         tenantId,
@@ -71,7 +82,9 @@ export class PrismaSwoRepository implements ISwoRepository {
         operationalComplexity: swo.operationalComplexity.label,
         assetCriticality: swo.assetCriticality.label,
         failureFrequency: swo.failureFrequency.label,
-        isActive: swo.isActive
+        isActive: swo.isActive,
+        ...(createdBy !== undefined && { createdBy }),
+        ...(updatedBy !== undefined && { updatedBy })
       }
     });
   }
