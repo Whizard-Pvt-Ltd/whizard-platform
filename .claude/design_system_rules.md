@@ -217,6 +217,7 @@ The app's color scheme is set via `provideTheming({ scheme: 'dark' })` in `app.c
 1. **Always use Reactive Forms** — use `FormBuilder`, `FormGroup`, `FormArray`, and `FormControl` for all form fields. Never use template-driven forms (`ngModel`) in form pages.
 2. **Form structure** — group related controls in `FormGroup`, use `FormArray` for repeatable sections (e.g. screening questions, weekly schedule entries).
 3. **Typed forms** — always use typed `FormGroup<T>` or `ReturnType<>` patterns so form values are type-safe.
+4. **Angular Matrial —** always use angular matrial to create the form ui.
 
 ---
 
