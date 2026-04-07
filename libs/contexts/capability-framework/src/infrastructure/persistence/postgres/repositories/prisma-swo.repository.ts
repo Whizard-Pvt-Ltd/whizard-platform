@@ -51,8 +51,6 @@ export class PrismaSwoRepository implements ISwoRepository {
   async save(swo: SecondaryWorkObject): Promise<void> {
     const tenantId = BigInt(swo.tenantId);
     const pwoId = BigInt(swo.pwoId);
-    const createdBy = swo.createdBy ? BigInt(swo.createdBy) : undefined;
-    const updatedBy = swo.updatedBy ? BigInt(swo.updatedBy) : undefined;
 
     await this.prisma.secondaryWorkObject.upsert({
       where: { id: BigInt(swo.id) },
@@ -62,8 +60,7 @@ export class PrismaSwoRepository implements ISwoRepository {
         operationalComplexity: swo.operationalComplexity.label,
         assetCriticality: swo.assetCriticality.label,
         failureFrequency: swo.failureFrequency.label,
-        isActive: swo.isActive,
-        ...(updatedBy !== undefined && { updatedBy })
+        isActive: swo.isActive
       },
       create: {
         tenantId,
@@ -74,9 +71,7 @@ export class PrismaSwoRepository implements ISwoRepository {
         operationalComplexity: swo.operationalComplexity.label,
         assetCriticality: swo.assetCriticality.label,
         failureFrequency: swo.failureFrequency.label,
-        isActive: swo.isActive,
-        ...(createdBy !== undefined && { createdBy }),
-        ...(updatedBy !== undefined && { updatedBy })
+        isActive: swo.isActive
       }
     });
   }

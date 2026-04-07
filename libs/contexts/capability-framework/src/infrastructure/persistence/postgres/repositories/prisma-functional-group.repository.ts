@@ -48,17 +48,13 @@ export class PrismaFunctionalGroupRepository implements IFunctionalGroupReposito
     const tenantId = BigInt(fg.tenantId);
     const industryId = BigInt(fg.industryId);
 
-    const createdBy = fg.createdBy ? BigInt(fg.createdBy) : undefined;
-    const updatedBy = fg.updatedBy ? BigInt(fg.updatedBy) : undefined;
-
     await this.prisma.functionalGroup.upsert({
       where: { id: BigInt(fg.id) },
       update: {
         name: fg.name,
         description: fg.description,
         domainType: fg.domainType,
-        isActive: fg.isActive,
-        ...(updatedBy !== undefined && { updatedBy })
+        isActive: fg.isActive
       },
       create: {
         tenantId,
@@ -67,9 +63,7 @@ export class PrismaFunctionalGroupRepository implements IFunctionalGroupReposito
         name: fg.name,
         description: fg.description,
         domainType: fg.domainType,
-        isActive: fg.isActive,
-        ...(createdBy !== undefined && { createdBy }),
-        ...(updatedBy !== undefined && { updatedBy })
+        isActive: fg.isActive
       }
     });
   }
