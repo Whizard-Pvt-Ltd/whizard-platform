@@ -875,7 +875,7 @@
 
     --form-field-bg-color: light-dark(
       var(--color-white),
-      var(--color-primary-950)
+      var(--color-whizard-bg-fields)
     );
 
     --form-field-border-color: light-dark(
@@ -896,7 +896,7 @@
 
     /* Focus */
     &.mat-focused {
-      --form-field-outline-color: var(--color-primary-600);
+      --form-field-outline-color: var(--color-whizard-action);
     }
 
     /* Suffix & Prefix */
@@ -921,48 +921,46 @@
 
     /* ── Whizard Design System form field variant ──────────────────────── */
     &.whizard-outline {
-      --form-field-font-size: 0.875rem;       /* 14px */
-      --form-field-line-height: 1.25rem;      /* 20px */
+      --form-field-font-size: 1rem;           /* 16px */
+      --form-field-line-height: 1.5rem;       /* 24px */
       --form-field-font-weight: 500;          /* Medium */
-      --form-field-letter-spacing: 0.009rem;  /* 0.15px */
-      --form-field-label-font-size: 0.875rem; /* 14px */
-      --form-field-label-font-weight: 500;    /* Medium */
-      --form-field-border-radius: 0.5rem;     /* 8px */
-      --form-field-padding-y: 0.75rem;        /* 12px */
-      --form-field-padding-x: 1rem;           /* 16px */
+      --form-field-letter-spacing: normal;
+      --form-field-label-font-size: 0.9375rem; /* 15px */
+      --form-field-label-line-height: 1rem;    /* 16px */
+      --form-field-label-font-weight: 400;     /* Regular */
+      --form-field-border-radius: 0.25rem;     /* 4px */
+      --form-field-padding-y: 0.75rem;         /* 12px */
+      --form-field-padding-x: 1rem;            /* 16px */
+      --form-field-margin-top: 0.4375rem;      /* 7px — space for floating label */
 
-      --form-field-bg-color: light-dark(
-        var(--color-white),
-        var(--color-whizard-bg-main)
-      );
-      --form-field-border-color: light-dark(
-        var(--color-whizard-border),
-        var(--color-whizard-border)
-      );
-      --form-field-text-color: light-dark(
-        var(--color-whizard-text-primary),
-        var(--color-whizard-text-primary)
-      );
-      --form-field-placeholder-color: light-dark(
-        var(--color-whizard-text-secondary),
-        var(--color-whizard-text-secondary)
-      );
-      --form-field-affix-color: light-dark(
-        var(--color-whizard-text-secondary),
-        var(--color-whizard-text-secondary)
-      );
-      --form-field-shadow-color: color-mix(
-        in oklch,
-        var(--color-black),
-        transparent 90%
+      --form-field-bg-color: var(--color-whizard-bg-fields);
+      --form-field-border-color: transparent;
+      --form-field-text-color: var(--color-white);
+      --form-field-placeholder-color: var(--color-whizard-text-secondary);
+      --form-field-affix-color: var(--color-whizard-text-secondary);
+      --form-field-shadow-color: light-dark(
+        rgba(0, 0, 0, 0.08),        /* light: subtle shadow */
+        rgba(0, 0, 0, 0.25)         /* dark: black 25% */
       );
 
       &.mat-focused {
-        --form-field-outline-color: var(--color-whizard-accent);
+        --form-field-outline-color: var(--color-whizard-action);
       }
 
       .mdc-notched-outline__notch {
         border-right: none;
+      }
+
+      /* Floating label gradient background */
+      .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mdc-notched-outline .mdc-notched-outline__notch label {
+        background: linear-gradient(to bottom, var(--color-whizard-bg-main), var(--color-whizard-bg-fields));
+        padding: 0 0.25rem;
+        color: var(--color-white);
+      }
+
+      /* Field shadow */
+      .mat-mdc-text-field-wrapper {
+        box-shadow: 0px 2px 11px 0px rgba(0, 0, 0, 0.25);
       }
     }
   }

@@ -209,3 +209,24 @@ The app's color scheme is set via `provideTheming({ scheme: 'dark' })` in `app.c
 6. **Status badges** use their specific `whizard-status-*` color tokens.
 7. **Section labels** in forms use `text-whizard-action` with font-semibold.
 8. **Placeholder text** uses `placeholder:text-whizard-text-secondary`.
+
+---
+
+## Angular Form Rules
+
+1. **Always use Reactive Forms** — use `FormBuilder`, `FormGroup`, `FormArray`, and `FormControl` for all form fields. Never use template-driven forms (`ngModel`) in form pages.
+2. **Form structure** — group related controls in `FormGroup`, use `FormArray` for repeatable sections (e.g. screening questions, weekly schedule entries).
+3. **Typed forms** — always use typed `FormGroup<T>` or `ReturnType<>` patterns so form values are type-safe.
+
+---
+
+## Tailwind CSS Rules
+
+1. **No inline styles** — never use `style="..."` attributes in templates. All styling must be done via Tailwind utility classes. If a Tailwind class doesn't exist for a needed value, add a custom token to the theme (see below).
+2. **No arbitrary pixel values in gaps/spacing** — never use `gap-[86px]`, `mt-[7px]`, `w-[423px]`, etc. with hardcoded pixel values. Instead:
+   - Use the nearest Tailwind spacing scale value (e.g. `gap-4`, `mt-2`, `w-full`).
+   - If no scale value fits, add a custom spacing token to `libs/shared/theme/src/styles/tailwind/theme.css` inside the `@theme` block, then use it as a class.
+   - Example: instead of `gap-[86px]`, add `--spacing-21.5: 86px;` to the theme and use `gap-21.5`.
+3. **Use Tailwind's canonical class names** — prefer `bg-linear-to-b` over `bg-gradient-to-b`, `w-55` over `w-[220px]`, `leading-5.25` over `leading-[21px]`, etc. Always use the shortest canonical form when Tailwind supports it.
+4. **Font families via Tailwind** — use `font-[family-name:var(--font-whizard-display)]` or define a `font-whizard-display` utility in the theme. Do not write `style="font-family: ..."`.
+5. **Colors always via tokens** — never use raw hex values like `text-[#e8f0fa]`. Map to the closest `whizard-*` token class.

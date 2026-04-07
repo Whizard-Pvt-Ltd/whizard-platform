@@ -11,13 +11,20 @@ export interface EligibilityCheck {
 }
 
 export interface AssessmentItem {
+  assessmentId: string;
+  title: string;
   pdfUrl: string;
   minScore: number;
   weightage: number;
 }
 
+export interface InterviewRubricItem {
+  assessmentId: string;
+  title: string;
+}
+
 export interface InterviewRubric {
-  pdfUrl: string;
+  items: InterviewRubricItem[];
   minScore: number;
   weightage: number;
 }
