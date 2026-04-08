@@ -1,6 +1,7 @@
 export interface CapabilityInstanceDto {
   id: string;
   functionalGroupId: string;
+  fgName?: string;
   pwoId?: string;
   pwoName?: string;
   swoId?: string;

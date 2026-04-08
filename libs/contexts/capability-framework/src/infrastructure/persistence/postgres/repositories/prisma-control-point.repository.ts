@@ -28,11 +28,11 @@ export class PrismaControlPointRepository implements IControlPointRepository {
     }));
   }
 
-  async findAllDtos(tenantId: string, taskId: string): Promise<ControlPointDto[]> {
+  async findAllDtos(taskId: string, tenantId?: string): Promise<ControlPointDto[]> {
     const rows = await this.prisma.controlPoint.findMany({
       where: {
-        tenantId: BigInt(tenantId),
         taskId: BigInt(taskId),
+        ...(tenantId ? { tenantId: BigInt(tenantId) } : {}),
         isActive: true
       },
       orderBy: { name: 'asc' }

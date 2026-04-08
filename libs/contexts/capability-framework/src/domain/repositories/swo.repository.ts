@@ -2,7 +2,7 @@ import type { SecondaryWorkObject } from '../aggregates/secondary-work-object.ag
 
 export interface ISwoRepository {
   findById(id: string): Promise<SecondaryWorkObject | null>;
-  findByPWO(pwoId: string, tenantId: string): Promise<SecondaryWorkObject[]>;
+  findByPWO(pwoId: string): Promise<SecondaryWorkObject[]>;
   save(swo: SecondaryWorkObject): Promise<void>;
   delete(id: string): Promise<void>;
   hasCIs(swoId: string): Promise<boolean>;

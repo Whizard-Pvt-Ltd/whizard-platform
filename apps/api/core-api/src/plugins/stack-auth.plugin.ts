@@ -132,6 +132,22 @@ async function stackAuthPlugin(fastify: FastifyInstance) {
           stackAuthUserId: stackAuthUser.userId,
         });
 
+        // Reject if user has no active tenant membership
+        if (localUser.tenantMemberships.length === 0) {
+          logger.warn('User has no active tenant membership — rejecting request', {
+            userId: localUser.id.value,
+            email: stackAuthUser.email,
+            url: request.url,
+          });
+          return reply.status(403).send({
+            success: false,
+            error: {
+              code: 'FORBIDDEN',
+              message: 'User is not associated with any tenant. Contact your administrator.',
+            },
+          });
+        }
+
         // Set request context headers for downstream handlers
         // These headers are used by authorizationPreHandler and business logic
         request.headers['x-actor-user-account-id'] = localUser.id.value;

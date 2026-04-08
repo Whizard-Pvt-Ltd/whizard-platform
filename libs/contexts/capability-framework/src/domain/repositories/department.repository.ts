@@ -1,7 +1,7 @@
 import type { Department } from '../aggregates/department.aggregate';
 
 export interface IDepartmentRepository {
-  findByIndustryId(tenantId: string, industryId: string): Promise<{
+  findByTenantId(tenantId: string, industryId?: string): Promise<{
     id: string;
     name: string;
     industryId?: string;

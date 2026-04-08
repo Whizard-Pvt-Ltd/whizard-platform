@@ -3,12 +3,12 @@ import type { IIndustryRoleRepository } from '../../domain/repositories/industry
 export class ListIndustryRolesQueryHandler {
   constructor(private readonly repo: IIndustryRoleRepository) {}
 
-  async execute(tenantId: string, departmentId: string): Promise<{
+  async execute(departmentId: string, tenantId?: string): Promise<{
     id: string;
     name: string;
     departmentId: string;
     description?: string;
   }[]> {
-    return this.repo.findByDepartmentId(tenantId, departmentId);
+    return this.repo.findByDepartmentId(departmentId, tenantId);
   }
 }

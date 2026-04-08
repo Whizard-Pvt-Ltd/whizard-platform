@@ -101,24 +101,73 @@ export class WrcfSkillsComponent implements OnInit {
       if (ciId) {
         this.resolvedCiId.set(ciId);
         this.loadSkills(ciId);
-        return;
       }
 
       if (industryId) {
         this.noIndustry.set(false);
         this.industryId = industryId;
         this.pendingSelection = { fgId, pwoId, swoId, capabilityId, proficiencyId };
-        this.wrcfApi.listFGs(industryId).subscribe({
-          next: fgs => {
-            this.fgList.set(fgs);
+        this.wrcfApi.listCIs(industryId).subscribe({
+          next: cis => {
+            this.allCIs.set(cis);
+            this.fgList.set(this.deriveFGsFromCIs(cis));
             this.restoreSelectionFromQuery();
           },
-          error: () => this.fgList.set([])
+          error: () => { this.allCIs.set([]); this.fgList.set([]); }
         });
       } else {
         this.noIndustry.set(true);
       }
     });
+  }
+
+  private deriveFGsFromCIs(cis: CapabilityInstance[]): FunctionalGroup[] {
+    const seen = new Map<string, FunctionalGroup>();
+    for (const ci of cis) {
+      if (!seen.has(ci.functionalGroupId)) {
+        seen.set(ci.functionalGroupId, {
+          id: ci.functionalGroupId,
+          name: ci.fgName ?? ci.functionalGroupId,
+          industryId: this.industryId,
+          domainType: 'Operations'
+        });
+      }
+    }
+    return Array.from(seen.values());
+  }
+
+  private derivePWOsFromCIs(cis: CapabilityInstance[], fgId: string): PrimaryWorkObject[] {
+    const seen = new Map<string, PrimaryWorkObject>();
+    for (const ci of cis.filter(c => c.functionalGroupId === fgId && c.pwoId)) {
+      if (!seen.has(ci.pwoId!)) {
+        seen.set(ci.pwoId!, {
+          id: ci.pwoId!,
+          name: ci.pwoName ?? ci.pwoId!,
+          functionalGroupId: fgId,
+          strategicImportance: 1,
+          revenueImpact: { label: '', value: 0 },
+          downtimeSensitivity: { label: '', value: 0 }
+        });
+      }
+    }
+    return Array.from(seen.values());
+  }
+
+  private deriveSWOsFromCIs(cis: CapabilityInstance[], pwoId: string): SecondaryWorkObject[] {
+    const seen = new Map<string, SecondaryWorkObject>();
+    for (const ci of cis.filter(c => c.pwoId === pwoId && c.swoId)) {
+      if (!seen.has(ci.swoId!)) {
+        seen.set(ci.swoId!, {
+          id: ci.swoId!,
+          name: ci.swoName ?? ci.swoId!,
+          pwoId,
+          operationalComplexity: { label: '', value: 0 },
+          assetCriticality: { label: '', value: 0 },
+          failureFrequency: { label: '', value: 0 }
+        });
+      }
+    }
+    return Array.from(seen.values());
   }
 
   protected onFGChange(fgId: string): void {
@@ -127,26 +176,14 @@ export class WrcfSkillsComponent implements OnInit {
     this.selectedSWOId.set('');
     this.selectedCapabilityId.set('');
     this.selectedProficiencyId.set('');
-    this.pwoList.set([]);
     this.swoList.set([]);
-    this.allCIs.set([]);
     this.resolvedCiId.set(null);
     this.clearSkillsDown();
     if (fgId) {
-      this.wrcfApi.listPWOs(fgId).subscribe({
-        next: pwos => {
-          this.pwoList.set(pwos);
-          this.restoreSelectionFromQuery();
-        },
-        error: () => this.pwoList.set([])
-      });
-      this.wrcfApi.listCIs(this.industryId || undefined, fgId).subscribe({
-        next: cis => {
-          this.allCIs.set(cis);
-          this.restoreSelectionFromQuery();
-        },
-        error: () => this.allCIs.set([])
-      });
+      this.pwoList.set(this.derivePWOsFromCIs(this.allCIs(), fgId));
+      this.restoreSelectionFromQuery();
+    } else {
+      this.pwoList.set([]);
     }
   }
 
@@ -155,17 +192,13 @@ export class WrcfSkillsComponent implements OnInit {
     this.selectedSWOId.set('');
     this.selectedCapabilityId.set('');
     this.selectedProficiencyId.set('');
-    this.swoList.set([]);
     this.resolvedCiId.set(null);
     this.clearSkillsDown();
     if (pwoId) {
-      this.wrcfApi.listSWOs(pwoId).subscribe({
-        next: swos => {
-          this.swoList.set(swos);
-          this.restoreSelectionFromQuery();
-        },
-        error: () => this.swoList.set([])
-      });
+      this.swoList.set(this.deriveSWOsFromCIs(this.allCIs(), pwoId));
+      this.restoreSelectionFromQuery();
+    } else {
+      this.swoList.set([]);
     }
   }
 

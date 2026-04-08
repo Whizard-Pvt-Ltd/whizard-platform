@@ -171,7 +171,7 @@ export const registerWrcfCoreApiRuntime = async (app: FastifyInstanceLike): Prom
     updateDepartment: new UpdateDepartmentCommandHandler(deptRepo),
     deleteDepartment: new DeleteDepartmentCommandHandler(deptRepo),
     listIndustryRoles: new ListIndustryRolesQueryHandler(roleRepo),
-    createIndustryRole: new CreateIndustryRoleCommandHandler(roleRepo),
+    createIndustryRole: new CreateIndustryRoleCommandHandler(roleRepo, deptRepo),
     updateIndustryRole: new UpdateIndustryRoleCommandHandler(roleRepo),
     deleteIndustryRole: new DeleteIndustryRoleCommandHandler(roleRepo),
     listRoleCIMappings: new ListRoleCIMappingsQueryHandler(roleCiRepo),

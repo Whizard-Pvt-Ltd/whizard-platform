@@ -27,11 +27,11 @@ export class PrismaTaskRepository implements ITaskRepository {
     }));
   }
 
-  async findAllDtos(tenantId: string, skillId: string): Promise<TaskDto[]> {
+  async findAllDtos(skillId: string, tenantId?: string): Promise<TaskDto[]> {
     const rows = await this.prisma.task.findMany({
       where: {
-        tenantId: BigInt(tenantId),
         skillId: BigInt(skillId),
+        ...(tenantId ? { tenantId: BigInt(tenantId) } : {}),
         isActive: true
       },
       orderBy: { name: 'asc' }

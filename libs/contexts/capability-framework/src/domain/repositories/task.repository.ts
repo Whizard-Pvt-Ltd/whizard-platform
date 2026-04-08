@@ -13,7 +13,7 @@ export interface TaskDto {
 
 export interface ITaskRepository {
   findBySkillId(tenantId: string, skillId: string): Promise<Task[]>;
-  findAllDtos(tenantId: string, skillId: string): Promise<TaskDto[]>;
+  findAllDtos(skillId: string, tenantId?: string): Promise<TaskDto[]>;
   findById(id: string): Promise<Task | null>;
   save(task: Task): Promise<void>;
   update(task: Task): Promise<void>;

@@ -1,12 +1,20 @@
+import type { IDepartmentRepository } from '../../domain/repositories/department.repository';
 import type { IIndustryRoleRepository } from '../../domain/repositories/industry-role.repository';
 import type { CreateIndustryRoleCommand, UpdateIndustryRoleCommand, DeleteIndustryRoleCommand } from '../commands/industry-role.commands';
 import { IndustryRole } from '../../domain/aggregates/industry-role.aggregate';
 import { DomainException } from '../domain-exception';
 
 export class CreateIndustryRoleCommandHandler {
-  constructor(private readonly repo: IIndustryRoleRepository) {}
+  constructor(
+    private readonly repo: IIndustryRoleRepository,
+    private readonly deptRepo: IDepartmentRepository
+  ) {}
 
   async execute(cmd: CreateIndustryRoleCommand): Promise<{ id: string; name: string }> {
+    const dept = await this.deptRepo.findById(cmd.departmentId);
+    if (!dept) {
+      throw new DomainException(`Department ${cmd.departmentId} not found`);
+    }
     const role = IndustryRole.create({
       tenantId: cmd.tenantId,
       departmentId: cmd.departmentId,

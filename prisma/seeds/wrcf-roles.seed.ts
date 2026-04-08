@@ -24,40 +24,45 @@ async function seedWrcfRoles(): Promise<void> {
   const tenantUuids = [TENANT_TCS_UUID, TENANT_TECHNOVA_UUID, TENANT_HDFC_UUID, TENANT_AMAZON_UUID];
   const tenantRecords = await prisma.tenant.findMany({
     where: { publicUuid: { in: tenantUuids } },
-    select: { id: true, publicUuid: true },
+    select: { id: true, publicUuid: true, industryId: true },
   });
   if (tenantRecords.length === 0) {
     throw new Error('Tenants not found — run company-organization.seed.ts first');
   }
-  const tenantMap = new Map(tenantRecords.map(r => [r.publicUuid, r.id]));
-  const tcsTenantId      = tenantMap.get(TENANT_TCS_UUID)!;
-  const technovaTenantId = tenantMap.get(TENANT_TECHNOVA_UUID)!;
-  const hdfcTenantId     = tenantMap.get(TENANT_HDFC_UUID)!;
-  const amazonTenantId   = tenantMap.get(TENANT_AMAZON_UUID)!;
+  const tenantMap = new Map(tenantRecords.map(r => [r.publicUuid, r]));
+  const tcsTenant      = tenantMap.get(TENANT_TCS_UUID)!;
+  const technovaTenant = tenantMap.get(TENANT_TECHNOVA_UUID)!;
+  const hdfcTenant     = tenantMap.get(TENANT_HDFC_UUID)!;
+  const amazonTenant   = tenantMap.get(TENANT_AMAZON_UUID)!;
+  const tcsTenantId      = tcsTenant.id;
+  const technovaTenantId = technovaTenant.id;
+  const hdfcTenantId     = hdfcTenant.id;
+  const amazonTenantId   = amazonTenant.id;
 
   // ── Departments ───────────────────────────────────────────────────────────
   const deptDefs = [
     // TCS
-    { uuid: DEPT_TCS_TECH_UUID,    tenantId: tcsTenantId,      name: 'Technology & Engineering' },
-    { uuid: DEPT_TCS_DESIGN_UUID,  tenantId: tcsTenantId,      name: 'Design & UX' },
-    { uuid: DEPT_TCS_DATA_UUID,    tenantId: tcsTenantId,      name: 'Data & Analytics' },
-    { uuid: DEPT_TCS_PRODUCT_UUID, tenantId: tcsTenantId,      name: 'Product Management' },
+    { uuid: DEPT_TCS_TECH_UUID,    tenantId: tcsTenantId,      industryId: tcsTenant.industryId,      name: 'Technology & Engineering' },
+    { uuid: DEPT_TCS_DESIGN_UUID,  tenantId: tcsTenantId,      industryId: tcsTenant.industryId,      name: 'Design & UX' },
+    { uuid: DEPT_TCS_DATA_UUID,    tenantId: tcsTenantId,      industryId: tcsTenant.industryId,      name: 'Data & Analytics' },
+    { uuid: DEPT_TCS_PRODUCT_UUID, tenantId: tcsTenantId,      industryId: tcsTenant.industryId,      name: 'Product Management' },
     // TechNova
-    { uuid: DEPT_NOVA_TECH_UUID,   tenantId: technovaTenantId, name: 'Technology & Engineering' },
-    { uuid: DEPT_NOVA_CYBER_UUID,  tenantId: technovaTenantId, name: 'Cybersecurity' },
+    { uuid: DEPT_NOVA_TECH_UUID,   tenantId: technovaTenantId, industryId: technovaTenant.industryId, name: 'Technology & Engineering' },
+    { uuid: DEPT_NOVA_CYBER_UUID,  tenantId: technovaTenantId, industryId: technovaTenant.industryId, name: 'Cybersecurity' },
     // HDFC
-    { uuid: DEPT_HDFC_TECH_UUID,   tenantId: hdfcTenantId,     name: 'Technology & Engineering' },
+    { uuid: DEPT_HDFC_TECH_UUID,   tenantId: hdfcTenantId,     industryId: hdfcTenant.industryId,     name: 'Technology & Engineering' },
     // Amazon
-    { uuid: DEPT_AMZN_TECH_UUID,   tenantId: amazonTenantId,   name: 'Technology & Engineering' },
+    { uuid: DEPT_AMZN_TECH_UUID,   tenantId: amazonTenantId,   industryId: amazonTenant.industryId,   name: 'Technology & Engineering' },
   ];
 
   for (const d of deptDefs) {
     await prisma.department.upsert({
       where: { publicUuid: d.uuid },
-      update: {},
+      update: { industryId: d.industryId },
       create: {
         publicUuid: d.uuid,
         tenantId: d.tenantId,
+        industryId: d.industryId,
         name: d.name,
         isActive: true,
         version: 1,

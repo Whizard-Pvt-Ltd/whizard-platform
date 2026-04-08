@@ -56,6 +56,8 @@ model Tenant {
   publicUuid  String      @unique @default(uuid()) @map("public_uuid")
   name        String
   type        String
+  industryId  BigInt?     @map("industry_id")
+  industry    Industry?   @relation(fields: [industryId], references: [id])
   isActive    Boolean     @default(true) @map("is_active")
   createdBy   BigInt?     @map("created_by")
   createdOn   DateTime    @default(now()) @map("created_on")
@@ -119,6 +121,7 @@ model Industry {
   departments      Department[]
   companies        Company[]
   roles            Role[]
+  tenants          Tenant[]
 
   @@unique([sectorId, name])
   @@map("industries")

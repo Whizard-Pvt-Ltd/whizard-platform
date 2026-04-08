@@ -29,7 +29,7 @@ export class WrcfRolesComponent implements OnInit {
 
   protected selectedSectorId = signal<string | null>(null);
   protected selectedIndustryId = signal<string | null>(null);
-  protected selectedDepartmentId = signal<string | null>(null);
+  protected selectedDepartmentId = signal('');
   protected selectedRoleId = signal<string | null>(null);
 
   protected allFGs = signal<FunctionalGroup[]>([]);
@@ -129,7 +129,7 @@ export class WrcfRolesComponent implements OnInit {
     this.selectedIndustryId.set(null);
     this.departments.set([]);
     this.roles.set([]);
-    this.selectedDepartmentId.set(null);
+    this.selectedDepartmentId.set('');
     this.selectedRoleId.set(null);
     this.resetColumns();
 
@@ -153,7 +153,7 @@ export class WrcfRolesComponent implements OnInit {
     this.selectedIndustryId.set(industryId);
     this.departments.set([]);
     this.roles.set([]);
-    this.selectedDepartmentId.set(null);
+    this.selectedDepartmentId.set('');
     this.selectedRoleId.set(null);
     this.resetColumns();
 
@@ -448,7 +448,7 @@ export class WrcfRolesComponent implements OnInit {
         next: () => {
           this.departments.update(d => d.filter(dep => dep.id !== id));
           if (this.selectedDepartmentId() === id) {
-            this.selectedDepartmentId.set(null);
+            this.selectedDepartmentId.set('');
             this.roles.set([]);
             this.selectedRoleId.set(null);
             this.resetColumns();

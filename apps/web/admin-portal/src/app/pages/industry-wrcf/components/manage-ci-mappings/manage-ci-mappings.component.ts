@@ -173,7 +173,17 @@ export class ManageCIMappingsComponent implements OnInit {
   }
 
   protected onSkillPlusClick(ci: CapabilityInstance): void {
-    this.router.navigate(['/wrcf-skills'], { queryParams: { capabilityInstanceId: ci.id } });
+    this.router.navigate(['/wrcf-skills'], {
+      queryParams: {
+        capabilityInstanceId: ci.id,
+        industryId: this.selectedIndustryId(),
+        fgId: ci.functionalGroupId,
+        pwoId: ci.pwoId,
+        swoId: ci.swoId,
+        capabilityId: ci.capabilityId,
+        proficiencyId: ci.proficiencyId
+      }
+    });
     this.closed.emit();
   }
 }

@@ -3,7 +3,7 @@ import type { IDepartmentRepository } from '../../domain/repositories/department
 export class ListDepartmentsQueryHandler {
   constructor(private readonly repo: IDepartmentRepository) {}
 
-  async execute(tenantId: string, industryId: string): Promise<{
+  async execute(tenantId: string, industryId?: string): Promise<{
     id: string;
     name: string;
     industryId?: string;
@@ -12,6 +12,6 @@ export class ListDepartmentsQueryHandler {
     revenueContributionWeight?: number;
     regulatoryExposureLevel?: number;
   }[]> {
-    return this.repo.findByIndustryId(tenantId, industryId);
+    return this.repo.findByTenantId(tenantId, industryId);
   }
 }

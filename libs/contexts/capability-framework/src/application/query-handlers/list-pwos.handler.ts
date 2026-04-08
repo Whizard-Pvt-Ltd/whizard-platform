@@ -7,9 +7,9 @@ const logger = getOrCreateAppLogger({ service: 'capability-framework' }).child({
 export class ListPWOsQueryHandler {
   constructor(private readonly pwoRepo: IPwoRepository) {}
 
-  async execute(fgId: string, tenantId: string, actorUserId?: string): Promise<PwoDto[]> {
-    logger.debug('Listing PWOs', { userId: actorUserId, tenantId, fgId });
-    const pwos = await this.pwoRepo.findByFG(fgId, tenantId);
+  async execute(fgId: string, actorUserId?: string): Promise<PwoDto[]> {
+    logger.debug('Listing PWOs', { userId: actorUserId, fgId });
+    const pwos = await this.pwoRepo.findByFG(fgId);
     const result = pwos.filter(p => p.isActive).map(pwo => ({
       id: pwo.id,
       tenantId: pwo.tenantId,
@@ -21,7 +21,7 @@ export class ListPWOsQueryHandler {
       downtimeSensitivity: pwo.downtimeSensitivity,
       isActive: pwo.isActive
     }));
-    logger.debug('Listed PWOs', { userId: actorUserId, tenantId, fgId, count: result.length });
+    logger.debug('Listed PWOs', { userId: actorUserId, fgId, count: result.length });
     return result;
   }
 }
