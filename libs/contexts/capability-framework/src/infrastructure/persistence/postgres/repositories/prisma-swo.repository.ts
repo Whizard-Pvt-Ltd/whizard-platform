@@ -33,12 +33,9 @@ export class PrismaSwoRepository implements ISwoRepository {
     });
   }
 
-  async findByPWO(pwoId: string, tenantId: string): Promise<SecondaryWorkObject[]> {
+  async findByPWO(pwoId: string): Promise<SecondaryWorkObject[]> {
     const rows = await this.prisma.secondaryWorkObject.findMany({
-      where: {
-        pwoId: BigInt(pwoId),
-        tenantId: BigInt(tenantId)
-      }
+      where: { pwoId: BigInt(pwoId) }
     });
     return rows.map(row =>
       SecondaryWorkObject.reconstitute({

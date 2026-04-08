@@ -5,7 +5,7 @@ import { IndustryRole } from '../../../../domain/aggregates/industry-role.aggreg
 export class PrismaIndustryRoleRepository implements IIndustryRoleRepository {
   private readonly prisma = getPrisma();
 
-  async findByDepartmentId(tenantId: string, departmentId: string): Promise<{
+  async findByDepartmentId(departmentId: string, tenantId?: string): Promise<{
     id: string;
     name: string;
     departmentId: string;
@@ -15,8 +15,8 @@ export class PrismaIndustryRoleRepository implements IIndustryRoleRepository {
   }[]> {
     const rows = await this.prisma.role.findMany({
       where: {
-        tenantId: BigInt(tenantId),
-        ...(departmentId ? { departmentId: BigInt(departmentId) } : {}),
+        departmentId: BigInt(departmentId),
+        ...(tenantId ? { tenantId: BigInt(tenantId) } : {}),
         isActive: true,
       },
       orderBy: { name: 'asc' }

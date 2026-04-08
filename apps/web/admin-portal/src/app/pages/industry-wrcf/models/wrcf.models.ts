@@ -61,6 +61,7 @@ export interface DeleteResult {
 export interface CapabilityInstance {
   id: string;
   functionalGroupId: string;
+  fgName?: string;
   pwoId?: string;
   pwoName?: string;
   swoId?: string;

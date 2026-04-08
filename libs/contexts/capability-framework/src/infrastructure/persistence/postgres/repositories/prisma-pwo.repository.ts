@@ -34,12 +34,9 @@ export class PrismaPwoRepository implements IPwoRepository {
     });
   }
 
-  async findByFG(fgId: string, tenantId: string): Promise<PrimaryWorkObject[]> {
+  async findByFG(fgId: string): Promise<PrimaryWorkObject[]> {
     const rows = await this.prisma.primaryWorkObject.findMany({
-      where: {
-        functionalGroupId: BigInt(fgId),
-        tenantId: BigInt(tenantId)
-      }
+      where: { functionalGroupId: BigInt(fgId) }
     });
     return rows.map(row =>
       PrimaryWorkObject.reconstitute({

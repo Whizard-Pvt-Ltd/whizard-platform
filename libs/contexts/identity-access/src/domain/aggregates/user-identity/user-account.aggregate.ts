@@ -305,6 +305,10 @@ export class UserAccount {
     return this.state.tenant;
   }
 
+  get tenantMemberships(): readonly TenantMembership[] {
+    return this.state.tenantMemberships;
+  }
+
   get status(): AccountStatus {
     return this.state.status;
   }

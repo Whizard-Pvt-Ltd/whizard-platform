@@ -147,7 +147,7 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
       const { fgId } = (request.params as { fgId: string });
       logger.debug('Listing PWOs', { ...getLogContext(request), fgId });
       const ctx = getRequestContext(request);
-      const data = await deps.listPWOs.execute(fgId, ctx.tenantId, ctx.actorUserAccountId);
+      const data = await deps.listPWOs.execute(fgId, ctx.actorUserAccountId);
       logger.debug('Listed PWOs', { ...getLogContext(request), fgId, count: data.length });
       reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
     }
@@ -240,7 +240,7 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
       const { pwoId } = (request.params as { pwoId: string });
       logger.debug('Listing SWOs', { ...getLogContext(request), pwoId });
       const ctx = getRequestContext(request);
-      const data = await deps.listSWOs.execute(pwoId, ctx.tenantId, ctx.actorUserAccountId);
+      const data = await deps.listSWOs.execute(pwoId, ctx.actorUserAccountId);
       logger.debug('Listed SWOs', { ...getLogContext(request), pwoId, count: data.length });
       reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
     }
@@ -357,7 +357,7 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
       const industryId = query['industryId'];
       const fgId = query['fgId'];
       logger.debug('Listing capability instances', { ...getLogContext(request), industryId, fgId });
-      const data = await deps.listCIs.execute(ctx.tenantId, industryId, fgId);
+      const data = await deps.listCIs.execute(industryId, fgId);
       logger.debug('Listed capability instances', { ...getLogContext(request), count: data.length });
       reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
     }
@@ -694,7 +694,7 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
     handler: async (request, reply) => {
       const ctx = getRequestContext(request);
       const query = request.query as Record<string, string>;
-      const industryId = query['industryId'] ?? '';
+      const industryId = query['industryId'] || undefined;
       logger.debug('Listing departments', { ...getLogContext(request), industryId });
       const data = await deps.listDepartments.execute(ctx.tenantId, industryId);
       logger.debug('Listed departments', { ...getLogContext(request), industryId, count: data.length });
@@ -787,8 +787,9 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
       const ctx = getRequestContext(request);
       const query = request.query as Record<string, string>;
       const departmentId = query['departmentId'] ?? '';
-      logger.debug('Listing roles', { ...getLogContext(request), departmentId });
-      const data = await deps.listIndustryRoles.execute(ctx.tenantId, departmentId);
+      const tenantId = ctx.tenantType !== 'SYSTEM' ? ctx.tenantId : undefined;
+      logger.debug('Listing roles', { ...getLogContext(request), departmentId, tenantId });
+      const data = await deps.listIndustryRoles.execute(departmentId, tenantId);
       logger.debug('Listed roles', { ...getLogContext(request), departmentId, count: data.length });
       reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
     }
@@ -807,7 +808,11 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
           tenantId: ctx.tenantId,
           departmentId: String(body['departmentId']),
           name: String(body['name']),
-          description: body['description'] ? String(body['description']) : undefined
+          description: body['description'] ? String(body['description']) : undefined,
+          seniorityLevel: body['seniorityLevel'] ? String(body['seniorityLevel']) : undefined,
+          reportingTo: body['reportingTo'] ? String(body['reportingTo']) : undefined,
+          roleCriticalityScore: body['roleCriticalityScore'] ? Number(body['roleCriticalityScore']) : undefined,
+          createdBy: ctx.actorUserAccountId
         });
         logger.info('Role created', { ...getLogContext(request), roleId: data.id, name: data.name });
         reply.status(201).send({ success: true, data, meta: toApiMeta(request) });

@@ -69,8 +69,8 @@ async function seedCompanyOrganization(): Promise<void> {
 
   // ── Industries (lookup from existing WRCF seed) ───────────────────────────
   const industries = await prisma.industry.findMany({ select: { id: true, publicUuid: true, name: true } });
-  const itIndustry = industries.find(i => i.name.toLowerCase().includes('it') || i.name.toLowerCase().includes('service'));
-  const industryBigIntId = itIndustry?.id ?? null;
+  const defaultIndustry = industries[0] ?? null;
+  const industryBigIntId = defaultIndustry?.id ?? null;
 
   // ── Cities (from college-operations seed) ────────────────────────────────
   const cityRecords = await prisma.city.findMany({ where: { isActive: true }, select: { id: true, name: true } });
@@ -81,18 +81,18 @@ async function seedCompanyOrganization(): Promise<void> {
 
   // ── Tenants ───────────────────────────────────────────────────────────────
   const tenantDefs = [
-    { uuid: TENANT_TCS_UUID,      name: 'Tata Consultancy Services',   type: 'COMPANY' },
-    { uuid: TENANT_TECHNOVA_UUID, name: 'TechNova Solutions Pvt. Ltd', type: 'COMPANY' },
-    { uuid: TENANT_HDFC_UUID,     name: 'HDFC Bank',                   type: 'COMPANY' },
-    { uuid: TENANT_AIRTEL_UUID,   name: 'Bharti Airtel',               type: 'COMPANY' },
-    { uuid: TENANT_AMAZON_UUID,   name: 'Amazon',                      type: 'COMPANY' },
+    { uuid: TENANT_TCS_UUID,      name: 'Tata Consultancy Services',   type: 'COMPANY', industryId: industryBigIntId },
+    { uuid: TENANT_TECHNOVA_UUID, name: 'TechNova Solutions Pvt. Ltd', type: 'COMPANY', industryId: industryBigIntId },
+    { uuid: TENANT_HDFC_UUID,     name: 'HDFC Bank',                   type: 'COMPANY', industryId: industryBigIntId },
+    { uuid: TENANT_AIRTEL_UUID,   name: 'Bharti Airtel',               type: 'COMPANY', industryId: industryBigIntId },
+    { uuid: TENANT_AMAZON_UUID,   name: 'Amazon',                      type: 'COMPANY', industryId: industryBigIntId },
   ];
 
   for (const t of tenantDefs) {
     await prisma.tenant.upsert({
       where: { publicUuid: t.uuid },
-      update: {},
-      create: { publicUuid: t.uuid, name: t.name, type: t.type, isActive: true },
+      update: { industryId: t.industryId },
+      create: { publicUuid: t.uuid, name: t.name, type: t.type, industryId: t.industryId, isActive: true },
     });
   }
   console.log('Company tenants seeded.');

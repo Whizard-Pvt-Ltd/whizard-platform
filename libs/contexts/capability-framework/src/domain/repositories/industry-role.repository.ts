@@ -1,7 +1,7 @@
 import type { IndustryRole } from '../aggregates/industry-role.aggregate';
 
 export interface IIndustryRoleRepository {
-  findByDepartmentId(tenantId: string, departmentId: string): Promise<{
+  findByDepartmentId(departmentId: string, tenantId?: string): Promise<{
     id: string;
     name: string;
     departmentId: string;

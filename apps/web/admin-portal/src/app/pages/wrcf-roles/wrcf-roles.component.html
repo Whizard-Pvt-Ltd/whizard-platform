@@ -23,7 +23,7 @@
     <div class="filter-group">
       <label class="filter-label">Department</label>
       <select class="filter-select" [ngModel]="selectedDepartmentId()" (ngModelChange)="onDepartmentChange($event)" [disabled]="!selectedIndustryId()">
-        <option [value]="null">Select Department...</option>
+        <option value="">Select Department...</option>
         @for (dept of departments(); track dept.id) {
           <option [value]="dept.id">{{ dept.name }}</option>
         }

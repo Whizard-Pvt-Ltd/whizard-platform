@@ -3,7 +3,7 @@ import type { IDepartmentRepository } from '../../domain/repositories/department
 import { ListDepartmentsQueryHandler } from '../../application/query-handlers/list-departments.handler';
 
 const makeRepo = (): IDepartmentRepository => ({
-  findByIndustryId: vi.fn(),
+  findByTenantId: vi.fn(),
   findById: vi.fn(),
   save: vi.fn(),
   update: vi.fn(),
@@ -27,15 +27,15 @@ describe('ListDepartmentsQueryHandler', () => {
     handler = new ListDepartmentsQueryHandler(repo);
   });
 
-  it('delegates to findByIndustryId with correct tenantId and industryId', async () => {
-    vi.mocked(repo.findByIndustryId).mockResolvedValue([]);
+  it('delegates to findByTenantId with correct tenantId and industryId', async () => {
+    vi.mocked(repo.findByTenantId).mockResolvedValue([]);
     await handler.execute('tenant-1', 'industry-1');
-    expect(repo.findByIndustryId).toHaveBeenCalledWith('tenant-1', 'industry-1');
+    expect(repo.findByTenantId).toHaveBeenCalledWith('tenant-1', 'industry-1');
   });
 
   it('returns the list of department dtos from the repository', async () => {
     const dtos = [deptDto(), deptDto({ id: 'dept-2', name: 'Operations' })];
-    vi.mocked(repo.findByIndustryId).mockResolvedValue(dtos);
+    vi.mocked(repo.findByTenantId).mockResolvedValue(dtos);
 
     const result = await handler.execute('tenant-1', 'industry-1');
 
@@ -45,19 +45,19 @@ describe('ListDepartmentsQueryHandler', () => {
   });
 
   it('returns an empty array when no departments exist for the industry', async () => {
-    vi.mocked(repo.findByIndustryId).mockResolvedValue([]);
+    vi.mocked(repo.findByTenantId).mockResolvedValue([]);
     const result = await handler.execute('tenant-1', 'industry-empty');
     expect(result).toEqual([]);
   });
 
   it('includes functionalGroupIds in the returned dtos', async () => {
-    vi.mocked(repo.findByIndustryId).mockResolvedValue([deptDto({ functionalGroupIds: ['fg-A', 'fg-B'] })]);
+    vi.mocked(repo.findByTenantId).mockResolvedValue([deptDto({ functionalGroupIds: ['fg-A', 'fg-B'] })]);
     const result = await handler.execute('tenant-1', 'industry-1');
     expect(result[0].functionalGroupIds).toEqual(['fg-A', 'fg-B']);
   });
 
   it('propagates repository errors', async () => {
-    vi.mocked(repo.findByIndustryId).mockRejectedValue(new Error('DB error'));
+    vi.mocked(repo.findByTenantId).mockRejectedValue(new Error('DB error'));
     await expect(handler.execute('tenant-1', 'industry-1')).rejects.toThrow('DB error');
   });
 });

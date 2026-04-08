@@ -9,7 +9,7 @@ export class ListFGsQueryHandler {
 
   async execute(industryId: string, tenantId: string, actorUserId?: string): Promise<FunctionalGroupDto[]> {
     logger.debug('Listing functional groups', { userId: actorUserId, tenantId, industryId });
-    const fgs = await this.fgRepo.findByIndustry(industryId, tenantId);
+    const fgs = await this.fgRepo.findByIndustry(industryId);
     const result = fgs.filter(fg => fg.isActive).map(fg => ({
       id: fg.id,
       tenantId: fg.tenantId,

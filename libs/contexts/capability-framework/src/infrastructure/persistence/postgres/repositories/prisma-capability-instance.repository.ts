@@ -45,10 +45,9 @@ export class PrismaCapabilityInstanceRepository implements ICapabilityInstanceRe
     });
   }
 
-  async findByContextWithDetails(tenantId: string, industryId?: string, fgId?: string): Promise<CapabilityInstanceDto[]> {
+  async findByContextWithDetails(industryId?: string, fgId?: string): Promise<CapabilityInstanceDto[]> {
     const rows = await this.prisma.capabilityInstance.findMany({
       where: {
-        tenantId: BigInt(tenantId),
         ...(industryId ? { functionalGroup: { industryId: BigInt(industryId) } } : {}),
         ...(fgId ? { functionalGroupId: BigInt(fgId) } : {})
       },
@@ -57,12 +56,13 @@ export class PrismaCapabilityInstanceRepository implements ICapabilityInstanceRe
         swo: { select: { name: true, id: true } },
         capability: { select: { code: true, name: true, id: true } },
         proficiency: { select: { level: true, label: true, id: true } },
-        functionalGroup: { select: { id: true } }
+        functionalGroup: { select: { id: true, name: true } }
       }
     });
     return rows.map(row => ({
       id: row.id.toString(),
       functionalGroupId: row.functionalGroup.id.toString(),
+      fgName: row.functionalGroup.name,
       pwoId: row.pwo?.id.toString() ?? undefined,
       pwoName: row.pwo?.name ?? undefined,
       swoId: row.swo?.id.toString() ?? undefined,

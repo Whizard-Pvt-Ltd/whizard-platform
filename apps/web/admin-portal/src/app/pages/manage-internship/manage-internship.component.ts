@@ -1,9 +1,24 @@
-import { Component, inject, signal, OnInit, OnDestroy, computed, effect, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  inject,
+  signal,
+  OnInit,
+  OnDestroy,
+  computed,
+  effect,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { PageActionsService, ScrollbarDirective } from '@whizard/shared-ui';
+import { PageActionsService } from '@whizard/shared-ui';
 import type {
-  InternshipDetail, InternshipFormValue, PageMode, City, IndustryRole, CompanyListItem,
-  CoordinatorUser, FunctionalGroup,
+  InternshipDetail,
+  InternshipFormValue,
+  PageMode,
+  City,
+  IndustryRole,
+  CompanyListItem,
+  CoordinatorUser,
+  FunctionalGroup,
 } from './models/manage-internship.models';
 import { AuthContextService } from '../../core/services/auth-context.service';
 import { AssessmentLibraryPanelComponent } from './components/assessment-library-panel/assessment-library-panel.component';
@@ -104,7 +119,6 @@ function detailToForm(detail: InternshipDetail): InternshipFormValue {
     AssessmentLibraryPanelComponent,
     InternshipFormComponent,
     MatSidenavModule,
-    ScrollbarDirective,
   ],
   styles: `
     :host ::ng-deep .mat-drawer-container {
@@ -138,8 +152,10 @@ export class ManageInternshipComponent implements OnInit, OnDestroy {
   protected coordinators = signal<CoordinatorUser[]>([]);
   protected functionalGroups = signal<FunctionalGroup[]>([]);
 
-  protected readonly isAdminOrSystemUser = computed(() =>
-    this.authCtx.tenantType() === 'ADMIN' || this.authCtx.tenantType() === 'SYSTEM'
+  protected readonly isAdminOrSystemUser = computed(
+    () =>
+      this.authCtx.tenantType() === 'ADMIN' ||
+      this.authCtx.tenantType() === 'SYSTEM',
   );
 
   protected readonly selectedId = computed(
@@ -198,8 +214,12 @@ export class ManageInternshipComponent implements OnInit, OnDestroy {
 
   private init(): void {
     this.loadList();
+    this.api.listCities().subscribe((c) => this.cities.set(c));
+    this.api.listIndustryRoles().subscribe((r) => this.industryRoles.set(r));
     if (this.isAdminOrSystemUser()) {
-      this.api.listCompaniesForSelector().subscribe(c => this.companies.set(c));
+      this.api
+        .listCompaniesForSelector()
+        .subscribe((c) => this.companies.set(c));
     }
   }
 
@@ -236,7 +256,7 @@ export class ManageInternshipComponent implements OnInit, OnDestroy {
   }
 
   protected onInternshipSelected(id: string): void {
-    const detail = this.internships().find(i => i.id === id);
+    const detail = this.internships().find((i) => i.id === id);
     if (detail) this.selectInternship(detail);
   }
 
