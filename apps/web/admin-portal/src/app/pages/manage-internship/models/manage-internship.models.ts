@@ -11,13 +11,20 @@ export interface EligibilityCheck {
 }
 
 export interface AssessmentItem {
+  assessmentId: string;
+  title: string;
   pdfUrl: string;
   minScore: number;
   weightage: number;
 }
 
+export interface InterviewRubricItem {
+  assessmentId: string;
+  title: string;
+}
+
 export interface InterviewRubric {
-  pdfUrl: string;
+  items: InterviewRubricItem[];
   minScore: number;
   weightage: number;
 }
@@ -55,8 +62,22 @@ export interface InternshipListItem {
   applicantsCount?: number | null;
 }
 
+export interface CompanyListItem {
+  id: string;
+  tenantId: string;
+  name: string;
+  companyCode: string;
+}
+
+export interface CoordinatorUser {
+  id: string;
+  name: string;
+  email: string;
+}
+
 export interface InternshipDetail extends InternshipListItem {
   tenantId: string;
+  companyTenantId: string | null;
   cityId: string | null;
   internshipDetail: string | null;
   roleOverview: string | null;

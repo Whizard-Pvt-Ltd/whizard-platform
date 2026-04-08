@@ -25,11 +25,12 @@ export class GetCurrentUserProfileHandler {
       success: true,
       message: 'GetCurrentUserProfile fetched.',
       data: {
-        userAccountId: profile?.id ?? actorUserAccountId,
+        userAccountId: profile?.public_uuid ?? actorUserAccountId,
         email: profile?.primary_email ?? '',
-        status: profile?.status ?? 'ACTIVE',
+        status: profile?.is_active === false ? 'SUSPENDED' : 'ACTIVE',
         tenantType: profile?.tenant_type ?? tenantType,
-        tenantId: profile?.tenant_id ?? tenantId
+        tenantId: profile?.tenant_id ?? tenantId,
+        mfaRequired: profile?.mfa_required ?? false
       }
     };
   }

@@ -1,150 +1,128 @@
-<div class="flex flex-col h-full p-6 gap-5" [formGroup]="form">
+<div class="flex flex-col h-full px-3.5 pt-3 gap-5" [formGroup]="form">
 
-  <!-- ── Row 1: Banner upload (left) + Internship Title (right) ──────────── -->
-  <div class="flex items-end gap-5">
+  <!-- ── Form fields section ─────────────────────────────────────────────── -->
+  <div class="flex flex-col gap-5">
 
-    <!-- Banner upload widget -->
-    <div class="flex flex-col gap-1.5 shrink-0">
-      <span class="text-sm font-medium text-wrcf-text-secondary">Internship Banner</span>
-      <div
-        class="relative flex w-[90px] h-[90px] cursor-pointer items-center justify-center overflow-hidden rounded-lg border-2 border-dashed border-wrcf-border bg-wrcf-bg-secondary hover:border-wrcf-accent transition-colors"
-        (click)="bannerFileInput.click()"
-      >
-        <input
-          #bannerFileInput
-          type="file"
-          class="hidden"
-          accept="image/jpeg,image/png"
-          (change)="onBannerSelected($event)"
-        />
+    <!-- Row 1: Banner upload (left) + Internship Title (right) -->
+    <div class="gap-8 grid grid-cols-2 items-end">
 
-        @if (localBannerUrl()) {
+      <!-- Banner upload widget -->
+      <div class="flex flex-col gap-1.5 shrink-0 w-32">
+        <span class="text-[15px] font-medium text-whizard-text-primary leading-6">Internship Banner</span>
+        <div
+          class="relative flex size-22 cursor-pointer items-center justify-center overflow-hidden rounded-lg border-2 border-dashed border-whizard-border bg-whizard-bg-secondary hover:border-whizard-accent transition-colors"
+          (click)="bannerFileInput.click()">
+          <input #bannerFileInput type="file" class="hidden" accept="image/jpeg,image/png"
+            (change)="onBannerSelected($event)" />
+
+          @if (localBannerUrl()) {
           <img class="h-full w-full object-cover" [src]="localBannerUrl()" alt="Banner preview" />
-          <button
-            type="button"
+          <button type="button"
             class="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-black/60 text-red-400 hover:bg-black/80 transition-colors"
-            (click)="removeBanner($event)"
-          >
+            (click)="removeBanner($event)">
             <mat-icon class="h-3! w-3! text-xs!" svgIcon="heroicons_outline:trash" />
           </button>
-        } @else {
+          } @else {
           <div class="flex flex-col items-center gap-1 pointer-events-none select-none px-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="text-wrcf-text-secondary"
-            >
-              <polyline points="16 16 12 12 8 16"></polyline>
-              <line x1="12" y1="12" x2="12" y2="21"></line>
-              <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path>
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+              class="text-whizard-accent">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
             </svg>
-            <span class="text-[10px] text-wrcf-text-secondary text-center leading-tight">
-              Click to upload
-            </span>
           </div>
-        }
+          }
+        </div>
       </div>
+
+      <!-- Internship Title -->
+      <mat-form-field appearance="outline" class="whizard-outline flex-1">
+        <mat-label>Internship Title</mat-label>
+        <mat-select formControlName="title">
+          @for (role of industryRoles(); track role.id) {
+          <mat-option [value]="role.name">{{ role.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
     </div>
 
-    <!-- Internship Title -->
-    <mat-form-field appearance="outline" class="wrcf-outline flex-1">
-      <mat-label>Internship Title</mat-label>
-      <mat-select formControlName="title">
-        @for (role of industryRoles(); track role.id) {
-          <mat-option [value]="role.name">{{ role.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-  </div>
+    <!-- Row 2: Vacancies + Location -->
+    <div class="grid grid-cols-2 items-start gap-8">
+      <mat-form-field appearance="outline" class="whizard-outline w-full">
+        <mat-label>No. of Vacancies</mat-label>
+        <input matInput type="number" min="1" formControlName="vacancies" />
+      </mat-form-field>
 
-  <!-- ── Row 2: Vacancies + Location ─────────────────────────────────────── -->
-  <div class="grid grid-cols-2 items-start gap-4">
-    <mat-form-field appearance="outline" class="wrcf-outline w-full">
-      <mat-label>No. of Vacancies *</mat-label>
-      <input matInput type="number" min="1" formControlName="vacancies" />
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="wrcf-outline w-full">
-      <mat-label>Location *</mat-label>
-      <mat-select formControlName="cityId">
-        <mat-option [value]="null">— None —</mat-option>
-        @for (city of cities(); track city.id) {
+      <mat-form-field appearance="outline" class="whizard-outline w-full">
+        <mat-label>Location</mat-label>
+        <mat-select formControlName="cityId">
+          <mat-option [value]="null">— None —</mat-option>
+          @for (city of cities(); track city.id) {
           <mat-option [value]="city.id">{{ city.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-  </div>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-  <!-- ── Row 3: Stipend + Duration ───────────────────────────────────────── -->
-  <div class="grid grid-cols-2 items-start gap-4">
-    <mat-form-field appearance="outline" class="wrcf-outline w-full">
-      <mat-label>Stipend (in Rupees)</mat-label>
-      <input matInput type="number" min="0" placeholder="45,000" formControlName="stipend" />
-    </mat-form-field>
+    <!-- Row 3: Stipend + Duration -->
+    <div class="grid grid-cols-2 items-start gap-8">
+      <mat-form-field appearance="outline" class="whizard-outline w-full">
+        <mat-label>Stipend (in Rupees)</mat-label>
+        <input matInput type="number" min="0" placeholder="45,000" formControlName="stipend" />
+      </mat-form-field>
 
-    <mat-form-field appearance="outline" class="wrcf-outline w-full">
-      <mat-label>Duration (in Months)</mat-label>
-      <input matInput type="number" min="1" max="24" formControlName="durationMonths" />
-    </mat-form-field>
-  </div>
+      <mat-form-field appearance="outline" class="whizard-outline w-full">
+        <mat-label>Duration (in Months)</mat-label>
+        <input matInput type="number" min="1" max="24" formControlName="durationMonths" />
+      </mat-form-field>
+    </div>
 
-  <!-- ── Row 4: Application Deadline + Internship Type ──────────────────── -->
-  <div class="grid grid-cols-2 items-center gap-4">
+    <!-- Row 4: Application Deadline + Internship Type -->
+    <div class="flex items-baseline gap-8">
 
-    <!-- Application Deadline -->
-    <mat-form-field appearance="outline" class="wrcf-outline w-full">
-      <mat-label>Application Deadline</mat-label>
-      <input
-        matInput
-        [matDatepicker]="deadlinePicker"
-        [min]="tomorrowDate"
-        formControlName="applicationDeadline"
-        readonly
-      />
-      <mat-datepicker-toggle matIconSuffix [for]="deadlinePicker" />
-      <mat-datepicker #deadlinePicker />
-    </mat-form-field>
+      <!-- Application Deadline -->
+      <mat-form-field appearance="outline" class="whizard-outline w-full">
+        <mat-label>Application Deadline</mat-label>
+        <input matInput [matDatepicker]="deadlinePicker" [min]="tomorrowDate" formControlName="applicationDeadline"
+          readonly />
+        <mat-datepicker-toggle matIconSuffix [for]="deadlinePicker" />
+        <mat-datepicker #deadlinePicker />
+      </mat-form-field>
 
-    <!-- Internship Type toggle -->
-    <div class="flex items-center gap-3 px-1">
-      <span class="text-sm font-medium text-wrcf-text-secondary shrink-0">Internship Type</span>
-      <span
-        class="text-sm font-medium transition-colors shrink-0"
-        [class.text-wrcf-text-primary]="!form.value.internshipType"
-        [class.text-wrcf-text-secondary]="form.value.internshipType"
-      >On-Site</span>
-      <mat-slide-toggle color="primary" formControlName="internshipType" />
-      <span
-        class="text-sm font-medium transition-colors shrink-0"
-        [class.text-wrcf-text-primary]="form.value.internshipType"
-        [class.text-wrcf-text-secondary]="!form.value.internshipType"
-      >Remote</span>
+      <!-- Internship Type toggle -->
+      <div class="flex items-center gap-6.5 w-full">
+        <span class="text-lg font-semibold text-whizard-text-primary font-whizard-display shrink-0">Internship
+          Type</span>
+        <div class="flex items-center justify-between w-46.5">
+          <span class="text-base font-medium font-whizard-display transition-colors shrink-0"
+            [class.text-whizard-text-primary]="!form.value.internshipType"
+            [class.text-whizard-text-secondary]="form.value.internshipType">On-Site</span>
+          <mat-slide-toggle color="primary" formControlName="internshipType" />
+          <span class="text-base font-medium font-whizard-display transition-colors shrink-0"
+            [class.text-whizard-text-primary]="form.value.internshipType"
+            [class.text-whizard-text-secondary]="!form.value.internshipType">Remote</span>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- ── About the Internship ────────────────────────────────────────────── -->
-  <div class="flex flex-col gap-6 mt-1">
+  <div class="flex flex-col gap-5">
 
-    <h3 class="text-[22px] font-medium text-wrcf-text-primary leading-[1.4]">
+    <h3 class="text-[22px] font-medium text-whizard-text-primary font-whizard-display leading-6">
       About the Internship
     </h3>
 
     @for (field of richTextFields; track field.key) {
-      <div class="flex flex-col gap-2">
-        <span class="text-xl font-medium text-wrcf-text-tertiary leading-[25px]">
-          {{ field.label }}{{ field.required ? ' *' : '' }}
-        </span>
-        <div class="rounded-lg bg-wrcf-bg-secondary overflow-hidden">
-          <whizard-quill-editor [formControlName]="field.key" />
-        </div>
+    <div class="flex flex-col gap-2.5">
+      <span class="text-xl font-medium text-whizard-text-tertiary font-whizard-display leading-6">
+        {{ field.label }}{{ field.required ? ' *' : '' }}
+      </span>
+      <div class="rounded-lg bg-whizard-bg-secondary overflow-hidden">
+        <whizard-quill-editor [formControlName]="field.key" />
       </div>
+    </div>
     }
   </div>
 

@@ -24,6 +24,7 @@ export interface InternshipListItemDto {
 export interface InternshipDetailDto {
   id: string;
   tenantId: string;
+  companyTenantId: string | null;
   title: string;
   bannerImageUrl: string | null;
   vacancies: number;
@@ -71,6 +72,7 @@ export interface InternshipDetailDto {
 export interface CreateInternshipDto {
   actorUserId: string;
   tenantId: string;
+  companyTenantId?: string | null;
   title: string;
   bannerImageUrl?: string | null;
   vacancies: number;

@@ -8,6 +8,7 @@ import {
 } from '@whizard/identity-access';
 import type { FastifyInstanceLike } from './modules/iam/shared/request-context';
 import { registerIamCoreApiRuntime, type IamCoreApiRuntimeDependencies } from './modules/iam/runtime';
+import { GetCurrentUserProfileUseCase } from './use-cases/get-current-user-profile.use-case';
 import { StackAuthLoginUseCase } from './use-cases/stack-auth-login.use-case';
 
 const createNotImplementedUseCase = () => ({
@@ -52,7 +53,7 @@ export const createIamCoreApiRuntimeDependencies = (): IamCoreApiRuntimeDependen
     },
     // User access endpoints (profile, grants, memberships, sessions)
     userAccess: {
-      getCurrentUserProfile: createNotImplementedUseCase(),
+      getCurrentUserProfile: new GetCurrentUserProfileUseCase(),
       getMyAccessGrants: createNotImplementedUseCase(),
       getTenantMemberships: createNotImplementedUseCase(),
       getMySessions: createNotImplementedUseCase(),

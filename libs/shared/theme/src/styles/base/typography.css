@@ -1,39 +1,67 @@
 /* -------------------------------------------------------------------------- */
-/* Geist                                                                      */
+/* Red Hat Display                                                             */
 /* -------------------------------------------------------------------------- */
 @font-face {
-  font-family: Geist;
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url('/fonts/geist/Geist.woff2') format('woff2');
+    font-family: 'Red Hat Display';
+    src: url('/fonts/red-hat/RedHatDisplay-Bold.woff2') format('woff2'),
+        url('/fonts/red-hat/RedHatDisplay-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
-  font-family: Geist;
-  font-style: italic;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url('/fonts/geist/Geist-Italic.woff2') format('woff2');
-}
-
-/* -------------------------------------------------------------------------- */
-/* Geist Mono                                                                 */
-/* -------------------------------------------------------------------------- */
-@font-face {
-  font-family: 'Geist Mono';
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url('/fonts/geist/GeistMono.woff2') format('woff2');
+    font-family: 'Red Hat Display';
+    src: url('/fonts/red-hat/RedHatDisplay-Black.woff2') format('woff2'),
+        url('/fonts/red-hat/RedHatDisplay-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
-  font-family: 'Geist Mono';
-  font-style: italic;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url('/fonts/geist/GeistMono-Italic.woff2') format('woff2');
+    font-family: 'Red Hat Display';
+    src: url('/fonts/red-hat/RedHatDisplay-ExtraBold.woff2') format('woff2'),
+        url('/fonts/red-hat/RedHatDisplay-ExtraBold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Red Hat Display';
+    src: url('/fonts/red-hat/RedHatDisplay-Light.woff2') format('woff2'),
+        url('/fonts/red-hat/RedHatDisplay-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Red Hat Display';
+    src: url('/fonts/red-hat/RedHatDisplay-Medium.woff2') format('woff2'),
+        url('/fonts/red-hat/RedHatDisplay-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Red Hat Display';
+    src: url('/fonts/red-hat/RedHatDisplay-Regular.woff2') format('woff2'),
+        url('/fonts/red-hat/RedHatDisplay-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Red Hat Display';
+    src: url('/fonts/red-hat/RedHatDisplay-SemiBold.woff2') format('woff2'),
+        url('/fonts/red-hat/RedHatDisplay-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
 }
 
 /* -------------------------------------------------------------------------- */

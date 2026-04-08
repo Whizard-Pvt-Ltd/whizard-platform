@@ -26,4 +26,8 @@ export * from './infrastructure/messaging/kafka';
 export * from './infrastructure/persistence/postgres/repositories/prisma-access-principal.repository';
 export * from './infrastructure/persistence/postgres/repositories/prisma-user-account.repository';
 export * from './infrastructure/persistence/postgres/repositories/prisma-user-session.repository';
+export * from './infrastructure/persistence/postgres/repositories/prisma-iam-read-model.repository';
 export * from './infrastructure/persistence/postgres/transactions/prisma-unit-of-work';
+export * from './infrastructure/security/static-authorization.gateway';
+export * from './application/query-handlers/get-current-user-profile.handler';
+export type { GetCurrentUserProfileQuery } from './application/queries/get-current-user-profile.query';

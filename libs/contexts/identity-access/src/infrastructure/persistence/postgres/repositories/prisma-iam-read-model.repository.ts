@@ -6,7 +6,13 @@ export class PrismaIamReadModelRepository implements IamReadModelRepository {
 
   async getCurrentUserProfile(userAccountId: string): Promise<Record<string, unknown> | null> {
     const rows = await this.prisma.$queryRawUnsafe<Record<string, unknown>[]>(
-      `select id, primary_email, status, tenant_type, tenant_id from iam_user_accounts where id = $1 limit 1`,
+      `select ua.id, ua.public_uuid, ua.primary_email, ua.is_active, ua.mfa_required,
+              uat.tenant_type, uat.tenant_id
+       from user_accounts ua
+       left join user_account_tenants uat on uat.user_account_id = ua.id and uat.is_active = true
+       where ua.stack_auth_id = $1
+       order by uat.created_at asc
+       limit 1`,
       userAccountId
     );
     return rows[0] ?? null;

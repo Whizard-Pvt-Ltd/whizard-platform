@@ -55,7 +55,7 @@ async function seedCollegeOperations(): Promise<void> {
   await prisma.tenant.upsert({
     where: { publicUuid: SYSTEM_TENANT_UUID },
     update: {},
-    create: { publicUuid: SYSTEM_TENANT_UUID, name: 'System - College Operations', type: 'COLLEGE', isActive: true },
+    create: { publicUuid: SYSTEM_TENANT_UUID, name: 'Whizard Admin', type: 'ADMIN', isActive: true },
   });
   const systemTenantRecord = await prisma.tenant.findUniqueOrThrow({
     where: { publicUuid: SYSTEM_TENANT_UUID },

@@ -55,7 +55,7 @@
   /* Base colors */
   body {
     background-color: light-dark(var(--color-primary-50),
-        var(--color-primary-950));
+        var(--color-wrcf-bg-primary));
     color: light-dark(var(--color-neutral-950), var(--color-white));
   }
 }

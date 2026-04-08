@@ -3,14 +3,11 @@
 /* -------------------------------------------------------------------------- */
 @theme {
   /* Font family */
-  --font-sans: Geist, system-ui;
+  --font-sans: 'Red Hat Display', system-ui;
   --font-sans--font-feature-settings: 'salt';
 
-  --font-display: Geist, system-ui;
+  --font-display: 'Red Hat Display', system-ui;
   --font-display--font-feature-settings: 'salt';
-
-  --font-mono: 'Geist Mono', ui-monospace;
-  --font-mono--font-feature-settings: 'ss01', 'ss02', 'cv02', 'cv06';
 
   /* Font configuration */
   --font-smoothing: antialiased;
@@ -126,6 +123,114 @@
   --text-5xl--line-height: var(--leading-10);
   --text-5xl--font-weight: var(--font-weight-normal);
   --text-5xl--letter-spacing: var(--tracking-normal);
+
+  /* ── Whizard Design System ──────────────────────────────────────────────── */
+  /* Figma: https://figma.com/design/zVVHwGoayNcFJ7ejiV0T0U                  */
+  /* All surface/text tokens use light-dark() for dual-scheme support.        */
+
+  /* Font families (Figma: Red Hat Display for headings, Open Sans for body) */
+  --font-whizard-display: 'Red Hat Display', var(--font-sans);
+  --font-whizard-body: 'Open Sans', var(--font-sans);
+
+  /* ── Background colors ───────────────────────────────────────────────── */
+  --color-whizard-bg-main: light-dark(
+    oklch(97.8% 0.005 254.0),   /* light: #F8FAFC */
+    oklch(20.8% 0.040 265.8)    /* dark:  #0F172A */
+  );
+  --color-whizard-bg-secondary: light-dark(
+    oklch(95.0% 0.010 254.0),   /* light: #F1F5F9 */
+    oklch(26.1% 0.057 254.0)    /* dark:  #0F253F */
+  );
+  --color-whizard-bg-fields: light-dark(
+    oklch(91.0% 0.015 254.0),   /* light: #E2E8F0 */
+    oklch(26.1% 0.057 254.0)    /* dark:  #0F253F */
+  );
+  --color-whizard-bg-card: light-dark(
+    oklch(91.0% 0.015 254.0),   /* light: #E2E8F0 */
+    oklch(30.1% 0.022 253.9 / 0.7) /* dark: #1E293B @ 70% */
+  );
+  --color-whizard-bg-selected: light-dark(
+    oklch(95.0% 0.020 270.0),   /* light: #EEF2FF */
+    oklch(28.8% 0.080 286.4)    /* dark:  #2D2A5A */
+  );
+
+  /* ── Brand / Action colors ───────────────────────────────────────────── */
+  --color-whizard-action: oklch(50.0% 0.223 268.2);        /* #314DDF */
+  --color-whizard-action-hover: oklch(45.0% 0.210 268.2);  /* #263FCC */
+  
+  /* ── Text colors ─────────────────────────────────────────────────────── */
+  --color-whizard-text-primary: light-dark(
+    oklch(20.8% 0.040 265.8),   /* light: #0F172A */
+    oklch(95.2% 0.016 254.0)    /* dark:  #E8F0FA */
+  );
+  --color-whizard-text-secondary: light-dark(
+    oklch(50.0% 0.030 254.0),   /* light: #64748B */
+    oklch(65.9% 0.046 253.9)    /* dark:  #7F94AE */
+  );
+  --color-whizard-text-tertiary: light-dark(
+    oklch(58.8% 0.160 259.8),   /* light: #3B82F6 */
+    oklch(76.6% 0.108 259.8)    /* dark:  #8AB4F8 */
+  );
+  --color-whizard-text-gray: light-dark(
+    oklch(63.0% 0.015 254.0),   /* light: #94A3B8 */
+    oklch(77.4% 0.021 245.8)    /* dark:  #ABB7C2 */
+  );
+  --color-whizard-text-plain-white: oklch(100.0% 0.000 none); /* #FFFFFF */
+
+  /* ── Border colors ───────────────────────────────────────────────────── */
+  --color-whizard-border: light-dark(
+    oklch(83.0% 0.015 254.0),   /* light: #CBD5E1 */
+    oklch(42.4% 0.026 268.1)    /* dark:  #484E5D */
+  );
+  --color-whizard-border-divider: light-dark(
+    oklch(91.0% 0.015 254.0),   /* light: #E2E8F0 */
+    oklch(65.9% 0.046 253.9)    /* dark:  #7F94AE */
+  );
+
+  /* ── Status colors (same in both schemes) ────────────────────────────── */
+  --color-whizard-status-job: oklch(75.5% 0.153 231.7);                 /* #00BFFF */
+  --color-whizard-status-approved: oklch(64.0% 0.175 146.8);            /* #28A745 */
+  --color-whizard-status-rejected: oklch(59.2% 0.202 21.2);             /* #DC3545 */
+  --color-whizard-status-draft: oklch(60.5% 0.217 257.2);               /* #007BFF */
+  --color-whizard-status-sent-for-approval: oklch(79.3% 0.171 70.7);    /* #FFA500 */
+
+  /* ── Project Type colors (same in both schemes) ──────────────────────── */
+  --color-whizard-type-case-study: oklch(64.0% 0.175 146.8);   /* #28A745 */
+  --color-whizard-type-contest: oklch(60.5% 0.217 257.2);      /* #007BFF */
+  --color-whizard-type-research-paper: oklch(50.2% 0.188 295.0); /* #6F42C1 */
+
+  /* ── Alert colors (same in both schemes) ─────────────────────────────── */
+  --color-whizard-alert-green: oklch(73.5% 0.160 155.0);  /* #4AC97E */
+  --color-whizard-alert-red: oklch(64.0% 0.190 17.0);     /* #FF647C */
+  --color-whizard-alert-yellow: oklch(89.0% 0.140 85.0);  /* #FFDD65 */
+  --color-whizard-alert-blue: oklch(62.0% 0.180 265.0);   /* #5786FD */
+
+  /* ── Pure colors ─────────────────────────────────────────────────────── */
+  --color-whizard-pure-white: oklch(100.0% 0.000 none);  /* #FFFFFF */
+  --color-whizard-pure-black: oklch(0.0% 0.000 none);    /* #000000 */
+
+  /* ── CTA teal (dialog headers from Figma) ────────────────────────────── */
+  --color-whizard-cta-teal: oklch(70.0% 0.140 200.0);    /* #06B6D4 */
+
+  /* ── Typography tokens (from Figma text styles) ──────────────────────── */
+  --whizard-font-size-56: 3.5rem;    /* 56px – H1 */
+  --whizard-font-size-48: 3rem;      /* 48px – H2 */
+  --whizard-font-size-40: 2.5rem;    /* 40px – H3 */
+  --whizard-font-size-32: 2rem;      /* 32px – H4 */
+  --whizard-font-size-24: 1.5rem;    /* 24px – H5 */
+  --whizard-font-size-20: 1.25rem;   /* 20px – H6 */
+  --whizard-font-size-18: 1.125rem;  /* 18px – Large */
+  --whizard-font-size-16: 1rem;      /* 16px – Paragraph */
+  --whizard-font-size-14: 0.875rem;  /* 14px – Small */
+  --whizard-font-size-12: 0.75rem;   /* 12px – X-Small */
+
+  --whizard-line-height-72: 4.5rem;  /* 72px – H1 leading */
+  --whizard-line-height-64: 4rem;    /* 64px – H2 leading */
+  --whizard-line-height-48: 3rem;    /* 48px – H3 leading */
+  --whizard-line-height-40: 2.5rem;  /* 40px – H4 leading */
+  --whizard-line-height-32: 2rem;    /* 32px – H5/H6 leading */
+  --whizard-line-height-24: 1.5rem;  /* 24px – Large/Paragraph/Small leading */
+  --whizard-line-height-16: 1rem;    /* 16px – X-Small leading */
 
   /* Neutral color palette */
   /* Edit these values if you wish to customize the surface colors. */

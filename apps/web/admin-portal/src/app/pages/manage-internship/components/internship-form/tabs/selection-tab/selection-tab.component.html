@@ -2,13 +2,13 @@
 
   <!-- Offer Letter Documents -->
   <div>
-    <h3 class="text-xl font-semibold text-wrcf-accent mb-4">Offer Letter Documents</h3>
+    <h3 class="text-xl font-semibold text-whizard-accent mb-4">Offer Letter Documents</h3>
 
     <div class="space-y-3">
       <!-- Offer letter template -->
       <div class="flex items-center gap-4">
-        <span class="flex-1 text-sm text-wrcf-text-primary font-medium">Offer Letter Template</span>
-        <label class="flex items-center gap-2 h-10 px-4 rounded-[10px] bg-wrcf-action text-white text-sm font-medium cursor-pointer hover:bg-wrcf-action-hover transition-colors">
+        <span class="flex-1 text-sm text-whizard-text-primary font-medium">Offer Letter Template</span>
+        <label class="flex items-center gap-2 h-10 px-4 rounded-[10px] bg-whizard-action text-white text-sm font-medium cursor-pointer hover:bg-whizard-action-hover transition-colors">
           <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-4"></mat-icon>
           @if (formValue().offerLetterTemplateUrl) {
             {{ formValue().offerLetterTemplateUrl }}
@@ -21,8 +21,8 @@
 
       <!-- Terms & conditions -->
       <div class="flex items-center gap-4">
-        <span class="flex-1 text-sm text-wrcf-text-primary font-medium">Terms & Condition for acceptance</span>
-        <label class="flex items-center gap-2 h-10 px-4 rounded-[10px] bg-wrcf-action text-white text-sm font-medium cursor-pointer hover:bg-wrcf-action-hover transition-colors">
+        <span class="flex-1 text-sm text-whizard-text-primary font-medium">Terms & Condition for acceptance</span>
+        <label class="flex items-center gap-2 h-10 px-4 rounded-[10px] bg-whizard-action text-white text-sm font-medium cursor-pointer hover:bg-whizard-action-hover transition-colors">
           <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-4"></mat-icon>
           @if (formValue().termsConditionUrl) {
             {{ formValue().termsConditionUrl }}
@@ -50,16 +50,16 @@
   <!-- Assign Internship Co-ordinator -->
   <div>
     <div class="flex items-center justify-between mb-4">
-      <h3 class="text-xl font-semibold text-wrcf-accent">Assign Internship Co-ordinator</h3>
+      <h3 class="text-xl font-semibold text-whizard-accent">Assign Internship Co-ordinator</h3>
       <button mat-icon-button color="primary" (click)="addBatch()">
         <mat-icon>add</mat-icon>
       </button>
     </div>
 
     @for (batch of formValue().batches; track batch.id; let i = $index) {
-      <div class="mb-4 rounded-xl border border-wrcf-border bg-wrcf-bg-secondary p-4">
+      <div class="mb-4 rounded-xl border border-whizard-border bg-whizard-bg-secondary p-4">
         <div class="flex items-center justify-between mb-3">
-          <span class="text-sm font-semibold text-wrcf-text-primary">Internship Batch {{ i + 1 }}</span>
+          <span class="text-sm font-semibold text-whizard-text-primary">Internship Batch {{ i + 1 }}</span>
           <div class="flex items-center gap-2">
             <button mat-stroked-button class="text-xs h-7 px-2">List</button>
             <button mat-stroked-button class="text-xs h-7 px-2">Create</button>
@@ -88,7 +88,7 @@
 
   <!-- Internship Process & Expectation -->
   <div>
-    <h3 class="text-xl font-semibold text-wrcf-accent mb-4">Internship Process & Expectation</h3>
+    <h3 class="text-xl font-semibold text-whizard-accent mb-4">Internship Process & Expectation</h3>
     <div class="grid grid-cols-2 gap-4">
       <mat-form-field appearance="outline" class="w-full">
         <mat-label>Select Plant</mat-label>
@@ -105,7 +105,7 @@
 
   <!-- Pre-Internship Communication -->
   <div>
-    <h3 class="text-xl font-semibold text-wrcf-accent mb-2">Pre-Internship Communication</h3>
+    <h3 class="text-xl font-semibold text-whizard-accent mb-2">Pre-Internship Communication</h3>
     <mat-form-field appearance="outline" class="w-full">
       <textarea matInput rows="5" placeholder="Welcome message, instructions..."
         [ngModel]="formValue().preInternshipCommunication ?? ''"
@@ -117,20 +117,20 @@
   <!-- Pre-read Courses -->
   <div>
     <div class="flex items-center justify-between mb-3">
-      <h3 class="text-xl font-semibold text-wrcf-accent">Add Pre-read Courses</h3>
+      <h3 class="text-xl font-semibold text-whizard-accent">Add Pre-read Courses</h3>
     </div>
     @for (course of formValue().preReadCourses; track $index) {
-      <div class="flex items-center gap-3 mb-2 px-3 py-2 rounded-lg bg-wrcf-bg-secondary border border-wrcf-border">
-        <mat-icon svgIcon="heroicons_outline:document" class="text-wrcf-accent shrink-0"></mat-icon>
-        <span class="flex-1 text-sm text-wrcf-text-primary truncate">{{ course.name }}</span>
+      <div class="flex items-center gap-3 mb-2 px-3 py-2 rounded-lg bg-whizard-bg-secondary border border-whizard-border">
+        <mat-icon svgIcon="heroicons_outline:document" class="text-whizard-accent shrink-0"></mat-icon>
+        <span class="flex-1 text-sm text-whizard-text-primary truncate">{{ course.name }}</span>
         <button mat-icon-button color="warn" (click)="removeCourse($index)">
           <mat-icon svgIcon="heroicons_outline:trash"></mat-icon>
         </button>
       </div>
     }
-    <label class="flex flex-col items-center justify-center h-24 rounded-lg border-2 border-dashed border-wrcf-border cursor-pointer hover:border-wrcf-accent transition-colors mt-2">
-      <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-7 text-wrcf-text-secondary"></mat-icon>
-      <span class="text-xs text-wrcf-text-secondary mt-1">Drop Courses Here</span>
+    <label class="flex flex-col items-center justify-center h-24 rounded-lg border-2 border-dashed border-whizard-border cursor-pointer hover:border-whizard-accent transition-colors mt-2">
+      <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-7 text-whizard-text-secondary"></mat-icon>
+      <span class="text-xs text-whizard-text-secondary mt-1">Drop Courses Here</span>
       <input type="file" accept=".pdf" class="sr-only" (change)="addCourse($event)" />
     </label>
   </div>
@@ -138,20 +138,20 @@
   <!-- Pre-read Articles -->
   <div>
     <div class="flex items-center justify-between mb-3">
-      <h3 class="text-xl font-semibold text-wrcf-accent">Add Pre-read Articles</h3>
+      <h3 class="text-xl font-semibold text-whizard-accent">Add Pre-read Articles</h3>
     </div>
     @for (article of formValue().preReadArticles; track $index) {
-      <div class="flex items-center gap-3 mb-2 px-3 py-2 rounded-lg bg-wrcf-bg-secondary border border-wrcf-border">
-        <mat-icon svgIcon="heroicons_outline:document" class="text-wrcf-accent shrink-0"></mat-icon>
-        <span class="flex-1 text-sm text-wrcf-text-primary truncate">{{ article.name }}</span>
+      <div class="flex items-center gap-3 mb-2 px-3 py-2 rounded-lg bg-whizard-bg-secondary border border-whizard-border">
+        <mat-icon svgIcon="heroicons_outline:document" class="text-whizard-accent shrink-0"></mat-icon>
+        <span class="flex-1 text-sm text-whizard-text-primary truncate">{{ article.name }}</span>
         <button mat-icon-button color="warn" (click)="removeArticle($index)">
           <mat-icon svgIcon="heroicons_outline:trash"></mat-icon>
         </button>
       </div>
     }
-    <label class="flex flex-col items-center justify-center h-24 rounded-lg border-2 border-dashed border-wrcf-border cursor-pointer hover:border-wrcf-accent transition-colors mt-2">
-      <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-7 text-wrcf-text-secondary"></mat-icon>
-      <span class="text-xs text-wrcf-text-secondary mt-1">Drop Articles Here</span>
+    <label class="flex flex-col items-center justify-center h-24 rounded-lg border-2 border-dashed border-whizard-border cursor-pointer hover:border-whizard-accent transition-colors mt-2">
+      <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-7 text-whizard-text-secondary"></mat-icon>
+      <span class="text-xs text-whizard-text-secondary mt-1">Drop Articles Here</span>
       <input type="file" accept=".pdf" class="sr-only" (change)="addArticle($event)" />
     </label>
   </div>

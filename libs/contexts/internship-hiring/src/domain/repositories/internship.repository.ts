@@ -2,6 +2,7 @@ import type { Internship } from '../aggregates/internship.aggregate.js';
 
 export interface InternshipListFilter {
   tenantId: string;
+  companyTenantId?: string;
   search?: string;
   status?: string;
 }

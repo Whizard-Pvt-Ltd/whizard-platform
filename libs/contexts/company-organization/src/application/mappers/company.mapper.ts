@@ -4,6 +4,7 @@ import type { CompanyDetailDto, CompanyListItemDto } from '../dto/company.dto.js
 export function toCompanyListItemDto(company: Company, logoUrl: string | null, cityName: string | null, industryName: string | null): CompanyListItemDto {
   return {
     id: company.id,
+    tenantId: company.tenantId,
     companyCode: company.companyCode,
     name: company.name,
     cityName,

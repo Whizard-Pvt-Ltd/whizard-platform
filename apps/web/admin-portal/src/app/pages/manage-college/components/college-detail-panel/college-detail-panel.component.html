@@ -1,7 +1,7 @@
 <div class="flex flex-col flex-1 min-w-0" style="height: 90dvh">
   @if (!college()) {
     <div
-      class="flex-1 flex flex-col items-center justify-center gap-3 text-wrcf-text-secondary"
+      class="flex-1 flex flex-col items-center justify-center gap-3 text-neutral-400"
     >
       <mat-icon
         svgIcon="heroicons_outline:building-library"
@@ -11,19 +11,27 @@
     </div>
   } @else {
     <div class="flex-1 flex flex-col" whizardScrollbar="true">
+      <!-- Details tab -->
+      <div class="px-8 pt-4 pb-0 shrink-0">
+        <span
+          class="inline-block text-sm font-medium text-neutral-100 border-b-2 border-[#00BFFF] pb-2"
+          >Details</span
+        >
+      </div>
+
       <!-- Header -->
       <div
-        class="flex items-start gap-4 px-8 py-5 border-b border-wrcf-border bg-wrcf-bg-primary shrink-0"
+        class="flex items-start gap-4 px-8 py-5 border-b border-neutral-700 bg-primary-950 shrink-0"
       >
         @if (college()!.logoUrl) {
           <img
             [src]="college()!.logoUrl"
             [alt]="college()!.name"
-            class="w-16 h-16 rounded-full object-cover border-2 border-wrcf-border shrink-0"
+            class="w-16 h-16 rounded-full object-cover border-2 border-neutral-700 shrink-0"
           />
         } @else {
           <div
-            class="w-16 h-16 rounded-full bg-wrcf-action flex items-center justify-center text-2xl font-semibold text-wrcf-text-primary shrink-0 uppercase"
+            class="w-16 h-16 rounded-full bg-primary-600 flex items-center justify-center text-2xl font-semibold text-neutral-100 shrink-0 uppercase"
           >
             {{ getInitial(college()!.name) }}
           </div>
@@ -32,68 +40,64 @@
         <div class="flex-1 min-w-0">
           <div class="flex items-start justify-between gap-3">
             <h2
-              class="text-xl font-semibold text-wrcf-text-primary leading-7 truncate"
+              class="text-xl font-semibold text-neutral-100 leading-7 truncate"
             >
               {{ college()!.name }}
             </h2>
+            <!-- Edit button -->
+            <button (click)="editClicked.emit()"
+              class="shrink-0 flex items-center gap-1.5 h-9 px-4 rounded-[10px] bg-primary-600 text-neutral-100 text-sm font-medium hover:bg-primary-700 transition-colors">
+              <mat-icon svgIcon="heroicons_outline:pencil-square" class="size-4 shrink-0" />
+              Edit
+            </button>
           </div>
-          <p class="text-xs text-wrcf-text-tertiary mt-0.5 mb-2">
-            College Id : {{ college()!.collegeCode }}
+
+          <p class="text-xs text-primary-300 mt-0.5">
+            <span class="font-medium text-neutral-400">College Id :</span> {{ college()!.collegeCode }}
           </p>
 
-          <div class="flex items-center gap-2 flex-wrap">
-            @if (college()!.affiliatedUniversity) {
-              <span
-                class="flex items-center gap-1 text-xs text-wrcf-text-secondary"
-              >
-                <mat-icon
-                  svgIcon="heroicons_outline:globe-alt"
-                  class="size-3 text-wrcf-text-tertiary"
-                />
-                {{ college()!.affiliatedUniversity }}
-              </span>
-            }
+          @if (college()!.affiliatedUniversity) {
+            <p class="text-xs text-neutral-400 mt-1">
+              <span class="font-medium">Affiliated University :</span> {{ college()!.affiliatedUniversity }}
+            </p>
+          }
+
+          <div class="flex items-center gap-3 flex-wrap mt-2">
             @if (college()!.cityName) {
-              <span class="text-wrcf-text-secondary opacity-30 text-xs">•</span>
               <span
-                class="flex items-center gap-1 text-xs text-wrcf-text-secondary"
+                class="flex items-center gap-1 text-xs text-neutral-400"
               >
                 <mat-icon
                   svgIcon="heroicons_outline:map-pin"
-                  class="size-3 text-wrcf-text-tertiary"
+                  class="size-3.5 text-primary-300"
                 />
                 {{ college()!.cityName }}
               </span>
             }
             @if (college()!.establishedYear) {
-              <span class="text-wrcf-text-secondary opacity-30 text-xs">•</span>
               <span
-                class="flex items-center gap-1 text-xs text-wrcf-text-secondary"
+                class="flex items-center gap-1 text-xs text-neutral-400"
               >
                 <mat-icon
                   svgIcon="heroicons_outline:calendar"
-                  class="size-3 text-wrcf-text-tertiary"
+                  class="size-3.5 text-primary-300"
                 />
                 {{ college()!.establishedYear }}
               </span>
             }
             @if (college()!.collegeType) {
-              <span class="text-wrcf-text-secondary opacity-30 text-xs">•</span>
               <span
-                class="text-xs px-2 py-0.5 rounded-full bg-wrcf-bg-secondary border border-wrcf-border text-wrcf-text-secondary"
+                class="flex items-center gap-1 text-xs text-neutral-400"
               >
+                <mat-icon
+                  svgIcon="heroicons_outline:shield-check"
+                  class="size-3.5 text-primary-300"
+                />
                 {{ college()!.collegeType }}
               </span>
             }
           </div>
         </div>
-
-        <!-- Edit button -->
-        <button (click)="editClicked.emit()"
-          class="shrink-0 flex items-center gap-1.5 h-9 px-4 rounded-[10px] bg-wrcf-action text-wrcf-text-primary text-sm font-medium hover:bg-wrcf-action-hover transition-colors">
-          <mat-icon svgIcon="lucideIcons:pencil-square" class="size-4 shrink-0" />
-          Edit
-        </button>
       </div>
 
       <!-- Scrollable content -->
@@ -101,21 +105,21 @@
         <!-- About the college -->
         @if (college()!.description) {
           <section>
-            <h3 class="text-lg font-semibold text-wrcf-text-primary mb-3">
-              About the college
+            <h3 class="text-lg font-semibold text-neutral-100 mb-2">
+              About the College
             </h3>
-            <p class="text-sm text-wrcf-text-tertiary font-medium mb-2">
+            <p class="text-sm text-[#00BFFF] font-medium mb-2">
               College details
             </p>
             <div
-              class="text-sm text-wrcf-text-secondary leading-6 overflow-hidden transition-all duration-300"
+              class="text-sm text-neutral-400 leading-6 overflow-hidden transition-all duration-300"
               [class.line-clamp-3]="!aboutExpanded()"
               [innerHTML]="college()!.description"
             ></div>
             <button
               type="button"
               (click)="toggleAbout()"
-              class="mt-1 text-xs text-wrcf-accent hover:underline"
+              class="mt-1 text-xs text-[#00BFFF] hover:underline"
             >
               {{ aboutExpanded() ? 'See less' : '...see more' }}
             </button>
@@ -123,20 +127,29 @@
         }
 
         <!-- College Brochure -->
-        @if (brochures.length > 0) {
+        @if (college()!.inquiryEmail || brochures.length > 0) {
           <section>
-            <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
-              College Brochure
-            </h3>
-            <div class="flex flex-wrap gap-4">
-              @for (item of brochures; track item.mediaAssetId) {
-                <div class="flex flex-col gap-2">
+            <ul class="list-disc list-inside text-sm text-neutral-400 leading-6 space-y-2">
+              @if (college()!.inquiryEmail) {
+                <li>
+                  <span class="text-neutral-100 font-medium">College Brochure:</span>
+                  <a
+                    [href]="'mailto:' + college()!.inquiryEmail"
+                    class="text-[#00BFFF] hover:underline ml-1"
+                    >{{ college()!.inquiryEmail }}</a
+                  >
+                </li>
+              }
+            </ul>
+            @if (brochures.length > 0) {
+              <div class="flex flex-wrap gap-4 mt-3">
+                @for (item of brochures; track item.mediaAssetId) {
                   <button
                     type="button"
                     (click)="
                       openPdf(item.asset!.url, item.asset?.name ?? 'Brochure')
                     "
-                    class="group relative w-48 h-36 rounded-xl overflow-hidden border border-wrcf-border shadow-sm hover:shadow-md transition-shadow cursor-pointer bg-wrcf-bg-secondary"
+                    class="group relative w-40 h-32 rounded-xl overflow-hidden border border-neutral-700 shadow-sm hover:shadow-md transition-shadow cursor-pointer bg-primary-900"
                   >
                     <iframe
                       [src]="
@@ -151,33 +164,30 @@
                     >
                     </iframe>
                     <div
-                      class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                      class="absolute bottom-2 right-2 w-8 h-8 rounded-full bg-[#00BFFF] flex items-center justify-center"
                     >
                       <mat-icon
-                        svgIcon="lucideIcons:file-text"
-                        class="size-8 text-white"
+                        svgIcon="heroicons_outline:arrow-down-tray"
+                        class="size-4 text-primary-950"
                       />
                     </div>
                   </button>
-                  @if (item.asset?.name) {
-                    <p class="text-xs text-wrcf-text-secondary truncate w-48">
-                      {{ item.asset!.name }}
-                    </p>
-                  }
-                </div>
-              }
-            </div>
+                }
+              </div>
+            }
           </section>
         }
 
         <!-- Promotional Videos -->
         @if (videos.length > 0) {
           <section>
-            <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
-              Promotional Videos
-            </h3>
+            <ul class="list-disc list-inside text-sm text-neutral-400 mb-3">
+              <li>
+                <span class="text-neutral-100 font-medium">Promotional Videos:</span>
+              </li>
+            </ul>
             <div
-              class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3"
+              class="grid grid-cols-2 sm:grid-cols-3 gap-3"
             >
               @for (item of videos; track item.mediaAssetId) {
                 <div class="flex flex-col gap-1.5">
@@ -186,7 +196,7 @@
                     (click)="
                       openVideo(item.asset!.url, item.asset?.name ?? 'Video')
                     "
-                    class="relative aspect-video rounded-xl overflow-hidden bg-wrcf-bg-secondary border border-wrcf-border group cursor-pointer shadow-sm hover:shadow-md transition-shadow"
+                    class="relative aspect-video rounded-xl overflow-hidden bg-primary-900 border border-neutral-700 group cursor-pointer shadow-sm hover:shadow-md transition-shadow"
                   >
                     <video
                       [src]="item.asset!.url + '#t=1'"
@@ -204,11 +214,18 @@
                     </div>
                   </button>
                   @if (item.asset?.name) {
-                    <p
-                      class="text-[11px] text-wrcf-text-secondary text-center leading-4 px-1 truncate"
-                    >
-                      {{ item.asset!.name }}
-                    </p>
+                    <div class="flex flex-col items-start px-1">
+                      <p
+                        class="text-[10px] uppercase tracking-wider text-neutral-400 leading-4 truncate w-full"
+                      >
+                        {{ getVideoCategory(item.asset!.name) }}
+                      </p>
+                      <p
+                        class="text-xs text-neutral-100 font-medium leading-4 truncate w-full"
+                      >
+                        {{ item.asset!.name }}
+                      </p>
+                    </div>
                   }
                 </div>
               }
@@ -219,7 +236,7 @@
         <!-- Campus Gallery -->
         @if (gallery.length > 0) {
           <section>
-            <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
+            <h3 class="text-base font-semibold text-neutral-100 mb-3">
               Campus Gallery
             </h3>
             <div
@@ -234,7 +251,7 @@
                       item.asset?.name ?? 'Campus image'
                     )
                   "
-                  class="relative h-28 rounded-xl overflow-hidden bg-wrcf-bg-secondary border border-wrcf-border shadow-sm group cursor-pointer"
+                  class="relative h-28 rounded-xl overflow-hidden bg-primary-900 border border-neutral-700 shadow-sm group cursor-pointer"
                 >
                   @if (item.asset?.url) {
                     <img
@@ -246,7 +263,7 @@
                     <div class="w-full h-full flex items-center justify-center">
                       <mat-icon
                         svgIcon="heroicons_outline:photo"
-                        class="size-8 text-wrcf-text-secondary opacity-40"
+                        class="size-8 text-neutral-400 opacity-40"
                       />
                     </div>
                   }
@@ -259,13 +276,13 @@
         <!-- Local Club Chapters -->
         @if (collegeClubs.length > 0) {
           <section>
-            <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
+            <h3 class="text-base font-semibold text-neutral-100 mb-3">
               Local Club Chapters
             </h3>
             <div class="grid grid-cols-2 gap-3">
               @for (club of collegeClubs; track club.id) {
                 <div
-                  class="flex items-center h-24 rounded-xl bg-wrcf-bg-secondary border border-wrcf-border shadow-sm hover:shadow-md hover:bg-wrcf-bg-card transition-all duration-150 cursor-pointer overflow-hidden group"
+                  class="flex items-center h-24 rounded-xl bg-primary-900 border border-neutral-700 shadow-sm hover:shadow-md hover:bg-neutral-800 transition-all duration-150 cursor-pointer overflow-hidden group"
                 >
                   @if (club.logoUrl) {
                     <img
@@ -274,20 +291,20 @@
                     />
                   } @else {
                     <div
-                      class="w-16 h-16 ml-3 rounded-full bg-wrcf-action flex items-center justify-center text-base font-semibold text-wrcf-text-primary shrink-0"
+                      class="w-16 h-16 ml-3 rounded-full bg-primary-600 flex items-center justify-center text-base font-semibold text-neutral-100 shrink-0"
                     >
                       {{ getInitial(club.name) }}
                     </div>
                   }
                   <div class="flex-1 min-w-0 px-3">
                     <p
-                      class="text-sm font-semibold text-wrcf-text-primary line-clamp-1"
+                      class="text-sm font-semibold text-neutral-100 line-clamp-1"
                     >
                       {{ club.name }}
                     </p>
                     @if (club.description) {
                       <p
-                        class="text-xs text-wrcf-text-secondary line-clamp-2 mt-0.5"
+                        class="text-xs text-neutral-400 line-clamp-2 mt-0.5"
                       >
                         {{ club.description }}
                       </p>
@@ -302,14 +319,14 @@
         <!-- Degrees Offered -->
         @if (college()!.degreesOffered) {
           <section>
-            <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
+            <h3 class="text-base font-semibold text-neutral-100 mb-3">
               Degrees Offered
             </h3>
             <div
-              class="rounded-xl bg-wrcf-bg-secondary border border-wrcf-border px-4 py-4 flex flex-col gap-3"
+              class="rounded-xl bg-primary-900 border border-neutral-700 px-4 py-4 flex flex-col gap-3"
             >
               <div
-                class="text-sm text-wrcf-text-secondary leading-6"
+                class="text-sm text-neutral-400 leading-6"
                 [innerHTML]="college()!.degreesOffered"
               ></div>
             </div>
@@ -319,28 +336,28 @@
         <!-- College Key Contacts -->
         @if (college()!.contacts && college()!.contacts.length > 0) {
           <section>
-            <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
+            <h3 class="text-base font-semibold text-neutral-100 mb-3">
               College Key Contacts
             </h3>
             <div
-              class="rounded-xl bg-wrcf-bg-secondary border border-wrcf-border px-4 py-4 flex flex-col gap-3"
+              class="rounded-xl bg-primary-900 border border-neutral-700 px-4 py-4 flex flex-col gap-3"
             >
               @let vc = getContactByRole('VICE_CHANCELLOR');
               @if (vc) {
                 <div
-                  class="flex items-center gap-2 text-sm pb-3 border-b border-wrcf-border/50"
+                  class="flex items-center gap-2 text-sm pb-3 border-b border-neutral-700/50"
                 >
-                  <span class="text-wrcf-text-primary font-medium w-52 shrink-0"
+                  <span class="text-neutral-100 font-medium w-52 shrink-0"
                     >Vice Chancellor:</span
                   >
-                  <a class="text-wrcf-accent hover:underline cursor-pointer">{{
+                  <a class="text-[#00BFFF] hover:underline cursor-pointer">{{
                     vc.userName ?? vc.userEmail ?? vc.userId
                   }}</a>
                 </div>
               }
 
               @if (college()!.contacts && college()!.contacts.length > 0) {
-                <p class="text-xs text-wrcf-text-secondary leading-5">
+                <p class="text-xs text-neutral-400 leading-5">
                   For various administrative and student-related activities,
                   {{ college()!.name }} has designated key contacts:
                 </p>
@@ -350,7 +367,7 @@
                 @for (contact of nonVcContacts; track contact.userId) {
                   <li class="flex items-start gap-2 text-sm">
                     <span
-                      class="w-52 shrink-0 font-medium text-wrcf-text-primary"
+                      class="w-52 shrink-0 font-medium text-neutral-100"
                     >
                       @switch (contact.role) {
                         @case ('GROOM_COORDINATOR') {
@@ -371,7 +388,7 @@
                       }
                     </span>
                     <a
-                      class="text-wrcf-accent hover:underline cursor-pointer flex-1"
+                      class="text-[#00BFFF] hover:underline cursor-pointer flex-1"
                       >{{
                         contact.userName ?? contact.userEmail ?? contact.userId
                       }}</a
@@ -382,15 +399,15 @@
 
               @if (college()!.inquiryEmail) {
                 <div
-                  class="pt-3 border-t border-wrcf-border/50 flex flex-wrap items-center gap-1 text-sm"
+                  class="pt-3 border-t border-neutral-700/50 flex flex-wrap items-center gap-1 text-sm"
                 >
-                  <span class="text-wrcf-text-secondary"
+                  <span class="text-neutral-400"
                     >For inquiries, students and stakeholders can reach out via
                     email:</span
                   >
                   <a
                     [href]="'mailto:' + college()!.inquiryEmail"
-                    class="text-wrcf-accent hover:underline font-medium"
+                    class="text-[#00BFFF] hover:underline font-medium"
                     >{{ college()!.inquiryEmail }}</a
                   >
                 </div>
@@ -402,11 +419,11 @@
         <!-- Placement Highlights -->
         @if (college()!.placementHighlights) {
           <section>
-            <h3 class="text-base font-semibold text-wrcf-text-primary mb-3">
+            <h3 class="text-base font-semibold text-neutral-100 mb-3">
               Placement Highlights
             </h3>
             <div
-              class="text-sm text-wrcf-text-secondary leading-6"
+              class="text-sm text-neutral-400 leading-6"
               [innerHTML]="college()!.placementHighlights"
             ></div>
           </section>

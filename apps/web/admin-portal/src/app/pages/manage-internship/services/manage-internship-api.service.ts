@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import type {
@@ -7,22 +7,38 @@ import type {
   InternshipFormValue,
   City,
   IndustryRole,
+  CompanyListItem,
+  CoordinatorUser,
 } from '../models/manage-internship.models';
 import { environment } from '../../../../environments/environment';
+import { AuthContextService } from '../../../core/services/auth-context.service';
 
 interface ApiEnvelope<T> { success: boolean; data: T; }
 
 @Injectable({ providedIn: 'root' })
 export class ManageInternshipApiService {
   private readonly http = inject(HttpClient);
+  private readonly authCtx = inject(AuthContextService);
   private readonly base = `${environment.bffApiUrl}/internships`;
+
+  private companyHeaders(): { headers?: HttpHeaders } {
+    const type = this.authCtx.tenantType();
+    const tenantId =
+      type === 'COMPANY'
+        ? this.authCtx.tenantId()                     // company user → use their own tenant
+        : (type === 'ADMIN' || type === 'SYSTEM')
+          ? this.authCtx.selectedCompanyTenantId()    // admin/system → use selected company
+          : null;
+    if (!tenantId) return {};
+    return { headers: new HttpHeaders({ 'X-Company-Tenant-Id': tenantId }) };
+  }
 
   listInternships(search?: string, status?: string): Observable<InternshipDetail[]> {
     const params: Record<string, string> = {};
     if (search) params['search'] = search;
     if (status) params['status'] = status;
     return this.http
-      .get<ApiEnvelope<InternshipDetail[]>>(this.base, { params })
+      .get<ApiEnvelope<InternshipDetail[]>>(this.base, { params, ...this.companyHeaders() })
       .pipe(map(r => r.data));
   }
 
@@ -34,7 +50,7 @@ export class ManageInternshipApiService {
 
   createInternship(form: InternshipFormValue): Observable<InternshipDetail> {
     return this.http
-      .post<ApiEnvelope<InternshipDetail>>(this.base, form)
+      .post<ApiEnvelope<InternshipDetail>>(this.base, form, this.companyHeaders())
       .pipe(map(r => r.data));
   }
 
@@ -65,6 +81,20 @@ export class ManageInternshipApiService {
   listIndustryRoles(): Observable<IndustryRole[]> {
     return this.http
       .get<ApiEnvelope<IndustryRole[]>>(`${environment.bffApiUrl}/wrcf/roles`)
+      .pipe(map(r => r.data));
+  }
+
+  listCompaniesForSelector(): Observable<CompanyListItem[]> {
+    return this.http
+      .get<ApiEnvelope<CompanyListItem[]>>(`${environment.bffApiUrl}/companies`)
+      .pipe(map(r => r.data));
+  }
+
+  listCoordinators(companyTenantId: string): Observable<CoordinatorUser[]> {
+    return this.http
+      .get<ApiEnvelope<CoordinatorUser[]>>(`${this.base}/coordinators`, {
+        params: { companyTenantId },
+      })
       .pipe(map(r => r.data));
   }
 

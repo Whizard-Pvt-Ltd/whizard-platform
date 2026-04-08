@@ -73,6 +73,16 @@ async function bootstrap() {
   });
   bootstrapLogger.debug('CORS plugin registered', { allowedOrigins: corsOrigins });
 
+  // GET /api/me — proxies to Core API to resolve tenant context from JWT
+  const CORE_API_URL = (process.env.CORE_API_URL || 'http://localhost:3001').replace(/\/$/, '');
+  fastify.get('/api/me', async (request, reply) => {
+    const headers: Record<string, string> = {};
+    if (request.headers['authorization']) headers['Authorization'] = String(request.headers['authorization']);
+    const res  = await fetch(`${CORE_API_URL}/api/iam/access/me`, { method: 'GET', headers });
+    const text = await res.text();
+    reply.status(res.status).send(text ? JSON.parse(text) : undefined);
+  });
+
   // Health check endpoint - used by monitoring systems and load balancers
   // to verify the service is running and responsive
   fastify.get('/health', async () => {

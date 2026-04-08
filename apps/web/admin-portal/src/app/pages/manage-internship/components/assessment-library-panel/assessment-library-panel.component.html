@@ -1,71 +1,47 @@
-<div
-  class="flex flex-col h-full w-[320px] min-w-[320px] bg-wrcf-bg-card border-r border-wrcf-border"
->
-  <!-- Resource selector -->
-  <div class="px-4 py-3 border-b border-wrcf-border shrink-0">
-    <p
-      class="text-[11px] text-wrcf-text-secondary mb-1.5 font-medium uppercase tracking-wide"
-    >
-      Select Resource
-    </p>
-    <select
-      [ngModel]="selectedResource()"
-      (ngModelChange)="selectedResource.set($event)"
-      class="w-full h-10 px-3 rounded-[10px] bg-wrcf-bg-secondary border border-wrcf-border text-sm text-wrcf-text-primary outline-none appearance-none cursor-pointer"
-    >
-      @for (opt of resourceOptions; track opt) {
-        <option [value]="opt">{{ opt }}</option>
-      }
-    </select>
-  </div>
+<div class="flex flex-col h-full" [formGroup]="form">
 
-  <!-- Search -->
-  <div class="px-4 py-2.5 border-b border-wrcf-border shrink-0">
-    <div
-      class="flex items-center gap-2 h-9 px-3 rounded-[10px] bg-wrcf-bg-secondary border border-wrcf-border"
-    >
-      <mat-icon
-        svgIcon="heroicons_outline:magnifying-glass"
-        class="size-4 text-wrcf-text-secondary shrink-0"
-      />
-      <input
-        type="text"
-        placeholder="Search resources..."
-        [ngModel]="searchQuery()"
-        (ngModelChange)="searchQuery.set($event)"
-        class="flex-1 bg-transparent text-sm text-wrcf-text-primary placeholder:text-wrcf-text-secondary outline-none border-none min-w-0"
-      />
-    </div>
+  <!-- Top section: Search + Resource selector -->
+  <div class="shrink-0 px-2 pt-1.5 pb-4 flex flex-row  gap-2 items-center">
+
+    <!-- Resource selector (mat-form-field with reactive form) -->
+    <mat-form-field appearance="outline" class="whizard-outline w-full" subscriptSizing="dynamic">
+      <mat-label>Select Resource</mat-label>
+      <mat-select formControlName="resource">
+        @for (opt of resourceOptions; track opt) {
+          <mat-option [value]="opt">{{ opt }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Search bar -->
+    <mat-form-field appearance="outline" class="whizard-outline w-full" subscriptSizing="dynamic">
+      <mat-label>Search for Resources</mat-label>
+      <mat-icon matPrefix svgIcon="lucideIcons:search" class="size-5 text-whizard-text-secondary" />
+      <input matInput type="text" formControlName="search" />
+    </mat-form-field>
   </div>
 
   <!-- Assessment list -->
-  <div class="flex-1" whizardScrollbar="true">
+  <div class="flex-1 overflow-hidden" whizardScrollbar="true" [whizardScrollbarOptions]="{ suppressScrollX: true, wheelPropagation: false }">
     @for (item of filteredAssessments(); track item.id) {
       <div
-        class="flex items-center gap-3 px-4 py-3 border-b border-wrcf-border/40 hover:bg-wrcf-bg-secondary transition-colors cursor-pointer"
+        class="flex items-start gap-5 justify-center px-4 py-4 border-y border-whizard-border/5 hover:bg-whizard-bg-secondary/50 transition-colors cursor-grab active:cursor-grabbing"
+        draggable="true"
+        (dragstart)="onDragStart($event, item)"
       >
         <!-- Thumbnail -->
-        <div
-          class="w-14 h-14 rounded-lg bg-wrcf-action/20 flex items-center justify-center shrink-0 overflow-hidden"
-        >
-          @if (item.thumbnailUrl) {
-            <img
-              [src]="item.thumbnailUrl"
-              [alt]="item.title"
-              class="w-full h-full object-cover"
-            />
-          } @else {
-            <mat-icon
-              svgIcon="heroicons_outline:clipboard-document-list"
-              class="size-7 text-wrcf-accent"
-            />
-          }
+        <div class="w-36.5 h-23 rounded shrink-0 overflow-hidden">
+          <img
+            [src]="item.thumbnailUrl ?? placeholderImg"
+            [alt]="item.title"
+            class="w-full h-full object-cover"
+          />
         </div>
-        <div class="flex-1 min-w-0">
-          <p class="text-sm text-wrcf-text-primary leading-5 line-clamp-2">
+        <div class="flex flex-col gap-2.5 flex-1 min-w-0">
+          <p class="text-lg font-semibold text-whizard-text-primary leading-normal font-whizard-display">
             {{ item.title }}
           </p>
-          <p class="text-[11px] text-wrcf-text-secondary mt-0.5">
+          <p class="text-lg text-whizard-text-secondary leading-5.25 font-whizard-display">
             {{ item.category }}
           </p>
         </div>

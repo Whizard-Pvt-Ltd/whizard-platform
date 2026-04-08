@@ -1,38 +1,41 @@
 <div class="flex flex-col p-6 gap-8">
-
   <!-- ── Section 1: Screening Questions ─────────────────────────────────── -->
   <div class="flex flex-col gap-4">
-
     <!-- Section header -->
     <div class="flex items-start justify-between">
       <div class="flex flex-wrap items-baseline gap-2">
-        <span class="text-xl font-semibold text-wrcf-text-tertiary leading-[25px] tracking-[0.2px]">
+        <span
+          class="text-xl font-semibold text-whizard-text-tertiary leading-6.25 tracking-[0.2px]"
+        >
           Screening Questions
         </span>
-        <span class="text-[17px] text-wrcf-text-primary leading-[25px]">
-          (This section will include mandatory questions that all applicants must have to answer)
+        <span class="text-[17px] text-whizard-text-primary leading-6.25">
+          (This section will include mandatory questions that all applicants
+          must have to answer)
         </span>
       </div>
       <button
         type="button"
-        class="flex items-center justify-center w-8 h-8 rounded-full bg-wrcf-action hover:bg-wrcf-action-hover transition-colors shrink-0 ml-3"
+        mat-icon-button
+        class="flex items-center justify-center w-8 h-8 rounded-full bg-whizard-action hover:bg-whizard-action-hover transition-colors shrink-0 ml-3"
         (click)="addQuestion()"
         title="Add question"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-             fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-             class="text-wrcf-text-primary">
-          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-        </svg>
+        <mat-icon svgIcon="lucideIcons:pluse" class="size-4 shrink-0" />
       </button>
     </div>
 
     <!-- Question cards -->
     @for (q of formValue().screeningQuestions; track $index) {
-      <div class="flex items-center gap-6 rounded-lg bg-wrcf-bg-secondary p-3">
-
+      <div
+        class="flex items-center gap-6 rounded-lg bg-whizard-bg-secondary p-3"
+      >
         <!-- Question input -->
-        <mat-form-field appearance="outline" class="wrcf-outline" style="flex: 2.5">
+        <mat-form-field
+          appearance="outline"
+          class="whizard-outline"
+          style="flex: 2.5"
+        >
           <mat-label>Question {{ $index + 1 }}</mat-label>
           <input
             matInput
@@ -43,7 +46,11 @@
         </mat-form-field>
 
         <!-- Expected answer input -->
-        <mat-form-field appearance="outline" class="wrcf-outline" style="flex: 1">
+        <mat-form-field
+          appearance="outline"
+          class="whizard-outline"
+          style="flex: 1"
+        >
           <mat-label>Expected Answer</mat-label>
           <input
             matInput
@@ -60,86 +67,120 @@
           (click)="removeQuestion($index)"
           title="Remove question"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
-               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/>
-            <path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="13"
+            height="13"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="3 6 5 6 21 6" />
+            <path d="M19 6l-1 14H6L5 6" />
+            <path d="M10 11v6" />
+            <path d="M14 11v6" />
+            <path d="M9 6V4h6v2" />
           </svg>
         </button>
-
       </div>
     }
 
     @if (formValue().screeningQuestions.length === 0) {
-      <p class="text-sm text-wrcf-text-secondary italic px-1">
+      <p class="text-sm text-whizard-text-secondary italic px-1">
         No questions added yet — click + to add one.
       </p>
     }
   </div>
 
   <!-- ── Divider ─────────────────────────────────────────────────────────── -->
-  <div class="h-px w-full bg-wrcf-border/40"></div>
+  <div class="h-px w-full bg-whizard-border/40"></div>
 
   <!-- ── Section 2: Eligibility Check ───────────────────────────────────── -->
   <div class="flex flex-col gap-4">
-
     <!-- Section header -->
     <div class="flex flex-wrap items-baseline gap-2">
-      <span class="text-xl font-semibold text-wrcf-text-tertiary leading-[25px] tracking-[0.2px]">
+      <span
+        class="text-xl font-semibold text-whizard-text-tertiary leading-6.25 tracking-[0.2px]"
+      >
         Eligibility Check
       </span>
-      <span class="text-[17px] text-wrcf-text-primary leading-[25px]">
-        (All students applying for this job must meet the eligibility criteria in this before moving forward)
+      <span class="text-[17px] text-whizard-text-primary leading-6.25">
+        (All students applying for this job must meet the eligibility criteria
+        in this before moving forward)
       </span>
     </div>
 
     <!-- Row 1: Min. Club Points + Min. Internships -->
-    <div class="flex items-start gap-4">
-      <mat-form-field appearance="outline" class="wrcf-outline w-[200px] shrink-0">
+    <div class="flex items-start justify-between max-w-3xl">
+      <mat-form-field
+        appearance="outline"
+        class="whizard-outline w-50 shrink-0"
+      >
         <mat-label>Min. Club Points</mat-label>
         <input
           matInput
           type="number"
           min="0"
           [ngModel]="getEligibility().minClubPoints ?? null"
-          (ngModelChange)="updateEligibility({ minClubPoints: $event !== null ? +$event : null })"
+          (ngModelChange)="
+            updateEligibility({
+              minClubPoints: $event !== null ? +$event : null,
+            })
+          "
         />
       </mat-form-field>
 
-       <div class="flex items-center gap-3">
-      <mat-form-field appearance="outline" class="wrcf-outline w-[200px] shrink-0">
+      <mat-form-field
+        appearance="outline"
+        class="whizard-outline w-50 shrink-0"
+      >
         <mat-label>Min. Internships</mat-label>
         <input
           matInput
           type="number"
           min="0"
           [ngModel]="getEligibility().minInternships ?? null"
-          (ngModelChange)="updateEligibility({ minInternships: $event !== null ? +$event : null })"
+          (ngModelChange)="
+            updateEligibility({
+              minInternships: $event !== null ? +$event : null,
+            })
+          "
         />
       </mat-form-field>
-      </div>
     </div>
 
     <!-- Row 2: Min. Projects + Min. Club Certification + Check button -->
-    <div class="flex items-center justify-between gap-4">
-
-      <mat-form-field appearance="outline" class="wrcf-outline w-[200px] shrink-0">
+    <div class="flex items-center justify-between">
+      <mat-form-field
+        appearance="outline"
+        class="whizard-outline w-50 shrink-0"
+      >
         <mat-label>Min. Projects</mat-label>
         <input
           matInput
           type="number"
           min="0"
           [ngModel]="getEligibility().minProjects ?? null"
-          (ngModelChange)="updateEligibility({ minProjects: $event !== null ? +$event : null })"
+          (ngModelChange)="
+            updateEligibility({ minProjects: $event !== null ? +$event : null })
+          "
         />
       </mat-form-field>
 
       <div class="flex items-center gap-3">
-        <mat-form-field appearance="outline" class="wrcf-outline w-[200px] shrink-0">
+        <mat-form-field
+          appearance="outline"
+          class="whizard-outline w-50 shrink-0"
+        >
           <mat-label>Min. Club Certification</mat-label>
           <mat-select
             [ngModel]="getEligibility().minClubCertification"
-            (ngModelChange)="updateEligibility({ minClubCertification: $event })"
+            (ngModelChange)="
+              updateEligibility({ minClubCertification: $event })
+            "
           >
             <mat-option [value]="null">None</mat-option>
             @for (level of certLevels; track level) {
@@ -150,215 +191,287 @@
 
         <button
           type="button"
-          class="h-[35px] px-4 rounded-lg bg-wrcf-action hover:bg-wrcf-action-hover text-sm font-medium text-wrcf-text-primary transition-colors shrink-0"
+          class="h-8.75 px-4 rounded-lg bg-whizard-action hover:bg-whizard-action-hover text-sm font-medium text-whizard-text-primary transition-colors shrink-0"
         >
           Check
         </button>
       </div>
-
     </div>
   </div>
 
   <!-- ── Divider ─────────────────────────────────────────────────────────── -->
-  <div class="h-px w-full bg-wrcf-border/40"></div>
+  <div class="h-px w-full bg-whizard-border/40"></div>
 
   <!-- ── Section 3: Assessment ───────────────────────────────────────────── -->
-  <div class="flex flex-col gap-4">
-
+  <div class="flex flex-col gap-5">
     <!-- Section header -->
     <div class="flex items-start justify-between">
-      <div class="flex flex-wrap items-baseline gap-2">
-        <span class="text-xl font-semibold text-wrcf-text-tertiary leading-[25px]">
+      <div class="flex flex-wrap items-baseline gap-2.5">
+        <span
+          class="text-xl font-semibold text-whizard-text-tertiary leading-6.25 tracking-[0.2px]"
+        >
           Assessment
         </span>
-        <span class="text-[17px] text-wrcf-text-primary leading-[25px]">
-          (This assignment will be assigned and become mandatory for all students have applied for this job)
+        <span class="text-[17px] text-whizard-text-primary leading-6.25">
+          (This assignment will be assigned and become mandatory for all
+          students have applied for this job)
         </span>
       </div>
       <button
         type="button"
-        class="flex items-center justify-center w-8 h-8 rounded-full bg-wrcf-action hover:bg-wrcf-action-hover transition-colors shrink-0 ml-3"
-        (click)="addAssessment()"
-        title="Add assessment"
+        class="flex items-center justify-center w-8 h-8 rounded-full bg-whizard-action hover:bg-whizard-action-hover transition-colors shrink-0 ml-3"
+        (click)="addAssessmentSlot()"
+        title="Add assessment slot"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-             fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-             class="text-wrcf-text-primary">
-          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="text-whizard-text-primary"
+        >
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
         </svg>
       </button>
     </div>
 
-    <!-- Assessment items -->
-    @for (a of formValue().assessments; track $index) {
-      <div class="flex items-end gap-4">
-
-        <!-- Drop zone card -->
-        <label
-          class="flex flex-col items-center justify-center w-[199px] h-[126px] rounded-lg bg-wrcf-bg-secondary cursor-pointer hover:border hover:border-wrcf-accent transition-all shrink-0 p-5 gap-2 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
-          title="Click to upload assessment PDF"
+    <!-- Assessment drop zones -->
+    <div class="flex flex-wrap gap-4">
+      @for (a of formValue().assessments; track $index) {
+        <div
+          class="relative flex flex-col items-center justify-center w-49.75 h-31.5 rounded-lg bg-whizard-bg-secondary p-5 gap-2 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] transition-all"
+          [class.border-2]="dragOverAssessmentIndex === $index"
+          [class.border-whizard-accent]="dragOverAssessmentIndex === $index"
+          (dragover)="onDragOver($event, 'assessment', $index)"
+          (dragleave)="onDragLeave('assessment')"
+          (drop)="onAssessmentDrop($event, $index)"
         >
-          @if (a.pdfUrl) {
-            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"
-                 fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-                 class="text-wrcf-accent">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/><polyline points="9 15 12 18 15 15"/><line x1="12" y1="10" x2="12" y2="18"/>
+          @if (a.title) {
+            <!-- Filled state -->
+            <button
+              type="button"
+              class="absolute top-1.5 right-1.5 flex items-center justify-center w-5 h-5 rounded-full bg-red-900/40 hover:bg-red-900/70 text-red-400 transition-colors"
+              (click)="clearAssessmentSlot($index)"
+              title="Remove assessment"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-whizard-accent">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
             </svg>
-            <span class="text-[11px] text-wrcf-accent text-center leading-tight line-clamp-2">{{ a.pdfUrl }}</span>
+            <span class="text-xs text-whizard-text-primary text-center leading-tight line-clamp-2 px-1">
+              {{ a.title }}
+            </span>
           } @else {
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="36" viewBox="0 0 24 24"
-                 fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-                 class="text-wrcf-text-secondary">
-              <polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/>
-              <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
+            <!-- Empty drop zone -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-whizard-text-secondary">
+              <polyline points="16 16 12 12 8 16" />
+              <line x1="12" y1="12" x2="12" y2="21" />
+              <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
             </svg>
-            <span class="text-sm font-medium text-wrcf-text-primary text-center leading-[20px] tracking-[0.15px]">
+            <span class="text-sm font-medium text-whizard-text-primary text-center leading-5 tracking-[0.15px]">
               Drop Assessment Here
             </span>
           }
-          <input type="file" accept=".pdf" class="sr-only" (change)="onAssessmentFileSelected($event, $index)" />
-        </label>
-
-        <!-- Score + Weightage fields -->
-        <div class="flex items-end gap-4 flex-1">
-          <mat-form-field appearance="outline" class="wrcf-outline w-[200px]">
-            <mat-label>Min. Assessment Score</mat-label>
-            <input
-              matInput
-              type="number"
-              min="0"
-              max="100"
-              [ngModel]="a.minScore"
-              (ngModelChange)="updateAssessment($index, { minScore: +$event })"
-            />
-          </mat-form-field>
-
-          <mat-form-field appearance="outline" class="wrcf-outline w-[200px]">
-            <mat-label>Assessment Weightage (%)</mat-label>
-            <input
-              matInput
-              type="number"
-              min="0"
-              max="100"
-              [ngModel]="a.weightage"
-              (ngModelChange)="updateAssessment($index, { weightage: +$event })"
-            />
-          </mat-form-field>
-
-          <button
-            type="button"
-            class="mb-[22px] flex items-center justify-center w-7 h-7 rounded-full bg-red-900/30 hover:bg-red-900/60 transition-colors text-red-400 shrink-0"
-            (click)="removeAssessment($index)"
-            title="Remove assessment"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
-                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/>
-              <path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
-            </svg>
-          </button>
         </div>
+      }
 
-      </div>
-    }
+      <!-- Empty state: show one drop zone when array is empty -->
+      @if (formValue().assessments.length === 0) {
+        <div
+          class="flex flex-col items-center justify-center w-49.75 h-31.5 rounded-lg bg-whizard-bg-secondary p-5 gap-2 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] transition-all"
+          [class.border-2]="dragOverAssessmentIndex === -1"
+          [class.border-whizard-accent]="dragOverAssessmentIndex === -1"
+          (dragover)="onDragOver($event, 'assessment', -1)"
+          (dragleave)="onDragLeave('assessment')"
+          (drop)="onAssessmentDrop($event, -1)"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-whizard-text-secondary">
+            <polyline points="16 16 12 12 8 16" />
+            <line x1="12" y1="12" x2="12" y2="21" />
+            <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
+          </svg>
+          <span class="text-sm font-medium text-whizard-text-primary text-center leading-5 tracking-[0.15px]">
+            Drop Assessment Here
+          </span>
+        </div>
+      }
+    </div>
 
-    <!-- Empty state drop zone -->
-    @if (formValue().assessments.length === 0) {
-      <label
-        class="flex flex-col items-center justify-center w-[199px] h-[126px] rounded-lg bg-wrcf-bg-secondary cursor-pointer hover:border hover:border-wrcf-accent transition-all p-5 gap-2 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
-        title="Click or drop to add assessment PDF"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="36" viewBox="0 0 24 24"
-             fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-             class="text-wrcf-text-secondary">
-          <polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/>
-          <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
-        </svg>
-        <span class="text-sm font-medium text-wrcf-text-primary text-center leading-[20px] tracking-[0.15px]">
-          Drop Assessment Here
-        </span>
-        <input type="file" accept=".pdf" class="sr-only" (change)="onAssessmentFileSelected($event, 0)" />
-      </label>
-    }
+    <!-- Global Score + Weightage for all assessments -->
+    <div class="flex items-start justify-between max-w-3xl">
+      <mat-form-field appearance="outline" class="whizard-outline w-50">
+        <mat-label>Min. Assessment Score</mat-label>
+        <input
+          matInput
+          type="number"
+          min="0"
+          max="100"
+          [ngModel]="getAssessmentMinScore()"
+          (ngModelChange)="updateAllAssessmentsScore(+$event)"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="whizard-outline w-50">
+        <mat-label>Assessment Weightage (%)</mat-label>
+        <input
+          matInput
+          type="number"
+          min="0"
+          max="100"
+          [ngModel]="getAssessmentWeightage()"
+          (ngModelChange)="updateAllAssessmentsWeightage(+$event)"
+        />
+      </mat-form-field>
+    </div>
   </div>
 
   <!-- ── Divider ─────────────────────────────────────────────────────────── -->
-  <div class="h-px w-full bg-wrcf-border/40"></div>
+  <div class="h-px w-full bg-whizard-border/40"></div>
 
   <!-- ── Section 4: Interview Rubric ────────────────────────────────────── -->
-  <div class="flex flex-col gap-4">
-
+  <div class="flex flex-col gap-5">
     <!-- Section header -->
-    <div class="flex flex-wrap items-baseline gap-2">
-      <span class="text-xl font-semibold text-wrcf-text-tertiary leading-[25px]">
-        Interview Rubric
-      </span>
-      <span class="text-[17px] text-wrcf-text-primary leading-[25px]">
-        (The students will be assessed based on the interview rubric provided in the below setting)
-      </span>
+    <div class="flex items-start justify-between">
+      <div class="flex flex-wrap items-baseline gap-2">
+        <span
+          class="text-xl font-semibold text-whizard-text-tertiary leading-6.25 tracking-[0.2px]"
+        >
+          Interview Rubric
+        </span>
+        <span class="text-[17px] text-whizard-text-primary leading-6.25">
+          (The students will be assessed based on the interview rubric provided in
+          the below setting)
+        </span>
+      </div>
+      <button
+        type="button"
+        class="flex items-center justify-center w-8 h-8 rounded-full bg-whizard-action hover:bg-whizard-action-hover transition-colors shrink-0 ml-3"
+        (click)="addRubricSlot()"
+        title="Add interview rubric slot"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="text-whizard-text-primary"
+        >
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+      </button>
     </div>
 
-    <!-- Drop zone + fields -->
-    <div class="flex items-end gap-4">
+    <!-- Interview rubric drop zones -->
+    <div class="flex flex-wrap gap-4">
+      @for (r of getRubricItems(); track $index) {
+        <div
+          class="relative flex flex-col items-center justify-center w-49.75 h-31.5 rounded-lg bg-whizard-bg-secondary p-5 gap-2 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] transition-all"
+          [class.border-2]="dragOverRubricIndex === $index"
+          [class.border-whizard-accent]="dragOverRubricIndex === $index"
+          (dragover)="onDragOver($event, 'rubric', $index)"
+          (dragleave)="onDragLeave('rubric')"
+          (drop)="onRubricDrop($event, $index)"
+        >
+          @if (r.title) {
+            <!-- Filled state -->
+            <button
+              type="button"
+              class="absolute top-1.5 right-1.5 flex items-center justify-center w-5 h-5 rounded-full bg-red-900/40 hover:bg-red-900/70 text-red-400 transition-colors"
+              (click)="clearRubricSlot($index)"
+              title="Remove rubric"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-whizard-accent">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+            </svg>
+            <span class="text-xs text-whizard-text-primary text-center leading-tight line-clamp-2 px-1">
+              {{ r.title }}
+            </span>
+          } @else {
+            <!-- Empty drop zone -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-whizard-text-secondary">
+              <polyline points="16 16 12 12 8 16" />
+              <line x1="12" y1="12" x2="12" y2="21" />
+              <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
+            </svg>
+            <span class="text-sm font-medium text-whizard-text-primary text-center leading-5 tracking-[0.15px]">
+              Drop Interview Rubric<br />Here
+            </span>
+          }
+        </div>
+      }
 
-      <!-- Drop zone card -->
-      <label
-        class="flex flex-col items-center justify-center w-[199px] h-[126px] rounded-lg bg-wrcf-bg-secondary cursor-pointer hover:border hover:border-wrcf-accent transition-all shrink-0 p-5 gap-2 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
-        title="Click to upload interview rubric PDF"
-      >
-        @if (getInterviewRubric().pdfUrl) {
-          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"
-               fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-               class="text-wrcf-accent">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-            <polyline points="14 2 14 8 20 8"/><polyline points="9 15 12 18 15 15"/><line x1="12" y1="10" x2="12" y2="18"/>
+      <!-- Empty state: show one drop zone when no items -->
+      @if (getRubricItems().length === 0) {
+        <div
+          class="flex flex-col items-center justify-center w-49.75 h-31.5 rounded-lg bg-whizard-bg-secondary p-5 gap-2 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] transition-all"
+          [class.border-2]="dragOverRubricIndex === -1"
+          [class.border-whizard-accent]="dragOverRubricIndex === -1"
+          (dragover)="onDragOver($event, 'rubric', -1)"
+          (dragleave)="onDragLeave('rubric')"
+          (drop)="onRubricDrop($event, -1)"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-whizard-text-secondary">
+            <polyline points="16 16 12 12 8 16" />
+            <line x1="12" y1="12" x2="12" y2="21" />
+            <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
           </svg>
-          <span class="text-[11px] text-wrcf-accent text-center leading-tight line-clamp-2">
-            {{ getInterviewRubric().pdfUrl }}
-          </span>
-        } @else {
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="36" viewBox="0 0 24 24"
-               fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-               class="text-wrcf-text-secondary">
-            <polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/>
-            <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
-          </svg>
-          <span class="text-sm font-medium text-wrcf-text-primary text-center leading-[20px] tracking-[0.15px]">
+          <span class="text-sm font-medium text-whizard-text-primary text-center leading-5 tracking-[0.15px]">
             Drop Interview Rubric<br />Here
           </span>
-        }
-        <input type="file" accept=".pdf" class="sr-only" (change)="onRubricFileSelected($event)" />
-      </label>
+        </div>
+      }
+    </div>
 
-      <!-- Score + Weightage fields -->
-      <div class="flex items-end gap-4">
-        <mat-form-field appearance="outline" class="wrcf-outline w-[200px]">
-          <mat-label>Min. Interview Score</mat-label>
-          <input
-            matInput
-            type="number"
-            min="0"
-            max="100"
-            [ngModel]="getInterviewRubric().minScore"
-            (ngModelChange)="updateInterviewRubric({ minScore: +$event })"
-          />
-        </mat-form-field>
+    <!-- Global Score + Weightage for interview -->
+    <div class="flex items-start justify-between max-w-3xl">
+      <mat-form-field appearance="outline" class="whizard-outline w-50">
+        <mat-label>Min. Interview Score</mat-label>
+        <input
+          matInput
+          type="number"
+          min="0"
+          max="100"
+          [ngModel]="getInterviewRubric().minScore"
+          (ngModelChange)="updateInterviewRubric({ minScore: +$event })"
+        />
+      </mat-form-field>
 
-        <mat-form-field appearance="outline" class="wrcf-outline w-[200px]">
-          <mat-label>Interview Weightage (%)</mat-label>
-          <input
-            matInput
-            type="number"
-            min="0"
-            max="100"
-            [ngModel]="getInterviewRubric().weightage"
-            (ngModelChange)="updateInterviewRubric({ weightage: +$event })"
-          />
-        </mat-form-field>
-      </div>
-
+      <mat-form-field appearance="outline" class="whizard-outline w-50">
+        <mat-label>Interview Weightage (%)</mat-label>
+        <input
+          matInput
+          type="number"
+          min="0"
+          max="100"
+          [ngModel]="getInterviewRubric().weightage"
+          (ngModelChange)="updateInterviewRubric({ weightage: +$event })"
+        />
+      </mat-form-field>
     </div>
   </div>
-
 </div>

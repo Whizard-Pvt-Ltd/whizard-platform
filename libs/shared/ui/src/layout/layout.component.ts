@@ -45,7 +45,7 @@ import { AdminSidebarComponent } from './sidebar.component';
   template: `
     <mat-sidenav-container>
       <mat-sidenav
-        class="w-70 border-r border-neutral-200 scheme-dark dark:border-neutral-800 dark:bg-primary-950"
+        class="w-80 border-r border-neutral-200 scheme-dark dark:border-neutral-800 dark:bg-primary-950"
         [mode]="isMobile() ? 'over' : 'side'"
         [opened]="!isMobile()"
         [disableClose]="!isMobile()"
@@ -57,6 +57,7 @@ import { AdminSidebarComponent } from './sidebar.component';
 
       <mat-sidenav-content
         class="flex flex-col overflow-hidden dark:border-neutral-800 dark:bg-primary-950"
+        style="height: 100vh;"
       >
         <!-- Top bar — always visible -->
         <div
@@ -90,7 +91,7 @@ import { AdminSidebarComponent } from './sidebar.component';
                   class="flex items-center gap-1.5 h-9 px-4 rounded-[10px] text-sm font-medium transition-colors shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
                   [class]="
                     action.variant === 'primary'
-                      ? 'bg-[#314DDF] text-[#E8F0FA] hover:bg-[#263FCC]'
+                      ? 'bg-color-brand text-[#E8F0FA] hover:bg-[#263FCC]'
                       : action.variant === 'secondary'
                         ? 'bg-[#00BFFF] text-[#0F172A] hover:bg-[#00a8e0]'
                         : 'border border-[#484E5D] text-[#7F94AE] hover:border-[#E8F0FA] hover:text-[#E8F0FA]'

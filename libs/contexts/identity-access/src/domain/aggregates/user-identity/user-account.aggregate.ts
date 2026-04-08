@@ -74,8 +74,6 @@ export class UserAccount {
   static rehydrate(input: {
     id: string;
     email: string;
-    tenantType: 'SYSTEM' | 'PARENT_CLUB' | 'COLLEGE' | 'COMPANY';
-    tenantId: string;
     status: AccountStatus;
     mfaRequired: boolean;
     stackAuthUserId?: string | null;
@@ -87,10 +85,16 @@ export class UserAccount {
     tenantMemberships?: TenantMembership[];
     actorLinks?: ActorLink[];
   }): UserAccount {
+    const memberships = input.tenantMemberships ?? [];
+    const primary = memberships.find((m) => m.status === 'ACTIVE') ?? memberships[0];
+    const primaryTenant = primary
+      ? TenantRef.create({ tenantType: primary.tenantType, tenantId: primary.tenantId })
+      : TenantRef.create({ tenantType: 'SYSTEM', tenantId: process.env['SYSTEM_TENANT_ID'] ?? '1' });
+
     return new UserAccount({
       id: UserAccountId.create(input.id),
       email: EmailAddress.create(input.email),
-      tenant: TenantRef.create({ tenantType: input.tenantType, tenantId: input.tenantId }),
+      tenant: primaryTenant,
       status: input.status,
       mfaRequired: input.mfaRequired,
       stackAuthUserId: input.stackAuthUserId ?? null,
@@ -99,7 +103,7 @@ export class UserAccount {
       lastLoginAt: input.lastLoginAt,
       credentials: input.credentials ?? [],
       mfaEnrollments: input.mfaEnrollments ?? [],
-      tenantMemberships: input.tenantMemberships ?? [],
+      tenantMemberships: memberships,
       actorLinks: input.actorLinks ?? []
     });
   }
@@ -268,26 +272,24 @@ export class UserAccount {
   toPrimitives(): {
     id: string;
     email: string;
-    tenantType: 'SYSTEM' | 'PARENT_CLUB' | 'COLLEGE' | 'COMPANY';
-    tenantId: string;
     status: AccountStatus;
     mfaRequired: boolean;
     stackAuthUserId: string | null;
     createdAt: Date;
     activatedAt: Date | null;
     lastLoginAt: Date | null;
+    tenantMemberships: TenantMembership[];
   } {
     return {
       id: this.id.value,
       email: this.email.value,
-      tenantType: this.tenant.tenantType,
-      tenantId: this.tenant.tenantId,
       status: this.state.status,
       mfaRequired: this.state.mfaRequired,
       stackAuthUserId: this.state.stackAuthUserId,
       createdAt: this.state.createdAt,
       activatedAt: this.state.activatedAt,
-      lastLoginAt: this.state.lastLoginAt
+      lastLoginAt: this.state.lastLoginAt,
+      tenantMemberships: this.state.tenantMemberships
     };
   }
 
