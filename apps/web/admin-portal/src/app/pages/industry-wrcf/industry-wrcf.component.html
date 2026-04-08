@@ -24,7 +24,7 @@
         >
           <mat-option value="">Select Industry...</mat-option>
           @for (i of industries(); track i.id) {
-<mat-select [formControl]="industryControl" placeholder="Select Industry..."></mat-select>
+            <mat-option [value]="i.id">{{ i.name }}</mat-option>
           }
           </mat-select>
       </mat-form-field>

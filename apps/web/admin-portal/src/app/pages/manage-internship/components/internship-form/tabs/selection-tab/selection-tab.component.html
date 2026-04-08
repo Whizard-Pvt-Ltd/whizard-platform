@@ -8,7 +8,7 @@
       <!-- Offer letter template -->
       <div class="flex items-center gap-4">
         <span class="flex-1 text-lg text-whizard-text-primary font-medium">Offer Letter Template</span>
-        <label class="flex items-center gap-2 h-[35px] px-4 rounded-lg bg-whizard-action text-white text-sm font-medium cursor-pointer hover:bg-whizard-action-hover transition-colors">
+        <label class="flex items-center gap-2 h-8.75 px-4 rounded-lg bg-whizard-action text-white text-sm font-medium cursor-pointer hover:bg-whizard-action-hover transition-colors">
           <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-4"></mat-icon>
           @if (formValue().offerLetterTemplateUrl) {
             {{ formValue().offerLetterTemplateUrl }}
@@ -22,7 +22,7 @@
       <!-- Terms & conditions -->
       <div class="flex items-center gap-4">
         <span class="flex-1 text-lg text-whizard-text-primary font-medium">Terms & Condition for acceptance</span>
-        <label class="flex items-center gap-2 h-[35px] px-4 rounded-lg bg-whizard-action text-white text-sm font-medium cursor-pointer hover:bg-whizard-action-hover transition-colors">
+        <label class="flex items-center gap-2 h-8.75 px-4 rounded-lg bg-whizard-action text-white text-sm font-medium cursor-pointer hover:bg-whizard-action-hover transition-colors">
           <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-4"></mat-icon>
           @if (formValue().termsConditionUrl) {
             {{ formValue().termsConditionUrl }}
@@ -39,7 +39,7 @@
       <!-- Offer Letter Release + Select Method in ONE row -->
       <div class="flex items-center justify-between">
         <span class="text-lg text-whizard-text-primary font-medium">Offer Letter Release</span>
-        <mat-form-field appearance="outline" class="whizard-outline w-[341px]" subscriptSizing="dynamic">
+        <mat-form-field appearance="outline" class="whizard-outline w-85.25" subscriptSizing="dynamic">
           <mat-label>Select Method</mat-label>
           <mat-select [ngModel]="formValue().offerLetterReleaseMethod" (ngModelChange)="emit({offerLetterReleaseMethod: $event})">
             @for (method of offerReleaseMethods; track method) {
@@ -57,7 +57,7 @@
       <h3 class="text-xl font-semibold text-whizard-accent">Assign Internship Co-ordinator</h3>
       <button
         type="button"
-        class="flex items-center justify-center w-[33px] h-[33px] rounded-full bg-whizard-action hover:bg-whizard-action-hover transition-colors"
+        class="flex items-center justify-center w-8.25 h-8.25 rounded-full bg-whizard-action hover:bg-whizard-action-hover transition-colors"
         (click)="addBatch()"
         title="Add batch"
       >
@@ -80,14 +80,14 @@
 
         <!-- Right side: batch size + coordinator + delete -->
         <div class="flex items-center gap-4">
-          <mat-form-field appearance="outline" class="whizard-outline w-[150px]" subscriptSizing="dynamic">
+          <mat-form-field appearance="outline" class="whizard-outline w-37.5" subscriptSizing="dynamic">
             <mat-label>Batch Size</mat-label>
             <input matInput type="number" min="1"
               [ngModel]="batch.batchSize"
               (ngModelChange)="updateBatch(i, {batchSize: +$event})" />
           </mat-form-field>
 
-          <mat-form-field appearance="outline" class="whizard-outline w-[200px]" subscriptSizing="dynamic">
+          <mat-form-field appearance="outline" class="whizard-outline w-50" subscriptSizing="dynamic">
             <mat-label>Internship Co-ordinator</mat-label>
             <mat-select
               [ngModel]="batch.coordinatorUserId"
@@ -125,13 +125,13 @@
     <h3 class="text-xl font-medium text-whizard-accent mb-5">Internship Process & Expectation</h3>
     <div class="flex items-center gap-5">
       <!-- Select Plant (read-only from Details tab city) -->
-      <mat-form-field appearance="outline" class="whizard-outline w-[341px]" subscriptSizing="dynamic">
+      <mat-form-field appearance="outline" class="whizard-outline w-85.25" subscriptSizing="dynamic">
         <mat-label>Select Plant</mat-label>
         <input matInput type="text" readonly [value]="selectedCityName()" />
       </mat-form-field>
 
       <!-- Select Functional Group -->
-      <mat-form-field appearance="outline" class="whizard-outline w-[341px]" subscriptSizing="dynamic">
+      <mat-form-field appearance="outline" class="whizard-outline w-85.25" subscriptSizing="dynamic">
         <mat-label>Select Functional Group</mat-label>
         <mat-select
           [ngModel]="formValue().functionalGroupId"

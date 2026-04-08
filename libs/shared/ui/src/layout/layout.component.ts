@@ -18,6 +18,7 @@ import {
   RouterOutlet,
 } from '@angular/router';
 import { filter, map } from 'rxjs';
+import { ScrollbarDirective } from "../directives/scrollbar/scrollbar.directive";
 import { LAYOUT_AUTH_SERVICE } from './auth.token';
 import { NotificationsComponent } from './notifications.component';
 import { PageActionsService } from './page-actions.service';
@@ -42,18 +43,22 @@ import { AdminSidebarComponent } from './sidebar.component';
     SchemeSwitcherComponent,
     NotificationsComponent,
     MatButtonModule,
+    ScrollbarDirective,
   ],
   template: `
     <mat-sidenav-container>
       <mat-sidenav
-        class="w-80 border-r border-neutral-200 scheme-dark dark:border-neutral-800 dark:bg-primary-950"
+        class="w-80 border-r border-neutral-200 scheme-dark dark:border-neutral-800 dark:bg-primary-950 overflow-hidden"
         [mode]="isMobile() ? 'over' : 'side'"
         [opened]="!isMobile()"
         [disableClose]="!isMobile()"
         fixedInViewport
         #sidenav="matSidenav"
       >
-        <whizard-admin-sidebar />
+        <whizard-admin-sidebar class="w-full" whizardScrollbar="true"  [whizardScrollbarOptions]="{
+          suppressScrollX: true,
+          wheelPropagation: true,
+        }"/>
       </mat-sidenav>
 
       <mat-sidenav-content

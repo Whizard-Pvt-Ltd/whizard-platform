@@ -1,0 +1,52 @@
+# During Internship - During Internship Tab UI and Flow
+claude --resume 2e0cc048-48c8-4556-8967-b32eecaf0d7dhe
+
+## Overview
+Enhance the During Internship Tab  in the Manage Internship create/edit form to match the Figma design.
+Use get_context form Figma link provide. Here are the flow wise two screens 
+1. @https://www.figma.com/design/zVVHwGoayNcFJ7ejiV0T0U/Latest-Whizard-Web-Design-System?node-id=2129-23384&m=dev 
+   Explain flow that user can be able to enter total number of weeks and a button in right corner to show full plan created in full screen pop-up in timeline UI(ui do it later). 
+   And Bellow will be Internship plan have provided form in Form group.
+    1. PWO (Primary work object) which should came as per the selected Function Group in section tab.
+    2. Capability Instance which should be as per the selected PWO form capability_instances table. (which could be multi-selected).
+    3. Functional Mentor field (single-select) form the company users 
+    4. No. of Weeks in number input only 
+2.  @https://www.figma.com/design/zVVHwGoayNcFJ7ejiV0T0U/Latest-Whizard-Web-Design-System?node-id=2131-21983&m=dev
+    This screen explain the UI of weekly schedule internship plan. When user fill the above form and click on add then
+    a form details will be pushed in the form array and add new accordion bellow i row wise.
+    1. accordion ui should be same as per the give in figma.
+    2. accordion header will show FG's and Functional Mentor as per the selected for that week.
+    3. accordion body will have a filter of Capability Instance + Skill showing all the Capability Instance + Skill as per the selected 
+    CI mapping 
+
+## Current Behaviour
+<!-- Describe how the feature works today before this enhancement. -->
+
+## Desired Behaviour
+<!-- Describe how it should work after the enhancement. Be specific. -->
+
+## Default Behaviours
+<!-- Auto-select rules, pre-population, initial state changes if any. -->
+
+## Changes to Entities & Attributes
+<!-- Only list fields/entities that are added, changed, or removed.
+     For each: Name, Type, Mandatory (*), Options if dropdown. -->
+
+## User Flows
+<!-- Step-by-step flows that change or are newly introduced.
+     e.g. "1. Click Export → 2. Choose format → 3. Download file" -->
+
+## Business Rules & Constraints
+<!-- New or changed validation rules, guard conditions, cascading effects. -->
+
+## DB Notes
+<!-- New columns, indexes, or table changes needed. State "No DB changes" if none. -->
+
+## Scope
+<!-- Explicit list of what must be changed: frontend, API, migration, tests. -->
+
+## Out of Scope
+<!-- Anything explicitly NOT part of this enhancement to avoid scope creep. -->
+
+## Notes / Edge Cases
+<!-- Gotchas, open questions, cross-feature dependencies. -->
