@@ -6,6 +6,14 @@ import { resolveImpactLevel, CRITICALITY_LEVELS, COMPLEXITY_LEVELS, FREQUENCY_LE
 export class PrismaSwoRepository implements ISwoRepository {
   private readonly prisma = getPrisma();
 
+  private async resolveUserBigInt(uuid: string): Promise<bigint | undefined> {
+    const user = await this.prisma.userAccount.findUnique({
+      where: { publicUuid: uuid },
+      select: { id: true }
+    });
+    return user?.id ?? undefined;
+  }
+
   async findById(id: string): Promise<SecondaryWorkObject | null> {
     const row = await this.prisma.secondaryWorkObject.findUnique({
       where: { id: BigInt(id) }
@@ -17,6 +25,7 @@ export class PrismaSwoRepository implements ISwoRepository {
       versionId: String(row.version),
       pwoId: row.pwoId.toString(),
       name: row.name,
+      description: row.description ?? undefined,
       operationalComplexity: resolveImpactLevel(row.operationalComplexity, COMPLEXITY_LEVELS),
       assetCriticality: resolveImpactLevel(row.assetCriticality, CRITICALITY_LEVELS),
       failureFrequency: resolveImpactLevel(row.failureFrequency, FREQUENCY_LEVELS),
@@ -38,6 +47,7 @@ export class PrismaSwoRepository implements ISwoRepository {
         versionId: String(row.version),
         pwoId: row.pwoId.toString(),
         name: row.name,
+        description: row.description ?? undefined,
         operationalComplexity: resolveImpactLevel(row.operationalComplexity, COMPLEXITY_LEVELS),
         assetCriticality: resolveImpactLevel(row.assetCriticality, CRITICALITY_LEVELS),
         failureFrequency: resolveImpactLevel(row.failureFrequency, FREQUENCY_LEVELS),
@@ -49,30 +59,44 @@ export class PrismaSwoRepository implements ISwoRepository {
   async save(swo: SecondaryWorkObject): Promise<void> {
     const tenantId = BigInt(swo.tenantId);
     const pwoId = BigInt(swo.pwoId);
+    const createdBy = swo.createdBy ? await this.resolveUserBigInt(swo.createdBy) : undefined;
+    const updatedBy = swo.updatedBy ? await this.resolveUserBigInt(swo.updatedBy) : undefined;
 
     await this.prisma.secondaryWorkObject.upsert({
       where: { id: BigInt(swo.id) },
       update: {
         name: swo.name,
+        description: swo.description,
         operationalComplexity: swo.operationalComplexity.label,
         assetCriticality: swo.assetCriticality.label,
         failureFrequency: swo.failureFrequency.label,
-        isActive: swo.isActive
+        isActive: swo.isActive,
+        ...(updatedBy !== undefined && { updatedBy })
       },
       create: {
         tenantId,
         version: Number(swo.versionId ?? 1),
         pwoId,
         name: swo.name,
+        description: swo.description,
         operationalComplexity: swo.operationalComplexity.label,
         assetCriticality: swo.assetCriticality.label,
         failureFrequency: swo.failureFrequency.label,
-        isActive: swo.isActive
+        isActive: swo.isActive,
+        ...(createdBy !== undefined && { createdBy }),
+        ...(updatedBy !== undefined && { updatedBy })
       }
     });
   }
 
   async delete(id: string): Promise<void> {
     await this.prisma.secondaryWorkObject.delete({ where: { id: BigInt(id) } });
+  }
+
+  async hasCIs(swoId: string): Promise<boolean> {
+    const count = await this.prisma.capabilityInstance.count({
+      where: { swoId: BigInt(swoId) }
+    });
+    return count > 0;
   }
 }

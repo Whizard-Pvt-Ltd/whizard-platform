@@ -157,6 +157,7 @@ model PrimaryWorkObject {
   tenantId                 BigInt               @map("tenant_id")
   tenant                   Tenant               @relation(fields: [tenantId], references: [id])
   name                     String               @db.VarChar(100)
+  description              String?
   sourceTemplateId         String?              @map("source_template_id")
   strategicImportanceLevel Int                  @map("strategic_importance_level") @db.SmallInt
   revenueImpactLevel       String               @map("revenue_impact_level") @db.VarChar(10)
@@ -181,6 +182,7 @@ model SecondaryWorkObject {
   tenantId              BigInt               @map("tenant_id")
   tenant                Tenant               @relation(fields: [tenantId], references: [id])
   name                  String               @db.VarChar(100)
+  description           String?
   sourceTemplateId      String?              @map("source_template_id")
   operationalComplexity String               @map("operational_complexity") @db.VarChar(10)
   assetCriticality      String               @map("asset_criticality") @db.VarChar(10)

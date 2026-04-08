@@ -21,13 +21,12 @@
         <mat-select
           [value]="selectedIndustryId()"
           (selectionChange)="onIndustryChange($event.value)"
-          [disabled]="!selectedSectorId()"
         >
           <mat-option value="">Select Industry...</mat-option>
           @for (i of industries(); track i.id) {
-            <mat-option [value]="i.id">{{ i.name }}</mat-option>
+<mat-select [formControl]="industryControl" placeholder="Select Industry..."></mat-select>
           }
-        </mat-select>
+          </mat-select>
       </mat-form-field>
     </div>
 
@@ -118,6 +117,7 @@
     <div class="panel-backdrop" (click)="closePanel()"></div>
     <whizard-wrcf-panel
       [state]="panel()"
+      [panelError]="panelError()"
       (save)="onPanelSave($event)"
       (delete)="onPanelDelete($event)"
       (close)="closePanel()"

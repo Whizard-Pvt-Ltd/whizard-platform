@@ -47,7 +47,7 @@
           formControlName="password"
           placeholder="@#*%"
           />
-        <button type="button" (click)="togglePasswordVisibility()">
+        <button type="button" class="eye-btn" (click)="togglePasswordVisibility()">
           {{ showPassword() ? 'Hide' : 'Show' }}
         </button>
       </div>
@@ -57,15 +57,15 @@
         </small>
       }
 
-      <div class="field-group">
-        <label for="email">Email Address</label>
+      <label for="confirmPassword">Confirm Password</label>
+      <div class="password-field">
         <input
           id="confirmPassword"
           [type]="showConfirmPassword() ? 'text' : 'password'"
           formControlName="confirmPassword"
           placeholder="@#*%"
           />
-        <button type="button" (click)="toggleConfirmPasswordVisibility()">
+        <button type="button" class="eye-btn" (click)="toggleConfirmPasswordVisibility()">
           {{ showConfirmPassword() ? 'Hide' : 'Show' }}
         </button>
       </div>

@@ -78,14 +78,19 @@
 
 .filter-select {
   height: 40px;
-  padding: 0 12px;
+  padding: 0 2rem 0 12px;
   border-radius: 10px;
   border: 1px solid #484E5D;
-  background: #0F253F;
+  background-color: #0F253F;
   color: #E8F0FA;
   font-family: 'Poppins', sans-serif;
   font-size: 13px;
   cursor: pointer;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237F94AE' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
 }
 
 .filter-select:disabled {

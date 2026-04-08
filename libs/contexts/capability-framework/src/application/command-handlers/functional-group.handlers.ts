@@ -27,7 +27,8 @@ export class CreateFGCommandHandler {
       industryId: cmd.industryId,
       name: cmd.name,
       description: cmd.description,
-      domainType: cmd.domainType
+      domainType: cmd.domainType,
+      createdBy: cmd.actorUserId
     });
     await this.fgRepo.save(fg);
     logger.info('Functional group created', { userId: cmd.actorUserId, tenantId: fg.tenantId, fgId: fg.id, name: fg.name });
@@ -45,7 +46,7 @@ export class UpdateFGCommandHandler {
       logger.warn('Functional group not found', { userId: cmd.actorUserId, tenantId: cmd.tenantId, fgId: cmd.id });
       throw new DomainException(`FunctionalGroup ${cmd.id} not found`);
     }
-    fg.update({ name: cmd.name, description: cmd.description, domainType: cmd.domainType });
+    fg.update({ name: cmd.name, description: cmd.description, domainType: cmd.domainType, updatedBy: cmd.actorUserId });
     await this.fgRepo.save(fg);
     logger.info('Functional group updated', { userId: cmd.actorUserId, tenantId: cmd.tenantId, fgId: fg.id });
     return toDto(fg);

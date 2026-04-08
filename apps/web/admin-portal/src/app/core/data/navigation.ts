@@ -25,13 +25,6 @@ export const ADMIN_NAVIGATION: NavigationItem[] = [
         activeOptions: { exact: false },
       },
       {
-        id: 'wrcf-skills',
-        label: 'Manage Skills',
-        icon: 'lucideIcons:sparkles',
-        route: '/wrcf-skills',
-        activeOptions: { exact: false },
-      },
-      {
         id: 'wrcf-roles',
         label: 'Manage Roles',
         icon: 'heroicons_outline:users',
