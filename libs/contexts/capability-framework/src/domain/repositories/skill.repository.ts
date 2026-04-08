@@ -12,7 +12,7 @@ export interface SkillDto {
 
 export interface ISkillRepository {
   findByCapabilityInstanceId(tenantId: string, capabilityInstanceId: string): Promise<Skill[]>;
-  findAllDtos(tenantId: string, capabilityInstanceId: string): Promise<SkillDto[]>;
+  findAllDtos(capabilityInstanceId: string, tenantId?: string): Promise<SkillDto[]>;
   findById(id: string): Promise<Skill | null>;
   save(skill: Skill): Promise<void>;
   update(skill: Skill): Promise<void>;

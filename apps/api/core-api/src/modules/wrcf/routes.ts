@@ -426,8 +426,9 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
       const ctx = getRequestContext(request);
       const query = request.query as Record<string, string>;
       const capabilityInstanceId = query['capabilityInstanceId'] ?? '';
+      const tenantId = ctx.tenantType !== 'SYSTEM' ? ctx.tenantId : undefined;
       logger.debug('Listing skills', { ...getLogContext(request), capabilityInstanceId });
-      const data = await deps.listSkills.execute(ctx.tenantId, capabilityInstanceId);
+      const data = await deps.listSkills.execute(capabilityInstanceId, tenantId);
       logger.debug('Listed skills', { ...getLogContext(request), capabilityInstanceId, count: data.length });
       reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
     }
@@ -514,8 +515,9 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
       const ctx = getRequestContext(request);
       const query = request.query as Record<string, string>;
       const skillId = query['skillId'] ?? '';
+      const tenantId = ctx.tenantType !== 'SYSTEM' ? ctx.tenantId : undefined;
       logger.debug('Listing tasks', { ...getLogContext(request), skillId });
-      const data = await deps.listTasks.execute(ctx.tenantId, skillId);
+      const data = await deps.listTasks.execute(skillId, tenantId);
       logger.debug('Listed tasks', { ...getLogContext(request), skillId, count: data.length });
       reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
     }
@@ -604,8 +606,9 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
       const ctx = getRequestContext(request);
       const query = request.query as Record<string, string>;
       const taskId = query['taskId'] ?? '';
+      const tenantId = ctx.tenantType !== 'SYSTEM' ? ctx.tenantId : undefined;
       logger.debug('Listing control points', { ...getLogContext(request), taskId });
-      const data = await deps.listControlPoints.execute(ctx.tenantId, taskId);
+      const data = await deps.listControlPoints.execute(taskId, tenantId);
       logger.debug('Listed control points', { ...getLogContext(request), taskId, count: data.length });
       reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
     }

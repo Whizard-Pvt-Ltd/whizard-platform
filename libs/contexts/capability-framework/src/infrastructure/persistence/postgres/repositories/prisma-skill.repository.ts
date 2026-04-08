@@ -26,11 +26,11 @@ export class PrismaSkillRepository implements ISkillRepository {
     }));
   }
 
-  async findAllDtos(tenantId: string, capabilityInstanceId: string): Promise<SkillDto[]> {
+  async findAllDtos(capabilityInstanceId: string, tenantId?: string): Promise<SkillDto[]> {
     const rows = await this.prisma.skill.findMany({
       where: {
-        tenantId: BigInt(tenantId),
         capabilityInstanceId: BigInt(capabilityInstanceId),
+        ...(tenantId ? { tenantId: BigInt(tenantId) } : {}),
         isActive: true
       },
       orderBy: { name: 'asc' }
