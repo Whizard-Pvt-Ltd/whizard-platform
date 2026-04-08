@@ -1,14 +1,14 @@
 <div class="flex flex-col p-6 space-y-8">
 
-  <!-- Offer Letter Documents -->
+  <!-- ══ Offer Letter Documents ══════════════════════════════════════════ -->
   <div>
     <h3 class="text-xl font-semibold text-whizard-accent mb-4">Offer Letter Documents</h3>
 
     <div class="space-y-3">
       <!-- Offer letter template -->
       <div class="flex items-center gap-4">
-        <span class="flex-1 text-sm text-whizard-text-primary font-medium">Offer Letter Template</span>
-        <label class="flex items-center gap-2 h-10 px-4 rounded-[10px] bg-whizard-action text-white text-sm font-medium cursor-pointer hover:bg-whizard-action-hover transition-colors">
+        <span class="flex-1 text-lg text-whizard-text-primary font-medium">Offer Letter Template</span>
+        <label class="flex items-center gap-2 h-[35px] px-4 rounded-lg bg-whizard-action text-white text-sm font-medium cursor-pointer hover:bg-whizard-action-hover transition-colors">
           <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-4"></mat-icon>
           @if (formValue().offerLetterTemplateUrl) {
             {{ formValue().offerLetterTemplateUrl }}
@@ -21,8 +21,8 @@
 
       <!-- Terms & conditions -->
       <div class="flex items-center gap-4">
-        <span class="flex-1 text-sm text-whizard-text-primary font-medium">Terms & Condition for acceptance</span>
-        <label class="flex items-center gap-2 h-10 px-4 rounded-[10px] bg-whizard-action text-white text-sm font-medium cursor-pointer hover:bg-whizard-action-hover transition-colors">
+        <span class="flex-1 text-lg text-whizard-text-primary font-medium">Terms & Condition for acceptance</span>
+        <label class="flex items-center gap-2 h-[35px] px-4 rounded-lg bg-whizard-action text-white text-sm font-medium cursor-pointer hover:bg-whizard-action-hover transition-colors">
           <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-4"></mat-icon>
           @if (formValue().termsConditionUrl) {
             {{ formValue().termsConditionUrl }}
@@ -32,127 +32,217 @@
           <input type="file" accept=".pdf" class="sr-only" (change)="onTermsSelected($event)" />
         </label>
       </div>
+
+      <!-- Divider -->
+      <div class="h-px w-full bg-whizard-border/40"></div>
+
+      <!-- Offer Letter Release + Select Method in ONE row -->
+      <div class="flex items-center justify-between">
+        <span class="text-lg text-whizard-text-primary font-medium">Offer Letter Release</span>
+        <mat-form-field appearance="outline" class="whizard-outline w-[341px]" subscriptSizing="dynamic">
+          <mat-label>Select Method</mat-label>
+          <mat-select [ngModel]="formValue().offerLetterReleaseMethod" (ngModelChange)="emit({offerLetterReleaseMethod: $event})">
+            @for (method of offerReleaseMethods; track method) {
+              <mat-option [value]="method">{{ method }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ Assign Internship Co-ordinator ══════════════════════════════════ -->
+  <div>
+    <div class="flex items-center justify-between mb-2.5">
+      <h3 class="text-xl font-semibold text-whizard-accent">Assign Internship Co-ordinator</h3>
+      <button
+        type="button"
+        class="flex items-center justify-center w-[33px] h-[33px] rounded-full bg-whizard-action hover:bg-whizard-action-hover transition-colors"
+        (click)="addBatch()"
+        title="Add batch"
+      >
+        <mat-icon svgIcon="lucideIcons:lucide-plus" class="size-5 text-white" />
+      </button>
     </div>
 
-    <!-- Offer letter release method -->
-    <div class="mt-4">
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>Offer Letter Release — Select Method</mat-label>
-        <mat-select [ngModel]="formValue().offerLetterReleaseMethod" (ngModelChange)="emit({offerLetterReleaseMethod: $event})">
-          @for (method of offerReleaseMethods; track method) {
-            <mat-option [value]="method">{{ method }}</mat-option>
+    @for (batch of formValue().batches; track batch.id; let i = $index) {
+      <div class="flex items-center justify-between mb-2.5">
+        <!-- Left side: batch name + List / Create actions -->
+        <div class="flex items-center gap-16">
+          <span class="text-lg font-semibold text-whizard-text-primary whitespace-nowrap">
+            Internship Batch {{ i + 1 }}
+          </span>
+          <div class="flex items-center gap-6 text-lg font-bold text-[#00BFFF]">
+            <button type="button" class="underline hover:opacity-80 transition-opacity">List</button>
+            <button type="button" class="underline hover:opacity-80 transition-opacity">Create</button>
+          </div>
+        </div>
+
+        <!-- Right side: batch size + coordinator + delete -->
+        <div class="flex items-center gap-4">
+          <mat-form-field appearance="outline" class="whizard-outline w-[150px]" subscriptSizing="dynamic">
+            <mat-label>Batch Size</mat-label>
+            <input matInput type="number" min="1"
+              [ngModel]="batch.batchSize"
+              (ngModelChange)="updateBatch(i, {batchSize: +$event})" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="whizard-outline w-[200px]" subscriptSizing="dynamic">
+            <mat-label>Internship Co-ordinator</mat-label>
+            <mat-select
+              [ngModel]="batch.coordinatorUserId"
+              (ngModelChange)="updateBatch(i, {coordinatorUserId: $event || null})"
+            >
+              <mat-option [value]="null">-- None --</mat-option>
+              @for (user of coordinators(); track user.id) {
+                <mat-option [value]="user.id">{{ user.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <button
+            type="button"
+            mat-icon-button
+            class="flex items-center justify-center w-6 h-6 rounded-full bg-red-900/30 hover:bg-red-900/60 transition-colors text-red-400"
+            (click)="removeBatch(i)"
+            title="Delete batch"
+          >
+            <mat-icon svgIcon="lucideIcons:trash" class="size-4"></mat-icon>
+          </button>
+        </div>
+      </div>
+    }
+
+    @if (formValue().batches.length === 0) {
+      <p class="text-sm text-whizard-text-secondary italic px-1">
+        No batches added yet — click + to add one.
+      </p>
+    }
+  </div>
+
+  <!-- ══ Internship Process & Expectation ════════════════════════════════ -->
+  <div>
+    <h3 class="text-xl font-medium text-whizard-accent mb-5">Internship Process & Expectation</h3>
+    <div class="flex items-center gap-5">
+      <!-- Select Plant (read-only from Details tab city) -->
+      <mat-form-field appearance="outline" class="whizard-outline w-[341px]" subscriptSizing="dynamic">
+        <mat-label>Select Plant</mat-label>
+        <input matInput type="text" readonly [value]="selectedCityName()" />
+      </mat-form-field>
+
+      <!-- Select Functional Group -->
+      <mat-form-field appearance="outline" class="whizard-outline w-[341px]" subscriptSizing="dynamic">
+        <mat-label>Select Functional Group</mat-label>
+        <mat-select
+          [ngModel]="formValue().functionalGroupId"
+          (ngModelChange)="emit({functionalGroupId: $event || null})"
+        >
+          <mat-option [value]="null">-- None --</mat-option>
+          @for (fg of functionalGroups(); track fg.id) {
+            <mat-option [value]="fg.id">{{ fg.name }}</mat-option>
           }
         </mat-select>
       </mat-form-field>
     </div>
   </div>
 
-  <!-- Assign Internship Co-ordinator -->
+  <!-- ══ Pre-Internship Communication (Quill Editor) ═════════════════════ -->
   <div>
-    <div class="flex items-center justify-between mb-4">
-      <h3 class="text-xl font-semibold text-whizard-accent">Assign Internship Co-ordinator</h3>
-      <button mat-icon-button color="primary" (click)="addBatch()">
-        <mat-icon>add</mat-icon>
-      </button>
-    </div>
+    <h3 class="text-xl font-medium text-whizard-accent mb-2">Pre-Internship Communication</h3>
+    <whizard-quill-editor
+      placeholder="Welcome message, instructions..."
+      [ngModel]="formValue().preInternshipCommunication ?? ''"
+      (ngModelChange)="emit({preInternshipCommunication: $event || null})"
+    />
+  </div>
 
-    @for (batch of formValue().batches; track batch.id; let i = $index) {
-      <div class="mb-4 rounded-xl border border-whizard-border bg-whizard-bg-secondary p-4">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-sm font-semibold text-whizard-text-primary">Internship Batch {{ i + 1 }}</span>
-          <div class="flex items-center gap-2">
-            <button mat-stroked-button class="text-xs h-7 px-2">List</button>
-            <button mat-stroked-button class="text-xs h-7 px-2">Create</button>
-            <button mat-icon-button color="warn" (click)="removeBatch(i)">
-              <mat-icon svgIcon="heroicons_outline:trash"></mat-icon>
-            </button>
-          </div>
+  <!-- ══ Add Pre-read Courses (drag-drop) ════════════════════════════════ -->
+  <div>
+    <h3 class="text-xl font-medium text-whizard-accent mb-5">Add Pre read Courses</h3>
+
+    <!-- Dropped course cards -->
+    <div class="flex flex-wrap gap-4 mb-4">
+      @for (course of formValue().preReadCourses; track $index) {
+        <div class="relative flex flex-col items-center justify-center w-49.75 h-31.5 rounded-lg bg-whizard-bg-secondary p-5 gap-2 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+          <button
+            type="button"
+            class="absolute top-1.5 right-1.5 flex items-center justify-center w-5 h-5 rounded-full bg-red-900/40 hover:bg-red-900/70 text-red-400 transition-colors"
+            (click)="removeCourse($index)"
+            title="Remove course"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-whizard-accent">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
+            <line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" />
+          </svg>
+          <span class="text-xs text-whizard-text-primary text-center leading-tight line-clamp-2 px-1">{{ course.name }}</span>
         </div>
-        <div class="grid grid-cols-2 gap-4">
-          <mat-form-field appearance="outline" class="w-full">
-            <mat-label>Batch Size</mat-label>
-            <input matInput type="number" min="1"
-              [ngModel]="batch.batchSize"
-              (ngModelChange)="updateBatch(i, {batchSize: +$event})" />
-          </mat-form-field>
-          <mat-form-field appearance="outline" class="w-full">
-            <mat-label>Internship Co-ordinator</mat-label>
-            <input matInput type="text" placeholder="Search user..."
-              [ngModel]="batch.coordinatorUserId ?? ''"
-              (ngModelChange)="updateBatch(i, {coordinatorUserId: $event || null})" />
-          </mat-form-field>
+      }
+
+      <!-- Drop zone -->
+      <div
+        class="flex flex-col items-center justify-center w-49.75 h-31.5 rounded-lg bg-whizard-bg-secondary p-5 gap-2.75 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] transition-all"
+        [class.border-2]="dragOverCourseIndex === -1"
+        [class.border-whizard-accent]="dragOverCourseIndex === -1"
+        (dragover)="onDragOver($event, 'course', -1)"
+        (dragleave)="onDragLeave('course')"
+        (drop)="onCourseDrop($event)"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-whizard-text-secondary">
+          <polyline points="16 16 12 12 8 16" /><line x1="12" y1="12" x2="12" y2="21" />
+          <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
+        </svg>
+        <span class="text-sm font-medium text-whizard-text-primary text-center leading-5 tracking-[0.15px]">Drop Courses Here</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ Add Pre-read Articles (drag-drop) ═══════════════════════════════ -->
+  <div>
+    <h3 class="text-xl font-semibold text-whizard-accent mb-5">Add Pre read Articles</h3>
+
+    <!-- Dropped article cards -->
+    <div class="flex flex-wrap gap-4 mb-4">
+      @for (article of formValue().preReadArticles; track $index) {
+        <div class="relative flex flex-col items-center justify-center w-49.75 h-31.5 rounded-lg bg-whizard-bg-secondary p-5 gap-2 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+          <button
+            type="button"
+            class="absolute top-1.5 right-1.5 flex items-center justify-center w-5 h-5 rounded-full bg-red-900/40 hover:bg-red-900/70 text-red-400 transition-colors"
+            (click)="removeArticle($index)"
+            title="Remove article"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-whizard-accent">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
+            <line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" />
+          </svg>
+          <span class="text-xs text-whizard-text-primary text-center leading-tight line-clamp-2 px-1">{{ article.name }}</span>
         </div>
+      }
+
+      <!-- Drop zone -->
+      <div
+        class="flex flex-col items-center justify-center w-49.75 h-31.5 rounded-lg bg-whizard-bg-secondary p-5 gap-2.75 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] transition-all"
+        [class.border-2]="dragOverArticleIndex === -1"
+        [class.border-whizard-accent]="dragOverArticleIndex === -1"
+        (dragover)="onDragOver($event, 'article', -1)"
+        (dragleave)="onDragLeave('article')"
+        (drop)="onArticleDrop($event)"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-whizard-text-secondary">
+          <polyline points="16 16 12 12 8 16" /><line x1="12" y1="12" x2="12" y2="21" />
+          <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
+        </svg>
+        <span class="text-sm font-medium text-whizard-text-primary text-center leading-5 tracking-[0.15px]">Drop Articles Here</span>
       </div>
-    }
-  </div>
-
-  <!-- Internship Process & Expectation -->
-  <div>
-    <h3 class="text-xl font-semibold text-whizard-accent mb-4">Internship Process & Expectation</h3>
-    <div class="grid grid-cols-2 gap-4">
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>Select Plant</mat-label>
-        <input matInput type="text" placeholder="Plant name" />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>Select Functional Group</mat-label>
-        <input matInput type="text" placeholder="Functional group"
-          [ngModel]="formValue().functionalGroupId ?? ''"
-          (ngModelChange)="emit({functionalGroupId: $event || null})" />
-      </mat-form-field>
     </div>
-  </div>
-
-  <!-- Pre-Internship Communication -->
-  <div>
-    <h3 class="text-xl font-semibold text-whizard-accent mb-2">Pre-Internship Communication</h3>
-    <mat-form-field appearance="outline" class="w-full">
-      <textarea matInput rows="5" placeholder="Welcome message, instructions..."
-        [ngModel]="formValue().preInternshipCommunication ?? ''"
-        (ngModelChange)="emit({preInternshipCommunication: $event || null})">
-      </textarea>
-    </mat-form-field>
-  </div>
-
-  <!-- Pre-read Courses -->
-  <div>
-    <div class="flex items-center justify-between mb-3">
-      <h3 class="text-xl font-semibold text-whizard-accent">Add Pre-read Courses</h3>
-    </div>
-    @for (course of formValue().preReadCourses; track $index) {
-      <div class="flex items-center gap-3 mb-2 px-3 py-2 rounded-lg bg-whizard-bg-secondary border border-whizard-border">
-        <mat-icon svgIcon="heroicons_outline:document" class="text-whizard-accent shrink-0"></mat-icon>
-        <span class="flex-1 text-sm text-whizard-text-primary truncate">{{ course.name }}</span>
-        <button mat-icon-button color="warn" (click)="removeCourse($index)">
-          <mat-icon svgIcon="heroicons_outline:trash"></mat-icon>
-        </button>
-      </div>
-    }
-    <label class="flex flex-col items-center justify-center h-24 rounded-lg border-2 border-dashed border-whizard-border cursor-pointer hover:border-whizard-accent transition-colors mt-2">
-      <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-7 text-whizard-text-secondary"></mat-icon>
-      <span class="text-xs text-whizard-text-secondary mt-1">Drop Courses Here</span>
-      <input type="file" accept=".pdf" class="sr-only" (change)="addCourse($event)" />
-    </label>
-  </div>
-
-  <!-- Pre-read Articles -->
-  <div>
-    <div class="flex items-center justify-between mb-3">
-      <h3 class="text-xl font-semibold text-whizard-accent">Add Pre-read Articles</h3>
-    </div>
-    @for (article of formValue().preReadArticles; track $index) {
-      <div class="flex items-center gap-3 mb-2 px-3 py-2 rounded-lg bg-whizard-bg-secondary border border-whizard-border">
-        <mat-icon svgIcon="heroicons_outline:document" class="text-whizard-accent shrink-0"></mat-icon>
-        <span class="flex-1 text-sm text-whizard-text-primary truncate">{{ article.name }}</span>
-        <button mat-icon-button color="warn" (click)="removeArticle($index)">
-          <mat-icon svgIcon="heroicons_outline:trash"></mat-icon>
-        </button>
-      </div>
-    }
-    <label class="flex flex-col items-center justify-center h-24 rounded-lg border-2 border-dashed border-whizard-border cursor-pointer hover:border-whizard-accent transition-colors mt-2">
-      <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-7 text-whizard-text-secondary"></mat-icon>
-      <span class="text-xs text-whizard-text-secondary mt-1">Drop Articles Here</span>
-      <input type="file" accept=".pdf" class="sr-only" (change)="addArticle($event)" />
-    </label>
   </div>
 </div>

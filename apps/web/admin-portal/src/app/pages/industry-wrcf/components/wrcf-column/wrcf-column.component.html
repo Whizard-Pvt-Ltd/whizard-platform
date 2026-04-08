@@ -1,4 +1,4 @@
-<div class="column">
+<div class="column h-[78dvh]">
   <div class="column-header">
     <span class="column-title">{{ title }}</span>
     @if (!readonly && showAdd) {
@@ -6,7 +6,7 @@
     }
   </div>
 
-  <ul class="item-list relative" [whizardScrollbar]="true" style="height: 90vh">
+  <ul class="item-list relative" [whizardScrollbar]="true">
     @for (item of items; track item.id) {
       <li
         class="item"

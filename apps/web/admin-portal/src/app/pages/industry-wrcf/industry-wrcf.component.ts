@@ -1,7 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ScrollbarDirective } from '@whizard/shared-ui';
 import { forkJoin } from 'rxjs';
 import { ManageCIMappingsComponent } from './components/manage-ci-mappings/manage-ci-mappings.component';
@@ -18,7 +20,7 @@ import { WrcfApiService } from './services/wrcf-api.service';
 @Component({
   selector: 'whizard-industry-wrcf',
   standalone: true,
-  imports: [FormsModule, WrcfColumnComponent, WrcfPanelComponent, ManageCIMappingsComponent, ScrollbarDirective],
+  imports: [FormsModule, MatFormFieldModule, MatSelectModule, WrcfColumnComponent, WrcfPanelComponent, ManageCIMappingsComponent, ScrollbarDirective],
   host: { class: 'flex-1 min-h-0 flex flex-col overflow-hidden' },
   templateUrl: './industry-wrcf.component.html',
   styleUrl: './industry-wrcf.component.css',

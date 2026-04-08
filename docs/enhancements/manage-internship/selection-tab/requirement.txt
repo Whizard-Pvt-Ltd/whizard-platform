@@ -1,0 +1,174 @@
+# Manage Internship — Selection Tab UI
+
+## Overview
+Enhance the Selection tab in the Manage Internship create/edit form to match the Figma design
+(node `2129-23063`). Seven improvements: combine Offer Letter Release with its Select Method
+dropdown in a single row, redesign the Assign Internship Co-ordinator section with batch CRUD
+and coordinator dropdown, make Select Plant read-only from the Details tab city, populate
+Select Functional Group from the functional_groups table, replace the Pre-Internship Communication
+textarea with the Quill rich-text editor, and convert Pre-read Courses & Articles from file uploads
+to drag-and-drop from the left Assessment Library panel.
+
+## Current Behaviour
+- Offer Letter Release method is in its own row below the upload buttons, inside a full-width mat-form-field.
+- Batches are displayed as cards with mat-form-fields inside a bg-secondary container; coordinator
+  is a plain text input.
+- Select Plant is an editable text input with no data source.
+- Select Functional Group is an editable text input with no data source.
+- Pre-Internship Communication uses a plain `<textarea>` inside mat-form-field.
+- Pre-read Courses and Articles use file `<input>` with a dashed upload area; no drag-and-drop.
+
+## Desired Behaviour
+
+### 1. Offer Letter Release + Select Method in one row
+- "Offer Letter Release" label on the left, "Select Method" dropdown (341px wide) on the right.
+- A horizontal divider separates this row from the upload rows above.
+- The full-width mat-form-field below is removed.
+
+### 2. Assign Internship Co-ordinator (Figma layout)
+- Section header with + button (33px circle) on the right to add batches.
+- Each batch is a single row:
+  - Left side: "Internship Batch N" label + "List" and "Create" underlined links in accent `#00BFFF`.
+  - Right side: "Batch Size" input (150px) + "Internship Co-ordinator" mat-select dropdown (200px)
+    populated from `user_account` / `user_account_tenants` for the company tenantId.
+  - A trash icon button to delete the batch.
+- List and Create buttons are action placeholders for batch CRUD operations against the DB
+  (internship_batches table) — wired to the internship action buttons.
+
+### 3. Batch CRUD with DB persistence
+- User can create a batch (adds a row with default batchSize 25, no coordinator).
+- User can delete a batch (removes the row).
+- Batch list and batch data are saved when the parent Save/Publish action is triggered.
+- Each batch stores: id, batchSize, coordinatorUserId.
+
+### 4. Internship Co-ordinator per batch
+- Each batch has its own coordinator, selected from a mat-select dropdown.
+- Dropdown is populated by calling `GET /internships/coordinators` with company tenant headers.
+- Users come from user_account joined with user_account_tenants for the company's tenantId.
+
+### 5. Internship Process & Expectation
+- **Select Plant**: Read-only mat-form-field showing the city/location selected in the Details tab.
+  Resolved via `cityId` from `formValue()` against the `cities` input array.
+  Not editable — user must change it in the Details tab.
+- **Select Functional Group**: mat-select dropdown populated from `functional_groups` table
+  filtered by the company tenantId and industry. Fetched via `GET /wrcf/functional-groups`
+  with company tenant headers.
+
+### 6. Pre-Internship Communication (Quill editor)
+- The plain `<textarea>` is replaced with `<whizard-quill-editor>`.
+- Supports bold, italic, ordered/bullet lists, and clean formatting.
+- Stores HTML content in `preInternshipCommunication` field.
+
+### 7. Pre-read Courses & Articles (drag-drop)
+- File upload areas are replaced with drag-and-drop zones matching the Assessment drop zone
+  pattern from the Screening Criteria tab.
+- User drags a resource card from the left Assessment Library panel and drops it onto the zone.
+- Each dropped item shows as a card with a document icon, title, and x button to remove.
+- The drop zone always remains visible for additional drops.
+- Uses the same `ASSESSMENT_DRAG_TYPE` MIME type (`application/whizard-assessment`).
+
+## Default Behaviours
+- When no batches exist, a helper message is shown: "No batches added yet — click + to add one."
+- New batches default to batchSize=25, coordinatorUserId=null.
+- Select Plant shows empty string if no city was selected in Details.
+- Pre-Internship Communication starts empty with placeholder text.
+- Courses and Articles drop zones show a cloud-upload icon with "Drop Courses/Articles Here".
+
+## Changes to Entities & Attributes
+
+### InternshipBatch (unchanged)
+| Field              | Type           | Mandatory | Notes                                      |
+|--------------------|----------------|-----------|---------------------------------------------|
+| id                 | string         | *         | UUID, generated client-side on creation      |
+| batchSize          | number         | *         | Default 25                                   |
+| coordinatorUserId  | string | null  |           | FK to user_account via coordinator dropdown  |
+
+### CoordinatorUser (existing model)
+| Field | Type   | Mandatory | Notes                          |
+|-------|--------|-----------|--------------------------------|
+| id    | string | *         | user_account ID                |
+| name  | string | *         | Display name for dropdown      |
+| email | string | *         | Email for reference            |
+
+### FunctionalGroup (existing model)
+| Field | Type   | Mandatory | Notes                          |
+|-------|--------|-----------|--------------------------------|
+| id    | string | *         | functional_groups.id           |
+| name  | string | *         | Display name for dropdown      |
+
+### FileItem (unchanged — used for courses/articles)
+| Field  | Type   | Mandatory | Notes                                    |
+|--------|--------|-----------|------------------------------------------|
+| pdfUrl | string | *         | Now stores the library item ID           |
+| name   | string | *         | Library item title (displayed in card)   |
+
+## User Flows
+
+### Adding a Batch
+1. User clicks the + button in the "Assign Internship Co-ordinator" header.
+2. A new batch row appears with default Batch Size 25 and empty coordinator.
+3. User sets the batch size and selects a coordinator from the dropdown.
+4. User clicks Save/Publish — batch data persists to `internship_batches` table.
+
+### Deleting a Batch
+1. User clicks the trash icon on a batch row.
+2. The batch row is removed from the list.
+3. Changes persist on next Save/Publish.
+
+### Selecting Functional Group
+1. User opens the "Select Functional Group" dropdown.
+2. Dropdown lists functional groups for the company's tenantId and industry.
+3. User selects one — `functionalGroupId` is updated in formValue.
+
+### Editing Pre-Internship Communication
+1. User clicks into the Quill editor area.
+2. User types/formats the welcome message using the toolbar.
+3. HTML content is stored in `preInternshipCommunication`.
+
+### Adding a Pre-read Course/Article
+1. User drags a resource card from the left Assessment Library panel.
+2. User drops it onto the "Drop Courses Here" or "Drop Articles Here" zone.
+3. A card appears showing the item title with a document icon and x button.
+4. User can drop additional items — the drop zone remains visible.
+
+### Removing a Pre-read Course/Article
+1. User clicks the x button on a dropped item card.
+2. The item is removed from the list.
+
+## Business Rules & Constraints
+- Select Plant is always read-only — sourced from the city selected in the Details tab.
+- Coordinator dropdown is scoped to users belonging to the company's tenantId.
+- Functional Group dropdown is scoped to the company's tenantId and industry.
+- Drag-drop uses `application/whizard-assessment` MIME type to prevent accepting arbitrary drags.
+- Batch operations (create/delete) are local state changes until Save/Publish persists them.
+
+## DB Notes
+- No new tables or columns. Existing `internship_batches` table already has the required schema.
+- `functional_groups` table is read from, not written to.
+- Coordinator data comes from `user_account` + `user_account_tenants` (existing tables).
+
+## Scope
+- **Frontend**: `selection-tab.component.ts` + `.html` (full rewrite), `internship-form.component.ts`
+  + `.html` (pass new inputs), `manage-internship.component.ts` + `.html` (load & pass coordinators
+  and functional groups), `manage-internship-api.service.ts` (add `listFunctionalGroups`, update
+  `listCoordinators`).
+- **Backend**: Add `GET /wrcf/functional-groups` BFF proxy endpoint if not already existing.
+  Ensure `GET /internships/coordinators` accepts company tenant header.
+- No database migration needed.
+
+## Out of Scope
+- Actual List/Create batch modal dialogs — buttons are placeholders for now.
+- Reordering dropped courses/articles via drag.
+- Mobile / responsive layout — desktop only (1440px canvas).
+- Other tabs (Details, Screening Criteria, During Internship, Final Submission) — unchanged.
+- File upload fallback for courses/articles (replaced entirely by drag-drop).
+
+## Notes / Edge Cases
+- The left Assessment Library panel and the selection tab are siblings in the mat-sidenav structure.
+  HTML5 native drag-and-drop is used (same as Screening Criteria tab) because CDK `cdkDragDrop`
+  requires connected drop lists within the same component tree.
+- If the same resource is dragged to both Courses and Articles, no duplicate prevention is enforced.
+- If the city is changed in the Details tab, the Select Plant field updates automatically via
+  the computed signal `selectedCityName`.
+- The Quill editor stores HTML — when displaying in read-only/detail view, use `[innerHTML]`
+  or the Quill view mode to render it properly.

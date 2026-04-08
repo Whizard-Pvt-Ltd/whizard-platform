@@ -2,31 +2,33 @@
   <div class="filter-bar">
     <div class="filter-group">
       <label class="filter-label">Industry Sector</label>
-      <select
-        class="filter-select"
-        [ngModel]="selectedSectorId()"
-        (ngModelChange)="onSectorChange($event)"
-      >
-        <option value="">Select Sector...</option>
-        @for (s of sectors; track s.id) {
-          <option [value]="s.id">{{ s.name }}</option>
-        }
-      </select>
+      <mat-form-field appearance="outline" class="wrcf-select">
+        <mat-select
+          [value]="selectedSectorId()"
+          (selectionChange)="onSectorChange($event.value)"
+        >
+          <mat-option value="">Select Sector...</mat-option>
+          @for (s of sectors; track s.id) {
+            <mat-option [value]="s.id">{{ s.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
     </div>
 
     <div class="filter-group">
       <label class="filter-label">Industry</label>
-      <select
-        class="filter-select"
-        [ngModel]="selectedIndustryId()"
-        (ngModelChange)="onIndustryChange($event)"
-        [disabled]="!selectedSectorId()"
-      >
-        <option value="">Select Industry...</option>
-        @for (i of industries(); track i.id) {
-          <option [value]="i.id">{{ i.name }}</option>
-        }
-      </select>
+      <mat-form-field appearance="outline" class="wrcf-select">
+        <mat-select
+          [value]="selectedIndustryId()"
+          (selectionChange)="onIndustryChange($event.value)"
+          [disabled]="!selectedSectorId()"
+        >
+          <mat-option value="">Select Industry...</mat-option>
+          @for (i of industries(); track i.id) {
+            <mat-option [value]="i.id">{{ i.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
     </div>
 
     <div class="filter-actions">

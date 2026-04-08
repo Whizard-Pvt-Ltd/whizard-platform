@@ -1,7 +1,7 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { MatIconButton } from '@angular/material/button';
+import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatDivider } from '@angular/material/divider';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
@@ -41,6 +41,7 @@ import { AdminSidebarComponent } from './sidebar.component';
     AdminSidebarComponent,
     SchemeSwitcherComponent,
     NotificationsComponent,
+    MatButtonModule,
   ],
   template: `
     <mat-sidenav-container>
@@ -86,19 +87,20 @@ import { AdminSidebarComponent } from './sidebar.component';
               @for (action of pageActions.actions(); track action.label) {
                 <button
                   type="button"
+                  matButton="filled"
                   [disabled]="action.disabled ?? false"
                   (click)="action.action()"
-                  class="flex items-center gap-1.5 h-9 px-4 rounded-[10px] text-sm font-medium transition-colors shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
+                  class="flex items-center gap-1 h-9 px-4 rounded-md text-lg font-medium transition-colors shrink-0 disabled:cursor-not-allowed"
                   [class]="
                     action.variant === 'primary'
-                      ? 'bg-color-brand text-[#E8F0FA] hover:bg-[#263FCC]'
+                      ? 'bg-[#263FCC] text-[#E8F0FA] hover:bg-[#263FCC]'
                       : action.variant === 'secondary'
-                        ? 'bg-[#00BFFF] text-[#0F172A] hover:bg-[#00a8e0]'
-                        : 'border border-[#484E5D] text-[#7F94AE] hover:border-[#E8F0FA] hover:text-[#E8F0FA]'
+                        ? 'bg-[#263FCC] text-[#0F172A] hover:bg-[#00a8e0]'
+                        : 'border border-[#484E5D] text-[#7F94AE] hover:text-[#E8F0FA]'
                   "
                 >
                   @if (action.icon) {
-                    <mat-icon [svgIcon]="action.icon" class="size-4" />
+                    <mat-icon [svgIcon]="action.icon" class="size-6" />
                   }
                   {{ action.label }}
                 </button>

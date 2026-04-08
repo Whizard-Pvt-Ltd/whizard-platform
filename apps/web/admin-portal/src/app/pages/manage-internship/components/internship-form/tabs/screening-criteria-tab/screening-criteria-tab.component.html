@@ -21,19 +21,19 @@
         (click)="addQuestion()"
         title="Add question"
       >
-        <mat-icon svgIcon="lucideIcons:pluse" class="size-4 shrink-0" />
+        <mat-icon svgIcon="lucideIcons:lucide-plus" class="size-6" />
       </button>
     </div>
 
     <!-- Question cards -->
     @for (q of formValue().screeningQuestions; track $index) {
       <div
-        class="flex items-center gap-6 rounded-lg bg-whizard-bg-secondary p-3"
+        class="flex items-start gap-6 rounded-lg bg-whizard-bg-secondary p-3"
       >
         <!-- Question input -->
         <mat-form-field
           appearance="outline"
-          class="whizard-outline"
+          class="whizard-outline bg-[#0F172A]"
           style="flex: 2.5"
         >
           <mat-label>Question {{ $index + 1 }}</mat-label>
@@ -48,7 +48,7 @@
         <!-- Expected answer input -->
         <mat-form-field
           appearance="outline"
-          class="whizard-outline"
+          class="whizard-outline bg-[#0F172A]!"
           style="flex: 1"
         >
           <mat-label>Expected Answer</mat-label>
@@ -63,27 +63,11 @@
         <!-- Remove button -->
         <button
           type="button"
-          class="flex items-center justify-center w-7 h-7 rounded-full bg-red-900/30 hover:bg-red-900/60 transition-colors shrink-0 text-red-400"
+          class="flex items-center justify-center w-8 h-8 rounded-full bg-red-900/30 hover:bg-red-900/60 transition-colors shrink-0 text-red-400"
           (click)="removeQuestion($index)"
           title="Remove question"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="13"
-            height="13"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <polyline points="3 6 5 6 21 6" />
-            <path d="M19 6l-1 14H6L5 6" />
-            <path d="M10 11v6" />
-            <path d="M14 11v6" />
-            <path d="M9 6V4h6v2" />
-          </svg>
+          <mat-icon svgIcon="lucideIcons:trash" class="size-6"></mat-icon>
         </button>
       </div>
     }
@@ -113,64 +97,66 @@
       </span>
     </div>
 
-    <!-- Row 1: Min. Club Points + Min. Internships -->
-    <div class="flex items-start justify-between max-w-3xl">
-      <mat-form-field
-        appearance="outline"
-        class="whizard-outline w-50 shrink-0"
-      >
-        <mat-label>Min. Club Points</mat-label>
-        <input
-          matInput
-          type="number"
-          min="0"
-          [ngModel]="getEligibility().minClubPoints ?? null"
-          (ngModelChange)="
-            updateEligibility({
-              minClubPoints: $event !== null ? +$event : null,
-            })
-          "
-        />
-      </mat-form-field>
+    <div class="flex w-full items-end">
+      <!-- Row 1: Min. Club Points + Min. Internships -->
+      <div class="grid grid-cols-2 items-start justify-between w-3/4">
+        <mat-form-field
+          appearance="outline"
+          class="whizard-outline w-50 shrink-0"
+        >
+          <mat-label>Min. Club Points</mat-label>
+          <input
+            matInput
+            type="number"
+            min="0"
+            [ngModel]="getEligibility().minClubPoints ?? null"
+            (ngModelChange)="
+              updateEligibility({
+                minClubPoints: $event !== null ? +$event : null,
+              })
+            "
+          />
+        </mat-form-field>
 
-      <mat-form-field
-        appearance="outline"
-        class="whizard-outline w-50 shrink-0"
-      >
-        <mat-label>Min. Internships</mat-label>
-        <input
-          matInput
-          type="number"
-          min="0"
-          [ngModel]="getEligibility().minInternships ?? null"
-          (ngModelChange)="
-            updateEligibility({
-              minInternships: $event !== null ? +$event : null,
-            })
-          "
-        />
-      </mat-form-field>
-    </div>
+        <mat-form-field
+          appearance="outline"
+          class="whizard-outline w-50 shrink-0"
+        >
+          <mat-label>Min. Internships</mat-label>
+          <input
+            matInput
+            type="number"
+            min="0"
+            [ngModel]="getEligibility().minInternships ?? null"
+            (ngModelChange)="
+              updateEligibility({
+                minInternships: $event !== null ? +$event : null,
+              })
+            "
+          />
+        </mat-form-field>
+        <!-- </div> -->
 
-    <!-- Row 2: Min. Projects + Min. Club Certification + Check button -->
-    <div class="flex items-center justify-between">
-      <mat-form-field
-        appearance="outline"
-        class="whizard-outline w-50 shrink-0"
-      >
-        <mat-label>Min. Projects</mat-label>
-        <input
-          matInput
-          type="number"
-          min="0"
-          [ngModel]="getEligibility().minProjects ?? null"
-          (ngModelChange)="
-            updateEligibility({ minProjects: $event !== null ? +$event : null })
-          "
-        />
-      </mat-form-field>
+        <!-- Row 2: Min. Projects + Min. Club Certification + Check button -->
+        <!-- <div class="flex items-center justify-between max-w-3xl"> -->
+        <mat-form-field
+          appearance="outline"
+          class="whizard-outline w-50 shrink-0"
+        >
+          <mat-label>Min. Projects</mat-label>
+          <input
+            matInput
+            type="number"
+            min="0"
+            [ngModel]="getEligibility().minProjects ?? null"
+            (ngModelChange)="
+              updateEligibility({
+                minProjects: $event !== null ? +$event : null,
+              })
+            "
+          />
+        </mat-form-field>
 
-      <div class="flex items-center gap-3">
         <mat-form-field
           appearance="outline"
           class="whizard-outline w-50 shrink-0"
@@ -188,14 +174,15 @@
             }
           </mat-select>
         </mat-form-field>
-
-        <button
-          type="button"
-          class="h-8.75 px-4 rounded-lg bg-whizard-action hover:bg-whizard-action-hover text-sm font-medium text-whizard-text-primary transition-colors shrink-0"
-        >
-          Check
-        </button>
       </div>
+
+      <button
+        type="button"
+        matButton="Filled"
+        class="h-8.75 px-4 rounded-lg bg-whizard-action hover:bg-whizard-action-hover text-sm font-medium text-whizard-text-primary transition-colors shrink-0"
+      >
+        Check
+      </button>
     </div>
   </div>
 
@@ -223,21 +210,7 @@
         (click)="addAssessmentSlot()"
         title="Add assessment slot"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="text-whizard-text-primary"
-        >
-          <line x1="12" y1="5" x2="12" y2="19" />
-          <line x1="5" y1="12" x2="19" y2="12" />
-        </svg>
+        <mat-icon svgIcon="lucideIcons:lucide-plus" class="size-6"></mat-icon>
       </button>
     </div>
 
@@ -259,28 +232,52 @@
               class="absolute top-1.5 right-1.5 flex items-center justify-center w-5 h-5 rounded-full bg-red-900/40 hover:bg-red-900/70 text-red-400 transition-colors"
               (click)="clearAssessmentSlot($index)"
               title="Remove assessment"
+            ></button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="36"
+              height="36"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-whizard-accent"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
-            </button>
-            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-whizard-accent">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <path
+                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+              />
               <polyline points="14 2 14 8 20 8" />
               <line x1="16" y1="13" x2="8" y2="13" />
               <line x1="16" y1="17" x2="8" y2="17" />
             </svg>
-            <span class="text-xs text-whizard-text-primary text-center leading-tight line-clamp-2 px-1">
+            <span
+              class="text-xs text-whizard-text-primary text-center leading-tight line-clamp-2 px-1"
+            >
               {{ a.title }}
             </span>
           } @else {
             <!-- Empty drop zone -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-whizard-text-secondary">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="36"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-whizard-text-secondary"
+            >
               <polyline points="16 16 12 12 8 16" />
               <line x1="12" y1="12" x2="12" y2="21" />
               <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
             </svg>
-            <span class="text-sm font-medium text-whizard-text-primary text-center leading-5 tracking-[0.15px]">
+            <span
+              class="text-sm font-medium text-whizard-text-primary text-center leading-5 tracking-[0.15px]"
+            >
               Drop Assessment Here
             </span>
           }
@@ -297,12 +294,25 @@
           (dragleave)="onDragLeave('assessment')"
           (drop)="onAssessmentDrop($event, -1)"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-whizard-text-secondary">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="40"
+            height="36"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="text-whizard-text-secondary"
+          >
             <polyline points="16 16 12 12 8 16" />
             <line x1="12" y1="12" x2="12" y2="21" />
             <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
           </svg>
-          <span class="text-sm font-medium text-whizard-text-primary text-center leading-5 tracking-[0.15px]">
+          <span
+            class="text-sm font-medium text-whizard-text-primary text-center leading-5 tracking-[0.15px]"
+          >
             Drop Assessment Here
           </span>
         </div>
@@ -351,8 +361,8 @@
           Interview Rubric
         </span>
         <span class="text-[17px] text-whizard-text-primary leading-6.25">
-          (The students will be assessed based on the interview rubric provided in
-          the below setting)
+          (The students will be assessed based on the interview rubric provided
+          in the below setting)
         </span>
       </div>
       <button
@@ -361,21 +371,7 @@
         (click)="addRubricSlot()"
         title="Add interview rubric slot"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="text-whizard-text-primary"
-        >
-          <line x1="12" y1="5" x2="12" y2="19" />
-          <line x1="5" y1="12" x2="19" y2="12" />
-        </svg>
+        <mat-icon svgIcon="lucideIcons:lucide-plus" class="size-6"></mat-icon>
       </button>
     </div>
 
@@ -398,27 +394,66 @@
               (click)="clearRubricSlot($index)"
               title="Remove rubric"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="10"
+                height="10"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </button>
-            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-whizard-accent">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="36"
+              height="36"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-whizard-accent"
+            >
+              <path
+                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+              />
               <polyline points="14 2 14 8 20 8" />
               <line x1="16" y1="13" x2="8" y2="13" />
               <line x1="16" y1="17" x2="8" y2="17" />
             </svg>
-            <span class="text-xs text-whizard-text-primary text-center leading-tight line-clamp-2 px-1">
+            <span
+              class="text-xs text-whizard-text-primary text-center leading-tight line-clamp-2 px-1"
+            >
               {{ r.title }}
             </span>
           } @else {
             <!-- Empty drop zone -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-whizard-text-secondary">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="36"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-whizard-text-secondary"
+            >
               <polyline points="16 16 12 12 8 16" />
               <line x1="12" y1="12" x2="12" y2="21" />
               <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
             </svg>
-            <span class="text-sm font-medium text-whizard-text-primary text-center leading-5 tracking-[0.15px]">
+            <span
+              class="text-sm font-medium text-whizard-text-primary text-center leading-5 tracking-[0.15px]"
+            >
               Drop Interview Rubric<br />Here
             </span>
           }
@@ -435,12 +470,25 @@
           (dragleave)="onDragLeave('rubric')"
           (drop)="onRubricDrop($event, -1)"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-whizard-text-secondary">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="40"
+            height="36"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="text-whizard-text-secondary"
+          >
             <polyline points="16 16 12 12 8 16" />
             <line x1="12" y1="12" x2="12" y2="21" />
             <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
           </svg>
-          <span class="text-sm font-medium text-whizard-text-primary text-center leading-5 tracking-[0.15px]">
+          <span
+            class="text-sm font-medium text-whizard-text-primary text-center leading-5 tracking-[0.15px]"
+          >
             Drop Interview Rubric<br />Here
           </span>
         </div>

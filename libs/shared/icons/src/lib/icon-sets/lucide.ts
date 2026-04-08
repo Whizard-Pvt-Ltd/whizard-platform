@@ -40,6 +40,9 @@ export const LUCIDEICONS = `
     <symbol id="alarm-clock-off">
       <path d="M6.87 6.87a8 8 0 1 0 11.26 11.26M19.9 14.25a8 8 0 0 0-9.15-9.15M22 6l-3-3M6.26 18.67 4 21M2 2l20 20M4 4 2 6"/>
     </symbol>
+    <symbol id="lucide-plus">
+      <path d="M5 12h14"/><path d="M12 5v14"/>
+    </symbol>
     <symbol id="alarm-clock-plus">
       <circle cx="12" cy="13" r="8"/>
       <path d="M5 3 2 6M22 6l-3-3M6.38 18.7 4 21M17.64 18.67 20 21M12 10v6M9 13h6"/>
@@ -6517,7 +6520,16 @@ export const LUCIDEICONS = `
     </symbol>
     <symbol id="zoom-out">
       <circle cx="11" cy="11" r="8"/>
-    <path d="m21 21-4.35-4.35M8 11h6" />
-        </symbol>
-        </defs>
-        </svg>`;
+      <path d="m21 21-4.35-4.35M8 11h6" />
+    </symbol>
+    <symbol id="save">
+      <path d="M15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V4.16667C2.5 3.72464 2.67559 3.30072 2.98816 2.98816C3.30072 2.67559 3.72464 2.5 4.16667 2.5H13.3333L17.5 6.66667V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5Z" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M14.1668 17.5007V10.834H5.8335V17.5007" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M5.8335 2.5V6.66667H12.5002" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="publish">
+      <path d="M18.3332 1.66602L9.1665 10.8327" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M18.3332 1.66602L12.4998 18.3327L9.1665 10.8327L1.6665 7.49935L18.3332 1.66602Z" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>`;
