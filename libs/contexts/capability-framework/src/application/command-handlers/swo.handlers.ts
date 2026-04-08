@@ -24,6 +24,9 @@ export class CreateSWOCommandHandler {
 
   async execute(cmd: CreateSWOCommand): Promise<SwoDto> {
     logger.debug('Creating SWO', { userId: cmd.actorUserId, tenantId: cmd.tenantId, pwoId: cmd.pwoId, name: cmd.name });
+    if (cmd.name.length > 50) {
+      throw new DomainException('Secondary Work Object name must not exceed 50 characters');
+    }
     const swo = SecondaryWorkObject.create({
       tenantId: cmd.tenantId,
       pwoId: cmd.pwoId,
@@ -31,7 +34,8 @@ export class CreateSWOCommandHandler {
       description: cmd.description,
       operationalComplexity: cmd.operationalComplexity,
       assetCriticality: cmd.assetCriticality,
-      failureFrequency: cmd.failureFrequency
+      failureFrequency: cmd.failureFrequency,
+      createdBy: cmd.actorUserId
     });
     await this.swoRepo.save(swo);
     logger.info('SWO created', { userId: cmd.actorUserId, tenantId: swo.tenantId, swoId: swo.id, name: swo.name });
@@ -49,12 +53,16 @@ export class UpdateSWOCommandHandler {
       logger.warn('SWO not found', { userId: cmd.actorUserId, tenantId: cmd.tenantId, swoId: cmd.id });
       throw new DomainException(`SecondaryWorkObject ${cmd.id} not found`);
     }
+    if (cmd.name !== undefined && cmd.name.length > 50) {
+      throw new DomainException('Secondary Work Object name must not exceed 50 characters');
+    }
     swo.update({
       name: cmd.name,
       description: cmd.description,
       operationalComplexity: cmd.operationalComplexity,
       assetCriticality: cmd.assetCriticality,
-      failureFrequency: cmd.failureFrequency
+      failureFrequency: cmd.failureFrequency,
+      updatedBy: cmd.actorUserId
     });
     await this.swoRepo.save(swo);
     logger.info('SWO updated', { userId: cmd.actorUserId, tenantId: cmd.tenantId, swoId: swo.id });
@@ -71,6 +79,11 @@ export class DeactivateSWOCommandHandler {
     if (!swo) {
       logger.warn('SWO not found', { userId: cmd.actorUserId, tenantId: cmd.tenantId, swoId: cmd.id });
       throw new DomainException(`SecondaryWorkObject ${cmd.id} not found`);
+    }
+    const hasCIs = await this.swoRepo.hasCIs(cmd.id);
+    if (hasCIs) {
+      logger.warn('SWO deactivation blocked: has capability instances', { userId: cmd.actorUserId, tenantId: cmd.tenantId, swoId: cmd.id });
+      throw new DomainException('Cannot delete Secondary Work Object with existing Capability Instance mappings');
     }
     swo.deactivate();
     await this.swoRepo.delete(cmd.id);

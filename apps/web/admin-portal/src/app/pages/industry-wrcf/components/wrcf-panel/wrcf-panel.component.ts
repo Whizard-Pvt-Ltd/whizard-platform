@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 import {
   ImpactLevelOption, CRITICALITY_LEVELS, COMPLEXITY_LEVELS, FREQUENCY_LEVELS
 } from '../../models/wrcf-impact-levels';
@@ -8,24 +9,28 @@ import {
   DomainType, StrategicImportance
 } from '../../models/wrcf.models';
 
+const DOMAIN_TYPE_OPTIONS: DomainType[] = (['Operations', 'Maintenance', 'Quality'] as DomainType[]).sort();
+
 @Component({
   selector: 'whizard-wrcf-panel',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, MatIconModule],
   templateUrl: './wrcf-panel.component.html',
   styleUrl: './wrcf-panel.component.css',
 })
 export class WrcfPanelComponent implements OnChanges {
   @Input() state!: PanelState;
+  @Input() panelError = '';
   @Output() save = new EventEmitter<Partial<FunctionalGroup | PrimaryWorkObject | SecondaryWorkObject>>();
   @Output() delete = new EventEmitter<string>();
   @Output() close = new EventEmitter<void>();
 
   protected formName = '';
   protected formDescription = '';
+  protected confirmingDelete = false;
 
   // FG fields
-  protected formDomainType: DomainType = 'Operations';
+  protected formDomainType: DomainType = DOMAIN_TYPE_OPTIONS[0];
 
   // PWO fields
   protected formStrategicImportance: StrategicImportance = 3;
@@ -37,7 +42,7 @@ export class WrcfPanelComponent implements OnChanges {
   protected formAssetCriticality: ImpactLevelOption = CRITICALITY_LEVELS[1];
   protected formFailureFrequency: ImpactLevelOption = FREQUENCY_LEVELS[0];
 
-  protected readonly domainTypeOptions: DomainType[] = ['Operations', 'Maintenance', 'Quality'];
+  protected readonly domainTypeOptions: DomainType[] = DOMAIN_TYPE_OPTIONS;
   protected readonly strategicImportanceOptions: StrategicImportance[] = [1, 2, 3, 4, 5];
   protected readonly criticalityLevelOptions = CRITICALITY_LEVELS;
   protected readonly complexityLevelOptions = COMPLEXITY_LEVELS;
@@ -60,6 +65,7 @@ export class WrcfPanelComponent implements OnChanges {
 
   protected onSave(): void {
     if (!this.formName.trim()) return;
+    if (this.formName.trim().length > 50) return;
 
     const base = { name: this.formName.trim(), description: this.formDescription.trim() };
     let payload: Partial<FunctionalGroup | PrimaryWorkObject | SecondaryWorkObject>;
@@ -90,9 +96,18 @@ export class WrcfPanelComponent implements OnChanges {
   }
 
   protected onDelete(): void {
+    this.confirmingDelete = true;
+  }
+
+  protected onConfirmDelete(): void {
     if (this.state.data) {
       this.delete.emit(this.state.data.id);
     }
+    this.confirmingDelete = false;
+  }
+
+  protected onCancelDelete(): void {
+    this.confirmingDelete = false;
   }
 
   private populateForm(): void {
@@ -118,7 +133,8 @@ export class WrcfPanelComponent implements OnChanges {
     } else {
       this.formName = '';
       this.formDescription = '';
-      this.formDomainType = 'Operations';
+      this.formDomainType = DOMAIN_TYPE_OPTIONS[0];
+      this.confirmingDelete = false;
       this.formStrategicImportance = 3;
       this.formRevenueImpact = CRITICALITY_LEVELS[1];
       this.formDowntimeSensitivity = CRITICALITY_LEVELS[1];

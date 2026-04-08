@@ -1,6 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, signal, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormControl } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ScrollbarDirective } from '@whizard/shared-ui';
 import { forkJoin } from 'rxjs';
@@ -18,7 +20,7 @@ import { WrcfApiService } from './services/wrcf-api.service';
 @Component({
   selector: 'whizard-industry-wrcf',
   standalone: true,
-  imports: [FormsModule, WrcfColumnComponent, WrcfPanelComponent, ManageCIMappingsComponent, ScrollbarDirective],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatSelectModule, WrcfColumnComponent, WrcfPanelComponent, ManageCIMappingsComponent, ScrollbarDirective],
   host: { class: 'flex-1 min-h-0 flex flex-col overflow-hidden' },
   templateUrl: './industry-wrcf.component.html',
   styleUrl: './industry-wrcf.component.css',
@@ -34,6 +36,9 @@ export class IndustryWrcfComponent implements OnInit {
 
   protected selectedSectorId = signal<string>('');
   protected selectedIndustryId = signal<string>('');
+
+  protected sectorControl = new FormControl<string>('');
+  protected industryControl = new FormControl<string>({ value: '', disabled: true });
   protected selectedFG = signal<FunctionalGroup | null>(null);
   protected selectedPWO = signal<PrimaryWorkObject | null>(null);
   protected selectedSWO = signal<SecondaryWorkObject | null>(null);
@@ -47,6 +52,7 @@ export class IndustryWrcfComponent implements OnInit {
 
   protected panel = signal<PanelState>({ open: false, mode: 'create', entityType: 'FG' });
   protected errorMessage = signal<string>('');
+  protected panelError = signal<string>('');
 
   protected ciCache = signal<CIPendingEntry[]>([]);
   protected existingCIs = signal<CapabilityInstance[]>([]);
@@ -76,15 +82,22 @@ export class IndustryWrcfComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.sectorControl.valueChanges.subscribe(id => {
+      if (id) this.onSectorChange(id);
+    });
+    this.industryControl.valueChanges.subscribe(id => {
+      if (id) this.onIndustryChange(id);
+    });
+
     this.apiService.listSectors().subscribe({
       next: sectors => {
-        this.sectors = sectors;
+        this.sectors = [...sectors].sort((a, b) => a.name.localeCompare(b.name));
 
         const requestedSectorId = this.route.snapshot.queryParamMap.get('sectorId');
         const requestedIndustryId = this.route.snapshot.queryParamMap.get('industryId');
-        const initialSectorId = sectors.some(sector => sector.id === requestedSectorId)
+        const initialSectorId = this.sectors.some(s => s.id === requestedSectorId)
           ? requestedSectorId ?? ''
-          : sectors[0]?.id ?? '';
+          : this.sectors[0]?.id ?? '';
 
         if (initialSectorId) {
           this.loadIndustriesForSector(initialSectorId, requestedIndustryId);
@@ -94,12 +107,22 @@ export class IndustryWrcfComponent implements OnInit {
     });
 
     this.apiService.listCapabilities().subscribe({
-      next: caps => { this.capabilities = caps; },
+      next: caps => {
+        this.capabilities = caps;
+        if (caps.length > 0 && this.selectedSWO()) {
+          this.onCapabilitySelect(caps[0]);
+        }
+      },
       error: () => { this.capabilities = []; }
     });
 
     this.apiService.listProficiencies().subscribe({
-      next: profs => { this.proficiencyLevels = profs; },
+      next: profs => {
+        this.proficiencyLevels = profs;
+        if (profs.length > 0 && this.selectedCapabilityId()) {
+          this.onProficiencySelect(profs[0]);
+        }
+      },
       error: () => { this.proficiencyLevels = []; }
     });
   }
@@ -110,9 +133,14 @@ export class IndustryWrcfComponent implements OnInit {
 
   protected onIndustryChange(industryId: string): void {
     this.selectedIndustryId.set(industryId);
+    this.industryControl.setValue(industryId, { emitEvent: false });
     this.resetFromIndustry();
     this.apiService.listFGs(industryId).subscribe({
-      next: fgs => this.fgList.set(fgs),
+      next: fgs => {
+        const sorted = [...fgs].sort((a, b) => a.name.localeCompare(b.name));
+        this.fgList.set(sorted);
+        if (sorted.length > 0) this.onFGSelect(sorted[0]);
+      },
       error: () => this.fgList.set([])
     });
   }
@@ -128,7 +156,11 @@ export class IndustryWrcfComponent implements OnInit {
       error: () => this.existingCIs.set([])
     });
     this.apiService.listPWOs(item.id).subscribe({
-      next: pwos => this.pwoList.set(pwos),
+      next: pwos => {
+        const sorted = [...pwos].sort((a, b) => a.name.localeCompare(b.name));
+        this.pwoList.set(sorted);
+        if (sorted.length > 0) this.onPWOSelect(sorted[0]);
+      },
       error: () => this.pwoList.set([])
     });
   }
@@ -137,17 +169,23 @@ export class IndustryWrcfComponent implements OnInit {
     this.selectedPWO.set(item as PrimaryWorkObject);
     this.selectedSWO.set(null);
     this.apiService.listSWOs(item.id).subscribe({
-      next: swos => this.swoList.set(swos),
+      next: swos => {
+        const sorted = [...swos].sort((a, b) => a.name.localeCompare(b.name));
+        this.swoList.set(sorted);
+        if (sorted.length > 0) this.onSWOSelect(sorted[0]);
+      },
       error: () => this.swoList.set([])
     });
   }
 
   protected onSWOSelect(item: WrcfEntity): void {
     this.selectedSWO.set(item as SecondaryWorkObject);
+    if (this.capabilities.length > 0) this.onCapabilitySelect(this.capabilities[0]);
   }
 
   protected onCapabilitySelect(item: WrcfEntity): void {
     this.selectedCapabilityId.set(item.id);
+    if (this.proficiencyLevels.length > 0) this.onProficiencySelect(this.proficiencyLevels[0]);
   }
 
   protected onProficiencySelect(item: WrcfEntity): void {
@@ -222,7 +260,7 @@ export class IndustryWrcfComponent implements OnInit {
         if (fg) {
           this.apiService.listCIs(this.selectedIndustryId(), fg.id).subscribe({
             next: cis => this.existingCIs.set(cis),
-            error: () => {}
+            error: () => { }
           });
         }
       },
@@ -261,6 +299,7 @@ export class IndustryWrcfComponent implements OnInit {
   }
 
   protected openPanel(mode: 'create' | 'edit', entityType: EntityType, data?: WrcfEntity): void {
+    this.panelError.set('');
     this.panel.set({
       open: true,
       mode,
@@ -270,6 +309,7 @@ export class IndustryWrcfComponent implements OnInit {
   }
 
   protected closePanel(): void {
+    this.panelError.set('');
     this.panel.set({ ...this.panel(), open: false });
   }
 
@@ -290,7 +330,7 @@ export class IndustryWrcfComponent implements OnInit {
         next: () => {
           this.apiService.listFGs(this.selectedIndustryId()).subscribe({
             next: fgs => {
-              this.fgList.set(fgs);
+              this.fgList.set([...fgs].sort((a, b) => a.name.localeCompare(b.name)));
               if (this.selectedFG()?.id === id) {
                 this.selectedFG.set(null);
                 this.pwoList.set([]);
@@ -302,7 +342,7 @@ export class IndustryWrcfComponent implements OnInit {
         },
         error: (err: HttpErrorResponse) => {
           const msg = err.error?.error?.message ?? 'Delete failed.';
-          this.showError(msg);
+          this.panelError.set(msg);
         }
       });
     } else if (entityType === 'PWO') {
@@ -321,7 +361,7 @@ export class IndustryWrcfComponent implements OnInit {
         },
         error: (err: HttpErrorResponse) => {
           const msg = err.error?.error?.message ?? 'Delete failed.';
-          this.showError(msg);
+          this.panelError.set(msg);
         }
       });
     } else {
@@ -337,7 +377,7 @@ export class IndustryWrcfComponent implements OnInit {
         },
         error: (err: HttpErrorResponse) => {
           const msg = err.error?.error?.message ?? 'Delete failed.';
-          this.showError(msg);
+          this.panelError.set(msg);
         }
       });
     }
@@ -354,10 +394,10 @@ export class IndustryWrcfComponent implements OnInit {
       }).subscribe({
         next: () => {
           this.apiService.listFGs(this.selectedIndustryId()).subscribe({
-            next: fgs => { this.fgList.set(fgs); this.closePanel(); }
+            next: fgs => { this.fgList.set([...fgs].sort((a, b) => a.name.localeCompare(b.name))); this.closePanel(); }
           });
         },
-        error: () => this.showError('Failed to create Functional Group.')
+        error: (err: HttpErrorResponse) => this.showError(err.error?.error?.message ?? 'Failed to create Functional Group.')
       });
     } else if (entityType === 'PWO') {
       const pwo = payload as Partial<PrimaryWorkObject>;
@@ -404,10 +444,10 @@ export class IndustryWrcfComponent implements OnInit {
       this.apiService.updateFG(id, { name: fg.name, description: fg.description, domainType: fg.domainType }).subscribe({
         next: () => {
           this.apiService.listFGs(this.selectedIndustryId()).subscribe({
-            next: fgs => { this.fgList.set(fgs); this.closePanel(); }
+            next: fgs => { this.fgList.set([...fgs].sort((a, b) => a.name.localeCompare(b.name))); this.closePanel(); }
           });
         },
-        error: () => this.showError('Failed to update Functional Group.')
+        error: (err: HttpErrorResponse) => this.showError(err.error?.error?.message ?? 'Failed to update Functional Group.')
       });
     } else if (entityType === 'PWO') {
       const pwo = payload as Partial<PrimaryWorkObject>;
@@ -461,16 +501,21 @@ export class IndustryWrcfComponent implements OnInit {
 
   private loadIndustriesForSector(sectorId: string, preferredIndustryId?: string | null): void {
     this.selectedSectorId.set(sectorId);
+    this.sectorControl.setValue(sectorId, { emitEvent: false });
     this.selectedIndustryId.set('');
+    this.industryControl.setValue('', { emitEvent: false });
+    this.industryControl.disable({ emitEvent: false });
     this.resetFromIndustry();
 
     this.apiService.listIndustries(sectorId).subscribe({
       next: industries => {
-        this.industries.set(industries);
+        this.industries.set([...industries].sort((a, b) => a.name.localeCompare(b.name)));
+        this.industryControl.enable({ emitEvent: false });
 
-        const initialIndustryId = industries.some(industry => industry.id === preferredIndustryId)
+        const sorted = this.industries();
+        const initialIndustryId = sorted.some(i => i.id === preferredIndustryId)
           ? preferredIndustryId ?? ''
-          : industries[0]?.id ?? '';
+          : sorted[0]?.id ?? '';
 
         if (initialIndustryId) {
           this.onIndustryChange(initialIndustryId);
