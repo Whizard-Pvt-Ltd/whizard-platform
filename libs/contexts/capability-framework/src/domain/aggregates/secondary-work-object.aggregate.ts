@@ -61,7 +61,7 @@ export class SecondaryWorkObject {
   }
 
   static create(props: CreateSecondaryWorkObjectProps): SecondaryWorkObject {
-    const swo = new SecondaryWorkObject({ ...props, id: '0', isActive: true });
+    const swo = new SecondaryWorkObject({ ...props, id: '0', isActive: true, updatedBy: props.createdBy });
     swo._domainEvents.push(
       new SwoCreatedEvent(swo.id, swo.tenantId, { pwoId: swo.pwoId, name: swo.name })
     );

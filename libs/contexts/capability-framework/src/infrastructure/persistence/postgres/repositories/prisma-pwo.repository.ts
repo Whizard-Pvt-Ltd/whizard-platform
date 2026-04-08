@@ -39,7 +39,8 @@ export class PrismaPwoRepository implements IPwoRepository {
       where: {
         functionalGroupId: BigInt(fgId),
         tenantId: BigInt(tenantId)
-      }
+      },
+      orderBy: { name: 'asc' }
     });
     return rows.map(row =>
       PrimaryWorkObject.reconstitute({

@@ -53,6 +53,18 @@ export class UpdateFGCommandHandler {
   }
 }
 
+export class CheckFGDeletableQueryHandler {
+  constructor(private readonly fgRepo: IFunctionalGroupRepository) {}
+
+  async execute(id: string): Promise<{ canDelete: boolean; reason?: string }> {
+    const hasPWOs = await this.fgRepo.hasPWOs(id);
+    if (hasPWOs) {
+      return { canDelete: false, reason: 'Cannot delete Functional Group with existing Primary Work Objects' };
+    }
+    return { canDelete: true };
+  }
+}
+
 export class DeactivateFGCommandHandler {
   constructor(private readonly fgRepo: IFunctionalGroupRepository) {}
 

@@ -6,7 +6,8 @@ export class PrismaIndustryRepository implements IIndustryRepository {
 
   async findBySector(sectorId: string): Promise<IndustryRecord[]> {
     const rows = await this.prisma.industry.findMany({
-      where: { sectorId: BigInt(sectorId) }
+      where: { sectorId: BigInt(sectorId) },
+      orderBy: { name: 'asc' }
     });
     return rows.map(r => ({
       id: r.id.toString(),

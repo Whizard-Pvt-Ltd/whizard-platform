@@ -70,6 +70,18 @@ export class UpdateSWOCommandHandler {
   }
 }
 
+export class CheckSWODeletableQueryHandler {
+  constructor(private readonly swoRepo: ISwoRepository) {}
+
+  async execute(id: string): Promise<{ canDelete: boolean; reason?: string }> {
+    const hasCIs = await this.swoRepo.hasCIs(id);
+    if (hasCIs) {
+      return { canDelete: false, reason: 'Cannot delete Secondary Work Object with existing Capability Instance mappings' };
+    }
+    return { canDelete: true };
+  }
+}
+
 export class DeactivateSWOCommandHandler {
   constructor(private readonly swoRepo: ISwoRepository) {}
 

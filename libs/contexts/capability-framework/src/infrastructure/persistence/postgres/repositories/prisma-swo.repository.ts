@@ -38,7 +38,8 @@ export class PrismaSwoRepository implements ISwoRepository {
       where: {
         pwoId: BigInt(pwoId),
         tenantId: BigInt(tenantId)
-      }
+      },
+      orderBy: { name: 'asc' }
     });
     return rows.map(row =>
       SecondaryWorkObject.reconstitute({

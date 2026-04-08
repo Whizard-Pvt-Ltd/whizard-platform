@@ -141,6 +141,18 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
 
   app.route({
     method: 'GET',
+    url: '/functional-groups/:id/can-delete',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const { id } = (request.params as { id: string });
+      logger.debug('Checking FG deletable', { ...getLogContext(request), fgId: id });
+      const data = await deps.checkFGDeletable.execute(id);
+      reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
+    }
+  });
+
+  app.route({
+    method: 'GET',
     url: '/functional-groups/:fgId/pwos',
     preHandler: authorizationPreHandler('WRCF.MANAGE'),
     handler: async (request, reply) => {
@@ -234,6 +246,18 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
 
   app.route({
     method: 'GET',
+    url: '/pwos/:id/can-delete',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const { id } = (request.params as { id: string });
+      logger.debug('Checking PWO deletable', { ...getLogContext(request), pwoId: id });
+      const data = await deps.checkPWODeletable.execute(id);
+      reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
+    }
+  });
+
+  app.route({
+    method: 'GET',
     url: '/pwos/:pwoId/swos',
     preHandler: authorizationPreHandler('WRCF.MANAGE'),
     handler: async (request, reply) => {
@@ -322,6 +346,18 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
           reply.status(409).send({ success: false, error: { message: (err as Error).message }, meta: toApiMeta(request) });
         } else { throw err; }
       }
+    }
+  });
+
+  app.route({
+    method: 'GET',
+    url: '/swos/:id/can-delete',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const { id } = (request.params as { id: string });
+      logger.debug('Checking SWO deletable', { ...getLogContext(request), swoId: id });
+      const data = await deps.checkSWODeletable.execute(id);
+      reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
     }
   });
 

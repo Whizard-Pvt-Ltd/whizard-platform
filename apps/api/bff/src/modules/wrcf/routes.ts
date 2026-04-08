@@ -56,14 +56,17 @@ export const registerWrcfBffRoutes = (app: FastifyInstanceLike): void => {
   app.route({ method: 'POST', url: '/functional-groups', handler: (req, rep) => forwardToCore('POST', '/api/wrcf/functional-groups', req, rep) });
   app.route({ method: 'PATCH', url: '/functional-groups/:id', handler: (req, rep) => forwardToCore('PATCH', '/api/wrcf/functional-groups/:id', req, rep) });
   app.route({ method: 'DELETE', url: '/functional-groups/:id', handler: (req, rep) => forwardToCore('DELETE', '/api/wrcf/functional-groups/:id', req, rep) });
+  app.route({ method: 'GET', url: '/functional-groups/:id/can-delete', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/functional-groups/:id/can-delete', req, rep) });
   app.route({ method: 'GET', url: '/functional-groups/:fgId/pwos', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/functional-groups/:fgId/pwos', req, rep) });
   app.route({ method: 'POST', url: '/pwos', handler: (req, rep) => forwardToCore('POST', '/api/wrcf/pwos', req, rep) });
   app.route({ method: 'PATCH', url: '/pwos/:id', handler: (req, rep) => forwardToCore('PATCH', '/api/wrcf/pwos/:id', req, rep) });
   app.route({ method: 'DELETE', url: '/pwos/:id', handler: (req, rep) => forwardToCore('DELETE', '/api/wrcf/pwos/:id', req, rep) });
+  app.route({ method: 'GET', url: '/pwos/:id/can-delete', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/pwos/:id/can-delete', req, rep) });
   app.route({ method: 'GET', url: '/pwos/:pwoId/swos', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/pwos/:pwoId/swos', req, rep) });
   app.route({ method: 'POST', url: '/swos', handler: (req, rep) => forwardToCore('POST', '/api/wrcf/swos', req, rep) });
   app.route({ method: 'PATCH', url: '/swos/:id', handler: (req, rep) => forwardToCore('PATCH', '/api/wrcf/swos/:id', req, rep) });
   app.route({ method: 'DELETE', url: '/swos/:id', handler: (req, rep) => forwardToCore('DELETE', '/api/wrcf/swos/:id', req, rep) });
+  app.route({ method: 'GET', url: '/swos/:id/can-delete', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/swos/:id/can-delete', req, rep) });
   app.route({ method: 'GET', url: '/capabilities', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/capabilities', req, rep) });
   app.route({ method: 'GET', url: '/proficiencies', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/proficiencies', req, rep) });
   app.route({ method: 'GET', url: '/capability-instances', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/capability-instances', req, rep) });

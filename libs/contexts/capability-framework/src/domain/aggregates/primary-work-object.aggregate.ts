@@ -62,7 +62,7 @@ export class PrimaryWorkObject {
   }
 
   static create(props: CreatePrimaryWorkObjectProps): PrimaryWorkObject {
-    const pwo = new PrimaryWorkObject({ ...props, id: '0', isActive: true });
+    const pwo = new PrimaryWorkObject({ ...props, id: '0', isActive: true, updatedBy: props.createdBy });
     pwo._domainEvents.push(
       new PwoCreatedEvent(pwo.id, pwo.tenantId, {
         functionalGroupId: pwo.functionalGroupId,

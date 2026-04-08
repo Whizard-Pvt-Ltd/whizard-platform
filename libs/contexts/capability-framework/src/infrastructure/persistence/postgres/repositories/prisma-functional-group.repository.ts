@@ -36,7 +36,8 @@ export class PrismaFunctionalGroupRepository implements IFunctionalGroupReposito
       where: {
         industryId: BigInt(industryId),
         tenantId: BigInt(tenantId)
-      }
+      },
+      orderBy: { name: 'asc' }
     });
     return rows.map(row =>
       FunctionalGroup.reconstitute({

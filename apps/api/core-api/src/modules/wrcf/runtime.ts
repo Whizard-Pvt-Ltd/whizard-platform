@@ -32,12 +32,15 @@ import {
   CreateFGCommandHandler,
   UpdateFGCommandHandler,
   DeactivateFGCommandHandler,
+  CheckFGDeletableQueryHandler,
   CreatePWOCommandHandler,
   UpdatePWOCommandHandler,
   DeactivatePWOCommandHandler,
+  CheckPWODeletableQueryHandler,
   CreateSWOCommandHandler,
   UpdateSWOCommandHandler,
   DeactivateSWOCommandHandler,
+  CheckSWODeletableQueryHandler,
   CreateCapabilityInstanceCommandHandler,
   DeleteCapabilityInstanceCommandHandler,
   CreateSkillCommandHandler,
@@ -74,12 +77,15 @@ export interface WrcfModuleDependencies {
   readonly createFG: CreateFGCommandHandler;
   readonly updateFG: UpdateFGCommandHandler;
   readonly deactivateFG: DeactivateFGCommandHandler;
+  readonly checkFGDeletable: CheckFGDeletableQueryHandler;
   readonly createPWO: CreatePWOCommandHandler;
   readonly updatePWO: UpdatePWOCommandHandler;
   readonly deactivatePWO: DeactivatePWOCommandHandler;
+  readonly checkPWODeletable: CheckPWODeletableQueryHandler;
   readonly createSWO: CreateSWOCommandHandler;
   readonly updateSWO: UpdateSWOCommandHandler;
   readonly deactivateSWO: DeactivateSWOCommandHandler;
+  readonly checkSWODeletable: CheckSWODeletableQueryHandler;
   readonly createCI: CreateCapabilityInstanceCommandHandler;
   readonly deleteCI: DeleteCapabilityInstanceCommandHandler;
   readonly listSkills: ListSkillsQueryHandler;
@@ -137,12 +143,15 @@ export const registerWrcfCoreApiRuntime = async (app: FastifyInstanceLike): Prom
     createFG: new CreateFGCommandHandler(fgRepo),
     updateFG: new UpdateFGCommandHandler(fgRepo),
     deactivateFG: new DeactivateFGCommandHandler(fgRepo),
+    checkFGDeletable: new CheckFGDeletableQueryHandler(fgRepo),
     createPWO: new CreatePWOCommandHandler(pwoRepo),
     updatePWO: new UpdatePWOCommandHandler(pwoRepo),
     deactivatePWO: new DeactivatePWOCommandHandler(pwoRepo),
+    checkPWODeletable: new CheckPWODeletableQueryHandler(pwoRepo),
     createSWO: new CreateSWOCommandHandler(swoRepo),
     updateSWO: new UpdateSWOCommandHandler(swoRepo),
     deactivateSWO: new DeactivateSWOCommandHandler(swoRepo),
+    checkSWODeletable: new CheckSWODeletableQueryHandler(swoRepo),
     createCI: new CreateCapabilityInstanceCommandHandler(ciRepo),
     deleteCI: new DeleteCapabilityInstanceCommandHandler(ciRepo),
     listSkills: new ListSkillsQueryHandler(skillRepo),
