@@ -1,12 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
-
 .column {
-  background: #1E293B;
-  border: 1px solid #484E5D;
-  border-radius: 14px;
+  background: rgba(30, 41, 59, 0.7);
+  border-radius: 4px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.25);
 }
 
 .column-header {
@@ -28,8 +26,8 @@
 }
 
 .add-btn {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   border: 2px solid rgba(255, 255, 255, 0.6);
   background: transparent;
@@ -41,11 +39,12 @@
   align-items: center;
   justify-content: center;
   padding: 0;
-  transition: border-color 0.15s;
+  transition: border-color 0.15s, background 0.15s;
 }
 
 .add-btn:hover {
   border-color: #E8F0FA;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .item-list {
@@ -53,7 +52,7 @@
   padding: 0;
   margin: 0;
   flex: 1;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 }
 
 .item {
@@ -62,7 +61,7 @@
   justify-content: space-between;
   min-height: 48px;
   padding: 0 16px;
-  border-bottom: 1px solid #484E5D;
+  border-bottom: 1px solid rgba(72, 78, 93, 0.5);
   cursor: pointer;
   border-left: 4px solid transparent;
   transition: background 0.15s;
@@ -75,7 +74,7 @@
 }
 
 .item:hover {
-  background: #0F253F;
+  background: rgba(15, 37, 63, 0.6);
 }
 
 .item.selected {

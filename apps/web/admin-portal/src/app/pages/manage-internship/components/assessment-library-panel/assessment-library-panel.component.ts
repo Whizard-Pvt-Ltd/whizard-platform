@@ -11,13 +11,13 @@ import type { MockAssessment } from '../../models/manage-internship.models';
 export const ASSESSMENT_DRAG_TYPE = 'application/whizard-assessment';
 
 const MOCK_ASSESSMENTS: MockAssessment[] = [
-  { id: '1', title: 'Digital Marketing Strategy Assessment', category: 'Assessment', thumbnailUrl: null },
-  { id: '2', title: 'Data Analysis Fundamentals Test', category: 'Assessment', thumbnailUrl: null },
-  { id: '3', title: 'Business Communication Evaluation', category: 'Assessment', thumbnailUrl: null },
-  { id: '4', title: 'Cybersecurity Basics Assessment', category: 'Assessment', thumbnailUrl: null },
-  { id: '5', title: 'Wireframing & Prototyping Assignment', category: 'Assessment', thumbnailUrl: null },
-  { id: '6', title: 'Critical Thinking & Problem Solving', category: 'Assessment', thumbnailUrl: null },
-  { id: '7', title: 'Project Management Skills', category: 'Assessment', thumbnailUrl: null },
+  { id: '1', title: 'Digital Marketing Strategy Assessment', category: 'Assessment', thumbnailUrl: '/assets/images/9e4d51680fac6f3feddbd434414b3ef1ce73c91e.png' },
+  { id: '2', title: 'Data Analysis Fundamentals Test', category: 'Assessment', thumbnailUrl: '/assets/images/d863da005a4e3b63d234be3adc7b38b3dc77a99f.png' },
+  { id: '3', title: 'Business Communication Evaluation', category: 'Assessment', thumbnailUrl: '/assets/images/9e4d51680fac6f3feddbd434414b3ef1ce73c91e.png' },
+  { id: '4', title: 'Cybersecurity Basics Assessment', category: 'Assessment', thumbnailUrl: '/assets/images/assessment-placeholder.svg' },
+  { id: '5', title: 'Wireframing & Prototyping Assignment', category: 'Assessment', thumbnailUrl: '/assets/images/9a15672cb2768c025a1bfd68ada2ea58255515eb.png' },
+  { id: '6', title: 'Critical Thinking & Problem Solving', category: 'Assessment', thumbnailUrl: '/assets/images/1fcb6ec9fed3213252fa21126d780f0c71d89dcd.png' },
+  { id: '7', title: 'Project Management Skills', category: 'Assessment', thumbnailUrl: '/assets/images/347442605e04b6575c62f2d3ca050d72834a379d.png' },
 ];
 
 const PLACEHOLDER_IMG = '/assets/images/assessment-placeholder.svg';

@@ -1,268 +1,223 @@
-<div
-  class="bg-wrcf-bg-primary font-sans text-wrcf-text-primary relative"
->
-    <!-- Filters -->
-    <div class="px-8 py-3 flex gap-4 items-end bg-wrcf-bg-secondary border-b border-wrcf-border">
-      <div class="flex flex-col gap-1">
-        <label class="text-xs text-wrcf-text-secondary leading-4"
-          >Industry Sector</label
-        >
-        <mat-form-field appearance="outline" class="w-52 wrcf-select">
-          <mat-select [formControl]="sectorControl">
-            @for (sector of sectors(); track sector.id) {
-              <mat-option [value]="sector.id">{{ sector.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-      </div>
+<div class="font-sans text-wrcf-text-primary relative">
+  <!-- Filters -->
+  <div class="px-8 py-5 flex gap-4 items-end">
+    <div class="flex flex-col gap-1">
+      <label class="text-xs text-wrcf-text-secondary leading-4">Industry Sector</label>
+      <mat-form-field appearance="outline" class="w-72 wrcf-select">
+        <mat-select [formControl]="sectorControl">
+          @for (sector of sectors(); track sector.id) {
+            <mat-option [value]="sector.id">{{ sector.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-      <div class="flex flex-col gap-1">
-        <label class="text-xs text-wrcf-text-secondary leading-4"
-          >Industry</label
+    <div class="flex flex-col gap-1">
+      <label class="text-xs text-wrcf-text-secondary leading-4">Industry</label>
+      <mat-form-field appearance="outline" class="w-72 wrcf-select">
+        <mat-select [formControl]="industryControl">
+          @for (industry of industries(); track industry.id) {
+            <mat-option [value]="industry.id">{{ industry.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Industry title -->
+  <div class="px-8 pb-4">
+    <span class="block text-lg font-semibold text-[#314DDF] leading-7">Industry</span>
+    <h2 class="text-[26px] font-semibold leading-9 text-wrcf-text-primary">
+      {{ industries().find(i => i.id === industryControl.value)?.name ?? '—' }}
+    </h2>
+  </div>
+
+  <!-- Version info bar -->
+  <div
+    class="mx-8 mb-4 bg-[rgba(30,41,59,0.7)] rounded-[9px] shadow-[0px_4px_5px_0px_rgba(0,0,0,0.25)] flex items-center justify-between px-6 py-5"
+  >
+    <div class="flex flex-col gap-2.5">
+      <span class="text-lg font-semibold text-[#314DDF] leading-7">Current Version</span>
+      <div class="flex items-center gap-2.5">
+        <span class="text-base font-medium text-wrcf-text-primary">4.1</span>
+        <span
+          class="inline-flex items-center gap-1 pl-1 pr-2 py-px rounded-full text-xs font-medium bg-[#28A745] text-white"
         >
-        <mat-form-field appearance="outline" class="w-52 wrcf-select">
-          <mat-select [formControl]="industryControl">
-            @for (industry of industries(); track industry.id) {
-              <mat-option [value]="industry.id">{{ industry.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
+          <mat-icon class="size-4!" svgIcon="heroicons_outline:check" />
+          Published
+        </span>
       </div>
     </div>
 
-    <!-- Industry title -->
-    <div class="px-8 pb-4">
-      <span class="block text-sm text-wrcf-accent leading-4.5">Industry</span>
-      <h2 class="text-3xl font-semibold leading-8 text-wrcf-text-primary]">
-        {{ industries().find(i => i.id === industryControl.value)?.name ?? '—' }}
-      </h2>
+    <div class="flex flex-col gap-2.5">
+      <span class="text-lg font-semibold text-[#314DDF] leading-7">Draft Version</span>
+      <div class="flex items-center gap-2.5">
+        <span class="text-base font-medium text-wrcf-text-primary">4.2</span>
+        <span
+          class="inline-flex items-center gap-1 pl-1 pr-2 py-px rounded-full text-xs font-medium bg-[#FFA500] text-white"
+        >
+          <mat-icon class="size-4!" svgIcon="lucideIcons:clock" />
+          In Progress
+        </span>
+      </div>
     </div>
 
-    <!-- Version row -->
+    <div class="flex flex-col gap-2.5">
+      <span class="text-lg font-semibold text-[#314DDF] leading-7">Last Updated</span>
+      <span class="text-base font-medium text-wrcf-text-primary">28 Feb 2026</span>
+    </div>
+
+    <div class="flex flex-col gap-2.5">
+      <span class="text-lg font-semibold text-[#314DDF] leading-7">Validation Status</span>
+      <span
+        class="inline-flex items-center gap-1 pl-1 pr-2 py-px rounded-full text-xs font-medium bg-[#28A745] text-white w-fit"
+      >
+        <mat-icon class="size-4!" svgIcon="heroicons_outline:check" />
+        Validated
+      </span>
+    </div>
+  </div>
+
+  <!-- Stats grid -->
+  <div class="mx-8 mb-4 grid grid-cols-3 gap-3">
+    <!-- Row 1 -->
     <div
-      class="mx-8 mb-4 bg-wrcf-bg-secondary border border-wrcf-border rounded-xl grid grid-cols-4"
+      class="bg-[rgba(30,41,59,0.7)] rounded-[10px] px-5 py-6 flex flex-col items-center gap-9 min-h-34 justify-center"
     >
-      <div class="px-5 py-4 flex flex-col gap-2">
-        <span class="text-sm text-wrcf-text-tertiary` leading-4.5"
-          >Current Version</span
-        >
-        <div class="flex items-center gap-2">
-          <span class="text-2xl font-medium text-wrcf-text-primary]">4.1</span>
-          <span
-            class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-[#00C853]/15 text-[#00C853] border border-[#00C853]/30"
-          >
-            <mat-icon class="size-2.5" svgIcon="heroicons_outline:check" />
-            Published
-          </span>
-        </div>
-      </div>
-      <div class="px-5 py-4 flex flex-col gap-2 border-l border-wrcf-border">
-        <span class="text-sm text-wrcf-text-tertiary` leading-4.5"
-          >Draft Version</span
-        >
-        <div class="flex items-center gap-2">
-          <span class="text-2xl font-medium text-wrcf-text-primary]">4.2</span>
-          <span
-            class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-[#FFA500]/15 text-[#FFA500] border border-[#FFA500]/30"
-          >
-            <mat-icon class="size-2.5" svgIcon="lucideIcons:clock" />
-            In Progress
-          </span>
-        </div>
-      </div>
-      <div class="px-5 py-4 flex flex-col gap-2 border-l border-wrcf-border">
-        <span class="text-sm text-wrcf-text-tertiary` leading-4.5"
-          >Last Updated</span
-        >
-        <div class="flex items-center gap-2">
-          <span class="text-base text-wrcf-text-primary]">28 Feb 2026</span>
-        </div>
-      </div>
-      <div class="px-5 py-4 flex flex-col gap-2 border-l border-wrcf-border">
-        <span class="text-sm text-wrcf-text-tertiary` leading-4.5"
-          >Validation Status</span
-        >
-        <div class="flex items-center gap-2">
-          <span
-            class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-[#00C853]/15 text-[#00C853] border border-[#00C853]/30"
-          >
-            <mat-icon class="size-2.5" svgIcon="heroicons_outline:check" />
-            Validated
-          </span>
-        </div>
-      </div>
+      <span class="text-[28px] font-medium text-center text-[#3881F2] leading-7">Functional Groups</span>
+      <span class="text-[38px] font-bold text-center text-[#3881F2]">{{
+        formatCount(stats().functionalGroups)
+      }}</span>
+    </div>
+    <div
+      class="bg-[rgba(30,41,59,0.7)] rounded-[10px] px-5 py-6 flex flex-col items-center gap-9 min-h-34 justify-center"
+    >
+      <span class="text-[28px] font-medium text-center text-[#EB4344] leading-7">Primary Work Objective</span>
+      <span class="text-[38px] font-bold text-center text-[#EB4344]">{{
+        formatCount(stats().primaryWorkObjects)
+      }}</span>
+    </div>
+    <div
+      class="bg-[rgba(30,41,59,0.7)] rounded-[10px] px-5 py-6 flex flex-col items-center gap-9 min-h-34 justify-center"
+    >
+      <span class="text-[28px] font-medium text-center text-[#A970FF] leading-7">Secondary Work Objective</span>
+      <span class="text-[38px] font-bold text-center text-[#A970FF]">{{
+        formatCount(stats().secondaryWorkObjects)
+      }}</span>
     </div>
 
-    <!-- Stats grid -->
-    <div class="mx-8 mb-4 grid grid-cols-3 gap-3">
-      <div
-        class="bg-wrcf-bg-card border border-wrcf-border rounded-xl px-5 py-6 flex flex-col items-center gap-3 min-h-27.5 justify-center"
-      >
-        <span class="text-lg font-medium text-center text-wrcf-text-tertiary`"
-          >Functional Groups</span
-        >
-        <span class="text-4xl font-bold text-center text-wrcf-text-tertiary`">{{
-          formatCount(stats().functionalGroups)
-        }}</span>
-      </div>
-      <div
-        class="bg-wrcf-bg-card border border-wrcf-border rounded-xl px-5 py-6 flex flex-col items-center gap-3 min-h-27.5 justify-center"
-      >
-        <span class="text-lg font-medium text-center text-[#FF6B6B]"
-          >Primary Work Objective</span
-        >
-        <span class="text-4xl font-bold text-center text-[#FF6B6B]">{{
-          formatCount(stats().primaryWorkObjects)
-        }}</span>
-      </div>
-      <div
-        class="bg-wrcf-bg-card border border-wrcf-border rounded-xl px-5 py-6 flex flex-col items-center gap-3 min-h-27.5 justify-center"
-      >
-        <span class="text-lg font-medium text-center text-[#B57BFF]"
-          >Secondary Work Objective</span
-        >
-        <span class="text-4xl font-bold text-center text-[#B57BFF]">{{
-          formatCount(stats().secondaryWorkObjects)
-        }}</span>
-      </div>
-      <div
-        class="bg-wrcf-bg-card border border-wrcf-border rounded-xl px-5 py-6 flex flex-col items-center gap-3 min-h-27.5 justify-center"
-      >
-        <span class="text-lg font-medium text-center text-[#FFA500]"
-          >Capability Instances</span
-        >
-        <span class="text-4xl font-bold text-center text-[#FFA500]">{{
-          formatCount(stats().capabilityInstances)
-        }}</span>
-      </div>
-      <div
-        class="bg-wrcf-bg-card border border-wrcf-border rounded-xl px-5 py-6 flex flex-col items-center gap-3 min-h-27.5 justify-center"
-      >
-        <span class="text-lg font-medium text-center text-[#FF69B4]"
-          >Skills</span
-        >
-        <span class="text-4xl font-bold text-center text-[#FF69B4]">{{
-          formatCount(stats().skills)
-        }}</span>
-      </div>
-      <div
-        class="bg-wrcf-bg-card border border-wrcf-border rounded-xl px-5 py-6 flex flex-col items-center gap-3 min-h-27.5 justify-center"
-      >
-        <span class="text-lg font-medium text-center text-[#00E676]"
-          >Tasks</span
-        >
-        <span class="text-4xl font-bold text-center text-[#00E676]">{{
-          formatCount(stats().tasks)
-        }}</span>
-      </div>
-      <!-- Last row — 2 cards centred -->
-      <div class="col-span-3 flex justify-center gap-3">
-        <div
-          class="bg-wrcf-bg-card border border-wrcf-border rounded-xl px-5 py-6 flex flex-col items-center gap-3 min-h-27.5 justify-center w-[calc((100%-24px)/3)]"
-        >
-          <span class="text-lg font-medium text-center text-[#FFD700]"
-            >Roles</span
-          >
-          <span class="text-4xl font-bold text-center text-[#FFD700]">{{
-            formatCount(stats().roles)
-          }}</span>
-        </div>
-        <div
-          class="bg-wrcf-bg-card border border-wrcf-border rounded-xl px-5 py-6 flex flex-col items-center gap-3 min-h-27.5 justify-center w-[calc((100%-24px)/3)]"
-        >
-          <span class="text-lg font-medium text-center text-wrcf-accent"
-            >Departments</span
-          >
-          <span class="text-4xl font-bold text-center text-wrcf-accent">{{
-            formatCount(stats().departments)
-          }}</span>
-        </div>
-      </div>
+    <!-- Row 2 -->
+    <div
+      class="bg-[rgba(30,41,59,0.7)] rounded-sm px-5 py-6 flex flex-col items-center gap-9 min-h-34 justify-center"
+    >
+      <span class="text-[28px] font-medium text-center text-[#EB990D] leading-7">Capability Instances</span>
+      <span class="text-[38px] font-bold text-center text-[#EB990D]">{{
+        formatCount(stats().capabilityInstances)
+      }}</span>
+    </div>
+    <div
+      class="bg-[rgba(30,41,59,0.7)] rounded-[10px] px-5 py-6 flex flex-col items-center gap-9 min-h-34 justify-center"
+    >
+      <span class="text-[28px] font-medium text-center text-[#EE61CF] leading-7">Skills</span>
+      <span class="text-[38px] font-bold text-center text-[#EE61CF]">{{
+        formatCount(stats().skills)
+      }}</span>
+    </div>
+    <div
+      class="bg-[rgba(30,41,59,0.7)] rounded-[10px] px-5 py-6 flex flex-col items-center gap-9 min-h-34 justify-center"
+    >
+      <span class="text-[28px] font-medium text-center text-[#22FF00] leading-7">Tasks</span>
+      <span class="text-[38px] font-bold text-center text-[#22FF00]">{{
+        formatCount(stats().tasks)
+      }}</span>
     </div>
 
-    <!-- Quick Actions -->
-    <div class="mx-8 mb-8">
-      <h3
-        class="text-base font-medium text-wrcf-text-primary] leading-5.5 mb-3"
+    <!-- Row 3 — 2 cards centred -->
+    <div class="col-span-3 flex justify-center gap-3">
+      <div
+        class="bg-[rgba(30,41,59,0.7)] rounded-[10px] px-5 py-6 flex flex-col items-center gap-9 min-h-34 justify-center w-[calc((100%-24px)/3)]"
       >
-        Quick Actions
-      </h3>
-      <div class="grid grid-cols-4 gap-3">
-        <button
-          class="bg-wrcf-bg-card border border-wrcf-border rounded-xl px-4 py-5 flex flex-col items-start gap-2 cursor-pointer text-left w-full transition-[background,border-color] duration-150 hover:bg-[#0F253F] hover:border-[#00BFFF]"
-          (click)="navigateToCapabilities()"
-        >
-          <div class="flex items-center">
-            <mat-icon
-              class="size-7 text-[#FF6B6B]"
-              svgIcon="lucideIcons:layout-grid"
-            />
-          </div>
-          <span
-            class="text-base font-medium text-wrcf-text-primary] leading-5.5"
-            >Edit Structure</span
-          >
-          <span class="text-xs text-wrcf-text-secondary leading-4"
-            >Modify framework layout</span
-          >
-        </button>
-
-        <button
-          class="bg-wrcf-bg-card border border-wrcf-border rounded-xl px-4 py-5 flex flex-col items-start gap-2 cursor-pointer text-left w-full transition-[background,border-color] duration-150 hover:bg-[#0F253F] hover:border-[#00BFFF]"
-          (click)="navigateToRoles()"
-        >
-          <div class="flex items-center">
-            <mat-icon
-              class="size-7 text-wrcf-accent"
-              svgIcon="heroicons_outline:users"
-            />
-          </div>
-          <span
-            class="text-base font-medium text-wrcf-text-primary] leading-5.5"
-            >Manage Roles</span
-          >
-          <span class="text-xs text-wrcf-text-secondary leading-4"
-            >Define user roles</span
-          >
-        </button>
-
-        <button
-          class="bg-wrcf-bg-card border border-wrcf-border rounded-xl px-4 py-5 flex flex-col items-start gap-2 cursor-pointer text-left w-full transition-[background,border-color] duration-150 hover:bg-[#0F253F] hover:border-[#00BFFF]"
-          (click)="openVersionHistory()"
-        >
-          <div class="flex items-center">
-            <mat-icon
-              class="size-7 text-[#B57BFF]"
-              svgIcon="heroicons_outline:document"
-            />
-          </div>
-          <span
-            class="text-base font-medium text-wrcf-text-primary] leading-5.5"
-            >Version History</span
-          >
-          <span class="text-xs text-wrcf-text-secondary leading-4"
-            >View past versions</span
-          >
-        </button>
-
-        <button
-          class="bg-wrcf-bg-card border border-wrcf-border rounded-xl px-4 py-5 flex flex-col items-start gap-2 cursor-pointer text-left w-full transition-[background,border-color] duration-150 hover:bg-[#0F253F] hover:border-[#00BFFF]"
-          (click)="openPublishDraft()"
-        >
-          <div class="flex items-center">
-            <mat-icon
-              class="size-7 text-wrcf-text-tertiary`"
-              svgIcon="heroicons_outline:arrow-top-right-on-square"
-            />
-          </div>
-          <span
-            class="text-base font-medium text-wrcf-text-primary] leading-5.5"
-            >Publish Draft</span
-          >
-          <span class="text-xs text-wrcf-text-secondary leading-4"
-            >Publish new draft</span
-          >
-        </button>
+        <span class="text-[28px] font-medium text-center text-[#FDE006] leading-7">Roles</span>
+        <span class="text-[38px] font-bold text-center text-[#FDE006]">{{
+          formatCount(stats().roles)
+        }}</span>
       </div>
+      <div
+        class="bg-[rgba(30,41,59,0.7)] rounded-[10px] px-5 py-6 flex flex-col items-center gap-9 min-h-34 justify-center w-[calc((100%-24px)/3)]"
+      >
+        <span class="text-[28px] font-medium text-center text-[#0DEBD8] leading-7">Departments</span>
+        <span class="text-[38px] font-bold text-center text-[#0DEBD8]">{{
+          formatCount(stats().departments)
+        }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="mx-8 mb-8">
+    <h3 class="text-[22px] font-bold text-wrcf-text-primary leading-8 mb-3">
+      Quick Actions
+    </h3>
+    <div class="grid grid-cols-4 gap-3">
+      <button
+        class="bg-[rgba(30,41,59,0.7)] border border-[rgba(30,41,59,0.7)] rounded-[10px] shadow-[0px_4px_4px_0px_rgba(30,41,59,0.25)] px-4 py-6 flex flex-col items-start gap-4 cursor-pointer text-left w-full transition-[background,border-color] duration-150 hover:bg-[#0F253F] hover:border-[#00BFFF] min-h-39"
+        (click)="navigateToCapabilities()"
+      >
+        <div class="flex items-center gap-4">
+          <mat-icon
+            class="size-10! text-[#FF6B6B]"
+            svgIcon="lucideIcons:layout-grid"
+          />
+          <span class="text-[22px] font-semibold text-wrcf-text-primary leading-7">Edit Structure</span>
+        </div>
+        <div class="w-full border-t border-wrcf-border"></div>
+        <span class="text-base text-[#ABB7C2] leading-7">Modify framework layout</span>
+      </button>
+
+      <button
+        class="bg-[rgba(30,41,59,0.7)] border border-[rgba(30,41,59,0.7)] rounded-[10px] shadow-[0px_4px_4px_0px_rgba(30,41,59,0.25)] px-4 py-6 flex flex-col items-start gap-4 cursor-pointer text-left w-full transition-[background,border-color] duration-150 hover:bg-[#0F253F] hover:border-[#00BFFF] min-h-39"
+        (click)="navigateToRoles()"
+      >
+        <div class="flex items-center gap-4">
+          <mat-icon
+            class="size-10! text-wrcf-accent"
+            svgIcon="heroicons_outline:users"
+          />
+          <span class="text-[22px] font-semibold text-wrcf-text-primary leading-7">Manage Roles</span>
+        </div>
+        <div class="w-full border-t border-wrcf-border"></div>
+        <span class="text-base text-[#ABB7C2] leading-7">Define user roles</span>
+      </button>
+
+      <button
+        class="bg-[rgba(30,41,59,0.7)] border border-[rgba(30,41,59,0.7)] rounded-[10px] shadow-[0px_4px_4px_0px_rgba(30,41,59,0.25)] px-4 py-6 flex flex-col items-start gap-4 cursor-pointer text-left w-full transition-[background,border-color] duration-150 hover:bg-[#0F253F] hover:border-[#00BFFF] min-h-39"
+        (click)="openVersionHistory()"
+      >
+        <div class="flex items-center gap-4">
+          <mat-icon
+            class="size-10! text-[#B57BFF]"
+            svgIcon="heroicons_outline:document"
+          />
+          <span class="text-[22px] font-semibold text-wrcf-text-primary leading-7">Version History</span>
+        </div>
+        <div class="w-full border-t border-wrcf-border"></div>
+        <span class="text-base text-[#ABB7C2] leading-7">View past versions</span>
+      </button>
+
+      <button
+        class="bg-[rgba(30,41,59,0.7)] border border-[rgba(30,41,59,0.7)] rounded-[10px] shadow-[0px_4px_4px_0px_rgba(30,41,59,0.25)] px-4 py-6 flex flex-col items-start gap-4 cursor-pointer text-left w-full transition-[background,border-color] duration-150 hover:bg-[#0F253F] hover:border-[#00BFFF] min-h-39"
+        (click)="openPublishDraft()"
+      >
+        <div class="flex items-center gap-4">
+          <mat-icon
+            class="size-10! text-wrcf-text-tertiary"
+            svgIcon="heroicons_outline:arrow-top-right-on-square"
+          />
+          <span class="text-[22px] font-semibold text-wrcf-text-primary leading-7">Publish Draft</span>
+        </div>
+        <div class="w-full border-t border-wrcf-border"></div>
+        <span class="text-base text-[#ABB7C2] leading-7">Publish new draft</span>
+      </button>
+    </div>
   </div>
 </div>

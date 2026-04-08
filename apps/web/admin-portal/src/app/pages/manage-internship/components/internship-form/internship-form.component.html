@@ -41,6 +41,9 @@
           wheelPropagation: true,
         }"
         [formValue]="formValue()"
+        [cities]="cities()"
+        [coordinators]="coordinators()"
+        [functionalGroups]="functionalGroups()"
         (formChanged)="formChanged.emit($event)"
       />
     </ng-template>

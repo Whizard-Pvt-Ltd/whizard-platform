@@ -1,7 +1,7 @@
 import { Component, input, output } from '@angular/core';
 import { MatTabsModule, MatTabContent } from '@angular/material/tabs';
 import { ScrollbarDirective } from '@whizard/shared-ui';
-import type { InternshipFormValue, City, IndustryRole } from '../../models/manage-internship.models';
+import type { InternshipFormValue, City, IndustryRole, CoordinatorUser, FunctionalGroup } from '../../models/manage-internship.models';
 import { DetailsTabComponent } from './tabs/details-tab/details-tab.component';
 import { DuringInternshipTabComponent } from './tabs/during-internship-tab/during-internship-tab.component';
 import { FinalSubmissionTabComponent } from './tabs/final-submission-tab/final-submission-tab.component';
@@ -68,5 +68,7 @@ export class InternshipFormComponent {
   readonly formValue = input.required<InternshipFormValue>();
   readonly cities = input<City[]>([]);
   readonly industryRoles = input<IndustryRole[]>([]);
+  readonly coordinators = input<CoordinatorUser[]>([]);
+  readonly functionalGroups = input<FunctionalGroup[]>([]);
   readonly formChanged = output<Partial<InternshipFormValue>>();
 }

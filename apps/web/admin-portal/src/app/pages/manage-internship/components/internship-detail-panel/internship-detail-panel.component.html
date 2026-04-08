@@ -90,7 +90,7 @@
                 @if (internship()!.stipend) {
                   <span class="flex items-center gap-1.25">
                     <mat-icon svgIcon="lucideIcons:indian-rupee" class="size-5 shrink-0" />
-                    {{ internship()!.stipend | number }}
+                    {{ internship()!?.stipend | number }}
                   </span>
                 }
                 @if (internship()!.applicationDeadline) {

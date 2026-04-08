@@ -3,6 +3,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { PageActionsService, ScrollbarDirective } from '@whizard/shared-ui';
 import type {
   InternshipDetail, InternshipFormValue, PageMode, City, IndustryRole, CompanyListItem,
+  CoordinatorUser, FunctionalGroup,
 } from './models/manage-internship.models';
 import { AuthContextService } from '../../core/services/auth-context.service';
 import { AssessmentLibraryPanelComponent } from './components/assessment-library-panel/assessment-library-panel.component';
@@ -134,6 +135,8 @@ export class ManageInternshipComponent implements OnInit, OnDestroy {
   protected cities = signal<City[]>([]);
   protected industryRoles = signal<IndustryRole[]>([]);
   protected companies = signal<CompanyListItem[]>([]);
+  protected coordinators = signal<CoordinatorUser[]>([]);
+  protected functionalGroups = signal<FunctionalGroup[]>([]);
 
   protected readonly isAdminOrSystemUser = computed(() =>
     this.authCtx.tenantType() === 'ADMIN' || this.authCtx.tenantType() === 'SYSTEM'
@@ -195,11 +198,19 @@ export class ManageInternshipComponent implements OnInit, OnDestroy {
 
   private init(): void {
     this.loadList();
-    this.api.listCities().subscribe(c => this.cities.set(c));
-    this.api.listIndustryRoles().subscribe(r => this.industryRoles.set(r));
     if (this.isAdminOrSystemUser()) {
       this.api.listCompaniesForSelector().subscribe(c => this.companies.set(c));
     }
+  }
+
+  private loadFormDropdowns(companyTenantId?: string | null): void {
+    if (companyTenantId && this.isAdminOrSystemUser()) {
+      this.authCtx.selectedCompanyTenantId.set(companyTenantId);
+    }
+    this.api.listCities().subscribe(c => this.cities.set(c));
+    this.api.listIndustryRoles().subscribe(r => this.industryRoles.set(r));
+    this.api.listCoordinators().subscribe(c => this.coordinators.set(c));
+    this.api.listFunctionalGroups().subscribe(fg => this.functionalGroups.set(fg));
   }
 
   private loadList(): void {
@@ -232,11 +243,15 @@ export class ManageInternshipComponent implements OnInit, OnDestroy {
   protected onCompanySelected(tenantId: string): void {
     this.authCtx.selectedCompanyTenantId.set(tenantId || null);
     this.loadList();
+    if (this.mode() === 'create' || this.mode() === 'edit') {
+      this.loadFormDropdowns();
+    }
   }
 
   protected onAddClicked(): void {
     this.selectedInternship.set(null);
     this.formValue.set({ ...EMPTY_FORM });
+    this.loadFormDropdowns();
     this.mode.set('create');
   }
 
@@ -244,6 +259,7 @@ export class ManageInternshipComponent implements OnInit, OnDestroy {
     const detail = this.selectedInternship();
     if (detail) {
       this.formValue.set(detailToForm(detail));
+      this.loadFormDropdowns(detail.companyTenantId);
       this.mode.set('edit');
     }
   }

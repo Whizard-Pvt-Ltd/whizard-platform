@@ -3,7 +3,11 @@
     <div class="filter-group">
       <label class="filter-label">Industry Sector</label>
       <mat-form-field appearance="outline" class="wrcf-select">
-        <mat-select [formControl]="sectorControl" placeholder="Select Sector...">
+        <mat-select
+          [value]="selectedSectorId()"
+          (selectionChange)="onSectorChange($event.value)"
+        >
+          <mat-option value="">Select Sector...</mat-option>
           @for (s of sectors; track s.id) {
             <mat-option [value]="s.id">{{ s.name }}</mat-option>
           }
@@ -14,11 +18,15 @@
     <div class="filter-group">
       <label class="filter-label">Industry</label>
       <mat-form-field appearance="outline" class="wrcf-select">
-        <mat-select [formControl]="industryControl" placeholder="Select Industry...">
+        <mat-select
+          [value]="selectedIndustryId()"
+          (selectionChange)="onIndustryChange($event.value)"
+        >
+          <mat-option value="">Select Industry...</mat-option>
           @for (i of industries(); track i.id) {
-            <mat-option [value]="i.id">{{ i.name }}</mat-option>
+<mat-select [formControl]="industryControl" placeholder="Select Industry..."></mat-select>
           }
-        </mat-select>
+          </mat-select>
       </mat-form-field>
     </div>
 

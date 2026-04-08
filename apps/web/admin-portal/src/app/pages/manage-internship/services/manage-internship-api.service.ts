@@ -9,6 +9,7 @@ import type {
   IndustryRole,
   CompanyListItem,
   CoordinatorUser,
+  FunctionalGroup,
 } from '../models/manage-internship.models';
 import { environment } from '../../../../environments/environment';
 import { AuthContextService } from '../../../core/services/auth-context.service';
@@ -74,13 +75,13 @@ export class ManageInternshipApiService {
 
   listCities(): Observable<City[]> {
     return this.http
-      .get<ApiEnvelope<City[]>>(`${environment.bffApiUrl}/companies/cities`)
+      .get<ApiEnvelope<City[]>>(`${environment.bffApiUrl}/companies/cities`, this.companyHeaders())
       .pipe(map(r => r.data));
   }
 
   listIndustryRoles(): Observable<IndustryRole[]> {
     return this.http
-      .get<ApiEnvelope<IndustryRole[]>>(`${environment.bffApiUrl}/wrcf/roles`)
+      .get<ApiEnvelope<IndustryRole[]>>(`${this.base}/roles`, this.companyHeaders())
       .pipe(map(r => r.data));
   }
 
@@ -90,11 +91,15 @@ export class ManageInternshipApiService {
       .pipe(map(r => r.data));
   }
 
-  listCoordinators(companyTenantId: string): Observable<CoordinatorUser[]> {
+  listCoordinators(): Observable<CoordinatorUser[]> {
     return this.http
-      .get<ApiEnvelope<CoordinatorUser[]>>(`${this.base}/coordinators`, {
-        params: { companyTenantId },
-      })
+      .get<ApiEnvelope<CoordinatorUser[]>>(`${this.base}/coordinators`, this.companyHeaders())
+      .pipe(map(r => r.data));
+  }
+
+  listFunctionalGroups(): Observable<FunctionalGroup[]> {
+    return this.http
+      .get<ApiEnvelope<FunctionalGroup[]>>(`${this.base}/functional-groups`, this.companyHeaders())
       .pipe(map(r => r.data));
   }
 

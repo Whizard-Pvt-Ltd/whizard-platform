@@ -1,24 +1,46 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import type { InternshipFormValue, InternshipBatch, FileItem } from '../../../../models/manage-internship.models';
+import { QuillEditorComponent } from '@whizard/shared-ui';
+import type {
+  InternshipFormValue, InternshipBatch, FileItem,
+  CoordinatorUser, FunctionalGroup, City,
+} from '../../../../models/manage-internship.models';
 import { OFFER_RELEASE_METHOD_OPTIONS } from '../../../../models/manage-internship.models';
+import { ASSESSMENT_DRAG_TYPE } from '../../../assessment-library-panel/assessment-library-panel.component';
 
 @Component({
   selector: 'whizard-selection-tab',
   standalone: true,
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatIconModule, MatButtonModule],
+  imports: [
+    FormsModule, MatFormFieldModule, MatInputModule, MatSelectModule,
+    MatIconModule, MatButtonModule, QuillEditorComponent,
+  ],
   templateUrl: './selection-tab.component.html',
 })
 export class SelectionTabComponent {
   readonly formValue = input.required<InternshipFormValue>();
+  readonly cities = input<City[]>([]);
+  readonly coordinators = input<CoordinatorUser[]>([]);
+  readonly functionalGroups = input<FunctionalGroup[]>([]);
   readonly formChanged = output<Partial<InternshipFormValue>>();
 
   protected readonly offerReleaseMethods = OFFER_RELEASE_METHOD_OPTIONS;
+
+  protected readonly selectedCityName = computed(() => {
+    const cityId = this.formValue().cityId;
+    if (!cityId) return '';
+    const city = this.cities().find(c => c.id === cityId);
+    return city ? city.name : '';
+  });
+
+  // Drag-over visual state
+  protected dragOverCourseIndex: number | null = null;
+  protected dragOverArticleIndex: number | null = null;
 
   // --- Offer letter docs ---
   protected onOfferLetterSelected(event: Event): void {
@@ -51,23 +73,54 @@ export class SelectionTabComponent {
     this.emit({ batches: updated });
   }
 
-  // --- Pre-read courses/articles ---
-  protected addCourse(event: Event): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (!file) return;
-    const updated: FileItem[] = [...this.formValue().preReadCourses, { pdfUrl: file.name, name: file.name }];
+  // --- Pre-read courses/articles drag-drop ---
+  protected onDragOver(event: DragEvent, section: 'course' | 'article', index: number): void {
+    if (!event.dataTransfer?.types.includes(ASSESSMENT_DRAG_TYPE)) return;
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'copy';
+    if (section === 'course') {
+      this.dragOverCourseIndex = index;
+    } else {
+      this.dragOverArticleIndex = index;
+    }
+  }
+
+  protected onDragLeave(section: 'course' | 'article'): void {
+    if (section === 'course') {
+      this.dragOverCourseIndex = null;
+    } else {
+      this.dragOverArticleIndex = null;
+    }
+  }
+
+  protected onCourseDrop(event: DragEvent): void {
+    event.preventDefault();
+    this.dragOverCourseIndex = null;
+    const raw = event.dataTransfer?.getData(ASSESSMENT_DRAG_TYPE);
+    if (!raw) return;
+    const data = JSON.parse(raw) as { id: string; title: string };
+    const updated: FileItem[] = [
+      ...this.formValue().preReadCourses,
+      { pdfUrl: data.id, name: data.title },
+    ];
     this.emit({ preReadCourses: updated });
+  }
+
+  protected onArticleDrop(event: DragEvent): void {
+    event.preventDefault();
+    this.dragOverArticleIndex = null;
+    const raw = event.dataTransfer?.getData(ASSESSMENT_DRAG_TYPE);
+    if (!raw) return;
+    const data = JSON.parse(raw) as { id: string; title: string };
+    const updated: FileItem[] = [
+      ...this.formValue().preReadArticles,
+      { pdfUrl: data.id, name: data.title },
+    ];
+    this.emit({ preReadArticles: updated });
   }
 
   protected removeCourse(index: number): void {
     this.emit({ preReadCourses: this.formValue().preReadCourses.filter((_, i) => i !== index) });
-  }
-
-  protected addArticle(event: Event): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (!file) return;
-    const updated: FileItem[] = [...this.formValue().preReadArticles, { pdfUrl: file.name, name: file.name }];
-    this.emit({ preReadArticles: updated });
   }
 
   protected removeArticle(index: number): void {

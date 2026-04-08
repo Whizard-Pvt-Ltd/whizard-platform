@@ -124,6 +124,69 @@ export const registerInternshipHiringRoutes = (
     },
   });
 
+  // GET /api/internships/roles — industry roles scoped to the company's tenant
+  app.route({
+    method: 'GET',
+    url: '/roles',
+    preHandler: authorizationPreHandler('INTERNSHIP.MANAGE'),
+    handler: async (request, reply) => {
+      const ctx = getRequestContext(request);
+      const companyTenantId = resolveCompanyTenantId(ctx, request);
+
+      if (!companyTenantId) {
+        return reply.status(400).send({ success: false, error: 'companyTenantId is required' });
+      }
+
+      const prisma = getPrisma();
+      const roles = await prisma.role.findMany({
+        where: { tenantId: BigInt(companyTenantId), isActive: true },
+        orderBy: { name: 'asc' },
+        select: { publicUuid: true, name: true },
+      });
+
+      const data = roles.map((r: { publicUuid: string; name: string }) => ({ id: r.publicUuid, name: r.name }));
+      reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
+    },
+  });
+
+  // GET /api/internships/functional-groups — functional groups for company's industry
+  app.route({
+    method: 'GET',
+    url: '/functional-groups',
+    preHandler: authorizationPreHandler('INTERNSHIP.MANAGE'),
+    handler: async (request, reply) => {
+      const ctx = getRequestContext(request);
+      const companyTenantId = resolveCompanyTenantId(ctx, request);
+
+      if (!companyTenantId) {
+        return reply.status(400).send({ success: false, error: 'companyTenantId is required' });
+      }
+
+      const prisma = getPrisma();
+      const company = await prisma.company.findFirst({
+        where: { tenantId: BigInt(companyTenantId) },
+        select: { industryId: true },
+      });
+
+      if (!company?.industryId) {
+        return reply.status(200).send({ success: true, data: [], meta: toApiMeta(request) });
+      }
+
+      const fgs = await prisma.functionalGroup.findMany({
+        where: {
+          industryId: company.industryId,
+          tenantId: BigInt(companyTenantId),
+          isActive: true,
+        },
+        orderBy: { name: 'asc' },
+        select: { publicUuid: true, name: true },
+      });
+
+      const data = fgs.map(fg => ({ id: fg.publicUuid, name: fg.name }));
+      reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
+    },
+  });
+
   // GET /api/internships/:id
   app.route({
     method: 'GET',
