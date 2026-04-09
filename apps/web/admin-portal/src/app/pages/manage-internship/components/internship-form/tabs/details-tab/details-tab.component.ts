@@ -12,6 +12,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { QuillEditorComponent } from '@whizard/shared-ui';
 import { Subscription, debounceTime } from 'rxjs';
 import type { City, IndustryRole, InternshipFormValue } from '../../../../models/manage-internship.models';
+import { ManageInternshipApiService } from '../../../../services/manage-internship-api.service';
 
 interface RichTextField {
   key: keyof InternshipFormValue;
@@ -38,9 +39,11 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
   readonly formChanged   = output<Partial<InternshipFormValue>>();
 
   private  readonly fb   = inject(FormBuilder);
+  private  readonly api  = inject(ManageInternshipApiService);
   private  sub           = new Subscription();
 
   protected localBannerUrl = signal<string | null>(null);
+  protected readonly uploadingBanner = signal(false);
   protected readonly tomorrowDate = new Date(Date.now() + 86_400_000);
 
   protected readonly richTextFields: RichTextField[] = [
@@ -95,12 +98,25 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
     const input = event.target as HTMLInputElement;
     const file  = input.files?.[0];
     if (!file) return;
+
+    // Show local preview immediately
     const reader = new FileReader();
-    reader.onload = () => {
-      this.localBannerUrl.set(reader.result as string);
-      this.formChanged.emit({ bannerImageUrl: reader.result as string });
-    };
+    reader.onload = () => this.localBannerUrl.set(reader.result as string);
     reader.readAsDataURL(file);
+
+    // Upload to S3
+    this.uploadingBanner.set(true);
+    this.api.uploadFile(file).subscribe({
+      next: (result) => {
+        this.localBannerUrl.set(result.url);
+        this.formChanged.emit({ bannerImageUrl: result.url });
+        this.uploadingBanner.set(false);
+      },
+      error: () => {
+        this.localBannerUrl.set(null);
+        this.uploadingBanner.set(false);
+      },
+    });
   }
 
   protected removeBanner(event: Event): void {
@@ -117,7 +133,7 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
       vacancies:              this.fb.control(fv.vacancies,                                   [Validators.required, Validators.min(1)]),
       cityId:                 this.fb.control(fv.cityId),
       stipend:                this.fb.control(fv.stipend),
-      durationMonths:         this.fb.control(fv.durationMonths,                             [Validators.required, Validators.min(1), Validators.max(24)]),
+      durationMonths:         this.fb.control(fv.durationMonths,                             [Validators.required, Validators.min(1), Validators.max(96)]),
       applicationDeadline:    this.fb.control<Date | null>(
                                 fv.applicationDeadline ? new Date(fv.applicationDeadline) : null,
                               ),

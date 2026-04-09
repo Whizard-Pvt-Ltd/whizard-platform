@@ -40,8 +40,17 @@ const forwardToCore = async (
 
   const fetchOptions: RequestInit = { method, headers };
   if (method !== 'GET' && method !== 'DELETE') {
-    headers['Content-Type'] = 'application/json';
-    fetchOptions.body = JSON.stringify(request.body ?? {});
+    const contentType = String(request.headers['content-type'] ?? '');
+    if (contentType.includes('multipart/form-data')) {
+      // Forward multipart as-is: stream the raw body with the original content-type
+      headers['Content-Type'] = contentType;
+      fetchOptions.body = (request as unknown as { raw: NodeJS.ReadableStream }).raw as unknown as ReadableStream;
+      // node fetch needs duplex for streaming request bodies
+      (fetchOptions as Record<string, unknown>).duplex = 'half';
+    } else {
+      headers['Content-Type'] = 'application/json';
+      fetchOptions.body = JSON.stringify(request.body ?? {});
+    }
   }
 
   const response = await fetch(url, fetchOptions);

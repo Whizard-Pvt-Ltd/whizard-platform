@@ -70,9 +70,14 @@ export class DuringInternshipTabComponent implements OnInit {
   readonly internshipId = input<string | null>(null);
   readonly formChanged = output<Partial<InternshipFormValue>>();
 
-  // Total weeks derived from durationMonths
+  // Total weeks — durationMonths now stores weeks directly
   readonly totalWeeks = computed(
-    () => (this.formValue().durationMonths ?? 0) * 4,
+    () => this.formValue().durationMonths ?? 0,
+  );
+
+  // Mid-term feedback shows after this global week number
+  readonly midTermAfterWeek = computed(() =>
+    Math.floor(this.totalWeeks() / 2),
   );
 
   // PWO options per plan row index
@@ -98,20 +103,10 @@ export class DuringInternshipTabComponent implements OnInit {
   // Selected skills per plan for schedule filtering
   readonly selectedSkillsMap = signal<Map<number, string[]>>(new Map());
 
-  // Schedule selections per plan: Map<planIndex, Map<taskId, entry>>
-  readonly scheduleSelectionsMap = signal<
-    Map<
-      number,
-      Map<
-        string,
-        {
-          selected: boolean;
-          weekNumber: number;
-          orderIndex: number;
-          evidence: string;
-        }
-      >
-    >
+  // Schedule selections keyed by "planIndex-localWeek"
+  // Each week independently tracks which tasks are selected + evidence
+  readonly weekScheduleMap = signal<
+    Map<string, Map<string, { selected: boolean; evidence: string; orderIndex: number }>>
   >(new Map());
 
   // Plan form array
@@ -186,17 +181,9 @@ export class DuringInternshipTabComponent implements OnInit {
     const skillsMap = new Map<number, SkillItem[]>();
     const tasksMap = new Map<number, TaskItem[]>();
     const selectedSkillsMap = new Map<number, string[]>();
-    const scheduleMap = new Map<
-      number,
-      Map<
-        string,
-        {
-          selected: boolean;
-          weekNumber: number;
-          orderIndex: number;
-          evidence: string;
-        }
-      >
+    const weekMap = new Map<
+      string,
+      Map<string, { selected: boolean; evidence: string; orderIndex: number }>
     >();
 
     plans.forEach((plan, i) => {
@@ -225,36 +212,35 @@ export class DuringInternshipTabComponent implements OnInit {
         skillsMap.set(i, skillItems);
         selectedSkillsMap.set(i, skillIds);
 
-        // Deduplicate tasks (multiple schedule entries per task for different weeks)
-        const taskItems = plan.schedules.map((s) => ({
-          id: s.taskId,
-          name: s.taskName,
-          description: null,
-          skillId: s.skillId,
-          evidence: s.evidence,
-        }));
+        // Deduplicate tasks by id for the task list
+        const seenTaskIds = new Set<string>();
+        const taskItems: TaskItem[] = [];
+        plan.schedules.forEach((s) => {
+          if (!seenTaskIds.has(s.taskId)) {
+            seenTaskIds.add(s.taskId);
+            taskItems.push({
+              id: s.taskId,
+              name: s.taskName,
+              description: null,
+              skillId: s.skillId,
+              evidence: s.evidence,
+            });
+          }
+        });
         tasksMap.set(i, taskItems);
 
-        // Group schedule entries by taskId (each task has N entries for N weeks)
-        const taskSelections = new Map<
-          string,
-          {
-            selected: boolean;
-            weekNumber: number;
-            orderIndex: number;
-            evidence: string;
-          }
-        >();
-
+        // Populate per-week task selections
         plan.schedules.forEach((s) => {
-          taskSelections.set(s.taskId, {
+          const key = this.weekKey(i, s.weekNumber);
+          if (!weekMap.has(key)) {
+            weekMap.set(key, new Map());
+          }
+          weekMap.get(key)!.set(s.taskId, {
             selected: true,
-            weekNumber: s.weekNumber,
-            orderIndex: s.orderIndex,
             evidence: s.evidence,
+            orderIndex: s.orderIndex,
           });
         });
-        scheduleMap.set(i, taskSelections);
       }
     });
 
@@ -262,7 +248,7 @@ export class DuringInternshipTabComponent implements OnInit {
     this.skillsMap.set(skillsMap);
     this.tasksMap.set(tasksMap);
     this.selectedSkillsMap.set(selectedSkillsMap);
-    this.scheduleSelectionsMap.set(scheduleMap);
+    this.weekScheduleMap.set(weekMap);
 
     if (plans.some((p) => p.schedules.length > 0)) {
       this.isScheduleCreated.set(true);
@@ -396,7 +382,7 @@ export class DuringInternshipTabComponent implements OnInit {
         this.skillsMap.set(new Map());
         this.tasksMap.set(new Map());
         this.selectedSkillsMap.set(new Map());
-        this.scheduleSelectionsMap.set(new Map());
+        this.weekScheduleMap.set(new Map());
       }
     });
   }
@@ -453,67 +439,97 @@ export class DuringInternshipTabComponent implements OnInit {
     return this.tasksMap().get(planIndex) ?? [];
   }
 
-  isTaskSelectedElsewhere(planIndex: number, taskId: string): boolean {
-    const map = this.scheduleSelectionsMap();
-    for (const [idx, selections] of map) {
-      if (idx !== planIndex) {
-        const entry = selections.get(taskId);
-        if (entry?.selected) return true;
+  // --- Week-based schedule helpers ---
+
+  private weekKey(planIndex: number, localWeek: number): string {
+    return `${planIndex}-${localWeek}`;
+  }
+
+  /** Flattened list of all weeks across all plans */
+  getAllWeeks(): Array<{
+    globalWeek: number;
+    planIndex: number;
+    localWeek: number;
+  }> {
+    const weeks: Array<{
+      globalWeek: number;
+      planIndex: number;
+      localWeek: number;
+    }> = [];
+    let globalWeek = 1;
+    for (let i = 0; i < this.planArray.length; i++) {
+      const noOfWeeks = this.getPlanRowValue(i).noOfWeeks;
+      for (let w = 1; w <= noOfWeeks; w++) {
+        weeks.push({ globalWeek: globalWeek++, planIndex: i, localWeek: w });
       }
     }
-    return false;
+    return weeks;
   }
 
-  isTaskSelected(planIndex: number, taskId: string): boolean {
-    return (
-      this.scheduleSelectionsMap().get(planIndex)?.get(taskId)?.selected ??
-      false
-    );
-  }
-
-  getTaskEvidence(planIndex: number, taskId: string): string {
-    return (
-      this.scheduleSelectionsMap().get(planIndex)?.get(taskId)?.evidence ?? ''
-    );
-  }
-
-  onTaskToggle(
+  isTaskSelectedInWeek(
     planIndex: number,
+    localWeek: number,
+    taskId: string,
+  ): boolean {
+    return (
+      this.weekScheduleMap()
+        .get(this.weekKey(planIndex, localWeek))
+        ?.get(taskId)?.selected ?? false
+    );
+  }
+
+  getTaskEvidenceInWeek(
+    planIndex: number,
+    localWeek: number,
+    taskId: string,
+  ): string {
+    return (
+      this.weekScheduleMap()
+        .get(this.weekKey(planIndex, localWeek))
+        ?.get(taskId)?.evidence ?? ''
+    );
+  }
+
+  onTaskToggleInWeek(
+    planIndex: number,
+    localWeek: number,
     taskId: string,
     checked: boolean,
     defaultEvidence: string,
   ): void {
-    this.scheduleSelectionsMap.update((m) => {
+    const key = this.weekKey(planIndex, localWeek);
+    this.weekScheduleMap.update((m) => {
       const newMap = new Map(m);
-      const planSelections = new Map(newMap.get(planIndex) ?? new Map());
-      const existing = planSelections.get(taskId);
-      const nextOrder = checked
-        ? planSelections.size
-        : (existing?.orderIndex ?? 0);
-      planSelections.set(taskId, {
+      const weekSelections = new Map(newMap.get(key) ?? new Map());
+      const existing = weekSelections.get(taskId);
+      weekSelections.set(taskId, {
         selected: checked,
-        weekNumber: existing?.weekNumber ?? 1,
-        orderIndex: existing?.orderIndex ?? nextOrder,
         evidence: existing?.evidence ?? defaultEvidence,
+        orderIndex: existing?.orderIndex ?? (checked ? weekSelections.size : 0),
       });
-      newMap.set(planIndex, planSelections);
+      newMap.set(key, weekSelections);
       return newMap;
     });
     this.autoSaveSchedules();
   }
 
-  onEvidenceChange(planIndex: number, taskId: string, evidence: string): void {
-    this.scheduleSelectionsMap.update((m) => {
+  onEvidenceChangeInWeek(
+    planIndex: number,
+    localWeek: number,
+    taskId: string,
+    evidence: string,
+  ): void {
+    const key = this.weekKey(planIndex, localWeek);
+    this.weekScheduleMap.update((m) => {
       const newMap = new Map(m);
-      const planSelections = new Map(newMap.get(planIndex) ?? new Map());
-      const existing = planSelections.get(taskId);
-      planSelections.set(taskId, {
+      const weekSelections = new Map(newMap.get(key) ?? new Map());
+      const existing = weekSelections.get(taskId);
+      weekSelections.set(taskId, {
         selected: existing?.selected ?? false,
-        weekNumber: existing?.weekNumber ?? 1,
-        orderIndex: existing?.orderIndex ?? 0,
         evidence,
+        orderIndex: existing?.orderIndex ?? 0,
       });
-      newMap.set(planIndex, planSelections);
+      newMap.set(key, weekSelections);
       return newMap;
     });
     this.autoSaveSchedules();
@@ -552,21 +568,22 @@ export class DuringInternshipTabComponent implements OnInit {
     const plans = [];
     for (let i = 0; i < this.planArray.length; i++) {
       const row = this.getPlanRowValue(i);
-      const selections = this.scheduleSelectionsMap().get(i);
       const schedules: Array<{
         taskId: string;
         weekNumber: number;
         orderIndex: number;
         evidence: string;
       }> = [];
-      if (selections) {
-        for (const [taskId, weekEntries] of selections) {
-          // Each task has N entries (one per week)
-          for (const [taskId, entry] of selections) {
+
+      // Collect selected tasks from each local week of this plan
+      for (let w = 1; w <= row.noOfWeeks; w++) {
+        const weekSelections = this.weekScheduleMap().get(this.weekKey(i, w));
+        if (weekSelections) {
+          for (const [taskId, entry] of weekSelections) {
             if (entry.selected) {
               schedules.push({
                 taskId,
-                weekNumber: entry.weekNumber,
+                weekNumber: w,
                 orderIndex: entry.orderIndex,
                 evidence: entry.evidence,
               });
@@ -574,6 +591,7 @@ export class DuringInternshipTabComponent implements OnInit {
           }
         }
       }
+
       plans.push({ ...row, schedules });
     }
 

@@ -81,10 +81,10 @@ type Scheme = 'light' | 'dark' | 'system';
         Profile
       </button>
       <mat-divider />
-      <button mat-menu-item [matMenuTriggerFor]="appearanceMenu">
+      <!-- <button mat-menu-item [matMenuTriggerFor]="appearanceMenu">
         <mat-icon svgIcon="lucideIcons:sun-moon" />
         Appearance
-      </button>
+      </button> -->
       <mat-divider />
       <button mat-menu-item (click)="signOut()">
         <mat-icon svgIcon="lucideIcons:log-out" />

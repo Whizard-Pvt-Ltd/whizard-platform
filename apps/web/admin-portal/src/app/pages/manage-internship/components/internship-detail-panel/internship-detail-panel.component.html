@@ -85,7 +85,7 @@
                 </span>
                 <span class="flex items-center gap-1.25">
                   <mat-icon svgIcon="lucideIcons:clock" class="size-5 shrink-0" />
-                  {{ internship()!.durationMonths }} Month{{ internship()!.durationMonths === 1 ? '' : 's' }}
+                  {{ internship()!.durationMonths }} Week{{ internship()!.durationMonths === 1 ? '' : 's' }}
                 </span>
                 @if (internship()!.stipend) {
                   <span class="flex items-center gap-1.25">

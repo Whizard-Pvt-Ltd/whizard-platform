@@ -1,4 +1,4 @@
-import { DatePipe, SlicePipe, UpperCasePipe } from '@angular/common';
+import { DatePipe, DecimalPipe, SlicePipe, UpperCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -31,7 +31,7 @@ const TABS = [
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   host: { class: 'flex-1 relative' },
-  imports: [DatePipe, SlicePipe, UpperCasePipe, MatIconModule],
+  imports: [DatePipe, DecimalPipe, SlicePipe, UpperCasePipe, MatIconModule],
   templateUrl: './internship-detail-panel.component.html',
 })
 export class InternshipDetailPanelComponent {

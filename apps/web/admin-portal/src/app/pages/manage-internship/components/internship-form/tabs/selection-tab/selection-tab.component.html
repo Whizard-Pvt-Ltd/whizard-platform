@@ -8,10 +8,15 @@
       <!-- Offer letter template -->
       <div class="flex items-center gap-4">
         <span class="flex-1 text-lg text-whizard-text-primary font-medium">Offer Letter Template</span>
-        <label class="flex items-center gap-2 h-8.75 px-4 rounded-lg bg-whizard-action text-white text-sm font-medium cursor-pointer hover:bg-whizard-action-hover transition-colors">
+        <label class="flex items-center gap-2 h-8.75 px-4 rounded-lg bg-whizard-action text-white text-sm font-medium cursor-pointer hover:bg-whizard-action-hover transition-colors"
+          [class.opacity-50]="uploadingOfferLetter()"
+          [class.pointer-events-none]="uploadingOfferLetter()"
+        >
           <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-4"></mat-icon>
-          @if (formValue().offerLetterTemplateUrl) {
-            {{ formValue().offerLetterTemplateUrl }}
+          @if (uploadingOfferLetter()) {
+            Uploading...
+          } @else if (formValue().offerLetterTemplateUrl) {
+            Uploaded
           } @else {
             Upload
           }
@@ -22,10 +27,15 @@
       <!-- Terms & conditions -->
       <div class="flex items-center gap-4">
         <span class="flex-1 text-lg text-whizard-text-primary font-medium">Terms & Condition for acceptance</span>
-        <label class="flex items-center gap-2 h-8.75 px-4 rounded-lg bg-whizard-action text-white text-sm font-medium cursor-pointer hover:bg-whizard-action-hover transition-colors">
+        <label class="flex items-center gap-2 h-8.75 px-4 rounded-lg bg-whizard-action text-white text-sm font-medium cursor-pointer hover:bg-whizard-action-hover transition-colors"
+          [class.opacity-50]="uploadingTerms()"
+          [class.pointer-events-none]="uploadingTerms()"
+        >
           <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-4"></mat-icon>
-          @if (formValue().termsConditionUrl) {
-            {{ formValue().termsConditionUrl }}
+          @if (uploadingTerms()) {
+            Uploading...
+          } @else if (formValue().termsConditionUrl) {
+            Uploaded
           } @else {
             Upload
           }
