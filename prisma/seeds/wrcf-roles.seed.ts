@@ -81,51 +81,52 @@ async function seedWrcfRoles(): Promise<void> {
   // ── Industry Roles ────────────────────────────────────────────────────────
   const roleDefs = [
     // TCS — Technology & Engineering
-    { uuid: 'e3000000-0000-0000-0000-000000000001', deptUuid: DEPT_TCS_TECH_UUID,    tenantId: tcsTenantId,      name: 'Software Development Intern',       seniority: 'Intern' },
-    { uuid: 'e3000000-0000-0000-0000-000000000002', deptUuid: DEPT_TCS_TECH_UUID,    tenantId: tcsTenantId,      name: 'Full Stack Development Intern',      seniority: 'Intern' },
-    { uuid: 'e3000000-0000-0000-0000-000000000003', deptUuid: DEPT_TCS_TECH_UUID,    tenantId: tcsTenantId,      name: 'Backend Development Intern',         seniority: 'Intern' },
-    { uuid: 'e3000000-0000-0000-0000-000000000004', deptUuid: DEPT_TCS_TECH_UUID,    tenantId: tcsTenantId,      name: 'Cloud Engineering Intern',           seniority: 'Intern' },
-    { uuid: 'e3000000-0000-0000-0000-000000000005', deptUuid: DEPT_TCS_TECH_UUID,    tenantId: tcsTenantId,      name: 'DevOps Engineering Intern',          seniority: 'Intern' },
-    { uuid: 'e3000000-0000-0000-0000-000000000006', deptUuid: DEPT_TCS_TECH_UUID,    tenantId: tcsTenantId,      name: 'QA & Test Automation Intern',        seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000001', deptUuid: DEPT_TCS_TECH_UUID,    tenantId: tcsTenantId,      industryId: tcsTenant.industryId,      name: 'Software Development Intern',       seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000002', deptUuid: DEPT_TCS_TECH_UUID,    tenantId: tcsTenantId,      industryId: tcsTenant.industryId,      name: 'Full Stack Development Intern',      seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000003', deptUuid: DEPT_TCS_TECH_UUID,    tenantId: tcsTenantId,      industryId: tcsTenant.industryId,      name: 'Backend Development Intern',         seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000004', deptUuid: DEPT_TCS_TECH_UUID,    tenantId: tcsTenantId,      industryId: tcsTenant.industryId,      name: 'Cloud Engineering Intern',           seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000005', deptUuid: DEPT_TCS_TECH_UUID,    tenantId: tcsTenantId,      industryId: tcsTenant.industryId,      name: 'DevOps Engineering Intern',          seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000006', deptUuid: DEPT_TCS_TECH_UUID,    tenantId: tcsTenantId,      industryId: tcsTenant.industryId,      name: 'QA & Test Automation Intern',        seniority: 'Intern' },
     // TCS — Design & UX
-    { uuid: 'e3000000-0000-0000-0000-000000000007', deptUuid: DEPT_TCS_DESIGN_UUID,  tenantId: tcsTenantId,      name: 'UI/UX Design Intern',                seniority: 'Intern' },
-    { uuid: 'e3000000-0000-0000-0000-000000000008', deptUuid: DEPT_TCS_DESIGN_UUID,  tenantId: tcsTenantId,      name: 'Product Design Intern',              seniority: 'Intern' },
-    { uuid: 'e3000000-0000-0000-0000-000000000009', deptUuid: DEPT_TCS_DESIGN_UUID,  tenantId: tcsTenantId,      name: 'Graphic Design Intern',              seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000007', deptUuid: DEPT_TCS_DESIGN_UUID,  tenantId: tcsTenantId,      industryId: tcsTenant.industryId,      name: 'UI/UX Design Intern',                seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000008', deptUuid: DEPT_TCS_DESIGN_UUID,  tenantId: tcsTenantId,      industryId: tcsTenant.industryId,      name: 'Product Design Intern',              seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000009', deptUuid: DEPT_TCS_DESIGN_UUID,  tenantId: tcsTenantId,      industryId: tcsTenant.industryId,      name: 'Graphic Design Intern',              seniority: 'Intern' },
     // TCS — Data & Analytics
-    { uuid: 'e3000000-0000-0000-0000-000000000010', deptUuid: DEPT_TCS_DATA_UUID,    tenantId: tcsTenantId,      name: 'Data Science Intern',                seniority: 'Intern' },
-    { uuid: 'e3000000-0000-0000-0000-000000000011', deptUuid: DEPT_TCS_DATA_UUID,    tenantId: tcsTenantId,      name: 'Data Engineering Intern',            seniority: 'Intern' },
-    { uuid: 'e3000000-0000-0000-0000-000000000012', deptUuid: DEPT_TCS_DATA_UUID,    tenantId: tcsTenantId,      name: 'Business Intelligence Intern',       seniority: 'Intern' },
-    { uuid: 'e3000000-0000-0000-0000-000000000013', deptUuid: DEPT_TCS_DATA_UUID,    tenantId: tcsTenantId,      name: 'Machine Learning Engineering Intern', seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000010', deptUuid: DEPT_TCS_DATA_UUID,    tenantId: tcsTenantId,      industryId: tcsTenant.industryId,      name: 'Data Science Intern',                seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000011', deptUuid: DEPT_TCS_DATA_UUID,    tenantId: tcsTenantId,      industryId: tcsTenant.industryId,      name: 'Data Engineering Intern',            seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000012', deptUuid: DEPT_TCS_DATA_UUID,    tenantId: tcsTenantId,      industryId: tcsTenant.industryId,      name: 'Business Intelligence Intern',       seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000013', deptUuid: DEPT_TCS_DATA_UUID,    tenantId: tcsTenantId,      industryId: tcsTenant.industryId,      name: 'Machine Learning Engineering Intern', seniority: 'Intern' },
     // TCS — Product Management
-    { uuid: 'e3000000-0000-0000-0000-000000000014', deptUuid: DEPT_TCS_PRODUCT_UUID, tenantId: tcsTenantId,      name: 'Product Management Intern',          seniority: 'Intern' },
-    { uuid: 'e3000000-0000-0000-0000-000000000015', deptUuid: DEPT_TCS_PRODUCT_UUID, tenantId: tcsTenantId,      name: 'Business Analyst Intern',            seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000014', deptUuid: DEPT_TCS_PRODUCT_UUID, tenantId: tcsTenantId,      industryId: tcsTenant.industryId,      name: 'Product Management Intern',          seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000015', deptUuid: DEPT_TCS_PRODUCT_UUID, tenantId: tcsTenantId,      industryId: tcsTenant.industryId,      name: 'Business Analyst Intern',            seniority: 'Intern' },
     // TechNova — Technology & Engineering
-    { uuid: 'e3000000-0000-0000-0000-000000000016', deptUuid: DEPT_NOVA_TECH_UUID,   tenantId: technovaTenantId, name: 'Software Development Intern',        seniority: 'Intern' },
-    { uuid: 'e3000000-0000-0000-0000-000000000017', deptUuid: DEPT_NOVA_TECH_UUID,   tenantId: technovaTenantId, name: 'AI/ML Engineering Intern',           seniority: 'Intern' },
-    { uuid: 'e3000000-0000-0000-0000-000000000018', deptUuid: DEPT_NOVA_TECH_UUID,   tenantId: technovaTenantId, name: 'Cloud Engineering Intern',           seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000016', deptUuid: DEPT_NOVA_TECH_UUID,   tenantId: technovaTenantId, industryId: technovaTenant.industryId, name: 'Software Development Intern',        seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000017', deptUuid: DEPT_NOVA_TECH_UUID,   tenantId: technovaTenantId, industryId: technovaTenant.industryId, name: 'AI/ML Engineering Intern',           seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000018', deptUuid: DEPT_NOVA_TECH_UUID,   tenantId: technovaTenantId, industryId: technovaTenant.industryId, name: 'Cloud Engineering Intern',           seniority: 'Intern' },
     // TechNova — Cybersecurity
-    { uuid: 'e3000000-0000-0000-0000-000000000019', deptUuid: DEPT_NOVA_CYBER_UUID,  tenantId: technovaTenantId, name: 'Cybersecurity Intern',               seniority: 'Intern' },
-    { uuid: 'e3000000-0000-0000-0000-000000000020', deptUuid: DEPT_NOVA_CYBER_UUID,  tenantId: technovaTenantId, name: 'Security Analyst Intern',            seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000019', deptUuid: DEPT_NOVA_CYBER_UUID,  tenantId: technovaTenantId, industryId: technovaTenant.industryId, name: 'Cybersecurity Intern',               seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000020', deptUuid: DEPT_NOVA_CYBER_UUID,  tenantId: technovaTenantId, industryId: technovaTenant.industryId, name: 'Security Analyst Intern',            seniority: 'Intern' },
     // HDFC — Technology
-    { uuid: 'e3000000-0000-0000-0000-000000000021', deptUuid: DEPT_HDFC_TECH_UUID,   tenantId: hdfcTenantId,     name: 'Software Development Intern',        seniority: 'Intern' },
-    { uuid: 'e3000000-0000-0000-0000-000000000022', deptUuid: DEPT_HDFC_TECH_UUID,   tenantId: hdfcTenantId,     name: 'FinTech Engineering Intern',         seniority: 'Intern' },
-    { uuid: 'e3000000-0000-0000-0000-000000000023', deptUuid: DEPT_HDFC_TECH_UUID,   tenantId: hdfcTenantId,     name: 'Data Analytics Intern',              seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000021', deptUuid: DEPT_HDFC_TECH_UUID,   tenantId: hdfcTenantId,     industryId: hdfcTenant.industryId,     name: 'Software Development Intern',        seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000022', deptUuid: DEPT_HDFC_TECH_UUID,   tenantId: hdfcTenantId,     industryId: hdfcTenant.industryId,     name: 'FinTech Engineering Intern',         seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000023', deptUuid: DEPT_HDFC_TECH_UUID,   tenantId: hdfcTenantId,     industryId: hdfcTenant.industryId,     name: 'Data Analytics Intern',              seniority: 'Intern' },
     // Amazon — Technology
-    { uuid: 'e3000000-0000-0000-0000-000000000024', deptUuid: DEPT_AMZN_TECH_UUID,   tenantId: amazonTenantId,   name: 'Software Development Engineer Intern', seniority: 'Intern' },
-    { uuid: 'e3000000-0000-0000-0000-000000000025', deptUuid: DEPT_AMZN_TECH_UUID,   tenantId: amazonTenantId,   name: 'Cloud Solutions Architect Intern',   seniority: 'Intern' },
-    { uuid: 'e3000000-0000-0000-0000-000000000026', deptUuid: DEPT_AMZN_TECH_UUID,   tenantId: amazonTenantId,   name: 'Machine Learning Intern',            seniority: 'Intern' },
-    { uuid: 'e3000000-0000-0000-0000-000000000027', deptUuid: DEPT_AMZN_TECH_UUID,   tenantId: amazonTenantId,   name: 'Product Management Intern',          seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000024', deptUuid: DEPT_AMZN_TECH_UUID,   tenantId: amazonTenantId,   industryId: amazonTenant.industryId,   name: 'Software Development Engineer Intern', seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000025', deptUuid: DEPT_AMZN_TECH_UUID,   tenantId: amazonTenantId,   industryId: amazonTenant.industryId,   name: 'Cloud Solutions Architect Intern',   seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000026', deptUuid: DEPT_AMZN_TECH_UUID,   tenantId: amazonTenantId,   industryId: amazonTenant.industryId,   name: 'Machine Learning Intern',            seniority: 'Intern' },
+    { uuid: 'e3000000-0000-0000-0000-000000000027', deptUuid: DEPT_AMZN_TECH_UUID,   tenantId: amazonTenantId,   industryId: amazonTenant.industryId,   name: 'Product Management Intern',          seniority: 'Intern' },
   ];
 
   for (const role of roleDefs) {
     const deptId = deptMap.get(role.deptUuid)!;
     await prisma.role.upsert({
       where: { publicUuid: role.uuid },
-      update: {},
+      update: { industryId: role.industryId },
       create: {
         publicUuid:     role.uuid,
         tenantId:       role.tenantId,
         departmentId:   deptId,
+        industryId:     role.industryId,
         name:           role.name,
         seniorityLevel: role.seniority,
         isActive:       true,

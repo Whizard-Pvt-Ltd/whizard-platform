@@ -173,6 +173,7 @@ model PrimaryWorkObject {
   updatedBy                BigInt?              @map("updated_by")
   swos                     SecondaryWorkObject[]
   capabilityInstances      CapabilityInstance[]
+  internshipPlans          InternshipPlan[]
 
   @@map("pwos")
 }
@@ -260,6 +261,7 @@ model CapabilityInstance {
   updatedBy                  BigInt?                     @map("updated_by")
   skills                     Skill[]
   roleCapabilityInstances    RoleCapabilityInstance[]
+  internshipPlans            InternshipPlan[]
 
   @@map("capability_instances")
 }
@@ -309,6 +311,7 @@ model Task {
   updatedAt                DateTime       @default(now()) @map("updated_at")
   updatedBy                BigInt?        @map("updated_by")
   controlPoints            ControlPoint[]
+  internshipSchedules      InternshipSchedule[]
 
   @@map("tasks")
 }
@@ -876,6 +879,7 @@ model Internship {
   createdOn                 DateTime          @default(now()) @map("created_on")
   updatedOn                 DateTime          @updatedAt @map("updated_on")
   batches                   InternshipBatch[]
+  plans                     InternshipPlan[]
 
   @@index([tenantId])
   @@index([companyTenantId])
@@ -894,4 +898,39 @@ model InternshipBatch {
 
   @@index([internshipId])
   @@map("internship_batches")
+}
+
+model InternshipPlan {
+  id                   BigInt              @id @default(autoincrement())
+  publicUuid           String              @unique @default(uuid()) @map("public_uuid")
+  internshipId         BigInt              @map("internship_id")
+  internship           Internship          @relation(fields: [internshipId], references: [id], onDelete: Cascade)
+  pwoId                BigInt              @map("pwo_id")
+  pwo                  PrimaryWorkObject   @relation(fields: [pwoId], references: [id])
+  capabilityInstanceId BigInt              @map("capability_instance_id")
+  capabilityInstance   CapabilityInstance   @relation(fields: [capabilityInstanceId], references: [id])
+  mentorUserId         BigInt              @map("mentor_user_id")
+  noOfWeeks            Int                 @map("no_of_weeks")
+  orderIndex           Int                 @default(0) @map("order_index")
+  createdOn            DateTime            @default(now()) @map("created_on")
+  schedules            InternshipSchedule[]
+
+  @@index([internshipId])
+  @@map("internship_plans")
+}
+
+model InternshipSchedule {
+  id                 BigInt          @id @default(autoincrement())
+  publicUuid         String          @unique @default(uuid()) @map("public_uuid")
+  internshipPlanId   BigInt          @map("internship_plan_id")
+  internshipPlan     InternshipPlan  @relation(fields: [internshipPlanId], references: [id], onDelete: Cascade)
+  taskId             BigInt          @map("task_id")
+  task               Task            @relation(fields: [taskId], references: [id])
+  weekNumber         Int             @map("week_number")
+  orderIndex         Int             @default(0) @map("order_index")
+  evidence           String?         @db.Text
+  createdOn          DateTime        @default(now()) @map("created_on")
+
+  @@index([internshipPlanId])
+  @@map("internship_schedules")
 }

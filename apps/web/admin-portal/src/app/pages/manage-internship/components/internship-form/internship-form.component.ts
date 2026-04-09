@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { MatTabsModule, MatTabContent } from '@angular/material/tabs';
 import { ScrollbarDirective } from '@whizard/shared-ui';
 import type { InternshipFormValue, City, IndustryRole, CoordinatorUser, FunctionalGroup } from '../../models/manage-internship.models';
@@ -70,5 +70,12 @@ export class InternshipFormComponent {
   readonly industryRoles = input<IndustryRole[]>([]);
   readonly coordinators = input<CoordinatorUser[]>([]);
   readonly functionalGroups = input<FunctionalGroup[]>([]);
+  readonly internshipId = input<string | null>(null);
   readonly formChanged = output<Partial<InternshipFormValue>>();
+
+  readonly roleId = computed(() => {
+    const title = this.formValue().title;
+    const role = this.industryRoles().find(r => r.name === title);
+    return role?.id ?? null;
+  });
 }

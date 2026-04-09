@@ -1,137 +1,372 @@
-<div class="flex flex-col p-6 space-y-8">
+<div class="flex flex-col p-6 gap-5">
+  <!-- Section Title -->
+  <h3 class="text-xl font-semibold text-whizard-accent tracking-wide">
+    During Internship Phase
+  </h3>
 
-  <!-- Total Weeks -->
-  <div>
-    <h3 class="text-xl font-semibold text-whizard-accent mb-4">Internship Schedule</h3>
-    <div class="grid grid-cols-2 gap-4">
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>Total Weeks</mat-label>
-        <input matInput type="number" min="1"
-          [ngModel]="formValue().totalWeeks ?? ''"
-          (ngModelChange)="emit({totalWeeks: $event ? +$event : null})" />
-      </mat-form-field>
+  <!-- Total No. of Weeks (readonly, derived from durationMonths) -->
+  <div class="w-53.75">
+    <mat-form-field appearance="outline" class="w-full whizard-field">
+      <mat-label>Total No. of weeks</mat-label>
+      <input matInput type="number" [value]="totalWeeks()" readonly />
+    </mat-form-field>
+  </div>
+
+  <!-- Divider -->
+  <hr class="border-whizard-border" />
+
+  <!-- Internship Plan Section -->
+  <div class="flex flex-col gap-4">
+    <!-- Header row: title + Add button -->
+    <div class="flex items-center justify-between">
+      <h3 class="text-xl font-semibold text-whizard-accent tracking-wide">
+        Internship Plan
+      </h3>
+      @if (!isScheduleCreated()) {
+        <button
+          mat-flat-button
+          class="rounded-lg bg-whizard-action hover:bg-whizard-action-hover h-10 px-4 text-base font-medium text-whizard-text-primary transition-colors shrink-0"
+          (click)="addPlanRow()"
+        >
+          <mat-icon svgIcon="lucideIcons:lucide-plus" class="size-5 mr-1" />
+          Add
+        </button>
+      }
+    </div>
+
+    <!-- Plan Form Card -->
+    <div class="bg-whizard-bg-secondary rounded-lg p-4" [formGroup]="planForm">
+      <div formArrayName="plans">
+        <!-- Column Headers -->
+        <div class="flex items-center gap-0 mb-1 px-1">
+          <span
+            class="w-1/4 text-[15px] font-semibold text-whizard-accent tracking-wide"
+            >PWO</span
+          >
+          <span
+            class="w-1/4 text-[15px] font-semibold text-whizard-accent tracking-wide"
+            >Mentor</span
+          >
+          <span
+            class="w-1/4 text-[15px] font-semibold text-whizard-accent tracking-wide"
+            >Capability Instance</span
+          >
+          <span
+            class="w-1/4 text-[15px] font-semibold text-whizard-accent tracking-wide"
+            >No. of Weeks</span
+          >
+        </div>
+
+        <!-- Plan Rows -->
+        @for (plan of planArray.controls; track $index; let i = $index) {
+          <div class="flex items-center gap-2 mt-2" [formGroupName]="i">
+            <!-- PWO Dropdown -->
+            <mat-form-field
+              appearance="outline"
+              class="w-1/4 whizard-field"
+              style="--form-field-bg-color: #0f172a"
+            >
+              <mat-select
+                formControlName="pwoId"
+                (selectionChange)="onPwoChange(i, $event.value)"
+                [disabled]="isScheduleCreated()"
+              >
+                @for (pwo of pwos(); track pwo.id) {
+                  <mat-option [value]="pwo.id">{{ pwo.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <!-- Mentor Dropdown -->
+            <mat-form-field
+              appearance="outline"
+              class="w-1/4 whizard-field"
+              style="--form-field-bg-color: #0f172a"
+            >
+              <mat-select
+                formControlName="mentorUserId"
+                [disabled]="isScheduleCreated()"
+              >
+                @for (coord of coordinators(); track coord.id) {
+                  <mat-option [value]="coord.id">{{ coord.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <!-- Capability Instance Dropdown -->
+            <mat-form-field
+              appearance="outline"
+              class="w-1/4 whizard-field"
+              style="--form-field-bg-color: #0f172a"
+            >
+              <mat-select
+                formControlName="capabilityInstanceId"
+                [disabled]="isScheduleCreated()"
+              >
+                @for (ci of getCiOptions(i); track ci.id) {
+                  <mat-option [value]="ci.id">{{ ci.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <!-- No. of Weeks -->
+            <mat-form-field
+              appearance="outline"
+              class="w-1/4 whizard-field"
+              style="--form-field-bg-color: #0f172a"
+            >
+              <input
+                matInput
+                type="number"
+                formControlName="noOfWeeks"
+                min="1"
+                [readonly]="isScheduleCreated()"
+              />
+            </mat-form-field>
+
+            <!-- Remove row button (only if not locked and more than 1 row) -->
+            @if (!isScheduleCreated() && planArray.length > 1) {
+              <button
+                mat-icon-button
+                class="flex items-center justify-center w-8 h-8 rounded-full bg-red-900/30 hover:bg-red-900/60 transition-colors shrink-0 text-red-400"
+                (click)="removePlanRow(i)"
+              >
+                <mat-icon svgIcon="lucideIcons:trash" class="size-5"></mat-icon>
+              </button>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Create Schedule / Edit Plan button -->
+      <div class="flex justify-end mt-2">
+        @if (!isScheduleCreated()) {
+          <button
+            mat-flat-button
+            class="bg-whizard-action text-white rounded-lg h-10 px-4 text-base font-medium"
+            (click)="onCreateSchedule()"
+          >
+            Create Schedule
+          </button>
+        } @else {
+          <button
+            mat-flat-button
+            class="bg-whizard-action text-white rounded-lg h-10 px-4 text-base font-medium"
+            (click)="onEditPlan()"
+          >
+            Edit Plan
+          </button>
+        }
+      </div>
     </div>
   </div>
 
-  <!-- Weekly Schedule Entries -->
-  <div>
-    <div class="flex items-center justify-between mb-4">
-      <h3 class="text-xl font-semibold text-whizard-accent">Weekly Schedule</h3>
-      <button mat-icon-button color="primary" (click)="addWeeklyEntry()">
-        <mat-icon>add</mat-icon>
-      </button>
-    </div>
+  <!-- Internship Schedule Accordions (shown after schedule creation) -->
+  @if (isScheduleCreated()) {
+    <div class="flex flex-col gap-4">
+      <h3 class="text-xl font-semibold text-whizard-accent tracking-wide">
+        Internship Schedule
+      </h3>
 
-    @if (formValue().weeklySchedule.length === 0) {
-      <p class="text-sm text-whizard-text-secondary italic">No schedule entries yet. Click + to add a week block.</p>
-    }
+      <mat-accordion multi class="space-y-3">
+        @for (plan of planArray.controls; track $index; let i = $index) {
+          <mat-expansion-panel class="border border-whizard-border shadow-sm">
+            <mat-expansion-panel-header class="bg-[#484E5D] h-16">
+              <mat-panel-title
+                class="text-whizard-text-primary font-semibold text-lg"
+              >
+                {{ getPwoName(getPlanRowValue(i).pwoId) }}
+              </mat-panel-title>
+              <mat-panel-description
+                class="text-whizard-text-primary text-sm flex items-center justify-between w-full"
+              >
+                <span>{{
+                  getMentorName(getPlanRowValue(i).mentorUserId)
+                }}</span>
+                <span class="text-whizard-accent font-medium">
+                  {{ getCiName(i, getPlanRowValue(i).capabilityInstanceId) }}
+                </span>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
 
-    <mat-accordion multi class="space-y-3">
-      @for (entry of formValue().weeklySchedule; track $index) {
-        <mat-expansion-panel class="rounded-xl border border-whizard-border bg-whizard-bg-secondary shadow-none">
-          <mat-expansion-panel-header>
-            <mat-panel-title class="text-sm font-semibold text-whizard-text-primary">
-              Week Block {{ $index + 1 }}
-              @if (entry.functionalGroupId) {
-                <span class="ml-2 text-whizard-text-secondary font-normal">— {{ entry.functionalGroupId }}</span>
-              }
-            </mat-panel-title>
-            <mat-panel-description class="text-xs text-whizard-text-secondary">
-              {{ entry.noOfWeeks }} week(s)
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-
-          <div class="pt-2 pb-4 space-y-4">
-            <div class="grid grid-cols-3 gap-4">
-              <mat-form-field appearance="outline" class="w-full">
-                <mat-label>Functional Group</mat-label>
-                <input matInput type="text" placeholder="Group ID or name"
-                  [ngModel]="entry.functionalGroupId"
-                  (ngModelChange)="updateEntry($index, {functionalGroupId: $event})" />
-              </mat-form-field>
-
-              <mat-form-field appearance="outline" class="w-full">
-                <mat-label>Capability Instance</mat-label>
-                <input matInput type="text" placeholder="Capability ID"
-                  [ngModel]="entry.capabilityInstanceId"
-                  (ngModelChange)="updateEntry($index, {capabilityInstanceId: $event})" />
-              </mat-form-field>
-
-              <mat-form-field appearance="outline" class="w-full">
-                <mat-label>No. of Weeks</mat-label>
-                <input matInput type="number" min="1"
-                  [ngModel]="entry.noOfWeeks"
-                  (ngModelChange)="updateEntry($index, {noOfWeeks: +$event})" />
-              </mat-form-field>
-            </div>
-
-            <mat-form-field appearance="outline" class="w-full">
-              <mat-label>Coordinator / Functional Mentor</mat-label>
-              <input matInput type="text" placeholder="User ID or name"
-                [ngModel]="entry.coordinatorUserId"
-                (ngModelChange)="updateEntry($index, {coordinatorUserId: $event})" />
-            </mat-form-field>
-
-            <!-- Tasks -->
-            <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-sm font-semibold text-whizard-text-primary">Tasks</span>
-                <button mat-icon-button color="primary"
-                  (click)="updateEntry($index, {tasks: [...entry.tasks, {title: '', evidence: ''}]})">
-                  <mat-icon class="text-base">add</mat-icon>
-                </button>
+            <div class="p-4 flex flex-col gap-4">
+              <!-- Skill Filter (multi-select) -->
+              <div class="flex items-center gap-3">
+                <mat-form-field
+                  appearance="outline"
+                  class="whizard-field w-100"
+                  style="--form-field-bg-color: #0f172a"
+                >
+                  <mat-label>Skill</mat-label>
+                  <mat-select
+                    multiple
+                    [value]="getSelectedSkills(i)"
+                    (selectionChange)="onSkillsChange(i, $event.value)"
+                  >
+                    @for (skill of getSkills(i); track skill.id) {
+                      <mat-option [value]="skill.id">{{
+                        skill.name
+                      }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
               </div>
 
-              @if (entry.tasks.length === 0) {
-                <p class="text-xs text-whizard-text-secondary italic">No tasks added. Click + to add.</p>
-              }
+              <!-- Tasks Table -->
+              @if (getTasks(i).length > 0) {
+                <div class="flex flex-col">
+                  <!-- Table Header -->
+                  <div
+                    class="flex items-center gap-3 px-2 py-2 border-b border-whizard-border"
+                  >
+                    <span class="w-8"></span>
+                    <span
+                      class="flex-1 text-sm font-semibold text-whizard-accent"
+                      >Tasks</span
+                    >
+                    <span class="w-20 text-sm font-semibold text-whizard-accent"
+                      >Week</span
+                    >
+                    <span class="w-75 text-sm font-semibold text-whizard-accent"
+                      >Evidence</span
+                    >
+                  </div>
 
-              @for (task of entry.tasks; track $index; let ti = $index) {
-                <div class="flex items-center gap-3 mb-2">
-                  <mat-form-field appearance="outline" class="flex-1">
-                    <mat-label>Task {{ ti + 1 }}</mat-label>
-                    <input matInput type="text"
-                      [ngModel]="task.title"
-                      (ngModelChange)="updateEntry($index, {tasks: entry.tasks.map((t, j) => j === ti ? {...t, title: $event} : t)})" />
-                  </mat-form-field>
-                  <mat-form-field appearance="outline" class="flex-1">
-                    <mat-label>Evidence Required</mat-label>
-                    <input matInput type="text"
-                      [ngModel]="task.evidence"
-                      (ngModelChange)="updateEntry($index, {tasks: entry.tasks.map((t, j) => j === ti ? {...t, evidence: $event} : t)})" />
-                  </mat-form-field>
-                  <button mat-icon-button color="warn"
-                    (click)="updateEntry($index, {tasks: entry.tasks.filter((_, j) => j !== ti)})">
-                    <mat-icon svgIcon="heroicons_outline:trash"></mat-icon>
-                  </button>
+                  <!-- Task Rows -->
+                  @for (task of getTasks(i); track task.id) {
+                    <!-- Task checkbox row -->
+                    <div
+                      class="flex items-center gap-3 px-2 py-3 border-b border-whizard-border/30"
+                      [class.opacity-40]="isTaskSelectedElsewhere(i, task.id)"
+                    >
+                      <mat-checkbox
+                        class="mt-0.5"
+                        [checked]="isTaskSelected(i, task.id)"
+                        [disabled]="isTaskSelectedElsewhere(i, task.id)"
+                        (change)="
+                          onTaskToggle(
+                            i,
+                            task.id,
+                            $event.checked,
+                            task.evidence
+                          )
+                        "
+                      >
+                      </mat-checkbox>
+
+                      <mat-form-field
+                        appearance="outline"
+                        class="flex-1 whizard-field"
+                        style="--form-field-bg-color: #0f172a"
+                      >
+                        <input matInput [value]="task.name" [readonly]="true" />
+                      </mat-form-field>
+
+                      <!-- Show week/evidence inline if only 1 week -->
+                      @if (
+                        isTaskSelected(i, task.id) &&
+                        getTaskWeekEntries(i, task.id).length === 1
+                      ) {
+                        <span
+                          class="w-20 text-sm text-whizard-text-secondary text-center"
+                        >
+                          Week
+                          {{ getTaskWeekEntries(i, task.id)[0].weekNumber }}
+                        </span>
+                        <mat-form-field
+                          appearance="outline"
+                          class="w-75 whizard-field"
+                          style="--form-field-bg-color: #0f172a"
+                        >
+                          <input
+                            matInput
+                            [value]="getTaskWeekEntries(i, task.id)[0].evidence"
+                            (input)="
+                              onEvidenceChange(
+                                i,
+                                task.id,
+                                getTaskWeekEntries(i, task.id)[0].weekNumber,
+                                $any($event.target).value
+                              )
+                            "
+                            placeholder="Evidence..."
+                          />
+                        </mat-form-field>
+                      }
+                    </div>
+
+                    <!-- Week sub-rows when task is selected and has multiple weeks -->
+                    @if (
+                      isTaskSelected(i, task.id) &&
+                      getTaskWeekEntries(i, task.id).length > 1
+                    ) {
+                      @for (
+                        weekEntry of getTaskWeekEntries(i, task.id);
+                        track weekEntry.weekNumber
+                      ) {
+                        <div
+                          class="flex items-center gap-3 px-2 py-2 pl-14 border-b border-whizard-border/20 bg-whizard-bg-primary/30"
+                        >
+                          <span class="flex-1"></span>
+                          <span
+                            class="w-20 text-sm text-whizard-text-secondary text-center"
+                          >
+                            Week {{ weekEntry.weekNumber }}
+                          </span>
+                          <mat-form-field
+                            appearance="outline"
+                            class="w-75 whizard-field"
+                            style="--form-field-bg-color: #0f172a"
+                          >
+                            <input
+                              matInput
+                              [value]="weekEntry.evidence"
+                              (input)="
+                                onEvidenceChange(
+                                  i,
+                                  task.id,
+                                  weekEntry.weekNumber,
+                                  $any($event.target).value
+                                )
+                              "
+                              placeholder="Evidence for week {{
+                                weekEntry.weekNumber
+                              }}..."
+                            />
+                          </mat-form-field>
+                        </div>
+                      }
+                    }
+                  }
                 </div>
               }
             </div>
+          </mat-expansion-panel>
+        }
+      </mat-accordion>
+    </div>
+  }
 
-            <div class="flex justify-end">
-              <button mat-icon-button color="warn" (click)="removeWeeklyEntry($index)">
-                <mat-icon svgIcon="heroicons_outline:trash"></mat-icon>
-              </button>
-            </div>
-          </div>
-        </mat-expansion-panel>
-      }
-    </mat-accordion>
-  </div>
-
-  <!-- Mid-Term Feedback -->
+  <!-- Mid-Term Feedback (kept from original, out of plan/schedule scope) -->
   <div>
-    <h3 class="text-xl font-semibold text-whizard-accent mb-4">Mid-Term Feedback</h3>
-    <div class="grid grid-cols-2 gap-4">
-      <mat-form-field appearance="outline" class="w-full">
+    <h3 class="text-xl font-semibold text-whizard-accent mb-4">
+      Mid-Term Feedback
+    </h3>
+    <div class="w-1/4">
+      <mat-form-field appearance="outline" class="w-full whizard-field">
         <mat-label>Mid-Term Feedback Date</mat-label>
-        <input matInput [matDatepicker]="midTermPicker"
-          [ngModel]="getMidTermDate()"
-          (ngModelChange)="onMidTermDateChange($event)" />
-        <mat-datepicker-toggle matIconSuffix [for]="midTermPicker"></mat-datepicker-toggle>
+        <input
+          matInput
+          [matDatepicker]="midTermPicker"
+          [value]="getMidTermDate()"
+          (dateChange)="onMidTermDateChange($event.value)"
+        />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="midTermPicker"
+        ></mat-datepicker-toggle>
         <mat-datepicker #midTermPicker></mat-datepicker>
       </mat-form-field>
     </div>
   </div>
-
 </div>

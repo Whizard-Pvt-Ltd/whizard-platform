@@ -698,8 +698,9 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
       const ctx = getRequestContext(request);
       const query = request.query as Record<string, string>;
       const industryId = query['industryId'] || undefined;
-      logger.debug('Listing departments', { ...getLogContext(request), industryId });
-      const data = await deps.listDepartments.execute(ctx.tenantId, industryId);
+      const scopeToTenant = ctx.tenantType === 'COMPANY';
+      logger.debug('Listing departments', { ...getLogContext(request), userId: ctx.actorUserAccountId, tenantId: ctx.tenantId, industryId, scopeToTenant });
+      const data = await deps.listDepartments.execute(ctx.tenantId, industryId, scopeToTenant);
       logger.debug('Listed departments', { ...getLogContext(request), industryId, count: data.length });
       reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
     }
@@ -790,8 +791,8 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
       const ctx = getRequestContext(request);
       const query = request.query as Record<string, string>;
       const departmentId = query['departmentId'] ?? '';
-      const tenantId = ctx.tenantType !== 'SYSTEM' ? ctx.tenantId : undefined;
-      logger.debug('Listing roles', { ...getLogContext(request), departmentId, tenantId });
+      const tenantId = ctx.tenantType === 'COMPANY' ? ctx.tenantId : undefined;
+      logger.debug('Listing roles', { ...getLogContext(request), userId: ctx.actorUserAccountId, tenantId: ctx.tenantId, departmentId, scopedTenantId: tenantId });
       const data = await deps.listIndustryRoles.execute(departmentId, tenantId);
       logger.debug('Listed roles', { ...getLogContext(request), departmentId, count: data.length });
       reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
