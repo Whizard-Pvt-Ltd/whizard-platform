@@ -1,6 +1,7 @@
 import { getOrCreateAppLogger, createPinoLoggerOptions } from '@whizard/shared-logging';
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
+import multipart from '@fastify/multipart';
 /**
  * BFF (Backend for Frontend) Server Bootstrap
  *
@@ -72,6 +73,10 @@ async function bootstrap() {
     credentials: true
   });
   bootstrapLogger.debug('CORS plugin registered', { allowedOrigins: corsOrigins });
+
+  // Multipart support for file uploads
+  await fastify.register(multipart, { limits: { fileSize: 10 * 1024 * 1024 } });
+  bootstrapLogger.debug('Multipart plugin registered');
 
   // GET /api/me — proxies to Core API to resolve tenant context from JWT
   const CORE_API_URL = (process.env.CORE_API_URL || 'http://localhost:3001').replace(/\/$/, '');

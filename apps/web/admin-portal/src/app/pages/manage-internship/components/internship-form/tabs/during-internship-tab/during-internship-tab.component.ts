@@ -70,9 +70,14 @@ export class DuringInternshipTabComponent implements OnInit {
   readonly internshipId = input<string | null>(null);
   readonly formChanged = output<Partial<InternshipFormValue>>();
 
-  // Total weeks derived from durationMonths
+  // Total weeks — durationMonths now stores weeks directly
   readonly totalWeeks = computed(
-    () => (this.formValue().durationMonths ?? 0) * 4,
+    () => this.formValue().durationMonths ?? 0,
+  );
+
+  // Mid-term feedback shows after this global week number
+  readonly midTermAfterWeek = computed(() =>
+    Math.floor(this.totalWeeks() / 2),
   );
 
   // PWO options per plan row index

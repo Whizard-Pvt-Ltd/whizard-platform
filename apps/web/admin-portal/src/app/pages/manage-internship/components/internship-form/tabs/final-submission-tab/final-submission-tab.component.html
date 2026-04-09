@@ -46,25 +46,39 @@
     </span>
 
     <div class="flex flex-col gap-5">
-      <!-- Drop zone -->
-      <label
-        class="flex flex-col items-center justify-center w-[199px] h-[126px] rounded-lg bg-whizard-bg-secondary shadow-md cursor-pointer"
-        (dragover)="$event.preventDefault()"
+      <!-- Drop zone for library resources -->
+      <div
+        class="flex flex-col items-center justify-center w-[199px] h-[126px] rounded-lg bg-whizard-bg-secondary shadow-md transition-all"
+        [class.border-2]="dragOverRubric()"
+        [class.border-whizard-accent]="dragOverRubric()"
+        (dragover)="onRubricDragOver($event)"
+        (dragleave)="onRubricDragLeave()"
         (drop)="onRubricDrop($event)"
       >
         @if (formValue().presentationRubricUrl) {
           <mat-icon class="size-10 text-whizard-accent mb-2">description</mat-icon>
-          <span class="text-sm font-medium text-whizard-text-primary tracking-[0.15px]">
+          <span class="text-sm font-medium text-whizard-text-primary tracking-[0.15px] text-center px-2 line-clamp-2">
             {{ formValue().presentationRubricUrl }}
           </span>
+          <button
+            type="button"
+            class="mt-1 flex items-center justify-center w-5 h-5 rounded-full bg-red-900/40 hover:bg-red-900/70 text-red-400 transition-colors"
+            (click)="removeRubric()"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
         } @else {
-          <mat-icon class="size-10 text-whizard-text-secondary mb-2">cloud_upload</mat-icon>
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-whizard-text-secondary">
+            <polyline points="16 16 12 12 8 16" /><line x1="12" y1="12" x2="12" y2="21" />
+            <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
+          </svg>
           <span class="text-sm font-medium text-whizard-text-primary tracking-[0.15px]">
             Drop Rubric Here
           </span>
         }
-        <input type="file" accept=".pdf" class="sr-only" (change)="onRubricSelected($event)" />
-      </label>
+      </div>
 
       <!-- Min Scoring + Presentation Weightage -->
       <div class="flex items-center justify-between gap-4">
@@ -116,15 +130,20 @@
         type="button"
         mat-flat-button
         class="!bg-whizard-action !text-white !rounded-lg !h-[35px] !text-sm"
+        [disabled]="uploadingCertificate()"
         (click)="certificateInput.click()"
       >
         <mat-icon class="size-5 mr-1">upload</mat-icon>
-        Upload
+        @if (uploadingCertificate()) {
+          Uploading...
+        } @else {
+          Upload
+        }
       </button>
       <input
         #certificateInput
         type="file"
-        accept=".pdf,.png,.jpg"
+        accept=".pdf"
         class="sr-only"
         (change)="onCertificateSelected($event)"
       />

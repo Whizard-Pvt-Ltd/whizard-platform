@@ -13,7 +13,7 @@ export interface FastifyRequestLike {
   readonly params?: unknown;
   readonly query?: unknown;
   readonly body?: unknown;
-  file?: () => Promise<MultipartFileLike>;
+  file?: () => Promise<MultipartFileLike | undefined>;
 }
 
 export interface FastifyReplyLike {

@@ -25,7 +25,7 @@
     "pino-pretty": "^13.0.0"
   },
   "devDependencies": {
-    "@types/node": "^22.13.10",
+    "@types/node": "^22.19.15",
     "typescript": "5.8.2"
   }
 }

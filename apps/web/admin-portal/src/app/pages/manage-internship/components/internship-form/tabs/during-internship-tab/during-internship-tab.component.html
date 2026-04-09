@@ -4,7 +4,7 @@
     During Internship Phase
   </h3>
 
-  <!-- Total No. of Weeks (readonly, derived from durationMonths) -->
+  <!-- Total No. of Weeks (readonly, from duration field) -->
   <div class="w-53.75">
     <mat-form-field appearance="outline" class="w-full whizard-field">
       <mat-label>Total No. of weeks</mat-label>
@@ -138,16 +138,24 @@
         }
       </div>
 
-      <!-- Create Schedule / Edit Plan button -->
-      <div class="flex justify-end mt-2">
+      <!-- Create Schedule / Edit Plan button + disclaimer -->
+      <div class="flex flex-col items-end gap-2 mt-2">
         @if (!isScheduleCreated()) {
           <button
             mat-flat-button
-            class="bg-whizard-action text-white rounded-lg h-10 px-4 text-base font-medium"
+            class="bg-whizard-action text-white rounded-lg h-10 px-4 text-base font-medium disabled:opacity-40 disabled:cursor-not-allowed"
+            [disabled]="getWeekSum() !== totalWeeks()"
             (click)="onCreateSchedule()"
           >
             Create Schedule
           </button>
+          <span class="text-sm"
+            [class.text-whizard-text-secondary]="getWeekSum() === totalWeeks()"
+            [class.text-red-400]="getWeekSum() !== totalWeeks()"
+          >
+            Total duration must equal {{ totalWeeks() }} weeks (sum of all plan rows).
+            Currently: {{ getWeekSum() }} / {{ totalWeeks() }} weeks.
+          </span>
         } @else {
           <button
             mat-flat-button
@@ -315,31 +323,56 @@
               }
             </div>
           </mat-expansion-panel>
+
+          <!-- Mid-Term Feedback marker — inserted after the middle week -->
+          @if (week.globalWeek === midTermAfterWeek()) {
+            <div
+              class="flex items-center gap-4 rounded-lg border-l-4 border-whizard-accent bg-whizard-bg-secondary px-5 py-4"
+            >
+              <mat-icon
+                svgIcon="lucideIcons:clipboard-check"
+                class="size-6 text-whizard-accent shrink-0"
+              />
+              <span
+                class="text-lg font-semibold text-whizard-accent tracking-wide"
+                >Mid-Term Feedback</span
+              >
+              <div class="ml-auto">
+                <mat-form-field
+                  appearance="outline"
+                  class="w-56 whizard-field"
+                  style="--form-field-bg-color: #0f172a"
+                >
+                  <mat-label>Feedback Date</mat-label>
+                  <input
+                    matInput
+                    [matDatepicker]="midTermPicker"
+                    [value]="getMidTermDate()"
+                    (dateChange)="onMidTermDateChange($event.value)"
+                  />
+                  <mat-datepicker-toggle
+                    matIconSuffix
+                    [for]="midTermPicker"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #midTermPicker></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+          }
         }
       </mat-accordion>
     </div>
   }
 
-  <!-- Mid-Term Feedback (kept from original, out of plan/schedule scope) -->
-  <div>
-    <h3 class="text-xl font-semibold text-whizard-accent mb-4">
-      Mid-Term Feedback
-    </h3>
-    <div class="w-1/4">
-      <mat-form-field appearance="outline" class="w-full whizard-field">
-        <mat-label>Mid-Term Feedback Date</mat-label>
-        <input
-          matInput
-          [matDatepicker]="midTermPicker"
-          [value]="getMidTermDate()"
-          (dateChange)="onMidTermDateChange($event.value)"
-        />
-        <mat-datepicker-toggle
-          matIconSuffix
-          [for]="midTermPicker"
-        ></mat-datepicker-toggle>
-        <mat-datepicker #midTermPicker></mat-datepicker>
-      </mat-form-field>
+  <!-- Mid-Term Feedback shown when schedule is NOT created yet -->
+  @if (!isScheduleCreated()) {
+    <div>
+      <h3 class="text-xl font-semibold text-whizard-accent mb-4">
+        Mid-Term Feedback
+      </h3>
+      <p class="text-sm text-whizard-text-secondary">
+        Mid-term feedback will appear automatically after week {{ midTermAfterWeek() }} once the schedule is created.
+      </p>
     </div>
-  </div>
+  }
 </div>

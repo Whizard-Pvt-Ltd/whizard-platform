@@ -1,6 +1,7 @@
 import { getOrCreateAppLogger, createPinoLoggerOptions } from '@whizard/shared-logging';
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
+import multipart from '@fastify/multipart';
 /**
  * Core API Server Bootstrap
  *
@@ -74,6 +75,10 @@ async function bootstrap() {
   bootstrapLogger.debug('CORS plugin registered', {
     allowedOrigins: Array.isArray(corsOrigins) ? corsOrigins : [corsOrigins]
   });
+
+  // Multipart support for file uploads
+  await fastify.register(multipart, { limits: { fileSize: 10 * 1024 * 1024 } });
+  bootstrapLogger.debug('Multipart plugin registered');
 
   // Register Stack Auth authentication plugin
   // This adds JWT token verification to all routes

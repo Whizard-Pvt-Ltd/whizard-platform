@@ -1,4 +1,4 @@
-import { Component, computed, input, output } from '@angular/core';
+import { Component, computed, inject, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,6 +11,7 @@ import type {
   CoordinatorUser, FunctionalGroup, City,
 } from '../../../../models/manage-internship.models';
 import { OFFER_RELEASE_METHOD_OPTIONS } from '../../../../models/manage-internship.models';
+import { ManageInternshipApiService } from '../../../../services/manage-internship-api.service';
 import { ASSESSMENT_DRAG_TYPE } from '../../../assessment-library-panel/assessment-library-panel.component';
 
 @Component({
@@ -23,6 +24,8 @@ import { ASSESSMENT_DRAG_TYPE } from '../../../assessment-library-panel/assessme
   templateUrl: './selection-tab.component.html',
 })
 export class SelectionTabComponent {
+  private readonly api = inject(ManageInternshipApiService);
+
   readonly formValue = input.required<InternshipFormValue>();
   readonly cities = input<City[]>([]);
   readonly coordinators = input<CoordinatorUser[]>([]);
@@ -30,6 +33,8 @@ export class SelectionTabComponent {
   readonly formChanged = output<Partial<InternshipFormValue>>();
 
   protected readonly offerReleaseMethods = OFFER_RELEASE_METHOD_OPTIONS;
+  protected readonly uploadingOfferLetter = signal(false);
+  protected readonly uploadingTerms = signal(false);
 
   protected readonly selectedCityName = computed(() => {
     const cityId = this.formValue().cityId;
@@ -42,17 +47,31 @@ export class SelectionTabComponent {
   protected dragOverCourseIndex: number | null = null;
   protected dragOverArticleIndex: number | null = null;
 
-  // --- Offer letter docs ---
+  // --- Offer letter docs (S3 upload) ---
   protected onOfferLetterSelected(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (!file) return;
-    this.emit({ offerLetterTemplateUrl: file.name });
+    this.uploadingOfferLetter.set(true);
+    this.api.uploadFile(file).subscribe({
+      next: (result) => {
+        this.emit({ offerLetterTemplateUrl: result.url });
+        this.uploadingOfferLetter.set(false);
+      },
+      error: () => this.uploadingOfferLetter.set(false),
+    });
   }
 
   protected onTermsSelected(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (!file) return;
-    this.emit({ termsConditionUrl: file.name });
+    this.uploadingTerms.set(true);
+    this.api.uploadFile(file).subscribe({
+      next: (result) => {
+        this.emit({ termsConditionUrl: result.url });
+        this.uploadingTerms.set(false);
+      },
+      error: () => this.uploadingTerms.set(false),
+    });
   }
 
   // --- Batches ---
