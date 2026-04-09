@@ -154,11 +154,17 @@ export class ManageInternshipApiService {
       .pipe(map(r => r.data));
   }
 
-  uploadFile(file: File): Observable<{ url: string; key: string }> {
+  uploadFile(file: File, folder = 'internship'): Observable<{ url: string; key: string }> {
     const formData = new FormData();
     formData.append('file', file, file.name);
     return this.http
-      .post<ApiEnvelope<{ url: string; key: string }>>(`${this.base}/files/upload`, formData)
+      .post<ApiEnvelope<{ url: string; key: string }>>(`${environment.bffApiUrl}/resource-upload/upload?folder=${encodeURIComponent(folder)}`, formData)
       .pipe(map(r => r.data));
+  }
+
+  getSignedUrl(key: string): Observable<string> {
+    return this.http
+      .get<ApiEnvelope<{ url: string }>>(`${environment.bffApiUrl}/resource-upload/signed-url?key=${encodeURIComponent(key)}`)
+      .pipe(map(r => r.data.url));
   }
 }

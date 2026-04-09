@@ -49,7 +49,7 @@
             <!-- 60×60 thumbnail / letter avatar -->
             @if (item.bannerImageUrl) {
               <img
-                [src]="item.bannerImageUrl"
+                [src]="item.bannerImageUrl | signedUrl"
                 [alt]="item.title"
                 class="w-[60px] h-[60px] rounded-lg object-cover shrink-0"
               />

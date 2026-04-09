@@ -62,7 +62,6 @@ const forwardToCore = async (
 export const registerInternshipHiringBffRoutes = (app: FastifyInstanceLike): void => {
   app.route({ method: 'GET',  url: '/',                 handler: (req, rep) => forwardToCore('GET',  '/api/internships',                req, rep) });
   app.route({ method: 'POST', url: '/',                 handler: (req, rep) => forwardToCore('POST', '/api/internships',                req, rep) });
-  app.route({ method: 'POST', url: '/files/upload',     handler: (req, rep) => forwardToCore('POST', '/api/internships/files/upload',   req, rep) });
   app.route({ method: 'GET',  url: '/coordinators',       handler: (req, rep) => forwardToCore('GET',  '/api/internships/coordinators',       req, rep) });
   app.route({ method: 'GET',  url: '/roles',              handler: (req, rep) => forwardToCore('GET',  '/api/internships/roles',              req, rep) });
   app.route({ method: 'GET',  url: '/functional-groups',  handler: (req, rep) => forwardToCore('GET',  '/api/internships/functional-groups',  req, rep) });

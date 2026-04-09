@@ -25,6 +25,7 @@ import { startCoreApi } from './main';
 import { registerCollegeOperationsCoreApiRuntime } from './modules/college-operations/runtime';
 import { registerCompanyOrganizationCoreApiRuntime } from './modules/company-organization/runtime';
 import { registerInternshipHiringCoreApiRuntime } from './modules/internship-hiring/runtime';
+import { registerResourceUploadCoreApiRuntime } from './modules/resource-upload/runtime';
 import { registerWrcfCoreApiRuntime } from './modules/wrcf/runtime';
 import stackAuthPlugin from './plugins/stack-auth.plugin';
 
@@ -77,7 +78,7 @@ async function bootstrap() {
   });
 
   // Multipart support for file uploads
-  await fastify.register(multipart, { limits: { fileSize: 10 * 1024 * 1024 } });
+  await fastify.register(multipart, { limits: { fileSize: 50 * 1024 * 1024 } });
   bootstrapLogger.debug('Multipart plugin registered');
 
   // Register Stack Auth authentication plugin
@@ -183,6 +184,18 @@ async function bootstrap() {
     bootstrapLogger.info('Internship Hiring runtime registered successfully');
   } catch (error) {
     bootstrapLogger.error('Failed to register Internship Hiring runtime', {
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+    throw error;
+  }
+
+  // Register Resource Upload routes
+  bootstrapLogger.info('Registering Resource Upload runtime');
+  try {
+    await registerResourceUploadCoreApiRuntime(fastify);
+    bootstrapLogger.info('Resource Upload runtime registered successfully');
+  } catch (error) {
+    bootstrapLogger.error('Failed to register Resource Upload runtime', {
       error: error instanceof Error ? error.message : 'Unknown error'
     });
     throw error;

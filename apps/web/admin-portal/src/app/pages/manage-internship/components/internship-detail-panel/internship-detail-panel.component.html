@@ -42,7 +42,7 @@
 
               @if (internship()!.bannerImageUrl) {
                 <img
-                  [src]="internship()!.bannerImageUrl"
+                  [src]="internship()!.bannerImageUrl | signedUrl"
                   [alt]="internship()!.title"
                   class="w-15 h-15 rounded-lg object-cover shrink-0"
                 />
@@ -254,15 +254,29 @@
             <div class="space-y-3">
               <p class="text-[13px] font-semibold text-whizard-accent">Offer Documents</p>
               @if (internship()!.offerLetterTemplateUrl) {
-                <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border px-4 py-3">
-                  <p class="text-[13px] text-whizard-text-secondary mb-1">Offer Letter Template</p>
-                  <p class="text-[15px] text-whizard-text-primary truncate">{{ internship()!.offerLetterTemplateUrl }}</p>
+                <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border px-4 py-3 flex items-center justify-between">
+                  <div>
+                    <p class="text-[13px] text-whizard-text-secondary mb-1">Offer Letter Template</p>
+                    <p class="text-[15px] text-whizard-text-primary truncate">Offer Letter</p>
+                  </div>
+                  <button type="button" (click)="openPreview(internship()!.offerLetterTemplateUrl!, 'Offer Letter Template')"
+                    class="shrink-0 flex items-center gap-1.5 h-8 px-3 rounded-lg bg-whizard-action text-white text-sm font-medium hover:bg-whizard-action-hover transition-colors">
+                    <mat-icon svgIcon="lucideIcons:eye" class="size-4" />
+                    View
+                  </button>
                 </div>
               }
               @if (internship()!.termsConditionUrl) {
-                <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border px-4 py-3">
-                  <p class="text-[13px] text-whizard-text-secondary mb-1">Terms &amp; Conditions</p>
-                  <p class="text-[15px] text-whizard-text-primary truncate">{{ internship()!.termsConditionUrl }}</p>
+                <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border px-4 py-3 flex items-center justify-between">
+                  <div>
+                    <p class="text-[13px] text-whizard-text-secondary mb-1">Terms &amp; Conditions</p>
+                    <p class="text-[15px] text-whizard-text-primary truncate">Terms &amp; Conditions</p>
+                  </div>
+                  <button type="button" (click)="openPreview(internship()!.termsConditionUrl!, 'Terms & Conditions')"
+                    class="shrink-0 flex items-center gap-1.5 h-8 px-3 rounded-lg bg-whizard-action text-white text-sm font-medium hover:bg-whizard-action-hover transition-colors">
+                    <mat-icon svgIcon="lucideIcons:eye" class="size-4" />
+                    View
+                  </button>
                 </div>
               }
               @if (internship()!.offerLetterReleaseMethod) {
@@ -401,14 +415,40 @@
             </div>
           }
           @if (internship()!.certificateTemplateUrl) {
-            <div class="space-y-1">
+            <div class="space-y-3">
               <p class="text-[13px] font-semibold text-whizard-accent">Certificate Template</p>
-              <p class="text-[15px] text-whizard-text-primary truncate">{{ internship()!.certificateTemplateUrl }}</p>
+              <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border px-4 py-3 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <mat-icon svgIcon="lucideIcons:file-text" class="size-4 text-whizard-accent shrink-0" />
+                  <p class="text-[15px] text-whizard-text-primary truncate">Certificate Template</p>
+                </div>
+                <button type="button" (click)="openPreview(internship()!.certificateTemplateUrl!, 'Certificate Template')"
+                  class="shrink-0 flex items-center gap-1.5 h-8 px-3 rounded-lg bg-whizard-action text-white text-sm font-medium hover:bg-whizard-action-hover transition-colors">
+                  <mat-icon svgIcon="lucideIcons:eye" class="size-4" />
+                  View
+                </button>
+              </div>
             </div>
           }
         </div>
       }
 
   </div>
+}
+
+<!-- Preview overlays -->
+@if (activePdfUrl()) {
+  <whizard-pdf-viewer
+    [url]="activePdfUrl()!"
+    [fileName]="activePdfName()"
+    (closed)="closePdf()"
+  />
+}
+@if (activeImageUrl()) {
+  <whizard-image-lightbox
+    [url]="activeImageUrl()!"
+    [alt]="activeImageAlt()"
+    (closed)="closeImage()"
+  />
 }
 

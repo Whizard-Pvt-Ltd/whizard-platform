@@ -4,12 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import type { InternshipListItem } from '../../models/manage-internship.models';
 import { STATUS_LABELS, STATUS_COLORS } from '../../models/manage-internship.models';
+import { SignedUrlPipe } from '../../pipes/signed-url.pipe';
 
 @Component({
   selector: 'whizard-internship-list-panel',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, MatIconModule, DecimalPipe],
+  imports: [FormsModule, MatIconModule, DecimalPipe, SignedUrlPipe],
   templateUrl: './internship-list-panel.component.html',
 })
 export class InternshipListPanelComponent {

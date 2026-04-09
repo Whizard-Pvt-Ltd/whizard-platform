@@ -71,7 +71,11 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const fv = this.formValue();
-    this.localBannerUrl.set(fv.bannerImageUrl);
+    if (fv.bannerImageUrl) {
+      this.api.getSignedUrl(fv.bannerImageUrl).subscribe({
+        next: (url) => this.localBannerUrl.set(url),
+      });
+    }
 
     this.form = this.fb.group(this.buildForm(fv));
 
@@ -104,12 +108,11 @@ export class DetailsTabComponent implements OnInit, OnDestroy {
     reader.onload = () => this.localBannerUrl.set(reader.result as string);
     reader.readAsDataURL(file);
 
-    // Upload to S3
+    // Upload to S3 — store the key (not the raw URL) for signed-URL resolution
     this.uploadingBanner.set(true);
     this.api.uploadFile(file).subscribe({
       next: (result) => {
-        this.localBannerUrl.set(result.url);
-        this.formChanged.emit({ bannerImageUrl: result.url });
+        this.formChanged.emit({ bannerImageUrl: result.key });
         this.uploadingBanner.set(false);
       },
       error: () => {

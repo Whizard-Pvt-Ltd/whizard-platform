@@ -75,7 +75,7 @@ export class FinalSubmissionTabComponent {
     this.uploadingCertificate.set(true);
     this.api.uploadFile(file).subscribe({
       next: (result) => {
-        this.emit({ certificateTemplateUrl: result.url });
+        this.emit({ certificateTemplateUrl: result.key });
         this.uploadingCertificate.set(false);
       },
       error: () => this.uploadingCertificate.set(false),

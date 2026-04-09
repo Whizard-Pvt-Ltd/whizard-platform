@@ -18,5 +18,9 @@
     "@prisma/client": "^6.4.1",
     "@whizard/shared-infrastructure": "workspace:*",
     "@whizard/shared-kernel": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.15",
+    "typescript": "5.8.2"
   }
 }

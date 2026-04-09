@@ -25,6 +25,7 @@ import { startBff } from './main';
 import { registerCollegeOperationsBffModule } from './modules/college-operations/college-operations.bff.module';
 import { registerCompanyOrganizationBffModule } from './modules/company-organization/company-organization.bff.module';
 import { registerInternshipHiringBffModule } from './modules/internship-hiring/internship-hiring.bff.module';
+import { registerResourceUploadBffModule } from './modules/resource-upload/resource-upload.bff.module';
 import { registerWrcfBffModule } from './modules/wrcf/wrcf.module';
 
 // Server configuration from environment variables
@@ -164,6 +165,18 @@ async function bootstrap() {
     bootstrapLogger.info('Company Organization BFF module registered successfully');
   } catch (error) {
     bootstrapLogger.error('Failed to register Company Organization BFF module', {
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+    throw error;
+  }
+
+  // Register Resource Upload BFF module
+  bootstrapLogger.info('Registering Resource Upload BFF module');
+  try {
+    await registerResourceUploadBffModule(fastify);
+    bootstrapLogger.info('Resource Upload BFF module registered successfully');
+  } catch (error) {
+    bootstrapLogger.error('Failed to register Resource Upload BFF module', {
       error: error instanceof Error ? error.message : 'Unknown error'
     });
     throw error;

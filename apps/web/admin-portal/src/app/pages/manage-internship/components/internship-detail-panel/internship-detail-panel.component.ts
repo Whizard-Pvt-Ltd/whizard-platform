@@ -4,13 +4,17 @@ import {
   Component,
   ViewEncapsulation,
   computed,
+  inject,
   input,
   output,
   signal,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { PdfViewerComponent, ImageLightboxComponent } from '@whizard/shared-ui';
 import type { InternshipDetail } from '../../models/manage-internship.models';
 import { STATUS_COLORS, STATUS_LABELS } from '../../models/manage-internship.models';
+import { SignedUrlPipe } from '../../pipes/signed-url.pipe';
+import { ManageInternshipApiService } from '../../services/manage-internship-api.service';
 
 interface AboutSection {
   label: string;
@@ -31,10 +35,12 @@ const TABS = [
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   host: { class: 'flex-1 relative' },
-  imports: [DatePipe, DecimalPipe, SlicePipe, UpperCasePipe, MatIconModule],
+  imports: [DatePipe, DecimalPipe, SlicePipe, UpperCasePipe, MatIconModule, SignedUrlPipe, PdfViewerComponent, ImageLightboxComponent],
   templateUrl: './internship-detail-panel.component.html',
 })
 export class InternshipDetailPanelComponent {
+  private readonly api = inject(ManageInternshipApiService);
+
   readonly internship = input<InternshipDetail | null>(null);
   readonly editClicked = output<void>();
 
@@ -43,6 +49,12 @@ export class InternshipDetailPanelComponent {
 
   protected readonly statusLabels = STATUS_LABELS;
   protected readonly statusColors = STATUS_COLORS;
+
+  // Preview overlay state
+  protected readonly activePdfUrl = signal<string | null>(null);
+  protected readonly activePdfName = signal('Document');
+  protected readonly activeImageUrl = signal<string | null>(null);
+  protected readonly activeImageAlt = signal('');
 
   protected readonly aboutSections = computed<AboutSection[]>(() => {
     const i = this.internship();
@@ -62,4 +74,21 @@ export class InternshipDetailPanelComponent {
   protected selectTab(index: number): void {
     this.selectedTab.set(index);
   }
+
+  protected openPreview(key: string, name: string): void {
+    this.api.getSignedUrl(key).subscribe((url) => {
+      const ext = key.split('.').pop()?.toLowerCase() ?? '';
+      const isImage = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg'].includes(ext);
+      if (isImage) {
+        this.activeImageUrl.set(url);
+        this.activeImageAlt.set(name);
+      } else {
+        this.activePdfUrl.set(url);
+        this.activePdfName.set(name);
+      }
+    });
+  }
+
+  protected closePdf(): void { this.activePdfUrl.set(null); }
+  protected closeImage(): void { this.activeImageUrl.set(null); }
 }

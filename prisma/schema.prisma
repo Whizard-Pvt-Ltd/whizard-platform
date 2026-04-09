@@ -519,26 +519,40 @@ model ProgramSpecialization {
 }
 
 model MediaAsset {
-  id           BigInt              @id @default(autoincrement())
-  publicUuid   String              @unique @default(uuid()) @map("public_uuid")
-  tenantId     BigInt              @map("tenant_id")
-  tenant       Tenant              @relation(fields: [tenantId], references: [id])
-  name         String
-  url          String
-  key          String
-  type         String
-  mimeType     String              @map("mime_type")
-  sizeBytes    Int                 @map("size_bytes")
-  thumbnailUrl String?             @map("thumbnail_url")
-  isActive     Boolean             @default(true) @map("is_active")
-  createdBy    BigInt              @map("created_by")
-  createdOn    DateTime            @default(now()) @map("created_on")
-  updatedBy    BigInt?             @map("updated_by")
-  updatedOn    DateTime?           @updatedAt @map("updated_on")
-  colleges     CollegeMediaAsset[]
-  companies    CompanyMediaAsset[]
+  id             BigInt              @id @default(autoincrement())
+  publicUuid     String              @unique @default(uuid()) @map("public_uuid")
+  tenantId       BigInt              @map("tenant_id")
+  tenant         Tenant              @relation(fields: [tenantId], references: [id])
+  name           String
+  fileName       String?             @map("file_name")
+  url            String
+  key            String
+  type           String
+  mimeType       String              @map("mime_type")
+  sizeBytes      Int                 @map("size_bytes")
+  format         String?
+  width          Int?
+  height         Int?
+  duration       Float?
+  pages          Int?
+  thumbnailUrl   String?             @map("thumbnail_url")
+  thumbnailKey   String?             @map("thumbnail_key")
+  thumbnailXlUrl String?             @map("thumbnail_xl_url")
+  thumbnailXlKey String?             @map("thumbnail_xl_key")
+  isActive       Boolean             @default(true) @map("is_active")
+  createdBy      BigInt              @map("created_by")
+  createdOn      DateTime            @default(now()) @map("created_on")
+  updatedBy      BigInt?             @map("updated_by")
+  updatedOn      DateTime?           @updatedAt @map("updated_on")
+  colleges       CollegeMediaAsset[]
+  companies      CompanyMediaAsset[]
+  internshipBanners       Internship[] @relation("InternshipBannerImage")
+  internshipOfferLetters  Internship[] @relation("InternshipOfferLetter")
+  internshipTerms         Internship[] @relation("InternshipTermsCondition")
+  internshipCertificates  Internship[] @relation("InternshipCertificate")
 
   @@index([tenantId, type])
+  @@index([createdBy])
   @@map("media_assets")
 }
 
@@ -832,6 +846,8 @@ model Internship {
   companyTenant             Tenant?           @relation("CompanyInternships", fields: [companyTenantId], references: [id])
   title                     String            @db.VarChar(200)
   bannerImageUrl            String?           @map("banner_image_url")
+  bannerImageAssetId        BigInt?           @map("banner_image_asset_id")
+  bannerImageAsset          MediaAsset?       @relation("InternshipBannerImage", fields: [bannerImageAssetId], references: [id])
   vacancies                 Int               @default(1)
   cityId                    BigInt?           @map("city_id")
   city                      City?             @relation(fields: [cityId], references: [id])
@@ -856,7 +872,11 @@ model Internship {
   interviewRubric           Json?             @map("interview_rubric")
   // Selection
   offerLetterTemplateUrl    String?           @map("offer_letter_template_url")
+  offerLetterAssetId        BigInt?           @map("offer_letter_asset_id")
+  offerLetterAsset          MediaAsset?       @relation("InternshipOfferLetter", fields: [offerLetterAssetId], references: [id])
   termsConditionUrl         String?           @map("terms_condition_url")
+  termsConditionAssetId     BigInt?           @map("terms_condition_asset_id")
+  termsConditionAsset       MediaAsset?       @relation("InternshipTermsCondition", fields: [termsConditionAssetId], references: [id])
   offerLetterReleaseMethod  String?           @map("offer_letter_release_method")
   functionalGroupId         BigInt?           @map("functional_group_id")
   functionalGroup           FunctionalGroup?  @relation(fields: [functionalGroupId], references: [id])
@@ -874,6 +894,8 @@ model Internship {
   minPresentationScore      Decimal?          @map("min_presentation_score") @db.Decimal(5, 2)
   presentationWeightage     Decimal?          @map("presentation_weightage") @db.Decimal(5, 2)
   certificateTemplateUrl    String?           @map("certificate_template_url")
+  certificateAssetId        BigInt?           @map("certificate_asset_id")
+  certificateAsset          MediaAsset?       @relation("InternshipCertificate", fields: [certificateAssetId], references: [id])
   // Audit
   createdBy                 BigInt            @map("created_by")
   createdOn                 DateTime          @default(now()) @map("created_on")

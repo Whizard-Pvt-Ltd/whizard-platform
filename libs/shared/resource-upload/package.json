@@ -1,0 +1,26 @@
+{
+  "name": "@whizard/shared-resource-upload",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "File upload processing with image resize, video/audio metadata, PDF conversion, and thumbnail generation",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "sharp": "^0.33.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "typescript": "5.8.2"
+  }
+}

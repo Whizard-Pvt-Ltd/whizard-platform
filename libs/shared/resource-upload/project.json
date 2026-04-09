@@ -1,0 +1,18 @@
+{
+  "name": "shared-resource-upload",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "root": "libs/shared/resource-upload",
+  "sourceRoot": "libs/shared/resource-upload/src",
+  "projectType": "library",
+  "tags": ["type:shared", "scope:resource-upload"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/dist"],
+      "options": {
+        "command": "tsc -p libs/shared/resource-upload/tsconfig.json",
+        "cwd": "{workspaceRoot}"
+      }
+    }
+  }
+}

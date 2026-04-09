@@ -54,7 +54,7 @@ export class SelectionTabComponent {
     this.uploadingOfferLetter.set(true);
     this.api.uploadFile(file).subscribe({
       next: (result) => {
-        this.emit({ offerLetterTemplateUrl: result.url });
+        this.emit({ offerLetterTemplateUrl: result.key });
         this.uploadingOfferLetter.set(false);
       },
       error: () => this.uploadingOfferLetter.set(false),
@@ -67,7 +67,7 @@ export class SelectionTabComponent {
     this.uploadingTerms.set(true);
     this.api.uploadFile(file).subscribe({
       next: (result) => {
-        this.emit({ termsConditionUrl: result.url });
+        this.emit({ termsConditionUrl: result.key });
         this.uploadingTerms.set(false);
       },
       error: () => this.uploadingTerms.set(false),
