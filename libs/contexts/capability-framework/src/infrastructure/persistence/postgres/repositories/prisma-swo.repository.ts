@@ -35,7 +35,8 @@ export class PrismaSwoRepository implements ISwoRepository {
 
   async findByPWO(pwoId: string): Promise<SecondaryWorkObject[]> {
     const rows = await this.prisma.secondaryWorkObject.findMany({
-      where: { pwoId: BigInt(pwoId) }
+      where: { pwoId: BigInt(pwoId) },
+      orderBy: { name: 'asc' }
     });
     return rows.map(row =>
       SecondaryWorkObject.reconstitute({

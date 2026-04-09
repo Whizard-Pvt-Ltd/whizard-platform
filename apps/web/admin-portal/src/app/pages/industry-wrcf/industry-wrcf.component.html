@@ -119,6 +119,7 @@
       [state]="panel()"
       [panelError]="panelError()"
       (save)="onPanelSave($event)"
+      (deleteRequested)="onPanelDeleteRequested()"
       (delete)="onPanelDelete($event)"
       (close)="closePanel()"
     />

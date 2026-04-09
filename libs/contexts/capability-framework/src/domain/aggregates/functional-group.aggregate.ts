@@ -57,7 +57,7 @@ export class FunctionalGroup {
   }
 
   static create(props: CreateFunctionalGroupProps): FunctionalGroup {
-    const fg = new FunctionalGroup({ ...props, id: '0', isActive: true });
+    const fg = new FunctionalGroup({ ...props, id: '0', isActive: true, updatedBy: props.createdBy });
     fg._domainEvents.push(
       new FunctionalGroupCreatedEvent(fg.id, fg.tenantId, {
         industryId: fg.industryId,

@@ -45,8 +45,8 @@ export class WrcfDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.wrcfApi.listSectors().subscribe(sectors => {
-      const sorted = [...sectors].sort((a, b) => a.name.localeCompare(b.name));
-      this.sectors.set(sorted);
+      this.sectors.set(sectors);
+      const sorted = sectors;
       if (sorted.length > 0) {
         this.sectorControl.setValue(sorted[0].id, { emitEvent: false });
         this.onSectorChange(sorted[0].id);
@@ -67,8 +67,8 @@ export class WrcfDashboardComponent implements OnInit {
     this.industryControl.setValue(null, { emitEvent: false });
     this.stats.set(EMPTY_STATS);
     this.wrcfApi.listIndustries(sectorId).subscribe(industries => {
-      const sorted = [...industries].sort((a, b) => a.name.localeCompare(b.name));
-      this.industries.set(sorted);
+      this.industries.set(industries);
+      const sorted = industries;
       if (sorted.length > 0) {
         this.industryControl.setValue(sorted[0].id, { emitEvent: false });
         this.onIndustryChange(sorted[0].id);

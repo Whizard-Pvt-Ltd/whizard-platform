@@ -22,6 +22,7 @@ export class WrcfPanelComponent implements OnChanges {
   @Input() state!: PanelState;
   @Input() panelError = '';
   @Output() save = new EventEmitter<Partial<FunctionalGroup | PrimaryWorkObject | SecondaryWorkObject>>();
+  @Output() deleteRequested = new EventEmitter<void>();
   @Output() delete = new EventEmitter<string>();
   @Output() close = new EventEmitter<void>();
 
@@ -96,6 +97,10 @@ export class WrcfPanelComponent implements OnChanges {
   }
 
   protected onDelete(): void {
+    this.deleteRequested.emit();
+  }
+
+  public showDeleteConfirmation(): void {
     this.confirmingDelete = true;
   }
 

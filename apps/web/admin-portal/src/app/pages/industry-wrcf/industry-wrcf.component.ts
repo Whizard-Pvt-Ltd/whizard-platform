@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -26,6 +26,8 @@ import { WrcfApiService } from './services/wrcf-api.service';
   styleUrl: './industry-wrcf.component.css',
 })
 export class IndustryWrcfComponent implements OnInit {
+  @ViewChild(WrcfPanelComponent) private panelRef?: WrcfPanelComponent;
+
   private readonly apiService = inject(WrcfApiService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
@@ -91,7 +93,7 @@ export class IndustryWrcfComponent implements OnInit {
 
     this.apiService.listSectors().subscribe({
       next: sectors => {
-        this.sectors = [...sectors].sort((a, b) => a.name.localeCompare(b.name));
+        this.sectors = sectors;
 
         const requestedSectorId = this.route.snapshot.queryParamMap.get('sectorId');
         const requestedIndustryId = this.route.snapshot.queryParamMap.get('industryId');
@@ -137,9 +139,8 @@ export class IndustryWrcfComponent implements OnInit {
     this.resetFromIndustry();
     this.apiService.listFGs(industryId).subscribe({
       next: fgs => {
-        const sorted = [...fgs].sort((a, b) => a.name.localeCompare(b.name));
-        this.fgList.set(sorted);
-        if (sorted.length > 0) this.onFGSelect(sorted[0]);
+        this.fgList.set(fgs);
+        if (fgs.length > 0) this.onFGSelect(fgs[0]);
       },
       error: () => this.fgList.set([])
     });
@@ -157,9 +158,8 @@ export class IndustryWrcfComponent implements OnInit {
     });
     this.apiService.listPWOs(item.id).subscribe({
       next: pwos => {
-        const sorted = [...pwos].sort((a, b) => a.name.localeCompare(b.name));
-        this.pwoList.set(sorted);
-        if (sorted.length > 0) this.onPWOSelect(sorted[0]);
+        this.pwoList.set(pwos);
+        if (pwos.length > 0) this.onPWOSelect(pwos[0]);
       },
       error: () => this.pwoList.set([])
     });
@@ -170,9 +170,8 @@ export class IndustryWrcfComponent implements OnInit {
     this.selectedSWO.set(null);
     this.apiService.listSWOs(item.id).subscribe({
       next: swos => {
-        const sorted = [...swos].sort((a, b) => a.name.localeCompare(b.name));
-        this.swoList.set(sorted);
-        if (sorted.length > 0) this.onSWOSelect(sorted[0]);
+        this.swoList.set(swos);
+        if (swos.length > 0) this.onSWOSelect(swos[0]);
       },
       error: () => this.swoList.set([])
     });
@@ -322,6 +321,28 @@ export class IndustryWrcfComponent implements OnInit {
     }
   }
 
+  protected onPanelDeleteRequested(): void {
+    const { entityType, data } = this.panel();
+    if (!data) return;
+
+    const checkCall = entityType === 'FG'
+      ? this.apiService.checkFGDeletable(data.id)
+      : entityType === 'PWO'
+        ? this.apiService.checkPWODeletable(data.id)
+        : this.apiService.checkSWODeletable(data.id);
+
+    checkCall.subscribe({
+      next: ({ canDelete, reason }) => {
+        if (!canDelete) {
+          this.panelError.set(reason ?? 'Delete is not allowed.');
+        } else {
+          this.panelRef?.showDeleteConfirmation();
+        }
+      },
+      error: () => this.panelError.set('Failed to check delete eligibility.')
+    });
+  }
+
   protected onPanelDelete(id: string): void {
     const { entityType } = this.panel();
 
@@ -330,7 +351,7 @@ export class IndustryWrcfComponent implements OnInit {
         next: () => {
           this.apiService.listFGs(this.selectedIndustryId()).subscribe({
             next: fgs => {
-              this.fgList.set([...fgs].sort((a, b) => a.name.localeCompare(b.name)));
+              this.fgList.set(fgs);
               if (this.selectedFG()?.id === id) {
                 this.selectedFG.set(null);
                 this.pwoList.set([]);
@@ -394,7 +415,7 @@ export class IndustryWrcfComponent implements OnInit {
       }).subscribe({
         next: () => {
           this.apiService.listFGs(this.selectedIndustryId()).subscribe({
-            next: fgs => { this.fgList.set([...fgs].sort((a, b) => a.name.localeCompare(b.name))); this.closePanel(); }
+            next: fgs => { this.fgList.set(fgs); this.closePanel(); }
           });
         },
         error: (err: HttpErrorResponse) => this.showError(err.error?.error?.message ?? 'Failed to create Functional Group.')
@@ -444,7 +465,7 @@ export class IndustryWrcfComponent implements OnInit {
       this.apiService.updateFG(id, { name: fg.name, description: fg.description, domainType: fg.domainType }).subscribe({
         next: () => {
           this.apiService.listFGs(this.selectedIndustryId()).subscribe({
-            next: fgs => { this.fgList.set([...fgs].sort((a, b) => a.name.localeCompare(b.name))); this.closePanel(); }
+            next: fgs => { this.fgList.set(fgs); this.closePanel(); }
           });
         },
         error: (err: HttpErrorResponse) => this.showError(err.error?.error?.message ?? 'Failed to update Functional Group.')
@@ -509,13 +530,12 @@ export class IndustryWrcfComponent implements OnInit {
 
     this.apiService.listIndustries(sectorId).subscribe({
       next: industries => {
-        this.industries.set([...industries].sort((a, b) => a.name.localeCompare(b.name)));
+        this.industries.set(industries);
         this.industryControl.enable({ emitEvent: false });
 
-        const sorted = this.industries();
-        const initialIndustryId = sorted.some(i => i.id === preferredIndustryId)
+        const initialIndustryId = industries.some(i => i.id === preferredIndustryId)
           ? preferredIndustryId ?? ''
-          : sorted[0]?.id ?? '';
+          : industries[0]?.id ?? '';
 
         if (initialIndustryId) {
           this.onIndustryChange(initialIndustryId);

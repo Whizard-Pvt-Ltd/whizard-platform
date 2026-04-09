@@ -70,6 +70,18 @@ export class UpdatePWOCommandHandler {
   }
 }
 
+export class CheckPWODeletableQueryHandler {
+  constructor(private readonly pwoRepo: IPwoRepository) {}
+
+  async execute(id: string): Promise<{ canDelete: boolean; reason?: string }> {
+    const hasSWOs = await this.pwoRepo.hasSWOs(id);
+    if (hasSWOs) {
+      return { canDelete: false, reason: 'Cannot delete Primary Work Object with existing Secondary Work Objects' };
+    }
+    return { canDelete: true };
+  }
+}
+
 export class DeactivatePWOCommandHandler {
   constructor(private readonly pwoRepo: IPwoRepository) {}
 

@@ -42,6 +42,10 @@ export class WrcfApiService {
     return this.http.delete<void>(`${this.base}/functional-groups/${id}`);
   }
 
+  checkFGDeletable(id: string): Observable<{ canDelete: boolean; reason?: string }> {
+    return this.http.get<ApiEnvelope<{ canDelete: boolean; reason?: string }>>(`${this.base}/functional-groups/${id}/can-delete`).pipe(map(r => r.data));
+  }
+
   listPWOs(fgId: string): Observable<PrimaryWorkObject[]> {
     return this.http.get<ApiEnvelope<PrimaryWorkObject[]>>(`${this.base}/functional-groups/${fgId}/pwos`).pipe(map(r => r.data));
   }
@@ -64,6 +68,10 @@ export class WrcfApiService {
 
   deletePWO(id: string): Observable<void> {
     return this.http.delete<void>(`${this.base}/pwos/${id}`);
+  }
+
+  checkPWODeletable(id: string): Observable<{ canDelete: boolean; reason?: string }> {
+    return this.http.get<ApiEnvelope<{ canDelete: boolean; reason?: string }>>(`${this.base}/pwos/${id}/can-delete`).pipe(map(r => r.data));
   }
 
   listSWOs(pwoId: string): Observable<SecondaryWorkObject[]> {
@@ -92,13 +100,17 @@ export class WrcfApiService {
     return this.http.delete<void>(`${this.base}/swos/${id}`);
   }
 
+  checkSWODeletable(id: string): Observable<{ canDelete: boolean; reason?: string }> {
+    return this.http.get<ApiEnvelope<{ canDelete: boolean; reason?: string }>>(`${this.base}/swos/${id}/can-delete`).pipe(map(r => r.data));
+  }
+
   listCapabilities(): Observable<Capability[]> {
     return this.http.get<ApiEnvelope<Capability[]>>(`${this.base}/capabilities`).pipe(map(r => r.data));
   }
 
   listProficiencies(): Observable<ProficiencyLevel[]> {
     return this.http.get<ApiEnvelope<{ id: string; level: string; label: string; description?: string }[]>>(`${this.base}/proficiencies`).pipe(
-      map(r => r.data.map(p => ({ id: p.id, name: `${p.label} (${p.level})`, level: p.level, description: p.description })))
+      map(r => r.data.map(p => ({ id: p.id, name: p.label, code: p.level, level: p.level, description: p.description })))
     );
   }
 

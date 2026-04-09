@@ -33,7 +33,8 @@ export class PrismaFunctionalGroupRepository implements IFunctionalGroupReposito
 
   async findByIndustry(industryId: string): Promise<FunctionalGroup[]> {
     const rows = await this.prisma.functionalGroup.findMany({
-      where: { industryId: BigInt(industryId) }
+      where: { industryId: BigInt(industryId) },
+      orderBy: { name: 'asc' }
     });
     return rows.map(row =>
       FunctionalGroup.reconstitute({
