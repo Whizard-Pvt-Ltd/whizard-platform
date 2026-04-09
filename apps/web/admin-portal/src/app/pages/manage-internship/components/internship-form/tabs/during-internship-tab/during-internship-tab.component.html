@@ -169,41 +169,55 @@
       </h3>
 
       <mat-accordion multi class="space-y-3">
-        @for (plan of planArray.controls; track $index; let i = $index) {
+        @for (week of getAllWeeks(); track week.globalWeek) {
           <mat-expansion-panel class="border border-whizard-border shadow-sm">
+            <!-- Week Header: bg #484E5D -->
             <mat-expansion-panel-header class="bg-[#484E5D] h-16">
               <mat-panel-title
                 class="text-whizard-text-primary font-semibold text-lg"
               >
-                {{ getPwoName(getPlanRowValue(i).pwoId) }}
+                <span>Week {{ week.globalWeek }}</span>
+                <span class="text-whizard-accent font-medium"
+                  >({{
+                    getPwoName(getPlanRowValue(week.planIndex).pwoId)
+                  }})</span
+                >
               </mat-panel-title>
               <mat-panel-description
                 class="text-whizard-text-primary text-sm flex items-center justify-between w-full"
               >
                 <span>{{
-                  getMentorName(getPlanRowValue(i).mentorUserId)
+                  getMentorName(getPlanRowValue(week.planIndex).mentorUserId)
                 }}</span>
                 <span class="text-whizard-accent font-medium">
-                  {{ getCiName(i, getPlanRowValue(i).capabilityInstanceId) }}
+                  {{
+                    getCiName(
+                      week.planIndex,
+                      getPlanRowValue(week.planIndex).capabilityInstanceId
+                    )
+                  }}
                 </span>
               </mat-panel-description>
             </mat-expansion-panel-header>
 
+            <!-- Week Body: bg rgba(30,41,59,0.7) -->
             <div class="p-4 flex flex-col gap-4">
               <!-- Skill Filter (multi-select) -->
               <div class="flex items-center gap-3">
                 <mat-form-field
                   appearance="outline"
-                  class="whizard-field w-100"
+                  class="whizard-field w-[525px]"
                   style="--form-field-bg-color: #0f172a"
                 >
-                  <mat-label>Skill</mat-label>
+                  <mat-label>Capability Instance + Skill</mat-label>
                   <mat-select
                     multiple
-                    [value]="getSelectedSkills(i)"
-                    (selectionChange)="onSkillsChange(i, $event.value)"
+                    [value]="getSelectedSkills(week.planIndex)"
+                    (selectionChange)="
+                      onSkillsChange(week.planIndex, $event.value)
+                    "
                   >
-                    @for (skill of getSkills(i); track skill.id) {
+                    @for (skill of getSkills(week.planIndex); track skill.id) {
                       <mat-option [value]="skill.id">{{
                         skill.name
                       }}</mat-option>
@@ -211,133 +225,92 @@
                   </mat-select>
                 </mat-form-field>
               </div>
+              <!-- Tasks + Evidence two-column layout -->
+              @if (getTasks(week.planIndex).length > 0) {
+                <div class="flex gap-7 items-start">
+                  <!-- Tasks Column -->
+                  <div class="flex-1 flex flex-col gap-2.5">
+                    <p
+                      class="text-[15px] font-semibold text-whizard-accent tracking-wide pl-8"
+                    >
+                      Tasks
+                    </p>
+                    <div class="flex flex-col gap-3">
+                      @for (task of getTasks(week.planIndex); track task.id) {
+                        <div class="flex gap-1.5 items-center">
+                          <mat-checkbox
+                            [checked]="
+                              isTaskSelectedInWeek(
+                                week.planIndex,
+                                week.localWeek,
+                                task.id
+                              )
+                            "
+                            (change)="
+                              onTaskToggleInWeek(
+                                week.planIndex,
+                                week.localWeek,
+                                task.id,
+                                $event.checked,
+                                task.evidence
+                              )
+                            "
+                          >
+                          </mat-checkbox>
 
-              <!-- Tasks Table -->
-              @if (getTasks(i).length > 0) {
-                <div class="flex flex-col">
-                  <!-- Table Header -->
-                  <div
-                    class="flex items-center gap-3 px-2 py-2 border-b border-whizard-border"
-                  >
-                    <span class="w-8"></span>
-                    <span
-                      class="flex-1 text-sm font-semibold text-whizard-accent"
-                      >Tasks</span
-                    >
-                    <span class="w-20 text-sm font-semibold text-whizard-accent"
-                      >Week</span
-                    >
-                    <span class="w-75 text-sm font-semibold text-whizard-accent"
-                      >Evidence</span
-                    >
+                          <mat-form-field
+                            appearance="outline"
+                            class="flex-1 whizard-field"
+                            style="--form-field-bg-color: #0f172a"
+                          >
+                            <input
+                              matInput
+                              [value]="task.name"
+                              [readonly]="true"
+                            />
+                          </mat-form-field>
+                        </div>
+                      }
+                    </div>
                   </div>
 
-                  <!-- Task Rows -->
-                  @for (task of getTasks(i); track task.id) {
-                    <!-- Task checkbox row -->
-                    <div
-                      class="flex items-center gap-3 px-2 py-3 border-b border-whizard-border/30"
-                      [class.opacity-40]="isTaskSelectedElsewhere(i, task.id)"
+                  <!-- Evidence Column -->
+                  <div class="w-85 flex flex-col gap-2.5">
+                    <p
+                      class="text-[15px] font-semibold text-whizard-accent tracking-wide"
                     >
-                      <mat-checkbox
-                        class="mt-0.5"
-                        [checked]="isTaskSelected(i, task.id)"
-                        [disabled]="isTaskSelectedElsewhere(i, task.id)"
-                        (change)="
-                          onTaskToggle(
-                            i,
-                            task.id,
-                            $event.checked,
-                            task.evidence
-                          )
-                        "
-                      >
-                      </mat-checkbox>
-
-                      <mat-form-field
-                        appearance="outline"
-                        class="flex-1 whizard-field"
-                        style="--form-field-bg-color: #0f172a"
-                      >
-                        <input matInput [value]="task.name" [readonly]="true" />
-                      </mat-form-field>
-
-                      <!-- Show week/evidence inline if only 1 week -->
-                      @if (
-                        isTaskSelected(i, task.id) &&
-                        getTaskWeekEntries(i, task.id).length === 1
-                      ) {
-                        <span
-                          class="w-20 text-sm text-whizard-text-secondary text-center"
-                        >
-                          Week
-                          {{ getTaskWeekEntries(i, task.id)[0].weekNumber }}
-                        </span>
+                      Evidence
+                    </p>
+                    <div class="flex flex-col gap-3">
+                      @for (task of getTasks(week.planIndex); track task.id) {
                         <mat-form-field
                           appearance="outline"
                           class="w-75 whizard-field"
                           style="--form-field-bg-color: #0f172a"
                         >
                           <input
+                            [value]="
+                              getTaskEvidenceInWeek(
+                                week.planIndex,
+                                week.localWeek,
+                                task.id
+                              )
+                            "
                             matInput
-                            [value]="getTaskWeekEntries(i, task.id)[0].evidence"
                             (input)="
-                              onEvidenceChange(
-                                i,
+                              onEvidenceChangeInWeek(
+                                week.planIndex,
+                                week.localWeek,
                                 task.id,
-                                getTaskWeekEntries(i, task.id)[0].weekNumber,
                                 $any($event.target).value
                               )
                             "
-                            placeholder="Evidence..."
+                            placeholder="Enter evidence..."
                           />
                         </mat-form-field>
                       }
                     </div>
-
-                    <!-- Week sub-rows when task is selected and has multiple weeks -->
-                    @if (
-                      isTaskSelected(i, task.id) &&
-                      getTaskWeekEntries(i, task.id).length > 1
-                    ) {
-                      @for (
-                        weekEntry of getTaskWeekEntries(i, task.id);
-                        track weekEntry.weekNumber
-                      ) {
-                        <div
-                          class="flex items-center gap-3 px-2 py-2 pl-14 border-b border-whizard-border/20 bg-whizard-bg-primary/30"
-                        >
-                          <span class="flex-1"></span>
-                          <span
-                            class="w-20 text-sm text-whizard-text-secondary text-center"
-                          >
-                            Week {{ weekEntry.weekNumber }}
-                          </span>
-                          <mat-form-field
-                            appearance="outline"
-                            class="w-75 whizard-field"
-                            style="--form-field-bg-color: #0f172a"
-                          >
-                            <input
-                              matInput
-                              [value]="weekEntry.evidence"
-                              (input)="
-                                onEvidenceChange(
-                                  i,
-                                  task.id,
-                                  weekEntry.weekNumber,
-                                  $any($event.target).value
-                                )
-                              "
-                              placeholder="Evidence for week {{
-                                weekEntry.weekNumber
-                              }}..."
-                            />
-                          </mat-form-field>
-                        </div>
-                      }
-                    }
-                  }
+                  </div>
                 </div>
               }
             </div>

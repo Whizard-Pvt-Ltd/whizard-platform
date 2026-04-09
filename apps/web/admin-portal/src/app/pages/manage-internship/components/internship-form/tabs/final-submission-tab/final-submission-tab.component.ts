@@ -1,13 +1,21 @@
-import { Component, input, output } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { QuillEditorComponent } from '@whizard/shared-ui';
 import type { InternshipFormValue } from '../../../../models/manage-internship.models';
 import { FINAL_DOCUMENT_OPTIONS } from '../../../../models/manage-internship.models';
+
+const DEFAULT_GUIDELINES = `<ul>
+<li>Ensure the document is clear, readable, and properly scanned</li>
+<li>Upload only final and verified documents</li>
+<li>Do not upload password-protected or corrupted files</li>
+<li>Avoid blurry images or cropped content</li>
+<li>Each file should contain only one document</li>
+</ul>`;
 
 @Component({
   selector: 'whizard-final-submission-tab',
@@ -15,7 +23,7 @@ import { FINAL_DOCUMENT_OPTIONS } from '../../../../models/manage-internship.mod
   imports: [
     FormsModule,
     MatFormFieldModule, MatInputModule, MatSelectModule,
-    MatIconModule, MatButtonModule, MatCheckboxModule,
+    MatIconModule, MatButtonModule, QuillEditorComponent,
   ],
   templateUrl: './final-submission-tab.component.html',
 })
@@ -25,20 +33,19 @@ export class FinalSubmissionTabComponent {
 
   protected readonly documentOptions = FINAL_DOCUMENT_OPTIONS;
 
-  protected isDocumentSelected(doc: string): boolean {
-    return this.formValue().finalSubmissionDocuments.includes(doc);
-  }
-
-  protected toggleDocument(doc: string): void {
-    const current = this.formValue().finalSubmissionDocuments;
-    const updated = current.includes(doc)
-      ? current.filter(d => d !== doc)
-      : [...current, doc];
-    this.emit({ finalSubmissionDocuments: updated });
-  }
+  protected readonly guidelinesValue = computed(() =>
+    this.formValue().documentGuidelines || DEFAULT_GUIDELINES,
+  );
 
   protected onRubricSelected(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    this.emit({ presentationRubricUrl: file.name });
+  }
+
+  protected onRubricDrop(event: DragEvent): void {
+    event.preventDefault();
+    const file = event.dataTransfer?.files?.[0];
     if (!file) return;
     this.emit({ presentationRubricUrl: file.name });
   }

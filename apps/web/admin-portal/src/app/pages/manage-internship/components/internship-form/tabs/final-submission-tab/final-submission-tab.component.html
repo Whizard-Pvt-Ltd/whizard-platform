@@ -1,80 +1,140 @@
-<div class="flex flex-col p-6 space-y-8">
+<div class="flex flex-col p-6 gap-4">
 
-  <!-- Select Documents -->
-  <div>
-    <h3 class="text-xl font-semibold text-whizard-accent mb-4">Select Documents</h3>
-    <div class="rounded-xl border border-whizard-border bg-whizard-bg-secondary p-4 grid grid-cols-2 gap-3">
-      @for (doc of documentOptions; track doc) {
-        <label class="flex items-center gap-3 cursor-pointer">
-          <mat-checkbox
-            [checked]="isDocumentSelected(doc)"
-            (change)="toggleDocument(doc)"
-            color="primary">
-          </mat-checkbox>
-          <span class="text-sm text-whizard-text-primary">{{ doc }}</span>
-        </label>
-      }
+  <!-- ── Section 1: Final Document Upload ─────────────────────────────── -->
+  <div class="flex flex-col gap-5">
+    <span class="text-xl font-semibold text-whizard-text-tertiary leading-6.25 tracking-[0.2px]">
+      Final Document Upload
+    </span>
+
+    <div class="flex flex-col gap-5">
+      <!-- Select Document dropdown -->
+      <mat-form-field
+        appearance="outline"
+        class="whizard-outline w-[423px]"
+        style="--form-field-bg-color: #0f253f"
+      >
+        <mat-label>Select Document</mat-label>
+        <mat-select
+          multiple
+          [value]="formValue().finalSubmissionDocuments"
+          (selectionChange)="emit({ finalSubmissionDocuments: $event.value })"
+        >
+          @for (doc of documentOptions; track doc) {
+            <mat-option [value]="doc">{{ doc }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Documents & Guidelines -->
+      <div class="flex flex-col gap-2.5">
+        <span class="text-lg font-medium text-whizard-text-primary">
+          Documents &amp; Guidelines
+        </span>
+        <whizard-quill-editor
+          placeholder="Enter document guidelines..."
+          [ngModel]="guidelinesValue()"
+          (ngModelChange)="emit({ documentGuidelines: $event || null })"
+        />
+      </div>
     </div>
   </div>
 
-  <!-- Document Guidelines -->
-  <div>
-    <h3 class="text-xl font-semibold text-whizard-accent mb-4">Document &amp; Guidelines</h3>
-    <mat-form-field appearance="outline" class="w-full">
-      <mat-label>Guidelines for document submission</mat-label>
-      <textarea matInput rows="6" placeholder="Describe submission guidelines..."
-        [ngModel]="formValue().documentGuidelines ?? ''"
-        (ngModelChange)="emit({documentGuidelines: $event || null})">
-      </textarea>
-    </mat-form-field>
-  </div>
+  <!-- ── Section 2: Add Presentation Rubric ───────────────────────────── -->
+  <div class="flex flex-col gap-5">
+    <span class="text-xl font-semibold text-whizard-text-tertiary leading-6.25 tracking-[0.2px]">
+      Add Presentation Rubric
+    </span>
 
-  <!-- Presentation Rubric -->
-  <div>
-    <h3 class="text-xl font-semibold text-whizard-accent mb-4">Presentation Rubric</h3>
-    <div class="rounded-xl border border-whizard-border bg-whizard-bg-secondary p-4 space-y-4">
-      <!-- PDF drop area -->
-      <label class="flex flex-col items-center justify-center h-24 rounded-lg border-2 border-dashed border-whizard-border cursor-pointer hover:border-whizard-accent transition-colors">
+    <div class="flex flex-col gap-5">
+      <!-- Drop zone -->
+      <label
+        class="flex flex-col items-center justify-center w-[199px] h-[126px] rounded-lg bg-whizard-bg-secondary shadow-md cursor-pointer"
+        (dragover)="$event.preventDefault()"
+        (drop)="onRubricDrop($event)"
+      >
         @if (formValue().presentationRubricUrl) {
-          <mat-icon svgIcon="heroicons_outline:document-check" class="size-7 text-whizard-accent"></mat-icon>
-          <span class="text-xs text-whizard-accent mt-1">{{ formValue().presentationRubricUrl }}</span>
+          <mat-icon class="size-10 text-whizard-accent mb-2">description</mat-icon>
+          <span class="text-sm font-medium text-whizard-text-primary tracking-[0.15px]">
+            {{ formValue().presentationRubricUrl }}
+          </span>
         } @else {
-          <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-7 text-whizard-text-secondary"></mat-icon>
-          <span class="text-xs text-whizard-text-secondary mt-1">Drop Rubric Here</span>
+          <mat-icon class="size-10 text-whizard-text-secondary mb-2">cloud_upload</mat-icon>
+          <span class="text-sm font-medium text-whizard-text-primary tracking-[0.15px]">
+            Drop Rubric Here
+          </span>
         }
         <input type="file" accept=".pdf" class="sr-only" (change)="onRubricSelected($event)" />
       </label>
 
-      <div class="grid grid-cols-2 gap-4">
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>Min. Presentation Score (%)</mat-label>
-          <input matInput type="number" min="0" max="100"
+      <!-- Min Scoring + Presentation Weightage -->
+      <div class="flex items-center justify-between gap-4">
+        <mat-form-field
+          appearance="outline"
+          class="whizard-outline w-[423px]"
+          style="--form-field-bg-color: #0f253f"
+        >
+          <mat-label>Min. Scoring</mat-label>
+          <input
+            matInput
+            type="number"
+            min="0"
+            max="100"
             [ngModel]="formValue().minPresentationScore ?? ''"
-            (ngModelChange)="emit({minPresentationScore: $event ? +$event : null})" />
+            (ngModelChange)="emit({ minPresentationScore: $event ? +$event : null })"
+          />
         </mat-form-field>
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>Presentation Weightage (%)</mat-label>
-          <input matInput type="number" min="0" max="100"
+
+        <mat-form-field
+          appearance="outline"
+          class="whizard-outline w-[423px]"
+          style="--form-field-bg-color: #0f253f"
+        >
+          <mat-label>Presentation Weightage</mat-label>
+          <input
+            matInput
+            type="number"
+            min="0"
+            max="100"
             [ngModel]="formValue().presentationWeightage ?? ''"
-            (ngModelChange)="emit({presentationWeightage: $event ? +$event : null})" />
+            (ngModelChange)="emit({ presentationWeightage: $event ? +$event : null })"
+          />
         </mat-form-field>
       </div>
     </div>
   </div>
 
-  <!-- Certificate Template -->
-  <div>
-    <h3 class="text-xl font-semibold text-whizard-accent mb-4">Certificate Template</h3>
-    <label class="flex flex-col items-center justify-center h-24 rounded-lg border-2 border-dashed border-whizard-border cursor-pointer hover:border-whizard-accent transition-colors">
-      @if (formValue().certificateTemplateUrl) {
-        <mat-icon svgIcon="heroicons_outline:document-check" class="size-7 text-whizard-accent"></mat-icon>
-        <span class="text-xs text-whizard-accent mt-1">{{ formValue().certificateTemplateUrl }}</span>
-      } @else {
-        <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-7 text-whizard-text-secondary"></mat-icon>
-        <span class="text-xs text-whizard-text-secondary mt-1">Upload Certificate Template</span>
-      }
-      <input type="file" accept=".pdf,.png,.jpg" class="sr-only" (change)="onCertificateSelected($event)" />
+  <!-- ── Divider ──────────────────────────────────────────────────────── -->
+  <div class="border-t border-whizard-border"></div>
+
+  <!-- ── Section 3: Certificate Template ──────────────────────────────── -->
+  <div class="flex items-center justify-between">
+    <span class="text-lg font-medium text-whizard-text-primary tracking-[0.15px]">
+      Certificate Template
+    </span>
+    <label>
+      <button
+        type="button"
+        mat-flat-button
+        class="!bg-whizard-action !text-white !rounded-lg !h-[35px] !text-sm"
+        (click)="certificateInput.click()"
+      >
+        <mat-icon class="size-5 mr-1">upload</mat-icon>
+        Upload
+      </button>
+      <input
+        #certificateInput
+        type="file"
+        accept=".pdf,.png,.jpg"
+        class="sr-only"
+        (change)="onCertificateSelected($event)"
+      />
     </label>
   </div>
+
+  @if (formValue().certificateTemplateUrl) {
+    <span class="text-sm text-whizard-accent">
+      {{ formValue().certificateTemplateUrl }}
+    </span>
+  }
 
 </div>
