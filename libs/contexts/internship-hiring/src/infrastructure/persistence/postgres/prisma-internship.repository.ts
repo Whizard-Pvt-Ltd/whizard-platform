@@ -39,7 +39,7 @@ export class PrismaInternshipRepository implements IInternshipRepository {
   async findById(id: string): Promise<Internship | null> {
     const row = await this.prisma.internship.findUnique({
       where:   { publicUuid: id },
-      include: { batches: true },
+      include: { batches: true, city: { select: { publicUuid: true } }, functionalGroup: { select: { publicUuid: true } } },
     });
     if (!row) return null;
     return this.toDomain(row);
@@ -59,14 +59,14 @@ export class PrismaInternshipRepository implements IInternshipRepository {
         ...(filter.status && { status: filter.status as 'DRAFT' | 'PUBLISHED' | 'ARCHIVED' }),
         ...(filter.search && { title: { contains: filter.search, mode: 'insensitive' as const } }),
       },
-      include:  { batches: true },
+      include:  { batches: true, city: { select: { publicUuid: true } }, functionalGroup: { select: { publicUuid: true } } },
       orderBy:  { createdOn: 'desc' },
     });
     return rows.map(r => this.toDomain(r));
   }
 
-  async findCityName(cityNumericId: string): Promise<string | null> {
-    const city = await this.prisma.city.findUnique({ where: { id: BigInt(cityNumericId) }, select: { name: true } });
+  async findCityName(cityId: string): Promise<string | null> {
+    const city = await this.prisma.city.findUnique({ where: { publicUuid: cityId }, select: { name: true } });
     return city?.name ?? null;
   }
 
@@ -193,6 +193,8 @@ export class PrismaInternshipRepository implements IInternshipRepository {
     createdOn: Date;
     updatedOn: Date;
     batches?: Array<{ publicUuid: string; batchSize: number; coordinatorUserId: bigint | null; createdOn: Date }>;
+    city?: { publicUuid: string } | null;
+    functionalGroup?: { publicUuid: string } | null;
   }): Internship {
     return Internship.reconstitute({
       id:                          row.publicUuid,
@@ -201,7 +203,7 @@ export class PrismaInternshipRepository implements IInternshipRepository {
       title:                       row.title,
       bannerImageUrl:              row.bannerImageUrl,
       vacancies:                   row.vacancies,
-      cityId:                      row.cityId?.toString() ?? null,
+      cityId:                      row.city?.publicUuid ?? null,
       stipend:                     row.stipend != null ? Number(row.stipend) : null,
       durationMonths:              row.durationMonths,
       applicationDeadline:         row.applicationDeadline,
@@ -222,7 +224,7 @@ export class PrismaInternshipRepository implements IInternshipRepository {
       offerLetterTemplateUrl:      row.offerLetterTemplateUrl,
       termsConditionUrl:           row.termsConditionUrl,
       offerLetterReleaseMethod:    row.offerLetterReleaseMethod,
-      functionalGroupId:           row.functionalGroupId?.toString() ?? null,
+      functionalGroupId:           row.functionalGroup?.publicUuid ?? null,
       preInternshipCommunication:  row.preInternshipCommunication,
       preReadCourses:              (row.preReadCourses as FileItem[]) ?? [],
       preReadArticles:             (row.preReadArticles as FileItem[]) ?? [],

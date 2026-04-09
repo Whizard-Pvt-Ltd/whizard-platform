@@ -17,8 +17,12 @@ export class PrismaRoleCIMappingRepository implements IRoleCIMappingRepository {
   }
 
   async save(roleId: string, capabilityInstanceId: string, isMandatory = true): Promise<void> {
-    await this.prisma.roleCapabilityInstance.create({
-      data: { roleId: BigInt(roleId), capabilityInstanceId: BigInt(capabilityInstanceId), isMandatory }
+    const rId = BigInt(roleId);
+    const ciId = BigInt(capabilityInstanceId);
+    await this.prisma.roleCapabilityInstance.upsert({
+      where: { roleId_capabilityInstanceId: { roleId: rId, capabilityInstanceId: ciId } },
+      update: { isMandatory, isActive: true },
+      create: { roleId: rId, capabilityInstanceId: ciId, isMandatory },
     });
   }
 

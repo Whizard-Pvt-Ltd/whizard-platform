@@ -4,33 +4,59 @@ claude --resume 2e0cc048-48c8-4556-8967-b32eecaf0d7dhe
 ## Overview
 Enhance the During Internship Tab  in the Manage Internship create/edit form to match the Figma design.
 Use get_context form Figma link provide. Here are the flow wise two screens 
-1. @https://www.figma.com/design/zVVHwGoayNcFJ7ejiV0T0U/Latest-Whizard-Web-Design-System?node-id=2129-23384&m=dev 
+1. @https://www.figma.com/design/zVVHwGoayNcFJ7ejiV0T0U/Latest-Whizard-Web-Design-System?node-id=3000-47637&m=dev
    Explain flow that user can be able to enter total number of weeks and a button in right corner to show full plan created in full screen pop-up in timeline UI(ui do it later). 
-   And Bellow will be Internship plan have provided form in Form group.
-    1. PWO (Primary work object) which should came as per the selected Function Group in section tab.
-    2. Capability Instance which should be as per the selected PWO form capability_instances table. (which could be multi-selected).
+   And Bellow will be Internship plan have provided form in Form Array of internship_plan.
+    1. PWO (Primary work object) which should came as per the selected Function Group selected in section tab and the role that selected in detail tab .
+    2. Capability Instance which should be as per the selected PWO form capability_instances table (single selected) 
+       name should be like SWO+Capability+Proficiency Level.
     3. Functional Mentor field (single-select) form the company users 
-    4. No. of Weeks in number input only 
-2.  @https://www.figma.com/design/zVVHwGoayNcFJ7ejiV0T0U/Latest-Whizard-Web-Design-System?node-id=2131-21983&m=dev
-    This screen explain the UI of weekly schedule internship plan. When user fill the above form and click on add then
-    a form details will be pushed in the form array and add new accordion bellow i row wise.
+    4. No. of Weeks in number input only  don't save in db just sum as per the no of week in internship_schedule
+    5. This form can be added by add button.
+    6. Have a create schedule button when user click o this it create accordion as per the number of item i internship_plan.
+2.  @https://www.figma.com/design/zVVHwGoayNcFJ7ejiV0T0U/Latest-Whizard-Web-Design-System?node-id=3000-48170&m=dev
+    This screen explain the UI of Internship Schedule of internship plan. When user fill the above form and click on create accordion then
+    it accordion bellow i row wise as per the number of plans.
     1. accordion ui should be same as per the give in figma.
-    2. accordion header will show FG's and Functional Mentor as per the selected for that week.
-    3. accordion body will have a filter of Capability Instance + Skill showing all the Capability Instance + Skill as per the selected 
-    CI mapping 
+    2. accordion header will show FG's, Functional Mentor and corner will have CI Name  as per the selected for that week.
+    3. accordion body will have a filter of Skill (which is multi-select) showing all the Skill as per the selected  PWO and capability_instances
+    4. task should be as per the selected skill and Evidence should be form task control_points.
+3. A field of mid-term feedback session only date which will be save in internship detail which will be in the mid of the total week.
+
 
 ## Current Behaviour
-<!-- Describe how the feature works today before this enhancement. -->
+No ui implemented or if implemented remove every thing start from fresh.
 
 ## Desired Behaviour
-<!-- Describe how it should work after the enhancement. Be specific. -->
+1. Duration should came first.
+2. Form should came bellow the duration with lave of internship plan as give i ui.
+3. Sum of week i plan should validate the total duration no need to save it this should always sum up during edit. 
+4. if validation fail should snack bar message (Angular martial snack bar at top right corner with cross button and should automatic close in 5 sec).
+5. once all validation find true should show pop-up for showing message and 2 button as per the theme and this pop-up.
+6. once user confirm the internship plan can not be edit until user again click on new button which came after confirmation at same position of created schedule.
+7. accordion should available once user click on schedule button.
+8. accordion ui should be same as figma and it came form global ui of lib/share/theme.
+9. if user click on the edit button of internship plan the all the schedule will restore to 0 with confirmation pop-up (Material dialog)
+10. the task ca not be editable but evidance ca be.
+11. For same skill task should not selected in other week (should be disabled).
+12. Check box should be martial checkbox.
+13. For all the form use reactive or form group or form array only.
+
+
 
 ## Default Behaviours
 <!-- Auto-select rules, pre-population, initial state changes if any. -->
+1. initial state duration should be available as the no of month give in detail which should be calculated.
+2. if user add more week i total duration it should not allow them should also validate form detail durtion given in month. show snackbar and form error.
+3. as per durtion should show at leadt one plan in initial state.
+4. for internship plan should show first value by Default selected.
+5. change i pwo should show capability_instances as per the pwo for the that perticular item i plan array.
+
+
 
 ## Changes to Entities & Attributes
-<!-- Only list fields/entities that are added, changed, or removed.
-     For each: Name, Type, Mandatory (*), Options if dropdown. -->
+1. internship_plan form is required all field given i each item of array.
+2. in internship_schedule task mut be selected.
 
 ## User Flows
 <!-- Step-by-step flows that change or are newly introduced.
@@ -41,12 +67,19 @@ Use get_context form Figma link provide. Here are the flow wise two screens
 
 ## DB Notes
 <!-- New columns, indexes, or table changes needed. State "No DB changes" if none. -->
+1. Need to create new 2 table internship_plan and internship_schedule both will have internship bigint id.
+2. internship_plan id wil be in internship_schedule to maintain 1 - N relationship.
+
 
 ## Scope
 <!-- Explicit list of what must be changed: frontend, API, migration, tests. -->
+Create new API for the during internship tab and will be called only when user click o this tab.
 
 ## Out of Scope
 <!-- Anything explicitly NOT part of this enhancement to avoid scope creep. -->
+internship detail is not direct part of this but the duration will affect it.
+mid-term feedback session  out of the scope of internship_plan and internship_schedule  table.
+
 
 ## Notes / Edge Cases
 <!-- Gotchas, open questions, cross-feature dependencies. -->

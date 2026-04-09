@@ -59,6 +59,10 @@
           wheelPropagation: true,
         }"
         [formValue]="formValue()"
+        [coordinators]="coordinators()"
+        [functionalGroupId]="formValue().functionalGroupId"
+        [roleId]="roleId()"
+        [internshipId]="internshipId()"
         (formChanged)="formChanged.emit($event)"
       />
     </ng-template>

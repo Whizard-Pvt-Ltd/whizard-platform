@@ -85,7 +85,8 @@ async function seedCollegeOperations(): Promise<void> {
     { uuid: '639ebb65-6024-48a7-b0ae-52fa7785234b', name: 'Visakhapatnam', state: 'Andhra Pradesh', cityCode: 'VIZG' },
     { uuid: '31e77755-dc7d-4d57-8924-7d85a173dc1e', name: 'Surat',         state: 'Gujarat',        cityCode: 'SURT' },
     { uuid: 'b84f8afe-101d-4f17-87bb-3cd1b61078f6', name: 'Patna',         state: 'Bihar',          cityCode: 'PATN' },
-    { uuid: 'e6fa7b31-50bf-4b06-8dfd-35b36a26a321', name: 'Bhubaneswar',   state: 'Odisha',         cityCode: 'BBSR' },
+    { uuid: 'e6fa7b31-50bf-4b06-8dfd-35b36a26a321', name: 'Bhubaneswar', state: 'Odisha', cityCode: 'BBSR' },
+    { uuid: 'e6fa7b31-50bf-4b06-8dfd-35b36a26a381', name: 'Kota',   state: 'Rajashthan',         cityCode: 'KOTA' },
   ];
 
   for (const city of cities) {
