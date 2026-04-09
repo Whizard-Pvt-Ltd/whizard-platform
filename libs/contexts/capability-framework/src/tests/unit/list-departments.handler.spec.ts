@@ -30,7 +30,7 @@ describe('ListDepartmentsQueryHandler', () => {
   it('delegates to findByTenantId with correct tenantId and industryId', async () => {
     vi.mocked(repo.findByTenantId).mockResolvedValue([]);
     await handler.execute('tenant-1', 'industry-1');
-    expect(repo.findByTenantId).toHaveBeenCalledWith('tenant-1', 'industry-1');
+    expect(repo.findByTenantId).toHaveBeenCalledWith('tenant-1', 'industry-1', false);
   });
 
   it('returns the list of department dtos from the repository', async () => {

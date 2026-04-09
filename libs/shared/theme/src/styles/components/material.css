@@ -520,7 +520,7 @@
   /* ------------------------------------------------------------------------ */
   /* Expansion Panel                                                          */
   /* ------------------------------------------------------------------------ */
-  --mat-expansion-header-text-size: var(--text-base);
+  --mat-expansion-header-text-size: var(--text-lg);
   --mat-expansion-header-text-weight: var(--font-weight-medium);
 
   --mat-expansion-container-text-size: var(--text-base);
@@ -529,10 +529,11 @@
 
   --mat-expansion-container-shape: 0;
   --mat-expansion-container-elevation-shadow: none;
-  --mat-expansion-container-background-color: transparent;
+  --mat-expansion-container-background-color: #1E293BB2;
 
   .mat-expansion-panel {
-    border-radius: 0.5rem;
+    transition: box-shadow 225ms cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   }
 
   /* ------------------------------------------------------------------------ */

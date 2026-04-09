@@ -123,7 +123,6 @@
   --text-5xl--line-height: var(--leading-10);
   --text-5xl--font-weight: var(--font-weight-normal);
   --text-5xl--letter-spacing: var(--tracking-normal);
-
   /* ── Whizard Design System ──────────────────────────────────────────────── */
   /* Figma: https://figma.com/design/zVVHwGoayNcFJ7ejiV0T0U                  */
   /* All surface/text tokens use light-dark() for dual-scheme support.        */

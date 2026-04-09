@@ -10,6 +10,11 @@ import type {
   CompanyListItem,
   CoordinatorUser,
   FunctionalGroup,
+  PwoItem,
+  CapabilityInstanceItem,
+  SkillItem,
+  TaskItem,
+  InternshipPlanItem,
 } from '../models/manage-internship.models';
 import { environment } from '../../../../environments/environment';
 import { AuthContextService } from '../../../core/services/auth-context.service';
@@ -97,9 +102,55 @@ export class ManageInternshipApiService {
       .pipe(map(r => r.data));
   }
 
-  listFunctionalGroups(): Observable<FunctionalGroup[]> {
+  listFunctionalGroups(roleId?: string): Observable<FunctionalGroup[]> {
+    const opts: Record<string, string> = {};
+    if (roleId) opts['roleId'] = roleId;
     return this.http
-      .get<ApiEnvelope<FunctionalGroup[]>>(`${this.base}/functional-groups`, this.companyHeaders())
+      .get<ApiEnvelope<FunctionalGroup[]>>(`${this.base}/functional-groups`, { params: opts, ...this.companyHeaders() })
+      .pipe(map(r => r.data));
+  }
+
+  listPwos(functionalGroupId: string, roleId?: string): Observable<PwoItem[]> {
+    const params: Record<string, string> = { functionalGroupId };
+    if (roleId) params['roleId'] = roleId;
+    return this.http
+      .get<ApiEnvelope<PwoItem[]>>(`${this.base}/pwos`, { params, ...this.companyHeaders() })
+      .pipe(map(r => r.data));
+  }
+
+  listCapabilityInstances(pwoId: string): Observable<CapabilityInstanceItem[]> {
+    return this.http
+      .get<ApiEnvelope<CapabilityInstanceItem[]>>(`${this.base}/capability-instances`, { params: { pwoId }, ...this.companyHeaders() })
+      .pipe(map(r => r.data));
+  }
+
+  listSkills(capabilityInstanceId: string): Observable<SkillItem[]> {
+    return this.http
+      .get<ApiEnvelope<SkillItem[]>>(`${this.base}/skills`, { params: { capabilityInstanceId }, ...this.companyHeaders() })
+      .pipe(map(r => r.data));
+  }
+
+  listTasks(skillIds: string[]): Observable<TaskItem[]> {
+    return this.http
+      .get<ApiEnvelope<TaskItem[]>>(`${this.base}/tasks`, { params: { skillIds: skillIds.join(',') }, ...this.companyHeaders() })
+      .pipe(map(r => r.data));
+  }
+
+  getPlans(internshipId: string): Observable<InternshipPlanItem[]> {
+    return this.http
+      .get<ApiEnvelope<InternshipPlanItem[]>>(`${this.base}/${internshipId}/plans`, this.companyHeaders())
+      .pipe(map(r => r.data));
+  }
+
+  savePlans(internshipId: string, plans: Array<{
+    pwoId: string;
+    capabilityInstanceId: string;
+    mentorUserId: string;
+    noOfWeeks: number;
+    schedules?: Array<{ taskId: string; weekNumber: number; orderIndex: number; evidence: string }>;
+  }>): Observable<{ saved: boolean }> {
+    return this.http
+      .post<ApiEnvelope<{ saved: boolean }>>(`${this.base}/${internshipId}/plans`, { plans }, this.companyHeaders())
       .pipe(map(r => r.data));
   }
 

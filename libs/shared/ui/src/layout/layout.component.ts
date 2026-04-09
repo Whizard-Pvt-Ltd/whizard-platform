@@ -115,8 +115,8 @@ import { AdminSidebarComponent } from './sidebar.component';
 
           <!-- Right actions -->
           <div class="flex items-center gap-x-1 shrink-0">
-            <whizard-notifications />
-            <whizard-scheme-switcher />
+            <!-- <whizard-notifications /> -->
+            <!-- <whizard-scheme-switcher /> -->
 
             <!-- Circular avatar -->
             <button

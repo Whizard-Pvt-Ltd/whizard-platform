@@ -230,7 +230,19 @@ export class ManageInternshipComponent implements OnInit, OnDestroy {
     this.api.listCities().subscribe(c => this.cities.set(c));
     this.api.listIndustryRoles().subscribe(r => this.industryRoles.set(r));
     this.api.listCoordinators().subscribe(c => this.coordinators.set(c));
-    this.api.listFunctionalGroups().subscribe(fg => this.functionalGroups.set(fg));
+    this.loadFunctionalGroupsForRole();
+  }
+
+  /** Resolve role ID from the selected title and fetch FGs filtered by that role */
+  private loadFunctionalGroupsForRole(): void {
+    const title = this.formValue().title;
+    const role = this.industryRoles().find(r => r.name === title);
+    this.api.listFunctionalGroups(role?.id).subscribe(fg => {
+      this.functionalGroups.set(fg);
+      if (!this.formValue().functionalGroupId && fg.length > 0) {
+        this.formValue.update(v => ({ ...v, functionalGroupId: fg[0].id }));
+      }
+    });
   }
 
   private loadList(): void {
@@ -285,7 +297,17 @@ export class ManageInternshipComponent implements OnInit, OnDestroy {
   }
 
   protected onFormChanged(patch: Partial<InternshipFormValue>): void {
+    const prevTitle = this.formValue().title;
     this.formValue.update((v) => ({ ...v, ...patch }));
+
+    // When the role (title) changes, re-fetch FGs for the new role and clear stale FG selection
+    if (patch.title && patch.title !== prevTitle) {
+      const role = this.industryRoles().find(r => r.name === patch.title);
+      this.api.listFunctionalGroups(role?.id).subscribe(fg => {
+        this.functionalGroups.set(fg);
+        this.formValue.update(v => ({ ...v, functionalGroupId: fg.length > 0 ? fg[0].id : null, weeklySchedule: [] }));
+      });
+    }
   }
 
   protected onSaveClicked(): void {

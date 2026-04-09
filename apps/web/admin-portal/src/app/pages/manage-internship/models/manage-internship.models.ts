@@ -43,6 +43,53 @@ export interface WeeklyScheduleEntry {
   tasks: Array<{ title: string; evidence: string }>;
 }
 
+export interface PwoItem {
+  id: string;
+  name: string;
+}
+
+export interface CapabilityInstanceItem {
+  id: string;
+  name: string;
+}
+
+export interface SkillItem {
+  id: string;
+  name: string;
+}
+
+export interface TaskItem {
+  id: string;
+  name: string;
+  description: string | null;
+  skillId: string;
+  evidence: string;
+}
+
+export interface InternshipPlanScheduleItem {
+  id?: string;
+  taskId: string;
+  taskName: string;
+  skillId: string;
+  skillName: string;
+  weekNumber: number;
+  orderIndex: number;
+  evidence: string;
+}
+
+export interface InternshipPlanItem {
+  id?: string;
+  pwoId: string;
+  pwoName: string;
+  capabilityInstanceId: string;
+  capabilityInstanceName: string;
+  mentorUserId: string;
+  mentorName: string;
+  noOfWeeks: number;
+  orderIndex: number;
+  schedules: InternshipPlanScheduleItem[];
+}
+
 export interface FileItem {
   pdfUrl: string;
   name: string;

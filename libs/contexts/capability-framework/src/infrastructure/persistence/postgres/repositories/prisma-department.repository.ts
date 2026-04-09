@@ -5,7 +5,7 @@ import { Department } from '../../../../domain/aggregates/department.aggregate';
 export class PrismaDepartmentRepository implements IDepartmentRepository {
   private readonly prisma = getPrisma();
 
-  async findByTenantId(tenantId: string, industryId?: string): Promise<{
+  async findByTenantId(tenantId: string, industryId?: string, scopeToTenant = false): Promise<{
     id: string;
     name: string;
     industryId?: string;
@@ -14,10 +14,18 @@ export class PrismaDepartmentRepository implements IDepartmentRepository {
     revenueContributionWeight?: number;
     regulatoryExposureLevel?: number;
   }[]> {
+    const where: Record<string, unknown> = { isActive: true };
+    if (industryId) {
+      where['industryId'] = BigInt(industryId);
+    }
+    // Company users: scope departments to their own tenant + industry
+    // Admin users: show all departments for the selected industry
+    if (!industryId || scopeToTenant) {
+      where['tenantId'] = BigInt(tenantId);
+    }
+
     const rows = await this.prisma.department.findMany({
-      where: industryId
-        ? { industryId: BigInt(industryId), isActive: true }
-        : { tenantId: BigInt(tenantId), isActive: true },
+      where,
       include: {
         functionalGroups: {
           select: { functionalGroupId: true }
