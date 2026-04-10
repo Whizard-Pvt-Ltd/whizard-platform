@@ -1,51 +1,43 @@
-import { Component, input, output, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
+export interface PdfViewerDialogData {
+  url: string;
+  fileName?: string;
+}
 
 @Component({
   selector: 'whizard-pdf-viewer',
   standalone: true,
-  imports: [MatIconModule, MatButtonModule],
+  imports: [MatIconModule, MatButtonModule, MatDialogModule],
   template: `
-    <div class="pdf-viewer-overlay" (click)="closed.emit()">
-      <div class="pdf-viewer-container" (click)="$event.stopPropagation()">
-        <div class="pdf-viewer-header">
-          <span class="pdf-title">{{ fileName() }}</span>
-          <div class="pdf-actions">
-            <a [href]="url()" target="_blank" download mat-icon-button class="action-btn" title="Download">
-              <mat-icon svgIcon="lucideIcons:download" class="size-5" />
-            </a>
-            <button mat-icon-button class="action-btn" (click)="closed.emit()" title="Close">
-              <mat-icon svgIcon="heroicons_outline:x-mark" class="size-5" />
-            </button>
-          </div>
+    <div class="pdf-viewer-container">
+      <div class="pdf-viewer-header">
+        <span class="pdf-title">{{ data.fileName ?? 'Document' }}</span>
+        <div class="pdf-actions">
+          <a [href]="data.url" target="_blank" download mat-icon-button class="action-btn" title="Download">
+            <mat-icon svgIcon="lucideIcons:download" class="size-5" />
+          </a>
+          <button mat-icon-button class="action-btn" (click)="dialogRef.close()" title="Close">
+            <mat-icon svgIcon="heroicons_outline:x-mark" class="size-5" />
+          </button>
         </div>
-        <iframe
-          [src]="safeUrl()"
-          class="pdf-iframe"
-          frameborder="0"
-          title="PDF Viewer">
-        </iframe>
       </div>
+      <iframe
+        [src]="safeUrl"
+        class="pdf-iframe"
+        frameborder="0"
+        title="PDF Viewer">
+      </iframe>
     </div>
   `,
   styles: [`
-    .pdf-viewer-overlay {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.7);
-      z-index: 1000;
-      display: flex; align-items: center; justify-content: center;
-      padding: 24px;
-    }
     .pdf-viewer-container {
-      background: var(--wrcf-bg-card, #1E293B);
-      border: 1px solid var(--wrcf-border, #484E5D);
-      border-radius: 12px;
-      width: 100%; max-width: 900px;
-      height: 80vh;
       display: flex; flex-direction: column;
+      width: 100%; height: 100%;
       overflow: hidden;
     }
     .pdf-viewer-header {
@@ -67,13 +59,13 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   `],
 })
 export class PdfViewerComponent {
-  readonly url = input.required<string>();
-  readonly fileName = input<string>('Document');
-  readonly closed = output<void>();
+  readonly dialogRef = inject(MatDialogRef<PdfViewerComponent>);
+  readonly data: PdfViewerDialogData = inject(MAT_DIALOG_DATA);
+  readonly safeUrl: SafeResourceUrl;
 
   private readonly sanitizer = inject(DomSanitizer);
 
-  safeUrl(): SafeResourceUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(this.url());
+  constructor() {
+    this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.data.url);
   }
 }

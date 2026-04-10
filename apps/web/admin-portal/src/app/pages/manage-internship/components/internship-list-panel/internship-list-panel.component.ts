@@ -2,6 +2,7 @@ import { DecimalPipe } from '@angular/common';
 import { Component, input, output, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { SignedUrlPipe } from '@whizard/shared-ui';
 import type { InternshipListItem } from '../../models/manage-internship.models';
 import { STATUS_LABELS, STATUS_COLORS } from '../../models/manage-internship.models';
 
@@ -9,7 +10,7 @@ import { STATUS_LABELS, STATUS_COLORS } from '../../models/manage-internship.mod
   selector: 'whizard-internship-list-panel',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, MatIconModule, DecimalPipe],
+  imports: [FormsModule, MatIconModule, DecimalPipe, SignedUrlPipe],
   templateUrl: './internship-list-panel.component.html',
 })
 export class InternshipListPanelComponent {

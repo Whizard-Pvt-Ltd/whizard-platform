@@ -62,29 +62,6 @@ export const registerInternshipHiringRoutes = (
     },
   });
 
-  // POST /api/internships/files/upload
-  app.route({
-    method: 'POST',
-    url: '/files/upload',
-    preHandler: authorizationPreHandler('INTERNSHIP.MANAGE'),
-    handler: async (request, reply) => {
-      const ctx      = getRequestContext(request);
-      const fileData = await request.file?.();
-      if (!fileData) return reply.status(400).send({ success: false, error: 'No file uploaded' });
-      const buffer = await fileData.toBuffer();
-      logger.debug('Uploading internship file', { ...getLogContext(request), userId: ctx.actorUserAccountId, tenantId: ctx.tenantId });
-      const data = await deps.uploadInternshipFile.execute({
-        actorUserId: ctx.actorUserAccountId,
-        tenantId:    ctx.tenantId,
-        fileName:    fileData.filename,
-        mimeType:    fileData.mimetype,
-        sizeBytes:   buffer.length,
-        buffer,
-      });
-      reply.status(201).send({ success: true, data, meta: toApiMeta(request) });
-    },
-  });
-
   // GET /api/internships/coordinators?companyTenantId=xxx
   app.route({
     method: 'GET',

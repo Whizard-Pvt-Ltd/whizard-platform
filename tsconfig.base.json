@@ -29,7 +29,8 @@
       "@whizard/icons": ["libs/shared/icons/src/index.ts"],
       "@whizard/college-operations": ["libs/contexts/college-operations/src/index.ts"],
       "@whizard/company-organization": ["libs/contexts/company-organization/src/index.ts"],
-      "@whizard/internship-hiring": ["libs/contexts/internship-hiring/src/index.ts"]
+      "@whizard/internship-hiring": ["libs/contexts/internship-hiring/src/index.ts"],
+      "@whizard/shared-resource-upload": ["libs/shared/resource-upload/src/index.ts"]
     }
   },
   "include": ["apps", "libs", "tests", "tools", "vitest.config.ts"]

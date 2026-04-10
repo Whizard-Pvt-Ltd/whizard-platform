@@ -20,9 +20,10 @@ export class PrismaInternshipRepository implements IInternshipRepository {
     return BigInt(numericId);
   }
 
-  private async resolveUserId(publicUuid: string): Promise<bigint> {
-    const user = await this.prisma.userAccount.findUnique({ where: { publicUuid }, select: { id: true } });
-    if (!user) throw new Error(`User not found: ${publicUuid}`);
+  private async resolveUserId(idOrUuid: string): Promise<bigint> {
+    if (/^\d+$/.test(idOrUuid)) return BigInt(idOrUuid);
+    const user = await this.prisma.userAccount.findUnique({ where: { publicUuid: idOrUuid }, select: { id: true } });
+    if (!user) throw new Error(`User not found: ${idOrUuid}`);
     return user.id;
   }
 
@@ -34,6 +35,12 @@ export class PrismaInternshipRepository implements IInternshipRepository {
   private async resolveFunctionalGroupId(publicUuid: string): Promise<bigint | null> {
     const fg = await this.prisma.functionalGroup.findUnique({ where: { publicUuid }, select: { id: true } });
     return fg?.id ?? null;
+  }
+
+  private async resolveMediaAssetId(key: string | null): Promise<bigint | null> {
+    if (!key) return null;
+    const asset = await this.prisma.mediaAsset.findFirst({ where: { key }, select: { id: true } });
+    return asset?.id ?? null;
   }
 
   async findById(id: string): Promise<Internship | null> {
@@ -75,11 +82,18 @@ export class PrismaInternshipRepository implements IInternshipRepository {
     const createdBy         = await this.resolveUserId(internship.createdBy);
     const cityId            = internship.cityId ? await this.resolveCityId(internship.cityId) : null;
     const functionalGroupId = internship.functionalGroupId ? await this.resolveFunctionalGroupId(internship.functionalGroupId) : null;
+    const [bannerImageAssetId, offerLetterAssetId, termsConditionAssetId, certificateAssetId] = await Promise.all([
+      this.resolveMediaAssetId(internship.bannerImageUrl),
+      this.resolveMediaAssetId(internship.offerLetterTemplateUrl),
+      this.resolveMediaAssetId(internship.termsConditionUrl),
+      this.resolveMediaAssetId(internship.certificateTemplateUrl),
+    ]);
     const data = {
       tenantId,
       companyTenantId:            internship.companyTenantId ? BigInt(internship.companyTenantId) : null,
       title:                      internship.title,
       bannerImageUrl:             internship.bannerImageUrl,
+      bannerImageAssetId,
       vacancies:                  internship.vacancies,
       cityId,
       stipend:                    internship.stipend,
@@ -100,7 +114,9 @@ export class PrismaInternshipRepository implements IInternshipRepository {
       assessments:                internship.assessments as unknown as object,
       interviewRubric:            internship.interviewRubric as unknown as object ?? undefined,
       offerLetterTemplateUrl:     internship.offerLetterTemplateUrl,
+      offerLetterAssetId,
       termsConditionUrl:          internship.termsConditionUrl,
+      termsConditionAssetId,
       offerLetterReleaseMethod:   internship.offerLetterReleaseMethod,
       functionalGroupId,
       preInternshipCommunication: internship.preInternshipCommunication,
@@ -115,6 +131,7 @@ export class PrismaInternshipRepository implements IInternshipRepository {
       minPresentationScore:       internship.minPresentationScore,
       presentationWeightage:      internship.presentationWeightage,
       certificateTemplateUrl:     internship.certificateTemplateUrl,
+      certificateAssetId,
       createdBy,
     };
 

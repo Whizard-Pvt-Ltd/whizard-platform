@@ -1,11 +1,13 @@
 import { Component, computed, inject, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { QuillEditorComponent } from '@whizard/shared-ui';
+import { QuillEditorComponent, PdfViewerComponent } from '@whizard/shared-ui';
+import type { PdfViewerDialogData } from '@whizard/shared-ui';
 import type { InternshipFormValue } from '../../../../models/manage-internship.models';
 import { FINAL_DOCUMENT_OPTIONS } from '../../../../models/manage-internship.models';
 import { ManageInternshipApiService } from '../../../../services/manage-internship-api.service';
@@ -31,6 +33,7 @@ const DEFAULT_GUIDELINES = `<ul>
 })
 export class FinalSubmissionTabComponent {
   private readonly api = inject(ManageInternshipApiService);
+  private readonly dialog = inject(MatDialog);
 
   readonly formValue = input.required<InternshipFormValue>();
   readonly formChanged = output<Partial<InternshipFormValue>>();
@@ -75,10 +78,22 @@ export class FinalSubmissionTabComponent {
     this.uploadingCertificate.set(true);
     this.api.uploadFile(file).subscribe({
       next: (result) => {
-        this.emit({ certificateTemplateUrl: result.url });
+        this.emit({ certificateTemplateUrl: result.key });
         this.uploadingCertificate.set(false);
       },
       error: () => this.uploadingCertificate.set(false),
+    });
+  }
+
+  protected viewFile(key: string, fileName = 'Certificate Template'): void {
+    this.api.getSignedUrl(key).subscribe(url => {
+      this.dialog.open<PdfViewerComponent, PdfViewerDialogData>(PdfViewerComponent, {
+        data: { url, fileName },
+        width: '900px',
+        height: '80vh',
+        panelClass: 'whizard-pdf-dialog',
+        backdropClass: 'whizard-dialog-backdrop',
+      });
     });
   }
 

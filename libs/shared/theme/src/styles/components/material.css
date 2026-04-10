@@ -1096,6 +1096,7 @@
   .mat-mdc-select-panel {
     border-radius: 0.3em;
     /* 8px */
+    min-width: max-content !important;
   }
 
   /* Mobile font size adjustment */
@@ -1220,6 +1221,50 @@
     border-bottom-width: var(--mat-table-row-item-outline-width, 1px);
     border-bottom-style: solid;
   }
+
+
+/* -------------------------------------------------------------------------- */
+/* PDF Viewer Dialog                                                          */
+/* -------------------------------------------------------------------------- */
+.whizard-pdf-dialog {
+  max-width: 900px !important;
+}
+.whizard-pdf-dialog .mat-mdc-dialog-container .mdc-dialog__surface {
+  background: var(--wrcf-bg-card, #1E293B);
+  border: 1px solid var(--wrcf-border, #484E5D);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.whizard-pdf-dialog .mat-mdc-dialog-container .mdc-dialog__content {
+  padding: 0;
+  max-height: unset;
+  height: 100%;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Image Lightbox Dialog                                                      */
+/* -------------------------------------------------------------------------- */
+.whizard-image-dialog {
+  max-width: 95vw !important;
+  max-height: 95vh !important;
+}
+.whizard-image-dialog .mat-mdc-dialog-container .mdc-dialog__surface {
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+.whizard-image-dialog .cdk-overlay-backdrop {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Reusable dialog backdrop — use via backdropClass: 'whizard-dialog-backdrop' */
+/* -------------------------------------------------------------------------- */
+.whizard-dialog-backdrop {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
 
   /* ------------------------------------------------------------------------ */
   /* Tabs                                                                     */

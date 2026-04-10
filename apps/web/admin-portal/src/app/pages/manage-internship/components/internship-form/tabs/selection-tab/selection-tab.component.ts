@@ -1,11 +1,13 @@
 import { Component, computed, inject, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { QuillEditorComponent } from '@whizard/shared-ui';
+import { QuillEditorComponent, PdfViewerComponent } from '@whizard/shared-ui';
+import type { PdfViewerDialogData } from '@whizard/shared-ui';
 import type {
   InternshipFormValue, InternshipBatch, FileItem,
   CoordinatorUser, FunctionalGroup, City,
@@ -25,6 +27,7 @@ import { ASSESSMENT_DRAG_TYPE } from '../../../assessment-library-panel/assessme
 })
 export class SelectionTabComponent {
   private readonly api = inject(ManageInternshipApiService);
+  private readonly dialog = inject(MatDialog);
 
   readonly formValue = input.required<InternshipFormValue>();
   readonly cities = input<City[]>([]);
@@ -54,7 +57,7 @@ export class SelectionTabComponent {
     this.uploadingOfferLetter.set(true);
     this.api.uploadFile(file).subscribe({
       next: (result) => {
-        this.emit({ offerLetterTemplateUrl: result.url });
+        this.emit({ offerLetterTemplateUrl: result.key });
         this.uploadingOfferLetter.set(false);
       },
       error: () => this.uploadingOfferLetter.set(false),
@@ -67,7 +70,7 @@ export class SelectionTabComponent {
     this.uploadingTerms.set(true);
     this.api.uploadFile(file).subscribe({
       next: (result) => {
-        this.emit({ termsConditionUrl: result.url });
+        this.emit({ termsConditionUrl: result.key });
         this.uploadingTerms.set(false);
       },
       error: () => this.uploadingTerms.set(false),
@@ -144,6 +147,18 @@ export class SelectionTabComponent {
 
   protected removeArticle(index: number): void {
     this.emit({ preReadArticles: this.formValue().preReadArticles.filter((_, i) => i !== index) });
+  }
+
+  protected viewFile(key: string, fileName = 'Document'): void {
+    this.api.getSignedUrl(key).subscribe(url => {
+      this.dialog.open<PdfViewerComponent, PdfViewerDialogData>(PdfViewerComponent, {
+        data: { url, fileName },
+        width: '900px',
+        height: '80vh',
+        panelClass: 'whizard-pdf-dialog',
+        backdropClass: 'whizard-dialog-backdrop',
+      });
+    });
   }
 
   protected emit(patch: Partial<InternshipFormValue>): void {

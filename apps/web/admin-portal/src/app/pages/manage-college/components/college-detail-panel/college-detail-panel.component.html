@@ -431,25 +431,11 @@
       </div>
     </div>
 
-    @if (activePdfUrl()) {
-      <whizard-pdf-viewer
-        [url]="activePdfUrl()!"
-        [fileName]="activePdfName()"
-        (closed)="closePdf()"
-      />
-    }
     @if (activeVideoUrl()) {
       <whizard-video-player
         [url]="activeVideoUrl()!"
         [title]="activeVideoTitle()"
         (closed)="closeVideo()"
-      />
-    }
-    @if (activeImageUrl()) {
-      <whizard-image-lightbox
-        [url]="activeImageUrl()!"
-        [alt]="activeImageAlt()"
-        (closed)="closeImage()"
       />
     }
   }

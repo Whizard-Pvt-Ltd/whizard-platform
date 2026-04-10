@@ -8,39 +8,61 @@
       <!-- Offer letter template -->
       <div class="flex items-center gap-4">
         <span class="flex-1 text-lg text-whizard-text-primary font-medium">Offer Letter Template</span>
-        <label class="flex items-center gap-2 h-8.75 px-4 rounded-lg bg-whizard-action text-white text-sm font-medium cursor-pointer hover:bg-whizard-action-hover transition-colors"
-          [class.opacity-50]="uploadingOfferLetter()"
-          [class.pointer-events-none]="uploadingOfferLetter()"
-        >
-          <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-4"></mat-icon>
-          @if (uploadingOfferLetter()) {
-            Uploading...
-          } @else if (formValue().offerLetterTemplateUrl) {
-            Uploaded
-          } @else {
-            Upload
+        <div class="flex items-center gap-2">
+          @if (formValue().offerLetterTemplateUrl) {
+            <button type="button"
+              class="flex items-center gap-2 h-8.75 px-4 rounded-lg bg-whizard-action text-white text-sm font-medium cursor-pointer hover:bg-whizard-action-hover transition-colors"
+              (click)="viewFile(formValue().offerLetterTemplateUrl!, 'Offer Letter Template')"
+            >
+              <mat-icon svgIcon="heroicons_outline:eye" class="size-4"></mat-icon>
+              View
+            </button>
           }
-          <input type="file" accept=".pdf" class="sr-only" (change)="onOfferLetterSelected($event)" />
-        </label>
+          <label class="flex items-center gap-2 h-8.75 px-4 rounded-lg bg-whizard-action text-white text-sm font-medium cursor-pointer hover:bg-whizard-action-hover transition-colors"
+            [class.opacity-50]="uploadingOfferLetter()"
+            [class.pointer-events-none]="uploadingOfferLetter()"
+          >
+            <mat-icon svgIcon="lucideIcons:upload" class="size-4"></mat-icon>
+            @if (uploadingOfferLetter()) {
+              Uploading...
+            } @else if (formValue().offerLetterTemplateUrl) {
+              Uploaded
+            } @else {
+              Upload
+            }
+            <input type="file" accept=".pdf" class="sr-only" (change)="onOfferLetterSelected($event)" />
+          </label>
+        </div>
       </div>
 
       <!-- Terms & conditions -->
       <div class="flex items-center gap-4">
         <span class="flex-1 text-lg text-whizard-text-primary font-medium">Terms & Condition for acceptance</span>
-        <label class="flex items-center gap-2 h-8.75 px-4 rounded-lg bg-whizard-action text-white text-sm font-medium cursor-pointer hover:bg-whizard-action-hover transition-colors"
-          [class.opacity-50]="uploadingTerms()"
-          [class.pointer-events-none]="uploadingTerms()"
-        >
-          <mat-icon svgIcon="heroicons_outline:arrow-up-tray" class="size-4"></mat-icon>
-          @if (uploadingTerms()) {
-            Uploading...
-          } @else if (formValue().termsConditionUrl) {
-            Uploaded
-          } @else {
-            Upload
+        <div class="flex items-center gap-2">
+          @if (formValue().termsConditionUrl) {
+            <button type="button"
+              class="flex items-center gap-2 h-8.75 px-4 rounded-lg bg-whizard-action text-white text-sm font-medium cursor-pointer hover:bg-whizard-action-hover transition-colors"
+              (click)="viewFile(formValue().termsConditionUrl!, 'Terms & Condition')"
+            >
+              <mat-icon svgIcon="heroicons_outline:eye" class="size-4"></mat-icon>
+              View
+            </button>
           }
-          <input type="file" accept=".pdf" class="sr-only" (change)="onTermsSelected($event)" />
-        </label>
+          <label class="flex items-center gap-2 h-8.75 px-4 rounded-lg bg-whizard-action text-white text-sm font-medium cursor-pointer hover:bg-whizard-action-hover transition-colors"
+            [class.opacity-50]="uploadingTerms()"
+            [class.pointer-events-none]="uploadingTerms()"
+          >
+            <mat-icon svgIcon="lucideIcons:upload" class="size-4"></mat-icon>
+            @if (uploadingTerms()) {
+              Uploading...
+            } @else if (formValue().termsConditionUrl) {
+              Uploaded
+            } @else {
+              Upload
+            }
+            <input type="file" accept=".pdf" class="sr-only" (change)="onTermsSelected($event)" />
+          </label>
+        </div>
       </div>
 
       <!-- Divider -->
@@ -89,15 +111,15 @@
         </div>
 
         <!-- Right side: batch size + coordinator + delete -->
-        <div class="flex items-center gap-4">
-          <mat-form-field appearance="outline" class="whizard-outline w-37.5" subscriptSizing="dynamic">
+        <div class="grid grid-cols-2 items-center gap-4 w-full mr-2 ml-2">
+          <mat-form-field appearance="outline" class="whizard-outline" subscriptSizing="dynamic">
             <mat-label>Batch Size</mat-label>
             <input matInput type="number" min="1"
               [ngModel]="batch.batchSize"
               (ngModelChange)="updateBatch(i, {batchSize: +$event})" />
           </mat-form-field>
 
-          <mat-form-field appearance="outline" class="whizard-outline w-50" subscriptSizing="dynamic">
+          <mat-form-field appearance="outline" class="whizard-outline" subscriptSizing="dynamic">
             <mat-label>Internship Co-ordinator</mat-label>
             <mat-select
               [ngModel]="batch.coordinatorUserId"
@@ -109,17 +131,13 @@
               }
             </mat-select>
           </mat-form-field>
-
-          <button
-            type="button"
-            mat-icon-button
-            class="flex items-center justify-center w-6 h-6 rounded-full bg-red-900/30 hover:bg-red-900/60 transition-colors text-red-400"
-            (click)="removeBatch(i)"
-            title="Delete batch"
-          >
-            <mat-icon svgIcon="lucideIcons:trash" class="size-4"></mat-icon>
-          </button>
         </div>
+
+        <button type="button" mat-icon-button
+          class="ml-auto flex items-center justify-center w-6 h-6 rounded-full bg-red-900/30 hover:bg-red-900/60 transition-colors text-red-400"
+          (click)="removeBatch(i)" title="Delete batch">
+          <mat-icon svgIcon="lucideIcons:trash" class="size-4"></mat-icon>
+        </button>
       </div>
     }
 
@@ -135,13 +153,13 @@
     <h3 class="text-xl font-medium text-whizard-accent mb-5">Internship Process & Expectation</h3>
     <div class="flex items-center gap-5">
       <!-- Select Plant (read-only from Details tab city) -->
-      <mat-form-field appearance="outline" class="whizard-outline w-85.25" subscriptSizing="dynamic">
+      <mat-form-field appearance="outline" class="whizard-outline w-1/2" subscriptSizing="dynamic">
         <mat-label>Select Plant</mat-label>
         <input matInput type="text" readonly [value]="selectedCityName()" />
       </mat-form-field>
 
       <!-- Select Functional Group -->
-      <mat-form-field appearance="outline" class="whizard-outline w-85.25" subscriptSizing="dynamic">
+      <mat-form-field appearance="outline" class="whizard-outline w-1/2" subscriptSizing="dynamic">
         <mat-label>Select Functional Group</mat-label>
         <mat-select
           [ngModel]="formValue().functionalGroupId"

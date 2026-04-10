@@ -10,7 +10,7 @@
       <!-- Select Document dropdown -->
       <mat-form-field
         appearance="outline"
-        class="whizard-outline w-[423px]"
+        class="whizard-outline w-105.75"
         style="--form-field-bg-color: #0f253f"
       >
         <mat-label>Select Document</mat-label>
@@ -48,7 +48,7 @@
     <div class="flex flex-col gap-5">
       <!-- Drop zone for library resources -->
       <div
-        class="flex flex-col items-center justify-center w-[199px] h-[126px] rounded-lg bg-whizard-bg-secondary shadow-md transition-all"
+        class="flex flex-col items-center justify-center w-49.75 h-31.5 rounded-lg bg-whizard-bg-secondary shadow-md transition-all"
         [class.border-2]="dragOverRubric()"
         [class.border-whizard-accent]="dragOverRubric()"
         (dragover)="onRubricDragOver($event)"
@@ -84,7 +84,7 @@
       <div class="flex items-center justify-between gap-4">
         <mat-form-field
           appearance="outline"
-          class="whizard-outline w-[423px]"
+          class="whizard-outline w-105.75"
           style="--form-field-bg-color: #0f253f"
         >
           <mat-label>Min. Scoring</mat-label>
@@ -100,7 +100,7 @@
 
         <mat-form-field
           appearance="outline"
-          class="whizard-outline w-[423px]"
+          class="whizard-outline w-105.75"
           style="--form-field-bg-color: #0f253f"
         >
           <mat-label>Presentation Weightage</mat-label>
@@ -125,35 +125,44 @@
     <span class="text-lg font-medium text-whizard-text-primary tracking-[0.15px]">
       Certificate Template
     </span>
-    <label>
-      <button
-        type="button"
-        mat-flat-button
-        class="!bg-whizard-action !text-white !rounded-lg !h-[35px] !text-sm"
-        [disabled]="uploadingCertificate()"
-        (click)="certificateInput.click()"
-      >
-        <mat-icon class="size-5 mr-1">upload</mat-icon>
-        @if (uploadingCertificate()) {
-          Uploading...
-        } @else {
-          Upload
-        }
-      </button>
-      <input
-        #certificateInput
-        type="file"
-        accept=".pdf"
-        class="sr-only"
-        (change)="onCertificateSelected($event)"
-      />
-    </label>
+    <div class="flex items-center gap-2">
+      @if (formValue().certificateTemplateUrl) {
+        <button
+          type="button"
+          mat-flat-button
+          class="bg-whizard-action! text-white! rounded-lg! h-8.75! text-sm!"
+          (click)="viewFile(formValue().certificateTemplateUrl!)"
+        >
+          <mat-icon class="size-5 mr-1">visibility</mat-icon>
+          View
+        </button>
+      }
+      <label>
+        <button
+          type="button"
+          mat-flat-button
+          class="bg-whizard-action! text-white! rounded-lg! h-8.75! text-sm!"
+          [disabled]="uploadingCertificate()"
+          (click)="certificateInput.click()"
+        >
+          <mat-icon class="size-5 mr-1" svgIcon="lucideIcons:upload"></mat-icon>
+          @if (uploadingCertificate()) {
+            Uploading...
+          } @else if (formValue().certificateTemplateUrl) {
+            Uploaded
+          } @else {
+            Upload
+          }
+        </button>
+        <input
+          #certificateInput
+          type="file"
+          accept=".pdf"
+          class="sr-only"
+          (change)="onCertificateSelected($event)"
+        />
+      </label>
+    </div>
   </div>
-
-  @if (formValue().certificateTemplateUrl) {
-    <span class="text-sm text-whizard-accent">
-      {{ formValue().certificateTemplateUrl }}
-    </span>
-  }
 
 </div>
