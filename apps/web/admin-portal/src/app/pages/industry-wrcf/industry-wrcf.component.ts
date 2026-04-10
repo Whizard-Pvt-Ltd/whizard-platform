@@ -1,10 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject, signal, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormControl, FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ScrollbarDirective } from '@whizard/shared-ui';
+import { ConfirmationService, ScrollbarDirective, ToasterService } from '@whizard/shared-ui';
 import { forkJoin } from 'rxjs';
 import { ManageCIMappingsComponent } from './components/manage-ci-mappings/manage-ci-mappings.component';
 import { WrcfColumnComponent } from './components/wrcf-column/wrcf-column.component';
@@ -26,9 +26,9 @@ import { WrcfApiService, type WrcfDashboardStats } from './services/wrcf-api.ser
   styleUrl: './industry-wrcf.component.css',
 })
 export class IndustryWrcfComponent implements OnInit {
-  @ViewChild(WrcfPanelComponent) private panelRef?: WrcfPanelComponent;
-
   private readonly apiService = inject(WrcfApiService);
+  private readonly toaster = inject(ToasterService);
+  private readonly confirmation = inject(ConfirmationService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
@@ -53,12 +53,9 @@ export class IndustryWrcfComponent implements OnInit {
   protected swoList = signal<SecondaryWorkObject[]>([]);
 
   protected panel = signal<PanelState>({ open: false, mode: 'create', entityType: 'FG' });
-  protected errorMessage = signal<string>('');
-  protected panelError = signal<string>('');
 
   protected ciCache = signal<CIPendingEntry[]>([]);
   protected existingCIs = signal<CapabilityInstance[]>([]);
-  protected toastMessage = signal<string>('');
   protected mappingDialogOpen = signal<boolean>(false);
   protected dashboardStats = signal<WrcfDashboardStats | null>(null);
 
@@ -207,7 +204,7 @@ export class IndustryWrcfComponent implements OnInit {
     if (!cap) return;
 
     if (this.savedProficiencyIds.includes(item.id)) {
-      this.showToast('This capability instance already exists in the saved mappings.');
+      this.toaster.showWarning('This capability instance already exists in the saved mappings.');
       return;
     }
 
@@ -238,7 +235,7 @@ export class IndustryWrcfComponent implements OnInit {
         proficiencyLabel: prof.name
       };
       this.ciCache.update(cache => [...cache, entry]);
-      this.showToast('New capability instance is added to cached map.');
+      this.toaster.showInfo('New capability instance is added to cached map.');
     }
   }
 
@@ -268,14 +265,14 @@ export class IndustryWrcfComponent implements OnInit {
           });
         }
       },
-      error: () => this.showError('Failed to save some capability instances.')
+      error: () => this.toaster.showError('Failed to save some capability instances.')
     });
   }
 
   protected onAddSkillsClick(): void {
     const industryId = this.selectedIndustryId();
     if (!industryId) {
-      this.showError('Please select an Industry Sector and Industry first.');
+      this.toaster.showError('Please select an Industry Sector and Industry first.');
       return;
     }
 
@@ -293,17 +290,11 @@ export class IndustryWrcfComponent implements OnInit {
 
   protected onCISavedDeleted(id: string): void {
     this.apiService.deleteCI(id).subscribe({
-      error: () => this.showError('Failed to delete capability instance.')
+      error: () => this.toaster.showError('Failed to delete capability instance.')
     });
   }
 
-  private showToast(message: string): void {
-    this.toastMessage.set(message);
-    setTimeout(() => this.toastMessage.set(''), 3000);
-  }
-
   protected openPanel(mode: 'create' | 'edit', entityType: EntityType, data?: WrcfEntity): void {
-    this.panelError.set('');
     this.panel.set({
       open: true,
       mode,
@@ -313,7 +304,6 @@ export class IndustryWrcfComponent implements OnInit {
   }
 
   protected closePanel(): void {
-    this.panelError.set('');
     this.panel.set({ ...this.panel(), open: false });
   }
 
@@ -336,20 +326,33 @@ export class IndustryWrcfComponent implements OnInit {
         ? this.apiService.checkPWODeletable(data.id)
         : this.apiService.checkSWODeletable(data.id);
 
+    const labels: Record<EntityType, string> = { FG: 'Functional Group', PWO: 'Primary Work Object', SWO: 'Secondary Work Object' };
+
     checkCall.subscribe({
       next: ({ canDelete, reason }) => {
         if (!canDelete) {
-          this.panelError.set(reason ?? 'Delete is not allowed.');
+          this.toaster.showError(reason ?? 'Delete is not allowed.');
         } else {
-          this.panelRef?.showDeleteConfirmation();
+          this.confirmation.open({
+            title: `Delete ${labels[entityType]}?`,
+            message: 'This action cannot be undone.',
+            icon: { show: true, name: 'lucideIcons:trash-2', color: 'error' },
+            actions: {
+              confirm: { show: true, label: 'Delete', color: 'error' },
+              cancel: { show: true, label: 'Cancel' }
+            }
+          }).afterClosed().subscribe(result => {
+            if (result === 'confirmed') this.performDelete(data.id);
+          });
         }
       },
-      error: () => this.panelError.set('Failed to check delete eligibility.')
+      error: () => this.toaster.showError('Failed to check delete eligibility.')
     });
   }
 
-  protected onPanelDelete(id: string): void {
+  private performDelete(id: string): void {
     const { entityType } = this.panel();
+    const labels: Record<EntityType, string> = { FG: 'Functional Group', PWO: 'Primary Work Object', SWO: 'Secondary Work Object' };
 
     if (entityType === 'FG') {
       this.apiService.deleteFG(id).subscribe({
@@ -363,13 +366,11 @@ export class IndustryWrcfComponent implements OnInit {
                 this.swoList.set([]);
               }
               this.closePanel();
+              this.toaster.showSuccess(`${labels[entityType]} deleted successfully.`);
             }
           });
         },
-        error: (err: HttpErrorResponse) => {
-          const msg = err.error?.error?.message ?? 'Delete failed.';
-          this.panelError.set(msg);
-        }
+        error: (err: HttpErrorResponse) => this.toaster.showError(err.error?.error?.message ?? 'Delete failed.')
       });
     } else if (entityType === 'PWO') {
       this.apiService.deletePWO(id).subscribe({
@@ -382,13 +383,11 @@ export class IndustryWrcfComponent implements OnInit {
                 this.swoList.set([]);
               }
               this.closePanel();
+              this.toaster.showSuccess(`${labels[entityType]} deleted successfully.`);
             }
           });
         },
-        error: (err: HttpErrorResponse) => {
-          const msg = err.error?.error?.message ?? 'Delete failed.';
-          this.panelError.set(msg);
-        }
+        error: (err: HttpErrorResponse) => this.toaster.showError(err.error?.error?.message ?? 'Delete failed.')
       });
     } else {
       this.apiService.deleteSWO(id).subscribe({
@@ -398,13 +397,11 @@ export class IndustryWrcfComponent implements OnInit {
               this.swoList.set(swos);
               if (this.selectedSWO()?.id === id) this.selectedSWO.set(null);
               this.closePanel();
+              this.toaster.showSuccess(`${labels[entityType]} deleted successfully.`);
             }
           });
         },
-        error: (err: HttpErrorResponse) => {
-          const msg = err.error?.error?.message ?? 'Delete failed.';
-          this.panelError.set(msg);
-        }
+        error: (err: HttpErrorResponse) => this.toaster.showError(err.error?.error?.message ?? 'Delete failed.')
       });
     }
   }
@@ -420,10 +417,10 @@ export class IndustryWrcfComponent implements OnInit {
       }).subscribe({
         next: () => {
           this.apiService.listFGs(this.selectedIndustryId()).subscribe({
-            next: fgs => { this.fgList.set(fgs); this.closePanel(); }
+            next: fgs => { this.fgList.set(fgs); this.closePanel(); this.toaster.showSuccess('Functional Group created successfully.'); }
           });
         },
-        error: (err: HttpErrorResponse) => this.showError(err.error?.error?.message ?? 'Failed to create Functional Group.')
+        error: (err: HttpErrorResponse) => this.toaster.showError(err.error?.error?.message ?? 'Failed to create Functional Group.')
       });
     } else if (entityType === 'PWO') {
       const pwo = payload as Partial<PrimaryWorkObject>;
@@ -437,10 +434,10 @@ export class IndustryWrcfComponent implements OnInit {
       }).subscribe({
         next: () => {
           this.apiService.listPWOs(this.selectedFG()!.id).subscribe({
-            next: pwos => { this.pwoList.set(pwos); this.closePanel(); }
+            next: pwos => { this.pwoList.set(pwos); this.closePanel(); this.toaster.showSuccess('Primary Work Object created successfully.'); }
           });
         },
-        error: () => this.showError('Failed to create Primary Work Object.')
+        error: () => this.toaster.showError('Failed to create Primary Work Object.')
       });
     } else {
       const swo = payload as Partial<SecondaryWorkObject>;
@@ -454,10 +451,10 @@ export class IndustryWrcfComponent implements OnInit {
       }).subscribe({
         next: () => {
           this.apiService.listSWOs(this.selectedPWO()!.id).subscribe({
-            next: swos => { this.swoList.set(swos); this.closePanel(); }
+            next: swos => { this.swoList.set(swos); this.closePanel(); this.toaster.showSuccess('Secondary Work Object created successfully.'); }
           });
         },
-        error: () => this.showError('Failed to create Secondary Work Object.')
+        error: () => this.toaster.showError('Failed to create Secondary Work Object.')
       });
     }
   }
@@ -470,10 +467,10 @@ export class IndustryWrcfComponent implements OnInit {
       this.apiService.updateFG(id, { name: fg.name, description: fg.description, domainType: fg.domainType }).subscribe({
         next: () => {
           this.apiService.listFGs(this.selectedIndustryId()).subscribe({
-            next: fgs => { this.fgList.set(fgs); this.closePanel(); }
+            next: fgs => { this.fgList.set(fgs); this.closePanel(); this.toaster.showSuccess('Functional Group updated successfully.'); }
           });
         },
-        error: (err: HttpErrorResponse) => this.showError(err.error?.error?.message ?? 'Failed to update Functional Group.')
+        error: (err: HttpErrorResponse) => this.toaster.showError(err.error?.error?.message ?? 'Failed to update Functional Group.')
       });
     } else if (entityType === 'PWO') {
       const pwo = payload as Partial<PrimaryWorkObject>;
@@ -486,10 +483,10 @@ export class IndustryWrcfComponent implements OnInit {
       }).subscribe({
         next: () => {
           this.apiService.listPWOs(this.selectedFG()!.id).subscribe({
-            next: pwos => { this.pwoList.set(pwos); this.closePanel(); }
+            next: pwos => { this.pwoList.set(pwos); this.closePanel(); this.toaster.showSuccess('Primary Work Object updated successfully.'); }
           });
         },
-        error: () => this.showError('Failed to update Primary Work Object.')
+        error: () => this.toaster.showError('Failed to update Primary Work Object.')
       });
     } else {
       const swo = payload as Partial<SecondaryWorkObject>;
@@ -502,10 +499,10 @@ export class IndustryWrcfComponent implements OnInit {
       }).subscribe({
         next: () => {
           this.apiService.listSWOs(this.selectedPWO()!.id).subscribe({
-            next: swos => { this.swoList.set(swos); this.closePanel(); }
+            next: swos => { this.swoList.set(swos); this.closePanel(); this.toaster.showSuccess('Secondary Work Object updated successfully.'); }
           });
         },
-        error: () => this.showError('Failed to update Secondary Work Object.')
+        error: () => this.toaster.showError('Failed to update Secondary Work Object.')
       });
     }
   }
@@ -519,11 +516,6 @@ export class IndustryWrcfComponent implements OnInit {
     this.swoList.set([]);
     this.existingCIs.set([]);
     this.dashboardStats.set(null);
-  }
-
-  private showError(message: string): void {
-    this.errorMessage.set(message);
-    setTimeout(() => this.errorMessage.set(''), 4000);
   }
 
   private loadIndustriesForSector(sectorId: string, preferredIndustryId?: string | null): void {

@@ -20,15 +20,12 @@ const DOMAIN_TYPE_OPTIONS: DomainType[] = (['Operations', 'Maintenance', 'Qualit
 })
 export class WrcfPanelComponent implements OnChanges {
   @Input() state!: PanelState;
-  @Input() panelError = '';
   @Output() save = new EventEmitter<Partial<FunctionalGroup | PrimaryWorkObject | SecondaryWorkObject>>();
   @Output() deleteRequested = new EventEmitter<void>();
-  @Output() delete = new EventEmitter<string>();
   @Output() close = new EventEmitter<void>();
 
   protected formName = '';
   protected formDescription = '';
-  protected confirmingDelete = false;
 
   // FG fields
   protected formDomainType: DomainType = DOMAIN_TYPE_OPTIONS[0];
@@ -100,21 +97,6 @@ export class WrcfPanelComponent implements OnChanges {
     this.deleteRequested.emit();
   }
 
-  public showDeleteConfirmation(): void {
-    this.confirmingDelete = true;
-  }
-
-  protected onConfirmDelete(): void {
-    if (this.state.data) {
-      this.delete.emit(this.state.data.id);
-    }
-    this.confirmingDelete = false;
-  }
-
-  protected onCancelDelete(): void {
-    this.confirmingDelete = false;
-  }
-
   private populateForm(): void {
     if (this.state.mode === 'edit' && this.state.data) {
       const d = this.state.data;
@@ -139,7 +121,6 @@ export class WrcfPanelComponent implements OnChanges {
       this.formName = '';
       this.formDescription = '';
       this.formDomainType = DOMAIN_TYPE_OPTIONS[0];
-      this.confirmingDelete = false;
       this.formStrategicImportance = 3;
       this.formRevenueImpact = CRITICALITY_LEVELS[1];
       this.formDowntimeSensitivity = CRITICALITY_LEVELS[1];

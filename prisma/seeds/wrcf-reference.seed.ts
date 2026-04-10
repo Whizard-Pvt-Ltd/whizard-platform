@@ -5,9 +5,17 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function seedWrcfReference(): Promise<void> {
-  // Truncate all WRCF tables in reverse-dependency order and reset sequences
-  // NOTE: TRUNCATE ... CASCADE on `industries` also cascades to `tenants` (via tenants.industry_id).
-  // The system tenant (id=0) is therefore re-created in wrcf-roles.seed.ts, which runs after this.
+  // Skip if reference data already exists to prevent wiping tenant/user data
+  // on every deployment. Use FORCE_SEED=true env var to re-seed intentionally.
+  const existing = await prisma.industrySector.count();
+  if (existing > 0 && process.env['FORCE_SEED'] !== 'true') {
+    console.log(`WRCF reference data already present (${existing} sectors). Skipping seed.`);
+    return;
+  }
+
+  // Truncate only pure WRCF reference tables — do NOT include industries
+  // at the top level with CASCADE as that would cascade to tenants and
+  // wipe all user-tenant accounts. Instead, truncate leaf-to-root explicitly.
   await prisma.$executeRawUnsafe(`
     TRUNCATE TABLE
       tasks,

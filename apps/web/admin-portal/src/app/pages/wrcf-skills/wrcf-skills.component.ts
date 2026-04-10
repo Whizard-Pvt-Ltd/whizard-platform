@@ -1,7 +1,7 @@
-import { Component, inject, signal, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, ActivatedRoute } from '@angular/router';
-import { ScrollbarDirective } from '@whizard/shared-ui';
+import { ConfirmationService, ScrollbarDirective, ToasterService } from '@whizard/shared-ui';
 import type { FunctionalGroup, PrimaryWorkObject, SecondaryWorkObject, Capability, ProficiencyLevel, WrcfEntity, CapabilityInstance } from '../industry-wrcf/models/wrcf.models';
 import type { SkillItem, TaskItem, ControlPointItem, SkillsPanelState } from './models/wrcf-skills.models';
 import { WrcfColumnComponent } from '../industry-wrcf/components/wrcf-column/wrcf-column.component';
@@ -18,11 +18,11 @@ import { WrcfSkillsApiService } from './services/wrcf-skills-api.service';
   styleUrl: './wrcf-skills.component.css'
 })
 export class WrcfSkillsComponent implements OnInit {
-  @ViewChild('panelRef') private panelRef?: SkillsPanelComponent;
-
   private readonly route = inject(ActivatedRoute);
   private readonly wrcfApi = inject(WrcfApiService);
   private readonly skillsApi = inject(WrcfSkillsApiService);
+  private readonly toaster = inject(ToasterService);
+  private readonly confirmation = inject(ConfirmationService);
   private industryId = '';
   private pendingSelection: {
     fgId: string;
@@ -58,9 +58,6 @@ export class WrcfSkillsComponent implements OnInit {
   protected controlPoints = signal<ControlPointItem[]>([]);
 
   protected panel = signal<SkillsPanelState>({ open: false, mode: 'create', entity: 'Skill' });
-  protected errorMessage = signal('');
-  protected panelError = signal('');
-  protected toastMessage = signal('');
   protected noIndustry = signal(false);
 
   protected get availableCapabilities(): Capability[] {
@@ -390,34 +387,86 @@ export class WrcfSkillsComponent implements OnInit {
   }
 
   protected closePanel(): void {
-    this.panelError.set('');
     this.panel.set({ ...this.panel(), open: false });
   }
 
   protected onPanelDeleteRequested(): void {
     const { entity, data } = this.panel();
+    const labels: Record<string, string> = { Skill: 'Skill', Task: 'Task', ControlPoint: 'Control Point' };
+
     if (entity === 'Skill') {
       if (this.tasks().length > 0) {
-        this.panelError.set('Cannot delete Skill with existing Task available.');
+        this.toaster.showError('Cannot delete Skill with existing Tasks. Delete all Tasks first.');
       } else {
-        this.panelError.set('');
-        this.panelRef?.showDeleteConfirmation();
+        this.openDeleteConfirmation(entity, data?.id);
       }
     } else if (entity === 'Task' && data) {
       this.skillsApi.checkTaskDeletable(data.id).subscribe({
         next: ({ canDelete, reason }) => {
           if (!canDelete) {
-            this.panelError.set(reason ?? 'Cannot delete Task with existing Control Point available.');
+            this.toaster.showError(reason ?? 'Cannot delete Task with existing Control Points. Delete all Control Points first.');
           } else {
-            this.panelError.set('');
-            this.panelRef?.showDeleteConfirmation();
+            this.openDeleteConfirmation(entity, data.id);
           }
         },
-        error: () => this.panelError.set('Failed to check delete eligibility.')
+        error: () => this.toaster.showError('Failed to check delete eligibility.')
       });
     } else {
-      this.panelError.set('');
-      this.panelRef?.showDeleteConfirmation();
+      this.openDeleteConfirmation(entity, data?.id);
+    }
+  }
+
+  private openDeleteConfirmation(entity: string, id?: string): void {
+    if (!id) return;
+    const labels: Record<string, string> = { Skill: 'Skill', Task: 'Task', ControlPoint: 'Control Point' };
+    this.confirmation.open({
+      title: `Delete ${labels[entity]}?`,
+      message: 'This action cannot be undone.',
+      icon: { show: true, name: 'lucideIcons:trash-2', color: 'error' },
+      actions: {
+        confirm: { show: true, label: 'Delete', color: 'error' },
+        cancel: { show: true, label: 'Cancel' }
+      }
+    }).afterClosed().subscribe(result => {
+      if (result === 'confirmed') this.performEntityDelete(entity, id);
+    });
+  }
+
+  private performEntityDelete(entity: string, id: string): void {
+    const labels: Record<string, string> = { Skill: 'Skill', Task: 'Task', ControlPoint: 'Control Point' };
+    const ciId = this.resolvedCiId();
+
+    if (entity === 'Skill') {
+      this.skillsApi.deleteSkill(id).subscribe({
+        next: () => {
+          if (ciId) this.loadSkills(ciId);
+          this.closePanel();
+          this.toaster.showSuccess(`${labels[entity]} deleted successfully.`);
+        },
+        error: () => this.toaster.showError('Failed to delete skill.')
+      });
+    } else if (entity === 'Task') {
+      const skill = this.selectedSkill();
+      this.skillsApi.deleteTask(id).subscribe({
+        next: () => {
+          if (skill) this.skillsApi.listTasks(skill.id).subscribe({ next: tasks => this.tasks.set(tasks) });
+          this.selectedTask.set(null);
+          this.controlPoints.set([]);
+          this.closePanel();
+          this.toaster.showSuccess(`${labels[entity]} deleted successfully.`);
+        },
+        error: () => this.toaster.showError('Failed to delete task.')
+      });
+    } else {
+      const task = this.selectedTask();
+      this.skillsApi.deleteControlPoint(id).subscribe({
+        next: () => {
+          if (task) this.skillsApi.listControlPoints(task.id).subscribe({ next: cps => this.controlPoints.set(cps) });
+          this.closePanel();
+          this.toaster.showSuccess(`${labels[entity]} deleted successfully.`);
+        },
+        error: () => this.toaster.showError('Failed to delete control point.')
+      });
     }
   }
 
@@ -429,14 +478,14 @@ export class WrcfSkillsComponent implements OnInit {
       if (!ciId) return;
       if (mode === 'create') {
         this.skillsApi.createSkill({ ...(payload as Omit<SkillItem, 'id'>), capabilityInstanceId: ciId }).subscribe({
-          next: () => { this.loadSkills(ciId); this.closePanel(); },
-          error: () => this.showError('Failed to create skill.')
+          next: () => { this.loadSkills(ciId); this.closePanel(); this.toaster.showSuccess('Skill created successfully.'); },
+          error: () => this.toaster.showError('Failed to create skill.')
         });
       } else {
         const id = (payload as { id?: string }).id!;
         this.skillsApi.updateSkill(id, payload as Partial<Omit<SkillItem, 'id' | 'capabilityInstanceId'>>).subscribe({
-          next: () => { this.loadSkills(ciId); this.closePanel(); },
-          error: () => this.showError('Failed to update skill.')
+          next: () => { this.loadSkills(ciId); this.closePanel(); this.toaster.showSuccess('Skill updated successfully.'); },
+          error: () => this.toaster.showError('Failed to update skill.')
         });
       }
     } else if (entity === 'Task') {
@@ -447,8 +496,9 @@ export class WrcfSkillsComponent implements OnInit {
           next: () => {
             this.skillsApi.listTasks(skill.id).subscribe({ next: tasks => this.tasks.set(tasks) });
             this.closePanel();
+            this.toaster.showSuccess('Task created successfully.');
           },
-          error: () => this.showError('Failed to create task.')
+          error: () => this.toaster.showError('Failed to create task.')
         });
       } else {
         const id = (payload as { id?: string }).id!;
@@ -456,8 +506,9 @@ export class WrcfSkillsComponent implements OnInit {
           next: () => {
             this.skillsApi.listTasks(skill.id).subscribe({ next: tasks => this.tasks.set(tasks) });
             this.closePanel();
+            this.toaster.showSuccess('Task updated successfully.');
           },
-          error: () => this.showError('Failed to update task.')
+          error: () => this.toaster.showError('Failed to update task.')
         });
       }
     } else {
@@ -468,8 +519,9 @@ export class WrcfSkillsComponent implements OnInit {
           next: () => {
             this.skillsApi.listControlPoints(task.id).subscribe({ next: cps => this.controlPoints.set(cps) });
             this.closePanel();
+            this.toaster.showSuccess('Control Point created successfully.');
           },
-          error: () => this.showError('Failed to create control point.')
+          error: () => this.toaster.showError('Failed to create control point.')
         });
       } else {
         const id = (payload as { id?: string }).id!;
@@ -477,51 +529,12 @@ export class WrcfSkillsComponent implements OnInit {
           next: () => {
             this.skillsApi.listControlPoints(task.id).subscribe({ next: cps => this.controlPoints.set(cps) });
             this.closePanel();
+            this.toaster.showSuccess('Control Point updated successfully.');
           },
-          error: () => this.showError('Failed to update control point.')
+          error: () => this.toaster.showError('Failed to update control point.')
         });
       }
     }
-  }
-
-  protected onPanelDelete(id: string): void {
-    const { entity } = this.panel();
-    const ciId = this.resolvedCiId();
-
-    if (entity === 'Skill') {
-      this.skillsApi.deleteSkill(id).subscribe({
-        next: () => {
-          if (ciId) this.loadSkills(ciId);
-          this.closePanel();
-        },
-        error: () => this.showError('Failed to delete skill.')
-      });
-    } else if (entity === 'Task') {
-      const skill = this.selectedSkill();
-      this.skillsApi.deleteTask(id).subscribe({
-        next: () => {
-          if (skill) this.skillsApi.listTasks(skill.id).subscribe({ next: tasks => this.tasks.set(tasks) });
-          this.selectedTask.set(null);
-          this.controlPoints.set([]);
-          this.closePanel();
-        },
-        error: () => this.showError('Failed to delete task.')
-      });
-    } else {
-      const task = this.selectedTask();
-      this.skillsApi.deleteControlPoint(id).subscribe({
-        next: () => {
-          if (task) this.skillsApi.listControlPoints(task.id).subscribe({ next: cps => this.controlPoints.set(cps) });
-          this.closePanel();
-        },
-        error: () => this.showError('Failed to delete control point.')
-      });
-    }
-  }
-
-  private showError(msg: string): void {
-    this.errorMessage.set(msg);
-    setTimeout(() => this.errorMessage.set(''), 4000);
   }
 
   protected get skillsAsEntities(): WrcfEntity[] {
