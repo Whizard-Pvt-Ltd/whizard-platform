@@ -21,6 +21,7 @@ import {
 import { filter, map } from 'rxjs';
 import { ScrollbarDirective } from '../directives/scrollbar/scrollbar.directive';
 import { LAYOUT_AUTH_SERVICE, LAYOUT_TENANT_SERVICE } from './auth.token';
+import { AdminFooterComponent } from './footer.component';
 import { PageActionsService } from './page-actions.service';
 import { SchemeSwitcherComponent } from './scheme-switcher.component';
 import { AdminSidebarComponent } from './sidebar.component';
@@ -41,6 +42,7 @@ import { AdminSidebarComponent } from './sidebar.component';
     MatSidenav,
     MatSidenavContent,
     AdminSidebarComponent,
+    AdminFooterComponent,
     // SchemeSwitcherComponent,
     // NotificationsComponent,
     MatButtonModule,
@@ -160,6 +162,9 @@ import { AdminSidebarComponent } from './sidebar.component';
         <div class="flex-1 min-h-0 flex flex-col overflow-y-auto">
           <router-outlet />
         </div>
+
+        <!-- Footer -->
+        <whizard-admin-footer />
       </mat-sidenav-content>
     </mat-sidenav-container>
 

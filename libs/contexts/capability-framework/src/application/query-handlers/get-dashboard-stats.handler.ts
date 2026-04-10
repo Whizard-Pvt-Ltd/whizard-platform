@@ -6,10 +6,10 @@ const logger = getOrCreateAppLogger({ service: 'capability-framework' }).child({
 export class GetDashboardStatsQueryHandler {
   constructor(private readonly repo: IWrcfDashboardRepository) {}
 
-  async execute(tenantId: string, industryId: string, actorUserId?: string): Promise<WrcfDashboardStatsDto> {
-    logger.debug('Getting dashboard stats', { userId: actorUserId, tenantId, industryId });
-    const stats = await this.repo.getDashboardStats(tenantId, industryId);
-    logger.debug('Got dashboard stats', { userId: actorUserId, tenantId, industryId });
+  async execute(industryId: string, tenantIds: string[], actorUserId?: string): Promise<WrcfDashboardStatsDto> {
+    logger.debug('Getting dashboard stats', { userId: actorUserId, tenantIds, industryId });
+    const stats = await this.repo.getDashboardStats(tenantIds, industryId);
+    logger.debug('Got dashboard stats', { userId: actorUserId, tenantIds, industryId });
     return stats;
   }
 }

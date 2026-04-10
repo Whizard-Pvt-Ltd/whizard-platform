@@ -1,9 +1,9 @@
 .panel {
   position: fixed;
-  top: 0;
+  top: 64px;
   right: 0;
   width: 560px;
-  height: 100dvh;
+  height: calc(100dvh - 64px - 48px);
   background: #1E293B;
   border-left: 1px solid #484E5D;
   display: flex;
@@ -109,6 +109,17 @@
 .field-select:focus {
   outline: none;
   border-color: #00BFFF;
+}
+
+.field-input--readonly {
+  color: #7F94AE;
+  cursor: default;
+  border-color: transparent;
+  background: transparent;
+}
+
+.field-input--readonly:focus {
+  border-color: transparent;
 }
 
 .field-textarea {

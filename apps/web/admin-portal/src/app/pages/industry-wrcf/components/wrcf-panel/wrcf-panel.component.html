@@ -50,10 +50,12 @@
       <label class="field-label">Name <span class="required">*</span></label>
       <input
         class="field-input"
+        [class.field-input--readonly]="state.mode === 'edit'"
         type="text"
         placeholder="Enter Name..."
         [(ngModel)]="formName"
         maxlength="50"
+        [readonly]="state.mode === 'edit'"
       />
     </div>
 

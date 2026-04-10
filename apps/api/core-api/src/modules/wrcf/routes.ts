@@ -65,7 +65,7 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
       const { industryId } = (request.params as { industryId: string });
       const ctx = getRequestContext(request);
       logger.debug('Getting dashboard stats', { ...getLogContext(request), industryId });
-      const data = await deps.getDashboardStats.execute(ctx.tenantId, industryId, ctx.actorUserAccountId);
+      const data = await deps.getDashboardStats.execute(industryId, ctx.tenantIds, ctx.actorUserAccountId);
       logger.debug('Got dashboard stats', { ...getLogContext(request), industryId });
       reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
     }

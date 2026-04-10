@@ -15,7 +15,7 @@ import {
   SecondaryWorkObject, Capability, ProficiencyLevel,
   EntityType, PanelState, WrcfEntity, CIPendingEntry, CapabilityInstance
 } from './models/wrcf.models';
-import { WrcfApiService } from './services/wrcf-api.service';
+import { WrcfApiService, type WrcfDashboardStats } from './services/wrcf-api.service';
 
 @Component({
   selector: 'whizard-industry-wrcf',
@@ -60,6 +60,7 @@ export class IndustryWrcfComponent implements OnInit {
   protected existingCIs = signal<CapabilityInstance[]>([]);
   protected toastMessage = signal<string>('');
   protected mappingDialogOpen = signal<boolean>(false);
+  protected dashboardStats = signal<WrcfDashboardStats | null>(null);
 
   protected get checkedProficiencyIds(): string[] {
     const swoId = this.selectedSWO()?.id;
@@ -137,6 +138,10 @@ export class IndustryWrcfComponent implements OnInit {
     this.selectedIndustryId.set(industryId);
     this.industryControl.setValue(industryId, { emitEvent: false });
     this.resetFromIndustry();
+    this.apiService.getDashboardStats(industryId).subscribe({
+      next: stats => this.dashboardStats.set(stats),
+      error: () => this.dashboardStats.set(null)
+    });
     this.apiService.listFGs(industryId).subscribe({
       next: fgs => {
         this.fgList.set(fgs);
@@ -513,6 +518,7 @@ export class IndustryWrcfComponent implements OnInit {
     this.pwoList.set([]);
     this.swoList.set([]);
     this.existingCIs.set([]);
+    this.dashboardStats.set(null);
   }
 
   private showError(message: string): void {

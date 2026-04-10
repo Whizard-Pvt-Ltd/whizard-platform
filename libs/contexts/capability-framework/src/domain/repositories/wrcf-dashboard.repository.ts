@@ -10,5 +10,5 @@ export interface WrcfDashboardStatsDto {
 }
 
 export interface IWrcfDashboardRepository {
-  getDashboardStats(tenantId: string, industryId: string): Promise<WrcfDashboardStatsDto>;
+  getDashboardStats(tenantIds: string[], industryId: string): Promise<WrcfDashboardStatsDto>;
 }

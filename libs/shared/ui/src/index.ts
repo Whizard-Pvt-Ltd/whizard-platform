@@ -36,6 +36,7 @@ export type { SignedUrlProvider } from './signed-url/signed-url.token.js';
 
 // Layout
 export { AdminLayoutComponent } from './layout/layout.component.js';
+export { AdminFooterComponent } from './layout/footer.component.js';
 export { PageActionsService } from './layout/page-actions.service.js';
 export type { PageAction } from './layout/page-actions.service.js';
 export { AdminSidebarComponent } from './layout/sidebar.component.js';

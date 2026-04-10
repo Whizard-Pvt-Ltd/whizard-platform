@@ -13,6 +13,17 @@ interface ApiEnvelope<T> {
   data: T;
 }
 
+export interface WrcfDashboardStats {
+  functionalGroups: number;
+  primaryWorkObjects: number;
+  secondaryWorkObjects: number;
+  capabilityInstances: number;
+  skills: number;
+  tasks: number;
+  departments: number;
+  roles: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class WrcfApiService {
   private readonly http = inject(HttpClient);
@@ -24,6 +35,10 @@ export class WrcfApiService {
 
   listIndustries(sectorId: string): Observable<Industry[]> {
     return this.http.get<ApiEnvelope<Industry[]>>(`${this.base}/sectors/${sectorId}/industries`).pipe(map(r => r.data));
+  }
+
+  getDashboardStats(industryId: string): Observable<WrcfDashboardStats> {
+    return this.http.get<ApiEnvelope<WrcfDashboardStats>>(`${this.base}/industries/${industryId}/dashboard-stats`).pipe(map(r => r.data));
   }
 
   listFGs(industryId: string): Observable<FunctionalGroup[]> {
