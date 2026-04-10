@@ -68,19 +68,6 @@ RUN cp -r /app/prisma /prod/core-api/
 WORKDIR /prod/core-api
 RUN npx prisma@6.19.2 generate
 
-# Compile seed to JS so it can run in the production image without tsx/ts-node
-# Runs from /app where the full workspace node_modules (including tsc) is available
-RUN cd /app && node_modules/.bin/tsc \
-    --module commonjs \
-    --moduleResolution node \
-    --esModuleInterop true \
-    --skipLibCheck true \
-    --target es2020 \
-    --outDir /prod/core-api/prisma/seeds \
-    prisma/seeds/wrcf-reference.seed.ts && \
-    mv /prod/core-api/prisma/seeds/wrcf-reference.seed.js \
-       /prod/core-api/prisma/seeds/wrcf-reference.seed.cjs
-
 # Copy bundled output to deploy directory (from app-specific dist folder)
 RUN cp -r /app/apps/api/core-api/dist /prod/core-api/
 
