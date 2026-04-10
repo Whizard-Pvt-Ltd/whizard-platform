@@ -20,6 +20,7 @@
     "@whizard/shared-infrastructure": "workspace:*",
     "@whizard/shared-logging": "workspace:*",
     "@whizard/shared-kernel": "workspace:*",
+    "@whizard/shared-resource-upload":  "workspace:*",
     "bcrypt": "^5.1.1",
     "fastify": "^5.3.0",
     "fastify-plugin": "^5.1.0",
