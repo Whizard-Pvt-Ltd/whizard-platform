@@ -1,0 +1,53 @@
+<div class="whizard-confirmation">
+  <div class="whizard-confirmation__header">
+    @if (data.icon?.show && data.icon?.name) {
+      <div
+        class="whizard-confirmation__icon"
+        [attr.data-color]="data.icon?.color ?? 'info'">
+        <mat-icon [svgIcon]="data.icon!.name!" />
+      </div>
+    }
+
+    @if (data.title) {
+      <h2 class="whizard-confirmation__title" [innerHTML]="data.title"></h2>
+    }
+
+    @if (data.dismissible) {
+      <button
+        type="button"
+        class="whizard-confirmation__close"
+        [matDialogClose]="undefined"
+        aria-label="Close dialog">
+        <mat-icon svgIcon="lucideIcons:x" />
+      </button>
+    }
+  </div>
+
+  @if (data.message) {
+    <div class="whizard-confirmation__body">
+      <p class="whizard-confirmation__message" [innerHTML]="data.message"></p>
+    </div>
+  }
+
+  @if (data.actions?.confirm?.show || data.actions?.cancel?.show) {
+    <div class="whizard-confirmation__actions">
+      @if (data.actions?.cancel?.show) {
+        <button
+          type="button"
+          class="whizard-confirmation__btn whizard-confirmation__btn--cancel"
+          [matDialogClose]="'cancelled'">
+          {{ data.actions?.cancel?.label }}
+        </button>
+      }
+      @if (data.actions?.confirm?.show) {
+        <button
+          type="button"
+          class="whizard-confirmation__btn whizard-confirmation__btn--confirm"
+          [attr.data-color]="data.actions?.confirm?.color ?? 'info'"
+          [matDialogClose]="'confirmed'">
+          {{ data.actions?.confirm?.label }}
+        </button>
+      }
+    </div>
+  }
+</div>

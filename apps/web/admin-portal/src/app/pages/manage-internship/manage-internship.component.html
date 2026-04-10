@@ -25,21 +25,6 @@
     </div>
   }
 
-  <!-- Company selector — visible to ADMIN and SYSTEM users -->
-  @if (isAdminOrSystemUser()) {
-    <div class="shrink-0 flex items-center gap-3 px-6 h-[48px] border-b border-wrcf-border bg-wrcf-bg-primary">
-      <span class="text-[13px] text-wrcf-text-secondary shrink-0">Company</span>
-      <select
-        class="max-w-[280px] h-[36px] px-3 rounded-[10px] bg-wrcf-bg-secondary border border-wrcf-border text-[13px] text-wrcf-text-primary focus:outline-none"
-        (change)="onCompanySelected($any($event.target).value)"
-      >
-        @for (co of companies(); track co.id) {
-          <option [value]="co.tenantId">{{ co.name }}</option>
-        }
-      </select>
-    </div>
-  }
-
   <!-- Main workspace -->
   @if (mode() === 'list') {
     <div class="flex-1 flex overflow-hidden">

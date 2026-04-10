@@ -8,7 +8,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { ActivatedRouteSnapshot, DetachedRouteHandle, RouteReuseStrategy, provideRouter, withRouterConfig } from '@angular/router';
 import { provideIcons } from '@whizard/icons';
-import { LAYOUT_AUTH_SERVICE, NAVIGATION_ITEMS, SIGNED_URL_PROVIDER,LAYOUT_TENANT_SERVICE } from '@whizard/shared-ui';
+import { LAYOUT_AUTH_SERVICE, NAVIGATION_ITEMS, SIGNED_URL_PROVIDER,LAYOUT_TENANT_SERVICE, loadingInterceptor } from '@whizard/shared-ui';
 import { provideTheming } from '@whizard/theme';
 import { routes } from './app.routes';
 import { ADMIN_NAVIGATION } from './core/data/navigation';
@@ -39,7 +39,7 @@ export const appConfig: ApplicationConfig = {
     }),
 
     provideRouter(routes, withRouterConfig({ onSameUrlNavigation: 'reload' })),
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(withInterceptors([authInterceptor, loadingInterceptor])),
 
     {
       provide: APP_INITIALIZER,
