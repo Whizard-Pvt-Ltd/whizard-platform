@@ -1,9 +1,11 @@
 import { TitleCasePipe } from '@angular/common';
 import { Component, input, signal, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { PdfViewerComponent, VideoPlayerComponent, ImageLightboxComponent, ScrollbarDirective } from '@whizard/shared-ui';
+import type { PdfViewerDialogData, ImageLightboxDialogData } from '@whizard/shared-ui';
 import type {
   CompanyDetail, Club, UserContact, CompanyMediaItem, CompanyClubItem,
 } from '../../models/manage-company.models';
@@ -11,7 +13,7 @@ import type {
 @Component({
   selector: 'whizard-company-detail-panel',
   standalone: true,
-  imports: [TitleCasePipe, MatButtonModule, MatIconModule, PdfViewerComponent, VideoPlayerComponent, ImageLightboxComponent, ScrollbarDirective],
+  imports: [TitleCasePipe, MatButtonModule, MatIconModule, VideoPlayerComponent, ScrollbarDirective],
   templateUrl: './company-detail-panel.component.html',
   styleUrl: './company-detail-panel.component.css',
   // host: { class: 'flex-1 min-h-0 flex flex-col' },
@@ -22,14 +24,11 @@ export class CompanyDetailPanelComponent {
   readonly users = input<UserContact[]>([]);
 
   private readonly sanitizer = inject(DomSanitizer);
+  private readonly dialog = inject(MatDialog);
 
   protected descriptionExpanded = signal(false);
-  protected activePdfUrl = signal<string | null>(null);
-  protected activePdfName = signal<string>('Document');
   protected activeVideoUrl = signal<string | null>(null);
   protected activeVideoTitle = signal<string>('Video');
-  protected activeImageUrl = signal<string | null>(null);
-  protected activeImageAlt = signal<string>('');
 
   private static readonly MOCK_IMAGES = [
     'assets/images/Screenshot-2026-04-01-at-9.47.42-AM.png',
@@ -128,10 +127,14 @@ export class CompanyDetailPanelComponent {
   }
 
   protected openPdf(url: string, name: string): void {
-    this.activePdfUrl.set(url);
-    this.activePdfName.set(name);
+    this.dialog.open<PdfViewerComponent, PdfViewerDialogData>(PdfViewerComponent, {
+      data: { url, fileName: name },
+      width: '900px',
+      height: '80vh',
+      panelClass: 'whizard-pdf-dialog',
+      backdropClass: 'whizard-dialog-backdrop',
+    });
   }
-  protected closePdf(): void { this.activePdfUrl.set(null); }
 
   protected openVideo(url: string, title: string): void {
     this.activeVideoUrl.set(url);
@@ -140,10 +143,11 @@ export class CompanyDetailPanelComponent {
   protected closeVideo(): void { this.activeVideoUrl.set(null); }
 
   protected openImage(url: string, alt: string): void {
-    this.activeImageUrl.set(url);
-    this.activeImageAlt.set(alt);
+    this.dialog.open<ImageLightboxComponent, ImageLightboxDialogData>(ImageLightboxComponent, {
+      data: { url, alt },
+      panelClass: 'whizard-image-dialog',
+    });
   }
-  protected closeImage(): void { this.activeImageUrl.set(null); }
 
   protected toggleDescription(): void {
     this.descriptionExpanded.update(v => !v);

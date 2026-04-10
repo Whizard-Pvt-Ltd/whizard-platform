@@ -4,21 +4,33 @@ import {
   Component,
   ViewEncapsulation,
   computed,
+  effect,
   inject,
   input,
   output,
   signal,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
-import { PdfViewerComponent, ImageLightboxComponent } from '@whizard/shared-ui';
-import type { InternshipDetail } from '../../models/manage-internship.models';
+import { PdfViewerComponent, ImageLightboxComponent, SignedUrlPipe } from '@whizard/shared-ui';
+import type { PdfViewerDialogData, ImageLightboxDialogData } from '@whizard/shared-ui';
+import type { InternshipDetail, InternshipPlanItem, InternshipPlanScheduleItem } from '../../models/manage-internship.models';
 import { STATUS_COLORS, STATUS_LABELS } from '../../models/manage-internship.models';
-import { SignedUrlPipe } from '../../pipes/signed-url.pipe';
 import { ManageInternshipApiService } from '../../services/manage-internship-api.service';
 
 interface AboutSection {
   label: string;
   value: string | null;
+}
+
+interface WeekRow {
+  weekNumber: number;
+  pwoName: string;
+  mentorName: string;
+  capabilityInstanceName: string;
+  skillNames: string;
+  tasks: Array<{ taskName: string; evidence: string }>;
 }
 
 const TABS = [
@@ -35,11 +47,12 @@ const TABS = [
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   host: { class: 'flex-1 relative' },
-  imports: [DatePipe, DecimalPipe, SlicePipe, UpperCasePipe, MatIconModule, SignedUrlPipe, PdfViewerComponent, ImageLightboxComponent],
+  imports: [DatePipe, DecimalPipe, SlicePipe, UpperCasePipe, MatIconModule, MatExpansionModule, SignedUrlPipe],
   templateUrl: './internship-detail-panel.component.html',
 })
 export class InternshipDetailPanelComponent {
   private readonly api = inject(ManageInternshipApiService);
+  private readonly dialog = inject(MatDialog);
 
   readonly internship = input<InternshipDetail | null>(null);
   readonly editClicked = output<void>();
@@ -50,11 +63,56 @@ export class InternshipDetailPanelComponent {
   protected readonly statusLabels = STATUS_LABELS;
   protected readonly statusColors = STATUS_COLORS;
 
-  // Preview overlay state
-  protected readonly activePdfUrl = signal<string | null>(null);
-  protected readonly activePdfName = signal('Document');
-  protected readonly activeImageUrl = signal<string | null>(null);
-  protected readonly activeImageAlt = signal('');
+
+  // Screening section collapse state
+  protected readonly screeningQuestionsCollapsed = signal(false);
+
+  // During Internship: plans & schedule
+  protected readonly plans = signal<InternshipPlanItem[]>([]);
+
+  protected readonly weekRows = computed<WeekRow[]>(() => {
+    const p = this.plans();
+    if (p.length === 0) return [];
+    const rows: WeekRow[] = [];
+    for (const plan of p) {
+      const weekMap = new Map<number, InternshipPlanScheduleItem[]>();
+      for (const s of plan.schedules) {
+        const arr = weekMap.get(s.weekNumber) ?? [];
+        arr.push(s);
+        weekMap.set(s.weekNumber, arr);
+      }
+      for (const [weekNumber, schedules] of weekMap) {
+        const skillNames = [...new Set(schedules.map(s => s.skillName))].join(', ');
+        rows.push({
+          weekNumber,
+          pwoName: plan.pwoName,
+          mentorName: plan.mentorName,
+          capabilityInstanceName: plan.capabilityInstanceName,
+          skillNames,
+          tasks: schedules.map(s => ({ taskName: s.taskName, evidence: s.evidence })),
+        });
+      }
+    }
+    rows.sort((a, b) => a.weekNumber - b.weekNumber);
+    return rows;
+  });
+
+  constructor() {
+    effect(() => {
+      const i = this.internship();
+      if (i) {
+        this.api.getPlans(i.id).subscribe(plans => this.plans.set(plans));
+      } else {
+        this.plans.set([]);
+      }
+    });
+  }
+
+  protected readonly midTermAfterWeek = computed(() => Math.floor(this.weekRows().length / 2));
+
+  protected readonly totalPlanWeeks = computed(() =>
+    this.plans().reduce((sum, p) => sum + (p.noOfWeeks || 0), 0),
+  );
 
   protected readonly aboutSections = computed<AboutSection[]>(() => {
     const i = this.internship();
@@ -80,15 +138,19 @@ export class InternshipDetailPanelComponent {
       const ext = key.split('.').pop()?.toLowerCase() ?? '';
       const isImage = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg'].includes(ext);
       if (isImage) {
-        this.activeImageUrl.set(url);
-        this.activeImageAlt.set(name);
+        this.dialog.open<ImageLightboxComponent, ImageLightboxDialogData>(ImageLightboxComponent, {
+          data: { url, alt: name },
+          panelClass: 'whizard-image-dialog',
+        });
       } else {
-        this.activePdfUrl.set(url);
-        this.activePdfName.set(name);
+        this.dialog.open<PdfViewerComponent, PdfViewerDialogData>(PdfViewerComponent, {
+          data: { url, fileName: name },
+          width: '900px',
+          height: '80vh',
+          panelClass: 'whizard-pdf-dialog',
+          backdropClass: 'whizard-dialog-backdrop',
+        });
       }
     });
   }
-
-  protected closePdf(): void { this.activePdfUrl.set(null); }
-  protected closeImage(): void { this.activeImageUrl.set(null); }
 }

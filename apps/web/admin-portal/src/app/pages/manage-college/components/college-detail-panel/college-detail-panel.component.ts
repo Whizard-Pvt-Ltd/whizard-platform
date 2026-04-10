@@ -1,8 +1,10 @@
 import { Component, input, output, signal, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { PdfViewerComponent, VideoPlayerComponent, ImageLightboxComponent, ScrollbarDirective } from '@whizard/shared-ui';
+import type { PdfViewerDialogData, ImageLightboxDialogData } from '@whizard/shared-ui';
 import type { CollegeDetail, Club, UserContact, CollegeMediaItem, CollegeContact } from '../../models/manage-college.models';
 
 @Component({
@@ -11,9 +13,7 @@ import type { CollegeDetail, Club, UserContact, CollegeMediaItem, CollegeContact
   imports: [
     MatButtonModule,
     MatIconModule,
-    PdfViewerComponent,
     VideoPlayerComponent,
-    ImageLightboxComponent,
     ScrollbarDirective,
   ],
   templateUrl: './college-detail-panel.component.html',
@@ -28,14 +28,11 @@ export class CollegeDetailPanelComponent {
   readonly previewPdf = output<string>();
 
   private readonly sanitizer = inject(DomSanitizer);
+  private readonly dialog = inject(MatDialog);
 
   protected aboutExpanded = signal(false);
-  protected activePdfUrl = signal<string | null>(null);
-  protected activePdfName = signal<string>('Document');
   protected activeVideoUrl = signal<string | null>(null);
   protected activeVideoTitle = signal<string>('Video');
-  protected activeImageUrl = signal<string | null>(null);
-  protected activeImageAlt = signal<string>('');
 
   private static readonly MOCK_IMAGES = [
     'assets/images/Screenshot-2026-04-01-at-9.47.42-AM.png',
@@ -139,13 +136,14 @@ export class CollegeDetailPanelComponent {
   }
 
   protected openPdf(url: string, name: string): void {
-    this.activePdfUrl.set(url);
-    this.activePdfName.set(name);
+    this.dialog.open<PdfViewerComponent, PdfViewerDialogData>(PdfViewerComponent, {
+      data: { url, fileName: name },
+      width: '900px',
+      height: '80vh',
+      panelClass: 'whizard-pdf-dialog',
+      backdropClass: 'whizard-dialog-backdrop',
+    });
     this.previewPdf.emit(url);
-  }
-
-  protected closePdf(): void {
-    this.activePdfUrl.set(null);
   }
 
   protected openVideo(url: string, title: string): void {
@@ -157,11 +155,10 @@ export class CollegeDetailPanelComponent {
   }
 
   protected openImage(url: string, alt: string): void {
-    this.activeImageUrl.set(url);
-    this.activeImageAlt.set(alt);
-  }
-  protected closeImage(): void {
-    this.activeImageUrl.set(null);
+    this.dialog.open<ImageLightboxComponent, ImageLightboxDialogData>(ImageLightboxComponent, {
+      data: { url, alt },
+      panelClass: 'whizard-image-dialog',
+    });
   }
 
   protected toggleAbout(): void {

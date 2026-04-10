@@ -1,12 +1,13 @@
 @if (!internship()) {
-  <div class="flex-1 flex flex-col items-center justify-center text-whizard-text-secondary p-8">
+  <div
+    class="flex-1 flex flex-col items-center justify-center text-whizard-text-secondary p-8"
+  >
     <p class="text-sm">Select an internship from the list to view details.</p>
   </div>
 } @else {
-
   <!-- ── Tab bar pinned to top ───────────────────────────────── -->
   <nav
-    class="absolute top-0 left-0 right-0 flex items-center gap-5 h-12.5  border-whizard-border overflow-clip px-5 z-10"
+    class="absolute top-0 left-0 right-0 flex items-center gap-5 h-12.5 border-whizard-border overflow-clip px-5 z-10"
     role="tablist"
   >
     @for (tab of tabs; track tab; let i = $index) {
@@ -21,7 +22,9 @@
       >
         {{ tab }}
         @if (selectedTab() === i) {
-          <span class="absolute bottom-0 left-0 right-0 h-0.75 rounded-t-[3px] bg-whizard-action"></span>
+          <span
+            class="absolute bottom-0 left-0 right-0 h-0.75 rounded-t-[3px] bg-whizard-action"
+          ></span>
         }
       </button>
     }
@@ -29,426 +32,1088 @@
 
   <!-- ── Tab content fills space below the 50px nav ─────────── -->
   <div class="absolute inset-0 top-12.5 overflow-y-auto pb-6">
-
     <!-- Tab 0: Details (includes header) -->
-      @if (selectedTab() === 0) {
-        <div>
-
-          <!-- Header section inside Details tab -->
-          <div class="px-6 pt-5 pb-4 border-whizard-border">
-
-            <!-- Row 1: logo · title (vertically centered) · edit button -->
-            <div class="flex items-center gap-3 mb-3">
-
-              @if (internship()!.bannerImageUrl) {
-                <img
-                  [src]="internship()!.bannerImageUrl | signedUrl"
-                  [alt]="internship()!.title"
-                  class="w-15 h-15 rounded-lg object-cover shrink-0"
-                />
-              } @else {
-                <div
-                  class="w-15 h-15 rounded-lg bg-whizard-action flex items-center justify-center text-whizard-text-primary text-2xl font-bold shrink-0"
-                >
-                  {{ internship()!.title.charAt(0).toUpperCase() }}
-                </div>
-              }
-
-              <h2 class="flex-1 min-w-0 text-[25px] font-normal text-primary leading-8">
-                {{ internship()!.title }}
-              </h2>
-
-              <button
-                type="button"
-                (click)="editClicked.emit()"
-                class="mr-[10%] shrink-0 flex items-center gap-1.5 h-8 px-3 rounded-lg bg-whizard-action text-white text-sm font-medium hover:bg-whizard-action-hover transition-colors"
+    @if (selectedTab() === 0) {
+      <div>
+        <!-- Header section inside Details tab -->
+        <div class="px-6 pt-5 pb-4 border-whizard-border">
+          <!-- Row 1: logo · title (vertically centered) · edit button -->
+          <div class="flex items-center gap-3 mb-3">
+            @if (internship()!.bannerImageUrl) {
+              <img
+                [src]="internship()!.bannerImageUrl | signedUrl"
+                [alt]="internship()!.title"
+                class="w-15 h-15 rounded-lg object-cover shrink-0"
+              />
+            } @else {
+              <div
+                class="w-15 h-15 rounded-lg bg-whizard-action flex items-center justify-center text-whizard-text-primary text-2xl font-bold shrink-0"
               >
-                <mat-icon svgIcon="lucideIcons:pencil" class="size-4 shrink-0" />
-                Edit
-              </button>
-            </div>
-
-            <!-- Row 2: meta chips (left) · ID + Date (right) -->
-            <div class="flex items-start justify-between gap-4">
-
-              <!-- Left: city, vacancies, duration, stipend, deadline, type -->
-              <div class="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[15px] text-whizard-text-secondary font-medium">
-                @if (internship()!.cityName) {
-                  <span class="flex items-center gap-1.25">
-                    <mat-icon svgIcon="lucideIcons:map-pin" class="size-5 shrink-0" />
-                    {{ internship()!.cityName }}
-                  </span>
-                }
-                <span class="flex items-center gap-1.25">
-                  <mat-icon svgIcon="lucideIcons:users" class="size-5 shrink-0" />
-                  {{ internship()!.vacancies }} Vacanc{{ internship()!.vacancies === 1 ? 'y' : 'ies' }}
-                </span>
-                <span class="flex items-center gap-1.25">
-                  <mat-icon svgIcon="lucideIcons:clock" class="size-5 shrink-0" />
-                  {{ internship()!.durationMonths }} Week{{ internship()!.durationMonths === 1 ? '' : 's' }}
-                </span>
-                @if (internship()!.stipend) {
-                  <span class="flex items-center gap-1.25">
-                    <mat-icon svgIcon="lucideIcons:indian-rupee" class="size-5 shrink-0" />
-                    {{ internship()!?.stipend | number }}
-                  </span>
-                }
-                @if (internship()!.applicationDeadline) {
-                  <span class="flex items-center gap-1.25">
-                    <mat-icon svgIcon="lucideIcons:calendar" class="size-5 shrink-0" />
-                    {{ internship()!.applicationDeadline | date: 'd MMM yy' }}
-                  </span>
-                }
-                <span>· {{ internship()!.internshipType === 'ONSITE' ? 'On-site' : 'Remote' }}</span>
+                {{ internship()!.title.charAt(0).toUpperCase() }}
               </div>
-
-              <!-- Right: Internship ID + Posting Date stacked -->
-              <div class="shrink-0 flex flex-col gap-1 text-[14px] text-whizard-text-secondary">
-                <span class="text-whizard-text-tertiary font-semibold">
-                  Internship Id:&nbsp;<span class="text-primary-50 font-medium">INT-{{ internship()!.id | slice: 0 : 4 | uppercase }}</span>
-                </span>
-                @if (internship()!.createdOn) {
-                  <span class="text-whizard-text-tertiary font-semibold">
-                    Posting Date:&nbsp;<span class="text-primary-50 font-medium">{{ internship()!.createdOn | date: 'd MMM yy' }}</span>
-                  </span>
-                }
-              </div>
-            </div>
-
-            <!-- Row 3: status + applicants -->
-            <div class="flex items-center gap-1.75 ">
-              <mat-icon svgIcon="lucideIcons:bolt" class="size-4.5 text-whizard-accent shrink-0" />
-              <span class="text-[14px] font-medium text-whizard-accent">
-                {{ statusLabels[internship()!.status] ?? internship()!.status }}
-              </span>
-              @if (internship()!.applicantsCount) {
-                <span class="text-[14px] text-whizard-text-secondary">· {{ internship()!.applicantsCount }} applicants</span>
-              }
-            </div>
-
-            </div>
-
-          <!-- About content -->
-          <div class="px-6 py-2 space-y-6">
-            <h3 class="text-[20px] font-semibold text-whizard-text-primary">About the internship</h3>
-
-            @if (aboutSections().every(s => !s.value)) {
-              <p class="text-sm text-whizard-text-secondary italic">No details added yet.</p>
             }
 
-            @for (section of aboutSections(); track section.label) {
-              @if (section.value) {
-                <div class="space-y-2">
-                  <p class="text-[16px] font-semibold text-whizard-text-tertiary">{{ section.label }}</p>
-                  <div class="text-[15px] text-whizard-text-primary leading-relaxed rich-text"
-                    [innerHTML]="section.value"></div>
-                </div>
+            <h2
+              class="flex-1 min-w-0 text-[25px] font-normal text-primary leading-8"
+            >
+              {{ internship()!.title }}
+            </h2>
+
+            <button
+              type="button"
+              (click)="editClicked.emit()"
+              class="mr-[10%] shrink-0 flex items-center gap-1.5 h-8 px-3 rounded-lg bg-whizard-action text-white text-sm font-medium hover:bg-whizard-action-hover transition-colors"
+            >
+              <mat-icon svgIcon="lucideIcons:pencil" class="size-4 shrink-0" />
+              Edit
+            </button>
+          </div>
+
+          <!-- Row 2: meta chips (left) · ID + Date (right) -->
+          <div class="flex items-start justify-between gap-4">
+            <!-- Left: city, vacancies, duration, stipend, deadline, type -->
+            <div
+              class="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[15px] text-whizard-text-secondary font-medium"
+            >
+              @if (internship()!.cityName) {
+                <span class="flex items-center gap-1.25">
+                  <mat-icon
+                    svgIcon="lucideIcons:map-pin"
+                    class="size-5 shrink-0"
+                  />
+                  {{ internship()!.cityName }}
+                </span>
               }
+              <span class="flex items-center gap-1.25">
+                <mat-icon svgIcon="lucideIcons:users" class="size-5 shrink-0" />
+                {{ internship()!.vacancies }} Vacanc{{
+                  internship()!.vacancies === 1 ? 'y' : 'ies'
+                }}
+              </span>
+              <span class="flex items-center gap-1.25">
+                <mat-icon svgIcon="lucideIcons:clock" class="size-5 shrink-0" />
+                {{ totalPlanWeeks() || internship()!.durationMonths }} Week{{
+                  (totalPlanWeeks() || internship()!.durationMonths) === 1
+                    ? ''
+                    : 's'
+                }}
+              </span>
+              @if (internship()!.stipend) {
+                <span class="flex items-center gap-1.25">
+                  <mat-icon
+                    svgIcon="lucideIcons:indian-rupee"
+                    class="size-5 shrink-0"
+                  />
+                  {{ internship()!?.stipend | number }}
+                </span>
+              }
+              @if (internship()!.applicationDeadline) {
+                <span class="flex items-center gap-1.25">
+                  <mat-icon
+                    svgIcon="lucideIcons:calendar"
+                    class="size-5 shrink-0"
+                  />
+                  {{ internship()!.applicationDeadline | date: 'd MMM yy' }}
+                </span>
+              }
+              <span
+                >·
+                {{
+                  internship()!.internshipType === 'ONSITE'
+                    ? 'On-site'
+                    : 'Remote'
+                }}</span
+              >
+            </div>
+
+            <!-- Right: Internship ID + Posting Date stacked -->
+            <div
+              class="shrink-0 flex flex-col gap-1 text-[14px] text-whizard-text-secondary"
+            >
+              <span class="text-whizard-text-tertiary font-semibold">
+                Internship Id:&nbsp;<span class="text-primary-50 font-medium"
+                  >INT-{{ internship()!.id | slice: 0 : 4 | uppercase }}</span
+                >
+              </span>
+              @if (internship()!.createdOn) {
+                <span class="text-whizard-text-tertiary font-semibold">
+                  Posting Date:&nbsp;<span
+                    class="text-primary-50 font-medium"
+                    >{{ internship()!.createdOn | date: 'd MMM yy' }}</span
+                  >
+                </span>
+              }
+            </div>
+          </div>
+
+          <!-- Row 3: status + applicants -->
+          <div class="flex items-center gap-1.75">
+            <mat-icon
+              svgIcon="lucideIcons:bolt"
+              class="size-4.5 text-whizard-accent shrink-0"
+            />
+            <span class="text-[14px] font-medium text-whizard-accent">
+              {{ statusLabels[internship()!.status] ?? internship()!.status }}
+            </span>
+            @if (internship()!.applicantsCount) {
+              <span class="text-[14px] text-whizard-text-secondary"
+                >· {{ internship()!.applicantsCount }} applicants</span
+              >
             }
           </div>
         </div>
-      }
 
-      <!-- Tab 1: Screening Criteria -->
-      @if (selectedTab() === 1) {
-        <div class="px-6 py-5 space-y-6">
-          @if (
-            internship()!.screeningQuestions.length === 0 &&
-            internship()!.assessments.length === 0 &&
-            !internship()!.interviewRubric &&
-            !internship()!.eligibilityCheck
-          ) {
-            <p class="text-sm text-whizard-text-secondary italic">No screening criteria configured.</p>
+        <!-- About content -->
+        <div class="px-6 py-2 space-y-6">
+          <h3 class="text-[20px] font-semibold text-whizard-text-primary">
+            About the internship
+          </h3>
+
+          @if (aboutSections().every(s => !s.value)) {
+            <p class="text-sm text-whizard-text-secondary italic">
+              No details added yet.
+            </p>
           }
 
-          @if (internship()!.screeningQuestions.length > 0) {
-            <div class="space-y-3">
-              <p class="text-[13px] font-semibold text-whizard-accent">Screening Questions</p>
-              @for (q of internship()!.screeningQuestions; track $index) {
-                <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border px-4 py-3">
-                  <p class="text-[13px] text-whizard-text-secondary mb-0.5">Q{{ $index + 1 }}</p>
-                  <p class="text-[15px] text-whizard-text-primary">{{ q.question }}</p>
-                  @if (q.expectedAnswer) {
-                    <p class="text-[13px] text-whizard-text-secondary mt-1">Expected: {{ q.expectedAnswer }}</p>
-                  }
+          @for (section of aboutSections(); track section.label) {
+            @if (section.value) {
+              <div class="space-y-2">
+                <p class="text-[16px] font-semibold text-whizard-text-tertiary">
+                  {{ section.label }}
+                </p>
+                <div class="rounded-lg border border-whizard-border p-4">
+                  <div
+                    class="text-[15px] text-whizard-text-primary leading-relaxed rich-text"
+                    [innerHTML]="section.value"
+                  ></div>
                 </div>
-              }
-            </div>
+              </div>
+            }
           }
+        </div>
+      </div>
+    }
 
-          @if (internship()!.eligibilityCheck) {
-            <div class="space-y-3">
-              <p class="text-[13px] font-semibold text-whizard-accent">Eligibility Check</p>
-              <div class="grid grid-cols-2 gap-3">
+    <!-- Tab 1: Screening Criteria -->
+    @if (selectedTab() === 1) {
+      <div class="px-6 py-5 space-y-8">
+        @if (
+          internship()!.screeningQuestions.length === 0 &&
+          internship()!.assessments.length === 0 &&
+          !internship()!.interviewRubric &&
+          !internship()!.eligibilityCheck
+        ) {
+          <p class="text-sm text-whizard-text-secondary italic">
+            No screening criteria configured.
+          </p>
+        }
+
+        <!-- Screening Questions -->
+        @if (internship()!.screeningQuestions.length > 0) {
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <p
+                class="text-[20px] font-semibold text-whizard-text-tertiary tracking-[0.2px]"
+              >
+                Screening Questions
+              </p>
+              <button
+                type="button"
+                (click)="
+                  screeningQuestionsCollapsed.set(
+                    !screeningQuestionsCollapsed()
+                  )
+                "
+                class="size-8 flex items-center justify-center rounded-md hover:bg-whizard-bg-secondary transition-colors"
+              >
+                <mat-icon
+                  [svgIcon]="
+                    screeningQuestionsCollapsed()
+                      ? 'lucideIcons:chevron-down'
+                      : 'lucideIcons:chevron-up'
+                  "
+                  class="size-5 text-whizard-text-secondary"
+                />
+              </button>
+            </div>
+            @if (!screeningQuestionsCollapsed()) {
+              <div class="flex flex-col gap-4">
+                @for (q of internship()!.screeningQuestions; track $index) {
+                  <div class="bg-whizard-bg-secondary rounded-lg p-3">
+                    <div class="flex gap-4 items-center">
+                      <!-- Question field -->
+                      <div class="flex-1 relative">
+                        <div
+                          class="bg-whizard-bg-primary rounded shadow-[0px_2px_11px_0px_rgba(0,0,0,0.25)] px-4 py-3 min-h-12 flex items-center"
+                          style="background-color: #0f172a"
+                        >
+                          <p
+                            class="text-[15px] text-whizard-text-primary leading-6"
+                          >
+                            {{ q.question }}
+                          </p>
+                        </div>
+                        <span
+                          class="absolute -top-2 left-3 px-1 text-[12px] text-whizard-text-primary bg-linear-to-b from-whizard-bg-primary to-whizard-bg-secondary"
+                        >
+                          Question {{ $index + 1 }}
+                        </span>
+                      </div>
+                      <!-- Expected Answer field -->
+                      <div class="w-55 shrink-0 relative">
+                        <div
+                          class="bg-whizard-bg-primary rounded shadow-[0px_2px_11px_0px_rgba(0,0,0,0.25)] px-4 py-3 min-h-12 flex items-center"
+                          style="background-color: #0f172a"
+                        >
+                          <p
+                            class="text-[15px] text-whizard-text-primary leading-6"
+                          >
+                            {{ q.expectedAnswer || '—' }}
+                          </p>
+                        </div>
+                        <span
+                          class="absolute -top-2 left-3 px-1 text-[12px] text-whizard-text-primary bg-linear-to-b from-whizard-bg-primary to-whizard-bg-secondary"
+                        >
+                          Expected Answer
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        }
+
+        <!-- Eligibility Check -->
+        @if (internship()!.eligibilityCheck) {
+          <div class="space-y-5">
+            <p
+              class="text-[20px] font-semibold text-whizard-text-tertiary tracking-[0.2px]"
+            >
+              Eligibility Check
+            </p>
+            <div class="flex justify-between">
+              <!-- Left column -->
+              <div class="flex flex-col gap-5">
                 @if (internship()!.eligibilityCheck!.minClubPoints != null) {
-                  <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border px-4 py-3">
-                    <p class="text-[13px] text-whizard-text-secondary mb-1">Min. Club Points</p>
-                    <p class="text-[15px] font-medium text-whizard-text-primary">{{ internship()!.eligibilityCheck!.minClubPoints }}</p>
+                  <div class="flex items-center justify-between w-54">
+                    <span class="text-[18px] text-whizard-text-primary"
+                      >Min. Club Points :</span
+                    >
+                    <span
+                      class="text-[18px] font-bold text-whizard-text-tertiary tracking-[0.15px]"
+                      >{{ internship()!.eligibilityCheck!.minClubPoints }}</span
+                    >
                   </div>
                 }
                 @if (internship()!.eligibilityCheck!.minProjects != null) {
-                  <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border px-4 py-3">
-                    <p class="text-[13px] text-whizard-text-secondary mb-1">Min. Projects</p>
-                    <p class="text-[15px] font-medium text-whizard-text-primary">{{ internship()!.eligibilityCheck!.minProjects }}</p>
+                  <div class="flex items-center justify-between w-54">
+                    <span class="text-[18px] text-whizard-text-primary"
+                      >Min. Projects :</span
+                    >
+                    <span
+                      class="text-[18px] font-bold text-whizard-text-tertiary tracking-[0.15px]"
+                      >{{ internship()!.eligibilityCheck!.minProjects }}</span
+                    >
                   </div>
                 }
+              </div>
+              <!-- Right column -->
+              <div class="flex flex-col gap-5">
                 @if (internship()!.eligibilityCheck!.minInternships != null) {
-                  <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border px-4 py-3">
-                    <p class="text-[13px] text-whizard-text-secondary mb-1">Min. Internships</p>
-                    <p class="text-[15px] font-medium text-whizard-text-primary">{{ internship()!.eligibilityCheck!.minInternships }}</p>
+                  <div class="flex items-center justify-between w-60">
+                    <span class="text-[18px] text-whizard-text-primary"
+                      >Min. Internships:</span
+                    >
+                    <span
+                      class="text-[18px] font-bold text-whizard-text-tertiary tracking-[0.15px]"
+                      >{{
+                        internship()!.eligibilityCheck!.minInternships
+                      }}</span
+                    >
                   </div>
                 }
                 @if (internship()!.eligibilityCheck!.minClubCertification) {
-                  <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border px-4 py-3">
-                    <p class="text-[13px] text-whizard-text-secondary mb-1">Min. Certification</p>
-                    <p class="text-[15px] font-medium text-whizard-text-primary">{{ internship()!.eligibilityCheck!.minClubCertification }}</p>
+                  <div class="flex items-center justify-between w-60">
+                    <span class="text-[18px] text-whizard-text-primary"
+                      >Min. Club Certification:</span
+                    >
+                    <span
+                      class="text-[18px] font-bold text-whizard-text-tertiary tracking-[0.15px]"
+                      >{{
+                        internship()!.eligibilityCheck!.minClubCertification
+                      }}</span
+                    >
                   </div>
                 }
               </div>
             </div>
-          }
+          </div>
+        }
 
-          @if (internship()!.assessments.length > 0) {
-            <div class="space-y-3">
-              <p class="text-[13px] font-semibold text-whizard-accent">Assessments</p>
+        <!-- Assessments -->
+        @if (internship()!.assessments.length > 0) {
+          <div class="space-y-5">
+            <p
+              class="text-[20px] font-semibold text-whizard-text-tertiary tracking-[0.2px]"
+            >
+              Assessment
+            </p>
+            <div class="flex flex-wrap gap-x-22.5 gap-y-6">
               @for (a of internship()!.assessments; track $index) {
-                <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border px-4 py-3 flex items-center gap-4">
-                  <mat-icon svgIcon="lucideIcons:file-text" class="size-4 text-whizard-accent shrink-0" />
-                  <span class="flex-1 text-[15px] text-whizard-text-primary truncate">{{ a.pdfUrl || 'Assessment ' + ($index + 1) }}</span>
-                  <span class="text-[13px] text-whizard-text-secondary shrink-0">Min {{ a.minScore }}% · Weight {{ a.weightage }}%</span>
+                <div class="w-65.75">
+                  <!-- Thumbnail card (Pre-read style) -->
+                  <div
+                    class="w-55 h-37.5 rounded-lg border border-white overflow-hidden relative"
+                  >
+                    @if (a.pdfUrl) {
+                      <img
+                        [src]="a.pdfUrl | signedUrl"
+                        [alt]="a.title"
+                        class="w-full h-full object-cover"
+                      />
+                    } @else {
+                      <div
+                        class="w-full h-full bg-whizard-bg-secondary flex items-center justify-center"
+                      >
+                        <mat-icon
+                          svgIcon="lucideIcons:file-text"
+                          class="size-10 text-whizard-text-secondary"
+                        />
+                      </div>
+                    }
+                    <div
+                      class="absolute bottom-0 left-0 right-0 bg-white flex items-center justify-center px-3.5 py-1.5 rounded-b-lg"
+                    >
+                      <p
+                        class="text-[14px] font-medium text-whizard-bg-main text-center truncate w-48"
+                      >
+                        {{ a.title || 'Assessment ' + ($index + 1) }}
+                      </p>
+                    </div>
+                  </div>
+                  <!-- Score & Weightage -->
+                  <div class="flex flex-col gap-2.5 mt-5">
+                    <div class="flex items-center justify-between w-65.75">
+                      <span class="text-[18px] text-whizard-text-primary"
+                        >Min. Assessment Score:</span
+                      >
+                      <span
+                        class="text-[18px] font-bold text-whizard-text-tertiary tracking-[0.15px]"
+                        >{{ a.minScore }}</span
+                      >
+                    </div>
+                    <div class="flex items-center justify-between w-65.75">
+                      <span class="text-[18px] text-whizard-text-primary"
+                        >Min. Assessment Weightage:</span
+                      >
+                      <span
+                        class="text-[18px] font-bold text-whizard-text-tertiary tracking-[0.15px]"
+                        >{{ a.weightage }}</span
+                      >
+                    </div>
+                  </div>
                 </div>
               }
             </div>
-          }
+          </div>
+        }
 
-          @if (internship()!.interviewRubric?.pdfUrl) {
-            <div class="space-y-3">
-              <p class="text-[13px] font-semibold text-whizard-accent">Interview Rubric</p>
-              <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border px-4 py-3 flex items-center gap-4">
-                <mat-icon svgIcon="lucideIcons:file-text" class="size-4 text-whizard-accent shrink-0" />
-                <span class="flex-1 text-[15px] text-whizard-text-primary truncate">{{ internship()!.interviewRubric!.pdfUrl }}</span>
-                <span class="text-[13px] text-whizard-text-secondary shrink-0">
-                  Min {{ internship()!.interviewRubric!.minScore }}% · Weight {{ internship()!.interviewRubric!.weightage }}%
-                </span>
+        <!-- Interview Rubric -->
+        @if (internship()!.interviewRubric) {
+          <div class="space-y-5">
+            <p
+              class="text-[20px] font-semibold text-whizard-text-tertiary tracking-[0.2px]"
+            >
+              Interview Rubric
+            </p>
+            <!-- Thumbnail card (Pre-read style) -->
+            @if (internship()!.interviewRubric!.items.length > 0) {
+              <div
+                class="w-55 h-37.5 rounded-lg border border-white overflow-hidden relative"
+              >
+                <div
+                  class="w-full h-full bg-whizard-bg-secondary flex items-center justify-center"
+                >
+                  <mat-icon
+                    svgIcon="lucideIcons:clipboard-list"
+                    class="size-10 text-whizard-text-secondary"
+                  />
+                </div>
+                <div
+                  class="absolute bottom-0 left-0 right-0 bg-white flex items-center justify-center px-3.5 py-1.5 rounded-b-lg"
+                >
+                  <p
+                    class="text-[14px] font-medium text-whizard-bg-main text-center truncate w-48"
+                  >
+                    Interview Rubric
+                  </p>
+                </div>
+              </div>
+            }
+            <!-- Score & Weightage -->
+            <div class="flex flex-col gap-2.5">
+              <div class="flex items-center justify-between w-53.25">
+                <span class="text-[18px] text-whizard-text-primary"
+                  >Min. Interview Score:</span
+                >
+                <span
+                  class="text-[18px] font-bold text-whizard-text-tertiary tracking-[0.15px]"
+                  >{{ internship()!.interviewRubric!.minScore }}</span
+                >
+              </div>
+              <div class="flex items-center justify-between w-53.25">
+                <span class="text-[18px] text-whizard-text-primary"
+                  >Interview Weightage:</span
+                >
+                <span
+                  class="text-[18px] font-bold text-whizard-text-tertiary tracking-[0.15px]"
+                  >{{ internship()!.interviewRubric!.weightage }}</span
+                >
               </div>
             </div>
-          }
-        </div>
-      }
+          </div>
+        }
+      </div>
+    }
 
-      <!-- Tab 2: Selection -->
-      @if (selectedTab() === 2) {
-        <div class="px-6 py-5 space-y-6">
-          @if (
-            internship()!.batches.length === 0 &&
-            !internship()!.preInternshipCommunication &&
-            internship()!.preReadCourses.length === 0 &&
-            internship()!.preReadArticles.length === 0 &&
-            !internship()!.offerLetterTemplateUrl &&
-            !internship()!.termsConditionUrl
-          ) {
-            <p class="text-sm text-whizard-text-secondary italic">No selection details configured.</p>
-          }
+    <!-- Tab 2: Selection -->
+    @if (selectedTab() === 2) {
+      <div class="px-6 py-5 space-y-8">
+        @if (
+          internship()!.batches.length === 0 &&
+          !internship()!.preInternshipCommunication &&
+          internship()!.preReadCourses.length === 0 &&
+          internship()!.preReadArticles.length === 0 &&
+          !internship()!.offerLetterTemplateUrl &&
+          !internship()!.termsConditionUrl
+        ) {
+          <p class="text-sm text-whizard-text-secondary italic">
+            No selection details configured.
+          </p>
+        }
 
-          @if (internship()!.offerLetterTemplateUrl || internship()!.termsConditionUrl || internship()!.offerLetterReleaseMethod) {
-            <div class="space-y-3">
-              <p class="text-[13px] font-semibold text-whizard-accent">Offer Documents</p>
-              @if (internship()!.offerLetterTemplateUrl) {
-                <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border px-4 py-3 flex items-center justify-between">
-                  <div>
-                    <p class="text-[13px] text-whizard-text-secondary mb-1">Offer Letter Template</p>
-                    <p class="text-[15px] text-whizard-text-primary truncate">Offer Letter</p>
-                  </div>
-                  <button type="button" (click)="openPreview(internship()!.offerLetterTemplateUrl!, 'Offer Letter Template')"
-                    class="shrink-0 flex items-center gap-1.5 h-8 px-3 rounded-lg bg-whizard-action text-white text-sm font-medium hover:bg-whizard-action-hover transition-colors">
-                    <mat-icon svgIcon="lucideIcons:eye" class="size-4" />
-                    View
-                  </button>
-                </div>
-              }
-              @if (internship()!.termsConditionUrl) {
-                <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border px-4 py-3 flex items-center justify-between">
-                  <div>
-                    <p class="text-[13px] text-whizard-text-secondary mb-1">Terms &amp; Conditions</p>
-                    <p class="text-[15px] text-whizard-text-primary truncate">Terms &amp; Conditions</p>
-                  </div>
-                  <button type="button" (click)="openPreview(internship()!.termsConditionUrl!, 'Terms & Conditions')"
-                    class="shrink-0 flex items-center gap-1.5 h-8 px-3 rounded-lg bg-whizard-action text-white text-sm font-medium hover:bg-whizard-action-hover transition-colors">
-                    <mat-icon svgIcon="lucideIcons:eye" class="size-4" />
-                    View
-                  </button>
-                </div>
-              }
-              @if (internship()!.offerLetterReleaseMethod) {
-                <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border px-4 py-3">
-                  <p class="text-[13px] text-whizard-text-secondary mb-1">Release Method</p>
-                  <p class="text-[15px] text-whizard-text-primary">{{ internship()!.offerLetterReleaseMethod }}</p>
-                </div>
-              }
-            </div>
-          }
-
-          @if (internship()!.batches.length > 0) {
-            <div class="space-y-3">
-              <p class="text-[13px] font-semibold text-whizard-accent">Batches</p>
-              @for (b of internship()!.batches; track b.id) {
-                <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border px-4 py-3 flex items-center justify-between">
-                  <span class="text-[15px] text-whizard-text-primary">Batch · Size: {{ b.batchSize }}</span>
-                  @if (b.coordinatorUserId) {
-                    <span class="text-[13px] text-whizard-text-secondary">Coordinator: {{ b.coordinatorUserId }}</span>
-                  }
-                </div>
-              }
-            </div>
-          }
-
-          @if (internship()!.preInternshipCommunication) {
-            <div class="space-y-2">
-              <p class="text-[13px] font-semibold text-whizard-accent">Pre-Internship Communication</p>
-              <p class="text-[15px] text-whizard-text-primary whitespace-pre-wrap leading-relaxed">{{ internship()!.preInternshipCommunication }}</p>
-            </div>
-          }
-
-          @if (internship()!.preReadCourses.length > 0) {
-            <div class="space-y-2">
-              <p class="text-[13px] font-semibold text-whizard-accent">Pre-read Courses</p>
-              @for (c of internship()!.preReadCourses; track $index) {
-                <div class="flex items-center gap-2">
-                  <mat-icon svgIcon="lucideIcons:file-text" class="size-4 text-whizard-accent shrink-0" />
-                  <span class="text-[15px] text-whizard-text-primary">{{ c.name }}</span>
-                </div>
-              }
-            </div>
-          }
-
-          @if (internship()!.preReadArticles.length > 0) {
-            <div class="space-y-2">
-              <p class="text-[13px] font-semibold text-whizard-accent">Pre-read Articles</p>
-              @for (a of internship()!.preReadArticles; track $index) {
-                <div class="flex items-center gap-2">
-                  <mat-icon svgIcon="lucideIcons:file-text" class="size-4 text-whizard-accent shrink-0" />
-                  <span class="text-[15px] text-whizard-text-primary">{{ a.name }}</span>
-                </div>
-              }
-            </div>
-          }
-        </div>
-      }
-
-      <!-- Tab 3: During Internship -->
-      @if (selectedTab() === 3) {
-        <div class="px-6 py-5 space-y-6">
-          @if (!internship()!.totalWeeks && internship()!.weeklySchedule.length === 0 && !internship()!.midTermFeedbackDate) {
-            <p class="text-sm text-whizard-text-secondary italic">No schedule configured.</p>
-          }
-          @if (internship()!.totalWeeks) {
-            <div class="space-y-1">
-              <p class="text-[13px] font-semibold text-whizard-accent">Total Weeks</p>
-              <p class="text-[15px] text-whizard-text-primary">{{ internship()!.totalWeeks }}</p>
-            </div>
-          }
-          @if (internship()!.weeklySchedule.length > 0) {
-            <div class="space-y-3">
-              <p class="text-[13px] font-semibold text-whizard-accent">Weekly Schedule</p>
-              @for (entry of internship()!.weeklySchedule; track $index) {
-                <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border px-4 py-3">
-                  <div class="flex items-center justify-between mb-1">
-                    <span class="text-[15px] font-semibold text-whizard-text-primary">Week Block {{ $index + 1 }}</span>
-                    <span class="text-[13px] text-whizard-text-secondary">{{ entry.noOfWeeks }} week(s)</span>
-                  </div>
-                  @if (entry.tasks.length > 0) {
-                    <ul class="mt-2 space-y-1">
-                      @for (task of entry.tasks; track $index) {
-                        <li class="text-[13px] text-whizard-text-primary">· {{ task.title }}</li>
-                      }
-                    </ul>
-                  }
-                </div>
-              }
-            </div>
-          }
-          @if (internship()!.midTermFeedbackDate) {
-            <div class="space-y-1">
-              <p class="text-[13px] font-semibold text-whizard-accent">Mid-Term Feedback Date</p>
-              <p class="text-[15px] text-whizard-text-primary">{{ internship()!.midTermFeedbackDate | date: 'mediumDate' }}</p>
-            </div>
-          }
-        </div>
-      }
-
-      <!-- Tab 4: Final Submission -->
-      @if (selectedTab() === 4) {
-        <div class="px-6 py-5 space-y-6">
-          @if (
-            internship()!.finalSubmissionDocuments.length === 0 &&
-            !internship()!.documentGuidelines &&
-            !internship()!.presentationRubricUrl
-          ) {
-            <p class="text-sm text-whizard-text-secondary italic">No final submission details configured.</p>
-          }
-          @if (internship()!.finalSubmissionDocuments.length > 0) {
-            <div class="space-y-2">
-              <p class="text-[13px] font-semibold text-whizard-accent">Required Documents</p>
-              <div class="flex flex-wrap gap-2">
-                @for (doc of internship()!.finalSubmissionDocuments; track doc) {
-                  <span class="px-3 py-1 rounded-full bg-whizard-bg-secondary border border-whizard-border text-[13px] text-whizard-text-primary">{{ doc }}</span>
-                }
-              </div>
-            </div>
-          }
-          @if (internship()!.documentGuidelines) {
-            <div class="space-y-2">
-              <p class="text-[13px] font-semibold text-whizard-accent">Document Guidelines</p>
-              <p class="text-[15px] text-whizard-text-primary whitespace-pre-wrap leading-relaxed">{{ internship()!.documentGuidelines }}</p>
-            </div>
-          }
-          @if (internship()!.presentationRubricUrl) {
-            <div class="space-y-3">
-              <p class="text-[13px] font-semibold text-whizard-accent">Presentation Rubric</p>
-              <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border px-4 py-3 flex items-center gap-4">
-                <mat-icon svgIcon="lucideIcons:file-text" class="size-4 text-whizard-accent shrink-0" />
-                <span class="flex-1 text-[15px] text-whizard-text-primary truncate">{{ internship()!.presentationRubricUrl }}</span>
-                <span class="text-[13px] text-whizard-text-secondary shrink-0">
-                  Min {{ internship()!.minPresentationScore }}% · Weight {{ internship()!.presentationWeightage }}%
-                </span>
-              </div>
-            </div>
-          }
-          @if (internship()!.certificateTemplateUrl) {
-            <div class="space-y-3">
-              <p class="text-[13px] font-semibold text-whizard-accent">Certificate Template</p>
-              <div class="rounded-lg bg-whizard-bg-secondary border border-whizard-border px-4 py-3 flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                  <mat-icon svgIcon="lucideIcons:file-text" class="size-4 text-whizard-accent shrink-0" />
-                  <p class="text-[15px] text-whizard-text-primary truncate">Certificate Template</p>
-                </div>
-                <button type="button" (click)="openPreview(internship()!.certificateTemplateUrl!, 'Certificate Template')"
-                  class="shrink-0 flex items-center gap-1.5 h-8 px-3 rounded-lg bg-whizard-action text-white text-sm font-medium hover:bg-whizard-action-hover transition-colors">
+        <!-- Offer Letter Documents -->
+        @if (
+          internship()!.offerLetterTemplateUrl ||
+          internship()!.termsConditionUrl ||
+          internship()!.offerLetterReleaseMethod
+        ) {
+          <div class="space-y-5">
+            <p
+              class="text-[20px] font-semibold text-whizard-text-tertiary tracking-[0.2px]"
+            >
+              Offer Letter Documents
+            </p>
+            @if (internship()!.offerLetterTemplateUrl) {
+              <div class="flex items-center justify-between">
+                <span class="text-[15px] text-whizard-text-primary"
+                  >Offer Letter Template</span
+                >
+                <button
+                  type="button"
+                  (click)="
+                    openPreview(
+                      internship()!.offerLetterTemplateUrl!,
+                      'Offer Letter Template'
+                    )
+                  "
+                  class="shrink-0 flex items-center gap-1.5 h-[35px] px-4 rounded-lg bg-whizard-accent text-whizard-bg-primary text-sm font-medium hover:opacity-90 transition-opacity"
+                >
                   <mat-icon svgIcon="lucideIcons:eye" class="size-4" />
                   View
                 </button>
               </div>
-            </div>
-          }
-        </div>
-      }
+            }
+            @if (internship()!.termsConditionUrl) {
+              <div class="flex items-center justify-between">
+                <span class="text-[15px] text-whizard-text-primary"
+                  >Terms &amp; Condition for acceptance</span
+                >
+                <button
+                  type="button"
+                  (click)="
+                    openPreview(
+                      internship()!.termsConditionUrl!,
+                      'Terms & Conditions'
+                    )
+                  "
+                  class="shrink-0 flex items-center gap-1.5 h-[35px] px-4 rounded-lg bg-whizard-accent text-whizard-bg-primary text-sm font-medium hover:opacity-90 transition-opacity"
+                >
+                  <mat-icon svgIcon="lucideIcons:eye" class="size-4" />
+                  View
+                </button>
+              </div>
+            }
+            @if (internship()!.offerLetterReleaseMethod) {
+              <div
+                class="border-t border-whizard-border pt-4 flex items-center justify-between"
+              >
+                <span class="text-[15px] text-whizard-text-primary"
+                  >Offer Letter Release</span
+                >
+                <div class="relative">
+                  <div
+                    class="bg-whizard-bg-primary rounded shadow-[0px_2px_11px_0px_rgba(0,0,0,0.25)] px-4 py-3 min-h-12 flex items-center"
+                  >
+                    <p class="text-[15px] text-whizard-text-primary">
+                      {{ internship()!.offerLetterReleaseMethod }}
+                    </p>
+                  </div>
+                  <span
+                    class="absolute -top-2 left-3 px-1 text-[12px] text-whizard-text-primary bg-linear-to-b from-whizard-bg-primary to-whizard-bg-primary"
+                  >
+                    Method
+                  </span>
+                </div>
+              </div>
+            }
+          </div>
+        }
 
+        <!-- Assigned Internship Co-ordinator / Batches -->
+        @if (internship()!.batches.length > 0) {
+          <div class="space-y-5">
+            <p
+              class="text-[20px] font-semibold text-whizard-text-tertiary tracking-[0.2px]"
+            >
+              Assigned Internship Co-ordinator
+            </p>
+            @for (b of internship()!.batches; track b.id; let i = $index) {
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-6">
+                  <span
+                    class="text-[18px] font-semibold text-whizard-text-primary"
+                    >Internship Batch {{ i + 1 }}</span
+                  >
+                </div>
+                <div class="flex gap-5">
+                  <!-- Batch Size field -->
+                  <div class="relative">
+                    <div
+                      class="bg-whizard-bg-primary rounded shadow-[0px_2px_11px_0px_rgba(0,0,0,0.25)] px-4 py-3 min-h-12 w-[150px] flex items-center justify-center"
+                    >
+                      <p
+                        class="text-[15px] font-medium text-whizard-text-primary"
+                      >
+                        {{ b.batchSize }}
+                      </p>
+                    </div>
+                    <span
+                      class="absolute -top-2 left-3 px-1 text-[12px] text-whizard-text-primary bg-linear-to-b from-whizard-bg-primary to-whizard-bg-primary"
+                    >
+                      Batch Size
+                    </span>
+                  </div>
+                  <!-- Coordinator field -->
+                  <div class="relative">
+                    <div
+                      class="bg-whizard-bg-primary rounded shadow-[0px_2px_11px_0px_rgba(0,0,0,0.25)] px-4 py-3 min-h-12 w-50 flex items-center"
+                    >
+                      <p
+                        class="text-[15px] font-medium text-whizard-text-primary"
+                      >
+                        {{ b.coordinatorUserId || '—' }}
+                      </p>
+                    </div>
+                    <span
+                      class="absolute -top-2 left-3 px-1 text-[12px] text-whizard-text-primary bg-linear-to-b from-whizard-bg-primary to-whizard-bg-primary"
+                    >
+                      Internship Co-ordinator
+                    </span>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+
+        <!-- Pre-Internship Communication -->
+        @if (internship()!.preInternshipCommunication) {
+          <div class="space-y-5">
+            <p
+              class="text-[20px] font-semibold text-whizard-text-tertiary tracking-[0.2px]"
+            >
+              Pre-Internship Communication
+            </p>
+            <div class="rounded-lg border border-whizard-border p-4">
+              <div
+                class="text-[15px] text-whizard-text-primary leading-relaxed rich-text"
+                [innerHTML]="internship()!.preInternshipCommunication"
+              ></div>
+            </div>
+          </div>
+        }
+
+        <!-- Pre read Courses -->
+        @if (internship()!.preReadCourses.length > 0) {
+          <div class="space-y-5">
+            <p
+              class="text-[20px] font-semibold text-whizard-text-tertiary tracking-[0.2px]"
+            >
+              Pre read Courses
+            </p>
+            <div class="flex flex-wrap gap-5">
+              @for (c of internship()!.preReadCourses; track $index) {
+                <div
+                  class="w-55 h-37.5 rounded-lg border border-white overflow-hidden relative"
+                >
+                  @if (c.pdfUrl) {
+                    <img
+                      [src]="c.pdfUrl | signedUrl"
+                      [alt]="c.name"
+                      class="w-full h-full object-cover"
+                    />
+                  } @else {
+                    <div
+                      class="w-full h-full bg-whizard-bg-secondary flex items-center justify-center"
+                    >
+                      <mat-icon
+                        svgIcon="lucideIcons:book-open"
+                        class="size-10 text-whizard-text-secondary"
+                      />
+                    </div>
+                  }
+                  <div
+                    class="absolute bottom-0 left-0 right-0 bg-white flex items-center justify-center px-3.5 py-1.5 rounded-b-lg"
+                  >
+                    <p
+                      class="text-[14px] font-medium text-[#04060A] text-center truncate w-48"
+                    >
+                      {{ c.name }}
+                    </p>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        }
+
+        <!-- Pre read Articles -->
+        @if (internship()!.preReadArticles.length > 0) {
+          <div class="space-y-5">
+            <p
+              class="text-[20px] font-semibold text-whizard-text-tertiary tracking-[0.2px]"
+            >
+              Pre read Articles
+            </p>
+            <div class="flex flex-wrap gap-5">
+              @for (a of internship()!.preReadArticles; track $index) {
+                <div
+                  class="w-55 h-37.5 rounded-lg border border-white overflow-hidden relative"
+                >
+                  @if (a.pdfUrl) {
+                    <img
+                      [src]="a.pdfUrl | signedUrl"
+                      [alt]="a.name"
+                      class="w-full h-full object-cover"
+                    />
+                  } @else {
+                    <div
+                      class="w-full h-full bg-whizard-bg-secondary flex items-center justify-center"
+                    >
+                      <mat-icon
+                        svgIcon="lucideIcons:file-text"
+                        class="size-10 text-whizard-text-secondary"
+                      />
+                    </div>
+                  }
+                  <div
+                    class="absolute bottom-0 left-0 right-0 bg-white flex items-center justify-center px-3.5 py-1.5 rounded-b-lg"
+                  >
+                    <p
+                      class="text-[14px] font-medium text-[#04060A] text-center truncate w-48"
+                    >
+                      {{ a.name }}
+                    </p>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Tab 3: During Internship -->
+    @if (selectedTab() === 3) {
+      <div class="px-6 py-5 space-y-5">
+        <!-- ── Header: During Internship Phase ── -->
+        <h3
+          class="text-[20px] font-semibold text-whizard-text-tertiary leading-6.25"
+        >
+          During Internship Phase
+        </h3>
+
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-1.5">
+            <span
+              class="text-[14px] font-medium text-whizard-text-tertiary tracking-[0.42px]"
+              >Total No. of Weeks:</span
+            >
+            <span
+              class="text-[12px] text-whizard-text-primary tracking-[0.36px]"
+              >{{ totalPlanWeeks() || '—' }}</span
+            >
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span
+              class="text-[14px] font-medium text-whizard-text-tertiary tracking-[0.42px]"
+              >Internship Batch:</span
+            >
+            <span
+              class="text-[12px] text-whizard-text-primary tracking-[0.36px]"
+              >{{ internship()!.batches.length }}</span
+            >
+          </div>
+        </div>
+
+        <div class="h-px w-full bg-whizard-text-secondary/15"></div>
+
+        <!-- ── Internship Plan Table ── -->
+        @if (plans().length > 0) {
+          <h3
+            class="text-[20px] font-semibold text-whizard-text-tertiary leading-6.25 tracking-[0.2px]"
+          >
+            Internship Plan
+          </h3>
+
+          <div class="bg-whizard-bg-secondary rounded-lg px-3.5 py-4">
+            <!-- Column headers -->
+            <div class="grid grid-cols-4 gap-3 mb-1">
+              <span
+                class="text-[15px] font-semibold text-whizard-text-tertiary tracking-[0.15px]"
+                >PWO</span
+              >
+              <span
+                class="text-[15px] font-semibold text-whizard-text-tertiary tracking-[0.15px]"
+                >Mentor</span
+              >
+              <span
+                class="text-[15px] font-semibold text-whizard-text-tertiary tracking-[0.15px]"
+                >Capability Instance</span
+              >
+              <span
+                class="text-[15px] font-semibold text-whizard-text-tertiary tracking-[0.15px]"
+                >No. of Weeks</span
+              >
+            </div>
+            <!-- Plan rows -->
+            @for (plan of plans(); track plan.pwoId) {
+              <div class="grid grid-cols-4 gap-3">
+                <div
+                  class="bg-whizard-bg-primary rounded shadow-[0px_2px_11px_0px_rgba(0,0,0,0.25)] px-4 py-3 min-h-12 flex items-center mt-1.5"
+                  style="background-color: #0f172a"
+                >
+                  <span
+                    class="text-[15px] text-whizard-text-primary truncate"
+                    >{{ plan.pwoName }}</span
+                  >
+                </div>
+                <div
+                  class="bg-whizard-bg-primary rounded shadow-[0px_2px_11px_0px_rgba(0,0,0,0.25)] px-4 py-3 min-h-12 flex items-cente mt-1.5"
+                  style="background-color: #0f172a"
+                >
+                  <span
+                    class="text-[15px] text-whizard-text-primary truncate"
+                    >{{ plan.mentorName }}</span
+                  >
+                </div>
+                <div
+                  class="bg-whizard-bg-primary rounded shadow-[0px_2px_11px_0px_rgba(0,0,0,0.25)] px-4 py-3 min-h-12 flex items-center mt-1.5"
+                  style="background-color: #0f172a"
+                >
+                  <span
+                    class="text-[15px] text-whizard-text-primary truncate"
+                    >{{ plan.capabilityInstanceName }}</span
+                  >
+                </div>
+                <div
+                  class="bg-whizard-bg-primary rounded shadow-[0px_2px_11px_0px_rgba(0,0,0,0.25)] px-4 py-3 min-h-12 flex items-center"
+                  style="background-color: #0f172a"
+                >
+                  <span class="text-[15px] text-whizard-text-primary">{{
+                    plan.noOfWeeks
+                  }}</span>
+                </div>
+              </div>
+            }
+          </div>
+        }
+
+        <!-- ── Internship Schedule Accordion ── -->
+        @if (weekRows().length > 0) {
+          <h3
+            class="text-[20px] font-semibold text-whizard-text-tertiary leading-6.25 tracking-[0.2px]"
+          >
+            Internship Schedule
+          </h3>
+
+          <mat-accordion multi class="space-y-3">
+            @for (week of weekRows(); track week.weekNumber) {
+              <mat-expansion-panel
+                hideToggle
+                class="border border-whizard-border shadow-sm"
+              >
+                <mat-expansion-panel-header
+                  collapsedHeight="48px"
+                  expandedHeight="48px"
+                  class="bg-[#484E5D] h-16"
+                >
+                  <mat-panel-title
+                    class="text-whizard-text-primary font-semibold text-lg"
+                  >
+                    Week {{ week.weekNumber }} ({{ week.pwoName }})
+                  </mat-panel-title>
+                  <mat-panel-description
+                    class="text-whizard-text-primary text-sm flex items-center justify-between w-full"
+                  >
+                    Functional Mentor: {{ week.mentorName }}
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <div class="space-y-5 pt-2">
+                  <!-- Capability Instance + Skill -->
+                  <div>
+                    <p
+                      class="text-[15px] font-medium text-whizard-text-tertiary tracking-[0.15px]"
+                    >
+                      Capability Instance + Skill
+                    </p>
+                    <p
+                      class="text-[14px] text-whizard-text-primary leading-5.5 mt-1"
+                    >
+                      {{ week.capabilityInstanceName
+                      }}{{ week.skillNames ? '+' + week.skillNames : '' }}
+                    </p>
+                  </div>
+
+                  <!-- Tasks -->
+                  @if (week.tasks.length > 0) {
+                    <div>
+                      <p
+                        class="text-[15px] font-medium text-whizard-text-tertiary tracking-[0.15px] mb-2"
+                      >
+                        Tasks
+                      </p>
+                      <div class="flex flex-col gap-4">
+                        @for (task of week.tasks; track $index) {
+                          <div class="space-y-1">
+                            <p
+                              class="text-[14px] text-whizard-text-primary leading-4.5"
+                            >
+                              {{ task.taskName }}
+                            </p>
+                            @if (task.evidence) {
+                              <div class="flex items-center gap-2">
+                                <span
+                                  class="text-[14px] font-medium text-whizard-text-tertiary"
+                                  >Evidence:</span
+                                >
+                                <span
+                                  class="text-[14px] text-whizard-text-primary"
+                                  >{{ task.evidence }}</span
+                                >
+                              </div>
+                            }
+                          </div>
+                        }
+                      </div>
+                    </div>
+                  }
+                </div>
+              </mat-expansion-panel>
+
+              <!-- Mid Term Feedback after the halfway week -->
+              @if (
+                internship()!.midTermFeedbackDate &&
+                week.weekNumber === midTermAfterWeek()
+              ) {
+                <div class="space-y-3 py-2">
+                  <p class="text-[16px] font-medium text-whizard-text-tertiary">
+                    Mid Term Feedback Session
+                  </p>
+                  <div class="flex items-center gap-4">
+                    <div class="relative">
+                      <div
+                        class="bg-whizard-bg-primary rounded shadow-[0px_2px_11px_0px_rgba(0,0,0,0.25)] px-4 py-3 min-h-12 w-[341px] flex items-center"
+                      >
+                        <span class="text-[15px] text-whizard-text-primary">{{
+                          internship()!.midTermFeedbackDate | date: 'd MMM yy'
+                        }}</span>
+                      </div>
+                      <span
+                        class="absolute -top-2 left-3 px-1 text-[12px] text-whizard-text-primary bg-linear-to-b from-whizard-bg-primary to-whizard-bg-primary"
+                      >
+                        Date
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              }
+            }
+          </mat-accordion>
+        }
+
+        @if (
+          plans().length === 0 &&
+          !internship()!.totalWeeks &&
+          !internship()!.midTermFeedbackDate
+        ) {
+          <p class="text-sm text-whizard-text-secondary italic">
+            No schedule configured.
+          </p>
+        }
+      </div>
+    }
+
+    <!-- Tab 4: Final Submission -->
+    @if (selectedTab() === 4) {
+      <div class="px-6 py-5 space-y-6">
+        @if (
+          internship()!.finalSubmissionDocuments.length === 0 &&
+          !internship()!.documentGuidelines &&
+          !internship()!.presentationRubricUrl &&
+          !internship()!.certificateTemplateUrl
+        ) {
+          <p class="text-sm text-whizard-text-secondary italic">
+            No final submission details configured.
+          </p>
+        }
+
+        <!-- ── Final Document Upload ── -->
+        @if (internship()!.finalSubmissionDocuments.length > 0) {
+          <div class="space-y-3">
+            <h3
+              class="text-[20px] font-semibold text-whizard-text-tertiary leading-6.25 tracking-[0.2px]"
+            >
+              Final Document Upload
+            </h3>
+
+            <div class="relative w-full max-w-105.75">
+              <div
+                class="bg-whizard-bg-main rounded shadow-[0px_2px_11px_0px_rgba(0,0,0,0.25)] px-4 py-3 min-h-12 flex items-center"
+              >
+                <p class="text-[15px] text-whizard-text-primary">
+                  {{ internship()!.finalSubmissionDocuments.join(', ') }}
+                </p>
+              </div>
+              <span
+                class="absolute -top-2 left-3 px-1 text-[12px] text-whizard-text-primary bg-linear-to-b from-whizard-bg-secondary to-whizard-bg-main"
+              >
+                Documents
+              </span>
+            </div>
+          </div>
+        }
+
+        <!-- ── Documents & Guidelines ── -->
+        @if (internship()!.documentGuidelines) {
+          <div class="space-y-2.5">
+            <p
+              class="text-[18px] font-medium text-whizard-text-primary tracking-[0.15px]"
+            >
+              Documents &amp; Guidelines
+            </p>
+            <div
+              class="text-[15px] text-whizard-text-primary leading-relaxed rich-text"
+              [innerHTML]="internship()!.documentGuidelines"
+            ></div>
+          </div>
+        }
+
+        <!-- ── Presentation Rubric ── -->
+        @if (internship()!.presentationRubricUrl) {
+          <div class="space-y-5">
+            <h3
+              class="text-[20px] font-semibold text-whizard-text-tertiary leading-6.25 tracking-[0.2px]"
+            >
+              Presentation Rubric
+            </h3>
+
+            <!-- Thumbnail card -->
+            <div
+              class="w-49.75 h-31.5 rounded-lg bg-whizard-bg-secondary shadow-md overflow-hidden flex flex-col items-center justify-center gap-2 cursor-pointer hover:opacity-90 transition-opacity"
+              (click)="
+                openPreview(
+                  internship()!.presentationRubricUrl!,
+                  'Presentation Rubric'
+                )
+              "
+            >
+              <mat-icon
+                svgIcon="lucideIcons:file-text"
+                class="size-10 text-whizard-accent"
+              />
+              <span
+                class="text-[14px] font-medium text-whizard-text-primary tracking-[0.15px] truncate px-2"
+              >
+                Presentation Rubric
+              </span>
+            </div>
+
+            <!-- Score & Weightage -->
+            @if (
+              internship()!.minPresentationScore != null ||
+              internship()!.presentationWeightage != null
+            ) {
+              <div class="flex flex-col gap-2.5">
+                @if (internship()!.minPresentationScore != null) {
+                  <div class="flex items-center gap-2">
+                    <span class="text-[18px] text-whizard-text-primary"
+                      >Min. Scoring:</span
+                    >
+                    <span
+                      class="text-[18px] font-bold text-whizard-text-tertiary tracking-[0.15px]"
+                    >
+                      {{ internship()!.minPresentationScore }}%
+                    </span>
+                  </div>
+                }
+                @if (internship()!.presentationWeightage != null) {
+                  <div class="flex items-center gap-2">
+                    <span class="text-[18px] text-whizard-text-primary"
+                      >Presentation Weightage:</span
+                    >
+                    <span
+                      class="text-[18px] font-bold text-whizard-text-tertiary tracking-[0.15px]"
+                    >
+                      {{ internship()!.presentationWeightage }}%
+                    </span>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        }
+
+        <!-- ── Certificate Template ── -->
+        @if (internship()!.certificateTemplateUrl) {
+          <div class="border-t border-whizard-border pt-5">
+            <div class="flex items-center justify-between">
+              <span
+                class="text-[18px] font-medium text-whizard-text-primary tracking-[0.15px]"
+              >
+                Certificate Template
+              </span>
+              <button
+                type="button"
+                (click)="
+                  openPreview(
+                    internship()!.certificateTemplateUrl!,
+                    'Certificate Template'
+                  )
+                "
+                class="shrink-0 flex items-center gap-1.5 h-8.75 px-4 rounded-lg bg-whizard-action text-whizard-text-primary text-sm font-medium hover:bg-whizard-action-hover transition-colors"
+              >
+                <mat-icon svgIcon="lucideIcons:eye" class="size-4" />
+                View
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    }
   </div>
 }
-
-<!-- Preview overlays -->
-@if (activePdfUrl()) {
-  <whizard-pdf-viewer
-    [url]="activePdfUrl()!"
-    [fileName]="activePdfName()"
-    (closed)="closePdf()"
-  />
-}
-@if (activeImageUrl()) {
-  <whizard-image-lightbox
-    [url]="activeImageUrl()!"
-    [alt]="activeImageAlt()"
-    (closed)="closeImage()"
-  />
-}
-

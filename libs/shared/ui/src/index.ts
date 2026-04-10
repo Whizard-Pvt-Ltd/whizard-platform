@@ -16,16 +16,23 @@ export { QuillEditorComponent } from './quill-editor/quill-editor.component.js';
 
 // PDF viewer
 export { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component.js';
+export type { PdfViewerDialogData } from './pdf-viewer/pdf-viewer.component.js';
 
 // Video player overlay
 export { VideoPlayerComponent } from './video-player/video-player.component.js';
 
 // Image lightbox overlay
 export { ImageLightboxComponent } from './image-lightbox/image-lightbox.component.js';
+export type { ImageLightboxDialogData } from './image-lightbox/image-lightbox.component.js';
 
 // Media uploader
 export { MediaUploaderComponent } from './media-uploader/media-uploader.component.js';
 export type { UploadedFile } from './media-uploader/media-uploader.component.js';
+
+// Signed URL pipe
+export { SignedUrlPipe } from './signed-url/signed-url.pipe.js';
+export { SIGNED_URL_PROVIDER } from './signed-url/signed-url.token.js';
+export type { SignedUrlProvider } from './signed-url/signed-url.token.js';
 
 // Layout
 export { AdminLayoutComponent } from './layout/layout.component.js';
