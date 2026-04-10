@@ -19,6 +19,7 @@ export interface IPwoRepository {
   findById(id: string): Promise<PrimaryWorkObject | null>;
   findByFG(fgId: string): Promise<PrimaryWorkObject[]>;
   findByFGWithTenants(fgId: string, tenantIds: string[], ownedTenantIds: string[]): Promise<PwoDto[]>;
+  existsByName(name: string, functionalGroupId: string, tenantId: string): Promise<boolean>;
   save(pwo: PrimaryWorkObject): Promise<void>;
   delete(id: string): Promise<void>;
   hasSWOs(pwoId: string): Promise<boolean>;

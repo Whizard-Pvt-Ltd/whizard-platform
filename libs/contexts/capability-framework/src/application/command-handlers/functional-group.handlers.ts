@@ -23,6 +23,8 @@ export class CreateFGCommandHandler {
 
   async execute(cmd: CreateFGCommand): Promise<FunctionalGroupDto> {
     logger.debug('Creating functional group', { userId: cmd.actorUserId, tenantId: cmd.tenantId, industryId: cmd.industryId, name: cmd.name });
+    const exists = await this.fgRepo.existsByName(cmd.name, cmd.industryId, cmd.tenantId);
+    if (exists) throw new DomainException(`A Functional Group named "${cmd.name}" already exists in this industry`);
     const fg = FunctionalGroup.create({
       tenantId: cmd.tenantId,
       industryId: cmd.industryId,

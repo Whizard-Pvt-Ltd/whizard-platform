@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { ToasterService } from '@whizard/shared-ui';
 import {
   ImpactLevelOption, CRITICALITY_LEVELS, COMPLEXITY_LEVELS, FREQUENCY_LEVELS
 } from '../../models/wrcf-impact-levels';
@@ -19,6 +20,8 @@ const DOMAIN_TYPE_OPTIONS: DomainType[] = (['Operations', 'Maintenance', 'Qualit
   styleUrl: './wrcf-panel.component.css',
 })
 export class WrcfPanelComponent implements OnChanges {
+  private readonly toaster = inject(ToasterService);
+
   @Input() state!: PanelState;
   @Output() save = new EventEmitter<Partial<FunctionalGroup | PrimaryWorkObject | SecondaryWorkObject>>();
   @Output() deleteRequested = new EventEmitter<void>();
@@ -62,8 +65,8 @@ export class WrcfPanelComponent implements OnChanges {
   }
 
   protected onSave(): void {
-    if (!this.formName.trim()) return;
-    if (this.formName.trim().length > 50) return;
+    if (!this.formName.trim()) { this.toaster.showError('Name is required.'); return; }
+    if (this.formName.trim().length > 50) { this.toaster.showError('Name must be 50 characters or less.'); return; }
 
     const base = { name: this.formName.trim(), description: this.formDescription.trim() };
     let payload: Partial<FunctionalGroup | PrimaryWorkObject | SecondaryWorkObject>;

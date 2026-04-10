@@ -98,16 +98,22 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
         name: String(body['name']),
         domainType: String(body['domainType'])
       });
-      const data = await deps.createFG.execute({
-        actorUserId: ctx.actorUserAccountId,
-        tenantId: ctx.tenantId,
-        industryId: String(body['industryId']),
-        name: String(body['name']),
-        description: body['description'] ? String(body['description']) : undefined,
-        domainType: String(body['domainType']) as DomainType
-      });
-      logger.info('Functional group created', { ...getLogContext(request), fgId: data.id, name: data.name });
-      reply.status(201).send({ success: true, data, meta: toApiMeta(request) });
+      try {
+        const data = await deps.createFG.execute({
+          actorUserId: ctx.actorUserAccountId,
+          tenantId: ctx.tenantId,
+          industryId: String(body['industryId']),
+          name: String(body['name']),
+          description: body['description'] ? String(body['description']) : undefined,
+          domainType: String(body['domainType']) as DomainType
+        });
+        logger.info('Functional group created', { ...getLogContext(request), fgId: data.id, name: data.name });
+        reply.status(201).send({ success: true, data, meta: toApiMeta(request) });
+      } catch (err) {
+        if (isDomainException(err)) {
+          reply.status(409).send({ success: false, error: { message: (err as Error).message }, meta: toApiMeta(request) });
+        } else { throw err; }
+      }
     }
   });
 
@@ -199,18 +205,24 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
         functionalGroupId: String(body['functionalGroupId']),
         name: String(body['name'])
       });
-      const data = await deps.createPWO.execute({
-        actorUserId: ctx.actorUserAccountId,
-        tenantId: ctx.tenantId,
-        functionalGroupId: String(body['functionalGroupId']),
-        name: String(body['name']),
-        description: body['description'] ? String(body['description']) : undefined,
-        strategicImportance: Number(body['strategicImportance']) as StrategicImportance,
-        revenueImpact: resolveImpactLevel(String(body['revenueImpact']), CRITICALITY_LEVELS),
-        downtimeSensitivity: resolveImpactLevel(String(body['downtimeSensitivity']), CRITICALITY_LEVELS)
-      });
-      logger.info('PWO created', { ...getLogContext(request), pwoId: data.id, name: data.name });
-      reply.status(201).send({ success: true, data, meta: toApiMeta(request) });
+      try {
+        const data = await deps.createPWO.execute({
+          actorUserId: ctx.actorUserAccountId,
+          tenantId: ctx.tenantId,
+          functionalGroupId: String(body['functionalGroupId']),
+          name: String(body['name']),
+          description: body['description'] ? String(body['description']) : undefined,
+          strategicImportance: Number(body['strategicImportance']) as StrategicImportance,
+          revenueImpact: resolveImpactLevel(String(body['revenueImpact']), CRITICALITY_LEVELS),
+          downtimeSensitivity: resolveImpactLevel(String(body['downtimeSensitivity']), CRITICALITY_LEVELS)
+        });
+        logger.info('PWO created', { ...getLogContext(request), pwoId: data.id, name: data.name });
+        reply.status(201).send({ success: true, data, meta: toApiMeta(request) });
+      } catch (err) {
+        if (isDomainException(err)) {
+          reply.status(409).send({ success: false, error: { message: (err as Error).message }, meta: toApiMeta(request) });
+        } else { throw err; }
+      }
     }
   });
 
@@ -304,18 +316,24 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
         pwoId: String(body['pwoId']),
         name: String(body['name'])
       });
-      const data = await deps.createSWO.execute({
-        actorUserId: ctx.actorUserAccountId,
-        tenantId: ctx.tenantId,
-        pwoId: String(body['pwoId']),
-        name: String(body['name']),
-        description: body['description'] ? String(body['description']) : undefined,
-        operationalComplexity: resolveImpactLevel(String(body['operationalComplexity']), COMPLEXITY_LEVELS),
-        assetCriticality: resolveImpactLevel(String(body['assetCriticality']), CRITICALITY_LEVELS),
-        failureFrequency: resolveImpactLevel(String(body['failureFrequency']), FREQUENCY_LEVELS)
-      });
-      logger.info('SWO created', { ...getLogContext(request), swoId: data.id, name: data.name });
-      reply.status(201).send({ success: true, data, meta: toApiMeta(request) });
+      try {
+        const data = await deps.createSWO.execute({
+          actorUserId: ctx.actorUserAccountId,
+          tenantId: ctx.tenantId,
+          pwoId: String(body['pwoId']),
+          name: String(body['name']),
+          description: body['description'] ? String(body['description']) : undefined,
+          operationalComplexity: resolveImpactLevel(String(body['operationalComplexity']), COMPLEXITY_LEVELS),
+          assetCriticality: resolveImpactLevel(String(body['assetCriticality']), CRITICALITY_LEVELS),
+          failureFrequency: resolveImpactLevel(String(body['failureFrequency']), FREQUENCY_LEVELS)
+        });
+        logger.info('SWO created', { ...getLogContext(request), swoId: data.id, name: data.name });
+        reply.status(201).send({ success: true, data, meta: toApiMeta(request) });
+      } catch (err) {
+        if (isDomainException(err)) {
+          reply.status(409).send({ success: false, error: { message: (err as Error).message }, meta: toApiMeta(request) });
+        } else { throw err; }
+      }
     }
   });
 
@@ -499,17 +517,24 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
       const ctx = getRequestContext(request);
       const body = request.body as Record<string, unknown>;
       logger.debug('Creating skill', { ...getLogContext(request), capabilityInstanceId: String(body['capabilityInstanceId']), name: String(body['name']) });
-      await deps.createSkill.execute({
-        tenantId: ctx.tenantId,
-        capabilityInstanceId: String(body['capabilityInstanceId']),
-        name: String(body['name']),
-        cognitiveType: String(body['cognitiveType']),
-        skillCriticality: String(body['skillCriticality']),
-        recertificationCycleMonths: Number(body['recertificationCycleMonths']),
-        aiImpact: String(body['aiImpact'])
-      });
-      logger.info('Skill created', { ...getLogContext(request), capabilityInstanceId: String(body['capabilityInstanceId']) });
-      reply.status(201).send({ success: true, meta: toApiMeta(request) });
+      try {
+        await deps.createSkill.execute({
+          tenantId: ctx.tenantId,
+          capabilityInstanceId: String(body['capabilityInstanceId']),
+          name: String(body['name']),
+          description: body['description'] ? String(body['description']) : undefined,
+          cognitiveType: String(body['cognitiveType']),
+          skillCriticality: String(body['skillCriticality']),
+          recertificationCycleMonths: Number(body['recertificationCycleMonths']),
+          aiImpact: String(body['aiImpact'])
+        });
+        logger.info('Skill created', { ...getLogContext(request), capabilityInstanceId: String(body['capabilityInstanceId']) });
+        reply.status(201).send({ success: true, meta: toApiMeta(request) });
+      } catch (err) {
+        if (isDomainException(err)) {
+          reply.status(409).send({ success: false, error: { message: (err as Error).message }, meta: toApiMeta(request) });
+        } else { throw err; }
+      }
     }
   });
 
@@ -527,6 +552,7 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
           id,
           tenantId: ctx.tenantId,
           name: body['name'] ? String(body['name']) : undefined,
+          description: body['description'] !== undefined ? (body['description'] ? String(body['description']) : '') : undefined,
           cognitiveType: body['cognitiveType'] ? String(body['cognitiveType']) : undefined,
           skillCriticality: body['skillCriticality'] ? String(body['skillCriticality']) : undefined,
           recertificationCycleMonths: body['recertificationCycleMonths'] !== undefined ? Number(body['recertificationCycleMonths']) : undefined,
@@ -587,18 +613,24 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
       const ctx = getRequestContext(request);
       const body = request.body as Record<string, unknown>;
       logger.debug('Creating task', { ...getLogContext(request), skillId: String(body['skillId']), name: String(body['name']) });
-      await deps.createTask.execute({
-        tenantId: ctx.tenantId,
-        skillId: String(body['skillId']),
-        name: String(body['name']),
-        description: body['description'] ? String(body['description']) : undefined,
-        frequency: String(body['frequency']),
-        complexity: String(body['complexity']),
-        standardDuration: Number(body['standardDuration']),
-        requiredProficiencyLevel: body['requiredProficiencyLevel'] ? String(body['requiredProficiencyLevel']) : undefined
-      });
-      logger.info('Task created', { ...getLogContext(request), skillId: String(body['skillId']) });
-      reply.status(201).send({ success: true, meta: toApiMeta(request) });
+      try {
+        await deps.createTask.execute({
+          tenantId: ctx.tenantId,
+          skillId: String(body['skillId']),
+          name: String(body['name']),
+          description: body['description'] ? String(body['description']) : undefined,
+          frequency: String(body['frequency']),
+          complexity: String(body['complexity']),
+          standardDuration: Number(body['standardDuration']),
+          requiredProficiencyLevel: body['requiredProficiencyLevel'] ? String(body['requiredProficiencyLevel']) : undefined
+        });
+        logger.info('Task created', { ...getLogContext(request), skillId: String(body['skillId']) });
+        reply.status(201).send({ success: true, meta: toApiMeta(request) });
+      } catch (err) {
+        if (isDomainException(err)) {
+          reply.status(409).send({ success: false, error: { message: (err as Error).message }, meta: toApiMeta(request) });
+        } else { throw err; }
+      }
     }
   });
 
@@ -689,19 +721,25 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
       const ctx = getRequestContext(request);
       const body = request.body as Record<string, unknown>;
       logger.debug('Creating control point', { ...getLogContext(request), taskId: String(body['taskId']), name: String(body['name']) });
-      await deps.createControlPoint.execute({
-        tenantId: ctx.tenantId,
-        taskId: String(body['taskId']),
-        name: String(body['name']),
-        description: body['description'] ? String(body['description']) : undefined,
-        riskLevel: String(body['riskLevel']),
-        failureImpactType: String(body['failureImpactType']),
-        kpiThreshold: body['kpiThreshold'] !== undefined ? Number(body['kpiThreshold']) : undefined,
-        escalationRequired: Boolean(body['escalationRequired']),
-        evidenceType: body['evidenceType'] ? String(body['evidenceType']) : undefined
-      });
-      logger.info('Control point created', { ...getLogContext(request), taskId: String(body['taskId']) });
-      reply.status(201).send({ success: true, meta: toApiMeta(request) });
+      try {
+        await deps.createControlPoint.execute({
+          tenantId: ctx.tenantId,
+          taskId: String(body['taskId']),
+          name: String(body['name']),
+          description: body['description'] ? String(body['description']) : undefined,
+          riskLevel: String(body['riskLevel']),
+          failureImpactType: String(body['failureImpactType']),
+          kpiThreshold: body['kpiThreshold'] !== undefined ? Number(body['kpiThreshold']) : undefined,
+          escalationRequired: Boolean(body['escalationRequired']),
+          evidenceType: body['evidenceType'] ? String(body['evidenceType']) : undefined
+        });
+        logger.info('Control point created', { ...getLogContext(request), taskId: String(body['taskId']) });
+        reply.status(201).send({ success: true, meta: toApiMeta(request) });
+      } catch (err) {
+        if (isDomainException(err)) {
+          reply.status(409).send({ success: false, error: { message: (err as Error).message }, meta: toApiMeta(request) });
+        } else { throw err; }
+      }
     }
   });
 

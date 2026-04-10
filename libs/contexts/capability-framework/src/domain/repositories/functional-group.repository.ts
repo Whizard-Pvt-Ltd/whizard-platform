@@ -16,6 +16,7 @@ export interface IFunctionalGroupRepository {
   findById(id: string): Promise<FunctionalGroup | null>;
   findByIndustry(industryId: string): Promise<FunctionalGroup[]>;
   findByIndustryWithTenants(industryId: string, tenantIds: string[], ownedTenantIds: string[]): Promise<FunctionalGroupDto[]>;
+  existsByName(name: string, industryId: string, tenantId: string): Promise<boolean>;
   save(fg: FunctionalGroup): Promise<void>;
   delete(id: string): Promise<void>;
   hasPWOs(fgId: string): Promise<boolean>;

@@ -7,6 +7,8 @@ export class CreateControlPointCommandHandler {
   constructor(private readonly repo: IControlPointRepository) {}
 
   async execute(cmd: CreateControlPointCommand): Promise<void> {
+    const exists = await this.repo.existsByName(cmd.name, cmd.taskId, cmd.tenantId);
+    if (exists) throw new DomainException(`A Control Point named "${cmd.name}" already exists in this task`);
     const cp = ControlPoint.create({
       tenantId: cmd.tenantId,
       taskId: cmd.taskId,

@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, ActivatedRoute } from '@angular/router';
@@ -479,7 +480,7 @@ export class WrcfSkillsComponent implements OnInit {
       if (mode === 'create') {
         this.skillsApi.createSkill({ ...(payload as Omit<SkillItem, 'id'>), capabilityInstanceId: ciId }).subscribe({
           next: () => { this.loadSkills(ciId); this.closePanel(); this.toaster.showSuccess('Skill created successfully.'); },
-          error: () => this.toaster.showError('Failed to create skill.')
+          error: (err: HttpErrorResponse) => this.toaster.showError(err.error?.error?.message ?? 'Failed to create skill.')
         });
       } else {
         const id = (payload as { id?: string }).id!;
@@ -498,7 +499,7 @@ export class WrcfSkillsComponent implements OnInit {
             this.closePanel();
             this.toaster.showSuccess('Task created successfully.');
           },
-          error: () => this.toaster.showError('Failed to create task.')
+          error: (err: HttpErrorResponse) => this.toaster.showError(err.error?.error?.message ?? 'Failed to create task.')
         });
       } else {
         const id = (payload as { id?: string }).id!;
@@ -521,7 +522,7 @@ export class WrcfSkillsComponent implements OnInit {
             this.closePanel();
             this.toaster.showSuccess('Control Point created successfully.');
           },
-          error: () => this.toaster.showError('Failed to create control point.')
+          error: (err: HttpErrorResponse) => this.toaster.showError(err.error?.error?.message ?? 'Failed to create control point.')
         });
       } else {
         const id = (payload as { id?: string }).id!;

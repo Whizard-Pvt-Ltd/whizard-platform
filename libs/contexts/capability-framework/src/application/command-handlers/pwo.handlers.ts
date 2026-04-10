@@ -28,6 +28,8 @@ export class CreatePWOCommandHandler {
     if (cmd.name.length > 50) {
       throw new DomainException('Primary Work Object name must not exceed 50 characters');
     }
+    const exists = await this.pwoRepo.existsByName(cmd.name, cmd.functionalGroupId, cmd.tenantId);
+    if (exists) throw new DomainException(`A Primary Work Object named "${cmd.name}" already exists in this functional group`);
     const pwo = PrimaryWorkObject.create({
       tenantId: cmd.tenantId,
       functionalGroupId: cmd.functionalGroupId,

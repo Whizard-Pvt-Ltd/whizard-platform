@@ -437,7 +437,7 @@ export class IndustryWrcfComponent implements OnInit {
             next: pwos => { this.pwoList.set(pwos); this.closePanel(); this.toaster.showSuccess('Primary Work Object created successfully.'); }
           });
         },
-        error: () => this.toaster.showError('Failed to create Primary Work Object.')
+        error: (err: HttpErrorResponse) => this.toaster.showError(err.error?.error?.message ?? 'Failed to create Primary Work Object.')
       });
     } else {
       const swo = payload as Partial<SecondaryWorkObject>;
@@ -454,7 +454,7 @@ export class IndustryWrcfComponent implements OnInit {
             next: swos => { this.swoList.set(swos); this.closePanel(); this.toaster.showSuccess('Secondary Work Object created successfully.'); }
           });
         },
-        error: () => this.toaster.showError('Failed to create Secondary Work Object.')
+        error: (err: HttpErrorResponse) => this.toaster.showError(err.error?.error?.message ?? 'Failed to create Secondary Work Object.')
       });
     }
   }

@@ -18,6 +18,7 @@ export interface ISwoRepository {
   findById(id: string): Promise<SecondaryWorkObject | null>;
   findByPWO(pwoId: string): Promise<SecondaryWorkObject[]>;
   findByPWOWithTenants(pwoId: string, tenantIds: string[], ownedTenantIds: string[]): Promise<SwoDto[]>;
+  existsByName(name: string, pwoId: string, tenantId: string): Promise<boolean>;
   save(swo: SecondaryWorkObject): Promise<void>;
   delete(id: string): Promise<void>;
   hasCIs(swoId: string): Promise<boolean>;

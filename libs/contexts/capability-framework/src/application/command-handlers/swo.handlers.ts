@@ -28,6 +28,8 @@ export class CreateSWOCommandHandler {
     if (cmd.name.length > 50) {
       throw new DomainException('Secondary Work Object name must not exceed 50 characters');
     }
+    const exists = await this.swoRepo.existsByName(cmd.name, cmd.pwoId, cmd.tenantId);
+    if (exists) throw new DomainException(`A Secondary Work Object named "${cmd.name}" already exists in this primary work object`);
     const swo = SecondaryWorkObject.create({
       tenantId: cmd.tenantId,
       pwoId: cmd.pwoId,

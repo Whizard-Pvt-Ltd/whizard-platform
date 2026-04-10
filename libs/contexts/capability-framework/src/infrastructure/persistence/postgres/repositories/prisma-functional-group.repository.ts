@@ -105,6 +105,13 @@ export class PrismaFunctionalGroupRepository implements IFunctionalGroupReposito
     await this.prisma.functionalGroup.delete({ where: { id: BigInt(id) } });
   }
 
+  async existsByName(name: string, industryId: string, tenantId: string): Promise<boolean> {
+    const count = await this.prisma.functionalGroup.count({
+      where: { name, industryId: BigInt(industryId), tenantId: BigInt(tenantId), isActive: true }
+    });
+    return count > 0;
+  }
+
   async hasPWOs(fgId: string): Promise<boolean> {
     const count = await this.prisma.primaryWorkObject.count({
       where: { functionalGroupId: BigInt(fgId), isActive: true }

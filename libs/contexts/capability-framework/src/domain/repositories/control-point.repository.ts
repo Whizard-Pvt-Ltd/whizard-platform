@@ -17,6 +17,7 @@ export interface IControlPointRepository {
   findByTaskId(tenantId: string, taskId: string): Promise<ControlPoint[]>;
   findAllDtos(taskId: string, tenantIds: string[], ownedTenantIds: string[]): Promise<ControlPointDto[]>;
   findById(id: string): Promise<ControlPoint | null>;
+  existsByName(name: string, taskId: string, tenantId: string): Promise<boolean>;
   save(cp: ControlPoint): Promise<void>;
   update(cp: ControlPoint): Promise<void>;
   delete(id: string): Promise<void>;

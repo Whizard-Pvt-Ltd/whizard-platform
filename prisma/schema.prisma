@@ -274,6 +274,7 @@ model Skill {
   tenantId                   BigInt             @map("tenant_id")
   tenant                     Tenant             @relation(fields: [tenantId], references: [id])
   name                       String             @db.VarChar(100)
+  description                String?            @db.Text @map("description")
   sourceTemplateId           String?            @map("source_template_id")
   cognitiveType              String             @map("cognitive_type") @db.VarChar(20)
   skillCriticality           String             @map("skill_criticality") @db.VarChar(10)

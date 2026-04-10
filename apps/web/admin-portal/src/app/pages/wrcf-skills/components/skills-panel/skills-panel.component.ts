@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { ToasterService } from '@whizard/shared-ui';
 import type { ProficiencyLevel } from '../../../industry-wrcf/models/wrcf.models';
 import type { SkillsPanelState, SkillItem, TaskItem, ControlPointItem } from '../../models/wrcf-skills.models';
 
@@ -12,16 +13,17 @@ import type { SkillsPanelState, SkillItem, TaskItem, ControlPointItem } from '..
   styleUrl: './skills-panel.component.css'
 })
 export class SkillsPanelComponent implements OnChanges {
+  private readonly toaster = inject(ToasterService);
+
   @Input() state!: SkillsPanelState;
   @Input() proficiencyLevels: ProficiencyLevel[] = [];
   @Output() save = new EventEmitter<Partial<SkillItem | TaskItem | ControlPointItem>>();
   @Output() deleteRequested = new EventEmitter<void>();
   @Output() close = new EventEmitter<void>();
 
-  protected errorMsg = '';
-
   // Skill fields
   protected skillName = '';
+  protected skillDescription = '';
   protected skillCognitiveType = 'Procedural';
   protected skillCriticality = 'Medium';
   protected skillRecertificationCycleMonths = 6;
@@ -62,7 +64,6 @@ export class SkillsPanelComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['state']) {
-      this.errorMsg = '';
       this.populateForm();
     }
   }
@@ -72,6 +73,7 @@ export class SkillsPanelComponent implements OnChanges {
       if (this.state.entity === 'Skill') {
         const d = this.state.data as SkillItem;
         this.skillName = d.name;
+        this.skillDescription = d.description ?? '';
         this.skillCognitiveType = d.cognitiveType;
         this.skillCriticality = d.skillCriticality;
         this.skillRecertificationCycleMonths = d.recertificationCycleMonths;
@@ -97,6 +99,7 @@ export class SkillsPanelComponent implements OnChanges {
       }
     } else {
       this.skillName = '';
+      this.skillDescription = '';
       this.skillCognitiveType = 'Procedural';
       this.skillCriticality = 'Medium';
       this.skillRecertificationCycleMonths = 6;
@@ -118,20 +121,20 @@ export class SkillsPanelComponent implements OnChanges {
   }
 
   protected onSave(): void {
-    this.errorMsg = '';
     let payload: Partial<SkillItem | TaskItem | ControlPointItem> = {};
 
     if (this.state.entity === 'Skill') {
       if (!this.skillName.trim() || !this.skillCognitiveType || !this.skillCriticality || !this.skillAiImpact) {
-        this.errorMsg = 'Name, Cognitive Type, Skill Criticality and AI Impact are required.';
+        this.toaster.showError('Name, Cognitive Type, Skill Criticality and AI Impact are required.');
         return;
       }
       if (this.skillRecertificationCycleMonths < 1 || this.skillRecertificationCycleMonths > 12) {
-        this.errorMsg = 'Recertification Cycle must be between 1 and 12 months.';
+        this.toaster.showError('Recertification Cycle must be between 1 and 12 months.');
         return;
       }
       const p: Partial<SkillItem> = {
         name: this.skillName.trim(),
+        description: this.skillDescription.trim() || undefined,
         cognitiveType: this.skillCognitiveType,
         skillCriticality: this.skillCriticality,
         recertificationCycleMonths: this.skillRecertificationCycleMonths,
@@ -139,8 +142,8 @@ export class SkillsPanelComponent implements OnChanges {
       };
       payload = p;
     } else if (this.state.entity === 'Task') {
-      if (!this.taskName.trim() || !this.taskDescription.trim() || !this.taskFrequency || !this.taskComplexity || !this.taskStandardDuration) {
-        this.errorMsg = 'Name, Description, Frequency, Complexity and Standard Duration are required.';
+      if (!this.taskName.trim() || !this.taskDescription.trim() || !this.taskFrequency || !this.taskComplexity || !this.taskStandardDuration || !this.taskRequiredProficiencyId) {
+        this.toaster.showError('Name, Description, Frequency, Complexity, Standard Duration and Required Proficiency Level are required.');
         return;
       }
       const matched = this.taskRequiredProficiencyId
@@ -157,7 +160,7 @@ export class SkillsPanelComponent implements OnChanges {
       payload = p;
     } else {
       if (!this.cpName.trim() || !this.cpRiskLevel || !this.cpFailureImpactType) {
-        this.errorMsg = 'Name, Risk Level and Failure Impact Type are required.';
+        this.toaster.showError('Name, Risk Level and Failure Impact Type are required.');
         return;
       }
       const p: Partial<ControlPointItem> = {

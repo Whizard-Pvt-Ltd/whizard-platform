@@ -19,6 +19,7 @@ export class PrismaSkillRepository implements ISkillRepository {
       tenantId: r.tenantId.toString(),
       capabilityInstanceId: r.capabilityInstanceId.toString(),
       name: r.name,
+      description: r.description ?? undefined,
       cognitiveType: r.cognitiveType,
       skillCriticality: r.skillCriticality,
       recertificationCycleMonths: r.recertificationCycleMonths,
@@ -39,6 +40,7 @@ export class PrismaSkillRepository implements ISkillRepository {
       id: r.id.toString(),
       capabilityInstanceId: r.capabilityInstanceId.toString(),
       name: r.name,
+      description: r.description ?? undefined,
       cognitiveType: r.cognitiveType,
       skillCriticality: r.skillCriticality,
       recertificationCycleMonths: r.recertificationCycleMonths,
@@ -57,11 +59,19 @@ export class PrismaSkillRepository implements ISkillRepository {
       tenantId: r.tenantId.toString(),
       capabilityInstanceId: r.capabilityInstanceId.toString(),
       name: r.name,
+      description: r.description ?? undefined,
       cognitiveType: r.cognitiveType,
       skillCriticality: r.skillCriticality,
       recertificationCycleMonths: r.recertificationCycleMonths,
       aiImpact: r.aiImpact
     });
+  }
+
+  async existsByName(name: string, capabilityInstanceId: string, tenantId: string): Promise<boolean> {
+    const count = await this.prisma.skill.count({
+      where: { name, capabilityInstanceId: BigInt(capabilityInstanceId), tenantId: BigInt(tenantId), isActive: true }
+    });
+    return count > 0;
   }
 
   async save(skill: Skill): Promise<void> {
@@ -70,6 +80,7 @@ export class PrismaSkillRepository implements ISkillRepository {
         tenantId: BigInt(skill.tenantId),
         capabilityInstanceId: BigInt(skill.capabilityInstanceId),
         name: skill.name,
+        description: skill.description,
         cognitiveType: skill.cognitiveType,
         skillCriticality: skill.skillCriticality,
         recertificationCycleMonths: skill.recertificationCycleMonths,
@@ -83,6 +94,7 @@ export class PrismaSkillRepository implements ISkillRepository {
       where: { id: BigInt(skill.id) },
       data: {
         name: skill.name,
+        description: skill.description,
         cognitiveType: skill.cognitiveType,
         skillCriticality: skill.skillCriticality,
         recertificationCycleMonths: skill.recertificationCycleMonths,

@@ -7,10 +7,13 @@ export class CreateSkillCommandHandler {
   constructor(private readonly repo: ISkillRepository) {}
 
   async execute(cmd: CreateSkillCommand): Promise<void> {
+    const exists = await this.repo.existsByName(cmd.name, cmd.capabilityInstanceId, cmd.tenantId);
+    if (exists) throw new DomainException(`A Skill named "${cmd.name}" already exists in this capability instance`);
     const skill = Skill.create({
       tenantId: cmd.tenantId,
       capabilityInstanceId: cmd.capabilityInstanceId,
       name: cmd.name,
+      description: cmd.description,
       cognitiveType: cmd.cognitiveType,
       skillCriticality: cmd.skillCriticality,
       recertificationCycleMonths: cmd.recertificationCycleMonths,
@@ -28,6 +31,7 @@ export class UpdateSkillCommandHandler {
     if (!skill) throw new DomainException(`Skill ${cmd.id} not found`);
     skill.update({
       name: cmd.name,
+      description: cmd.description,
       cognitiveType: cmd.cognitiveType,
       skillCriticality: cmd.skillCriticality,
       recertificationCycleMonths: cmd.recertificationCycleMonths,
