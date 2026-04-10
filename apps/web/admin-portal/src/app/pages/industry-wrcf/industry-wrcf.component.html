@@ -43,17 +43,6 @@
     </div>
   </div>
 
-  @if (errorMessage()) {
-    <div class="error-banner">
-      <span>⚠ {{ errorMessage() }}</span>
-      <button class="error-close" (click)="errorMessage.set('')">✕</button>
-    </div>
-  }
-
-  @if (toastMessage()) {
-    <div class="toast-banner">{{ toastMessage() }}</div>
-  }
-
   <div class="workspace">
     <div class="columns-grid">
       <whizard-wrcf-column
@@ -117,10 +106,8 @@
     <div class="panel-backdrop" (click)="closePanel()"></div>
     <whizard-wrcf-panel
       [state]="panel()"
-      [panelError]="panelError()"
       (save)="onPanelSave($event)"
       (deleteRequested)="onPanelDeleteRequested()"
-      (delete)="onPanelDelete($event)"
       (close)="closePanel()"
     />
   }

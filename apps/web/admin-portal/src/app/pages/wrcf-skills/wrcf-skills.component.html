@@ -66,13 +66,6 @@
     </div>
   </div>
 
-  @if (errorMessage()) {
-  <div class="error-banner">
-    <span>⚠ {{ errorMessage() }}</span>
-    <button class="error-close" (click)="errorMessage.set('')">✕</button>
-  </div>
-  }
-
   @if (!resolvedCiId()) {
   <div class="no-ci-msg">Select all 5 filters above to manage skills for a Capability Instance.</div>
   }
@@ -95,9 +88,9 @@
 
   @if (panel().open) {
   <div class="panel-backdrop" (click)="closePanel()"></div>
-  <whizard-skills-panel #panelRef [state]="panel()" [proficiencyLevels]="allProficienciesPublic"
-    [panelError]="panelError()" (save)="onPanelSave($event)" (deleteRequested)="onPanelDeleteRequested()"
-    (delete)="onPanelDelete($event)" (close)="closePanel()" />
+  <whizard-skills-panel [state]="panel()" [proficiencyLevels]="allProficienciesPublic"
+    (save)="onPanelSave($event)" (deleteRequested)="onPanelDeleteRequested()"
+    (close)="closePanel()" />
   }
 
   }
