@@ -22,7 +22,7 @@ export class CreateIndustryRoleCommandHandler {
     const role = IndustryRole.create({
       tenantId: cmd.tenantId,
       departmentId: cmd.departmentId,
-      industryId: cmd.industryId,
+      industryId: cmd.industryId ?? dept.industryId,
       name: cmd.name,
       description: cmd.description,
       seniorityLevel: cmd.seniorityLevel,

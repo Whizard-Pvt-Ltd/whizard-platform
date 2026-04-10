@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, OnDestroy, Pipe, PipeTransform, inject } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  OnDestroy,
+  Pipe,
+  PipeTransform,
+  inject,
+} from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { SIGNED_URL_PROVIDER } from './signed-url.token.js';
 
@@ -8,7 +14,7 @@ interface CacheEntry {
 }
 
 const cache = new Map<string, CacheEntry>();
-const CACHE_TTL_MS = 4 * 60 * 1000; // 4 min (signed URLs last 5 min)
+const CACHE_TTL_MS = 5 * 60 * 1000; // 4 min (signed URLs last 5 min)
 
 @Pipe({ name: 'signedUrl', standalone: true, pure: false })
 export class SignedUrlPipe implements PipeTransform, OnDestroy {
@@ -40,18 +46,35 @@ export class SignedUrlPipe implements PipeTransform, OnDestroy {
     this.loading = true;
     this.resolvedUrl = '';
 
-    this.provider.getSignedUrl(key).subscribe({
-      next: (url) => {
-        cache.set(key, { url, expiresAt: Date.now() + CACHE_TTL_MS });
-        this.resolvedUrl = this.sanitizer.bypassSecurityTrustUrl(url);
-        this.loading = false;
-        this.cdr.markForCheck();
-      },
-      error: () => {
-        this.loading = false;
-        this.cdr.markForCheck();
-      },
-    });
+    setTimeout(() => {
+      this.provider.getSignedUrl(key).subscribe({
+        next: (url) => {
+          cache.set(key, { url, expiresAt: Date.now() + CACHE_TTL_MS });
+          this.resolvedUrl = this.sanitizer.bypassSecurityTrustUrl(url);
+          this.loading = false;
+          this.cdr.markForCheck();
+        },
+        error: () => {
+          this.loading = false;
+          this.cdr.markForCheck();
+        },
+      });
+    }, 0);
+
+    // queueMicrotask(() => {
+    //   this.provider.getSignedUrl(key).subscribe({
+    //     next: (url) => {
+    //       cache.set(key, { url, expiresAt: Date.now() + CACHE_TTL_MS });
+    //       this.resolvedUrl = this.sanitizer.bypassSecurityTrustUrl(url);
+    //       this.loading = false;
+    //       this.cdr.markForCheck();
+    //     },
+    //     error: () => {
+    //       this.loading = false;
+    //       this.cdr.markForCheck();
+    //     },
+    //   });
+    // });
 
     return this.resolvedUrl;
   }

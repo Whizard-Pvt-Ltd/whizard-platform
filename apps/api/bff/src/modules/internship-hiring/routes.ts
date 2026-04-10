@@ -10,8 +10,8 @@ const buildCoreApiHeaders = (request: FastifyRequestLike): Record<string, string
   if (request.headers['authorization']) {
     headers['Authorization'] = String(request.headers['authorization']);
   }
-  if (request.headers['x-company-tenant-id']) {
-    headers['X-Company-Tenant-Id'] = String(request.headers['x-company-tenant-id']);
+  if (request.headers['x-selected-tenant-id']) {
+    headers['X-Selected-Tenant-Id'] = String(request.headers['x-selected-tenant-id']);
   }
   return headers;
 };

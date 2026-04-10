@@ -225,7 +225,7 @@ export class ManageInternshipComponent implements OnInit, OnDestroy {
 
   private loadFormDropdowns(companyTenantId?: string | null): void {
     if (companyTenantId && this.isAdminOrSystemUser()) {
-      this.authCtx.selectedCompanyTenantId.set(companyTenantId);
+      this.authCtx.setSelectedTenantId(companyTenantId);
     }
     this.api.listCities().subscribe(c => this.cities.set(c));
     this.api.listIndustryRoles().subscribe(r => this.industryRoles.set(r));
@@ -273,7 +273,7 @@ export class ManageInternshipComponent implements OnInit, OnDestroy {
   }
 
   protected onCompanySelected(tenantId: string): void {
-    this.authCtx.selectedCompanyTenantId.set(tenantId || null);
+    this.authCtx.setSelectedTenantId(tenantId || null);
     this.loadList();
     if (this.mode() === 'create' || this.mode() === 'edit') {
       this.loadFormDropdowns();
