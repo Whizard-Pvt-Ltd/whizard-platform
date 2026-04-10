@@ -20,6 +20,8 @@ import {
 } from '@angular/router';
 import { filter, map } from 'rxjs';
 import { ScrollbarDirective } from '../directives/scrollbar/scrollbar.directive';
+import { LoadingBarComponent } from '../loading/loading-bar.component';
+import { ToasterContainerComponent } from '../toaster/toaster-container.component';
 import { LAYOUT_AUTH_SERVICE, LAYOUT_TENANT_SERVICE } from './auth.token';
 import { AdminFooterComponent } from './footer.component';
 import { PageActionsService } from './page-actions.service';
@@ -47,6 +49,8 @@ import { AdminSidebarComponent } from './sidebar.component';
     // NotificationsComponent,
     MatButtonModule,
     ScrollbarDirective,
+    ToasterContainerComponent,
+    LoadingBarComponent,
   ],
   template: `
     <mat-sidenav-container>
@@ -70,8 +74,10 @@ import { AdminSidebarComponent } from './sidebar.component';
 
       <mat-sidenav-content
         class="flex flex-col overflow-hidden dark:border-neutral-800 dark:bg-primary-950"
-        style="height: 100vh;"
+        style="height: 100vh; position: relative;"
       >
+        <whizard-loading-bar />
+
         <!-- Top bar — always visible -->
         <div
           class="flex items-center h-16 px-4 shrink-0 gap-x-3"
@@ -167,6 +173,8 @@ import { AdminSidebarComponent } from './sidebar.component';
         <whizard-admin-footer />
       </mat-sidenav-content>
     </mat-sidenav-container>
+
+    <whizard-toaster-container />
 
     <mat-menu #topbarUserMenu="matMenu">
       <button mat-menu-item routerLink="/profile">

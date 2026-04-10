@@ -29,6 +29,28 @@ export type { ImageLightboxDialogData } from './image-lightbox/image-lightbox.co
 export { MediaUploaderComponent } from './media-uploader/media-uploader.component.js';
 export type { UploadedFile } from './media-uploader/media-uploader.component.js';
 
+// Toaster
+export { ToasterService } from './toaster/toaster.service.js';
+export { ToastComponent } from './toaster/toast.component.js';
+export { ToasterContainerComponent } from './toaster/toaster-container.component.js';
+export type { Toast, ToastVariant, ToastOptions } from './toaster/toaster.types.js';
+
+// Confirmation dialog
+export { ConfirmationService } from './confirmation/confirmation.service.js';
+export { ConfirmationDialogComponent } from './confirmation/dialog/confirmation-dialog.component.js';
+export type {
+  WhizardConfirmationConfig,
+  ConfirmationIconColor,
+  ConfirmationActionColor,
+  ConfirmationDialogResult,
+} from './confirmation/confirmation.types.js';
+
+// Loading bar
+export { LoadingService } from './loading/loading.service.js';
+export type { LoadingMode } from './loading/loading.service.js';
+export { loadingInterceptor } from './loading/loading.interceptor.js';
+export { LoadingBarComponent } from './loading/loading-bar.component.js';
+
 // Signed URL pipe
 export { SignedUrlPipe } from './signed-url/signed-url.pipe.js';
 export { SIGNED_URL_PROVIDER } from './signed-url/signed-url.token.js';

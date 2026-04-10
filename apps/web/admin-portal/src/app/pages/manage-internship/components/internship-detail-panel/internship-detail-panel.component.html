@@ -59,14 +59,16 @@
               {{ internship()!.title }}
             </h2>
 
-            <button
-              type="button"
-              (click)="editClicked.emit()"
-              class="mr-[10%] shrink-0 flex items-center gap-1.5 h-8 px-3 rounded-lg bg-whizard-action text-white text-sm font-medium hover:bg-whizard-action-hover transition-colors"
-            >
-              <mat-icon svgIcon="lucideIcons:pencil" class="size-4 shrink-0" />
-              Edit
-            </button>
+            @if (internship()!.status !== 'PUBLISHED') {
+              <button
+                type="button"
+                (click)="editClicked.emit()"
+                class="mr-[10%] shrink-0 flex items-center gap-1.5 h-8 px-3 rounded-lg bg-whizard-action text-white text-sm font-medium hover:bg-whizard-action-hover transition-colors"
+              >
+                <mat-icon svgIcon="lucideIcons:pencil" class="size-4 shrink-0" />
+                Edit
+              </button>
+            }
           </div>
 
           <!-- Row 2: meta chips (left) · ID + Date (right) -->
@@ -367,13 +369,15 @@
                   <div
                     class="w-55 h-37.5 rounded-lg border border-white overflow-hidden relative"
                   >
-                    @if (a.pdfUrl) {
-                      <img
-                        [src]="a.pdfUrl | signedUrl"
-                        [alt]="a.title"
-                        class="w-full h-full object-cover"
-                      />
-                    } @else {
+                    <!-- @if (a.pdfUrl) { -->
+                    <img
+                      [src]="
+                        '/assets/images/9e4d51680fac6f3feddbd434414b3ef1ce73c91e.png'
+                      "
+                      [alt]="a.title"
+                      class="w-full h-full object-cover"
+                    />
+                    <!-- } @else {
                       <div
                         class="w-full h-full bg-whizard-bg-secondary flex items-center justify-center"
                       >
@@ -382,7 +386,7 @@
                           class="size-10 text-whizard-text-secondary"
                         />
                       </div>
-                    }
+                    } -->
                     <div
                       class="absolute bottom-0 left-0 right-0 bg-white flex items-center justify-center px-3.5 py-1.5 rounded-b-lg"
                     >
@@ -436,10 +440,17 @@
                 <div
                   class="w-full h-full bg-whizard-bg-secondary flex items-center justify-center"
                 >
-                  <mat-icon
+                  <img
+                    [src]="
+                      '/assets/images/9e4d51680fac6f3feddbd434414b3ef1ce73c91e.png'
+                    "
+                    [alt]="a.title"
+                    class="w-full h-full object-cover"
+                  />
+                  <!-- <mat-icon
                     svgIcon="lucideIcons:clipboard-list"
                     class="size-10 text-whizard-text-secondary"
-                  />
+                  /> -->
                 </div>
                 <div
                   class="absolute bottom-0 left-0 right-0 bg-white flex items-center justify-center px-3.5 py-1.5 rounded-b-lg"
@@ -519,7 +530,7 @@
                       'Offer Letter Template'
                     )
                   "
-                  class="shrink-0 flex items-center gap-1.5 h-[35px] px-4 rounded-lg bg-whizard-accent text-whizard-bg-primary text-sm font-medium hover:opacity-90 transition-opacity"
+                  class="flex items-center gap-1.5 h-8.75 px-4 rounded-lg bg-whizard-action hover:bg-whizard-action-hover transition-colors"
                 >
                   <mat-icon svgIcon="lucideIcons:eye" class="size-4" />
                   View
@@ -539,7 +550,7 @@
                       'Terms & Conditions'
                     )
                   "
-                  class="shrink-0 flex items-center gap-1.5 h-[35px] px-4 rounded-lg bg-whizard-accent text-whizard-bg-primary text-sm font-medium hover:opacity-90 transition-opacity"
+                  class="flex items-center gap-1.5 h-8.75 px-4 rounded-lg bg-whizard-action hover:bg-whizard-action-hover transition-colors"
                 >
                   <mat-icon svgIcon="lucideIcons:eye" class="size-4" />
                   View
@@ -659,13 +670,15 @@
                 <div
                   class="w-55 h-37.5 rounded-lg border border-white overflow-hidden relative"
                 >
-                  @if (c.pdfUrl) {
-                    <img
-                      [src]="c.pdfUrl | signedUrl"
-                      [alt]="c.name"
-                      class="w-full h-full object-cover"
-                    />
-                  } @else {
+                  <!-- @if (c.pdfUrl) { -->
+                  <img
+                    [src]="
+                      '/assets/images/9e4d51680fac6f3feddbd434414b3ef1ce73c91e.png'
+                    "
+                    [alt]="c.name"
+                    class="w-full h-full object-cover"
+                  />
+                  <!-- } @else {
                     <div
                       class="w-full h-full bg-whizard-bg-secondary flex items-center justify-center"
                     >
@@ -674,7 +687,7 @@
                         class="size-10 text-whizard-text-secondary"
                       />
                     </div>
-                  }
+                  } -->
                   <div
                     class="absolute bottom-0 left-0 right-0 bg-white flex items-center justify-center px-3.5 py-1.5 rounded-b-lg"
                   >
@@ -703,13 +716,15 @@
                 <div
                   class="w-55 h-37.5 rounded-lg border border-white overflow-hidden relative"
                 >
-                  @if (a.pdfUrl) {
-                    <img
-                      [src]="a.pdfUrl | signedUrl"
-                      [alt]="a.name"
-                      class="w-full h-full object-cover"
-                    />
-                  } @else {
+                  <!-- @if (a.pdfUrl) { -->
+                  <img
+                    [src]="
+                      '/assets/images/9e4d51680fac6f3feddbd434414b3ef1ce73c91e.png'
+                    "
+                    [alt]="a.name"
+                    class="w-full h-full object-cover"
+                  />
+                  <!-- } @else {
                     <div
                       class="w-full h-full bg-whizard-bg-secondary flex items-center justify-center"
                     >
@@ -718,7 +733,7 @@
                         class="size-10 text-whizard-text-secondary"
                       />
                     </div>
-                  }
+                  } -->
                   <div
                     class="absolute bottom-0 left-0 right-0 bg-white flex items-center justify-center px-3.5 py-1.5 rounded-b-lg"
                   >
