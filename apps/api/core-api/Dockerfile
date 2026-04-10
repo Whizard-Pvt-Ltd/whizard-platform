@@ -28,6 +28,7 @@ COPY libs/contexts/identity-access/package.json ./libs/contexts/identity-access/
 COPY libs/shared/infrastructure/package.json ./libs/shared/infrastructure/
 COPY libs/shared/logging/package.json ./libs/shared/logging/
 COPY libs/shared/core-api-client/package.json ./libs/shared/core-api-client/
+COPY libs/shared/resource-upload/package.json ./libs/shared/resource-upload/
 
 # Install ALL dependencies (needed for build)
 # --ignore-scripts because prisma schema not copied yet
