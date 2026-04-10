@@ -1,0 +1,636 @@
+{
+  "config": {
+    "configFile": "/home/sama/new-repo/whizard-platform/playwright.config.ts",
+    "rootDir": "/home/sama/new-repo/whizard-platform",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/home/sama/new-repo/whizard-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/home/sama/new-repo/whizard-platform",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+      "file": "manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Manage WRCF Skills sheet-aligned coverage",
+          "file": "manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+          "line": 225,
+          "column": 6,
+          "specs": [
+            {
+              "title": "WSKILL-E2E-001 @future @p1 @manage-skills redirected Manage WRCF Skills inherits the selected FG PWO SWO Capability and Proficiency",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-skills"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 166,
+                      "error": {
+                        "message": "Error: Current Industry WRCF + Add Skills navigation only passes industryId, not the full CI filter path.",
+                        "stack": "Error: Current Industry WRCF + Add Skills navigation only passes industryId, not the full CI filter path.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:221:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+                          "column": 11,
+                          "line": 221
+                        },
+                        "snippet": "  219 | ): void {\n  220 |   test(`${id} @future @${priority} @manage-skills ${title}`, async () => {\n> 221 |     throw new Error(reason);\n      |           ^\n  222 |   });\n  223 | }\n  224 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+                            "column": 11,
+                            "line": 221
+                          },
+                          "message": "Error: Current Industry WRCF + Add Skills navigation only passes industryId, not the full CI filter path.\n\n  219 | ): void {\n  220 |   test(`${id} @future @${priority} @manage-skills ${title}`, async () => {\n> 221 |     throw new Error(reason);\n      |           ^\n  222 |   });\n  223 | }\n  224 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:221:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:26:09.927Z",
+                      "annotations": [],
+                      "attachments": [],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+                        "column": 11,
+                        "line": 221
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "1fa8cdd36f6bfb04a80c-be1d4bfdfd01de05727d",
+              "file": "manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+              "line": 220,
+              "column": 7
+            },
+            {
+              "title": "WSKILL-E2E-002 @future @p1 @manage-skills opening Manage WRCF Skills directly selects the first valid values automatically",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-skills"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 188,
+                      "error": {
+                        "message": "Error: Current page loads FG options but leaves the 5 CI filters unselected until the user chooses them.",
+                        "stack": "Error: Current page loads FG options but leaves the 5 CI filters unselected until the user chooses them.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:221:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+                          "column": 11,
+                          "line": 221
+                        },
+                        "snippet": "  219 | ): void {\n  220 |   test(`${id} @future @${priority} @manage-skills ${title}`, async () => {\n> 221 |     throw new Error(reason);\n      |           ^\n  222 |   });\n  223 | }\n  224 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+                            "column": 11,
+                            "line": 221
+                          },
+                          "message": "Error: Current page loads FG options but leaves the 5 CI filters unselected until the user chooses them.\n\n  219 | ): void {\n  220 |   test(`${id} @future @${priority} @manage-skills ${title}`, async () => {\n> 221 |     throw new Error(reason);\n      |           ^\n  222 |   });\n  223 | }\n  224 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:221:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:26:12.934Z",
+                      "annotations": [],
+                      "attachments": [],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+                        "column": 11,
+                        "line": 221
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "1fa8cdd36f6bfb04a80c-95c2fb9af7f4bb71c544",
+              "file": "manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+              "line": 220,
+              "column": 7
+            },
+            {
+              "title": "WSKILL-E2E-003 @stable @p0 @manage-skills filter dropdowns expose only CI-backed options for the current selection chain",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "manage-skills"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3916,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:26:16.071Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1fa8cdd36f6bfb04a80c-3378604ded7e71d6dd22",
+              "file": "manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+              "line": 258,
+              "column": 7
+            },
+            {
+              "title": "WSKILL-E2E-004 @stable @p0 @manage-skills filter values are shown in ascending order for each active dropdown",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p0",
+                "manage-skills"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2155,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 13\u001b[39m\n\u001b[31m+ Received  + 13\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[32m-   \"Administration\",\u001b[39m\n\u001b[32m-   \"Air & Gas System\",\u001b[39m\n\u001b[32m-   \"Ash Handling System\",\u001b[39m\n\u001b[31m+   \"Coal Handling System\",\u001b[39m\n\u001b[2m    \"Boiler System\",\u001b[22m\n\u001b[32m-   \"Coal Handling System\",\u001b[39m\n\u001b[31m+   \"Turbine System\",\u001b[39m\n\u001b[31m+   \"Generator System\",\u001b[39m\n\u001b[2m    \"Condenser & Cooling\",\u001b[22m\n\u001b[32m-   \"Electrical Systems\",\u001b[39m\n\u001b[32m-   \"f\",\u001b[39m\n\u001b[2m    \"Feedwater System\",\u001b[22m\n\u001b[31m+   \"Ash Handling System\",\u001b[39m\n\u001b[2m    \"Flue Gas System\",\u001b[22m\n\u001b[32m-   \"Fuel Oil System\",\u001b[39m\n\u001b[32m-   \"Generator System\",\u001b[39m\n\u001b[31m+   \"Water Treatment\",\u001b[39m\n\u001b[31m+   \"Electrical Systems\",\u001b[39m\n\u001b[2m    \"Instrumentation & Control\",\u001b[22m\n\u001b[31m+   \"Fuel Oil System\",\u001b[39m\n\u001b[31m+   \"Air & Gas System\",\u001b[39m\n\u001b[2m    \"Maintenance\",\u001b[22m\n\u001b[32m-   \"new\",\u001b[39m\n\u001b[2m    \"Operations\",\u001b[22m\n\u001b[32m-   \"sa\",\u001b[39m\n\u001b[2m    \"Safety & Compliance\",\u001b[22m\n\u001b[32m-   \"sasa\",\u001b[39m\n\u001b[32m-   \"Turbine System\",\u001b[39m\n\u001b[2m    \"Utilities\",\u001b[22m\n\u001b[32m-   \"Water Treatment\",\u001b[39m\n\u001b[31m+   \"Administration\",\u001b[39m\n\u001b[31m+   \"new\",\u001b[39m\n\u001b[31m+   \"sasa\",\u001b[39m\n\u001b[31m+   \"sa\",\u001b[39m\n\u001b[31m+   \"f\",\u001b[39m\n\u001b[2m  ]\u001b[22m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 13\u001b[39m\n\u001b[31m+ Received  + 13\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[32m-   \"Administration\",\u001b[39m\n\u001b[32m-   \"Air & Gas System\",\u001b[39m\n\u001b[32m-   \"Ash Handling System\",\u001b[39m\n\u001b[31m+   \"Coal Handling System\",\u001b[39m\n\u001b[2m    \"Boiler System\",\u001b[22m\n\u001b[32m-   \"Coal Handling System\",\u001b[39m\n\u001b[31m+   \"Turbine System\",\u001b[39m\n\u001b[31m+   \"Generator System\",\u001b[39m\n\u001b[2m    \"Condenser & Cooling\",\u001b[22m\n\u001b[32m-   \"Electrical Systems\",\u001b[39m\n\u001b[32m-   \"f\",\u001b[39m\n\u001b[2m    \"Feedwater System\",\u001b[22m\n\u001b[31m+   \"Ash Handling System\",\u001b[39m\n\u001b[2m    \"Flue Gas System\",\u001b[22m\n\u001b[32m-   \"Fuel Oil System\",\u001b[39m\n\u001b[32m-   \"Generator System\",\u001b[39m\n\u001b[31m+   \"Water Treatment\",\u001b[39m\n\u001b[31m+   \"Electrical Systems\",\u001b[39m\n\u001b[2m    \"Instrumentation & Control\",\u001b[22m\n\u001b[31m+   \"Fuel Oil System\",\u001b[39m\n\u001b[31m+   \"Air & Gas System\",\u001b[39m\n\u001b[2m    \"Maintenance\",\u001b[22m\n\u001b[32m-   \"new\",\u001b[39m\n\u001b[2m    \"Operations\",\u001b[22m\n\u001b[32m-   \"sa\",\u001b[39m\n\u001b[2m    \"Safety & Compliance\",\u001b[22m\n\u001b[32m-   \"sasa\",\u001b[39m\n\u001b[32m-   \"Turbine System\",\u001b[39m\n\u001b[2m    \"Utilities\",\u001b[22m\n\u001b[32m-   \"Water Treatment\",\u001b[39m\n\u001b[31m+   \"Administration\",\u001b[39m\n\u001b[31m+   \"new\",\u001b[39m\n\u001b[31m+   \"sasa\",\u001b[39m\n\u001b[31m+   \"sa\",\u001b[39m\n\u001b[31m+   \"f\",\u001b[39m\n\u001b[2m  ]\u001b[22m\n    at expectSorted (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:211:18)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:275:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+                          "column": 18,
+                          "line": 211
+                        },
+                        "snippet": "  209 |\n  210 | async function expectSorted(values: string[]): Promise<void> {\n> 211 |   expect(values).toEqual([...values].sort((a, b) => a.localeCompare(b)));\n      |                  ^\n  212 | }\n  213 |\n  214 | function futureManageSkillsCase("
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+                            "column": 18,
+                            "line": 211
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 13\u001b[39m\n\u001b[31m+ Received  + 13\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[32m-   \"Administration\",\u001b[39m\n\u001b[32m-   \"Air & Gas System\",\u001b[39m\n\u001b[32m-   \"Ash Handling System\",\u001b[39m\n\u001b[31m+   \"Coal Handling System\",\u001b[39m\n\u001b[2m    \"Boiler System\",\u001b[22m\n\u001b[32m-   \"Coal Handling System\",\u001b[39m\n\u001b[31m+   \"Turbine System\",\u001b[39m\n\u001b[31m+   \"Generator System\",\u001b[39m\n\u001b[2m    \"Condenser & Cooling\",\u001b[22m\n\u001b[32m-   \"Electrical Systems\",\u001b[39m\n\u001b[32m-   \"f\",\u001b[39m\n\u001b[2m    \"Feedwater System\",\u001b[22m\n\u001b[31m+   \"Ash Handling System\",\u001b[39m\n\u001b[2m    \"Flue Gas System\",\u001b[22m\n\u001b[32m-   \"Fuel Oil System\",\u001b[39m\n\u001b[32m-   \"Generator System\",\u001b[39m\n\u001b[31m+   \"Water Treatment\",\u001b[39m\n\u001b[31m+   \"Electrical Systems\",\u001b[39m\n\u001b[2m    \"Instrumentation & Control\",\u001b[22m\n\u001b[31m+   \"Fuel Oil System\",\u001b[39m\n\u001b[31m+   \"Air & Gas System\",\u001b[39m\n\u001b[2m    \"Maintenance\",\u001b[22m\n\u001b[32m-   \"new\",\u001b[39m\n\u001b[2m    \"Operations\",\u001b[22m\n\u001b[32m-   \"sa\",\u001b[39m\n\u001b[2m    \"Safety & Compliance\",\u001b[22m\n\u001b[32m-   \"sasa\",\u001b[39m\n\u001b[32m-   \"Turbine System\",\u001b[39m\n\u001b[2m    \"Utilities\",\u001b[22m\n\u001b[32m-   \"Water Treatment\",\u001b[39m\n\u001b[31m+   \"Administration\",\u001b[39m\n\u001b[31m+   \"new\",\u001b[39m\n\u001b[31m+   \"sasa\",\u001b[39m\n\u001b[31m+   \"sa\",\u001b[39m\n\u001b[31m+   \"f\",\u001b[39m\n\u001b[2m  ]\u001b[22m\n\n  209 |\n  210 | async function expectSorted(values: string[]): Promise<void> {\n> 211 |   expect(values).toEqual([...values].sort((a, b) => a.localeCompare(b)));\n      |                  ^\n  212 | }\n  213 |\n  214 | function futureManageSkillsCase(\n    at expectSorted (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:211:18)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:275:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:26:21.275Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Manage_W-ee627-er-for-each-active-dropdown/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+                        "column": 18,
+                        "line": 211
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "1fa8cdd36f6bfb04a80c-716e74e57cdd627cdcca",
+              "file": "manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+              "line": 269,
+              "column": 7
+            },
+            {
+              "title": "WSKILL-E2E-005 @future @p1 @manage-skills first load applies filters automatically and loads skills without manual selection",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-skills"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 173,
+                      "error": {
+                        "message": "Error: Current page requires explicit 5-filter selection unless a ciId query param is provided.",
+                        "stack": "Error: Current page requires explicit 5-filter selection unless a ciId query param is provided.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:221:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+                          "column": 11,
+                          "line": 221
+                        },
+                        "snippet": "  219 | ): void {\n  220 |   test(`${id} @future @${priority} @manage-skills ${title}`, async () => {\n> 221 |     throw new Error(reason);\n      |           ^\n  222 |   });\n  223 | }\n  224 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+                            "column": 11,
+                            "line": 221
+                          },
+                          "message": "Error: Current page requires explicit 5-filter selection unless a ciId query param is provided.\n\n  219 | ): void {\n  220 |   test(`${id} @future @${priority} @manage-skills ${title}`, async () => {\n> 221 |     throw new Error(reason);\n      |           ^\n  222 |   });\n  223 | }\n  224 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:221:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:26:25.114Z",
+                      "annotations": [],
+                      "attachments": [],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+                        "column": 11,
+                        "line": 221
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "1fa8cdd36f6bfb04a80c-7e5c39ecb581973ccef1",
+              "file": "manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+              "line": 220,
+              "column": 7
+            },
+            {
+              "title": "WSKILL-E2E-006 @stable @p0 @manage-skills skills column resolves for the selected Capability Instance path",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "manage-skills"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5521,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:26:28.251Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1fa8cdd36f6bfb04a80c-ad3bbb1ba33c18da6883",
+              "file": "manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+              "line": 298,
+              "column": 7
+            },
+            {
+              "title": "WSKILL-E2E-007 @future @p1 @manage-skills task list shows only records for the selected skill",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-skills"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 181,
+                      "error": {
+                        "message": "Error: Needs a deterministic CI path with at least two seeded skills and task data for both.",
+                        "stack": "Error: Needs a deterministic CI path with at least two seeded skills and task data for both.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:221:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+                          "column": 11,
+                          "line": 221
+                        },
+                        "snippet": "  219 | ): void {\n  220 |   test(`${id} @future @${priority} @manage-skills ${title}`, async () => {\n> 221 |     throw new Error(reason);\n      |           ^\n  222 |   });\n  223 | }\n  224 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+                            "column": 11,
+                            "line": 221
+                          },
+                          "message": "Error: Needs a deterministic CI path with at least two seeded skills and task data for both.\n\n  219 | ): void {\n  220 |   test(`${id} @future @${priority} @manage-skills ${title}`, async () => {\n> 221 |     throw new Error(reason);\n      |           ^\n  222 |   });\n  223 | }\n  224 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:221:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:26:34.977Z",
+                      "annotations": [],
+                      "attachments": [],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+                        "column": 11,
+                        "line": 221
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "1fa8cdd36f6bfb04a80c-0b867413d63c36a96151",
+              "file": "manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+              "line": 220,
+              "column": 7
+            },
+            {
+              "title": "WSKILL-E2E-008 @future @p1 @manage-skills control point list shows only records for the selected task",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-skills"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 190,
+                      "error": {
+                        "message": "Error: Needs a deterministic task with seeded control points plus a second task for comparison.",
+                        "stack": "Error: Needs a deterministic task with seeded control points plus a second task for comparison.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:221:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+                          "column": 11,
+                          "line": 221
+                        },
+                        "snippet": "  219 | ): void {\n  220 |   test(`${id} @future @${priority} @manage-skills ${title}`, async () => {\n> 221 |     throw new Error(reason);\n      |           ^\n  222 |   });\n  223 | }\n  224 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+                            "column": 11,
+                            "line": 221
+                          },
+                          "message": "Error: Needs a deterministic task with seeded control points plus a second task for comparison.\n\n  219 | ): void {\n  220 |   test(`${id} @future @${priority} @manage-skills ${title}`, async () => {\n> 221 |     throw new Error(reason);\n      |           ^\n  222 |   });\n  223 | }\n  224 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:221:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:26:36.819Z",
+                      "annotations": [],
+                      "attachments": [],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+                        "column": 11,
+                        "line": 221
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "1fa8cdd36f6bfb04a80c-bb4b5e99579ab801d6aa",
+              "file": "manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+              "line": 220,
+              "column": 7
+            },
+            {
+              "title": "WSKILL-E2E-009 @future @p1 @manage-skills edit icon appears only for the selected skill task and control point rows",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-skills"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 177,
+                      "error": {
+                        "message": "Error: Needs stable seeded rows in all three columns for edit-icon visibility checks.",
+                        "stack": "Error: Needs stable seeded rows in all three columns for edit-icon visibility checks.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:221:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+                          "column": 11,
+                          "line": 221
+                        },
+                        "snippet": "  219 | ): void {\n  220 |   test(`${id} @future @${priority} @manage-skills ${title}`, async () => {\n> 221 |     throw new Error(reason);\n      |           ^\n  222 |   });\n  223 | }\n  224 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+                            "column": 11,
+                            "line": 221
+                          },
+                          "message": "Error: Needs stable seeded rows in all three columns for edit-icon visibility checks.\n\n  219 | ): void {\n  220 |   test(`${id} @future @${priority} @manage-skills ${title}`, async () => {\n> 221 |     throw new Error(reason);\n      |           ^\n  222 |   });\n  223 | }\n  224 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:221:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:26:39.876Z",
+                      "annotations": [],
+                      "attachments": [],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+                        "column": 11,
+                        "line": 221
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "1fa8cdd36f6bfb04a80c-5bb367507094267284a4",
+              "file": "manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+              "line": 220,
+              "column": 7
+            },
+            {
+              "title": "WSKILL-E2E-010 @stable @p0 @manage-skills changing the top CI filters clears stale downstream list state",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "manage-skills"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4900,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:26:42.911Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1fa8cdd36f6bfb04a80c-d6f73cd584369e2f80ed",
+              "file": "manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts",
+              "line": 325,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-04-03T17:26:07.928Z",
+    "duration": 41450.85400000001,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 7,
+    "flaky": 0
+  }
+}

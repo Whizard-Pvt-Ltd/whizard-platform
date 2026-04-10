@@ -7,7 +7,7 @@ const loginPassword = process.env.TEST_LOGIN_PASSWORD;
 test.describe('Login page authenticated flow', () => {
   test.skip(!loginEmail || !loginPassword, 'TEST_LOGIN_EMAIL and TEST_LOGIN_PASSWORD are required');
 
-  test('signs in with valid credentials', async ({ page }) => {
+  test('LOGIN-E2E-007 @stable @p1 @signin valid credentials sign the user in and leave the login page', async ({ page }) => {
     await page.goto(`${baseUrl}/login`);
 
     await page.getByLabel('E-mail').fill(loginEmail!);

@@ -1,0 +1,993 @@
+{
+  "config": {
+    "configFile": "/home/sama/new-repo/whizard-platform/playwright.config.ts",
+    "rootDir": "/home/sama/new-repo/whizard-platform",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/home/sama/new-repo/whizard-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/home/sama/new-repo/whizard-platform",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+      "file": "manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Primary Work Object sheet-aligned coverage",
+          "file": "manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+          "line": 249,
+          "column": 6,
+          "specs": [
+            {
+              "title": "PWO-E2E-001 @stable @p0 @pwo shows only active and latest published PWO for the selected FG",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "pwo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3051,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:19:07.159Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5da1886ecfbb9cf4fd8e-6769e22b90b488b0f46a",
+              "file": "manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+              "line": 269,
+              "column": 7
+            },
+            {
+              "title": "PWO-E2E-002 @stable @p0 @pwo shows the add icon for PWO",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "pwo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2411,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:19:14.588Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5da1886ecfbb9cf4fd8e-c836d2c598f62a65703e",
+              "file": "manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+              "line": 273,
+              "column": 7
+            },
+            {
+              "title": "PWO-E2E-003 @stable @p0 @pwo opens the Create PWO popup from the add icon",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "pwo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2458,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:19:17.026Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5da1886ecfbb9cf4fd8e-4e8e4c5dd72ab9d694c9",
+              "file": "manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+              "line": 277,
+              "column": 7
+            },
+            {
+              "title": "PWO-E2E-004 @stable @p0 @pwo keeps Name mandatory while strategic, revenue, and downtime fields use valid defaults",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "pwo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2582,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:19:19.503Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5da1886ecfbb9cf4fd8e-3753fc20680263a08113",
+              "file": "manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+              "line": 282,
+              "column": 7
+            },
+            {
+              "title": "PWO-E2E-005 @stable @p0 @pwo creates a PWO under the selected FG with valid data",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "pwo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 7682,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:19:22.106Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5da1886ecfbb9cf4fd8e-4621b7c72c9ed86945d7",
+              "file": "manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+              "line": 294,
+              "column": 7
+            },
+            {
+              "title": "PWO-E2E-006 @stable @p1 @pwo blocks duplicate PWO creation under the same FG",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "pwo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4039,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:19:29.815Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5da1886ecfbb9cf4fd8e-c1d79e46e7c76da38da1",
+              "file": "manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+              "line": 300,
+              "column": 7
+            },
+            {
+              "title": "PWO-E2E-007 @stable @p1 @pwo blocks trim-aware duplicate PWO creation under the same FG",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "pwo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3100,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:19:33.887Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5da1886ecfbb9cf4fd8e-1ad568d3c0cbc841f689",
+              "file": "manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+              "line": 309,
+              "column": 7
+            },
+            {
+              "title": "PWO-E2E-008 @future @p1 @pwo same PWO name may be allowed in different FG if parent-scoped uniqueness is the business rule",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "pwo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 3073,
+                      "error": {
+                        "message": "Error: Needs a deterministic second FG context and confirmed parent-scoped uniqueness rule.",
+                        "stack": "Error: Needs a deterministic second FG context and confirmed parent-scoped uniqueness rule.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:245:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+                          "column": 11,
+                          "line": 245
+                        },
+                        "snippet": "  243 | function futurePwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  244 |   test(`${id} @future @${priority} @pwo ${title}`, async () => {\n> 245 |     throw new Error(reason);\n      |           ^\n  246 |   });\n  247 | }\n  248 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+                            "column": 11,
+                            "line": 245
+                          },
+                          "message": "Error: Needs a deterministic second FG context and confirmed parent-scoped uniqueness rule.\n\n  243 | function futurePwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  244 |   test(`${id} @future @${priority} @pwo ${title}`, async () => {\n> 245 |     throw new Error(reason);\n      |           ^\n  246 |   });\n  247 | }\n  248 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:245:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:19:37.003Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Primary_-4138d-ueness-is-the-business-rule/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+                        "column": 11,
+                        "line": 245
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "5da1886ecfbb9cf4fd8e-0a50fd4521abb550a0de",
+              "file": "manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+              "line": 244,
+              "column": 7
+            },
+            {
+              "title": "PWO-E2E-009 @stable @p1 @pwo refreshes the PWO list immediately after add",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "pwo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6899,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:19:41.625Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5da1886ecfbb9cf4fd8e-9ce6287fd22959f702ea",
+              "file": "manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+              "line": 320,
+              "column": 7
+            },
+            {
+              "title": "PWO-E2E-010 @future @p1 @pwo keeps the PWO list alphabetical after add and update",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "pwo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2829,
+                      "error": {
+                        "message": "Error: Current branch data renders the PWO list in a non-alphabetical order; treat as a documented product/data gap until ordering is guaranteed.",
+                        "stack": "Error: Current branch data renders the PWO list in a non-alphabetical order; treat as a documented product/data gap until ordering is guaranteed.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:245:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+                          "column": 11,
+                          "line": 245
+                        },
+                        "snippet": "  243 | function futurePwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  244 |   test(`${id} @future @${priority} @pwo ${title}`, async () => {\n> 245 |     throw new Error(reason);\n      |           ^\n  246 |   });\n  247 | }\n  248 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+                            "column": 11,
+                            "line": 245
+                          },
+                          "message": "Error: Current branch data renders the PWO list in a non-alphabetical order; treat as a documented product/data gap until ordering is guaranteed.\n\n  243 | function futurePwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  244 |   test(`${id} @future @${priority} @pwo ${title}`, async () => {\n> 245 |     throw new Error(reason);\n      |           ^\n  246 |   });\n  247 | }\n  248 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:245:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:19:49.979Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Primary_-531ce-etical-after-add-and-update/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+                        "column": 11,
+                        "line": 245
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "5da1886ecfbb9cf4fd8e-2aef6f42a45e37bf9e3c",
+              "file": "manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+              "line": 244,
+              "column": 7
+            },
+            {
+              "title": "PWO-E2E-011 @stable @p1 @pwo opens the edit popup with selected PWO values preloaded",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "pwo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3371,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:19:55.251Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5da1886ecfbb9cf4fd8e-90f0faaf72c5806967ef",
+              "file": "manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+              "line": 333,
+              "column": 7
+            },
+            {
+              "title": "PWO-E2E-012 @future @p1 @pwo @blocked-data validates blank and duplicate values on PWO edit",
+              "ok": true,
+              "tags": [
+                "future",
+                "p1",
+                "pwo",
+                "blocked-data"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3354,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:19:59.868Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5da1886ecfbb9cf4fd8e-e03be417a74665072343",
+              "file": "manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+              "line": 342,
+              "column": 7
+            },
+            {
+              "title": "PWO-E2E-013 @stable @p1 @pwo saves unchanged PWO values without duplicate validation",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "pwo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3568,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:20:03.245Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5da1886ecfbb9cf4fd8e-73ac8ebce14c597eb811",
+              "file": "manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+              "line": 357,
+              "column": 7
+            },
+            {
+              "title": "PWO-E2E-014 @stable @p1 @pwo shows updated PWO values in the list after save",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "pwo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 9027,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:20:06.835Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5da1886ecfbb9cf4fd8e-64c83a40d25c68fa1379",
+              "file": "manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+              "line": 365,
+              "column": 7
+            },
+            {
+              "title": "PWO-E2E-015 @future @p1 @pwo asks for confirmation before deleting a PWO",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "pwo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2915,
+                      "error": {
+                        "message": "Error: Current local PWO delete behavior has not yet been confirmed with a stable confirmation dialog.",
+                        "stack": "Error: Current local PWO delete behavior has not yet been confirmed with a stable confirmation dialog.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:245:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+                          "column": 11,
+                          "line": 245
+                        },
+                        "snippet": "  243 | function futurePwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  244 |   test(`${id} @future @${priority} @pwo ${title}`, async () => {\n> 245 |     throw new Error(reason);\n      |           ^\n  246 |   });\n  247 | }\n  248 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+                            "column": 11,
+                            "line": 245
+                          },
+                          "message": "Error: Current local PWO delete behavior has not yet been confirmed with a stable confirmation dialog.\n\n  243 | function futurePwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  244 |   test(`${id} @future @${priority} @pwo ${title}`, async () => {\n> 245 |     throw new Error(reason);\n      |           ^\n  246 |   });\n  247 | }\n  248 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:245:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:20:15.881Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Primary_-e2ef0-ation-before-deleting-a-PWO/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+                        "column": 11,
+                        "line": 245
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "5da1886ecfbb9cf4fd8e-9fbc340bfbe141ff4d7b",
+              "file": "manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+              "line": 244,
+              "column": 7
+            },
+            {
+              "title": "PWO-E2E-016 @stable @p1 @pwo deletes a PWO when no SWO exists under it",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "pwo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6585,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:20:20.393Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5da1886ecfbb9cf4fd8e-912a4a3a4e878409dc10",
+              "file": "manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+              "line": 379,
+              "column": 7
+            },
+            {
+              "title": "PWO-E2E-017 @future @p1 @pwo blocks PWO delete when SWO exists under it",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "pwo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 3368,
+                      "error": {
+                        "message": "Error: Needs a seeded or newly created SWO child under the target PWO and confirmed delete-block UI behavior.",
+                        "stack": "Error: Needs a seeded or newly created SWO child under the target PWO and confirmed delete-block UI behavior.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:245:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+                          "column": 11,
+                          "line": 245
+                        },
+                        "snippet": "  243 | function futurePwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  244 |   test(`${id} @future @${priority} @pwo ${title}`, async () => {\n> 245 |     throw new Error(reason);\n      |           ^\n  246 |   });\n  247 | }\n  248 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+                            "column": 11,
+                            "line": 245
+                          },
+                          "message": "Error: Needs a seeded or newly created SWO child under the target PWO and confirmed delete-block UI behavior.\n\n  243 | function futurePwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  244 |   test(`${id} @future @${priority} @pwo ${title}`, async () => {\n> 245 |     throw new Error(reason);\n      |           ^\n  246 |   });\n  247 | }\n  248 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:245:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:20:28.125Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Primary_-93556-te-when-SWO-exists-under-it/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+                        "column": 11,
+                        "line": 245
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "5da1886ecfbb9cf4fd8e-cf5293f8a4ae71bbee1d",
+              "file": "manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+              "line": 244,
+              "column": 7
+            },
+            {
+              "title": "PWO-E2E-018 @stable @p1 @pwo creates the PWO only under the currently selected FG",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "pwo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5477,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:20:33.159Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5da1886ecfbb9cf4fd8e-a9d477555ae9237954cc",
+              "file": "manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+              "line": 387,
+              "column": 7
+            },
+            {
+              "title": "PWO-E2E-019 @stable @p1 @pwo shows valid enum values for Strategic Importance, Revenue Impact, and Downtime Sensitivity",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "pwo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2790,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:20:39.787Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5da1886ecfbb9cf4fd8e-9c9d108f1ff8e23d40cf",
+              "file": "manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+              "line": 400,
+              "column": 7
+            },
+            {
+              "title": "PWO-E2E-020 @future @p2 @pwo allows Dependency Links to remain blank while saving",
+              "ok": false,
+              "tags": [
+                "future",
+                "p2",
+                "pwo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2251,
+                      "error": {
+                        "message": "Error: Needs confirmed Dependency Links field presence in the current local PWO popup.",
+                        "stack": "Error: Needs confirmed Dependency Links field presence in the current local PWO popup.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:245:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+                          "column": 11,
+                          "line": 245
+                        },
+                        "snippet": "  243 | function futurePwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  244 |   test(`${id} @future @${priority} @pwo ${title}`, async () => {\n> 245 |     throw new Error(reason);\n      |           ^\n  246 |   });\n  247 | }\n  248 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+                            "column": 11,
+                            "line": 245
+                          },
+                          "message": "Error: Needs confirmed Dependency Links field presence in the current local PWO popup.\n\n  243 | function futurePwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  244 |   test(`${id} @future @${priority} @pwo ${title}`, async () => {\n> 245 |     throw new Error(reason);\n      |           ^\n  246 |   });\n  247 | }\n  248 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:245:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:20:42.597Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Primary_-23579-o-remain-blank-while-saving/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+                        "column": 11,
+                        "line": 245
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "5da1886ecfbb9cf4fd8e-2cad165466e43011fca5",
+              "file": "manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts",
+              "line": 244,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-04-03T17:19:05.246Z",
+    "duration": 99705.06999999999,
+    "expected": 15,
+    "skipped": 0,
+    "unexpected": 5,
+    "flaky": 0
+  }
+}

@@ -60,9 +60,10 @@ export class PrismaDepartmentRepository implements IDepartmentRepository {
     });
   }
 
-  async save(dept: Department, functionalGroupIds: string[]): Promise<void> {
+  async save(dept: Department, functionalGroupIds: string[]): Promise<string> {
     const tenantId = BigInt(dept.tenantId);
     const industryId = dept.industryId ? BigInt(dept.industryId) : null;
+    let createdId = '';
 
     await this.prisma.$transaction(async tx => {
       const created = await tx.department.create({
@@ -85,7 +86,10 @@ export class PrismaDepartmentRepository implements IDepartmentRepository {
           }))
         });
       }
+      createdId = created.id.toString();
     });
+
+    return createdId;
   }
 
   async update(dept: Department, functionalGroupIds: string[]): Promise<void> {

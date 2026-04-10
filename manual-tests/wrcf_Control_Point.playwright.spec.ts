@@ -121,7 +121,8 @@ async function selectFirstOption(select: Locator, placeholderPattern: RegExp): P
 
 async function openIndustryWrcf(page: Page): Promise<void> {
   await page.goto(`${appUrl}/industry-wrcf`);
-  await expect(page.getByRole('heading', { name: 'Manage Industry WRCF' })).toBeVisible();
+  await expect(page.getByText('Manage Industry WRCF', { exact: true }).first()).toBeVisible();
+  await expect(page.getByText('Industry Sector', { exact: true }).first()).toBeVisible();
 }
 
 async function ensureIndustryContext(page: Page): Promise<void> {
@@ -490,5 +491,17 @@ test.describe('Control Point sheet-aligned coverage', () => {
     'shows only valid enum values for Risk Level, Failure Impact Type, Escalation Required, and Evidence Type',
     'Needs source clarification because the UI marks Escalation Required and Evidence Type as required, but the current component model/enforcement does not fully expose their allowed values.',
     'p0'
+  );
+
+  futureControlPointCase(
+    'CP-MBUG-001',
+    'manual coverage gap remains blocked until the local Control Point workflow is fully reachable',
+    noControlPointContextReason
+  );
+
+  futureControlPointCase(
+    'CP-MBUG-002',
+    'existing Control Points should expose an edit action',
+    'Needs a deterministic existing Control Point row plus stable edit-action rendering in the current local workflow.'
   );
 });

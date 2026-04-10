@@ -1,0 +1,808 @@
+{
+  "config": {
+    "configFile": "/home/sama/new-repo/whizard-platform/playwright.config.ts",
+    "rootDir": "/home/sama/new-repo/whizard-platform",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/home/sama/new-repo/whizard-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/home/sama/new-repo/whizard-platform",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "manual-tests/wrcf_Roles.playwright.spec.ts",
+      "file": "manual-tests/wrcf_Roles.playwright.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Roles sheet-aligned coverage",
+          "file": "manual-tests/wrcf_Roles.playwright.spec.ts",
+          "line": 271,
+          "column": 6,
+          "specs": [
+            {
+              "title": "ROLE-E2E-001 @stable @p0 @roles department options load for the selected industry context",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p0",
+                "roles"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1680,
+                      "error": {
+                        "message": "Error: No Roles industry context produced any department options.",
+                        "stack": "Error: No Roles industry context produced any department options.\n    at ensureRolesContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:140:9)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:292:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                          "column": 9,
+                          "line": 140
+                        },
+                        "snippet": "  138 |   }\n  139 |\n> 140 |   throw new Error('No Roles industry context produced any department options.');\n      |         ^\n  141 | }\n  142 |\n  143 | async function createDepartment(page: Page, departmentName: string): Promise<string> {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                            "column": 9,
+                            "line": 140
+                          },
+                          "message": "Error: No Roles industry context produced any department options.\n\n  138 |   }\n  139 |\n> 140 |   throw new Error('No Roles industry context produced any department options.');\n      |         ^\n  141 | }\n  142 |\n  143 | async function createDepartment(page: Page, departmentName: string): Promise<string> {\n    at ensureRolesContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:140:9)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:292:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:31:01.533Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Roles.pl-f5646-e-selected-industry-context/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                        "column": 9,
+                        "line": 140
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "08d089103666297099b6-f829c2c31e3bab2611e8",
+              "file": "manual-tests/wrcf_Roles.playwright.spec.ts",
+              "line": 291,
+              "column": 7
+            },
+            {
+              "title": "ROLE-E2E-002 @future @p0 @roles role options load for the selected department only",
+              "ok": false,
+              "tags": [
+                "future",
+                "p0",
+                "roles"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1073,
+                      "error": {
+                        "message": "Error: Needs at least two departments with different role sets in the local environment so department-scoped role filtering can be compared.",
+                        "stack": "Error: Needs at least two departments with different role sets in the local environment so department-scoped role filtering can be compared.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:267:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                          "column": 11,
+                          "line": 267
+                        },
+                        "snippet": "  265 | function futureRoleCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  266 |   test(`${id} @future @${priority} @roles ${title}`, async () => {\n> 267 |     throw new Error(reason);\n      |           ^\n  268 |   });\n  269 | }\n  270 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                            "column": 11,
+                            "line": 267
+                          },
+                          "message": "Error: Needs at least two departments with different role sets in the local environment so department-scoped role filtering can be compared.\n\n  265 | function futureRoleCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  266 |   test(`${id} @future @${priority} @roles ${title}`, async () => {\n> 267 |     throw new Error(reason);\n      |           ^\n  268 |   });\n  269 | }\n  270 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:267:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:31:09.839Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Roles.pl-acc52-he-selected-department-only/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                        "column": 11,
+                        "line": 267
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "08d089103666297099b6-aa811726912cbd015897",
+              "file": "manual-tests/wrcf_Roles.playwright.spec.ts",
+              "line": 266,
+              "column": 7
+            },
+            {
+              "title": "ROLE-E2E-003 @future @p1 @roles role controls are unavailable until a department is selected",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "roles"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1153,
+                      "error": {
+                        "message": "Error: Current page auto-selects the first available department when an industry is loaded, so the workbook precondition cannot be reproduced as a stable default state.",
+                        "stack": "Error: Current page auto-selects the first available department when an industry is loaded, so the workbook precondition cannot be reproduced as a stable default state.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:267:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                          "column": 11,
+                          "line": 267
+                        },
+                        "snippet": "  265 | function futureRoleCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  266 |   test(`${id} @future @${priority} @roles ${title}`, async () => {\n> 267 |     throw new Error(reason);\n      |           ^\n  268 |   });\n  269 | }\n  270 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                            "column": 11,
+                            "line": 267
+                          },
+                          "message": "Error: Current page auto-selects the first available department when an industry is loaded, so the workbook precondition cannot be reproduced as a stable default state.\n\n  265 | function futureRoleCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  266 |   test(`${id} @future @${priority} @roles ${title}`, async () => {\n> 267 |     throw new Error(reason);\n      |           ^\n  268 |   });\n  269 | }\n  270 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:267:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:31:13.781Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Roles.pl-da180-il-a-department-is-selected/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                        "column": 11,
+                        "line": 267
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "08d089103666297099b6-2f21dc50809b1cd82eca",
+              "file": "manual-tests/wrcf_Roles.playwright.spec.ts",
+              "line": 266,
+              "column": 7
+            },
+            {
+              "title": "ROLE-E2E-004 @stable @p1 @roles create action is available in role context for an authorized editor",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "roles"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4212,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:31:17.864Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "08d089103666297099b6-fb913ff74eeaf58a7582",
+              "file": "manual-tests/wrcf_Roles.playwright.spec.ts",
+              "line": 311,
+              "column": 7
+            },
+            {
+              "title": "ROLE-E2E-005 @stable @p1 @roles clicking Add opens the role create form",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "roles"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2871,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:31:23.284Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "08d089103666297099b6-17f8495159fe2b702421",
+              "file": "manual-tests/wrcf_Roles.playwright.spec.ts",
+              "line": 319,
+              "column": 7
+            },
+            {
+              "title": "ROLE-E2E-006 @stable @p0 @roles a new role can be created under the selected department",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p0",
+                "roles"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 12863,
+                      "error": {
+                        "message": "Error: Role save did not complete within 10s; the create/edit panel stayed open and no validation message appeared.",
+                        "stack": "Error: Role save did not complete within 10s; the create/edit panel stayed open and no validation message appeared.\n    at createRole (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:231:11)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:327:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                          "column": 11,
+                          "line": 231
+                        },
+                        "snippet": "  229 |     ]);\n  230 |   } catch {\n> 231 |     throw new Error('Role save did not complete within 10s; the create/edit panel stayed open and no validation message appeared.');\n      |           ^\n  232 |   }\n  233 |\n  234 |   if (saveOutcome === 'error') {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                            "column": 11,
+                            "line": 231
+                          },
+                          "message": "Error: Role save did not complete within 10s; the create/edit panel stayed open and no validation message appeared.\n\n  229 |     ]);\n  230 |   } catch {\n> 231 |     throw new Error('Role save did not complete within 10s; the create/edit panel stayed open and no validation message appeared.');\n      |           ^\n  232 |   }\n  233 |\n  234 |   if (saveOutcome === 'error') {\n    at createRole (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:231:11)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:327:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:31:26.179Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Roles.pl-8687a-der-the-selected-department/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                        "column": 11,
+                        "line": 231
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "08d089103666297099b6-20a2f97cb12172f9373b",
+              "file": "manual-tests/wrcf_Roles.playwright.spec.ts",
+              "line": 325,
+              "column": 7
+            },
+            {
+              "title": "ROLE-E2E-007 @stable @p1 @roles edit action is available for the selected role",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "roles"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 13332,
+                      "error": {
+                        "message": "Error: Role save did not complete within 10s; the create/edit panel stayed open and no validation message appeared.",
+                        "stack": "Error: Role save did not complete within 10s; the create/edit panel stayed open and no validation message appeared.\n    at createRole (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:231:11)\n    at ensureRoleSelected (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:254:5)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:331:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                          "column": 11,
+                          "line": 231
+                        },
+                        "snippet": "  229 |     ]);\n  230 |   } catch {\n> 231 |     throw new Error('Role save did not complete within 10s; the create/edit panel stayed open and no validation message appeared.');\n      |           ^\n  232 |   }\n  233 |\n  234 |   if (saveOutcome === 'error') {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                            "column": 11,
+                            "line": 231
+                          },
+                          "message": "Error: Role save did not complete within 10s; the create/edit panel stayed open and no validation message appeared.\n\n  229 |     ]);\n  230 |   } catch {\n> 231 |     throw new Error('Role save did not complete within 10s; the create/edit panel stayed open and no validation message appeared.');\n      |           ^\n  232 |   }\n  233 |\n  234 |   if (saveOutcome === 'error') {\n    at createRole (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:231:11)\n    at ensureRoleSelected (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:254:5)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:331:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:31:40.807Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Roles.pl-de540-lable-for-the-selected-role/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                        "column": 11,
+                        "line": 231
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "08d089103666297099b6-990048225f1901e104fc",
+              "file": "manual-tests/wrcf_Roles.playwright.spec.ts",
+              "line": 330,
+              "column": 7
+            },
+            {
+              "title": "ROLE-E2E-008 @stable @p1 @roles clicking Edit opens the selected role details for update",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "roles"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 12366,
+                      "error": {
+                        "message": "Error: Role save did not complete within 10s; the create/edit panel stayed open and no validation message appeared.",
+                        "stack": "Error: Role save did not complete within 10s; the create/edit panel stayed open and no validation message appeared.\n    at createRole (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:231:11)\n    at ensureRoleSelected (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:254:5)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:339:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                          "column": 11,
+                          "line": 231
+                        },
+                        "snippet": "  229 |     ]);\n  230 |   } catch {\n> 231 |     throw new Error('Role save did not complete within 10s; the create/edit panel stayed open and no validation message appeared.');\n      |           ^\n  232 |   }\n  233 |\n  234 |   if (saveOutcome === 'error') {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                            "column": 11,
+                            "line": 231
+                          },
+                          "message": "Error: Role save did not complete within 10s; the create/edit panel stayed open and no validation message appeared.\n\n  229 |     ]);\n  230 |   } catch {\n> 231 |     throw new Error('Role save did not complete within 10s; the create/edit panel stayed open and no validation message appeared.');\n      |           ^\n  232 |   }\n  233 |\n  234 |   if (saveOutcome === 'error') {\n    at createRole (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:231:11)\n    at ensureRoleSelected (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:254:5)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:339:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:31:56.984Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Roles.pl-97e3d-ted-role-details-for-update/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                        "column": 11,
+                        "line": 231
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "08d089103666297099b6-e72b6f3f7308e6639e87",
+              "file": "manual-tests/wrcf_Roles.playwright.spec.ts",
+              "line": 338,
+              "column": 7
+            },
+            {
+              "title": "ROLE-E2E-009 @stable @p0 @roles edited role details are saved and reflected in current context",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p0",
+                "roles"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 13258,
+                      "error": {
+                        "message": "Error: Role save did not complete within 10s; the create/edit panel stayed open and no validation message appeared.",
+                        "stack": "Error: Role save did not complete within 10s; the create/edit panel stayed open and no validation message appeared.\n    at createRole (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:231:11)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:349:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                          "column": 11,
+                          "line": 231
+                        },
+                        "snippet": "  229 |     ]);\n  230 |   } catch {\n> 231 |     throw new Error('Role save did not complete within 10s; the create/edit panel stayed open and no validation message appeared.');\n      |           ^\n  232 |   }\n  233 |\n  234 |   if (saveOutcome === 'error') {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                            "column": 11,
+                            "line": 231
+                          },
+                          "message": "Error: Role save did not complete within 10s; the create/edit panel stayed open and no validation message appeared.\n\n  229 |     ]);\n  230 |   } catch {\n> 231 |     throw new Error('Role save did not complete within 10s; the create/edit panel stayed open and no validation message appeared.');\n      |           ^\n  232 |   }\n  233 |\n  234 |   if (saveOutcome === 'error') {\n    at createRole (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:231:11)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:349:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:32:12.019Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Roles.pl-b1244-eflected-in-current-context/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                        "column": 11,
+                        "line": 231
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "08d089103666297099b6-980771f8206f23e0879b",
+              "file": "manual-tests/wrcf_Roles.playwright.spec.ts",
+              "line": 346,
+              "column": 7
+            },
+            {
+              "title": "ROLE-E2E-010 @stable @p2 @roles delete action is available through the role edit panel",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p2",
+                "roles"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4450,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:32:28.075Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "08d089103666297099b6-484b13d9ac56c7ab1249",
+              "file": "manual-tests/wrcf_Roles.playwright.spec.ts",
+              "line": 358,
+              "column": 7
+            },
+            {
+              "title": "ROLE-E2E-011 @future @p0 @roles role deletion is blocked when capability-instance mappings exist",
+              "ok": false,
+              "tags": [
+                "future",
+                "p0",
+                "roles"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1063,
+                      "error": {
+                        "message": "Error: Needs a deterministic role with existing capability-instance mappings plus a stable dependency-block message in the current local runtime.",
+                        "stack": "Error: Needs a deterministic role with existing capability-instance mappings plus a stable dependency-block message in the current local runtime.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:267:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                          "column": 11,
+                          "line": 267
+                        },
+                        "snippet": "  265 | function futureRoleCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  266 |   test(`${id} @future @${priority} @roles ${title}`, async () => {\n> 267 |     throw new Error(reason);\n      |           ^\n  268 |   });\n  269 | }\n  270 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                            "column": 11,
+                            "line": 267
+                          },
+                          "message": "Error: Needs a deterministic role with existing capability-instance mappings plus a stable dependency-block message in the current local runtime.\n\n  265 | function futureRoleCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  266 |   test(`${id} @future @${priority} @roles ${title}`, async () => {\n> 267 |     throw new Error(reason);\n      |           ^\n  268 |   });\n  269 | }\n  270 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:267:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:32:33.811Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Roles.pl-77c4d-ity-instance-mappings-exist/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                        "column": 11,
+                        "line": 267
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "08d089103666297099b6-ef8a3c96513392188dd9",
+              "file": "manual-tests/wrcf_Roles.playwright.spec.ts",
+              "line": 266,
+              "column": 7
+            },
+            {
+              "title": "ROLE-E2E-012 @future @p0 @roles view-only users can inspect roles but cannot create edit or delete",
+              "ok": false,
+              "tags": [
+                "future",
+                "p0",
+                "roles"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1214,
+                      "error": {
+                        "message": "Error: Needs a lower-privilege Viewer or Auditor account for RBAC coverage.",
+                        "stack": "Error: Needs a lower-privilege Viewer or Auditor account for RBAC coverage.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:267:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                          "column": 11,
+                          "line": 267
+                        },
+                        "snippet": "  265 | function futureRoleCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  266 |   test(`${id} @future @${priority} @roles ${title}`, async () => {\n> 267 |     throw new Error(reason);\n      |           ^\n  268 |   });\n  269 | }\n  270 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                            "column": 11,
+                            "line": 267
+                          },
+                          "message": "Error: Needs a lower-privilege Viewer or Auditor account for RBAC coverage.\n\n  265 | function futureRoleCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  266 |   test(`${id} @future @${priority} @roles ${title}`, async () => {\n> 267 |     throw new Error(reason);\n      |           ^\n  268 |   });\n  269 | }\n  270 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:267:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:32:36.886Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Roles.pl-7c6b0-annot-create-edit-or-delete/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts",
+                        "column": 11,
+                        "line": 267
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "08d089103666297099b6-85739fb4308e8c1eebe6",
+              "file": "manual-tests/wrcf_Roles.playwright.spec.ts",
+              "line": 266,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-04-03T17:30:59.131Z",
+    "duration": 100392.94,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 9,
+    "flaky": 0
+  }
+}

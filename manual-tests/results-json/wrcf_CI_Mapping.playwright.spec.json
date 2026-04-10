@@ -1,0 +1,2072 @@
+{
+  "config": {
+    "configFile": "/home/sama/new-repo/whizard-platform/playwright.config.ts",
+    "rootDir": "/home/sama/new-repo/whizard-platform",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/home/sama/new-repo/whizard-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/home/sama/new-repo/whizard-platform",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+      "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "CI Mapping sheet-aligned coverage",
+          "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+          "line": 252,
+          "column": 6,
+          "specs": [
+            {
+              "title": "CIMAP-E2E-001 @stable @p0 @ci-mapping shows a saved proficiency with the green mapped indicator for the selected path",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3916,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:22:42.123Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-1783ed3d19bb4f8ffee0",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 271,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-002 @stable @p0 @ci-mapping shows actionable radio buttons for unmapped proficiencies on the selected path",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3352,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:22:47.441Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-0be0a16171c616595cad",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 281,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-003 @stable @p0 @ci-mapping selecting an unmapped proficiency increases the Mappings pending count immediately",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3686,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:22:50.819Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-f8edb979d1539b936499",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 292,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-004 @stable @p0 @ci-mapping clicking the same pending proficiency again removes it from the Mappings count",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3004,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:22:54.526Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-033453a4e10f4de37a69",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 305,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-005 @stable @p0 @ci-mapping can stage more than one pending CI combination and keeps the pending count cumulative",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p0",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 8009,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.btn-badge').locator('.badge')\nExpected: \u001b[32m\"2\"\u001b[39m\nReceived: \u001b[31m\"1\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.btn-badge').locator('.badge')\u001b[22m\n\u001b[2m    - locator resolved to <span class=\"badge\" _ngcontent-ng-c2195223369=\"\">0</span>\u001b[22m\n\u001b[2m    - unexpected value \"0\"\u001b[22m\n\u001b[2m    8 × locator resolved to <span class=\"badge\" _ngcontent-ng-c2195223369=\"\">1</span>\u001b[22m\n\u001b[2m      - unexpected value \"1\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.btn-badge').locator('.badge')\nExpected: \u001b[32m\"2\"\u001b[39m\nReceived: \u001b[31m\"1\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.btn-badge').locator('.badge')\u001b[22m\n\u001b[2m    - locator resolved to <span class=\"badge\" _ngcontent-ng-c2195223369=\"\">0</span>\u001b[22m\n\u001b[2m    - unexpected value \"0\"\u001b[22m\n\u001b[2m    8 × locator resolved to <span class=\"badge\" _ngcontent-ng-c2195223369=\"\">1</span>\u001b[22m\n\u001b[2m      - unexpected value \"1\"\u001b[22m\n\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:354:38",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                          "column": 38,
+                          "line": 354
+                        },
+                        "snippet": "  352 |     }\n  353 |\n> 354 |     await expect(mappingBadge(page)).toHaveText(String(before + staged));\n      |                                      ^\n  355 |   });\n  356 |\n  357 |   test('CIMAP-E2E-006 @stable @p0 @ci-mapping clicking an already mapped proficiency does not create a duplicate pending entry', async () => {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                            "column": 38,
+                            "line": 354
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.btn-badge').locator('.badge')\nExpected: \u001b[32m\"2\"\u001b[39m\nReceived: \u001b[31m\"1\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.btn-badge').locator('.badge')\u001b[22m\n\u001b[2m    - locator resolved to <span class=\"badge\" _ngcontent-ng-c2195223369=\"\">0</span>\u001b[22m\n\u001b[2m    - unexpected value \"0\"\u001b[22m\n\u001b[2m    8 × locator resolved to <span class=\"badge\" _ngcontent-ng-c2195223369=\"\">1</span>\u001b[22m\n\u001b[2m      - unexpected value \"1\"\u001b[22m\n\n\n  352 |     }\n  353 |\n> 354 |     await expect(mappingBadge(page)).toHaveText(String(before + staged));\n      |                                      ^\n  355 |   });\n  356 |\n  357 |   test('CIMAP-E2E-006 @stable @p0 @ci-mapping clicking an already mapped proficiency does not create a duplicate pending entry', async () => {\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:354:38"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:22:57.551Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_CI_Mappi-a35e9-he-pending-count-cumulative/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                        "column": 38,
+                        "line": 354
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-972bec9556f834248410",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 319,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-006 @stable @p0 @ci-mapping clicking an already mapped proficiency does not create a duplicate pending entry",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3481,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:23:07.249Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-2e42f4411c5dc5c75755",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 357,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-007 @future @p1 @ci-mapping proficiency state belongs only to the currently selected FG PWO SWO Capability path",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 4248,
+                      "error": {
+                        "message": "Error: Needs at least two deterministic hierarchy paths with different saved CI states.",
+                        "stack": "Error: Needs at least two deterministic hierarchy paths with different saved CI states.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 248
+                        },
+                        "snippet": "  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 248
+                          },
+                          "message": "Error: Needs at least two deterministic hierarchy paths with different saved CI states.\n\n  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:23:11.873Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_CI_Mappi-ade10--FG-PWO-SWO-Capability-path/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 248
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-a690b06df179f31217f3",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 247,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-008 @future @p1 @ci-mapping proficiency mapping refreshes correctly when capability changes under the same SWO",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 3421,
+                      "error": {
+                        "message": "Error: Needs a deterministic SWO with different saved states across multiple capabilities.",
+                        "stack": "Error: Needs a deterministic SWO with different saved states across multiple capabilities.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 248
+                        },
+                        "snippet": "  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 248
+                          },
+                          "message": "Error: Needs a deterministic SWO with different saved states across multiple capabilities.\n\n  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:23:17.811Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_CI_Mappi-5effb--changes-under-the-same-SWO/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 248
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-dbdf6b84931d0dbe2cc5",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 247,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-009 @future @p1 @ci-mapping saving pending mappings resets the parent pending counter",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 3403,
+                      "error": {
+                        "message": "Error: Needs live save execution plus deterministic cleanup for created CI records.",
+                        "stack": "Error: Needs live save execution plus deterministic cleanup for created CI records.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 248
+                        },
+                        "snippet": "  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 248
+                          },
+                          "message": "Error: Needs live save execution plus deterministic cleanup for created CI records.\n\n  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:23:24.194Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_CI_Mappi-2a1d5--the-parent-pending-counter/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 248
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-47f3d033b08b1f40d533",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 247,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-010 @future @p1 @ci-mapping closing the popup without save discards parent pending mappings",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 4043,
+                      "error": {
+                        "message": "Error: Current UI keeps parent pending cache outside the popup; workbook expects discard-on-close behavior.",
+                        "stack": "Error: Current UI keeps parent pending cache outside the popup; workbook expects discard-on-close behavior.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 248
+                        },
+                        "snippet": "  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 248
+                          },
+                          "message": "Error: Current UI keeps parent pending cache outside the popup; workbook expects discard-on-close behavior.\n\n  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:23:30.329Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_CI_Mappi-e2ac7-rds-parent-pending-mappings/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 248
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-c19ea9c446b750d20912",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 247,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-011 @stable @p1 @ci-mapping clicking Mappings opens the Manage CI Mapping popup",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3415,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:23:37.231Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-b26e519a45a54012c474",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 376,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-012 @stable @p1 @ci-mapping popup defaults inherit the selected Industry Sector, Industry, and FG from Manage Industry WRCF",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4901,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:23:42.093Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-e0ca9664ace480863dad",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 381,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-013 @stable @p1 @ci-mapping popup filter values are shown in alphabetical order",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 3773,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mresolves\u001b[2m.\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[31m+   \"Power Generation\",\u001b[39m\n\u001b[2m    \"Energy & Utilities\",\u001b[22m\n\u001b[2m    \"Manufacturing\",\u001b[22m\n\u001b[32m-   \"Power Generation\",\u001b[39m\n\u001b[2m  ]\u001b[22m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mresolves\u001b[2m.\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[31m+   \"Power Generation\",\u001b[39m\n\u001b[2m    \"Energy & Utilities\",\u001b[22m\n\u001b[2m    \"Manufacturing\",\u001b[22m\n\u001b[32m-   \"Power Generation\",\u001b[39m\n\u001b[2m  ]\u001b[22m\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:399:67",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                          "column": 67,
+                          "line": 399
+                        },
+                        "snippet": "  397 |   test('CIMAP-E2E-013 @stable @p1 @ci-mapping popup filter values are shown in alphabetical order', async () => {\n  398 |     await openMappingsDialog(page);\n> 399 |     await expect(dropdownOptions(dialogFilter(page, 0))).resolves.toEqual(\n      |                                                                   ^\n  400 |       [...await dropdownOptions(dialogFilter(page, 0))].sort((a, b) => a.localeCompare(b))\n  401 |     );\n  402 |     await expect(dropdownOptions(dialogFilter(page, 1))).resolves.toEqual("
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                            "column": 67,
+                            "line": 399
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mresolves\u001b[2m.\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[31m+   \"Power Generation\",\u001b[39m\n\u001b[2m    \"Energy & Utilities\",\u001b[22m\n\u001b[2m    \"Manufacturing\",\u001b[22m\n\u001b[32m-   \"Power Generation\",\u001b[39m\n\u001b[2m  ]\u001b[22m\n\n  397 |   test('CIMAP-E2E-013 @stable @p1 @ci-mapping popup filter values are shown in alphabetical order', async () => {\n  398 |     await openMappingsDialog(page);\n> 399 |     await expect(dropdownOptions(dialogFilter(page, 0))).resolves.toEqual(\n      |                                                                   ^\n  400 |       [...await dropdownOptions(dialogFilter(page, 0))].sort((a, b) => a.localeCompare(b))\n  401 |     );\n  402 |     await expect(dropdownOptions(dialogFilter(page, 1))).resolves.toEqual(\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:399:67"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:23:47.012Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_CI_Mappi-f6dde-shown-in-alphabetical-order/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                        "column": 67,
+                        "line": 399
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-e5141eb2e240f57045fd",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 397,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-014 @stable @p1 @ci-mapping popup content stays scoped to the inherited sector industry and FG context",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5659,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:23:52.422Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-0800cf693ae9734a13d8",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 410,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-015 @stable @p1 @ci-mapping popup groups CI entries under PWO accordions",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5884,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:23:59.580Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-07c1fe0e0b737e7f87b0",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 425,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-016 @future @p1 @ci-mapping PWO accordions are ordered alphabetically",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 3976,
+                      "error": {
+                        "message": "Error: Current popup groups preserve API/cache order; workbook expects explicit alphabetical ordering.",
+                        "stack": "Error: Current popup groups preserve API/cache order; workbook expects explicit alphabetical ordering.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 248
+                        },
+                        "snippet": "  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 248
+                          },
+                          "message": "Error: Current popup groups preserve API/cache order; workbook expects explicit alphabetical ordering.\n\n  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:24:05.480Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_CI_Mappi-f8ad6--are-ordered-alphabetically/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 248
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-d38d17688a1d99d27a4e",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 247,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-017 @stable @p1 @ci-mapping each popup CI row shows SWO Capability and Proficiency in a readable line item",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5337,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:24:11.099Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-9ba611e354036156630b",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 433,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-018 @stable @p1 @ci-mapping new unsaved mappings are visually tagged as pending in the popup",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4573,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:24:17.602Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-730f0829629f54ac7543",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 438,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-019 @stable @p1 @ci-mapping popup shows only saved or pending CI rows instead of the full unmapped combination space",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5231,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:24:22.192Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-064243935c85eaf15a94",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 450,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-020 @stable @p1 @ci-mapping each PWO accordion badge matches the number of CI rows rendered in that group",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2841,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:459:20",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                          "column": 20,
+                          "line": 459
+                        },
+                        "snippet": "  457 |     await openMappingsDialog(page);\n  458 |     const groups = await pwoGroups(page).count();\n> 459 |     expect(groups).toBeGreaterThan(0);\n      |                    ^\n  460 |\n  461 |     for (let index = 0; index < groups; index += 1) {\n  462 |       const group = pwoGroups(page).nth(index);"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                            "column": 20,
+                            "line": 459
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\n  457 |     await openMappingsDialog(page);\n  458 |     const groups = await pwoGroups(page).count();\n> 459 |     expect(groups).toBeGreaterThan(0);\n      |                    ^\n  460 |\n  461 |     for (let index = 0; index < groups; index += 1) {\n  462 |       const group = pwoGroups(page).nth(index);\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:459:20"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:24:27.441Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_CI_Mappi-efbcd-rows-rendered-in-that-group/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                        "column": 20,
+                        "line": 459
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-d0be101ec3a8e8f5d5dd",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 456,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-021 @stable @p1 @ci-mapping deleting a pending mapping removes it from the popup immediately",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 4316,
+                      "error": {
+                        "message": "Error: Needs at least one pending CI row in the popup before delete/remove can be verified.",
+                        "stack": "Error: Needs at least one pending CI row in the popup before delete/remove can be verified.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:480:13",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                          "column": 13,
+                          "line": 480
+                        },
+                        "snippet": "  478 |     const before = await pendingCiRows(page).count();\n  479 |     if (before === 0) {\n> 480 |       throw new Error('Needs at least one pending CI row in the popup before delete/remove can be verified.');\n      |             ^\n  481 |     }\n  482 |     await pendingCiRows(page).first().getByTitle('Remove pending').click();\n  483 |     await expect(pendingCiRows(page)).toHaveCount(before - 1);"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                            "column": 13,
+                            "line": 480
+                          },
+                          "message": "Error: Needs at least one pending CI row in the popup before delete/remove can be verified.\n\n  478 |     const before = await pendingCiRows(page).count();\n  479 |     if (before === 0) {\n> 480 |       throw new Error('Needs at least one pending CI row in the popup before delete/remove can be verified.');\n      |             ^\n  481 |     }\n  482 |     await pendingCiRows(page).first().getByTitle('Remove pending').click();\n  483 |     await expect(pendingCiRows(page)).toHaveCount(before - 1);\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:480:13"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:24:31.945Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_CI_Mappi-406da--from-the-popup-immediately/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                        "column": 13,
+                        "line": 480
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-55d0dc3cd78bb1fe9759",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 469,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-022 @stable @p1 @ci-mapping existing saved CI rows expose a delete action in the popup",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 3965,
+                      "error": {
+                        "message": "Error: Needs at least one existing saved CI row in the popup.",
+                        "stack": "Error: Needs at least one existing saved CI row in the popup.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:490:13",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                          "column": 13,
+                          "line": 490
+                        },
+                        "snippet": "  488 |     const savedRows = ciRows(page).filter({ hasNot: page.locator('.pending-badge') });\n  489 |     if ((await savedRows.count()) === 0) {\n> 490 |       throw new Error('Needs at least one existing saved CI row in the popup.');\n      |             ^\n  491 |     }\n  492 |     await expect(savedRows.first().getByTitle('Delete')).toBeVisible();\n  493 |   });"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                            "column": 13,
+                            "line": 490
+                          },
+                          "message": "Error: Needs at least one existing saved CI row in the popup.\n\n  488 |     const savedRows = ciRows(page).filter({ hasNot: page.locator('.pending-badge') });\n  489 |     if ((await savedRows.count()) === 0) {\n> 490 |       throw new Error('Needs at least one existing saved CI row in the popup.');\n      |             ^\n  491 |     }\n  492 |     await expect(savedRows.first().getByTitle('Delete')).toBeVisible();\n  493 |   });\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:490:13"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:24:39.486Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_CI_Mappi-2fdd9--delete-action-in-the-popup/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                        "column": 13,
+                        "line": 490
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-1e335b3b09e914892570",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 486,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-023 @future @p1 @ci-mapping deleting an existing CI with linked skills shows a dependency warning",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 3382,
+                      "error": {
+                        "message": "Error: Needs seeded CI rows with downstream skill dependencies.",
+                        "stack": "Error: Needs seeded CI rows with downstream skill dependencies.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 248
+                        },
+                        "snippet": "  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 248
+                          },
+                          "message": "Error: Needs seeded CI rows with downstream skill dependencies.\n\n  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:24:46.292Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_CI_Mappi-fb6ce--shows-a-dependency-warning/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 248
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-558a6ce99ed0b8da0bf8",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 247,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-024 @future @p1 @ci-mapping existing CI without downstream dependency can be deleted successfully",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 3653,
+                      "error": {
+                        "message": "Error: Needs deterministic childless CI data and cleanup-safe delete coverage.",
+                        "stack": "Error: Needs deterministic childless CI data and cleanup-safe delete coverage.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 248
+                        },
+                        "snippet": "  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 248
+                          },
+                          "message": "Error: Needs deterministic childless CI data and cleanup-safe delete coverage.\n\n  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:24:52.526Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_CI_Mappi-3111e-can-be-deleted-successfully/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 248
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-d166509dcf61dc067d9f",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 247,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-025 @stable @p1 @ci-mapping deleting a pending mapping shows no dependency warning",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 12,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4936,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:24:59.048Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-27cbf8e48b999cf61884",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 498,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-026 @future @p1 @ci-mapping clicking outside the popup does not close it",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 12,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 4735,
+                      "error": {
+                        "message": "Error: Current popup backdrop click closes the dialog; workbook expects a non-dismissable outside-click behavior.",
+                        "stack": "Error: Current popup backdrop click closes the dialog; workbook expects a non-dismissable outside-click behavior.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 248
+                        },
+                        "snippet": "  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 248
+                          },
+                          "message": "Error: Current popup backdrop click closes the dialog; workbook expects a non-dismissable outside-click behavior.\n\n  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:25:05.154Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_CI_Mappi-5bd11-the-popup-does-not-close-it/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 248
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-6af31fa7f24f37aea91e",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 247,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-027 @future @p1 @ci-mapping close or cancel leaves no unsaved pending mappings behind",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 13,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2895,
+                      "error": {
+                        "message": "Error: Current UI retains parent pending cache after dialog close or cancel.",
+                        "stack": "Error: Current UI retains parent pending cache after dialog close or cancel.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 248
+                        },
+                        "snippet": "  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 248
+                          },
+                          "message": "Error: Current UI retains parent pending cache after dialog close or cancel.\n\n  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:25:11.403Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_CI_Mappi-e1036-ved-pending-mappings-behind/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 248
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-315caa25c5451623f5cc",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 247,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-028 @future @p1 @ci-mapping save persists all newly pending CI mappings",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 14,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2865,
+                      "error": {
+                        "message": "Error: Needs live save execution plus deterministic cleanup for created CI records.",
+                        "stack": "Error: Needs live save execution plus deterministic cleanup for created CI records.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 248
+                        },
+                        "snippet": "  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 248
+                          },
+                          "message": "Error: Needs live save execution plus deterministic cleanup for created CI records.\n\n  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:25:17.155Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_CI_Mappi-5b699-l-newly-pending-CI-mappings/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 248
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-4c045307ccd4f38ce645",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 247,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-029 @future @p1 @ci-mapping save resets the pending counter on the parent Mappings button",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 15,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 3330,
+                      "error": {
+                        "message": "Error: Needs save coverage and deterministic cleanup for created CI records.",
+                        "stack": "Error: Needs save coverage and deterministic cleanup for created CI records.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 248
+                        },
+                        "snippet": "  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 248
+                          },
+                          "message": "Error: Needs save coverage and deterministic cleanup for created CI records.\n\n  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:25:22.860Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_CI_Mappi-50ef9--the-parent-Mappings-button/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 248
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-1175db8967fc431ad677",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 247,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-030 @future @p1 @ci-mapping duplicate CI combinations cannot be saved twice",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 16,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 3360,
+                      "error": {
+                        "message": "Error: Needs controlled duplicate-save setup and backend-visible validation path.",
+                        "stack": "Error: Needs controlled duplicate-save setup and backend-visible validation path.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 248
+                        },
+                        "snippet": "  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 248
+                          },
+                          "message": "Error: Needs controlled duplicate-save setup and backend-visible validation path.\n\n  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:25:28.872Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_CI_Mappi-ecdb9-tions-cannot-be-saved-twice/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 248
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-a76c7182bcc9b3263a58",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 247,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-031 @future @p1 @ci-mapping popup filters show only sector industry and FG combinations that already have mapped or pending data",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 17,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 4607,
+                      "error": {
+                        "message": "Error: Current popup loads sector, industry, and FG options from master lists rather than mapped-only subsets.",
+                        "stack": "Error: Current popup loads sector, industry, and FG options from master lists rather than mapped-only subsets.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 248
+                        },
+                        "snippet": "  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 248
+                          },
+                          "message": "Error: Current popup loads sector, industry, and FG options from master lists rather than mapped-only subsets.\n\n  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:25:34.944Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_CI_Mappi-5ee61-have-mapped-or-pending-data/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 248
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-61898dc0d81bb8401d18",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 247,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-032 @future @p1 @ci-mapping changing popup filters refreshes accordion content without stale rows",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 18,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 3836,
+                      "error": {
+                        "message": "Error: Needs deterministic multi-FG mapped data in the local environment.",
+                        "stack": "Error: Needs deterministic multi-FG mapped data in the local environment.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 248
+                        },
+                        "snippet": "  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 248
+                          },
+                          "message": "Error: Needs deterministic multi-FG mapped data in the local environment.\n\n  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:25:42.239Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_CI_Mappi-05bff--content-without-stale-rows/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 248
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-38767d618e787efeb0b5",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 247,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-033 @future @p1 @ci-mapping pending items from one FG do not appear after switching popup filters to another FG",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 19,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 3404,
+                      "error": {
+                        "message": "Error: Current popup groups all parent cache entries regardless of selected FG filter.",
+                        "stack": "Error: Current popup groups all parent cache entries regardless of selected FG filter.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 248
+                        },
+                        "snippet": "  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 248
+                          },
+                          "message": "Error: Current popup groups all parent cache entries regardless of selected FG filter.\n\n  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:25:48.628Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_CI_Mappi-81e14-popup-filters-to-another-FG/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 248
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-bfb3df8aabaf228946c8",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 247,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-034 @future @p1 @ci-mapping partial save failure leaves the popup in a consistent state",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 20,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 3357,
+                      "error": {
+                        "message": "Error: Needs backend validation conflicts or mixed save success fixtures.",
+                        "stack": "Error: Needs backend validation conflicts or mixed save success fixtures.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 248
+                        },
+                        "snippet": "  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 248
+                          },
+                          "message": "Error: Needs backend validation conflicts or mixed save success fixtures.\n\n  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:25:55.034Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_CI_Mappi-4640d-popup-in-a-consistent-state/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 248
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-8c7e7c3f298ba1495b50",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 247,
+              "column": 7
+            },
+            {
+              "title": "CIMAP-E2E-035 @future @p1 @ci-mapping saved mappings reopen as normal mapped entries rather than pending rows",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "ci-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 21,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 3446,
+                      "error": {
+                        "message": "Error: Needs live save execution plus deterministic cleanup for created CI records.",
+                        "stack": "Error: Needs live save execution plus deterministic cleanup for created CI records.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 248
+                        },
+                        "snippet": "  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 248
+                          },
+                          "message": "Error: Needs live save execution plus deterministic cleanup for created CI records.\n\n  246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {\n> 248 |     throw new Error(reason);\n      |           ^\n  249 |   });\n  250 | }\n  251 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:26:01.017Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_CI_Mappi-92afb-es-rather-than-pending-rows/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 248
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "b4f6f53afb500899038c-c8806a026d893a186236",
+              "file": "manual-tests/wrcf_CI_Mapping.playwright.spec.ts",
+              "line": 247,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-04-03T17:22:40.103Z",
+    "duration": 205640.90300000002,
+    "expected": 13,
+    "skipped": 0,
+    "unexpected": 22,
+    "flaky": 0
+  }
+}

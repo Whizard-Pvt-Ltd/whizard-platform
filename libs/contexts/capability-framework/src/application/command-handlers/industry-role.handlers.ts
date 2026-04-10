@@ -18,8 +18,8 @@ export class CreateIndustryRoleCommandHandler {
       roleCriticalityScore: cmd.roleCriticalityScore,
       createdBy: cmd.createdBy
     });
-    await this.repo.save(role);
-    return { id: role.id, name: role.name };
+    const id = await this.repo.save(role);
+    return { id, name: role.name };
   }
 }
 

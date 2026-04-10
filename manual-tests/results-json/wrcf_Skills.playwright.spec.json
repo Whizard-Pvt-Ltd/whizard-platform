@@ -1,0 +1,916 @@
+{
+  "config": {
+    "configFile": "/home/sama/new-repo/whizard-platform/playwright.config.ts",
+    "rootDir": "/home/sama/new-repo/whizard-platform",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/home/sama/new-repo/whizard-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/home/sama/new-repo/whizard-platform",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "manual-tests/wrcf_Skills.playwright.spec.ts",
+      "file": "manual-tests/wrcf_Skills.playwright.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Skills sheet-aligned coverage",
+          "file": "manual-tests/wrcf_Skills.playwright.spec.ts",
+          "line": 228,
+          "column": 6,
+          "specs": [
+            {
+              "title": "SKL-E2E-001 @stable @p1 @skills shows the add icon for Skills when a valid CI context is selected",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "skills"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4205,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:26:53.573Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "11bc5bba1c64b18161bf-eee815ebf068f429836b",
+              "file": "manual-tests/wrcf_Skills.playwright.spec.ts",
+              "line": 250,
+              "column": 7
+            },
+            {
+              "title": "SKL-E2E-002 @future @p1 @skills shows the edit icon for the selected skill row",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "skills"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 148,
+                      "error": {
+                        "message": "Error: Needs a deterministic selected skill row under a valid CI path before the edit icon can be asserted reliably.",
+                        "stack": "Error: Needs a deterministic selected skill row under a valid CI path before the edit icon can be asserted reliably.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts:224:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                          "column": 11,
+                          "line": 224
+                        },
+                        "snippet": "  222 | function futureSkillsCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  223 |   test(`${id} @future @${priority} @skills ${title}`, async () => {\n> 224 |     throw new Error(reason);\n      |           ^\n  225 |   });\n  226 | }\n  227 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                            "column": 11,
+                            "line": 224
+                          },
+                          "message": "Error: Needs a deterministic selected skill row under a valid CI path before the edit icon can be asserted reliably.\n\n  222 | function futureSkillsCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  223 |   test(`${id} @future @${priority} @skills ${title}`, async () => {\n> 224 |     throw new Error(reason);\n      |           ^\n  225 |   });\n  226 | }\n  227 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts:224:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:26:59.045Z",
+                      "annotations": [],
+                      "attachments": [],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                        "column": 11,
+                        "line": 224
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "11bc5bba1c64b18161bf-de06831c07698bf429ae",
+              "file": "manual-tests/wrcf_Skills.playwright.spec.ts",
+              "line": 223,
+              "column": 7
+            },
+            {
+              "title": "SKL-E2E-003 @stable @p1 @skills opens the Create New Skill popup from the Skills add icon",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "skills"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3264,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:27:00.846Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "11bc5bba1c64b18161bf-a084dfa3ca6b59447914",
+              "file": "manual-tests/wrcf_Skills.playwright.spec.ts",
+              "line": 265,
+              "column": 7
+            },
+            {
+              "title": "SKL-E2E-004 @stable @p1 @skills blocks skill save when mandatory fields are missing",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "skills"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5894,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:27:05.601Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "11bc5bba1c64b18161bf-a7a8712a5e67642a160b",
+              "file": "manual-tests/wrcf_Skills.playwright.spec.ts",
+              "line": 275,
+              "column": 7
+            },
+            {
+              "title": "SKL-E2E-005 @stable @p1 @skills creates a skill successfully with valid mandatory data",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "skills"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4195,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:27:11.527Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "11bc5bba1c64b18161bf-a6a226c853edd658bd1a",
+              "file": "manual-tests/wrcf_Skills.playwright.spec.ts",
+              "line": 288,
+              "column": 7
+            },
+            {
+              "title": "SKL-E2E-006 @future @p1 @skills blocks duplicate skill creation under the selected CI",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "skills"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 172,
+                      "error": {
+                        "message": "Error: Needs an existing skill under a valid CI plus stable backend duplicate validation in the current local environment.",
+                        "stack": "Error: Needs an existing skill under a valid CI plus stable backend duplicate validation in the current local environment.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts:224:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                          "column": 11,
+                          "line": 224
+                        },
+                        "snippet": "  222 | function futureSkillsCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  223 |   test(`${id} @future @${priority} @skills ${title}`, async () => {\n> 224 |     throw new Error(reason);\n      |           ^\n  225 |   });\n  226 | }\n  227 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                            "column": 11,
+                            "line": 224
+                          },
+                          "message": "Error: Needs an existing skill under a valid CI plus stable backend duplicate validation in the current local environment.\n\n  222 | function futureSkillsCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  223 |   test(`${id} @future @${priority} @skills ${title}`, async () => {\n> 224 |     throw new Error(reason);\n      |           ^\n  225 |   });\n  226 | }\n  227 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts:224:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:27:15.769Z",
+                      "annotations": [],
+                      "attachments": [],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                        "column": 11,
+                        "line": 224
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "11bc5bba1c64b18161bf-620bd2b77e2a54d32e2a",
+              "file": "manual-tests/wrcf_Skills.playwright.spec.ts",
+              "line": 223,
+              "column": 7
+            },
+            {
+              "title": "SKL-E2E-007 @future @p1 @skills blocks trim-aware duplicate skill creation under the selected CI",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "skills"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 197,
+                      "error": {
+                        "message": "Error: Needs an existing skill under a valid CI plus deterministic duplicate validation for trimmed names.",
+                        "stack": "Error: Needs an existing skill under a valid CI plus deterministic duplicate validation for trimmed names.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts:224:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                          "column": 11,
+                          "line": 224
+                        },
+                        "snippet": "  222 | function futureSkillsCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  223 |   test(`${id} @future @${priority} @skills ${title}`, async () => {\n> 224 |     throw new Error(reason);\n      |           ^\n  225 |   });\n  226 | }\n  227 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                            "column": 11,
+                            "line": 224
+                          },
+                          "message": "Error: Needs an existing skill under a valid CI plus deterministic duplicate validation for trimmed names.\n\n  222 | function futureSkillsCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  223 |   test(`${id} @future @${priority} @skills ${title}`, async () => {\n> 224 |     throw new Error(reason);\n      |           ^\n  225 |   });\n  226 | }\n  227 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts:224:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:27:17.821Z",
+                      "annotations": [],
+                      "attachments": [],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                        "column": 11,
+                        "line": 224
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "11bc5bba1c64b18161bf-23be70c7b1bb8dc7a151",
+              "file": "manual-tests/wrcf_Skills.playwright.spec.ts",
+              "line": 223,
+              "column": 7
+            },
+            {
+              "title": "SKL-E2E-008 @future @p1 @skills does not create a skill when the create panel is closed without save",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "skills"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 195,
+                      "error": {
+                        "message": "Error: Needs a valid CI path plus a stable create-panel close path that can be observed in the current local runtime.",
+                        "stack": "Error: Needs a valid CI path plus a stable create-panel close path that can be observed in the current local runtime.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts:224:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                          "column": 11,
+                          "line": 224
+                        },
+                        "snippet": "  222 | function futureSkillsCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  223 |   test(`${id} @future @${priority} @skills ${title}`, async () => {\n> 224 |     throw new Error(reason);\n      |           ^\n  225 |   });\n  226 | }\n  227 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                            "column": 11,
+                            "line": 224
+                          },
+                          "message": "Error: Needs a valid CI path plus a stable create-panel close path that can be observed in the current local runtime.\n\n  222 | function futureSkillsCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  223 |   test(`${id} @future @${priority} @skills ${title}`, async () => {\n> 224 |     throw new Error(reason);\n      |           ^\n  225 |   });\n  226 | }\n  227 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts:224:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:27:21.372Z",
+                      "annotations": [],
+                      "attachments": [],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                        "column": 11,
+                        "line": 224
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "11bc5bba1c64b18161bf-d7077c1fea7d22254fe4",
+              "file": "manual-tests/wrcf_Skills.playwright.spec.ts",
+              "line": 223,
+              "column": 7
+            },
+            {
+              "title": "SKL-E2E-009 @future @p1 @skills shows the new skill row immediately after save without refresh",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "skills"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 184,
+                      "error": {
+                        "message": "Error: Needs successful skill creation under a valid CI path in the current local environment.",
+                        "stack": "Error: Needs successful skill creation under a valid CI path in the current local environment.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts:224:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                          "column": 11,
+                          "line": 224
+                        },
+                        "snippet": "  222 | function futureSkillsCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  223 |   test(`${id} @future @${priority} @skills ${title}`, async () => {\n> 224 |     throw new Error(reason);\n      |           ^\n  225 |   });\n  226 | }\n  227 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                            "column": 11,
+                            "line": 224
+                          },
+                          "message": "Error: Needs successful skill creation under a valid CI path in the current local environment.\n\n  222 | function futureSkillsCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  223 |   test(`${id} @future @${priority} @skills ${title}`, async () => {\n> 224 |     throw new Error(reason);\n      |           ^\n  225 |   });\n  226 | }\n  227 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts:224:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:27:24.392Z",
+                      "annotations": [],
+                      "attachments": [],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                        "column": 11,
+                        "line": 224
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "11bc5bba1c64b18161bf-06b3730b371de5c09d3c",
+              "file": "manual-tests/wrcf_Skills.playwright.spec.ts",
+              "line": 223,
+              "column": 7
+            },
+            {
+              "title": "SKL-E2E-010 @future @p1 @skills preloads all existing values when editing a skill",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "skills"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 193,
+                      "error": {
+                        "message": "Error: Needs a deterministic existing skill row and a stable edit path under a valid CI context.",
+                        "stack": "Error: Needs a deterministic existing skill row and a stable edit path under a valid CI context.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts:224:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                          "column": 11,
+                          "line": 224
+                        },
+                        "snippet": "  222 | function futureSkillsCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  223 |   test(`${id} @future @${priority} @skills ${title}`, async () => {\n> 224 |     throw new Error(reason);\n      |           ^\n  225 |   });\n  226 | }\n  227 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                            "column": 11,
+                            "line": 224
+                          },
+                          "message": "Error: Needs a deterministic existing skill row and a stable edit path under a valid CI context.\n\n  222 | function futureSkillsCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  223 |   test(`${id} @future @${priority} @skills ${title}`, async () => {\n> 224 |     throw new Error(reason);\n      |           ^\n  225 |   });\n  226 | }\n  227 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts:224:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:27:27.528Z",
+                      "annotations": [],
+                      "attachments": [],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                        "column": 11,
+                        "line": 224
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "11bc5bba1c64b18161bf-7d947164c1851e61e952",
+              "file": "manual-tests/wrcf_Skills.playwright.spec.ts",
+              "line": 223,
+              "column": 7
+            },
+            {
+              "title": "SKL-E2E-011 @future @p1 @skills shows updated skill values after edit save",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "skills"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 204,
+                      "error": {
+                        "message": "Error: Needs a deterministic existing skill row plus stable update coverage under a valid CI context.",
+                        "stack": "Error: Needs a deterministic existing skill row plus stable update coverage under a valid CI context.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts:224:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                          "column": 11,
+                          "line": 224
+                        },
+                        "snippet": "  222 | function futureSkillsCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  223 |   test(`${id} @future @${priority} @skills ${title}`, async () => {\n> 224 |     throw new Error(reason);\n      |           ^\n  225 |   });\n  226 | }\n  227 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                            "column": 11,
+                            "line": 224
+                          },
+                          "message": "Error: Needs a deterministic existing skill row plus stable update coverage under a valid CI context.\n\n  222 | function futureSkillsCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  223 |   test(`${id} @future @${priority} @skills ${title}`, async () => {\n> 224 |     throw new Error(reason);\n      |           ^\n  225 |   });\n  226 | }\n  227 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts:224:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:27:30.507Z",
+                      "annotations": [],
+                      "attachments": [],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                        "column": 11,
+                        "line": 224
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "11bc5bba1c64b18161bf-57c12feaaee315575b63",
+              "file": "manual-tests/wrcf_Skills.playwright.spec.ts",
+              "line": 223,
+              "column": 7
+            },
+            {
+              "title": "SKL-E2E-012 @future @p1 @skills shows the delete icon on the edit skill panel",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "skills"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 203,
+                      "error": {
+                        "message": "Error: Needs a deterministic existing skill row and stable edit panel access.",
+                        "stack": "Error: Needs a deterministic existing skill row and stable edit panel access.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts:224:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                          "column": 11,
+                          "line": 224
+                        },
+                        "snippet": "  222 | function futureSkillsCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  223 |   test(`${id} @future @${priority} @skills ${title}`, async () => {\n> 224 |     throw new Error(reason);\n      |           ^\n  225 |   });\n  226 | }\n  227 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                            "column": 11,
+                            "line": 224
+                          },
+                          "message": "Error: Needs a deterministic existing skill row and stable edit panel access.\n\n  222 | function futureSkillsCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  223 |   test(`${id} @future @${priority} @skills ${title}`, async () => {\n> 224 |     throw new Error(reason);\n      |           ^\n  225 |   });\n  226 | }\n  227 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts:224:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:27:33.460Z",
+                      "annotations": [],
+                      "attachments": [],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                        "column": 11,
+                        "line": 224
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "11bc5bba1c64b18161bf-20e81c34880f4a2b22cb",
+              "file": "manual-tests/wrcf_Skills.playwright.spec.ts",
+              "line": 223,
+              "column": 7
+            },
+            {
+              "title": "SKL-E2E-013 @future @p1 @skills blocks skill delete when tasks exist under the skill",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "skills"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 202,
+                      "error": {
+                        "message": "Error: Needs a seeded skill with child tasks plus a stable dependency-block message in the local runtime.",
+                        "stack": "Error: Needs a seeded skill with child tasks plus a stable dependency-block message in the local runtime.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts:224:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                          "column": 11,
+                          "line": 224
+                        },
+                        "snippet": "  222 | function futureSkillsCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  223 |   test(`${id} @future @${priority} @skills ${title}`, async () => {\n> 224 |     throw new Error(reason);\n      |           ^\n  225 |   });\n  226 | }\n  227 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                            "column": 11,
+                            "line": 224
+                          },
+                          "message": "Error: Needs a seeded skill with child tasks plus a stable dependency-block message in the local runtime.\n\n  222 | function futureSkillsCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  223 |   test(`${id} @future @${priority} @skills ${title}`, async () => {\n> 224 |     throw new Error(reason);\n      |           ^\n  225 |   });\n  226 | }\n  227 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts:224:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:27:36.492Z",
+                      "annotations": [],
+                      "attachments": [],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                        "column": 11,
+                        "line": 224
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "11bc5bba1c64b18161bf-52db759bcb12935f5d55",
+              "file": "manual-tests/wrcf_Skills.playwright.spec.ts",
+              "line": 223,
+              "column": 7
+            },
+            {
+              "title": "SKL-E2E-014 @future @p2 @skills deletes a skill successfully when no tasks exist under it",
+              "ok": false,
+              "tags": [
+                "future",
+                "p2",
+                "skills"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 175,
+                      "error": {
+                        "message": "Error: Needs a childless skill plus stable delete-confirmation behavior under a valid CI context.",
+                        "stack": "Error: Needs a childless skill plus stable delete-confirmation behavior under a valid CI context.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts:224:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                          "column": 11,
+                          "line": 224
+                        },
+                        "snippet": "  222 | function futureSkillsCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  223 |   test(`${id} @future @${priority} @skills ${title}`, async () => {\n> 224 |     throw new Error(reason);\n      |           ^\n  225 |   });\n  226 | }\n  227 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                            "column": 11,
+                            "line": 224
+                          },
+                          "message": "Error: Needs a childless skill plus stable delete-confirmation behavior under a valid CI context.\n\n  222 | function futureSkillsCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  223 |   test(`${id} @future @${priority} @skills ${title}`, async () => {\n> 224 |     throw new Error(reason);\n      |           ^\n  225 |   });\n  226 | }\n  227 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts:224:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:27:39.475Z",
+                      "annotations": [],
+                      "attachments": [],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                        "column": 11,
+                        "line": 224
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "11bc5bba1c64b18161bf-b42deeef25c632efd3cf",
+              "file": "manual-tests/wrcf_Skills.playwright.spec.ts",
+              "line": 223,
+              "column": 7
+            },
+            {
+              "title": "SKL-E2E-015 @future @p1 @skills saves an unchanged skill without duplicate validation",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "skills"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 196,
+                      "error": {
+                        "message": "Error: Needs a deterministic existing skill row and stable edit-save coverage under a valid CI context.",
+                        "stack": "Error: Needs a deterministic existing skill row and stable edit-save coverage under a valid CI context.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts:224:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                          "column": 11,
+                          "line": 224
+                        },
+                        "snippet": "  222 | function futureSkillsCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  223 |   test(`${id} @future @${priority} @skills ${title}`, async () => {\n> 224 |     throw new Error(reason);\n      |           ^\n  225 |   });\n  226 | }\n  227 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                            "column": 11,
+                            "line": 224
+                          },
+                          "message": "Error: Needs a deterministic existing skill row and stable edit-save coverage under a valid CI context.\n\n  222 | function futureSkillsCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  223 |   test(`${id} @future @${priority} @skills ${title}`, async () => {\n> 224 |     throw new Error(reason);\n      |           ^\n  225 |   });\n  226 | }\n  227 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts:224:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:27:42.536Z",
+                      "annotations": [],
+                      "attachments": [],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts",
+                        "column": 11,
+                        "line": 224
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "11bc5bba1c64b18161bf-a589864f1e64cc9a16c1",
+              "file": "manual-tests/wrcf_Skills.playwright.spec.ts",
+              "line": 223,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-04-03T17:26:51.577Z",
+    "duration": 52488.723,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 11,
+    "flaky": 0
+  }
+}

@@ -12,6 +12,7 @@ export interface IndustryRole {
   id: string;
   name: string;
   departmentId: string;
+  industryId?: string;
   description?: string;
     seniorityLevel: string;
   reportingTo?: string;

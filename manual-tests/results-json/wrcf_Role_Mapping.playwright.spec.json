@@ -1,0 +1,1072 @@
+{
+  "config": {
+    "configFile": "/home/sama/new-repo/whizard-platform/playwright.config.ts",
+    "rootDir": "/home/sama/new-repo/whizard-platform",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/home/sama/new-repo/whizard-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/home/sama/new-repo/whizard-platform",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+      "file": "manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Role Mapping sheet-aligned coverage",
+          "file": "manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+          "line": 223,
+          "column": 6,
+          "specs": [
+            {
+              "title": "RMAP-E2E-001 @future @p0 @role-mapping mapping area loads PWO SWO Capability and Proficiency columns for the selected role",
+              "ok": false,
+              "tags": [
+                "future",
+                "p0",
+                "role-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1035,
+                      "error": {
+                        "message": "Error: Role-scoped hierarchy now waits for explicit role selection, but the current local runtime still blocks role creation/save, so the selected-role prerequisite cannot be established deterministically.",
+                        "stack": "Error: Role-scoped hierarchy now waits for explicit role selection, but the current local runtime still blocks role creation/save, so the selected-role prerequisite cannot be established deterministically.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 219
+                        },
+                        "snippet": "  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 219
+                          },
+                          "message": "Error: Role-scoped hierarchy now waits for explicit role selection, but the current local runtime still blocks role creation/save, so the selected-role prerequisite cannot be established deterministically.\n\n  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:32:43.830Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Role_Map-ffb22-lumns-for-the-selected-role/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 219
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2f87e71e859f0cbcfb02-4f5ffa368f4c5e62a7a4",
+              "file": "manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+              "line": 218,
+              "column": 7
+            },
+            {
+              "title": "RMAP-E2E-002 @stable @p1 @role-mapping mapping action remains unavailable until a role is selected",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "role-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3790,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:32:50.960Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "2f87e71e859f0cbcfb02-eead2f64a44af9bdcd06",
+              "file": "manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+              "line": 250,
+              "column": 7
+            },
+            {
+              "title": "RMAP-E2E-003 @future @p0 @role-mapping mapping options are restricted to the selected role context inherited from department functional groups",
+              "ok": false,
+              "tags": [
+                "future",
+                "p0",
+                "role-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1017,
+                      "error": {
+                        "message": "Error: Needs a working selected-role path first; current local runtime still blocks role creation/save before role-scoped mapping restriction can be validated.",
+                        "stack": "Error: Needs a working selected-role path first; current local runtime still blocks role creation/save before role-scoped mapping restriction can be validated.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 219
+                        },
+                        "snippet": "  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 219
+                          },
+                          "message": "Error: Needs a working selected-role path first; current local runtime still blocks role creation/save before role-scoped mapping restriction can be validated.\n\n  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:32:55.963Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Role_Map-c5336-epartment-functional-groups/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 219
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2f87e71e859f0cbcfb02-96080c4f84b48936e62e",
+              "file": "manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+              "line": 218,
+              "column": 7
+            },
+            {
+              "title": "RMAP-E2E-004 @future @p1 @role-mapping capability instance mappings are grouped by PWO",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "role-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1012,
+                      "error": {
+                        "message": "Error: The dialog groups pending mappings by PWO, but a deterministic selected role plus pending role-mapping entries are required before the workbook grouping scenario can be executed.",
+                        "stack": "Error: The dialog groups pending mappings by PWO, but a deterministic selected role plus pending role-mapping entries are required before the workbook grouping scenario can be executed.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 219
+                        },
+                        "snippet": "  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 219
+                          },
+                          "message": "Error: The dialog groups pending mappings by PWO, but a deterministic selected role plus pending role-mapping entries are required before the workbook grouping scenario can be executed.\n\n  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:32:58.700Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Role_Map-f97e4-mappings-are-grouped-by-PWO/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 219
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2f87e71e859f0cbcfb02-b77de3bc793c5fbc4eb8",
+              "file": "manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+              "line": 218,
+              "column": 7
+            },
+            {
+              "title": "RMAP-E2E-005 @future @p0 @role-mapping previously saved role mappings are displayed for the selected role",
+              "ok": false,
+              "tags": [
+                "future",
+                "p0",
+                "role-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1217,
+                      "error": {
+                        "message": "Error: Needs a deterministic seeded role with existing saved role-capability-instance mappings in the current local environment.",
+                        "stack": "Error: Needs a deterministic seeded role with existing saved role-capability-instance mappings in the current local environment.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 219
+                        },
+                        "snippet": "  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 219
+                          },
+                          "message": "Error: Needs a deterministic seeded role with existing saved role-capability-instance mappings in the current local environment.\n\n  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:33:02.469Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Role_Map-d6595-layed-for-the-selected-role/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 219
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2f87e71e859f0cbcfb02-6a7a96955dc3faccc4d7",
+              "file": "manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+              "line": 218,
+              "column": 7
+            },
+            {
+              "title": "RMAP-E2E-006 @future @p0 @role-mapping tick/select action adds a capability instance for pending assignment",
+              "ok": false,
+              "tags": [
+                "future",
+                "p0",
+                "role-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 973,
+                      "error": {
+                        "message": "Error: Needs a deterministic selected role plus an unmapped capability-instance row; current runtime blocks role creation/selection before pending mapping can be staged.",
+                        "stack": "Error: Needs a deterministic selected role plus an unmapped capability-instance row; current runtime blocks role creation/selection before pending mapping can be staged.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 219
+                        },
+                        "snippet": "  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 219
+                          },
+                          "message": "Error: Needs a deterministic selected role plus an unmapped capability-instance row; current runtime blocks role creation/selection before pending mapping can be staged.\n\n  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:33:06.482Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Role_Map-ded74-ance-for-pending-assignment/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 219
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2f87e71e859f0cbcfb02-07975cf0d118239e1297",
+              "file": "manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+              "line": 218,
+              "column": 7
+            },
+            {
+              "title": "RMAP-E2E-007 @future @p0 @role-mapping save persists selected role-to-capability-instance mappings",
+              "ok": false,
+              "tags": [
+                "future",
+                "p0",
+                "role-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1030,
+                      "error": {
+                        "message": "Error: Needs a deterministic selected role plus pending mapping rows; current runtime blocks role creation/selection before save coverage can be exercised.",
+                        "stack": "Error: Needs a deterministic selected role plus pending mapping rows; current runtime blocks role creation/selection before save coverage can be exercised.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 219
+                        },
+                        "snippet": "  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 219
+                          },
+                          "message": "Error: Needs a deterministic selected role plus pending mapping rows; current runtime blocks role creation/selection before save coverage can be exercised.\n\n  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:33:10.430Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Role_Map-3b2fc-apability-instance-mappings/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 219
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2f87e71e859f0cbcfb02-2e70701a505b09c25643",
+              "file": "manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+              "line": 218,
+              "column": 7
+            },
+            {
+              "title": "RMAP-E2E-008 @future @p0 @role-mapping saved mappings remain visible after refresh or reopen",
+              "ok": false,
+              "tags": [
+                "future",
+                "p0",
+                "role-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1534,
+                      "error": {
+                        "message": "Error: Needs a stable end-to-end role mapping save path plus seeded role data for reopen verification.",
+                        "stack": "Error: Needs a stable end-to-end role mapping save path plus seeded role data for reopen verification.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 219
+                        },
+                        "snippet": "  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 219
+                          },
+                          "message": "Error: Needs a stable end-to-end role mapping save path plus seeded role data for reopen verification.\n\n  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:33:14.168Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Role_Map-ef769-ble-after-refresh-or-reopen/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 219
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2f87e71e859f0cbcfb02-5068c031c0a85c93fac8",
+              "file": "manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+              "line": 218,
+              "column": 7
+            },
+            {
+              "title": "RMAP-E2E-009 @future @p1 @role-mapping delete/remove action is available for an existing role mapping",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "role-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1058,
+                      "error": {
+                        "message": "Error: Needs a deterministic selected role with existing saved mappings so a mapped row can be opened and removed.",
+                        "stack": "Error: Needs a deterministic selected role with existing saved mappings so a mapped row can be opened and removed.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 219
+                        },
+                        "snippet": "  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 219
+                          },
+                          "message": "Error: Needs a deterministic selected role with existing saved mappings so a mapped row can be opened and removed.\n\n  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:33:18.869Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Role_Map-60f61-or-an-existing-role-mapping/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 219
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2f87e71e859f0cbcfb02-f3dbac30f42abe92ef50",
+              "file": "manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+              "line": 218,
+              "column": 7
+            },
+            {
+              "title": "RMAP-E2E-010 @future @p1 @role-mapping deleting a mapped capability instance removes it from the role after save",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "role-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1134,
+                      "error": {
+                        "message": "Error: Needs a deterministic selected role with an existing saved mapping and a working remove-plus-save flow.",
+                        "stack": "Error: Needs a deterministic selected role with an existing saved mapping and a working remove-plus-save flow.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 219
+                        },
+                        "snippet": "  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 219
+                          },
+                          "message": "Error: Needs a deterministic selected role with an existing saved mapping and a working remove-plus-save flow.\n\n  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:33:23.030Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Role_Map-b5482-it-from-the-role-after-save/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 219
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2f87e71e859f0cbcfb02-e2708b02910b9bf13a06",
+              "file": "manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+              "line": 218,
+              "column": 7
+            },
+            {
+              "title": "RMAP-E2E-011 @future @p1 @role-mapping duplicate role-to-capability-instance mapping is prevented",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "role-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1017,
+                      "error": {
+                        "message": "Error: Needs a deterministic selected role with an already-saved mapping plus a stable re-add path to confirm duplicate prevention.",
+                        "stack": "Error: Needs a deterministic selected role with an already-saved mapping plus a stable re-add path to confirm duplicate prevention.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 219
+                        },
+                        "snippet": "  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 219
+                          },
+                          "message": "Error: Needs a deterministic selected role with an already-saved mapping plus a stable re-add path to confirm duplicate prevention.\n\n  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:33:27.168Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Role_Map-fa260-stance-mapping-is-prevented/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 219
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2f87e71e859f0cbcfb02-5923edb9618df2ba82c9",
+              "file": "manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+              "line": 218,
+              "column": 7
+            },
+            {
+              "title": "RMAP-E2E-012 @future @p0 @role-mapping only instantiated capability instances are available for role mapping",
+              "ok": false,
+              "tags": [
+                "future",
+                "p0",
+                "role-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1299,
+                      "error": {
+                        "message": "Error: Needs a deterministic selected role plus controlled capability-instance seed data to compare instantiated versus non-instantiated combinations.",
+                        "stack": "Error: Needs a deterministic selected role plus controlled capability-instance seed data to compare instantiated versus non-instantiated combinations.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 219
+                        },
+                        "snippet": "  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 219
+                          },
+                          "message": "Error: Needs a deterministic selected role plus controlled capability-instance seed data to compare instantiated versus non-instantiated combinations.\n\n  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:33:31.081Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Role_Map-48a95--available-for-role-mapping/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 219
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2f87e71e859f0cbcfb02-db3b542148d0dc893630",
+              "file": "manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+              "line": 218,
+              "column": 7
+            },
+            {
+              "title": "RMAP-E2E-013 @future @p2 @role-mapping new role mappings default mandatory to true",
+              "ok": false,
+              "tags": [
+                "future",
+                "p2",
+                "role-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1106,
+                      "error": {
+                        "message": "Error: Needs a working saved role-mapping create path plus a way to inspect the persisted mandatory flag after save.",
+                        "stack": "Error: Needs a working saved role-mapping create path plus a way to inspect the persisted mandatory flag after save.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 219
+                        },
+                        "snippet": "  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 219
+                          },
+                          "message": "Error: Needs a working saved role-mapping create path plus a way to inspect the persisted mandatory flag after save.\n\n  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:33:35.295Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Role_Map-cf168-s-default-mandatory-to-true/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 219
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2f87e71e859f0cbcfb02-1356e7b9aec61c406dcd",
+              "file": "manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+              "line": 218,
+              "column": 7
+            },
+            {
+              "title": "RMAP-E2E-014 @future @p2 @role-mapping new role mappings default weight to 1",
+              "ok": false,
+              "tags": [
+                "future",
+                "p2",
+                "role-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 12,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1746,
+                      "error": {
+                        "message": "Error: Needs a working saved role-mapping create path plus a way to inspect the persisted weight value after save.",
+                        "stack": "Error: Needs a working saved role-mapping create path plus a way to inspect the persisted weight value after save.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 219
+                        },
+                        "snippet": "  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 219
+                          },
+                          "message": "Error: Needs a working saved role-mapping create path plus a way to inspect the persisted weight value after save.\n\n  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:33:39.235Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Role_Map-d7bda-appings-default-weight-to-1/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 219
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2f87e71e859f0cbcfb02-e84453598d3ac1f75e1f",
+              "file": "manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+              "line": 218,
+              "column": 7
+            },
+            {
+              "title": "RMAP-E2E-015 @future @p0 @role-mapping view-only users can view mappings but cannot add or delete them",
+              "ok": false,
+              "tags": [
+                "future",
+                "p0",
+                "role-mapping"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 13,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1035,
+                      "error": {
+                        "message": "Error: Needs a lower-privilege Viewer or Auditor account for RBAC mapping coverage.",
+                        "stack": "Error: Needs a lower-privilege Viewer or Auditor account for RBAC mapping coverage.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                          "column": 11,
+                          "line": 219
+                        },
+                        "snippet": "  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                            "column": 11,
+                            "line": 219
+                          },
+                          "message": "Error: Needs a lower-privilege Viewer or Auditor account for RBAC mapping coverage.\n\n  217 | function futureRoleMappingCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  218 |   test(`${id} @future @${priority} @role-mapping ${title}`, async () => {\n> 219 |     throw new Error(reason);\n      |           ^\n  220 |   });\n  221 | }\n  222 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:219:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:33:43.988Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Role_Map-b78c9-t-cannot-add-or-delete-them/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+                        "column": 11,
+                        "line": 219
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2f87e71e859f0cbcfb02-5e9f55aa25b5ad5f4dfb",
+              "file": "manual-tests/wrcf_Role_Mapping.playwright.spec.ts",
+              "line": 218,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-04-03T17:32:41.746Z",
+    "duration": 64706.901,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 14,
+    "flaky": 0
+  }
+}

@@ -339,4 +339,31 @@ test.describe('Manage WRCF Skills sheet-aligned coverage', () => {
     await expect(filter(page, 4)).toHaveValue('');
     await expect(column(page, 'Skills').locator('.item')).toHaveCount(0);
   });
+
+  test('WSKILL-E2E-011 @stable @p1 @manage-skills Capability filter shows the capability code in brackets', async () => {
+    const skillsContextReady = await openSkillsPage(page);
+    if (!skillsContextReady) {
+      throw new Error(noSkillsContextReason);
+    }
+    await selectFirstOption(filter(page, 0), /^select fg/);
+    await selectFirstOption(filter(page, 1), /^select pwo/);
+    await selectFirstOption(filter(page, 2), /^select swo/);
+    const labels = await dropdownLabels(filter(page, 3), /^select capability/);
+    expect(labels.length).toBeGreaterThan(0);
+    expect(labels.every(label => /\([A-Za-z]+-\d+\)$/.test(label))).toBe(true);
+  });
+
+  test('WSKILL-E2E-012 @stable @p1 @manage-skills Proficiency filter shows the level in brackets at the end', async () => {
+    const skillsContextReady = await openSkillsPage(page);
+    if (!skillsContextReady) {
+      throw new Error(noSkillsContextReason);
+    }
+    await selectFirstOption(filter(page, 0), /^select fg/);
+    await selectFirstOption(filter(page, 1), /^select pwo/);
+    await selectFirstOption(filter(page, 2), /^select swo/);
+    await selectFirstOption(filter(page, 3), /^select capability/);
+    const labels = await dropdownLabels(filter(page, 4), /^select level/);
+    expect(labels.length).toBeGreaterThan(0);
+    expect(labels.every(label => /\(L\d+\)$/.test(label))).toBe(true);
+  });
 });

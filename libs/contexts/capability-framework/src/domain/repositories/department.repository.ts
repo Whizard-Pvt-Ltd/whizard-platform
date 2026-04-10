@@ -11,7 +11,7 @@ export interface IDepartmentRepository {
     regulatoryExposureLevel?: number;
   }[]>;
   findById(id: string): Promise<Department | null>;
-  save(dept: Department, fgIds: string[]): Promise<void>;
+  save(dept: Department, fgIds: string[]): Promise<string>;
   update(dept: Department, fgIds: string[]): Promise<void>;
   delete(id: string): Promise<void>;
 }

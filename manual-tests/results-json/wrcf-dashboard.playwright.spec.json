@@ -1,0 +1,1363 @@
+{
+  "config": {
+    "configFile": "/home/sama/new-repo/whizard-platform/playwright.config.ts",
+    "rootDir": "/home/sama/new-repo/whizard-platform",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/home/sama/new-repo/whizard-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/home/sama/new-repo/whizard-platform",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+      "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "WRCF dashboard",
+          "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+          "line": 220,
+          "column": 6,
+          "specs": [
+            {
+              "title": "DASH-E2E-001 @stable @p0 @dashboard uses dashboard as the default page after login",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "dashboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1696,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:00:16.156Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-6622d01be0dd524b9ed2",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 246,
+              "column": 7
+            },
+            {
+              "title": "DASH-E2E-002 @stable @p0 @dashboard auto-selects the default Industry Sector and Industry on page load",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "dashboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1588,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:00:19.192Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-6283cb1c92f893fa2d93",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 263,
+              "column": 7
+            },
+            {
+              "title": "DASH-E2E-003 @stable @p0 @dashboard loads dashboard cards for the default selected sector and industry",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "dashboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1086,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:00:20.803Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-18c456b7a21f4e406efc",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 279,
+              "column": 7
+            },
+            {
+              "title": "DASH-E2E-004 @stable @p1 @dashboard displays Industry Sector options in alphabetical order",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "dashboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1875,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:00:21.923Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-a6514ed5c8053232bd06",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 290,
+              "column": 7
+            },
+            {
+              "title": "DASH-E2E-005 @stable @p1 @dashboard shows industries only for the selected Industry Sector",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "dashboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3448,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:00:23.822Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-f120a35fdbf01e26ec2e",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 298,
+              "column": 7
+            },
+            {
+              "title": "DASH-E2E-006 @stable @p1 @dashboard keeps industries under the selected sector in alphabetical order",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "dashboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3017,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:00:27.292Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-0e3dd41de4d2cb5fba98",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 313,
+              "column": 7
+            },
+            {
+              "title": "DASH-E2E-014 @stable @p1 @dashboard refreshes all cards when the user changes Industry within the same sector",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "dashboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3737,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:00:30.328Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-58c36ee52bbaee6b636b",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 326,
+              "column": 7
+            },
+            {
+              "title": "DASH-E2E-015 @stable @p1 @dashboard resets Industry and refreshes dashboard data when Industry Sector changes",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "dashboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3787,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:00:34.084Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-f2478bd9f47eb88291ed",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 340,
+              "column": 7
+            },
+            {
+              "title": "DASH-E2E-016 @stable @p1 @dashboard does not retain the previous industry metrics after sector or industry selection changes",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "dashboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3430,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:00:37.899Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-b2fbc06d6bb82d7275ab",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 353,
+              "column": 7
+            },
+            {
+              "title": "DASH-E2E-011 @stable @p1 @dashboard renders the current version, draft version, last updated, and validation status fields",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "dashboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1090,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:00:41.357Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-4bf520008175c1d1b32d",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 367,
+              "column": 7
+            },
+            {
+              "title": "DASH-E2E-024 @stable @p1 @dashboard renders all quick action tiles and their current behaviors",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "dashboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "timedOut",
+                      "duration": 30027,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                            "column": 46,
+                            "line": 385
+                          },
+                          "message": "Error: locator.click: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - waiting for locator('.dialog .close-btn')\u001b[22m\n\n\n  383 |     await quickAction(page, 'Version History').click();\n  384 |     await expect(page.getByText('Version history coming soon.')).toBeVisible();\n> 385 |     await page.locator('.dialog .close-btn').click();\n      |                                              ^\n  386 |\n  387 |     await quickAction(page, 'Publish Draft').click();\n  388 |     await expect(page.getByText('Publish draft coming soon.')).toBeVisible();\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:385:46"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:00:42.465Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-dashboar-8656f-and-their-current-behaviors/error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-e4eb2981cbff847bc54e",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 377,
+              "column": 7
+            },
+            {
+              "title": "DASH-E2E-023 @stable @p1 @dashboard handles partial zero-count states without breaking the dashboard layout",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "dashboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2369,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:01:14.026Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-fdb297f1c76aa3f4c9f7",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 399,
+              "column": 7
+            },
+            {
+              "title": "DASH-E2E-007 @stable @p1 @dashboard hides inactive Industry Sectors from the dashboard filter",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "dashboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2390,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\nExpected value: not \u001b[32m\"ZZ Inactive Sector\"\u001b[39m\nReceived array:     \u001b[31m[\"Manufacturing\", \u001b[7m\"ZZ Inactive Sector\"\u001b[27m]\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\nExpected value: not \u001b[32m\"ZZ Inactive Sector\"\u001b[39m\nReceived array:     \u001b[31m[\"Manufacturing\", \u001b[7m\"ZZ Inactive Sector\"\u001b[27m]\u001b[39m\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:444:25",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                          "column": 25,
+                          "line": 444
+                        },
+                        "snippet": "  442 |     await gotoDashboard(page);\n  443 |     const options = await getOptions(page, 'Industry Sector');\n> 444 |     expect(options).not.toContain('ZZ Inactive Sector');\n      |                         ^\n  445 |   });\n  446 |\n  447 |   test('DASH-E2E-008 @stable @p1 @dashboard hides inactive industries from the Industry dropdown', async () => {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                            "column": 25,
+                            "line": 444
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\nExpected value: not \u001b[32m\"ZZ Inactive Sector\"\u001b[39m\nReceived array:     \u001b[31m[\"Manufacturing\", \u001b[7m\"ZZ Inactive Sector\"\u001b[27m]\u001b[39m\n\n  442 |     await gotoDashboard(page);\n  443 |     const options = await getOptions(page, 'Industry Sector');\n> 444 |     expect(options).not.toContain('ZZ Inactive Sector');\n      |                         ^\n  445 |   });\n  446 |\n  447 |   test('DASH-E2E-008 @stable @p1 @dashboard hides inactive industries from the Industry dropdown', async () => {\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:444:25"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:01:18.688Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-dashboar-b8d61-s-from-the-dashboard-filter/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                        "column": 25,
+                        "line": 444
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-fc2c401c029d7f034a12",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 416,
+              "column": 7
+            },
+            {
+              "title": "DASH-E2E-008 @stable @p1 @dashboard hides inactive industries from the Industry dropdown",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "dashboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1870,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\nExpected value: not \u001b[32m\"ZZ Inactive Industry\"\u001b[39m\nReceived array:     \u001b[31m[\"Steel Manufacturing\", \u001b[7m\"ZZ Inactive Industry\"\u001b[27m]\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\nExpected value: not \u001b[32m\"ZZ Inactive Industry\"\u001b[39m\nReceived array:     \u001b[31m[\"Steel Manufacturing\", \u001b[7m\"ZZ Inactive Industry\"\u001b[27m]\u001b[39m\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:475:25",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                          "column": 25,
+                          "line": 475
+                        },
+                        "snippet": "  473 |     await gotoDashboard(page);\n  474 |     const options = await getOptions(page, 'Industry');\n> 475 |     expect(options).not.toContain('ZZ Inactive Industry');\n      |                         ^\n  476 |   });\n  477 |\n  478 |   test('DASH-E2E-009 @stable @p1 @dashboard excludes inactive FG PWO SWO CI Skill Task Role and Department records from dashboard counts', async () => {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                            "column": 25,
+                            "line": 475
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\nExpected value: not \u001b[32m\"ZZ Inactive Industry\"\u001b[39m\nReceived array:     \u001b[31m[\"Steel Manufacturing\", \u001b[7m\"ZZ Inactive Industry\"\u001b[27m]\u001b[39m\n\n  473 |     await gotoDashboard(page);\n  474 |     const options = await getOptions(page, 'Industry');\n> 475 |     expect(options).not.toContain('ZZ Inactive Industry');\n      |                         ^\n  476 |   });\n  477 |\n  478 |   test('DASH-E2E-009 @stable @p1 @dashboard excludes inactive FG PWO SWO CI Skill Task Role and Department records from dashboard counts', async () => {\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:475:25"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:01:22.728Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-dashboar-eac91--from-the-Industry-dropdown/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                        "column": 25,
+                        "line": 475
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-aef7ba6cae0cfe972083",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 447,
+              "column": 7
+            },
+            {
+              "title": "DASH-E2E-009 @stable @p1 @dashboard excludes inactive FG PWO SWO CI Skill Task Role and Department records from dashboard counts",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "dashboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3339,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:01:27.334Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-fa3724166142600271e0",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 478,
+              "column": 7
+            },
+            {
+              "title": "DASH-E2E-010 @stable @p1 @dashboard uses only published version data for displayed metrics",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "dashboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 6006,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.version-row')\nExpected substring: \u001b[32m\"4.1\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.version-row')\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.version-row')\nExpected substring: \u001b[32m\"4.1\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.version-row')\u001b[22m\n\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:495:48",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                          "column": 48,
+                          "line": 495
+                        },
+                        "snippet": "  493 |   test('DASH-E2E-010 @stable @p1 @dashboard uses only published version data for displayed metrics', async () => {\n  494 |     await expect(page.getByText('Current Version')).toBeVisible();\n> 495 |     await expect(page.locator('.version-row')).toContainText('4.1');\n      |                                                ^\n  496 |   });\n  497 |\n  498 |   test('DASH-E2E-012 @stable @p1 @dashboard shows -- when no draft version exists', async () => {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                            "column": 48,
+                            "line": 495
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.version-row')\nExpected substring: \u001b[32m\"4.1\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.version-row')\u001b[22m\n\n\n  493 |   test('DASH-E2E-010 @stable @p1 @dashboard uses only published version data for displayed metrics', async () => {\n  494 |     await expect(page.getByText('Current Version')).toBeVisible();\n> 495 |     await expect(page.locator('.version-row')).toContainText('4.1');\n      |                                                ^\n  496 |   });\n  497 |\n  498 |   test('DASH-E2E-012 @stable @p1 @dashboard shows -- when no draft version exists', async () => {\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:495:48"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:01:31.952Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-dashboar-d3d04--data-for-displayed-metrics/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                        "column": 48,
+                        "line": 495
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-8193d9ede0b650677f87",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 493,
+              "column": 7
+            },
+            {
+              "title": "DASH-E2E-012 @stable @p1 @dashboard shows -- when no draft version exists",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "dashboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 5889,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.version-row')\nExpected substring: \u001b[32m\"--\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.version-row')\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.version-row')\nExpected substring: \u001b[32m\"--\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.version-row')\u001b[22m\n\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:499:48",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                          "column": 48,
+                          "line": 499
+                        },
+                        "snippet": "  497 |\n  498 |   test('DASH-E2E-012 @stable @p1 @dashboard shows -- when no draft version exists', async () => {\n> 499 |     await expect(page.locator('.version-row')).toContainText('--');\n      |                                                ^\n  500 |   });\n  501 |\n  502 |   test('DASH-E2E-013 @stable @p1 @dashboard shows a no-data state when the selected industry has no published WRCF data', async () => {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                            "column": 48,
+                            "line": 499
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.version-row')\nExpected substring: \u001b[32m\"--\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.version-row')\u001b[22m\n\n\n  497 |\n  498 |   test('DASH-E2E-012 @stable @p1 @dashboard shows -- when no draft version exists', async () => {\n> 499 |     await expect(page.locator('.version-row')).toContainText('--');\n      |                                                ^\n  500 |   });\n  501 |\n  502 |   test('DASH-E2E-013 @stable @p1 @dashboard shows a no-data state when the selected industry has no published WRCF data', async () => {\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:499:48"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:01:39.531Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-dashboar-4142c-hen-no-draft-version-exists/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                        "column": 48,
+                        "line": 499
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-6045f3d29c4e030f8edd",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 498,
+              "column": 7
+            },
+            {
+              "title": "DASH-E2E-013 @stable @p1 @dashboard shows a no-data state when the selected industry has no published WRCF data",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "dashboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 9525,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('No published WRCF data')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('No published WRCF data')\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('No published WRCF data')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('No published WRCF data')\u001b[22m\n\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:506:60",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                          "column": 60,
+                          "line": 506
+                        },
+                        "snippet": "  504 |     await gotoDashboard(page);\n  505 |     await selectDashboardContext(page, 'Energy & Utilities', 'Water Operations');\n> 506 |     await expect(page.getByText('No published WRCF data')).toBeVisible();\n      |                                                            ^\n  507 |   });\n  508 |\n  509 |   test('DASH-E2E-017 @stable @p1 @dashboard keeps Last Updated aligned with the selected industry version state', async () => {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                            "column": 60,
+                            "line": 506
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('No published WRCF data')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('No published WRCF data')\u001b[22m\n\n\n  504 |     await gotoDashboard(page);\n  505 |     await selectDashboardContext(page, 'Energy & Utilities', 'Water Operations');\n> 506 |     await expect(page.getByText('No published WRCF data')).toBeVisible();\n      |                                                            ^\n  507 |   });\n  508 |\n  509 |   test('DASH-E2E-017 @stable @p1 @dashboard keeps Last Updated aligned with the selected industry version state', async () => {\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:506:60"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:01:48.413Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-dashboar-82252--has-no-published-WRCF-data/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                        "column": 60,
+                        "line": 506
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-615ad40e7fd7ea0fc1fa",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 502,
+              "column": 7
+            },
+            {
+              "title": "DASH-E2E-017 @stable @p1 @dashboard keeps Last Updated aligned with the selected industry version state",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "dashboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 6855,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.version-date')\nExpected: not \u001b[32m\"28 Feb 2026\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"not toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.version-date')\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.version-date')\nExpected: not \u001b[32m\"28 Feb 2026\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"not toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.version-date')\u001b[22m\n\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:510:53",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                          "column": 53,
+                          "line": 510
+                        },
+                        "snippet": "  508 |\n  509 |   test('DASH-E2E-017 @stable @p1 @dashboard keeps Last Updated aligned with the selected industry version state', async () => {\n> 510 |     await expect(page.locator('.version-date')).not.toHaveText('28 Feb 2026');\n      |                                                     ^\n  511 |   });\n  512 |\n  513 |   test('DASH-E2E-018 @stable @p1 @dashboard keeps Validation Status aligned with the selected industry version state', async () => {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                            "column": 53,
+                            "line": 510
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.version-date')\nExpected: not \u001b[32m\"28 Feb 2026\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"not toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.version-date')\u001b[22m\n\n\n  508 |\n  509 |   test('DASH-E2E-017 @stable @p1 @dashboard keeps Last Updated aligned with the selected industry version state', async () => {\n> 510 |     await expect(page.locator('.version-date')).not.toHaveText('28 Feb 2026');\n      |                                                     ^\n  511 |   });\n  512 |\n  513 |   test('DASH-E2E-018 @stable @p1 @dashboard keeps Validation Status aligned with the selected industry version state', async () => {\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:510:53"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:02:00.718Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-dashboar-9097c-cted-industry-version-state/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                        "column": 53,
+                        "line": 510
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-d59dd4dd33cfe28722db",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 509,
+              "column": 7
+            },
+            {
+              "title": "DASH-E2E-018 @stable @p1 @dashboard keeps Validation Status aligned with the selected industry version state",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "dashboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 6205,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.version-row')\nExpected substring: not \u001b[32m\"Validated\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"not toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.version-row')\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.version-row')\nExpected substring: not \u001b[32m\"Validated\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"not toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.version-row')\u001b[22m\n\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:514:52",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                          "column": 52,
+                          "line": 514
+                        },
+                        "snippet": "  512 |\n  513 |   test('DASH-E2E-018 @stable @p1 @dashboard keeps Validation Status aligned with the selected industry version state', async () => {\n> 514 |     await expect(page.locator('.version-row')).not.toContainText('Validated');\n      |                                                    ^\n  515 |   });\n  516 |\n  517 |   test('DASH-E2E-019 @stable @p1 @dashboard uses published active Capability Instance counts only', async () => {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                            "column": 52,
+                            "line": 514
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.version-row')\nExpected substring: not \u001b[32m\"Validated\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"not toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.version-row')\u001b[22m\n\n\n  512 |\n  513 |   test('DASH-E2E-018 @stable @p1 @dashboard keeps Validation Status aligned with the selected industry version state', async () => {\n> 514 |     await expect(page.locator('.version-row')).not.toContainText('Validated');\n      |                                                    ^\n  515 |   });\n  516 |\n  517 |   test('DASH-E2E-019 @stable @p1 @dashboard uses published active Capability Instance counts only', async () => {\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:514:52"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:02:10.848Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-dashboar-98fa3-cted-industry-version-state/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                        "column": 52,
+                        "line": 514
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-74acb589932cfaed7d1d",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 513,
+              "column": 7
+            },
+            {
+              "title": "DASH-E2E-019 @stable @p1 @dashboard uses published active Capability Instance counts only",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "dashboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2615,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:02:20.494Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-2a9d7c9f5edaa92cef80",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 517,
+              "column": 7
+            },
+            {
+              "title": "DASH-E2E-020 @stable @p1 @dashboard uses published active linked records only for Skills and Tasks counts",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "dashboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2577,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:02:24.321Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-0f1b76362e5becefe482",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 524,
+              "column": 7
+            },
+            {
+              "title": "DASH-E2E-021 @stable @p1 @dashboard keeps hierarchy card totals aligned to published active counts",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "dashboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2772,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:02:26.915Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-90a44262bb19b5bd89fc",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 532,
+              "column": 7
+            },
+            {
+              "title": "DASH-E2E-022 @stable @p1 @dashboard uses active published counts for Roles and Departments cards",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "dashboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2653,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:02:29.706Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-7194eb4238baff29eee3",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 541,
+              "column": 7
+            },
+            {
+              "title": "DASH-E2E-026 @stable @p1 @dashboard clicking Edit Structure redirects user to Manage Industry WRCF with same selected Industry Sector and Industry carried forward from Dashboard",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "dashboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 8427,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.filter-bar .filter-select').first()\nExpected: \u001b[32m\"sector-energy\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.filter-bar .filter-select').first()\u001b[22m\n\u001b[2m    9 × locator resolved to <select _ngcontent-ng-c2195223369=\"\" class=\"filter-select ng-untouched ng-pristine ng-valid\">…</select>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.filter-bar .filter-select').first()\nExpected: \u001b[32m\"sector-energy\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.filter-bar .filter-select').first()\u001b[22m\n\u001b[2m    9 × locator resolved to <select _ngcontent-ng-c2195223369=\"\" class=\"filter-select ng-untouched ng-pristine ng-valid\">…</select>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:556:69",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                          "column": 69,
+                          "line": 556
+                        },
+                        "snippet": "  554 |     await quickAction(page, 'Edit Structure').click();\n  555 |     await expect(page).toHaveURL(/\\/industry-wrcf/);\n> 556 |     await expect(page.locator('.filter-bar .filter-select').nth(0)).toHaveValue('sector-energy');\n      |                                                                     ^\n  557 |     await expect(page.locator('.filter-bar .filter-select').nth(1)).toHaveValue('industry-water');\n  558 |   });\n  559 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                            "column": 69,
+                            "line": 556
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.filter-bar .filter-select').first()\nExpected: \u001b[32m\"sector-energy\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.filter-bar .filter-select').first()\u001b[22m\n\u001b[2m    9 × locator resolved to <select _ngcontent-ng-c2195223369=\"\" class=\"filter-select ng-untouched ng-pristine ng-valid\">…</select>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n\n\n  554 |     await quickAction(page, 'Edit Structure').click();\n  555 |     await expect(page).toHaveURL(/\\/industry-wrcf/);\n> 556 |     await expect(page.locator('.filter-bar .filter-select').nth(0)).toHaveValue('sector-energy');\n      |                                                                     ^\n  557 |     await expect(page.locator('.filter-bar .filter-select').nth(1)).toHaveValue('industry-water');\n  558 |   });\n  559 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:556:69"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:02:32.379Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-dashboar-70cb1-ried-forward-from-Dashboard/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                        "column": 69,
+                        "line": 556
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-e5baf090b3d2574336f2",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 549,
+              "column": 7
+            },
+            {
+              "title": "DASH-E2E-025 @future @p1 @dashboard @blocked-role blocks unauthorized users from restricted dashboard actions",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "dashboard",
+                "blocked-role"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1000,
+                      "error": {
+                        "message": "Error: Pending until a lower-privilege user is available.",
+                        "stack": "Error: Pending until a lower-privilege user is available.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:561:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                          "column": 11,
+                          "line": 561
+                        },
+                        "snippet": "  559 |\n  560 |   test('DASH-E2E-025 @future @p1 @dashboard @blocked-role blocks unauthorized users from restricted dashboard actions', async () => {\n> 561 |     throw new Error('Pending until a lower-privilege user is available.');\n      |           ^\n  562 |   });\n  563 | });\n  564 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                            "column": 11,
+                            "line": 561
+                          },
+                          "message": "Error: Pending until a lower-privilege user is available.\n\n  559 |\n  560 |   test('DASH-E2E-025 @future @p1 @dashboard @blocked-role blocks unauthorized users from restricted dashboard actions', async () => {\n> 561 |     throw new Error('Pending until a lower-privilege user is available.');\n      |           ^\n  562 |   });\n  563 | });\n  564 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:561:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:02:42.398Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-dashboar-fd236-estricted-dashboard-actions/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts",
+                        "column": 11,
+                        "line": 561
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "c843ad65384603cfd27f-e47e288a1b33b053d013",
+              "file": "manual-tests/wrcf-dashboard.playwright.spec.ts",
+              "line": 560,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-04-03T17:00:14.073Z",
+    "duration": 150583.699,
+    "expected": 16,
+    "skipped": 0,
+    "unexpected": 10,
+    "flaky": 0
+  }
+}

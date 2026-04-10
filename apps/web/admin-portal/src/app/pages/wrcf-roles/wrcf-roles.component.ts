@@ -146,12 +146,25 @@ export class WrcfRolesComponent implements OnInit {
       next: ({ fgs, depts }) => {
         this.allFGs.set(fgs);
         this.departments.set(depts);
-        if (depts.length > 0) {
-          this.selectDepartment(depts[0].id, false);
-        }
       },
       error: () => {}
     });
+  }
+
+  private loadRoleScopedHierarchy(deptId: string): void {
+    this.resetColumns();
+
+    const dept = this.departments().find(d => d.id === deptId);
+    if (!dept) {
+      return;
+    }
+
+    const fgs = this.allFGs().filter(fg => dept.functionalGroupIds.includes(fg.id));
+    this.deptFGs.set(fgs);
+
+    if (fgs.length > 0) {
+      this.onFGSelect(fgs[0].id);
+    }
   }
 
   protected onIndustryChange(industryId: string): void {
@@ -174,21 +187,9 @@ export class WrcfRolesComponent implements OnInit {
     this.selectedRoleId.set(null);
     this.resetColumns();
 
-    const dept = this.departments().find(d => d.id === deptId);
-    if (dept) {
-      const fgs = this.allFGs().filter(fg => dept.functionalGroupIds.includes(fg.id));
-      this.deptFGs.set(fgs);
-      if (fgs.length > 0) {
-        this.onFGSelect(fgs[0].id);
-      }
-    }
-
     this.rolesApi.listRoles(deptId).subscribe({
       next: roles => {
         this.roles.set(roles);
-        if (roles.length > 0) {
-          this.selectedRoleId.set(roles[0].id);
-        }
       },
       error: () => {}
     });
@@ -205,6 +206,12 @@ export class WrcfRolesComponent implements OnInit {
       this.pendingMappings.set([]);
     }
     this.selectedRoleId.set(roleId);
+    this.resetColumns();
+
+    const departmentId = this.selectedDepartmentId();
+    if (roleId && departmentId) {
+      this.loadRoleScopedHierarchy(departmentId);
+    }
   }
 
   protected onFGSelect(fgId: string): void {
@@ -395,6 +402,7 @@ export class WrcfRolesComponent implements OnInit {
         this.rolesApi.createRole({
           name: p.name!,
           departmentId,
+          industryId,
           description: p.description,
           seniorityLevel: p.seniorityLevel!,
           reportingTo: p.reportingTo,
@@ -403,6 +411,7 @@ export class WrcfRolesComponent implements OnInit {
           next: role => {
             this.roles.update(r => [...r, role]);
             this.selectedRoleId.set(role.id);
+            this.loadRoleScopedHierarchy(departmentId);
             this.closePanel();
           },
           error: () => this.showError('Failed to create role.')
@@ -411,7 +420,10 @@ export class WrcfRolesComponent implements OnInit {
         const id = (p as { id?: string }).id!;
         this.rolesApi.updateRole(id, {
           name: p.name,
-          description: p.description
+          description: p.description,
+          seniorityLevel: p.seniorityLevel,
+          reportingTo: p.reportingTo,
+          roleCriticalityScore: p.roleCriticalityScore
         }).subscribe({
           next: updated => {
             this.roles.update(r => r.map(role => role.id === id ? updated : role));

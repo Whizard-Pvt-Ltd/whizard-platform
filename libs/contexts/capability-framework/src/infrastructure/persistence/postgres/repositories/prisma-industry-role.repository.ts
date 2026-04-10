@@ -50,9 +50,9 @@ export class PrismaIndustryRoleRepository implements IIndustryRoleRepository {
     });
   }
 
-  async save(role: IndustryRole): Promise<void> {
+  async save(role: IndustryRole): Promise<string> {
     const reportingToId = role.reportingTo ? BigInt(role.reportingTo) : null;
-    await this.prisma.role.create({
+    const created = await this.prisma.role.create({
       data: {
         tenantId: BigInt(role.tenantId),
         departmentId: BigInt(role.departmentId),
@@ -62,8 +62,10 @@ export class PrismaIndustryRoleRepository implements IIndustryRoleRepository {
         seniorityLevel: role.seniorityLevel,
         reportingTo: reportingToId,
         roleCriticalityScore: role.roleCriticalityScore
-      }
+      },
+      select: { id: true }
     });
+    return created.id.toString();
   }
 
   async update(role: IndustryRole): Promise<void> {

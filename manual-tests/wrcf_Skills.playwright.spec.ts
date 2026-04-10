@@ -80,6 +80,16 @@ function skillsItems(page: Page): Locator {
   return column(page, 'Skills').locator('.item');
 }
 
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function skillRow(page: Page, itemName: string): Locator {
+  return skillsItems(page)
+    .filter({ has: page.locator('.item-name', { hasText: new RegExp(`^\\s*${escapeRegExp(itemName)}\\s*$`) }) })
+    .first();
+}
+
 async function dropdownLabels(select: Locator, placeholderPattern: RegExp): Promise<string[]> {
   return select.locator('option').evaluateAll(
     (options, patternSource) =>
@@ -164,7 +174,8 @@ async function findIndustryIdForSkills(page: Page): Promise<{ sector: string; in
 
 async function openSkillsSheet(page: Page): Promise<boolean> {
   await page.goto(`${appUrl}/industry-wrcf`);
-  await expect(page.getByRole('heading', { name: 'Manage Industry WRCF' })).toBeVisible();
+  await expect(page.getByText('Manage Industry WRCF', { exact: true }).first()).toBeVisible();
+  await expect(page.getByText('Industry Sector', { exact: true }).first()).toBeVisible();
 
   const context = await findIndustryIdForSkills(page);
   if (!context) {
@@ -216,6 +227,14 @@ async function selectCiBackedPath(page: Page): Promise<void> {
 
 async function openCreateSkillPanel(page: Page): Promise<void> {
   await column(page, 'Skills').getByTitle('Add').click();
+  await expect(panel(page)).toBeVisible();
+}
+
+async function openEditSkillPanel(page: Page, itemName: string): Promise<void> {
+  const row = skillRow(page, itemName);
+  await expect(row).toBeVisible();
+  await row.click();
+  await column(page, 'Skills').getByTitle('Edit').click();
   await expect(panel(page)).toBeVisible();
 }
 
@@ -358,4 +377,92 @@ test.describe('Skills sheet-aligned coverage', () => {
     'saves an unchanged skill without duplicate validation',
     'Needs a deterministic existing skill row and stable edit-save coverage under a valid CI context.'
   );
+
+  test('SKL-E2E-016 @stable @p1 @skills persists the Skill description across create and edit flows', async () => {
+    const skillsContextReady = await openSkillsSheet(page);
+    if (!skillsContextReady) {
+      throw new Error(noSkillsContextReason);
+    }
+    await selectCiBackedPath(page);
+    const name = `Skill ${Date.now()}`;
+    const description = 'Skill description persistence coverage.';
+    const updatedDescription = 'Updated skill description persistence coverage.';
+    await openCreateSkillPanel(page);
+    await panel(page).getByPlaceholder('Enter skill name...').fill(name);
+    await panel(page).getByPlaceholder('Enter description...').fill(description);
+    await panel(page).getByRole('combobox').nth(0).selectOption({ index: 1 });
+    await panel(page).getByRole('combobox').nth(1).selectOption({ index: 1 });
+    await panel(page).locator('input[type="number"]').fill('9');
+    await panel(page).getByRole('combobox').nth(2).selectOption({ index: 1 });
+    await panel(page).getByTitle('Save').click();
+    await expect(panel(page)).not.toBeVisible();
+    await openEditSkillPanel(page, name);
+    await expect(panel(page).getByPlaceholder('Enter description...')).toHaveValue(description);
+    await panel(page).getByPlaceholder('Enter description...').fill(updatedDescription);
+    await panel(page).getByTitle('Save').click();
+    await expect(panel(page)).not.toBeVisible();
+    await openEditSkillPanel(page, name);
+    await expect(panel(page).getByPlaceholder('Enter description...')).toHaveValue(updatedDescription);
+  });
+
+  test('SKL-E2E-017 @stable @p1 @skills persists the recertification value across create and edit flows', async () => {
+    const skillsContextReady = await openSkillsSheet(page);
+    if (!skillsContextReady) {
+      throw new Error(noSkillsContextReason);
+    }
+    await selectCiBackedPath(page);
+    const name = `Skill Recert ${Date.now()}`;
+    await openCreateSkillPanel(page);
+    await panel(page).getByPlaceholder('Enter skill name...').fill(name);
+    await panel(page).getByRole('combobox').nth(0).selectOption({ index: 1 });
+    await panel(page).getByRole('combobox').nth(1).selectOption({ index: 1 });
+    await panel(page).locator('input[type="number"]').fill('11');
+    await panel(page).getByRole('combobox').nth(2).selectOption({ index: 1 });
+    await panel(page).getByTitle('Save').click();
+    await expect(panel(page)).not.toBeVisible();
+    await openEditSkillPanel(page, name);
+    await expect(panel(page).locator('input[type="number"]')).toHaveValue('11');
+  });
+
+  test('SKL-E2E-018 @stable @p1 @skills shows Cognitive Type values in ascending order', async () => {
+    const skillsContextReady = await openSkillsSheet(page);
+    if (!skillsContextReady) {
+      throw new Error(noSkillsContextReason);
+    }
+    await selectCiBackedPath(page);
+    await openCreateSkillPanel(page);
+    const labels = await panel(page).getByRole('combobox').nth(0).locator('option').evaluateAll(nodes =>
+      nodes.map(node => (node as HTMLOptionElement).textContent?.trim() || '').filter(Boolean)
+    );
+    expect(labels).toEqual([...labels].sort((a, b) => a.localeCompare(b)));
+  });
+
+  test('SKL-MBUG-004 @stable @p1 @skills limits the Skill name field to 50 characters', async () => {
+    const skillsContextReady = await openSkillsSheet(page);
+    if (!skillsContextReady) {
+      throw new Error(noSkillsContextReason);
+    }
+    await selectCiBackedPath(page);
+    await openCreateSkillPanel(page);
+    const longName = 'S'.repeat(51);
+    const nameInput = panel(page).getByPlaceholder('Enter skill name...');
+    await nameInput.fill(longName);
+    expect((await nameInput.inputValue()).length).toBeLessThanOrEqual(50);
+  });
+
+  test('SKL-MBUG-005 @stable @p1 @skills blocks save when Recertification Cycle is blank', async () => {
+    const skillsContextReady = await openSkillsSheet(page);
+    if (!skillsContextReady) {
+      throw new Error(noSkillsContextReason);
+    }
+    await selectCiBackedPath(page);
+    await openCreateSkillPanel(page);
+    await panel(page).getByPlaceholder('Enter skill name...').fill(`Skill ${Date.now()}`);
+    await panel(page).getByRole('combobox').nth(0).selectOption({ index: 1 });
+    await panel(page).getByRole('combobox').nth(1).selectOption({ index: 1 });
+    await panel(page).getByRole('combobox').nth(2).selectOption({ index: 1 });
+    await panel(page).getByTitle('Save').click();
+    await expect(panel(page)).toBeVisible();
+    await expect(panel(page).locator('.error-msg')).toContainText(/recertification|required/i);
+  });
 });

@@ -10,7 +10,7 @@ export interface IIndustryRoleRepository {
     roleCriticalityScore?: number;
   }[]>;
   findById(id: string): Promise<IndustryRole | null>;
-  save(role: IndustryRole): Promise<void>;
+  save(role: IndustryRole): Promise<string>;
   update(role: IndustryRole): Promise<void>;
   delete(id: string): Promise<void>;
 }

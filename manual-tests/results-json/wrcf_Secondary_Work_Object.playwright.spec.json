@@ -1,0 +1,993 @@
+{
+  "config": {
+    "configFile": "/home/sama/new-repo/whizard-platform/playwright.config.ts",
+    "rootDir": "/home/sama/new-repo/whizard-platform",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/home/sama/new-repo/whizard-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/home/sama/new-repo/whizard-platform",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+      "file": "manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Secondary Work Object sheet-aligned coverage",
+          "file": "manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+          "line": 276,
+          "column": 6,
+          "specs": [
+            {
+              "title": "SWO-E2E-001 @stable @p0 @swo shows only active and latest published SWO for the selected PWO",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "swo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2715,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:20:48.986Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "93d227ed42671f2f944c-e195d21acd904eb32fdb",
+              "file": "manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+              "line": 296,
+              "column": 7
+            },
+            {
+              "title": "SWO-E2E-002 @stable @p0 @swo shows the add icon for SWO",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "swo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3276,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:20:56.222Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "93d227ed42671f2f944c-5118dba9c72ded75c996",
+              "file": "manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+              "line": 300,
+              "column": 7
+            },
+            {
+              "title": "SWO-E2E-003 @stable @p0 @swo opens the Create SWO popup from the add icon",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "swo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3247,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:20:59.516Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "93d227ed42671f2f944c-bdcf59e2bf1fe9dd1b61",
+              "file": "manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+              "line": 304,
+              "column": 7
+            },
+            {
+              "title": "SWO-E2E-004 @stable @p0 @swo keeps Name mandatory in the SWO popup",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "swo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3218,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:21:02.784Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "93d227ed42671f2f944c-c246a9e08d79d372de5e",
+              "file": "manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+              "line": 309,
+              "column": 7
+            },
+            {
+              "title": "SWO-E2E-005 @stable @p0 @swo creates a SWO under the selected PWO with valid data",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "swo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6694,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:21:06.023Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "93d227ed42671f2f944c-223b85c820295129d4c8",
+              "file": "manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+              "line": 317,
+              "column": 7
+            },
+            {
+              "title": "SWO-E2E-006 @stable @p1 @swo blocks duplicate SWO creation under the same PWO",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "swo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3101,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:21:12.735Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "93d227ed42671f2f944c-6f57997fc427e34036ed",
+              "file": "manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+              "line": 323,
+              "column": 7
+            },
+            {
+              "title": "SWO-E2E-007 @stable @p1 @swo blocks trim-aware duplicate SWO creation under the same PWO",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "swo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3022,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:21:15.857Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "93d227ed42671f2f944c-16f117eda7ac7f0d5ca0",
+              "file": "manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+              "line": 332,
+              "column": 7
+            },
+            {
+              "title": "SWO-E2E-008 @future @p1 @swo same SWO name under different PWO follows parent-scoped uniqueness rules",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "swo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2748,
+                      "error": {
+                        "message": "Error: Needs a deterministic second PWO context and confirmed parent-scoped uniqueness rule.",
+                        "stack": "Error: Needs a deterministic second PWO context and confirmed parent-scoped uniqueness rule.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:272:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+                          "column": 11,
+                          "line": 272
+                        },
+                        "snippet": "  270 | function futureSwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  271 |   test(`${id} @future @${priority} @swo ${title}`, async () => {\n> 272 |     throw new Error(reason);\n      |           ^\n  273 |   });\n  274 | }\n  275 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+                            "column": 11,
+                            "line": 272
+                          },
+                          "message": "Error: Needs a deterministic second PWO context and confirmed parent-scoped uniqueness rule.\n\n  270 | function futureSwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  271 |   test(`${id} @future @${priority} @swo ${title}`, async () => {\n> 272 |     throw new Error(reason);\n      |           ^\n  273 |   });\n  274 | }\n  275 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:272:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:21:18.902Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Secondar-12f56-ent-scoped-uniqueness-rules/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+                        "column": 11,
+                        "line": 272
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "93d227ed42671f2f944c-97b4441f79b0cc636b8d",
+              "file": "manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+              "line": 271,
+              "column": 7
+            },
+            {
+              "title": "SWO-E2E-009 @stable @p1 @swo refreshes the SWO list immediately after add",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "swo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 9175,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:21:23.353Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "93d227ed42671f2f944c-97e09d4d1a7f820728e0",
+              "file": "manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+              "line": 343,
+              "column": 7
+            },
+            {
+              "title": "SWO-E2E-010 @stable @p1 @swo keeps the SWO list alphabetical after add and update",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "swo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2882,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 3\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[31m+   \"Size Monitoring & Control\",\u001b[39m\n\u001b[2m    \"Crusher Maintenance System\",\u001b[22m\n\u001b[32m-   \"Crusher Operation\",\u001b[39m\n\u001b[2m    \"Feeder Control (Vibratory/Rotary)\",\u001b[22m\n\u001b[32m-   \"Size Monitoring & Control\",\u001b[39m\n\u001b[31m+   \"Vibrating Screen Operation\",\u001b[39m\n\u001b[31m+   \"Crusher Operation\",\u001b[39m\n\u001b[2m    \"Size Monitoring & Control\",\u001b[22m\n\u001b[2m    \"Size Monitoring & Control\",\u001b[22m\n\u001b[32m-   \"Vibrating Screen Operation\",\u001b[39m\n\u001b[2m  ]\u001b[22m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 3\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[31m+   \"Size Monitoring & Control\",\u001b[39m\n\u001b[2m    \"Crusher Maintenance System\",\u001b[22m\n\u001b[32m-   \"Crusher Operation\",\u001b[39m\n\u001b[2m    \"Feeder Control (Vibratory/Rotary)\",\u001b[22m\n\u001b[32m-   \"Size Monitoring & Control\",\u001b[39m\n\u001b[31m+   \"Vibrating Screen Operation\",\u001b[39m\n\u001b[31m+   \"Crusher Operation\",\u001b[39m\n\u001b[2m    \"Size Monitoring & Control\",\u001b[22m\n\u001b[2m    \"Size Monitoring & Control\",\u001b[22m\n\u001b[32m-   \"Vibrating Screen Operation\",\u001b[39m\n\u001b[2m  ]\u001b[22m\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:352:19",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+                          "column": 19,
+                          "line": 352
+                        },
+                        "snippet": "  350 |   test('SWO-E2E-010 @stable @p1 @swo keeps the SWO list alphabetical after add and update', async () => {\n  351 |     const names = (await swoItems(page).allTextContents()).map(value => value.trim()).filter(Boolean);\n> 352 |     expect(names).toEqual([...names].sort((a, b) => a.localeCompare(b)));\n      |                   ^\n  353 |   });\n  354 |\n  355 |   test('SWO-E2E-011 @stable @p1 @swo opens the edit popup with selected SWO values preloaded', async () => {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+                            "column": 19,
+                            "line": 352
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 3\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[31m+   \"Size Monitoring & Control\",\u001b[39m\n\u001b[2m    \"Crusher Maintenance System\",\u001b[22m\n\u001b[32m-   \"Crusher Operation\",\u001b[39m\n\u001b[2m    \"Feeder Control (Vibratory/Rotary)\",\u001b[22m\n\u001b[32m-   \"Size Monitoring & Control\",\u001b[39m\n\u001b[31m+   \"Vibrating Screen Operation\",\u001b[39m\n\u001b[31m+   \"Crusher Operation\",\u001b[39m\n\u001b[2m    \"Size Monitoring & Control\",\u001b[22m\n\u001b[2m    \"Size Monitoring & Control\",\u001b[22m\n\u001b[32m-   \"Vibrating Screen Operation\",\u001b[39m\n\u001b[2m  ]\u001b[22m\n\n  350 |   test('SWO-E2E-010 @stable @p1 @swo keeps the SWO list alphabetical after add and update', async () => {\n  351 |     const names = (await swoItems(page).allTextContents()).map(value => value.trim()).filter(Boolean);\n> 352 |     expect(names).toEqual([...names].sort((a, b) => a.localeCompare(b)));\n      |                   ^\n  353 |   });\n  354 |\n  355 |   test('SWO-E2E-011 @stable @p1 @swo opens the edit popup with selected SWO values preloaded', async () => {\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:352:19"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:21:33.820Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Secondar-84c7b-etical-after-add-and-update/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+                        "column": 19,
+                        "line": 352
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "93d227ed42671f2f944c-de0e06ed8efec47f044b",
+              "file": "manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+              "line": 350,
+              "column": 7
+            },
+            {
+              "title": "SWO-E2E-011 @stable @p1 @swo opens the edit popup with selected SWO values preloaded",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "swo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3652,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:21:38.354Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "93d227ed42671f2f944c-d8198e29c839d009d962",
+              "file": "manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+              "line": 355,
+              "column": 7
+            },
+            {
+              "title": "SWO-E2E-012 @future @p1 @swo @blocked-data validates blank and duplicate values on SWO edit",
+              "ok": true,
+              "tags": [
+                "future",
+                "p1",
+                "swo",
+                "blocked-data"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4317,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:21:43.213Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "93d227ed42671f2f944c-2fde1f62ec055678c1c9",
+              "file": "manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+              "line": 363,
+              "column": 7
+            },
+            {
+              "title": "SWO-E2E-013 @stable @p1 @swo saves unchanged SWO values without duplicate validation",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "swo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5493,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:21:47.551Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "93d227ed42671f2f944c-aead0f826cd44b2b66e6",
+              "file": "manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+              "line": 378,
+              "column": 7
+            },
+            {
+              "title": "SWO-E2E-014 @stable @p1 @swo shows updated SWO values in the list after save",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "swo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 8043,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:21:53.062Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "93d227ed42671f2f944c-7f90eb9af3caf342088c",
+              "file": "manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+              "line": 386,
+              "column": 7
+            },
+            {
+              "title": "SWO-E2E-015 @future @p1 @swo asks for confirmation before deleting a SWO",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "swo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2759,
+                      "error": {
+                        "message": "Error: Current local SWO delete behavior has not yet been confirmed with a stable confirmation dialog.",
+                        "stack": "Error: Current local SWO delete behavior has not yet been confirmed with a stable confirmation dialog.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:272:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+                          "column": 11,
+                          "line": 272
+                        },
+                        "snippet": "  270 | function futureSwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  271 |   test(`${id} @future @${priority} @swo ${title}`, async () => {\n> 272 |     throw new Error(reason);\n      |           ^\n  273 |   });\n  274 | }\n  275 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+                            "column": 11,
+                            "line": 272
+                          },
+                          "message": "Error: Current local SWO delete behavior has not yet been confirmed with a stable confirmation dialog.\n\n  270 | function futureSwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  271 |   test(`${id} @future @${priority} @swo ${title}`, async () => {\n> 272 |     throw new Error(reason);\n      |           ^\n  273 |   });\n  274 | }\n  275 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:272:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:22:01.122Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Secondar-e0186-ation-before-deleting-a-SWO/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+                        "column": 11,
+                        "line": 272
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "93d227ed42671f2f944c-0bde8c976d2b2558e5d0",
+              "file": "manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+              "line": 271,
+              "column": 7
+            },
+            {
+              "title": "SWO-E2E-016 @stable @p1 @swo deletes a SWO when no downstream dependency blocks it",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "swo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 7690,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:22:06.245Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "93d227ed42671f2f944c-cbb630724e5414534503",
+              "file": "manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+              "line": 400,
+              "column": 7
+            },
+            {
+              "title": "SWO-E2E-017 @future @p1 @swo blocks SWO delete when downstream mapped data exists",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "swo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 4695,
+                      "error": {
+                        "message": "Error: Needs seeded downstream mapping data and confirmed delete-block UI behavior.",
+                        "stack": "Error: Needs seeded downstream mapping data and confirmed delete-block UI behavior.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:272:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+                          "column": 11,
+                          "line": 272
+                        },
+                        "snippet": "  270 | function futureSwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  271 |   test(`${id} @future @${priority} @swo ${title}`, async () => {\n> 272 |     throw new Error(reason);\n      |           ^\n  273 |   });\n  274 | }\n  275 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+                            "column": 11,
+                            "line": 272
+                          },
+                          "message": "Error: Needs seeded downstream mapping data and confirmed delete-block UI behavior.\n\n  270 | function futureSwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  271 |   test(`${id} @future @${priority} @swo ${title}`, async () => {\n> 272 |     throw new Error(reason);\n      |           ^\n  273 |   });\n  274 | }\n  275 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:272:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:22:15.441Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Secondar-9e343-wnstream-mapped-data-exists/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+                        "column": 11,
+                        "line": 272
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "93d227ed42671f2f944c-2f1606cc645929158b39",
+              "file": "manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+              "line": 271,
+              "column": 7
+            },
+            {
+              "title": "SWO-E2E-018 @stable @p1 @swo creates the SWO only under the selected PWO",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "swo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6743,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:22:21.857Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "93d227ed42671f2f944c-67b94b208a4c8b3dbbab",
+              "file": "manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+              "line": 408,
+              "column": 7
+            },
+            {
+              "title": "SWO-E2E-019 @stable @p1 @swo shows valid enum values for Operational Complexity, Asset Criticality, and Failure Frequency",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "swo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4123,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:22:29.789Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "93d227ed42671f2f944c-78e586e1f0eff9da8d73",
+              "file": "manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+              "line": 415,
+              "column": 7
+            },
+            {
+              "title": "SWO-E2E-020 @future @p2 @swo new SWO becomes selectable for downstream CI mapping after successful create",
+              "ok": false,
+              "tags": [
+                "future",
+                "p2",
+                "swo"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 3270,
+                      "error": {
+                        "message": "Error: Needs CI Mapping workflow coverage and stable downstream selection assertions.",
+                        "stack": "Error: Needs CI Mapping workflow coverage and stable downstream selection assertions.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:272:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+                          "column": 11,
+                          "line": 272
+                        },
+                        "snippet": "  270 | function futureSwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  271 |   test(`${id} @future @${priority} @swo ${title}`, async () => {\n> 272 |     throw new Error(reason);\n      |           ^\n  273 |   });\n  274 | }\n  275 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+                            "column": 11,
+                            "line": 272
+                          },
+                          "message": "Error: Needs CI Mapping workflow coverage and stable downstream selection assertions.\n\n  270 | function futureSwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  271 |   test(`${id} @future @${priority} @swo ${title}`, async () => {\n> 272 |     throw new Error(reason);\n      |           ^\n  273 |   });\n  274 | }\n  275 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:272:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:22:33.936Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Secondar-c922d-ing-after-successful-create/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+                        "column": 11,
+                        "line": 272
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "93d227ed42671f2f944c-a8a3256609a64d9a738c",
+              "file": "manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts",
+              "line": 271,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-04-03T17:20:47.026Z",
+    "duration": 110277.12,
+    "expected": 15,
+    "skipped": 0,
+    "unexpected": 5,
+    "flaky": 0
+  }
+}

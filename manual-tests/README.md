@@ -86,6 +86,10 @@ Quick command reference:
 - Document map for this folder: [README.md](/home/sama/new-repo/whizard-platform/manual-tests/Documents/README.md)
 - Playwright companion docs: [README.md](/home/sama/new-repo/whizard-platform/manual-tests/Documents/PlaywrightDocuments/README.md)
 
+Preferred workflow:
+- for large/full-suite or repeated reruns, Codex should give commands and the user should run them and paste the output
+- for short targeted reruns, reproducing a few failures, or validating a fresh patch, Codex can run them directly
+
 Set the login credentials in the same PowerShell window before running any authenticated Playwright suite:
 
 ```powershell

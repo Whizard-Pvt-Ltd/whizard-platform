@@ -806,8 +806,14 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
         const data = await deps.createIndustryRole.execute({
           tenantId: ctx.tenantId,
           departmentId: String(body['departmentId']),
+          industryId: body['industryId'] ? String(body['industryId']) : undefined,
           name: String(body['name']),
-          description: body['description'] ? String(body['description']) : undefined
+          description: body['description'] ? String(body['description']) : undefined,
+          seniorityLevel: body['seniorityLevel'] ? String(body['seniorityLevel']) : undefined,
+          reportingTo: body['reportingTo'] ? String(body['reportingTo']) : undefined,
+          roleCriticalityScore: body['roleCriticalityScore'] !== undefined && body['roleCriticalityScore'] !== null && body['roleCriticalityScore'] !== ''
+            ? Number(body['roleCriticalityScore'])
+            : undefined
         });
         logger.info('Role created', { ...getLogContext(request), roleId: data.id, name: data.name });
         reply.status(201).send({ success: true, data, meta: toApiMeta(request) });
@@ -833,7 +839,12 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
           id,
           tenantId: ctx.tenantId,
           name: body['name'] ? String(body['name']) : undefined,
-          description: body['description'] ? String(body['description']) : undefined
+          description: body['description'] ? String(body['description']) : undefined,
+          seniorityLevel: body['seniorityLevel'] ? String(body['seniorityLevel']) : undefined,
+          reportingTo: body['reportingTo'] ? String(body['reportingTo']) : undefined,
+          roleCriticalityScore: body['roleCriticalityScore'] !== undefined && body['roleCriticalityScore'] !== null && body['roleCriticalityScore'] !== ''
+            ? Number(body['roleCriticalityScore'])
+            : undefined
         });
         logger.info('Role updated', { ...getLogContext(request), roleId: id });
         reply.status(200).send({ success: true, data, meta: toApiMeta(request) });

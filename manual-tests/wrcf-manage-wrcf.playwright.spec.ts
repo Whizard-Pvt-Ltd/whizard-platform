@@ -13,7 +13,7 @@ function column(page: Page, title: string): Locator {
 }
 
 function filterSelect(page: Page, index: number): Locator {
-  return page.locator('.filter-bar .filter-select').nth(index);
+  return page.locator('mat-select').nth(index);
 }
 
 function itemNames(columnLocator: Locator) {
@@ -52,48 +52,64 @@ async function ensureAuthenticatedPage(browser: Browser): Promise<{ context: Bro
 }
 
 async function openManageWrcf(page: Page): Promise<void> {
-  await page.goto(`${appUrl}/industry-wrcf`);
-  await expect(page.getByRole('heading', { name: 'Manage Industry WRCF' })).toBeVisible();
+  await page.goto(`${appUrl}/dashboard`);
+  await expect(page).toHaveURL(/\/dashboard/);
+  const manageIndustryLink = page.locator('a').filter({ hasText: /^Manage Industry$/ }).first();
+  await expect(manageIndustryLink).toBeVisible();
+  await manageIndustryLink.click();
+  await expect(page).toHaveURL(/\/industry-wrcf/);
+  await expect(page.getByText('Manage Industry WRCF', { exact: true }).first()).toBeVisible();
+  await expect(page.getByText('Industry Sector', { exact: true }).first()).toBeVisible();
+  await expect(filterSelect(page, 0)).toBeVisible();
+  await expect(filterSelect(page, 1)).toBeVisible();
+  await expect.poll(async () => await selectedLabel(filterSelect(page, 0)), {
+    timeout: 10000,
+    message: 'Waiting for default sector selection to hydrate',
+  }).not.toMatch(/^Select Sector/i);
+  await expect.poll(async () => await selectedLabel(filterSelect(page, 1)), {
+    timeout: 10000,
+    message: 'Waiting for default industry selection to hydrate',
+  }).not.toMatch(/^Select Industry/i);
 }
 
-async function dropdownOptions(select: Locator): Promise<string[]> {
-  return select.locator('option').evaluateAll(options =>
+async function dropdownOptions(page: Page, select: Locator): Promise<string[]> {
+  await select.click();
+  await expect.poll(async () => await page.locator('mat-option').count()).toBeGreaterThan(0);
+  const options = await page.locator('mat-option').evaluateAll(options =>
     options
-      .map(option => (option as HTMLOptionElement).textContent?.trim() || '')
+      .map(option => option.textContent?.trim() || '')
       .filter(text => text && !/^select /i.test(text))
   );
+  await page.keyboard.press('Escape').catch(() => undefined);
+  return options;
 }
 
 async function selectedLabel(select: Locator): Promise<string> {
-  return select.evaluate(element => {
-    const selectElement = element as HTMLSelectElement;
-    return selectElement.options[selectElement.selectedIndex]?.textContent?.trim() || '';
-  });
+  return ((await select.textContent()) || '').replace(/\s+/g, ' ').trim();
 }
 
 async function selectedValue(select: Locator): Promise<string> {
-  return select.inputValue();
+  const label = await selectedLabel(select);
+  return isPlaceholderLabel(label) ? '' : label;
 }
 
-async function selectFirstAvailableOption(select: Locator): Promise<string> {
-  const options = await select.locator('option').evaluateAll(nodes =>
-    nodes
-      .map(node => {
-        const option = node as HTMLOptionElement;
-        return {
-          label: option.textContent?.trim() || '',
-          value: option.value,
-        };
-      })
-      .filter(option => option.value && option.label && !/^select /i.test(option.label))
-  );
+function isPlaceholderLabel(label: string): boolean {
+  return !label || /^select /i.test(label);
+}
 
-  if (!options.length) {
+async function selectFirstAvailableOption(page: Page, select: Locator): Promise<string> {
+  await select.click();
+  const optionTexts = await page.locator('mat-option').evaluateAll(options =>
+    options
+      .map(option => option.textContent?.trim() || '')
+      .filter(text => text && !/^select /i.test(text))
+  );
+  if (!optionTexts.length) {
+    await page.keyboard.press('Escape').catch(() => undefined);
     throw new Error('No selectable options were available.');
   }
-
-  await select.selectOption(options[0].value);
-  return options[0].label;
+  await page.locator('mat-option').filter({ hasText: optionTexts[0] }).first().click();
+  return optionTexts[0];
 }
 
 async function ensureSectorIndustryContext(page: Page): Promise<void> {
@@ -101,13 +117,13 @@ async function ensureSectorIndustryContext(page: Page): Promise<void> {
   const industry = filterSelect(page, 1);
 
   if (!(await selectedValue(sector))) {
-    await selectFirstAvailableOption(sector);
+    await selectFirstAvailableOption(page, sector);
   }
 
-  await expect.poll(async () => (await dropdownOptions(industry)).length).toBeGreaterThan(0);
+  await expect.poll(async () => (await dropdownOptions(page, industry)).length).toBeGreaterThan(0);
 
   if (!(await selectedValue(industry))) {
-    await selectFirstAvailableOption(industry);
+    await selectFirstAvailableOption(page, industry);
   }
 }
 
@@ -169,24 +185,26 @@ test.describe('Manage Industry WRCF sheet-aligned coverage', () => {
   });
 
   test('MIWRCF-E2E-002 @stable @p0 @manage-wrcf shows active Industry Sectors in alphabetical order', async () => {
-    const options = await dropdownOptions(filterSelect(page, 0));
+    const options = await dropdownOptions(page, filterSelect(page, 0));
     await expectSorted(options);
   });
 
   test('MIWRCF-E2E-003 @stable @p0 @manage-wrcf selects a default Industry Sector on initial load', async () => {
-    await expect(filterSelect(page, 0)).toHaveValue(/.+/);
-    expect(await selectedLabel(filterSelect(page, 0))).toMatch(/\S/);
+    const label = await selectedLabel(filterSelect(page, 0));
+    expect(label).toMatch(/\S/);
+    expect(isPlaceholderLabel(label)).toBeFalsy();
   });
 
   test('MIWRCF-E2E-004 @stable @p0 @manage-wrcf shows active Industries for the selected sector in alphabetical order', async () => {
     await ensureSectorIndustryContext(page);
-    const options = await dropdownOptions(filterSelect(page, 1));
+    const options = await dropdownOptions(page, filterSelect(page, 1));
     await expectSorted(options);
   });
 
   test('MIWRCF-E2E-005 @stable @p0 @manage-wrcf selects a default Industry on initial load', async () => {
-    await expect(filterSelect(page, 1)).toHaveValue(/.+/);
-    expect(await selectedLabel(filterSelect(page, 1))).toMatch(/\S/);
+    const label = await selectedLabel(filterSelect(page, 1));
+    expect(label).toMatch(/\S/);
+    expect(isPlaceholderLabel(label)).toBeFalsy();
   });
 
   test('MIWRCF-E2E-006 @stable @p0 @manage-wrcf auto-loads data for the default selected sector and industry without clicking Apply first', async () => {
@@ -208,7 +226,11 @@ test.describe('Manage Industry WRCF sheet-aligned coverage', () => {
     await expectSorted(values);
   });
 
-  futureManageCase('MIWRCF-E2E-010', 'first FG is selected by default and edit icon is shown', 'The current UI does not expose a reliable default-selected FG state on initial page load.');
+  test('MIWRCF-E2E-010 @stable @p1 @manage-wrcf first FG is selected by default and edit icon is shown', async () => {
+    const fgColumn = column(page, 'Functional Group');
+    await expect(fgColumn.locator('.item.selected').first()).toBeVisible();
+    await expect(fgColumn.locator('.item.selected .edit-btn').first()).toBeVisible();
+  });
 
   test('MIWRCF-E2E-011 @stable @p0 @manage-wrcf PWO list loads based on selected FG, sector, and industry', async () => {
     await ensureSectorIndustryContext(page);
@@ -216,8 +238,29 @@ test.describe('Manage Industry WRCF sheet-aligned coverage', () => {
     await expect(column(page, 'Primary Work Obj.')).toBeVisible();
   });
 
-  futureManageCase('MIWRCF-E2E-012', 'first PWO is selected by default and edit icon is visible', 'The current UI does not expose a reliable default-selected PWO state on initial page load.');
-  futureManageCase('MIWRCF-E2E-013', 'changing FG resets PWO, SWO, capability and proficiency to a new valid state', 'Needs deterministic seeded hierarchy data and selection-reset assertions across all lower columns.');
+  test('MIWRCF-E2E-012 @stable @p1 @manage-wrcf first PWO is selected by default and edit icon is visible', async () => {
+    const pwoColumn = column(page, 'Primary Work Obj.');
+    await expect(pwoColumn.locator('.item.selected').first()).toBeVisible();
+    await expect(pwoColumn.locator('.item.selected .edit-btn').first()).toBeVisible();
+  });
+
+  test('MIWRCF-E2E-013 @stable @p1 @manage-wrcf changing FG resets PWO, SWO, capability and proficiency to a new valid state', async () => {
+    const fgColumn = column(page, 'Functional Group');
+    const fgItems = fgColumn.locator('.item');
+    await expect(fgItems.nth(1)).toBeVisible();
+    await fgItems.nth(1).click();
+    await page.waitForTimeout(1000);
+
+    const pwoColumn = column(page, 'Primary Work Obj.');
+    const swoColumn = column(page, 'Secondary Work Obj.');
+    const capabilityColumn = column(page, 'Capabilities');
+    const proficiencyColumn = column(page, 'Proficiency Level');
+
+    await expect(pwoColumn.locator('.item')).toHaveCount(0);
+    await expect(swoColumn.locator('.item')).toHaveCount(0);
+    await expect(capabilityColumn.locator('.item.selected')).toHaveCount(0);
+    await expect(proficiencyColumn.locator('.item.selected')).toHaveCount(0);
+  });
 
   test('MIWRCF-E2E-014 @stable @p0 @manage-wrcf SWO list loads based on selected PWO', async () => {
     await ensureSectorIndustryContext(page);
@@ -284,4 +327,41 @@ test.describe('Manage Industry WRCF sheet-aligned coverage', () => {
   });
 
   futureManageCase('MIWRCF-E2E-036', 'changing capability updates proficiency markings correctly', 'Needs multiple capability mark states with seeded CI data to validate stale-mark cleanup.');
+
+  test('MIWRCF-E2E-037 @stable @p1 @manage-wrcf proficiency values display the label with level in brackets', async () => {
+    await ensureSectorIndustryContext(page);
+    await selectFirstItem(page, 'Functional Group');
+    await selectFirstItem(page, 'Primary Work Obj.');
+    await selectFirstItem(page, 'Secondary Work Obj.');
+    await selectFirstItem(page, 'Capabilities');
+    const proficiencies = (await itemNames(column(page, 'Proficiency Level')).allTextContents())
+      .map(value => value.trim())
+      .filter(Boolean);
+    expect(proficiencies.length).toBeGreaterThan(0);
+    expect(proficiencies.every(value => /\(L\d+\)$/.test(value))).toBe(true);
+  });
+
+  test('MIWRCF-MBUG-002 @stable @p1 @manage-wrcf template actions use distinct upload and download labels or icons', async () => {
+    const templateButtons = page.getByRole('button', { name: /template/i });
+    await expect(templateButtons).toHaveCount(2);
+    const labels = (await templateButtons.allTextContents()).map(value => value.trim()).filter(Boolean);
+    expect(labels.length).toBe(2);
+    expect(labels[0]).not.toBe(labels[1]);
+  });
+
+  futureManageCase(
+    'MIWRCF-MBUG-003',
+    'success and error actions show toaster messages',
+    'Needs deterministic Manage Industry WRCF success and error action paths so toaster behavior can be asserted without mixing the case with unstable CI seed data.'
+  );
+
+  test('MIWRCF-MBUG-004 @stable @p1 @manage-wrcf template actions perform a real download or upload flow', async () => {
+    const templateButtons = page.getByRole('button', { name: /template/i });
+    await expect(templateButtons).toHaveCount(2);
+    const [download] = await Promise.all([
+      page.waitForEvent('download', { timeout: 3000 }).catch(() => null),
+      templateButtons.first().click(),
+    ]);
+    expect(download).not.toBeNull();
+  });
 });

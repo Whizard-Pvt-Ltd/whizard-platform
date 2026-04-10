@@ -1,0 +1,1042 @@
+{
+  "config": {
+    "configFile": "/home/sama/new-repo/whizard-platform/playwright.config.ts",
+    "rootDir": "/home/sama/new-repo/whizard-platform",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/home/sama/new-repo/whizard-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/home/sama/new-repo/whizard-platform",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "manual-tests/wrcf_College.playwright.spec.ts",
+      "file": "manual-tests/wrcf_College.playwright.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "College sheet-aligned coverage",
+          "file": "manual-tests/wrcf_College.playwright.spec.ts",
+          "line": 207,
+          "column": 6,
+          "specs": [
+            {
+              "title": "COL-E2E-001 @stable @p0 @college Manage College loads with list and selected college detail",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p0",
+                "college"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 20976,
+                      "error": {
+                        "message": "Error: Waiting for created college to appear in Manage College list\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Timeout 15000ms exceeded while waiting on the predicate",
+                        "stack": "Error: Waiting for created college to appear in Manage College list\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Timeout 15000ms exceeded while waiting on the predicate\n    at createCollege (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:190:3)\n    at ensureCollegeCount (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:201:5)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:225:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                          "column": 3,
+                          "line": 190
+                        },
+                        "snippet": "  188 |\n  189 |   await expect(page.getByRole('heading', { name: 'Manage College' })).toBeVisible();\n> 190 |   await expect.poll(async () => collegeButtons(page).count(), {\n      |   ^\n  191 |     timeout: 15000,\n  192 |     message: 'Waiting for created college to appear in Manage College list',\n  193 |   }).toBeGreaterThan(beforeCount);"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                            "column": 3,
+                            "line": 190
+                          },
+                          "message": "Error: Waiting for created college to appear in Manage College list\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Timeout 15000ms exceeded while waiting on the predicate\n\n  188 |\n  189 |   await expect(page.getByRole('heading', { name: 'Manage College' })).toBeVisible();\n> 190 |   await expect.poll(async () => collegeButtons(page).count(), {\n      |   ^\n  191 |     timeout: 15000,\n  192 |     message: 'Waiting for created college to appear in Manage College list',\n  193 |   }).toBeGreaterThan(beforeCount);\n    at createCollege (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:190:3)\n    at ensureCollegeCount (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:201:5)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:225:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:36:53.632Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_College.-969e3-and-selected-college-detail/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                        "column": 3,
+                        "line": 190
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "9cb992bce7e18b7736ed-0e3a1479a15887c6f5ae",
+              "file": "manual-tests/wrcf_College.playwright.spec.ts",
+              "line": 224,
+              "column": 7
+            },
+            {
+              "title": "COL-E2E-002 @stable @p1 @college college cards show name, logo or initial, location, year, and type",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "college"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 20900,
+                      "error": {
+                        "message": "Error: Waiting for created college to appear in Manage College list\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Timeout 15000ms exceeded while waiting on the predicate",
+                        "stack": "Error: Waiting for created college to appear in Manage College list\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Timeout 15000ms exceeded while waiting on the predicate\n    at createCollege (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:190:3)\n    at ensureCollegeCount (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:201:5)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:233:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                          "column": 3,
+                          "line": 190
+                        },
+                        "snippet": "  188 |\n  189 |   await expect(page.getByRole('heading', { name: 'Manage College' })).toBeVisible();\n> 190 |   await expect.poll(async () => collegeButtons(page).count(), {\n      |   ^\n  191 |     timeout: 15000,\n  192 |     message: 'Waiting for created college to appear in Manage College list',\n  193 |   }).toBeGreaterThan(beforeCount);"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                            "column": 3,
+                            "line": 190
+                          },
+                          "message": "Error: Waiting for created college to appear in Manage College list\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Timeout 15000ms exceeded while waiting on the predicate\n\n  188 |\n  189 |   await expect(page.getByRole('heading', { name: 'Manage College' })).toBeVisible();\n> 190 |   await expect.poll(async () => collegeButtons(page).count(), {\n      |   ^\n  191 |     timeout: 15000,\n  192 |     message: 'Waiting for created college to appear in Manage College list',\n  193 |   }).toBeGreaterThan(beforeCount);\n    at createCollege (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:190:3)\n    at ensureCollegeCount (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:201:5)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:233:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:37:20.813Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_College.-a6ed4-tial-location-year-and-type/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                        "column": 3,
+                        "line": 190
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "9cb992bce7e18b7736ed-cb517191bc860e80be96",
+              "file": "manual-tests/wrcf_College.playwright.spec.ts",
+              "line": 232,
+              "column": 7
+            },
+            {
+              "title": "COL-E2E-003 @stable @p1 @college user can search by college name",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "college"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 21024,
+                      "error": {
+                        "message": "Error: Waiting for created college to appear in Manage College list\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Timeout 15000ms exceeded while waiting on the predicate",
+                        "stack": "Error: Waiting for created college to appear in Manage College list\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Timeout 15000ms exceeded while waiting on the predicate\n    at createCollege (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:190:3)\n    at ensureCollegeCount (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:201:5)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:241:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                          "column": 3,
+                          "line": 190
+                        },
+                        "snippet": "  188 |\n  189 |   await expect(page.getByRole('heading', { name: 'Manage College' })).toBeVisible();\n> 190 |   await expect.poll(async () => collegeButtons(page).count(), {\n      |   ^\n  191 |     timeout: 15000,\n  192 |     message: 'Waiting for created college to appear in Manage College list',\n  193 |   }).toBeGreaterThan(beforeCount);"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                            "column": 3,
+                            "line": 190
+                          },
+                          "message": "Error: Waiting for created college to appear in Manage College list\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Timeout 15000ms exceeded while waiting on the predicate\n\n  188 |\n  189 |   await expect(page.getByRole('heading', { name: 'Manage College' })).toBeVisible();\n> 190 |   await expect.poll(async () => collegeButtons(page).count(), {\n      |   ^\n  191 |     timeout: 15000,\n  192 |     message: 'Waiting for created college to appear in Manage College list',\n  193 |   }).toBeGreaterThan(beforeCount);\n    at createCollege (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:190:3)\n    at ensureCollegeCount (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:201:5)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:241:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:37:44.627Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_College.-19bbb--can-search-by-college-name/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                        "column": 3,
+                        "line": 190
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "9cb992bce7e18b7736ed-13aacc67375ab7998097",
+              "file": "manual-tests/wrcf_College.playwright.spec.ts",
+              "line": 240,
+              "column": 7
+            },
+            {
+              "title": "COL-E2E-004 @stable @p0 @college clicking a college loads details and changes selected item",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p0",
+                "college"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 21007,
+                      "error": {
+                        "message": "Error: Waiting for created college to appear in Manage College list\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Timeout 15000ms exceeded while waiting on the predicate",
+                        "stack": "Error: Waiting for created college to appear in Manage College list\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Timeout 15000ms exceeded while waiting on the predicate\n    at createCollege (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:190:3)\n    at ensureCollegeCount (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:201:5)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:254:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                          "column": 3,
+                          "line": 190
+                        },
+                        "snippet": "  188 |\n  189 |   await expect(page.getByRole('heading', { name: 'Manage College' })).toBeVisible();\n> 190 |   await expect.poll(async () => collegeButtons(page).count(), {\n      |   ^\n  191 |     timeout: 15000,\n  192 |     message: 'Waiting for created college to appear in Manage College list',\n  193 |   }).toBeGreaterThan(beforeCount);"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                            "column": 3,
+                            "line": 190
+                          },
+                          "message": "Error: Waiting for created college to appear in Manage College list\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Timeout 15000ms exceeded while waiting on the predicate\n\n  188 |\n  189 |   await expect(page.getByRole('heading', { name: 'Manage College' })).toBeVisible();\n> 190 |   await expect.poll(async () => collegeButtons(page).count(), {\n      |   ^\n  191 |     timeout: 15000,\n  192 |     message: 'Waiting for created college to appear in Manage College list',\n  193 |   }).toBeGreaterThan(beforeCount);\n    at createCollege (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:190:3)\n    at ensureCollegeCount (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:201:5)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:254:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:38:08.917Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_College.-51f10-s-and-changes-selected-item/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                        "column": 3,
+                        "line": 190
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "9cb992bce7e18b7736ed-aef0494ddc3c33e1bd00",
+              "file": "manual-tests/wrcf_College.playwright.spec.ts",
+              "line": 253,
+              "column": 7
+            },
+            {
+              "title": "COL-E2E-006 @stable @p0 @college Add opens Create College mode",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "college"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 599,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:38:32.970Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "9cb992bce7e18b7736ed-30f07bb24ab30825b383",
+              "file": "manual-tests/wrcf_College.playwright.spec.ts",
+              "line": 260,
+              "column": 7
+            },
+            {
+              "title": "COL-E2E-007 @stable @p0 @college Edit opens Edit College mode with prefilled data",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p0",
+                "college"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 20836,
+                      "error": {
+                        "message": "Error: Waiting for created college to appear in Manage College list\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Timeout 15000ms exceeded while waiting on the predicate",
+                        "stack": "Error: Waiting for created college to appear in Manage College list\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Timeout 15000ms exceeded while waiting on the predicate\n    at createCollege (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:190:3)\n    at ensureCollegeCount (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:201:5)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:267:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                          "column": 3,
+                          "line": 190
+                        },
+                        "snippet": "  188 |\n  189 |   await expect(page.getByRole('heading', { name: 'Manage College' })).toBeVisible();\n> 190 |   await expect.poll(async () => collegeButtons(page).count(), {\n      |   ^\n  191 |     timeout: 15000,\n  192 |     message: 'Waiting for created college to appear in Manage College list',\n  193 |   }).toBeGreaterThan(beforeCount);"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                            "column": 3,
+                            "line": 190
+                          },
+                          "message": "Error: Waiting for created college to appear in Manage College list\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Timeout 15000ms exceeded while waiting on the predicate\n\n  188 |\n  189 |   await expect(page.getByRole('heading', { name: 'Manage College' })).toBeVisible();\n> 190 |   await expect.poll(async () => collegeButtons(page).count(), {\n      |   ^\n  191 |     timeout: 15000,\n  192 |     message: 'Waiting for created college to appear in Manage College list',\n  193 |   }).toBeGreaterThan(beforeCount);\n    at createCollege (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:190:3)\n    at ensureCollegeCount (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:201:5)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:267:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:38:35.023Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_College.-3c500-ge-mode-with-prefilled-data/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                        "column": 3,
+                        "line": 190
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "9cb992bce7e18b7736ed-7cc954f31e4fb6995d9a",
+              "file": "manual-tests/wrcf_College.playwright.spec.ts",
+              "line": 266,
+              "column": 7
+            },
+            {
+              "title": "COL-E2E-008 @stable @p0 @college Name is mandatory while saving college",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "college"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 637,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:38:57.747Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "9cb992bce7e18b7736ed-c322b3cf26559048e53e",
+              "file": "manual-tests/wrcf_College.playwright.spec.ts",
+              "line": 274,
+              "column": 7
+            },
+            {
+              "title": "COL-E2E-009 @stable @p1 @college Preview opens the rendered college preview and Back returns to form",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "college"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 20782,
+                      "error": {
+                        "message": "Error: Waiting for created college to appear in Manage College list\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Timeout 15000ms exceeded while waiting on the predicate",
+                        "stack": "Error: Waiting for created college to appear in Manage College list\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Timeout 15000ms exceeded while waiting on the predicate\n    at createCollege (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:190:3)\n    at ensureCollegeCount (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:201:5)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:282:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                          "column": 3,
+                          "line": 190
+                        },
+                        "snippet": "  188 |\n  189 |   await expect(page.getByRole('heading', { name: 'Manage College' })).toBeVisible();\n> 190 |   await expect.poll(async () => collegeButtons(page).count(), {\n      |   ^\n  191 |     timeout: 15000,\n  192 |     message: 'Waiting for created college to appear in Manage College list',\n  193 |   }).toBeGreaterThan(beforeCount);"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                            "column": 3,
+                            "line": 190
+                          },
+                          "message": "Error: Waiting for created college to appear in Manage College list\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Timeout 15000ms exceeded while waiting on the predicate\n\n  188 |\n  189 |   await expect(page.getByRole('heading', { name: 'Manage College' })).toBeVisible();\n> 190 |   await expect.poll(async () => collegeButtons(page).count(), {\n      |   ^\n  191 |     timeout: 15000,\n  192 |     message: 'Waiting for created college to appear in Manage College list',\n  193 |   }).toBeGreaterThan(beforeCount);\n    at createCollege (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:190:3)\n    at ensureCollegeCount (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:201:5)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:282:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:38:59.644Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_College.-47268-ew-and-Back-returns-to-form/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                        "column": 3,
+                        "line": 190
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "9cb992bce7e18b7736ed-b6d72fde3fab33aff34c",
+              "file": "manual-tests/wrcf_College.playwright.spec.ts",
+              "line": 281,
+              "column": 7
+            },
+            {
+              "title": "COL-E2E-010 @stable @p1 @college Send to publish is enabled only when the college form is valid",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "college"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 6362,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeEnabled\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator:  getByRole('button', { name: 'Sent to publish' }).first()\nExpected: enabled\nReceived: disabled\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeEnabled\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Sent to publish' }).first()\u001b[22m\n\u001b[2m    9 × locator resolved to <button disabled type=\"button\" _ngcontent-ng-c3483603718=\"\" class=\"h-10 px-4 rounded-[10px] text-sm font-medium transition-colors bg-wrcf-bg-secondary text-wrcf-text-secondary cursor-not-allowed\"> Sent to publish </button>\u001b[22m\n\u001b[2m      - unexpected value \"disabled\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeEnabled\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator:  getByRole('button', { name: 'Sent to publish' }).first()\nExpected: enabled\nReceived: disabled\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeEnabled\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Sent to publish' }).first()\u001b[22m\n\u001b[2m    9 × locator resolved to <button disabled type=\"button\" _ngcontent-ng-c3483603718=\"\" class=\"h-10 px-4 rounded-[10px] text-sm font-medium transition-colors bg-wrcf-bg-secondary text-wrcf-text-secondary cursor-not-allowed\"> Sent to publish </button>\u001b[22m\n\u001b[2m      - unexpected value \"disabled\"\u001b[22m\n\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:299:39",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                          "column": 39,
+                          "line": 299
+                        },
+                        "snippet": "  297 |     await chooseCollegeType(page, 'Private');\n  298 |     await fillCollegeDescription(page, 'College profile for publish validation.');\n> 299 |     await expect(publishButton(page)).toBeEnabled();\n      |                                       ^\n  300 |   });\n  301 |\n  302 |   futureCollegeBlocker("
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                            "column": 39,
+                            "line": 299
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeEnabled\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator:  getByRole('button', { name: 'Sent to publish' }).first()\nExpected: enabled\nReceived: disabled\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeEnabled\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Sent to publish' }).first()\u001b[22m\n\u001b[2m    9 × locator resolved to <button disabled type=\"button\" _ngcontent-ng-c3483603718=\"\" class=\"h-10 px-4 rounded-[10px] text-sm font-medium transition-colors bg-wrcf-bg-secondary text-wrcf-text-secondary cursor-not-allowed\"> Sent to publish </button>\u001b[22m\n\u001b[2m      - unexpected value \"disabled\"\u001b[22m\n\n\n  297 |     await chooseCollegeType(page, 'Private');\n  298 |     await fillCollegeDescription(page, 'College profile for publish validation.');\n> 299 |     await expect(publishButton(page)).toBeEnabled();\n      |                                       ^\n  300 |   });\n  301 |\n  302 |   futureCollegeBlocker(\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:299:39"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:39:22.104Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_College.-6de88-n-the-college-form-is-valid/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                        "column": 39,
+                        "line": 299
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "9cb992bce7e18b7736ed-6d3697c83cd1cfd53253",
+              "file": "manual-tests/wrcf_College.playwright.spec.ts",
+              "line": 292,
+              "column": 7
+            },
+            {
+              "title": "COL-E2E-005 @future @p1 @college About College is collapsed by default and expands with See More",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "college"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 3996,
+                      "error": {
+                        "message": "Error: This case needs a deterministic college record with long description content so the collapse/expand control is guaranteed to render in the live runtime.",
+                        "stack": "Error: This case needs a deterministic college record with long description content so the collapse/expand control is guaranteed to render in the live runtime.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:90:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                          "column": 11,
+                          "line": 90
+                        },
+                        "snippet": "  88 |   test(`${id} @future @${priority} @college ${title}`, async ({ page }) => {\n  89 |     await openCollegePage(page);\n> 90 |     throw new Error(reason);\n     |           ^\n  91 |   });\n  92 | }\n  93 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                            "column": 11,
+                            "line": 90
+                          },
+                          "message": "Error: This case needs a deterministic college record with long description content so the collapse/expand control is guaranteed to render in the live runtime.\n\n  88 |   test(`${id} @future @${priority} @college ${title}`, async ({ page }) => {\n  89 |     await openCollegePage(page);\n> 90 |     throw new Error(reason);\n     |           ^\n  91 |   });\n  92 | }\n  93 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:90:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:39:31.275Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_College.-6bdda-t-and-expands-with-See-More/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                        "column": 11,
+                        "line": 90
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "9cb992bce7e18b7736ed-67a3ab9de05587b63ebc",
+              "file": "manual-tests/wrcf_College.playwright.spec.ts",
+              "line": 88,
+              "column": 7
+            },
+            {
+              "title": "COL-E2E-011 @future @p1 @college college can link local club chapters from pre-existing clubs and save",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "college"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 4012,
+                      "error": {
+                        "message": "Error: Live Manage College form exposes Local Club Chapters, but this workbook case needs a deterministic save-safe college record to verify persisted club linkage.",
+                        "stack": "Error: Live Manage College form exposes Local Club Chapters, but this workbook case needs a deterministic save-safe college record to verify persisted club linkage.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:90:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                          "column": 11,
+                          "line": 90
+                        },
+                        "snippet": "  88 |   test(`${id} @future @${priority} @college ${title}`, async ({ page }) => {\n  89 |     await openCollegePage(page);\n> 90 |     throw new Error(reason);\n     |           ^\n  91 |   });\n  92 | }\n  93 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                            "column": 11,
+                            "line": 90
+                          },
+                          "message": "Error: Live Manage College form exposes Local Club Chapters, but this workbook case needs a deterministic save-safe college record to verify persisted club linkage.\n\n  88 |   test(`${id} @future @${priority} @college ${title}`, async ({ page }) => {\n  89 |     await openCollegePage(page);\n> 90 |     throw new Error(reason);\n     |           ^\n  91 |   });\n  92 | }\n  93 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:90:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:39:38.124Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_College.-96296-pre-existing-clubs-and-save/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                        "column": 11,
+                        "line": 90
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "9cb992bce7e18b7736ed-035eea6dcabd13ea93df",
+              "file": "manual-tests/wrcf_College.playwright.spec.ts",
+              "line": 88,
+              "column": 7
+            },
+            {
+              "title": "COL-E2E-012 @future @p1 @college key contact roles can be assigned from existing users and saved",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "college"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 4014,
+                      "error": {
+                        "message": "Error: Live Manage College form exposes key-contact selectors, but this workbook case needs a deterministic save-safe college record to verify persisted contact mapping.",
+                        "stack": "Error: Live Manage College form exposes key-contact selectors, but this workbook case needs a deterministic save-safe college record to verify persisted contact mapping.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:90:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                          "column": 11,
+                          "line": 90
+                        },
+                        "snippet": "  88 |   test(`${id} @future @${priority} @college ${title}`, async ({ page }) => {\n  89 |     await openCollegePage(page);\n> 90 |     throw new Error(reason);\n     |           ^\n  91 |   });\n  92 | }\n  93 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                            "column": 11,
+                            "line": 90
+                          },
+                          "message": "Error: Live Manage College form exposes key-contact selectors, but this workbook case needs a deterministic save-safe college record to verify persisted contact mapping.\n\n  88 |   test(`${id} @future @${priority} @college ${title}`, async ({ page }) => {\n  89 |     await openCollegePage(page);\n> 90 |     throw new Error(reason);\n     |           ^\n  91 |   });\n  92 | }\n  93 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:90:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:39:45.159Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_College.-83bfa-om-existing-users-and-saved/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                        "column": 11,
+                        "line": 90
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "9cb992bce7e18b7736ed-2434da4d2a9cfc8739b1",
+              "file": "manual-tests/wrcf_College.playwright.spec.ts",
+              "line": 88,
+              "column": 7
+            },
+            {
+              "title": "COL-E2E-013 @future @p0 @college Student Onboarding page loads with filters, table, bulk upload, and Add action",
+              "ok": false,
+              "tags": [
+                "future",
+                "p0",
+                "college"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 4128,
+                      "error": {
+                        "message": "Error: College Student Onboarding is described in the FS, but the current live admin runtime does not expose a separate student-onboarding page under Manage College.",
+                        "stack": "Error: College Student Onboarding is described in the FS, but the current live admin runtime does not expose a separate student-onboarding page under Manage College.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:90:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                          "column": 11,
+                          "line": 90
+                        },
+                        "snippet": "  88 |   test(`${id} @future @${priority} @college ${title}`, async ({ page }) => {\n  89 |     await openCollegePage(page);\n> 90 |     throw new Error(reason);\n     |           ^\n  91 |   });\n  92 | }\n  93 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                            "column": 11,
+                            "line": 90
+                          },
+                          "message": "Error: College Student Onboarding is described in the FS, but the current live admin runtime does not expose a separate student-onboarding page under Manage College.\n\n  88 |   test(`${id} @future @${priority} @college ${title}`, async ({ page }) => {\n  89 |     await openCollegePage(page);\n> 90 |     throw new Error(reason);\n     |           ^\n  91 |   });\n  92 | }\n  93 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:90:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:39:52.063Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_College.-20209--bulk-upload-and-Add-action/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                        "column": 11,
+                        "line": 90
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "9cb992bce7e18b7736ed-9d1ecb8ab7b234053822",
+              "file": "manual-tests/wrcf_College.playwright.spec.ts",
+              "line": 88,
+              "column": 7
+            },
+            {
+              "title": "COL-E2E-014 @future @p0 @college bulk student upload validates file structure and creates students",
+              "ok": false,
+              "tags": [
+                "future",
+                "p0",
+                "college"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 4305,
+                      "error": {
+                        "message": "Error: Bulk student onboarding flow is documented in the FS, but the current live admin runtime does not expose that student-onboarding upload surface.",
+                        "stack": "Error: Bulk student onboarding flow is documented in the FS, but the current live admin runtime does not expose that student-onboarding upload surface.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:90:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                          "column": 11,
+                          "line": 90
+                        },
+                        "snippet": "  88 |   test(`${id} @future @${priority} @college ${title}`, async ({ page }) => {\n  89 |     await openCollegePage(page);\n> 90 |     throw new Error(reason);\n     |           ^\n  91 |   });\n  92 | }\n  93 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                            "column": 11,
+                            "line": 90
+                          },
+                          "message": "Error: Bulk student onboarding flow is documented in the FS, but the current live admin runtime does not expose that student-onboarding upload surface.\n\n  88 |   test(`${id} @future @${priority} @college ${title}`, async ({ page }) => {\n  89 |     await openCollegePage(page);\n> 90 |     throw new Error(reason);\n     |           ^\n  91 |   });\n  92 | }\n  93 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:90:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:39:59.144Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_College.-0af7f-ucture-and-creates-students/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                        "column": 11,
+                        "line": 90
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "9cb992bce7e18b7736ed-c6d0451d0c7a7c1a461f",
+              "file": "manual-tests/wrcf_College.playwright.spec.ts",
+              "line": 88,
+              "column": 7
+            },
+            {
+              "title": "COL-E2E-015 @future @p1 @college college admin can search, edit, archive, and paginate student records",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "college"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 12,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 4084,
+                      "error": {
+                        "message": "Error: Student management table actions are documented in the FS, but the current live admin runtime does not expose the student-onboarding management screen.",
+                        "stack": "Error: Student management table actions are documented in the FS, but the current live admin runtime does not expose the student-onboarding management screen.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:90:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                          "column": 11,
+                          "line": 90
+                        },
+                        "snippet": "  88 |   test(`${id} @future @${priority} @college ${title}`, async ({ page }) => {\n  89 |     await openCollegePage(page);\n> 90 |     throw new Error(reason);\n     |           ^\n  91 |   });\n  92 | }\n  93 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                            "column": 11,
+                            "line": 90
+                          },
+                          "message": "Error: Student management table actions are documented in the FS, but the current live admin runtime does not expose the student-onboarding management screen.\n\n  88 |   test(`${id} @future @${priority} @college ${title}`, async ({ page }) => {\n  89 |     await openCollegePage(page);\n> 90 |     throw new Error(reason);\n     |           ^\n  91 |   });\n  92 | }\n  93 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:90:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:40:06.790Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_College.-e56ea-nd-paginate-student-records/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts",
+                        "column": 11,
+                        "line": 90
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "9cb992bce7e18b7736ed-bbebef8f65773026231d",
+              "file": "manual-tests/wrcf_College.playwright.spec.ts",
+              "line": 88,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-04-03T17:36:51.645Z",
+    "duration": 200637.28300000002,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 13,
+    "flaky": 0
+  }
+}

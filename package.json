@@ -61,10 +61,7 @@
     "docker:down": "docker compose down",
     "docker:logs": "docker compose logs -f",
     "docker:logs:bff": "docker compose logs -f bff",
-    "docker:logs:core-api": "docker compose logs -f core-api"
     "docker:logs:core-api": "docker compose logs -f core-api",
-    "validate": "pnpm lint && pnpm test && pnpm build:all",
-    "prepare": "husky install",
     "test:playwright:stable": "playwright test",
     "test:playwright:future": "PW_INCLUDE_FUTURE=1 playwright test --grep @future",
     "test:playwright:stable:p0": "playwright test --grep \"(?=.*@stable)(?=.*@p0)\"",

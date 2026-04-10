@@ -16,8 +16,8 @@ export class CreateDepartmentCommandHandler {
       revenueContributionWeight: cmd.revenueContributionWeight,
       regulatoryExposureLevel: cmd.regulatoryExposureLevel
     });
-    await this.repo.save(dept, cmd.functionalGroupIds);
-    return { id: dept.id, name: dept.name };
+    const id = await this.repo.save(dept, cmd.functionalGroupIds);
+    return { id, name: dept.name };
   }
 }
 

@@ -23,7 +23,9 @@
     "when a user request has ambiguous scope, restate the intended action and ask for confirmation before executing",
     "when a user request or source artifact implies a specific environment, restate the environment you plan to use and ask for confirmation before validating or rerunning if there is any ambiguity",
     "do not silently narrow or expand the requested scope based on recent context",
-    "if Excel libraries are unavailable, read the xlsx zip/xml payload directly"
+    "if Excel libraries are unavailable, read the xlsx zip/xml payload directly",
+    "for temp/WRCF End-to-End Test Cases_reverified-v2.xlsx, do not add a new Test run column unless the user explicitly asks for it",
+    "if the user does not explicitly ask for a new Test run column in v2, do not extend the run-history columns by default"
   ],
   "acceptance_rules": [
     "reuse the closest existing spec as template",
@@ -63,6 +65,12 @@
     "prefer rerun batches of about 100-120 Playwright tests per run",
     "if the requested scope is much larger, split it into multiple runs of roughly 100-120 tests and tell the user that this is the recommended execution strategy"
   ],
+  "execution_phase_rules": [
+    "during patching/debugging, fail-fast runs are allowed",
+    "when preparing the final issue for a sheet, rerun the full sheet without fail-fast",
+    "final issue content must be based on the full-sheet run, not on a partial debug run",
+    "if the user asks to create an issue and does not explicitly narrow scope, assume they want the full-sheet run result for that sheet"
+  ],
   "priority_rules": {
     "P0": "critical user journeys",
     "P1": "edge cases",
@@ -84,5 +92,13 @@
     "default Playwright execution should include @future unless the user explicitly asks to exclude it",
     "explicit future-only runs can still use --grep @future when targeted coverage is needed",
     "during normal reruns, run specs in the default way and include @future until the user says otherwise"
+  ],
+  "github_issue_rules": [
+    "before drafting or creating any GitHub issue, confirm the scope, environment, and whether the user wants one combined issue or separate issues",
+    "start the issue body with a heading: ## Run Summary",
+    "format the run summary fields with bold labels: **Environment**, **Suite** or **Suites**, **Result**",
+    "for each failed test add a heading line using the test id, for example: ## DASH-E2E-007",
+    "under each failed-test heading use this exact bold field order: **Test ID**, **Scenario**, **Expected Result**, **Likely Code Area**, **Probable Root Cause**, **Suggested Fix / Investigation Hint**",
+    "do not add extra introductory text unless the user explicitly asks for it"
   ]
 }

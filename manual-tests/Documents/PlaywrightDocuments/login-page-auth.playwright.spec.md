@@ -8,7 +8,7 @@ Credentialed login coverage for the admin login page using runtime environment v
 
 ## Covered Tests
 
-- signs in with valid credentials
+- `LOGIN-E2E-007` valid credentials sign the user in and leave the login page
 
 ## Flow Diagram
 

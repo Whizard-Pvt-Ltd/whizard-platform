@@ -4,12 +4,13 @@
 
 ## Purpose
 
-Sheet-aligned dashboard coverage for the `Dashboard` tab in `WRCF End-to-End Test Cases.xlsx`, including all `DASH-E2E-001` through `DASH-E2E-026` entries.
+Sheet-aligned dashboard coverage for the `Dashboard` tab in `WRCF End-to-End Test Cases.xlsx`, including all `DASH-E2E-001` through `DASH-E2E-032` entries.
 
 ## Covered Tests
 
-- `DASH-E2E-001` through `DASH-E2E-026`
+- `DASH-E2E-001` through `DASH-E2E-032`
 - includes default landing, default filter selection, dashboard card loading, dropdown ordering, refresh behavior, version panel checks, hierarchy/metric cards, quick actions, and carry-forward coverage
+- includes dashboard shell/layout checks for load position, filter chrome, quick-action alignment, scrollbar behavior, and profile logout visibility
 - current product gaps remain visible as real failures
 - authorization coverage remains pending because it needs a lower-privilege user
 

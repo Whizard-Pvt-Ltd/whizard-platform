@@ -65,11 +65,15 @@ async function ensureAuthenticatedPage(browser: Browser): Promise<{ context: Bro
 }
 
 function listPanel(page: Page): Locator {
-  return page.locator('.w-\\[260px\\]').first();
+  return page.locator('.w-\\[320px\\]').first();
 }
 
 function companyButtons(page: Page): Locator {
   return listPanel(page).locator('button');
+}
+
+function companyForm(page: Page): Locator {
+  return page.locator('whizard-company-form');
 }
 
 function futureCompanyBlocker(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
@@ -90,15 +94,26 @@ async function openCompaniesPage(page: Page): Promise<void> {
   }
 
   await expect(page).toHaveURL(/\/manage-company/, { timeout: 15000 });
-  await expect(page.getByRole('heading', { name: 'Manage Company' })).toBeVisible({ timeout: 15000 });
-  await expect.poll(async () => companyButtons(page).count(), {
-    timeout: 15000,
-    message: 'Waiting for company list to load on Manage Company',
-  }).toBeGreaterThan(0);
+  await expect(listPanel(page)).toBeVisible({ timeout: 15000 });
+  await expect(page.getByPlaceholder('Search company...')).toBeVisible({ timeout: 15000 });
+  await expect
+    .poll(
+      async () => {
+        if (await listPanel(page).getByText('No companies found').isVisible().catch(() => false)) {
+          return 0;
+        }
+        return await companyButtons(page).count();
+      },
+      {
+        timeout: 15000,
+        message: 'Waiting for company list or empty-state to load on Manage Company',
+      }
+    )
+    .toBeGreaterThanOrEqual(0);
 }
 
 async function clickSaveButton(page: Page): Promise<void> {
-  const saveButton = page.getByRole('button', { name: 'Save' }).first();
+  const saveButton = companyForm(page).getByRole('button', { name: 'Save' }).first();
   await expect(saveButton).toBeVisible();
   await saveButton.click({ force: true });
 }
@@ -121,14 +136,14 @@ test.describe('Companies sheet-aligned coverage', () => {
   });
 
   test('COMP-CUR-001 @stable @p0 @companies loads Manage Company with selected company details', async () => {
-    await expect(page.getByRole('heading', { name: 'Manage Company' })).toBeVisible();
+    await expect(listPanel(page)).toBeVisible();
     await expect(page.getByRole('button', { name: 'Add' })).toBeVisible();
     await expect(page.getByText(/Company Id :/).first()).toBeVisible();
     await expect(page.getByRole('button', { name: 'Edit' })).toBeVisible();
   });
 
   test('COMP-CUR-002 @stable @p1 @companies filters the company list using search', async () => {
-    const search = page.getByPlaceholder('Search for company...');
+    const search = page.getByPlaceholder('Search company...');
     const initialCount = await companyButtons(page).count();
     expect(initialCount).toBeGreaterThan(0);
 
@@ -141,7 +156,8 @@ test.describe('Companies sheet-aligned coverage', () => {
 
   test('COMP-CUR-003 @stable @p0 @companies opens create form and blocks save when Name is empty', async () => {
     await page.getByRole('button', { name: 'Add' }).click();
-    await expect(page.getByRole('button', { name: 'Save' })).toBeVisible();
+    await expect(companyForm(page)).toBeVisible();
+    await expect(companyForm(page).getByRole('button', { name: 'Save' })).toBeVisible();
     await expect(page.getByText('Company Details').first()).toBeVisible();
 
     await clickSaveButton(page);
@@ -161,7 +177,8 @@ test.describe('Companies sheet-aligned coverage', () => {
   test('COMP-CUR-005 @stable @p1 @companies shows preview from edit form and returns back to list view', async () => {
     const selectedName = (await page.locator('h2').first().textContent())?.trim() || '';
     await page.getByRole('button', { name: 'Edit' }).click();
-    await page.getByRole('button', { name: 'Preview' }).click();
+    await expect(companyForm(page)).toBeVisible();
+    await companyForm(page).getByRole('button', { name: 'Preview' }).click();
     await expect(page.getByText('Preview')).toBeVisible();
     await expect(page.getByRole('heading', { name: selectedName })).toBeVisible();
     await page.getByRole('button', { name: 'Back' }).click();

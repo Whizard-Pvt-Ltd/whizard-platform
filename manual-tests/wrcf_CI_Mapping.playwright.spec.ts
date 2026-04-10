@@ -95,7 +95,8 @@ async function ensureAuthenticatedPage(browser: Browser): Promise<{ context: Bro
 
 async function openWrcf(page: Page): Promise<void> {
   await page.goto(`${appUrl}/industry-wrcf`);
-  await expect(page.getByRole('heading', { name: 'Manage Industry WRCF' })).toBeVisible();
+  await expect(page.getByText('Manage Industry WRCF', { exact: true }).first()).toBeVisible();
+  await expect(page.getByText('Industry Sector', { exact: true }).first()).toBeVisible();
 }
 
 async function selectIndustryContext(page: Page): Promise<void> {
@@ -518,4 +519,16 @@ test.describe('CI Mapping sheet-aligned coverage', () => {
   futureCiCase('CIMAP-E2E-033', 'pending items from one FG do not appear after switching popup filters to another FG', 'Current popup groups all parent cache entries regardless of selected FG filter.');
   futureCiCase('CIMAP-E2E-034', 'partial save failure leaves the popup in a consistent state', 'Needs backend validation conflicts or mixed save success fixtures.');
   futureCiCase('CIMAP-E2E-035', 'saved mappings reopen as normal mapped entries rather than pending rows', 'Needs live save execution plus deterministic cleanup for created CI records.');
+
+  futureCiCase(
+    'CIMAP-MBUG-001',
+    'CreatedOn and UpdatedOn use the agreed timezone',
+    'Audit timestamp timezone verification needs persisted CI records or API/database evidence beyond current browser-only CI Mapping coverage.'
+  );
+
+  futureCiCase(
+    'CIMAP-MBUG-002',
+    'CreatedBy and UpdatedBy capture the acting user id',
+    'Audit user-capture verification needs persisted CI records or API/database evidence beyond current browser-only CI Mapping coverage.'
+  );
 });

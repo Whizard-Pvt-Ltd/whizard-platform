@@ -68,6 +68,9 @@ Execution-step rule:
 - for large reruns, do not batch by sheet count alone
 - prefer batches of roughly `100-120` Playwright tests per run
 - if the requested scope is much larger, split it into multiple runs of about `100-120` tests each and tell the user that this is the recommended execution strategy
+- for large/full-suite or repeated reruns, prefer user-run plus pasted output over Codex-run
+- use Codex-run mainly for short targeted reruns, reproducing a few failures, or validating a fresh patch
+- use user-run mainly for long batches, repeated environment checks, or full-suite executions because it is usually faster and uses fewer tokens
 
 ---
 ## Workflow Architecture
@@ -252,6 +255,59 @@ Test in layers:
    - critical end-to-end user/business flows
 
 Only test the layer relevant to the current case unless regression scope specifically requires more.
+
+---
+
+## GitHub Issue Rule
+
+Before drafting or creating any GitHub issue:
+- confirm the scope with the user
+- confirm the environment
+- confirm whether the user wants one combined issue or separate issues
+
+For each failed test entry, use this exact format:
+- a heading line using the test id, for example: `## DASH-E2E-007`
+- `**Test ID**`
+- `**Scenario**`
+- `**Expected Result**`
+- `**Likely Code Area**`
+- `**Probable Root Cause**`
+- `**Suggested Fix / Investigation Hint**`
+
+When writing the GitHub issue body, follow the plain project style already in use:
+- start with:
+  - `## Run Summary`
+  - `**Environment**: <env>`
+  - `**Suite**: <suite>` or `**Suites**: <suite list>`
+  - `**Result**: <pass count> passed, <fail count> failed`
+- then list each failed test directly in this form:
+  - `## <TEST-ID>`
+  - `**Test ID**: <TEST-ID>`
+  - `**Scenario**: ...`
+  - `**Expected Result**: ...`
+  - `**Likely Code Area**: ...`
+  - `**Probable Root Cause**: ...`
+  - `**Suggested Fix / Investigation Hint**: ...`
+
+Do not add extra framing text or a separate “format used” preface unless the user explicitly asks for it.
+
+---
+
+## Workbook Run Column Rule
+
+For `temp/WRCF End-to-End Test Cases_reverified-v2.xlsx`:
+- do not add a new `Test run ...` column unless the user explicitly asks for it
+- updating latest-run fields alone is allowed when requested
+- if a rerun was completed but the user did not ask for a new run column, keep the workbook history unchanged and wait for explicit confirmation
+
+---
+
+## Patch Vs Issue Run Rule
+
+- during patching/debugging, fail-fast runs are allowed
+- when preparing the final issue for a sheet, rerun the full sheet without fail-fast
+- final issue content must be based on the full-sheet run, not on a partial debug run
+- if the user asks to create an issue and does not explicitly narrow scope, assume they want the full-sheet run result for that sheet
 
 ---
 

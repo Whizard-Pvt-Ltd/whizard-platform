@@ -100,47 +100,74 @@ async function ensureAuthenticatedPage(browser: Browser): Promise<{ context: Bro
 }
 
 async function openWrcf(page: Page): Promise<void> {
-  await page.goto(`${appUrl}/industry-wrcf`);
-  await expect(page.getByRole('heading', { name: 'Manage Industry WRCF' })).toBeVisible();
+  await page.goto(`${appUrl}/dashboard`);
+  await expect(page).toHaveURL(/\/dashboard/);
+  const manageIndustryLink = page.locator('a').filter({ hasText: /^Manage Industry$/ }).first();
+  await expect(manageIndustryLink).toBeVisible();
+  await manageIndustryLink.click();
+  await expect(page).toHaveURL(/\/industry-wrcf/);
+  await expect(page.getByText('Manage Industry WRCF', { exact: true }).first()).toBeVisible();
+  await expect(page.getByText('Industry Sector', { exact: true }).first()).toBeVisible();
+  await expect(page.locator('mat-select').nth(0)).toBeVisible();
+  await expect(page.locator('mat-select').nth(1)).toBeVisible();
 }
 
-async function dropdownOptions(select: Locator, placeholderPattern: RegExp): Promise<string[]> {
-  return select.locator('option').evaluateAll(
-    (options, patternSource) =>
-      options
-        .map(option => (option as HTMLOptionElement).textContent?.trim() || '')
-        .filter(text => text && !(new RegExp(patternSource, 'i')).test(text)),
-    placeholderPattern.source
+async function selectedLabel(select: Locator): Promise<string> {
+  return ((await select.textContent()) || '').replace(/\s+/g, ' ').trim();
+}
+
+function isPlaceholderLabel(label: string): boolean {
+  return !label || /^Select (Sector|Industry)/i.test(label);
+}
+
+async function matOptionTexts(page: Page, select: Locator, placeholderPattern: RegExp): Promise<string[]> {
+  await select.click();
+  await expect.poll(async () => await page.locator('mat-option').count()).toBeGreaterThan(0);
+  const texts = await page.locator('mat-option').evaluateAll(options =>
+    options
+      .map(option => option.textContent?.trim() || '')
+      .filter(text => text)
   );
+  await page.keyboard.press('Escape').catch(() => undefined);
+  return texts.filter(text => !placeholderPattern.test(text));
+}
+
+async function selectFirstAvailableMatOption(page: Page, select: Locator, placeholderPattern: RegExp): Promise<string> {
+  await select.click();
+  await expect.poll(async () => await page.locator('mat-option').count()).toBeGreaterThan(0);
+  const options = page.locator('mat-option');
+  const count = await options.count();
+  for (let i = 0; i < count; i += 1) {
+    const option = options.nth(i);
+    const text = ((await option.textContent()) || '').replace(/\s+/g, ' ').trim();
+    if (!text || placeholderPattern.test(text)) {
+      continue;
+    }
+    await option.click();
+    return text;
+  }
+  await page.keyboard.press('Escape').catch(() => undefined);
+  throw new Error('No selectable options were available.');
 }
 
 async function selectIndustryContext(page: Page): Promise<void> {
-  const filters = page.locator('.filter-bar .filter-select');
-  const sectorSelect = filters.nth(0);
-  const industrySelect = filters.nth(1);
+  const sectorSelect = page.locator('mat-select').nth(0);
+  const industrySelect = page.locator('mat-select').nth(1);
 
-  await expect.poll(
-    async () => dropdownOptions(sectorSelect, /^select sector/),
-    { timeout: 10000, message: 'Waiting for sector options to load' }
-  ).not.toHaveLength(0);
-
-  if (!(await sectorSelect.inputValue())) {
-    const sectors = await dropdownOptions(sectorSelect, /^select sector/);
-    await sectorSelect.selectOption({ label: sectors[0] });
+  if (isPlaceholderLabel(await selectedLabel(sectorSelect))) {
+    await selectFirstAvailableMatOption(page, sectorSelect, /^Select Sector/i);
   }
 
-  await expect.poll(
-    async () => dropdownOptions(industrySelect, /^select industry/),
-    { timeout: 10000, message: 'Waiting for industry options to load' }
-  ).not.toHaveLength(0);
+  await expect
+    .poll(async () => await matOptionTexts(page, industrySelect, /^Select Industry/i), {
+      timeout: 10000,
+      message: 'Waiting for industry options to load',
+    })
+    .not.toHaveLength(0);
 
-  if (!(await industrySelect.inputValue())) {
-    const industries = await dropdownOptions(industrySelect, /^select industry/);
-    await industrySelect.selectOption({ label: industries[0] });
+  if (isPlaceholderLabel(await selectedLabel(industrySelect))) {
+    await selectFirstAvailableMatOption(page, industrySelect, /^Select Industry/i);
   }
-
-  await expect(sectorSelect).toHaveValue(/.+/);
-  await expect(industrySelect).toHaveValue(/.+/);
 }
 
 async function waitForWrcfReady(page: Page): Promise<void> {
@@ -153,6 +180,23 @@ async function waitForWrcfReady(page: Page): Promise<void> {
 
   await expect(column(page, 'Functional Group').locator('.item').first()).toBeVisible();
   await expect(column(page, 'Secondary Work Obj.').getByTitle('Add')).toBeVisible();
+}
+
+async function openWrcfAndWaitForReady(page: Page): Promise<void> {
+  let lastError: unknown;
+
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    try {
+      await openWrcf(page);
+      await waitForWrcfReady(page);
+      return;
+    } catch (error) {
+      lastError = error;
+      await page.reload({ waitUntil: 'domcontentloaded' }).catch(() => undefined);
+    }
+  }
+
+  throw lastError;
 }
 
 async function selectFunctionalGroup(page: Page): Promise<string> {
@@ -173,6 +217,13 @@ async function selectPrimaryWorkObject(page: Page): Promise<string> {
 
 async function selectPrimaryWorkObjectWithExistingSwo(page: Page): Promise<string> {
   const pwoList = column(page, 'Primary Work Obj.').locator('.item');
+  await expect
+    .poll(async () => await pwoList.count(), {
+      timeout: 10000,
+      message: 'Waiting for Primary Work Object rows after selecting Functional Group',
+    })
+    .toBeGreaterThan(0);
+
   const pwoCount = await pwoList.count();
   if (!pwoCount) {
     throw new Error('No Primary Work Object item available.');
@@ -185,21 +236,9 @@ async function selectPrimaryWorkObjectWithExistingSwo(page: Page): Promise<strin
     if (!text) continue;
 
     await pwoList.nth(index).click();
-
-    let swoCount = -1;
-    try {
-      await expect
-        .poll(
-          async () => await swoItems(page).count(),
-          { timeout: 1200, message: `Waiting briefly for SWO rows after selecting PWO "${text}"` }
-        )
-        .toBeGreaterThan(0);
-      swoCount = await swoItems(page).count();
-    } catch {
-      swoCount = -1;
-    }
-
-    if (typeof swoCount === 'number' && swoCount > 0) {
+    await page.waitForTimeout(400);
+    const swoCount = await swoItems(page).count().catch(() => 0);
+    if (swoCount > 0) {
       return text;
     }
   }
@@ -262,9 +301,7 @@ async function deleteSwo(page: Page, name: string): Promise<void> {
 }
 
 async function selectSwoContext(page: Page): Promise<void> {
-  await openWrcf(page);
-  await selectIndustryContext(page);
-  await waitForWrcfReady(page);
+  await openWrcfAndWaitForReady(page);
   await selectFunctionalGroup(page);
   await expect(column(page, 'Primary Work Obj.').locator('.item').first()).toBeVisible();
   await selectPrimaryWorkObjectWithExistingSwo(page);
@@ -425,4 +462,38 @@ test.describe('Secondary Work Object sheet-aligned coverage', () => {
   });
 
   futureSwoCase('SWO-E2E-020', 'new SWO becomes selectable for downstream CI mapping after successful create', 'Needs CI Mapping workflow coverage and stable downstream selection assertions.', 'p2');
+
+  test('SWO-E2E-021 @stable @p1 @swo persists the SWO description across create and edit flows', async () => {
+    const name = uniqueName('SWO Description');
+    const description = 'Created SWO description for persistence coverage.';
+    const updatedDescription = 'Updated SWO description for persistence coverage.';
+
+    await createSwo(page, name, description);
+    await openEditPanel(page, name);
+    await expect(panel(page).getByPlaceholder('Enter Description...')).toHaveValue(description);
+    await panel(page).getByPlaceholder('Enter Description...').fill(updatedDescription);
+    await savePanel(page);
+    await openEditPanel(page, name);
+    await expect(panel(page).getByPlaceholder('Enter Description...')).toHaveValue(updatedDescription);
+    await closePanel(page);
+    await deleteSwo(page, name);
+  });
+
+  futureSwoCase(
+    'SWO-MBUG-002',
+    'CreatedOn and UpdatedOn use the agreed timezone',
+    'Audit timestamp timezone verification needs persisted data or API/database evidence beyond current browser-only SWO coverage.'
+  );
+
+  futureSwoCase(
+    'SWO-MBUG-003',
+    'CreatedBy and UpdatedBy capture the acting user id',
+    'Audit user-capture verification needs persisted data or API/database evidence beyond current browser-only SWO coverage.'
+  );
+
+  futureSwoCase(
+    'SWO-MBUG-004',
+    'delete shows a proper dependency error when capability instance mapping exists',
+    'Needs a seeded SWO with downstream capability-instance mapping and a confirmed delete-error contract in the local runtime.'
+  );
 });

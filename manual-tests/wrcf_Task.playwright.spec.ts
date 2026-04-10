@@ -129,7 +129,8 @@ function proficiencyItems(page: Page): Locator {
 
 async function openIndustryWrcf(page: Page): Promise<void> {
   await page.goto(`${appUrl}/industry-wrcf`);
-  await expect(page.getByRole('heading', { name: 'Manage Industry WRCF' })).toBeVisible();
+  await expect(page.getByText('Manage Industry WRCF', { exact: true }).first()).toBeVisible();
+  await expect(page.getByText('Industry Sector', { exact: true }).first()).toBeVisible();
 }
 
 async function ensureIndustryContext(page: Page): Promise<void> {
@@ -522,5 +523,57 @@ test.describe('Task sheet-aligned coverage', () => {
     await panel(page).getByPlaceholder('Optional').fill('');
     await savePanel(page);
     await expect(panel(page)).not.toBeVisible();
+  });
+
+  test('TSK-E2E-015 @stable @p1 @task does not mark Description as a mandatory field in the Task UI', async () => {
+    await assertTaskContextReady(page, noTaskContextReason);
+    await assertSelectedSkill(page, noSelectedSkillReason);
+    await openCreateTaskPanel(page);
+    await expect(panel(page).locator('.field-label').filter({ hasText: /^Description/ })).not.toContainText('*');
+  });
+
+  test('TSK-E2E-016 @stable @p1 @task persists the Task description across create and edit flows', async () => {
+    await assertTaskContextReady(page, noTaskContextReason);
+    await assertSelectedSkill(page, noSelectedSkillReason);
+    const name = `Task Persist ${Date.now()}`;
+    const description = 'Task description persistence coverage.';
+    const updatedDescription = 'Updated task description persistence coverage.';
+    await createTask(page, name, { description, standardDuration: '45' });
+    await openEditTaskPanel(page, name);
+    await expect(panel(page).getByPlaceholder('Enter description...')).toHaveValue(description);
+    await panel(page).getByPlaceholder('Enter description...').fill(updatedDescription);
+    await savePanel(page);
+    await expect(panel(page)).not.toBeVisible();
+    await openEditTaskPanel(page, name);
+    await expect(panel(page).getByPlaceholder('Enter description...')).toHaveValue(updatedDescription);
+  });
+
+  test('TSK-MBUG-003 @future @p1 @task Task recertification should persist across create and edit flows', async () => {
+    throw new Error('Current Task UI does not expose a recertification field in the local runtime, so this tracker item remains a product/workbook mismatch until the field exists.');
+  });
+
+  test('TSK-MBUG-004 @stable @p1 @task mandatory Task fields are clearly marked with *', async () => {
+    await assertTaskContextReady(page, noTaskContextReason);
+    await assertSelectedSkill(page, noSelectedSkillReason);
+    await openCreateTaskPanel(page);
+    await expect(panel(page).locator('.field-label').filter({ hasText: /^Name/ })).toContainText('*');
+    await expect(panel(page).locator('.field-label').filter({ hasText: /^Description/ })).not.toContainText('*');
+  });
+
+  test('TSK-MBUG-005 @stable @p1 @task blocks save when Required Proficiency Level is blank', async () => {
+    await assertTaskContextReady(page, noTaskContextReason);
+    await assertSelectedSkill(page, noSelectedSkillReason);
+    await openCreateTaskPanel(page);
+    await panel(page).getByPlaceholder('Enter task name...').fill(`Task ${Date.now()}`);
+    await panel(page).getByPlaceholder('Enter description...').fill('Required proficiency validation.');
+    await panel(page).getByRole('combobox').nth(0).selectOption({ index: 0 });
+    await panel(page).getByRole('combobox').nth(1).selectOption({ index: 0 });
+    await savePanel(page);
+    await expect(panel(page)).toBeVisible();
+    await expect(panel(page).locator('.error-msg')).toContainText(/required proficiency|required/i);
+  });
+
+  test('TSK-MBUG-006 @future @p1 @task save should not auto-populate Required Proficiency Level when no selection was made', async () => {
+    throw new Error('Needs a deterministic local path where Task save is allowed without an explicit Required Proficiency Level so the unintended fallback value can be inspected after save.');
   });
 });

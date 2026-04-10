@@ -1,0 +1,1585 @@
+
+Running 282 tests using 1 worker
+
+  ✓    1 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:271:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-001 @stable @p0 @ci-mapping shows a saved proficiency with the green mapped indicator for the selected path (2.5s)
+  ✓    2 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:281:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-002 @stable @p0 @ci-mapping shows actionable radio buttons for unmapped proficiencies on the selected path (3.1s)
+  ✓    3 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:292:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-003 @stable @p0 @ci-mapping selecting an unmapped proficiency increases the Mappings pending count immediately (3.7s)
+  ✓    4 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:305:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-004 @stable @p0 @ci-mapping clicking the same pending proficiency again removes it from the Mappings count (2.7s)
+  ✓    5 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:319:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-005 @stable @p0 @ci-mapping can stage more than one pending CI combination and keeps the pending count cumulative (3.1s)
+  ✓    6 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:357:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-006 @stable @p0 @ci-mapping clicking an already mapped proficiency does not create a duplicate pending entry (3.0s)
+  ✘    7 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:247:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-007 @future @p1 @ci-mapping proficiency state belongs only to the currently selected FG PWO SWO Capability path (2.1s)
+  ✘    8 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:247:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-008 @future @p1 @ci-mapping proficiency mapping refreshes correctly when capability changes under the same SWO (2.9s)
+  ✘    9 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:247:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-009 @future @p1 @ci-mapping saving pending mappings resets the parent pending counter (3.5s)
+  ✘   10 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:247:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-010 @future @p1 @ci-mapping closing the popup without save discards parent pending mappings (0ms)
+  -   11 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:376:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-011 @stable @p1 @ci-mapping clicking Mappings opens the Manage CI Mapping popup
+  -   12 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:381:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-012 @stable @p1 @ci-mapping popup defaults inherit the selected Industry Sector, Industry, and FG from Manage Industry WRCF
+  -   13 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:397:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-013 @stable @p1 @ci-mapping popup filter values are shown in alphabetical order
+  -   14 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:410:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-014 @stable @p1 @ci-mapping popup content stays scoped to the inherited sector industry and FG context
+  -   15 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:425:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-015 @stable @p1 @ci-mapping popup groups CI entries under PWO accordions
+  -   16 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:247:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-016 @future @p1 @ci-mapping PWO accordions are ordered alphabetically
+  -   17 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:433:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-017 @stable @p1 @ci-mapping each popup CI row shows SWO Capability and Proficiency in a readable line item
+  -   18 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:438:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-018 @stable @p1 @ci-mapping new unsaved mappings are visually tagged as pending in the popup
+  -   19 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:450:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-019 @stable @p1 @ci-mapping popup shows only saved or pending CI rows instead of the full unmapped combination space
+  -   20 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:456:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-020 @stable @p1 @ci-mapping each PWO accordion badge matches the number of CI rows rendered in that group
+  -   21 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:469:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-021 @stable @p1 @ci-mapping deleting a pending mapping removes it from the popup immediately
+  -   22 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:486:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-022 @stable @p1 @ci-mapping existing saved CI rows expose a delete action in the popup
+  -   23 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:247:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-023 @future @p1 @ci-mapping deleting an existing CI with linked skills shows a dependency warning
+  -   24 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:247:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-024 @future @p1 @ci-mapping existing CI without downstream dependency can be deleted successfully
+  -   25 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:498:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-025 @stable @p1 @ci-mapping deleting a pending mapping shows no dependency warning
+  -   26 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:247:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-026 @future @p1 @ci-mapping clicking outside the popup does not close it
+  -   27 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:247:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-027 @future @p1 @ci-mapping close or cancel leaves no unsaved pending mappings behind
+  -   28 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:247:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-028 @future @p1 @ci-mapping save persists all newly pending CI mappings
+  -   29 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:247:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-029 @future @p1 @ci-mapping save resets the pending counter on the parent Mappings button
+  -   30 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:247:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-030 @future @p1 @ci-mapping duplicate CI combinations cannot be saved twice
+  -   31 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:247:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-031 @future @p1 @ci-mapping popup filters show only sector industry and FG combinations that already have mapped or pending data
+  -   32 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:247:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-032 @future @p1 @ci-mapping changing popup filters refreshes accordion content without stale rows
+  -   33 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:247:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-033 @future @p1 @ci-mapping pending items from one FG do not appear after switching popup filters to another FG
+  -   34 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:247:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-034 @future @p1 @ci-mapping partial save failure leaves the popup in a consistent state
+  -   35 manual-tests/wrcf_CI_Mapping.playwright.spec.ts:247:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-035 @future @p1 @ci-mapping saved mappings reopen as normal mapped entries rather than pending rows
+  ✘   36 manual-tests/wrcf_College.playwright.spec.ts:224:7 › College sheet-aligned coverage › COL-E2E-001 @stable @p0 @college Manage College loads with list and selected college detail (1ms)
+  -   37 manual-tests/wrcf_College.playwright.spec.ts:232:7 › College sheet-aligned coverage › COL-E2E-002 @stable @p1 @college college cards show name, logo or initial, location, year, and type
+  -   38 manual-tests/wrcf_College.playwright.spec.ts:240:7 › College sheet-aligned coverage › COL-E2E-003 @stable @p1 @college user can search by college name
+  -   39 manual-tests/wrcf_College.playwright.spec.ts:253:7 › College sheet-aligned coverage › COL-E2E-004 @stable @p0 @college clicking a college loads details and changes selected item
+  -   40 manual-tests/wrcf_College.playwright.spec.ts:260:7 › College sheet-aligned coverage › COL-E2E-006 @stable @p0 @college Add opens Create College mode
+  -   41 manual-tests/wrcf_College.playwright.spec.ts:266:7 › College sheet-aligned coverage › COL-E2E-007 @stable @p0 @college Edit opens Edit College mode with prefilled data
+  -   42 manual-tests/wrcf_College.playwright.spec.ts:274:7 › College sheet-aligned coverage › COL-E2E-008 @stable @p0 @college Name is mandatory while saving college
+  -   43 manual-tests/wrcf_College.playwright.spec.ts:281:7 › College sheet-aligned coverage › COL-E2E-009 @stable @p1 @college Preview opens the rendered college preview and Back returns to form
+  -   44 manual-tests/wrcf_College.playwright.spec.ts:292:7 › College sheet-aligned coverage › COL-E2E-010 @stable @p1 @college Send to publish is enabled only when the college form is valid
+  -   45 manual-tests/wrcf_College.playwright.spec.ts:88:7 › College sheet-aligned coverage › COL-E2E-005 @future @p1 @college About College is collapsed by default and expands with See More
+  -   46 manual-tests/wrcf_College.playwright.spec.ts:88:7 › College sheet-aligned coverage › COL-E2E-011 @future @p1 @college college can link local club chapters from pre-existing clubs and save
+  -   47 manual-tests/wrcf_College.playwright.spec.ts:88:7 › College sheet-aligned coverage › COL-E2E-012 @future @p1 @college key contact roles can be assigned from existing users and saved
+  -   48 manual-tests/wrcf_College.playwright.spec.ts:88:7 › College sheet-aligned coverage › COL-E2E-013 @future @p0 @college Student Onboarding page loads with filters, table, bulk upload, and Add action
+  -   49 manual-tests/wrcf_College.playwright.spec.ts:88:7 › College sheet-aligned coverage › COL-E2E-014 @future @p0 @college bulk student upload validates file structure and creates students
+  -   50 manual-tests/wrcf_College.playwright.spec.ts:88:7 › College sheet-aligned coverage › COL-E2E-015 @future @p1 @college college admin can search, edit, archive, and paginate student records
+  ✘   51 manual-tests/wrcf_Companies.playwright.spec.ts:123:7 › Companies sheet-aligned coverage › COMP-CUR-001 @stable @p0 @companies loads Manage Company with selected company details (1ms)
+  -   52 manual-tests/wrcf_Companies.playwright.spec.ts:130:7 › Companies sheet-aligned coverage › COMP-CUR-002 @stable @p1 @companies filters the company list using search
+  -   53 manual-tests/wrcf_Companies.playwright.spec.ts:142:7 › Companies sheet-aligned coverage › COMP-CUR-003 @stable @p0 @companies opens create form and blocks save when Name is empty
+  -   54 manual-tests/wrcf_Companies.playwright.spec.ts:151:7 › Companies sheet-aligned coverage › COMP-CUR-004 @stable @p1 @companies opens edit form with selected company prefilled
+  -   55 manual-tests/wrcf_Companies.playwright.spec.ts:161:7 › Companies sheet-aligned coverage › COMP-CUR-005 @stable @p1 @companies shows preview from edit form and returns back to list view
+  -   56 manual-tests/wrcf_Companies.playwright.spec.ts:172:7 › Companies sheet-aligned coverage › COMP-CUR-006 @stable @p1 @companies validates contact email format before save
+  -   57 manual-tests/wrcf_Companies.playwright.spec.ts:76:7 › Companies sheet-aligned coverage › COMP-E2E-001 @future @p0 @companies company WRCF dashboard loads using the referenced industry template
+  -   58 manual-tests/wrcf_Companies.playwright.spec.ts:76:7 › Companies sheet-aligned coverage › COMP-E2E-002 @future @p0 @companies dashboard shows Industry Version, Company Version, and Overrides count
+  -   59 manual-tests/wrcf_Companies.playwright.spec.ts:76:7 › Companies sheet-aligned coverage › COMP-E2E-003 @future @p1 @companies dashboard shows Structural Overrides, Capability Overrides, Role Overrides, and Upgrade Available sections
+  -   60 manual-tests/wrcf_Companies.playwright.spec.ts:76:7 › Companies sheet-aligned coverage › COMP-E2E-004 @future @p0 @companies Company Admin can perform override actions only
+  -   61 manual-tests/wrcf_Companies.playwright.spec.ts:76:7 › Companies sheet-aligned coverage › COMP-E2E-005 @future @p1 @companies Industry Architect has full edit access to master WRCF flows
+  -   62 manual-tests/wrcf_Companies.playwright.spec.ts:76:7 › Companies sheet-aligned coverage › COMP-E2E-006 @future @p0 @companies Auditor can only view and export company WRCF
+  -   63 manual-tests/wrcf_Companies.playwright.spec.ts:76:7 › Companies sheet-aligned coverage › COMP-E2E-007 @future @p1 @companies Employee can only view role capability requirements
+  -   64 manual-tests/wrcf_Companies.playwright.spec.ts:76:7 › Companies sheet-aligned coverage › COMP-E2E-008 @future @p0 @companies company can save company-specific capability-instance overrides without duplicating full master data
+  -   65 manual-tests/wrcf_Companies.playwright.spec.ts:76:7 › Companies sheet-aligned coverage › COMP-E2E-009 @future @p0 @companies runtime view overlays company overrides on top of the industry master
+  -   66 manual-tests/wrcf_Companies.playwright.spec.ts:76:7 › Companies sheet-aligned coverage › COMP-E2E-010 @future @p1 @companies company role adjustments show Industry Role Template and Company Role Variant
+  -   67 manual-tests/wrcf_Companies.playwright.spec.ts:76:7 › Companies sheet-aligned coverage › COMP-E2E-011 @future @p1 @companies comparison uses color coding for same, overridden, and removed items
+  -   68 manual-tests/wrcf_Companies.playwright.spec.ts:76:7 › Companies sheet-aligned coverage › COMP-E2E-012 @future @p1 @companies company can add a new internal role
+  -   69 manual-tests/wrcf_Companies.playwright.spec.ts:76:7 › Companies sheet-aligned coverage › COMP-E2E-013 @future @p1 @companies company can adjust capability weights in the company role variant
+  -   70 manual-tests/wrcf_Companies.playwright.spec.ts:76:7 › Companies sheet-aligned coverage › COMP-E2E-014 @future @p1 @companies company can change certification threshold in the company role variant
+  -   71 manual-tests/wrcf_Companies.playwright.spec.ts:76:7 › Companies sheet-aligned coverage › COMP-E2E-015 @future @p0 @companies company sees Upgrade Available when industry publishes a newer version
+  -   72 manual-tests/wrcf_Companies.playwright.spec.ts:76:7 › Companies sheet-aligned coverage › COMP-E2E-016 @future @p0 @companies upgrade flow shows diffs before applying update
+  -   73 manual-tests/wrcf_Companies.playwright.spec.ts:76:7 › Companies sheet-aligned coverage › COMP-E2E-017 @future @p0 @companies Accept All applies all industry updates and generates the next company version
+  -   74 manual-tests/wrcf_Companies.playwright.spec.ts:76:7 › Companies sheet-aligned coverage › COMP-E2E-018 @future @p0 @companies Review Individually allows accepting some changes and keeping current for others
+  -   75 manual-tests/wrcf_Companies.playwright.spec.ts:76:7 › Companies sheet-aligned coverage › COMP-E2E-019 @future @p1 @companies company can defer an upgrade without changing the current company version
+  ✘   76 manual-tests/wrcf_Control_Point.playwright.spec.ts:402:7 › Control Point sheet-aligned coverage › CP-E2E-001 @stable @p1 @control-point uses Control Point terminology in the column and create panel (1ms)
+  -   77 manual-tests/wrcf_Control_Point.playwright.spec.ts:410:7 › Control Point sheet-aligned coverage › CP-E2E-002 @stable @p1 @control-point shows the add icon for Control Point when a task is selected
+  -   78 manual-tests/wrcf_Control_Point.playwright.spec.ts:416:7 › Control Point sheet-aligned coverage › CP-E2E-003 @stable @p1 @control-point opens the Create New Control Point popup from the Control Point add icon
+  -   79 manual-tests/wrcf_Control_Point.playwright.spec.ts:423:7 › Control Point sheet-aligned coverage › CP-E2E-004 @stable @p0 @control-point blocks save when required fields are missing
+  -   80 manual-tests/wrcf_Control_Point.playwright.spec.ts:431:7 › Control Point sheet-aligned coverage › CP-E2E-005 @stable @p0 @control-point creates a control point successfully with valid data
+  -   81 manual-tests/wrcf_Control_Point.playwright.spec.ts:372:7 › Control Point sheet-aligned coverage › CP-E2E-006 @future @p1 @control-point blocks duplicate control point creation under the same task
+  -   82 manual-tests/wrcf_Control_Point.playwright.spec.ts:372:7 › Control Point sheet-aligned coverage › CP-E2E-007 @future @p1 @control-point blocks trim-aware duplicate control point creation under the same task
+  -   83 manual-tests/wrcf_Control_Point.playwright.spec.ts:372:7 › Control Point sheet-aligned coverage › CP-E2E-008 @future @p1 @control-point does not create a control point when the create panel is closed without save
+  -   84 manual-tests/wrcf_Control_Point.playwright.spec.ts:372:7 › Control Point sheet-aligned coverage › CP-E2E-009 @future @p0 @control-point preloads all existing values on control point edit
+  -   85 manual-tests/wrcf_Control_Point.playwright.spec.ts:372:7 › Control Point sheet-aligned coverage › CP-E2E-010 @future @p0 @control-point shows updated control point values after edit save
+  -   86 manual-tests/wrcf_Control_Point.playwright.spec.ts:372:7 › Control Point sheet-aligned coverage › CP-E2E-011 @future @p1 @control-point shows the delete icon in the edit control point panel
+  -   87 manual-tests/wrcf_Control_Point.playwright.spec.ts:372:7 › Control Point sheet-aligned coverage › CP-E2E-012 @future @p1 @control-point deletes a control point successfully
+  -   88 manual-tests/wrcf_Control_Point.playwright.spec.ts:372:7 › Control Point sheet-aligned coverage › CP-E2E-013 @future @p2 @control-point allows save without KPI threshold when the field is optional
+  -   89 manual-tests/wrcf_Control_Point.playwright.spec.ts:372:7 › Control Point sheet-aligned coverage › CP-E2E-014 @future @p0 @control-point shows only valid enum values for Risk Level, Failure Impact Type, Escalation Required, and Evidence Type
+  ✘   90 manual-tests/wrcf_Functional_Group.playwright.spec.ts:294:7 › WRCF Functional Group › FG-E2E-001 @stable @p0 @fg lists functional groups for the selected industry context (1ms)
+  -   91 manual-tests/wrcf_Functional_Group.playwright.spec.ts:299:7 › WRCF Functional Group › FG-E2E-002 @stable @p0 @fg shows the add icon in the Functional Group column header
+  -   92 manual-tests/wrcf_Functional_Group.playwright.spec.ts:303:7 › WRCF Functional Group › FG-E2E-003 @stable @p0 @fg opens the Create Functional Group popup from the add icon
+  -   93 manual-tests/wrcf_Functional_Group.playwright.spec.ts:308:7 › WRCF Functional Group › FG-E2E-004 @stable @p1 @fg shows Create Functional Group as the popup title
+  -   94 manual-tests/wrcf_Functional_Group.playwright.spec.ts:313:7 › WRCF Functional Group › FG-E2E-005 @stable @p0 @fg keeps Name mandatory while Description and Domain Type remain optional
+  -   95 manual-tests/wrcf_Functional_Group.playwright.spec.ts:324:7 › WRCF Functional Group › FG-E2E-006 @stable @p1 @fg accepts a 50 character name and blocks a 51 character name
+  -   96 manual-tests/wrcf_Functional_Group.playwright.spec.ts:340:7 › WRCF Functional Group › FG-E2E-007 @stable @p0 @fg saves a functional group with Name only
+  -   97 manual-tests/wrcf_Functional_Group.playwright.spec.ts:348:7 › WRCF Functional Group › FG-E2E-008 @stable @p0 @fg does not save a blank functional group name
+  -   98 manual-tests/wrcf_Functional_Group.playwright.spec.ts:358:7 › WRCF Functional Group › FG-E2E-009 @stable @p0 @fg blocks duplicate functional group names on add
+  -   99 manual-tests/wrcf_Functional_Group.playwright.spec.ts:367:7 › WRCF Functional Group › FG-E2E-010 @stable @p1 @fg blocks duplicates that differ only by trailing spaces
+  -  100 manual-tests/wrcf_Functional_Group.playwright.spec.ts:376:7 › WRCF Functional Group › FG-E2E-011 @stable @p1 @fg handles apostrophes and special characters in the name
+  -  101 manual-tests/wrcf_Functional_Group.playwright.spec.ts:384:7 › WRCF Functional Group › FG-E2E-012 @stable @p1 @fg closes the add panel without saving when cancel is used
+  -  102 manual-tests/wrcf_Functional_Group.playwright.spec.ts:396:7 › WRCF Functional Group › FG-E2E-013 @stable @p1 @fg refreshes the list immediately after add
+  -  103 manual-tests/wrcf_Functional_Group.playwright.spec.ts:404:7 › WRCF Functional Group › FG-E2E-014 @stable @p1 @fg keeps the Functional Group list in alphabetical order
+  -  104 manual-tests/wrcf_Functional_Group.playwright.spec.ts:412:7 › WRCF Functional Group › FG-E2E-015 @stable @p1 @fg shows the edit icon when a Functional Group row is selected
+  -  105 manual-tests/wrcf_Functional_Group.playwright.spec.ts:417:7 › WRCF Functional Group › FG-E2E-016 @stable @p1 @fg shows Edit Functional Group as the edit popup title
+  -  106 manual-tests/wrcf_Functional_Group.playwright.spec.ts:426:7 › WRCF Functional Group › FG-E2E-017 @stable @p1 @fg preloads the selected Functional Group details in the edit popup
+  -  107 manual-tests/wrcf_Functional_Group.playwright.spec.ts:436:7 › WRCF Functional Group › FG-E2E-018 @stable @p1 @fg shows delete, save, and close actions in the edit popup
+  -  108 manual-tests/wrcf_Functional_Group.playwright.spec.ts:447:7 › WRCF Functional Group › FG-E2E-019 @stable @p1 @fg blocks blank-name and duplicate validation on edit
+  -  109 manual-tests/wrcf_Functional_Group.playwright.spec.ts:468:7 › WRCF Functional Group › FG-E2E-020 @stable @p1 @fg saves unchanged edits without showing duplicate validation
+  -  110 manual-tests/wrcf_Functional_Group.playwright.spec.ts:481:7 › WRCF Functional Group › FG-E2E-021 @stable @p1 @fg shows updated functional group values in the list after save
+  -  111 manual-tests/wrcf_Functional_Group.playwright.spec.ts:497:7 › WRCF Functional Group › FG-E2E-022 @stable @p1 @fg asks for confirmation before deleting a functional group
+  -  112 manual-tests/wrcf_Functional_Group.playwright.spec.ts:507:7 › WRCF Functional Group › FG-E2E-023 @stable @p1 @fg deletes a functional group when it has no child PWO
+  -  113 manual-tests/wrcf_Functional_Group.playwright.spec.ts:514:7 › WRCF Functional Group › FG-E2E-024 @stable @p1 @fg blocks delete when the functional group has linked PWO records
+  -  114 manual-tests/wrcf_Functional_Group.playwright.spec.ts:530:7 › WRCF Functional Group › FG-E2E-025 @stable @p1 @fg shows toaster feedback for validation and success paths
+  ✘  115 manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:223:7 › Manage WRCF Skills sheet-aligned coverage › WSKILL-E2E-001 @future @p1 @manage-skills redirected Manage WRCF Skills inherits the selected FG PWO SWO Capability and Proficiency (220ms)
+  ✘  116 manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:223:7 › Manage WRCF Skills sheet-aligned coverage › WSKILL-E2E-002 @future @p1 @manage-skills opening Manage WRCF Skills directly selects the first valid values automatically (182ms)
+  ✓  117 manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:261:7 › Manage WRCF Skills sheet-aligned coverage › WSKILL-E2E-003 @stable @p0 @manage-skills filter dropdowns expose only CI-backed options for the current selection chain (3.6s)
+  ✘  118 manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:272:7 › Manage WRCF Skills sheet-aligned coverage › WSKILL-E2E-004 @stable @p0 @manage-skills filter values are shown in ascending order for each active dropdown (2.2s)
+  ✘  119 manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:223:7 › Manage WRCF Skills sheet-aligned coverage › WSKILL-E2E-005 @future @p1 @manage-skills first load applies filters automatically and loads skills without manual selection (159ms)
+  ✓  120 manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:301:7 › Manage WRCF Skills sheet-aligned coverage › WSKILL-E2E-006 @stable @p0 @manage-skills skills column resolves for the selected Capability Instance path (4.7s)
+  ✘  121 manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:223:7 › Manage WRCF Skills sheet-aligned coverage › WSKILL-E2E-007 @future @p1 @manage-skills task list shows only records for the selected skill (156ms)
+  ✘  122 manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:223:7 › Manage WRCF Skills sheet-aligned coverage › WSKILL-E2E-008 @future @p1 @manage-skills control point list shows only records for the selected task (164ms)
+  ✘  123 manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:223:7 › Manage WRCF Skills sheet-aligned coverage › WSKILL-E2E-009 @future @p1 @manage-skills edit icon appears only for the selected skill task and control point rows (138ms)
+  ✓  124 manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:328:7 › Manage WRCF Skills sheet-aligned coverage › WSKILL-E2E-010 @stable @p0 @manage-skills changing the top CI filters clears stale downstream list state (2.8s)
+  ✓  125 manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:272:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-001 @stable @p0 @pwo shows only active and latest published PWO for the selected FG (3.3s)
+  ✓  126 manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:276:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-002 @stable @p0 @pwo shows the add icon for PWO (2.6s)
+  ✓  127 manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:280:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-003 @stable @p0 @pwo opens the Create PWO popup from the add icon (2.3s)
+  ✓  128 manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:285:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-004 @stable @p0 @pwo keeps Name mandatory while strategic, revenue, and downtime fields use valid defaults (3.4s)
+  ✓  129 manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:297:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-005 @stable @p0 @pwo creates a PWO under the selected FG with valid data (3.9s)
+  ✓  130 manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:303:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-006 @stable @p1 @pwo blocks duplicate PWO creation under the same FG (2.5s)
+  ✓  131 manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:312:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-007 @stable @p1 @pwo blocks trim-aware duplicate PWO creation under the same FG (2.9s)
+  ✘  132 manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:247:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-008 @future @p1 @pwo same PWO name may be allowed in different FG if parent-scoped uniqueness is the business rule (3.5s)
+  ✓  133 manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:323:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-009 @stable @p1 @pwo refreshes the PWO list immediately after add (4.1s)
+  ✘  134 manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:247:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-010 @future @p1 @pwo keeps the PWO list alphabetical after add and update (3.1s)
+  ✓  135 manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:336:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-011 @stable @p1 @pwo opens the edit popup with selected PWO values preloaded (4.0s)
+  ✓  136 manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:345:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-012 @future @p1 @pwo @blocked-data validates blank and duplicate values on PWO edit (3.1s)
+  ✓  137 manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:360:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-013 @stable @p1 @pwo saves unchanged PWO values without duplicate validation (3.5s)
+  ✓  138 manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:368:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-014 @stable @p1 @pwo shows updated PWO values in the list after save (4.5s)
+  ✘  139 manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:247:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-015 @future @p1 @pwo asks for confirmation before deleting a PWO (2.7s)
+  ✓  140 manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:382:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-016 @stable @p1 @pwo deletes a PWO when no SWO exists under it (4.0s)
+  ✘  141 manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:247:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-017 @future @p1 @pwo blocks PWO delete when SWO exists under it (4.9s)
+  ✓  142 manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:390:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-018 @stable @p1 @pwo creates the PWO only under the currently selected FG (4.6s)
+  ✓  143 manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:403:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-019 @stable @p1 @pwo shows valid enum values for Strategic Importance, Revenue Impact, and Downtime Sensitivity (3.3s)
+  ✘  144 manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:247:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-020 @future @p2 @pwo allows Dependency Links to remain blank while saving (2.6s)
+  ✘  145 manual-tests/wrcf_Role_Mapping.playwright.spec.ts:218:7 › Role Mapping sheet-aligned coverage › RMAP-E2E-001 @future @p0 @role-mapping mapping area loads PWO SWO Capability and Proficiency columns for the selected role (0ms)
+  -  146 manual-tests/wrcf_Role_Mapping.playwright.spec.ts:250:7 › Role Mapping sheet-aligned coverage › RMAP-E2E-002 @stable @p1 @role-mapping mapping action remains unavailable until a role is selected
+  -  147 manual-tests/wrcf_Role_Mapping.playwright.spec.ts:218:7 › Role Mapping sheet-aligned coverage › RMAP-E2E-003 @future @p0 @role-mapping mapping options are restricted to the selected role context inherited from department functional groups
+  -  148 manual-tests/wrcf_Role_Mapping.playwright.spec.ts:218:7 › Role Mapping sheet-aligned coverage › RMAP-E2E-004 @future @p1 @role-mapping capability instance mappings are grouped by PWO
+  -  149 manual-tests/wrcf_Role_Mapping.playwright.spec.ts:218:7 › Role Mapping sheet-aligned coverage › RMAP-E2E-005 @future @p0 @role-mapping previously saved role mappings are displayed for the selected role
+  -  150 manual-tests/wrcf_Role_Mapping.playwright.spec.ts:218:7 › Role Mapping sheet-aligned coverage › RMAP-E2E-006 @future @p0 @role-mapping tick/select action adds a capability instance for pending assignment
+  -  151 manual-tests/wrcf_Role_Mapping.playwright.spec.ts:218:7 › Role Mapping sheet-aligned coverage › RMAP-E2E-007 @future @p0 @role-mapping save persists selected role-to-capability-instance mappings
+  -  152 manual-tests/wrcf_Role_Mapping.playwright.spec.ts:218:7 › Role Mapping sheet-aligned coverage › RMAP-E2E-008 @future @p0 @role-mapping saved mappings remain visible after refresh or reopen
+  -  153 manual-tests/wrcf_Role_Mapping.playwright.spec.ts:218:7 › Role Mapping sheet-aligned coverage › RMAP-E2E-009 @future @p1 @role-mapping delete/remove action is available for an existing role mapping
+  -  154 manual-tests/wrcf_Role_Mapping.playwright.spec.ts:218:7 › Role Mapping sheet-aligned coverage › RMAP-E2E-010 @future @p1 @role-mapping deleting a mapped capability instance removes it from the role after save
+  -  155 manual-tests/wrcf_Role_Mapping.playwright.spec.ts:218:7 › Role Mapping sheet-aligned coverage › RMAP-E2E-011 @future @p1 @role-mapping duplicate role-to-capability-instance mapping is prevented
+  -  156 manual-tests/wrcf_Role_Mapping.playwright.spec.ts:218:7 › Role Mapping sheet-aligned coverage › RMAP-E2E-012 @future @p0 @role-mapping only instantiated capability instances are available for role mapping
+  -  157 manual-tests/wrcf_Role_Mapping.playwright.spec.ts:218:7 › Role Mapping sheet-aligned coverage › RMAP-E2E-013 @future @p2 @role-mapping new role mappings default mandatory to true
+  -  158 manual-tests/wrcf_Role_Mapping.playwright.spec.ts:218:7 › Role Mapping sheet-aligned coverage › RMAP-E2E-014 @future @p2 @role-mapping new role mappings default weight to 1
+  -  159 manual-tests/wrcf_Role_Mapping.playwright.spec.ts:218:7 › Role Mapping sheet-aligned coverage › RMAP-E2E-015 @future @p0 @role-mapping view-only users can view mappings but cannot add or delete them
+  ✘  160 manual-tests/wrcf_Roles.playwright.spec.ts:291:7 › Roles sheet-aligned coverage › ROLE-E2E-001 @stable @p0 @roles department options load for the selected industry context (0ms)
+  -  161 manual-tests/wrcf_Roles.playwright.spec.ts:266:7 › Roles sheet-aligned coverage › ROLE-E2E-002 @future @p0 @roles role options load for the selected department only
+  -  162 manual-tests/wrcf_Roles.playwright.spec.ts:266:7 › Roles sheet-aligned coverage › ROLE-E2E-003 @future @p1 @roles role controls are unavailable until a department is selected
+  -  163 manual-tests/wrcf_Roles.playwright.spec.ts:311:7 › Roles sheet-aligned coverage › ROLE-E2E-004 @stable @p1 @roles create action is available in role context for an authorized editor
+  -  164 manual-tests/wrcf_Roles.playwright.spec.ts:319:7 › Roles sheet-aligned coverage › ROLE-E2E-005 @stable @p1 @roles clicking Add opens the role create form
+  -  165 manual-tests/wrcf_Roles.playwright.spec.ts:325:7 › Roles sheet-aligned coverage › ROLE-E2E-006 @stable @p0 @roles a new role can be created under the selected department
+  -  166 manual-tests/wrcf_Roles.playwright.spec.ts:330:7 › Roles sheet-aligned coverage › ROLE-E2E-007 @stable @p1 @roles edit action is available for the selected role
+  -  167 manual-tests/wrcf_Roles.playwright.spec.ts:338:7 › Roles sheet-aligned coverage › ROLE-E2E-008 @stable @p1 @roles clicking Edit opens the selected role details for update
+  -  168 manual-tests/wrcf_Roles.playwright.spec.ts:346:7 › Roles sheet-aligned coverage › ROLE-E2E-009 @stable @p0 @roles edited role details are saved and reflected in current context
+  -  169 manual-tests/wrcf_Roles.playwright.spec.ts:358:7 › Roles sheet-aligned coverage › ROLE-E2E-010 @stable @p2 @roles delete action is available through the role edit panel
+  -  170 manual-tests/wrcf_Roles.playwright.spec.ts:266:7 › Roles sheet-aligned coverage › ROLE-E2E-011 @future @p0 @roles role deletion is blocked when capability-instance mappings exist
+  -  171 manual-tests/wrcf_Roles.playwright.spec.ts:266:7 › Roles sheet-aligned coverage › ROLE-E2E-012 @future @p0 @roles view-only users can inspect roles but cannot create edit or delete
+  ✓  172 manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:299:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-001 @stable @p0 @swo shows only active and latest published SWO for the selected PWO (2.6s)
+  ✓  173 manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:303:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-002 @stable @p0 @swo shows the add icon for SWO (3.0s)
+  ✓  174 manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:307:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-003 @stable @p0 @swo opens the Create SWO popup from the add icon (3.7s)
+  ✓  175 manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:312:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-004 @stable @p0 @swo keeps Name mandatory in the SWO popup (3.0s)
+  ✓  176 manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:320:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-005 @stable @p0 @swo creates a SWO under the selected PWO with valid data (5.1s)
+  ✓  177 manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:326:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-006 @stable @p1 @swo blocks duplicate SWO creation under the same PWO (3.0s)
+  ✓  178 manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:335:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-007 @stable @p1 @swo blocks trim-aware duplicate SWO creation under the same PWO (2.8s)
+  ✘  179 manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:274:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-008 @future @p1 @swo same SWO name under different PWO follows parent-scoped uniqueness rules (3.1s)
+  ✓  180 manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:346:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-009 @stable @p1 @swo refreshes the SWO list immediately after add (4.4s)
+  ✘  181 manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:353:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-010 @stable @p1 @swo keeps the SWO list alphabetical after add and update (2.7s)
+  ✓  182 manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:358:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-011 @stable @p1 @swo opens the edit popup with selected SWO values preloaded (2.9s)
+  ✓  183 manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:366:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-012 @future @p1 @swo @blocked-data validates blank and duplicate values on SWO edit (3.6s)
+  ✓  184 manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:381:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-013 @stable @p1 @swo saves unchanged SWO values without duplicate validation (3.8s)
+  ✓  185 manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:389:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-014 @stable @p1 @swo shows updated SWO values in the list after save (5.1s)
+  ✘  186 manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:274:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-015 @future @p1 @swo asks for confirmation before deleting a SWO (3.8s)
+  ✓  187 manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:403:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-016 @stable @p1 @swo deletes a SWO when no downstream dependency blocks it (6.0s)
+  ✘  188 manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:274:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-017 @future @p1 @swo blocks SWO delete when downstream mapped data exists (3.4s)
+  ✓  189 manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:411:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-018 @stable @p1 @swo creates the SWO only under the selected PWO (5.4s)
+  ✓  190 manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:418:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-019 @stable @p1 @swo shows valid enum values for Operational Complexity, Asset Criticality, and Failure Frequency (3.0s)
+  ✘  191 manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:274:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-020 @future @p2 @swo new SWO becomes selectable for downstream CI mapping after successful create (2.5s)
+  ✘  192 manual-tests/wrcf_Skills.playwright.spec.ts:250:7 › Skills sheet-aligned coverage › SKL-E2E-001 @stable @p1 @skills shows the add icon for Skills when a valid CI context is selected (0ms)
+  -  193 manual-tests/wrcf_Skills.playwright.spec.ts:223:7 › Skills sheet-aligned coverage › SKL-E2E-002 @future @p1 @skills shows the edit icon for the selected skill row
+  -  194 manual-tests/wrcf_Skills.playwright.spec.ts:265:7 › Skills sheet-aligned coverage › SKL-E2E-003 @stable @p1 @skills opens the Create New Skill popup from the Skills add icon
+  -  195 manual-tests/wrcf_Skills.playwright.spec.ts:275:7 › Skills sheet-aligned coverage › SKL-E2E-004 @stable @p1 @skills blocks skill save when mandatory fields are missing
+  -  196 manual-tests/wrcf_Skills.playwright.spec.ts:288:7 › Skills sheet-aligned coverage › SKL-E2E-005 @stable @p1 @skills creates a skill successfully with valid mandatory data
+  -  197 manual-tests/wrcf_Skills.playwright.spec.ts:223:7 › Skills sheet-aligned coverage › SKL-E2E-006 @future @p1 @skills blocks duplicate skill creation under the selected CI
+  -  198 manual-tests/wrcf_Skills.playwright.spec.ts:223:7 › Skills sheet-aligned coverage › SKL-E2E-007 @future @p1 @skills blocks trim-aware duplicate skill creation under the selected CI
+  -  199 manual-tests/wrcf_Skills.playwright.spec.ts:223:7 › Skills sheet-aligned coverage › SKL-E2E-008 @future @p1 @skills does not create a skill when the create panel is closed without save
+  -  200 manual-tests/wrcf_Skills.playwright.spec.ts:223:7 › Skills sheet-aligned coverage › SKL-E2E-009 @future @p1 @skills shows the new skill row immediately after save without refresh
+  -  201 manual-tests/wrcf_Skills.playwright.spec.ts:223:7 › Skills sheet-aligned coverage › SKL-E2E-010 @future @p1 @skills preloads all existing values when editing a skill
+  -  202 manual-tests/wrcf_Skills.playwright.spec.ts:223:7 › Skills sheet-aligned coverage › SKL-E2E-011 @future @p1 @skills shows updated skill values after edit save
+  -  203 manual-tests/wrcf_Skills.playwright.spec.ts:223:7 › Skills sheet-aligned coverage › SKL-E2E-012 @future @p1 @skills shows the delete icon on the edit skill panel
+  -  204 manual-tests/wrcf_Skills.playwright.spec.ts:223:7 › Skills sheet-aligned coverage › SKL-E2E-013 @future @p1 @skills blocks skill delete when tasks exist under the skill
+  -  205 manual-tests/wrcf_Skills.playwright.spec.ts:223:7 › Skills sheet-aligned coverage › SKL-E2E-014 @future @p2 @skills deletes a skill successfully when no tasks exist under it
+  -  206 manual-tests/wrcf_Skills.playwright.spec.ts:223:7 › Skills sheet-aligned coverage › SKL-E2E-015 @future @p1 @skills saves an unchanged skill without duplicate validation
+  ✘  207 manual-tests/wrcf_Task.playwright.spec.ts:382:7 › Task sheet-aligned coverage › TSK-E2E-001 @stable @p0 @task shows the add icon for Task when a skill is selected (0ms)
+  -  208 manual-tests/wrcf_Task.playwright.spec.ts:388:7 › Task sheet-aligned coverage › TSK-E2E-002 @stable @p0 @task opens the Create New Task popup from the Task add icon
+  -  209 manual-tests/wrcf_Task.playwright.spec.ts:395:7 › Task sheet-aligned coverage › TSK-E2E-003 @stable @p0 @task blocks task save when required fields are missing
+  -  210 manual-tests/wrcf_Task.playwright.spec.ts:405:7 › Task sheet-aligned coverage › TSK-E2E-004 @stable @p0 @task creates a task successfully with valid data
+  -  211 manual-tests/wrcf_Task.playwright.spec.ts:411:7 › Task sheet-aligned coverage › TSK-E2E-005 @future @p1 @task @blocked-data blocks duplicate task creation under the same skill
+  -  212 manual-tests/wrcf_Task.playwright.spec.ts:425:7 › Task sheet-aligned coverage › TSK-E2E-006 @future @p1 @task @blocked-data blocks trim-aware duplicate task creation under the same skill
+  -  213 manual-tests/wrcf_Task.playwright.spec.ts:439:7 › Task sheet-aligned coverage › TSK-E2E-007 @stable @p2 @task does not create a task when the create panel is closed without save
+  -  214 manual-tests/wrcf_Task.playwright.spec.ts:449:7 › Task sheet-aligned coverage › TSK-E2E-008 @future @p1 @task @blocked-data preloads all existing values on task edit
+  -  215 manual-tests/wrcf_Task.playwright.spec.ts:460:7 › Task sheet-aligned coverage › TSK-E2E-009 @future @p1 @task @blocked-data shows updated task values after edit save
+  -  216 manual-tests/wrcf_Task.playwright.spec.ts:472:7 › Task sheet-aligned coverage › TSK-E2E-010 @future @p1 @task @blocked-data shows the delete icon in the edit task panel
+  -  217 manual-tests/wrcf_Task.playwright.spec.ts:480:7 › Task sheet-aligned coverage › TSK-E2E-011 @future @p1 @task @blocked-data blocks task delete when control points exist
+  -  218 manual-tests/wrcf_Task.playwright.spec.ts:489:7 › Task sheet-aligned coverage › TSK-E2E-012 @future @p1 @task @blocked-data deletes a task successfully when no control points exist
+  -  219 manual-tests/wrcf_Task.playwright.spec.ts:499:7 › Task sheet-aligned coverage › TSK-E2E-013 @stable @p2 @task validates required proficiency level against allowed values
+  -  220 manual-tests/wrcf_Task.playwright.spec.ts:514:7 › Task sheet-aligned coverage › TSK-E2E-014 @stable @p2 @task allows standard duration to remain blank when the field is optional
+  ✓  221 manual-tests/wrcf-dashboard.playwright.spec.ts:267:7 › WRCF dashboard › DASH-E2E-001 @stable @p0 @dashboard uses dashboard as the default page after login (7.6s)
+  ✓  222 manual-tests/wrcf-dashboard.playwright.spec.ts:284:7 › WRCF dashboard › DASH-E2E-002 @stable @p0 @dashboard auto-selects the default Industry Sector and Industry on page load (1.5s)
+  ✓  223 manual-tests/wrcf-dashboard.playwright.spec.ts:300:7 › WRCF dashboard › DASH-E2E-003 @stable @p0 @dashboard loads dashboard cards for the default selected sector and industry (1.3s)
+  ✘  224 manual-tests/wrcf-dashboard.playwright.spec.ts:311:7 › WRCF dashboard › DASH-E2E-004 @stable @p1 @dashboard displays Industry Sector options in alphabetical order (2.3s)
+  ✓  225 manual-tests/wrcf-dashboard.playwright.spec.ts:321:7 › WRCF dashboard › DASH-E2E-005 @stable @p1 @dashboard shows industries only for the selected Industry Sector (4.4s)
+  ✓  226 manual-tests/wrcf-dashboard.playwright.spec.ts:336:7 › WRCF dashboard › DASH-E2E-006 @stable @p1 @dashboard keeps industries under the selected sector in alphabetical order (4.2s)
+  ✓  227 manual-tests/wrcf-dashboard.playwright.spec.ts:351:7 › WRCF dashboard › DASH-E2E-014 @stable @p1 @dashboard refreshes all cards when the user changes Industry within the same sector (6.1s)
+  ✓  228 manual-tests/wrcf-dashboard.playwright.spec.ts:365:7 › WRCF dashboard › DASH-E2E-015 @stable @p1 @dashboard resets Industry and refreshes dashboard data when Industry Sector changes (4.5s)
+  ✓  229 manual-tests/wrcf-dashboard.playwright.spec.ts:378:7 › WRCF dashboard › DASH-E2E-016 @stable @p1 @dashboard does not retain the previous industry metrics after sector or industry selection changes (4.0s)
+  ✓  230 manual-tests/wrcf-dashboard.playwright.spec.ts:392:7 › WRCF dashboard › DASH-E2E-011 @stable @p1 @dashboard renders the current version, draft version, last updated, and validation status fields (1.4s)
+  ✘  231 manual-tests/wrcf-dashboard.playwright.spec.ts:402:7 › WRCF dashboard › DASH-E2E-024 @stable @p1 @dashboard renders all quick action tiles and their current behaviors (30.0s)
+  ✓  232 manual-tests/wrcf-dashboard.playwright.spec.ts:424:7 › WRCF dashboard › DASH-E2E-023 @stable @p1 @dashboard handles partial zero-count states without breaking the dashboard layout (4.3s)
+  ✘  233 manual-tests/wrcf-dashboard.playwright.spec.ts:441:7 › WRCF dashboard › DASH-E2E-007 @stable @p1 @dashboard hides inactive Industry Sectors from the dashboard filter (2.9s)
+  ✘  234 manual-tests/wrcf-dashboard.playwright.spec.ts:472:7 › WRCF dashboard › DASH-E2E-008 @stable @p1 @dashboard hides inactive industries from the Industry dropdown (3.1s)
+  ✓  235 manual-tests/wrcf-dashboard.playwright.spec.ts:503:7 › WRCF dashboard › DASH-E2E-009 @stable @p1 @dashboard excludes inactive FG PWO SWO CI Skill Task Role and Department records from dashboard counts (4.8s)
+  ✘  236 manual-tests/wrcf-dashboard.playwright.spec.ts:518:7 › WRCF dashboard › DASH-E2E-010 @stable @p1 @dashboard uses only published version data for displayed metrics (6.4s)
+  ✘  237 manual-tests/wrcf-dashboard.playwright.spec.ts:523:7 › WRCF dashboard › DASH-E2E-012 @stable @p1 @dashboard shows -- when no draft version exists (6.3s)
+  ✘  238 manual-tests/wrcf-dashboard.playwright.spec.ts:527:7 › WRCF dashboard › DASH-E2E-013 @stable @p1 @dashboard shows a no-data state when the selected industry has no published WRCF data (8.7s)
+  ✘  239 manual-tests/wrcf-dashboard.playwright.spec.ts:534:7 › WRCF dashboard › DASH-E2E-017 @stable @p1 @dashboard keeps Last Updated aligned with the selected industry version state (7.8s)
+  ✘  240 manual-tests/wrcf-dashboard.playwright.spec.ts:538:7 › WRCF dashboard › DASH-E2E-018 @stable @p1 @dashboard keeps Validation Status aligned with the selected industry version state (6.7s)
+  ✓  241 manual-tests/wrcf-dashboard.playwright.spec.ts:542:7 › WRCF dashboard › DASH-E2E-019 @stable @p1 @dashboard uses published active Capability Instance counts only (3.4s)
+  ✓  242 manual-tests/wrcf-dashboard.playwright.spec.ts:549:7 › WRCF dashboard › DASH-E2E-020 @stable @p1 @dashboard uses published active linked records only for Skills and Tasks counts (4.5s)
+  ✓  243 manual-tests/wrcf-dashboard.playwright.spec.ts:557:7 › WRCF dashboard › DASH-E2E-021 @stable @p1 @dashboard keeps hierarchy card totals aligned to published active counts (4.4s)
+  ✓  244 manual-tests/wrcf-dashboard.playwright.spec.ts:566:7 › WRCF dashboard › DASH-E2E-022 @stable @p1 @dashboard uses active published counts for Roles and Departments cards (4.4s)
+  ✘  245 manual-tests/wrcf-dashboard.playwright.spec.ts:574:7 › WRCF dashboard › DASH-E2E-026 @stable @p1 @dashboard clicking Edit Structure redirects user to Manage Industry WRCF with same selected Industry Sector and Industry carried forward from Dashboard (9.9s)
+  ✘  246 manual-tests/wrcf-dashboard.playwright.spec.ts:585:7 › WRCF dashboard › DASH-E2E-025 @future @p1 @dashboard @blocked-role blocks unauthorized users from restricted dashboard actions (2.1s)
+  ✓  247 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:161:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-001 @stable @p0 @manage-wrcf page loads successfully after user navigates to Manage Industry WRCF (1.6s)
+  ✘  248 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:171:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-002 @stable @p0 @manage-wrcf shows active Industry Sectors in alphabetical order (1.3s)
+  ✘  249 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:176:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-003 @stable @p0 @manage-wrcf selects a default Industry Sector on initial load (9.5s)
+  ✓  250 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:181:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-004 @stable @p0 @manage-wrcf shows active Industries for the selected sector in alphabetical order (2.5s)
+  ✘  251 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:187:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-005 @stable @p0 @manage-wrcf selects a default Industry on initial load (6.6s)
+  ✘  252 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:192:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-006 @stable @p0 @manage-wrcf auto-loads data for the default selected sector and industry without clicking Apply first (6.2s)
+  ✘  253 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-007 @future @p1 @manage-wrcf clicking Apply loads data according to selected Industry Sector and Industry (2.0s)
+  ✓  254 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:198:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-008 @stable @p0 @manage-wrcf Functional Group list shows data for the selected industry context (2.0s)
+  ✓  255 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:203:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-009 @stable @p1 @manage-wrcf Functional Group list is ordered alphabetically (2.0s)
+  ✘  256 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-010 @future @p1 @manage-wrcf first FG is selected by default and edit icon is shown (1.4s)
+  ✓  257 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:213:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-011 @stable @p0 @manage-wrcf PWO list loads based on selected FG, sector, and industry (2.1s)
+  ✘  258 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-012 @future @p1 @manage-wrcf first PWO is selected by default and edit icon is visible (2.9s)
+  ✘  259 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-013 @future @p1 @manage-wrcf changing FG resets PWO, SWO, capability and proficiency to a new valid state (1.7s)
+  ✓  260 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:222:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-014 @stable @p0 @manage-wrcf SWO list loads based on selected PWO (2.2s)
+  ✘  261 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-015 @future @p1 @manage-wrcf first SWO is selected by default and edit icon is shown (1.6s)
+  ✘  262 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-016 @future @p1 @manage-wrcf changing PWO resets SWO, capability and proficiency to valid data only (1.5s)
+  ✓  263 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:235:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-017 @stable @p1 @manage-wrcf all active capabilities are shown for the selected SWO in capability-code order (2.9s)
+  ✘  264 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-018 @future @p1 @manage-wrcf capabilities that are already part of at least one CI are visually marked (1.6s)
+  ✘  265 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-019 @future @p1 @manage-wrcf inactive capabilities are not shown even if historic CI exists (1.4s)
+  ✓  266 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:247:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-020 @stable @p1 @manage-wrcf proficiencies are shown in ascending level order for the selected capability area (2.2s)
+  ✘  267 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-021 @future @p1 @manage-wrcf proficiencies already part of CI are visually marked for the selected path and capability (1.6s)
+  ✘  268 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-022 @future @p1 @manage-wrcf marking exactly matches DB CI combinations for the selected path (1.3s)
+  ✘  269 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-023 @future @p1 @manage-wrcf same capability/proficiency combination is not shown twice due to joins/version leakage (1.3s)
+  ✘  270 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-024 @future @p1 @manage-wrcf draft FG/PWO/SWO changes are not shown in the live page (1.3s)
+  ✘  271 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-025 @future @p1 @manage-wrcf inactive FG/PWO/SWO are excluded from display (1.3s)
+  ✘  272 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-026 @future @p1 @manage-wrcf page handles selected industry with no active published FG (1.4s)
+  ✘  273 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-027 @future @p1 @manage-wrcf page handles selected FG with no child PWO (1.3s)
+  ✘  274 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-028 @future @p1 @manage-wrcf page handles selected PWO with no child SWO (1.3s)
+  ✘  275 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-029 @future @p1 @manage-wrcf displayed data belongs only to the selected industry tenant/version context (1.2s)
+  ✘  276 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-030 @future @p1 @manage-wrcf edit icons/actions are hidden or disabled for non-editor roles (1.5s)
+  ✘  277 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-031 @future @p1 @manage-wrcf lower hierarchy refreshes only after Apply when user changes sector/industry (1.5s)
+  ✘  278 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-032 @future @p1 @manage-wrcf not all capabilities must necessarily be marked for a SWO (1.4s)
+  ✘  279 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-033 @future @p1 @manage-wrcf UI never allows or indicates duplicate CI state for the same FG+PWO+SWO+Capability+Proficiency (1.4s)
+  ✘  280 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-034 @future @p2 @manage-wrcf page remains usable when industry has large FG/PWO/SWO and CI volume (1.5s)
+  ✘  281 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:280:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-035 @stable @p1 @manage-wrcf selected FG highlight remains visible until parent filter changes (2.3s)
+  ✘  282 manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-036 @future @p1 @manage-wrcf changing capability updates proficiency markings correctly (2.9s)
+
+
+  1) manual-tests/wrcf_CI_Mapping.playwright.spec.ts:247:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-007 @future @p1 @ci-mapping proficiency state belongs only to the currently selected FG PWO SWO Capability path 
+
+    Error: Needs at least two deterministic hierarchy paths with different saved CI states.
+
+      246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {
+    > 248 |     throw new Error(reason);
+          |           ^
+      249 |   });
+      250 | }
+      251 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11
+
+    Error Context: test-results/manual-tests-wrcf_CI_Mappi-ade10--FG-PWO-SWO-Capability-path/error-context.md
+
+  2) manual-tests/wrcf_CI_Mapping.playwright.spec.ts:247:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-008 @future @p1 @ci-mapping proficiency mapping refreshes correctly when capability changes under the same SWO 
+
+    Error: Needs a deterministic SWO with different saved states across multiple capabilities.
+
+      246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {
+    > 248 |     throw new Error(reason);
+          |           ^
+      249 |   });
+      250 | }
+      251 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11
+
+    Error Context: test-results/manual-tests-wrcf_CI_Mappi-5effb--changes-under-the-same-SWO/error-context.md
+
+  3) manual-tests/wrcf_CI_Mapping.playwright.spec.ts:247:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-009 @future @p1 @ci-mapping saving pending mappings resets the parent pending counter 
+
+    Error: Needs live save execution plus deterministic cleanup for created CI records.
+
+      246 | function futureCiCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      247 |   test(`${id} @future @${priority} @ci-mapping ${title}`, async () => {
+    > 248 |     throw new Error(reason);
+          |           ^
+      249 |   });
+      250 | }
+      251 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:248:11
+
+    Error Context: test-results/manual-tests-wrcf_CI_Mappi-2a1d5--the-parent-pending-counter/error-context.md
+
+  4) manual-tests/wrcf_CI_Mapping.playwright.spec.ts:247:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-010 @future @p1 @ci-mapping closing the popup without save discards parent pending mappings 
+
+    [31m"beforeAll" hook timeout of 30000ms exceeded.[39m
+
+      254 |   let page: Page;
+      255 |
+    > 256 |   test.beforeAll(async ({ browser }) => {
+          |        ^
+      257 |     const authenticated = await ensureAuthenticatedPage(browser);
+      258 |     await authenticated.context.close();
+      259 |   });
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:256:8
+
+    Error: page.goto: Test ended.
+    Call log:
+    [2m  - navigating to "https://test.whizard.club/dashboard", waiting until "load"[22m
+
+
+      77 |     const context = await browser.newContext({ storageState: authStatePath });
+      78 |     const page = await context.newPage();
+    > 79 |     await page.goto(`${appUrl}/dashboard`);
+         |                ^
+      80 |
+      81 |     if (/\/dashboard/.test(page.url())) {
+      82 |       return { context, page };
+        at ensureAuthenticatedPage (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:79:16)
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_CI_Mapping.playwright.spec.ts:257:27
+
+  5) manual-tests/wrcf_College.playwright.spec.ts:224:7 › College sheet-aligned coverage › COL-E2E-001 @stable @p0 @college Manage College loads with list and selected college detail 
+
+    Error: BFF is not ready at http://localhost:3000: fetch failed
+
+      20 |   } catch (error) {
+      21 |     const message = error instanceof Error ? error.message : String(error);
+    > 22 |     throw new Error(`${label} is not ready at ${url}: ${message}`);
+         |           ^
+      23 |   } finally {
+      24 |     clearTimeout(timeout);
+      25 |   }
+        at assertServiceAvailable (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:22:11)
+        at assertLocalServicesReady (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:30:3)
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_College.playwright.spec.ts:212:5
+
+  6) manual-tests/wrcf_Companies.playwright.spec.ts:123:7 › Companies sheet-aligned coverage › COMP-CUR-001 @stable @p0 @companies loads Manage Company with selected company details 
+
+    Error: BFF is not ready at http://localhost:3000: fetch failed
+
+      20 |   } catch (error) {
+      21 |     const message = error instanceof Error ? error.message : String(error);
+    > 22 |     throw new Error(`${label} is not ready at ${url}: ${message}`);
+         |           ^
+      23 |   } finally {
+      24 |     clearTimeout(timeout);
+      25 |   }
+        at assertServiceAvailable (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Companies.playwright.spec.ts:22:11)
+        at assertLocalServicesReady (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Companies.playwright.spec.ts:30:3)
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Companies.playwright.spec.ts:111:5
+
+  7) manual-tests/wrcf_Control_Point.playwright.spec.ts:402:7 › Control Point sheet-aligned coverage › CP-E2E-001 @stable @p1 @control-point uses Control Point terminology in the column and create panel 
+
+    Error: BFF is not ready at http://localhost:3000: fetch failed
+
+      20 |   } catch (error) {
+      21 |     const message = error instanceof Error ? error.message : String(error);
+    > 22 |     throw new Error(`${label} is not ready at ${url}: ${message}`);
+         |           ^
+      23 |   } finally {
+      24 |     clearTimeout(timeout);
+      25 |   }
+        at assertServiceAvailable (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Control_Point.playwright.spec.ts:22:11)
+        at assertLocalServicesReady (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Control_Point.playwright.spec.ts:30:3)
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Control_Point.playwright.spec.ts:388:5
+
+  8) manual-tests/wrcf_Functional_Group.playwright.spec.ts:294:7 › WRCF Functional Group › FG-E2E-001 @stable @p0 @fg lists functional groups for the selected industry context 
+
+    [31m"beforeAll" hook timeout of 30000ms exceeded.[39m
+
+      267 |   let page: Page;
+      268 |
+    > 269 |   test.beforeAll(async ({ browser }) => {
+          |        ^
+      270 |     const authenticated = await ensureAuthenticatedPage(browser);
+      271 |     await authenticated.context.close();
+      272 |   });
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:269:8
+
+    Error: page.goto: Test ended.
+    Call log:
+    [2m  - navigating to "https://test.whizard.club/dashboard", waiting until "load"[22m
+
+
+      47 |     const context = await browser.newContext({ storageState: authStatePath });
+      48 |     const page = await context.newPage();
+    > 49 |     await page.goto(`${appUrl}/dashboard`);
+         |                ^
+      50 |
+      51 |     if (/\/dashboard/.test(page.url())) {
+      52 |       return { context, page };
+        at ensureAuthenticatedPage (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:49:16)
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:270:27
+
+    Error Context: test-results/manual-tests-wrcf_Function-de6ca-e-selected-industry-context/error-context.md
+
+  9) manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:223:7 › Manage WRCF Skills sheet-aligned coverage › WSKILL-E2E-001 @future @p1 @manage-skills redirected Manage WRCF Skills inherits the selected FG PWO SWO Capability and Proficiency 
+
+    Error: Current Industry WRCF + Add Skills navigation only passes industryId, not the full CI filter path.
+
+      222 | ): void {
+      223 |   test(`${id} @future @${priority} @manage-skills ${title}`, async () => {
+    > 224 |     throw new Error(reason);
+          |           ^
+      225 |   });
+      226 | }
+      227 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:224:11
+
+  10) manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:223:7 › Manage WRCF Skills sheet-aligned coverage › WSKILL-E2E-002 @future @p1 @manage-skills opening Manage WRCF Skills directly selects the first valid values automatically 
+
+    Error: Current page loads FG options but leaves the 5 CI filters unselected until the user chooses them.
+
+      222 | ): void {
+      223 |   test(`${id} @future @${priority} @manage-skills ${title}`, async () => {
+    > 224 |     throw new Error(reason);
+          |           ^
+      225 |   });
+      226 | }
+      227 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:224:11
+
+  11) manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:272:7 › Manage WRCF Skills sheet-aligned coverage › WSKILL-E2E-004 @stable @p0 @manage-skills filter values are shown in ascending order for each active dropdown 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 13[39m
+    [31m+ Received  + 13[39m
+
+    [2m  Array [[22m
+    [32m-   "Administration",[39m
+    [32m-   "Air & Gas System",[39m
+    [32m-   "Ash Handling System",[39m
+    [31m+   "Coal Handling System",[39m
+    [2m    "Boiler System",[22m
+    [32m-   "Coal Handling System",[39m
+    [31m+   "Turbine System",[39m
+    [31m+   "Generator System",[39m
+    [2m    "Condenser & Cooling",[22m
+    [32m-   "Electrical Systems",[39m
+    [32m-   "f",[39m
+    [2m    "Feedwater System",[22m
+    [31m+   "Ash Handling System",[39m
+    [2m    "Flue Gas System",[22m
+    [32m-   "Fuel Oil System",[39m
+    [32m-   "Generator System",[39m
+    [31m+   "Water Treatment",[39m
+    [31m+   "Electrical Systems",[39m
+    [2m    "Instrumentation & Control",[22m
+    [31m+   "Fuel Oil System",[39m
+    [31m+   "Air & Gas System",[39m
+    [2m    "Maintenance",[22m
+    [32m-   "new",[39m
+    [2m    "Operations",[22m
+    [32m-   "sa",[39m
+    [2m    "Safety & Compliance",[22m
+    [32m-   "sasa",[39m
+    [32m-   "Turbine System",[39m
+    [2m    "Utilities",[22m
+    [32m-   "Water Treatment",[39m
+    [31m+   "Administration",[39m
+    [31m+   "new",[39m
+    [31m+   "sasa",[39m
+    [31m+   "sa",[39m
+    [31m+   "f",[39m
+    [2m  ][22m
+
+      212 |
+      213 | async function expectSorted(values: string[]): Promise<void> {
+    > 214 |   expect(values).toEqual([...values].sort((a, b) => a.localeCompare(b)));
+          |                  ^
+      215 | }
+      216 |
+      217 | function futureManageSkillsCase(
+        at expectSorted (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:214:18)
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:278:11
+
+    Error Context: test-results/manual-tests-wrcf_Manage_W-ee627-er-for-each-active-dropdown/error-context.md
+
+  12) manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:223:7 › Manage WRCF Skills sheet-aligned coverage › WSKILL-E2E-005 @future @p1 @manage-skills first load applies filters automatically and loads skills without manual selection 
+
+    Error: Current page requires explicit 5-filter selection unless a ciId query param is provided.
+
+      222 | ): void {
+      223 |   test(`${id} @future @${priority} @manage-skills ${title}`, async () => {
+    > 224 |     throw new Error(reason);
+          |           ^
+      225 |   });
+      226 | }
+      227 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:224:11
+
+  13) manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:223:7 › Manage WRCF Skills sheet-aligned coverage › WSKILL-E2E-007 @future @p1 @manage-skills task list shows only records for the selected skill 
+
+    Error: Needs a deterministic CI path with at least two seeded skills and task data for both.
+
+      222 | ): void {
+      223 |   test(`${id} @future @${priority} @manage-skills ${title}`, async () => {
+    > 224 |     throw new Error(reason);
+          |           ^
+      225 |   });
+      226 | }
+      227 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:224:11
+
+  14) manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:223:7 › Manage WRCF Skills sheet-aligned coverage › WSKILL-E2E-008 @future @p1 @manage-skills control point list shows only records for the selected task 
+
+    Error: Needs a deterministic task with seeded control points plus a second task for comparison.
+
+      222 | ): void {
+      223 |   test(`${id} @future @${priority} @manage-skills ${title}`, async () => {
+    > 224 |     throw new Error(reason);
+          |           ^
+      225 |   });
+      226 | }
+      227 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:224:11
+
+  15) manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:223:7 › Manage WRCF Skills sheet-aligned coverage › WSKILL-E2E-009 @future @p1 @manage-skills edit icon appears only for the selected skill task and control point rows 
+
+    Error: Needs stable seeded rows in all three columns for edit-icon visibility checks.
+
+      222 | ): void {
+      223 |   test(`${id} @future @${priority} @manage-skills ${title}`, async () => {
+    > 224 |     throw new Error(reason);
+          |           ^
+      225 |   });
+      226 | }
+      227 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:224:11
+
+  16) manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:247:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-008 @future @p1 @pwo same PWO name may be allowed in different FG if parent-scoped uniqueness is the business rule 
+
+    Error: Needs a deterministic second FG context and confirmed parent-scoped uniqueness rule.
+
+      246 | function futurePwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      247 |   test(`${id} @future @${priority} @pwo ${title}`, async () => {
+    > 248 |     throw new Error(reason);
+          |           ^
+      249 |   });
+      250 | }
+      251 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:248:11
+
+    Error Context: test-results/manual-tests-wrcf_Primary_-4138d-ueness-is-the-business-rule/error-context.md
+
+  17) manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:247:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-010 @future @p1 @pwo keeps the PWO list alphabetical after add and update 
+
+    Error: Current branch data renders the PWO list in a non-alphabetical order; treat as a documented product/data gap until ordering is guaranteed.
+
+      246 | function futurePwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      247 |   test(`${id} @future @${priority} @pwo ${title}`, async () => {
+    > 248 |     throw new Error(reason);
+          |           ^
+      249 |   });
+      250 | }
+      251 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:248:11
+
+    Error Context: test-results/manual-tests-wrcf_Primary_-531ce-etical-after-add-and-update/error-context.md
+
+  18) manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:247:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-015 @future @p1 @pwo asks for confirmation before deleting a PWO 
+
+    Error: Current local PWO delete behavior has not yet been confirmed with a stable confirmation dialog.
+
+      246 | function futurePwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      247 |   test(`${id} @future @${priority} @pwo ${title}`, async () => {
+    > 248 |     throw new Error(reason);
+          |           ^
+      249 |   });
+      250 | }
+      251 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:248:11
+
+    Error Context: test-results/manual-tests-wrcf_Primary_-e2ef0-ation-before-deleting-a-PWO/error-context.md
+
+  19) manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:247:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-017 @future @p1 @pwo blocks PWO delete when SWO exists under it 
+
+    Error: Needs a seeded or newly created SWO child under the target PWO and confirmed delete-block UI behavior.
+
+      246 | function futurePwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      247 |   test(`${id} @future @${priority} @pwo ${title}`, async () => {
+    > 248 |     throw new Error(reason);
+          |           ^
+      249 |   });
+      250 | }
+      251 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:248:11
+
+    Error Context: test-results/manual-tests-wrcf_Primary_-93556-te-when-SWO-exists-under-it/error-context.md
+
+  20) manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:247:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-020 @future @p2 @pwo allows Dependency Links to remain blank while saving 
+
+    Error: Needs confirmed Dependency Links field presence in the current local PWO popup.
+
+      246 | function futurePwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      247 |   test(`${id} @future @${priority} @pwo ${title}`, async () => {
+    > 248 |     throw new Error(reason);
+          |           ^
+      249 |   });
+      250 | }
+      251 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:248:11
+
+    Error Context: test-results/manual-tests-wrcf_Primary_-23579-o-remain-blank-while-saving/error-context.md
+
+  21) manual-tests/wrcf_Role_Mapping.playwright.spec.ts:218:7 › Role Mapping sheet-aligned coverage › RMAP-E2E-001 @future @p0 @role-mapping mapping area loads PWO SWO Capability and Proficiency columns for the selected role 
+
+    Error: BFF is not ready at http://localhost:3000: fetch failed
+
+      20 |   } catch (error) {
+      21 |     const message = error instanceof Error ? error.message : String(error);
+    > 22 |     throw new Error(`${label} is not ready at ${url}: ${message}`);
+         |           ^
+      23 |   } finally {
+      24 |     clearTimeout(timeout);
+      25 |   }
+        at assertServiceAvailable (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:22:11)
+        at assertLocalServicesReady (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:30:3)
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Role_Mapping.playwright.spec.ts:228:5
+
+  22) manual-tests/wrcf_Roles.playwright.spec.ts:291:7 › Roles sheet-aligned coverage › ROLE-E2E-001 @stable @p0 @roles department options load for the selected industry context 
+
+    Error: BFF is not ready at http://localhost:3000: fetch failed
+
+      20 |   } catch (error) {
+      21 |     const message = error instanceof Error ? error.message : String(error);
+    > 22 |     throw new Error(`${label} is not ready at ${url}: ${message}`);
+         |           ^
+      23 |   } finally {
+      24 |     clearTimeout(timeout);
+      25 |   }
+        at assertServiceAvailable (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:22:11)
+        at assertLocalServicesReady (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:30:3)
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Roles.playwright.spec.ts:276:5
+
+  23) manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:274:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-008 @future @p1 @swo same SWO name under different PWO follows parent-scoped uniqueness rules 
+
+    Error: Needs a deterministic second PWO context and confirmed parent-scoped uniqueness rule.
+
+      273 | function futureSwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      274 |   test(`${id} @future @${priority} @swo ${title}`, async () => {
+    > 275 |     throw new Error(reason);
+          |           ^
+      276 |   });
+      277 | }
+      278 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:275:11
+
+    Error Context: test-results/manual-tests-wrcf_Secondar-12f56-ent-scoped-uniqueness-rules/error-context.md
+
+  24) manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:353:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-010 @stable @p1 @swo keeps the SWO list alphabetical after add and update 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 3[39m
+    [31m+ Received  + 3[39m
+
+    [2m  Array [[22m
+    [2m    "Crusher Maintenance System",[22m
+    [2m    "Crusher Maintenance System",[22m
+    [31m+   "Vibrating Screen Operation",[39m
+    [2m    "Crusher Operation",[22m
+    [2m    "Crusher Operation",[22m
+    [32m-   "Feeder Control (Vibratory/Rotary)",[39m
+    [32m-   "Feeder Control (Vibratory/Rotary)",[39m
+    [2m    "Size Monitoring & Control",[22m
+    [2m    "Size Monitoring & Control",[22m
+    [32m-   "Vibrating Screen Operation",[39m
+    [31m+   "Feeder Control (Vibratory/Rotary)",[39m
+    [31m+   "Feeder Control (Vibratory/Rotary)",[39m
+    [2m  ][22m
+
+      353 |   test('SWO-E2E-010 @stable @p1 @swo keeps the SWO list alphabetical after add and update', async () => {
+      354 |     const names = (await swoItems(page).allTextContents()).map(value => value.trim()).filter(Boolean);
+    > 355 |     expect(names).toEqual([...names].sort((a, b) => a.localeCompare(b)));
+          |                   ^
+      356 |   });
+      357 |
+      358 |   test('SWO-E2E-011 @stable @p1 @swo opens the edit popup with selected SWO values preloaded', async () => {
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:355:19
+
+    Error Context: test-results/manual-tests-wrcf_Secondar-84c7b-etical-after-add-and-update/error-context.md
+
+  25) manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:274:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-015 @future @p1 @swo asks for confirmation before deleting a SWO 
+
+    Error: Current local SWO delete behavior has not yet been confirmed with a stable confirmation dialog.
+
+      273 | function futureSwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      274 |   test(`${id} @future @${priority} @swo ${title}`, async () => {
+    > 275 |     throw new Error(reason);
+          |           ^
+      276 |   });
+      277 | }
+      278 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:275:11
+
+    Error Context: test-results/manual-tests-wrcf_Secondar-e0186-ation-before-deleting-a-SWO/error-context.md
+
+  26) manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:274:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-017 @future @p1 @swo blocks SWO delete when downstream mapped data exists 
+
+    Error: Needs seeded downstream mapping data and confirmed delete-block UI behavior.
+
+      273 | function futureSwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      274 |   test(`${id} @future @${priority} @swo ${title}`, async () => {
+    > 275 |     throw new Error(reason);
+          |           ^
+      276 |   });
+      277 | }
+      278 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:275:11
+
+    Error Context: test-results/manual-tests-wrcf_Secondar-9e343-wnstream-mapped-data-exists/error-context.md
+
+  27) manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:274:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-020 @future @p2 @swo new SWO becomes selectable for downstream CI mapping after successful create 
+
+    Error: Needs CI Mapping workflow coverage and stable downstream selection assertions.
+
+      273 | function futureSwoCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      274 |   test(`${id} @future @${priority} @swo ${title}`, async () => {
+    > 275 |     throw new Error(reason);
+          |           ^
+      276 |   });
+      277 | }
+      278 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:275:11
+
+    Error Context: test-results/manual-tests-wrcf_Secondar-c922d-ing-after-successful-create/error-context.md
+
+  28) manual-tests/wrcf_Skills.playwright.spec.ts:250:7 › Skills sheet-aligned coverage › SKL-E2E-001 @stable @p1 @skills shows the add icon for Skills when a valid CI context is selected 
+
+    Error: BFF is not ready at http://localhost:3000: fetch failed
+
+      20 |   } catch (error) {
+      21 |     const message = error instanceof Error ? error.message : String(error);
+    > 22 |     throw new Error(`${label} is not ready at ${url}: ${message}`);
+         |           ^
+      23 |   } finally {
+      24 |     clearTimeout(timeout);
+      25 |   }
+        at assertServiceAvailable (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts:22:11)
+        at assertLocalServicesReady (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts:30:3)
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Skills.playwright.spec.ts:236:5
+
+  29) manual-tests/wrcf_Task.playwright.spec.ts:382:7 › Task sheet-aligned coverage › TSK-E2E-001 @stable @p0 @task shows the add icon for Task when a skill is selected 
+
+    Error: BFF is not ready at http://localhost:3000: fetch failed
+
+      20 |   } catch (error) {
+      21 |     const message = error instanceof Error ? error.message : String(error);
+    > 22 |     throw new Error(`${label} is not ready at ${url}: ${message}`);
+         |           ^
+      23 |   } finally {
+      24 |     clearTimeout(timeout);
+      25 |   }
+        at assertServiceAvailable (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:22:11)
+        at assertLocalServicesReady (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:30:3)
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:368:5
+
+  30) manual-tests/wrcf-dashboard.playwright.spec.ts:311:7 › WRCF dashboard › DASH-E2E-004 @stable @p1 @dashboard displays Industry Sector options in alphabetical order 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [2m  Array [[22m
+    [31m+   "Power Generation",[39m
+    [2m    "Energy & Utilities",[22m
+    [2m    "Manufacturing",[22m
+    [32m-   "Power Generation",[39m
+    [2m  ][22m
+
+      316 |
+      317 |     const options = await getOptions(page, 'Industry Sector');
+    > 318 |     expect(options).toEqual([...options].sort((a, b) => a.localeCompare(b)));
+          |                     ^
+      319 |   });
+      320 |
+      321 |   test('DASH-E2E-005 @stable @p1 @dashboard shows industries only for the selected Industry Sector', async () => {
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:318:21
+
+    Error Context: test-results/manual-tests-wrcf-dashboar-ca206-tions-in-alphabetical-order/error-context.md
+
+  31) manual-tests/wrcf-dashboard.playwright.spec.ts:402:7 › WRCF dashboard › DASH-E2E-024 @stable @p1 @dashboard renders all quick action tiles and their current behaviors 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Target page, context or browser has been closed
+    Call log:
+    [2m  - waiting for locator('.dialog .close-btn')[22m
+
+
+      408 |     await quickAction(page, 'Version History').click();
+      409 |     await expect(page.getByText('Version history coming soon.')).toBeVisible();
+    > 410 |     await page.locator('.dialog .close-btn').click();
+          |                                              ^
+      411 |
+      412 |     await quickAction(page, 'Publish Draft').click();
+      413 |     await expect(page.getByText('Publish draft coming soon.')).toBeVisible();
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:410:46
+
+    Error Context: test-results/manual-tests-wrcf-dashboar-8656f-and-their-current-behaviors/error-context.md
+
+  32) manual-tests/wrcf-dashboard.playwright.spec.ts:441:7 › WRCF dashboard › DASH-E2E-007 @stable @p1 @dashboard hides inactive Industry Sectors from the dashboard filter 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mnot[2m.[22mtoContain[2m([22m[32mexpected[39m[2m) // indexOf[22m
+
+    Expected value: not [32m"ZZ Inactive Sector"[39m
+    Received array:     [31m["Manufacturing", [7m"ZZ Inactive Sector"[27m][39m
+
+      467 |     await gotoDashboard(page);
+      468 |     const options = await getOptions(page, 'Industry Sector');
+    > 469 |     expect(options).not.toContain('ZZ Inactive Sector');
+          |                         ^
+      470 |   });
+      471 |
+      472 |   test('DASH-E2E-008 @stable @p1 @dashboard hides inactive industries from the Industry dropdown', async () => {
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:469:25
+
+    Error Context: test-results/manual-tests-wrcf-dashboar-b8d61-s-from-the-dashboard-filter/error-context.md
+
+  33) manual-tests/wrcf-dashboard.playwright.spec.ts:472:7 › WRCF dashboard › DASH-E2E-008 @stable @p1 @dashboard hides inactive industries from the Industry dropdown 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mnot[2m.[22mtoContain[2m([22m[32mexpected[39m[2m) // indexOf[22m
+
+    Expected value: not [32m"ZZ Inactive Industry"[39m
+    Received array:     [31m["Steel Manufacturing", [7m"ZZ Inactive Industry"[27m][39m
+
+      498 |     await gotoDashboard(page);
+      499 |     const options = await getOptions(page, 'Industry');
+    > 500 |     expect(options).not.toContain('ZZ Inactive Industry');
+          |                         ^
+      501 |   });
+      502 |
+      503 |   test('DASH-E2E-009 @stable @p1 @dashboard excludes inactive FG PWO SWO CI Skill Task Role and Department records from dashboard counts', async () => {
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:500:25
+
+    Error Context: test-results/manual-tests-wrcf-dashboar-eac91--from-the-Industry-dropdown/error-context.md
+
+  34) manual-tests/wrcf-dashboard.playwright.spec.ts:518:7 › WRCF dashboard › DASH-E2E-010 @stable @p1 @dashboard uses only published version data for displayed metrics 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('.version-row')
+    Expected substring: [32m"4.1"[39m
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toContainText" with timeout 5000ms[22m
+    [2m  - waiting for locator('.version-row')[22m
+
+
+      518 |   test('DASH-E2E-010 @stable @p1 @dashboard uses only published version data for displayed metrics', async () => {
+      519 |     await expect(page.getByText('Current Version')).toBeVisible();
+    > 520 |     await expect(page.locator('.version-row')).toContainText('4.1');
+          |                                                ^
+      521 |   });
+      522 |
+      523 |   test('DASH-E2E-012 @stable @p1 @dashboard shows -- when no draft version exists', async () => {
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:520:48
+
+    Error Context: test-results/manual-tests-wrcf-dashboar-d3d04--data-for-displayed-metrics/error-context.md
+
+  35) manual-tests/wrcf-dashboard.playwright.spec.ts:523:7 › WRCF dashboard › DASH-E2E-012 @stable @p1 @dashboard shows -- when no draft version exists 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('.version-row')
+    Expected substring: [32m"--"[39m
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toContainText" with timeout 5000ms[22m
+    [2m  - waiting for locator('.version-row')[22m
+
+
+      522 |
+      523 |   test('DASH-E2E-012 @stable @p1 @dashboard shows -- when no draft version exists', async () => {
+    > 524 |     await expect(page.locator('.version-row')).toContainText('--');
+          |                                                ^
+      525 |   });
+      526 |
+      527 |   test('DASH-E2E-013 @stable @p1 @dashboard shows a no-data state when the selected industry has no published WRCF data', async () => {
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:524:48
+
+    Error Context: test-results/manual-tests-wrcf-dashboar-4142c-hen-no-draft-version-exists/error-context.md
+
+  36) manual-tests/wrcf-dashboard.playwright.spec.ts:527:7 › WRCF dashboard › DASH-E2E-013 @stable @p1 @dashboard shows a no-data state when the selected industry has no published WRCF data 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByText('No published WRCF data')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for getByText('No published WRCF data')[22m
+
+
+      529 |     await gotoDashboard(page);
+      530 |     await selectDashboardContext(page, 'Energy & Utilities', 'Water Operations');
+    > 531 |     await expect(page.getByText('No published WRCF data')).toBeVisible();
+          |                                                            ^
+      532 |   });
+      533 |
+      534 |   test('DASH-E2E-017 @stable @p1 @dashboard keeps Last Updated aligned with the selected industry version state', async () => {
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:531:60
+
+    Error Context: test-results/manual-tests-wrcf-dashboar-82252--has-no-published-WRCF-data/error-context.md
+
+  37) manual-tests/wrcf-dashboard.playwright.spec.ts:534:7 › WRCF dashboard › DASH-E2E-017 @stable @p1 @dashboard keeps Last Updated aligned with the selected industry version state 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).not.[22mtoHaveText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('.version-date')
+    Expected: not [32m"28 Feb 2026"[39m
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "not toHaveText" with timeout 5000ms[22m
+    [2m  - waiting for locator('.version-date')[22m
+
+
+      533 |
+      534 |   test('DASH-E2E-017 @stable @p1 @dashboard keeps Last Updated aligned with the selected industry version state', async () => {
+    > 535 |     await expect(page.locator('.version-date')).not.toHaveText('28 Feb 2026');
+          |                                                     ^
+      536 |   });
+      537 |
+      538 |   test('DASH-E2E-018 @stable @p1 @dashboard keeps Validation Status aligned with the selected industry version state', async () => {
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:535:53
+
+    Error Context: test-results/manual-tests-wrcf-dashboar-9097c-cted-industry-version-state/error-context.md
+
+  38) manual-tests/wrcf-dashboard.playwright.spec.ts:538:7 › WRCF dashboard › DASH-E2E-018 @stable @p1 @dashboard keeps Validation Status aligned with the selected industry version state 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).not.[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('.version-row')
+    Expected substring: not [32m"Validated"[39m
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "not toContainText" with timeout 5000ms[22m
+    [2m  - waiting for locator('.version-row')[22m
+
+
+      537 |
+      538 |   test('DASH-E2E-018 @stable @p1 @dashboard keeps Validation Status aligned with the selected industry version state', async () => {
+    > 539 |     await expect(page.locator('.version-row')).not.toContainText('Validated');
+          |                                                    ^
+      540 |   });
+      541 |
+      542 |   test('DASH-E2E-019 @stable @p1 @dashboard uses published active Capability Instance counts only', async () => {
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:539:52
+
+    Error Context: test-results/manual-tests-wrcf-dashboar-98fa3-cted-industry-version-state/error-context.md
+
+  39) manual-tests/wrcf-dashboard.playwright.spec.ts:574:7 › WRCF dashboard › DASH-E2E-026 @stable @p1 @dashboard clicking Edit Structure redirects user to Manage Industry WRCF with same selected Industry Sector and Industry carried forward from Dashboard 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveValue[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator:  locator('.filter-bar .filter-select').first()
+    Expected: [32m"sector-energy"[39m
+    Received: [31m""[39m
+    Timeout:  5000ms
+
+    Call log:
+    [2m  - Expect "toHaveValue" with timeout 5000ms[22m
+    [2m  - waiting for locator('.filter-bar .filter-select').first()[22m
+    [2m    9 × locator resolved to <select _ngcontent-ng-c2195223369="" class="filter-select ng-untouched ng-pristine ng-valid">…</select>[22m
+    [2m      - unexpected value ""[22m
+
+
+      579 |     await quickAction(page, 'Edit Structure').click();
+      580 |     await expect(page).toHaveURL(/\/industry-wrcf/);
+    > 581 |     await expect(page.locator('.filter-bar .filter-select').nth(0)).toHaveValue('sector-energy');
+          |                                                                     ^
+      582 |     await expect(page.locator('.filter-bar .filter-select').nth(1)).toHaveValue('industry-water');
+      583 |   });
+      584 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:581:69
+
+    Error Context: test-results/manual-tests-wrcf-dashboar-70cb1-ried-forward-from-Dashboard/error-context.md
+
+  40) manual-tests/wrcf-dashboard.playwright.spec.ts:585:7 › WRCF dashboard › DASH-E2E-025 @future @p1 @dashboard @blocked-role blocks unauthorized users from restricted dashboard actions 
+
+    Error: Pending until a lower-privilege user is available.
+
+      584 |
+      585 |   test('DASH-E2E-025 @future @p1 @dashboard @blocked-role blocks unauthorized users from restricted dashboard actions', async () => {
+    > 586 |     throw new Error('Pending until a lower-privilege user is available.');
+          |           ^
+      587 |   });
+      588 | });
+      589 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-dashboard.playwright.spec.ts:586:11
+
+    Error Context: test-results/manual-tests-wrcf-dashboar-fd236-estricted-dashboard-actions/error-context.md
+
+  41) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:171:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-002 @stable @p0 @manage-wrcf shows active Industry Sectors in alphabetical order 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [2m  Array [[22m
+    [31m+   "Power Generation",[39m
+    [2m    "Energy & Utilities",[22m
+    [2m    "Manufacturing",[22m
+    [32m-   "Power Generation",[39m
+    [2m  ][22m
+
+      113 |
+      114 | async function expectSorted(values: string[]): Promise<void> {
+    > 115 |   expect(values).toEqual([...values].sort((a, b) => a.localeCompare(b)));
+          |                  ^
+      116 | }
+      117 |
+      118 | function normalizeProficiencyLabel(value: string): string {
+        at expectSorted (/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:115:18)
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:173:11
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-a3224-ctors-in-alphabetical-order/error-context.md
+
+  42) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:176:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-003 @stable @p0 @manage-wrcf selects a default Industry Sector on initial load 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveValue[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('.filter-bar .filter-select').first()
+    Expected pattern: [32m/.+/[39m
+    Received string:  [31m""[39m
+    Timeout: 5000ms
+
+    Call log:
+    [2m  - Expect "toHaveValue" with timeout 5000ms[22m
+    [2m  - waiting for locator('.filter-bar .filter-select').first()[22m
+    [2m    9 × locator resolved to <select _ngcontent-ng-c2195223369="" class="filter-select ng-untouched ng-pristine ng-valid">…</select>[22m
+    [2m      - unexpected value ""[22m
+
+
+      175 |
+      176 |   test('MIWRCF-E2E-003 @stable @p0 @manage-wrcf selects a default Industry Sector on initial load', async () => {
+    > 177 |     await expect(filterSelect(page, 0)).toHaveValue(/.+/);
+          |                                         ^
+      178 |     expect(await selectedLabel(filterSelect(page, 0))).toMatch(/\S/);
+      179 |   });
+      180 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:177:41
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-844a8-stry-Sector-on-initial-load/error-context.md
+
+  43) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:187:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-005 @stable @p0 @manage-wrcf selects a default Industry on initial load 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveValue[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('.filter-bar .filter-select').nth(1)
+    Expected pattern: [32m/.+/[39m
+    Received string:  [31m""[39m
+    Timeout: 5000ms
+
+    Call log:
+    [2m  - Expect "toHaveValue" with timeout 5000ms[22m
+    [2m  - waiting for locator('.filter-bar .filter-select').nth(1)[22m
+    [2m    9 × locator resolved to <select disabled _ngcontent-ng-c2195223369="" class="filter-select ng-untouched ng-pristine">…</select>[22m
+    [2m      - unexpected value ""[22m
+
+
+      186 |
+      187 |   test('MIWRCF-E2E-005 @stable @p0 @manage-wrcf selects a default Industry on initial load', async () => {
+    > 188 |     await expect(filterSelect(page, 1)).toHaveValue(/.+/);
+          |                                         ^
+      189 |     expect(await selectedLabel(filterSelect(page, 1))).toMatch(/\S/);
+      190 |   });
+      191 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:188:41
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-a7ec6-lt-Industry-on-initial-load/error-context.md
+
+  44) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:192:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-006 @stable @p0 @manage-wrcf auto-loads data for the default selected sector and industry without clicking Apply first 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('.column').filter({ has: locator('.column-title').filter({ hasText: 'Functional Group' }) }).locator('.item').first()
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('.column').filter({ has: locator('.column-title').filter({ hasText: 'Functional Group' }) }).locator('.item').first()[22m
+
+
+      121 |
+      122 | async function expectNonEmptyItems(page: Page, title: string): Promise<void> {
+    > 123 |   await expect(itemNames(column(page, title)).first()).toBeVisible();
+          |                                                        ^
+      124 | }
+      125 |
+      126 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+        at expectNonEmptyItems (/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:123:56)
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:193:11
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-b9f03-ithout-clicking-Apply-first/error-context.md
+
+  45) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-007 @future @p1 @manage-wrcf clicking Apply loads data according to selected Industry Sector and Industry 
+
+    Error: Current local Manage WRCF UI does not expose a stable Apply-button flow to exercise separately.
+
+      126 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      127 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {
+    > 128 |     throw new Error(reason);
+          |           ^
+      129 |   });
+      130 | }
+      131 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:128:11
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-b0ba9-ndustry-Sector-and-Industry/error-context.md
+
+  46) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-010 @future @p1 @manage-wrcf first FG is selected by default and edit icon is shown 
+
+    Error: The current UI does not expose a reliable default-selected FG state on initial page load.
+
+      126 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      127 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {
+    > 128 |     throw new Error(reason);
+          |           ^
+      129 |   });
+      130 | }
+      131 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:128:11
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-ab5bb-ault-and-edit-icon-is-shown/error-context.md
+
+  47) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-012 @future @p1 @manage-wrcf first PWO is selected by default and edit icon is visible 
+
+    Error: The current UI does not expose a reliable default-selected PWO state on initial page load.
+
+      126 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      127 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {
+    > 128 |     throw new Error(reason);
+          |           ^
+      129 |   });
+      130 | }
+      131 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:128:11
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-ff9e0-lt-and-edit-icon-is-visible/error-context.md
+
+  48) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-013 @future @p1 @manage-wrcf changing FG resets PWO, SWO, capability and proficiency to a new valid state 
+
+    Error: Needs deterministic seeded hierarchy data and selection-reset assertions across all lower columns.
+
+      126 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      127 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {
+    > 128 |     throw new Error(reason);
+          |           ^
+      129 |   });
+      130 | }
+      131 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:128:11
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-70227-ciency-to-a-new-valid-state/error-context.md
+
+  49) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-015 @future @p1 @manage-wrcf first SWO is selected by default and edit icon is shown 
+
+    Error: The current UI does not expose a reliable default-selected SWO state on initial page load.
+
+      126 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      127 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {
+    > 128 |     throw new Error(reason);
+          |           ^
+      129 |   });
+      130 | }
+      131 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:128:11
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-c8825-ault-and-edit-icon-is-shown/error-context.md
+
+  50) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-016 @future @p1 @manage-wrcf changing PWO resets SWO, capability and proficiency to valid data only 
+
+    Error: Needs deterministic seeded PWO/SWO hierarchy data to verify lower-column resets.
+
+      126 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      127 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {
+    > 128 |     throw new Error(reason);
+          |           ^
+      129 |   });
+      130 | }
+      131 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:128:11
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-12e15-ficiency-to-valid-data-only/error-context.md
+
+  51) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-018 @future @p1 @manage-wrcf capabilities that are already part of at least one CI are visually marked 
+
+    Error: Requires seeded CI marking data and a stable UI indicator contract for marked capabilities.
+
+      126 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      127 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {
+    > 128 |     throw new Error(reason);
+          |           ^
+      129 |   });
+      130 | }
+      131 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:128:11
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-4eec1--one-CI-are-visually-marked/error-context.md
+
+  52) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-019 @future @p1 @manage-wrcf inactive capabilities are not shown even if historic CI exists 
+
+    Error: Requires mixed active/inactive capability fixtures across published history.
+
+      126 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      127 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {
+    > 128 |     throw new Error(reason);
+          |           ^
+      129 |   });
+      130 | }
+      131 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:128:11
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-de759--even-if-historic-CI-exists/error-context.md
+
+  53) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-021 @future @p1 @manage-wrcf proficiencies already part of CI are visually marked for the selected path and capability 
+
+    Error: Requires seeded CI/proficiency marking data and a stable UI marker contract.
+
+      126 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      127 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {
+    > 128 |     throw new Error(reason);
+          |           ^
+      129 |   });
+      130 | }
+      131 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:128:11
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-e7718-elected-path-and-capability/error-context.md
+
+  54) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-022 @future @p1 @manage-wrcf marking exactly matches DB CI combinations for the selected path 
+
+    Error: Needs DB-backed comparison between UI marks and authoritative CI combinations.
+
+      126 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      127 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {
+    > 128 |     throw new Error(reason);
+          |           ^
+      129 |   });
+      130 | }
+      131 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:128:11
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-35551-tions-for-the-selected-path/error-context.md
+
+  55) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-023 @future @p1 @manage-wrcf same capability/proficiency combination is not shown twice due to joins/version leakage 
+
+    Error: Needs duplicate-like seeded data across versions to prove visual inflation does not happen.
+
+      126 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      127 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {
+    > 128 |     throw new Error(reason);
+          |           ^
+      129 |   });
+      130 | }
+      131 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:128:11
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-e7ce0-ue-to-joins-version-leakage/error-context.md
+
+  56) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-024 @future @p1 @manage-wrcf draft FG/PWO/SWO changes are not shown in the live page 
+
+    Error: Needs published-vs-draft split data in the local environment.
+
+      126 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      127 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {
+    > 128 |     throw new Error(reason);
+          |           ^
+      129 |   });
+      130 | }
+      131 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:128:11
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-7090e--not-shown-in-the-live-page/error-context.md
+
+  57) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-025 @future @p1 @manage-wrcf inactive FG/PWO/SWO are excluded from display 
+
+    Error: Needs mixed active/inactive hierarchy fixtures in the selected industry.
+
+      126 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      127 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {
+    > 128 |     throw new Error(reason);
+          |           ^
+      129 |   });
+      130 | }
+      131 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:128:11
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-89586-O-are-excluded-from-display/error-context.md
+
+  58) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-026 @future @p1 @manage-wrcf page handles selected industry with no active published FG 
+
+    Error: Needs a seeded industry that has no active published FG.
+
+      126 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      127 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {
+    > 128 |     throw new Error(reason);
+          |           ^
+      129 |   });
+      130 | }
+      131 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:128:11
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-a6158-with-no-active-published-FG/error-context.md
+
+  59) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-027 @future @p1 @manage-wrcf page handles selected FG with no child PWO 
+
+    Error: Needs a seeded FG that has no PWO children.
+
+      126 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      127 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {
+    > 128 |     throw new Error(reason);
+          |           ^
+      129 |   });
+      130 | }
+      131 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:128:11
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-20865-lected-FG-with-no-child-PWO/error-context.md
+
+  60) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-028 @future @p1 @manage-wrcf page handles selected PWO with no child SWO 
+
+    Error: Needs a seeded PWO that has no SWO children.
+
+      126 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      127 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {
+    > 128 |     throw new Error(reason);
+          |           ^
+      129 |   });
+      130 | }
+      131 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:128:11
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-acccd-ected-PWO-with-no-child-SWO/error-context.md
+
+  61) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-029 @future @p1 @manage-wrcf displayed data belongs only to the selected industry tenant/version context 
+
+    Error: Needs cross-tenant seeded data and an authoritative comparison source.
+
+      126 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      127 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {
+    > 128 |     throw new Error(reason);
+          |           ^
+      129 |   });
+      130 | }
+      131 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:128:11
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-6ccfb-stry-tenant-version-context/error-context.md
+
+  62) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-030 @future @p1 @manage-wrcf edit icons/actions are hidden or disabled for non-editor roles 
+
+    Error: Needs a lower-privilege user account for authorization checks.
+
+      126 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      127 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {
+    > 128 |     throw new Error(reason);
+          |           ^
+      129 |   });
+      130 | }
+      131 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:128:11
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-b88fa-sabled-for-non-editor-roles/error-context.md
+
+  63) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-031 @future @p1 @manage-wrcf lower hierarchy refreshes only after Apply when user changes sector/industry 
+
+    Error: Needs a stable Apply-based filtering workflow in the current UI.
+
+      126 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      127 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {
+    > 128 |     throw new Error(reason);
+          |           ^
+      129 |   });
+      130 | }
+      131 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:128:11
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-d4866-ser-changes-sector-industry/error-context.md
+
+  64) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-032 @future @p1 @manage-wrcf not all capabilities must necessarily be marked for a SWO 
+
+    Error: Needs seeded partial-CI business-rule data for the selected SWO.
+
+      126 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      127 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {
+    > 128 |     throw new Error(reason);
+          |           ^
+      129 |   });
+      130 | }
+      131 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:128:11
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-44a9f-ssarily-be-marked-for-a-SWO/error-context.md
+
+  65) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-033 @future @p1 @manage-wrcf UI never allows or indicates duplicate CI state for the same FG+PWO+SWO+Capability+Proficiency 
+
+    Error: Needs CI creation or a DB-backed mark-validation workflow.
+
+      126 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      127 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {
+    > 128 |     throw new Error(reason);
+          |           ^
+      129 |   });
+      130 | }
+      131 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:128:11
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-d2467--SWO-Capability-Proficiency/error-context.md
+
+  66) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-034 @future @p2 @manage-wrcf page remains usable when industry has large FG/PWO/SWO and CI volume 
+
+    Error: Needs a high-volume seeded industry dataset and explicit performance thresholds.
+
+      126 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      127 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {
+    > 128 |     throw new Error(reason);
+          |           ^
+      129 |   });
+      130 | }
+      131 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:128:11
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-4a9ce-ge-FG-PWO-SWO-and-CI-volume/error-context.md
+
+  67) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:280:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-035 @stable @p1 @manage-wrcf selected FG highlight remains visible until parent filter changes 
+
+    Error: No selectable options were available.
+
+      90 |
+      91 |   if (!options.length) {
+    > 92 |     throw new Error('No selectable options were available.');
+         |           ^
+      93 |   }
+      94 |
+      95 |   await select.selectOption(options[0].value);
+        at selectFirstAvailableOption (/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:92:11)
+        at ensureSectorIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:104:5)
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:281:5
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-3262d-until-parent-filter-changes/error-context.md
+
+  68) manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-036 @future @p1 @manage-wrcf changing capability updates proficiency markings correctly 
+
+    Error: Needs multiple capability mark states with seeded CI data to validate stale-mark cleanup.
+
+      126 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {
+      127 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {
+    > 128 |     throw new Error(reason);
+          |           ^
+      129 |   });
+      130 | }
+      131 |
+        at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:128:11
+
+    Error Context: test-results/manual-tests-wrcf-manage-w-e9718-ficiency-markings-correctly/error-context.md
+
+  68 failed
+    manual-tests/wrcf_CI_Mapping.playwright.spec.ts:247:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-007 @future @p1 @ci-mapping proficiency state belongs only to the currently selected FG PWO SWO Capability path 
+    manual-tests/wrcf_CI_Mapping.playwright.spec.ts:247:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-008 @future @p1 @ci-mapping proficiency mapping refreshes correctly when capability changes under the same SWO 
+    manual-tests/wrcf_CI_Mapping.playwright.spec.ts:247:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-009 @future @p1 @ci-mapping saving pending mappings resets the parent pending counter 
+    manual-tests/wrcf_CI_Mapping.playwright.spec.ts:247:7 › CI Mapping sheet-aligned coverage › CIMAP-E2E-010 @future @p1 @ci-mapping closing the popup without save discards parent pending mappings 
+    manual-tests/wrcf_College.playwright.spec.ts:224:7 › College sheet-aligned coverage › COL-E2E-001 @stable @p0 @college Manage College loads with list and selected college detail 
+    manual-tests/wrcf_Companies.playwright.spec.ts:123:7 › Companies sheet-aligned coverage › COMP-CUR-001 @stable @p0 @companies loads Manage Company with selected company details 
+    manual-tests/wrcf_Control_Point.playwright.spec.ts:402:7 › Control Point sheet-aligned coverage › CP-E2E-001 @stable @p1 @control-point uses Control Point terminology in the column and create panel 
+    manual-tests/wrcf_Functional_Group.playwright.spec.ts:294:7 › WRCF Functional Group › FG-E2E-001 @stable @p0 @fg lists functional groups for the selected industry context 
+    manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:223:7 › Manage WRCF Skills sheet-aligned coverage › WSKILL-E2E-001 @future @p1 @manage-skills redirected Manage WRCF Skills inherits the selected FG PWO SWO Capability and Proficiency 
+    manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:223:7 › Manage WRCF Skills sheet-aligned coverage › WSKILL-E2E-002 @future @p1 @manage-skills opening Manage WRCF Skills directly selects the first valid values automatically 
+    manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:272:7 › Manage WRCF Skills sheet-aligned coverage › WSKILL-E2E-004 @stable @p0 @manage-skills filter values are shown in ascending order for each active dropdown 
+    manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:223:7 › Manage WRCF Skills sheet-aligned coverage › WSKILL-E2E-005 @future @p1 @manage-skills first load applies filters automatically and loads skills without manual selection 
+    manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:223:7 › Manage WRCF Skills sheet-aligned coverage › WSKILL-E2E-007 @future @p1 @manage-skills task list shows only records for the selected skill 
+    manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:223:7 › Manage WRCF Skills sheet-aligned coverage › WSKILL-E2E-008 @future @p1 @manage-skills control point list shows only records for the selected task 
+    manual-tests/wrcf_Manage_WRCF_Skills.playwright.spec.ts:223:7 › Manage WRCF Skills sheet-aligned coverage › WSKILL-E2E-009 @future @p1 @manage-skills edit icon appears only for the selected skill task and control point rows 
+    manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:247:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-008 @future @p1 @pwo same PWO name may be allowed in different FG if parent-scoped uniqueness is the business rule 
+    manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:247:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-010 @future @p1 @pwo keeps the PWO list alphabetical after add and update 
+    manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:247:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-015 @future @p1 @pwo asks for confirmation before deleting a PWO 
+    manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:247:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-017 @future @p1 @pwo blocks PWO delete when SWO exists under it 
+    manual-tests/wrcf_Primary_Work_Object.playwright.spec.ts:247:7 › Primary Work Object sheet-aligned coverage › PWO-E2E-020 @future @p2 @pwo allows Dependency Links to remain blank while saving 
+    manual-tests/wrcf_Role_Mapping.playwright.spec.ts:218:7 › Role Mapping sheet-aligned coverage › RMAP-E2E-001 @future @p0 @role-mapping mapping area loads PWO SWO Capability and Proficiency columns for the selected role 
+    manual-tests/wrcf_Roles.playwright.spec.ts:291:7 › Roles sheet-aligned coverage › ROLE-E2E-001 @stable @p0 @roles department options load for the selected industry context 
+    manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:274:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-008 @future @p1 @swo same SWO name under different PWO follows parent-scoped uniqueness rules 
+    manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:353:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-010 @stable @p1 @swo keeps the SWO list alphabetical after add and update 
+    manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:274:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-015 @future @p1 @swo asks for confirmation before deleting a SWO 
+    manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:274:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-017 @future @p1 @swo blocks SWO delete when downstream mapped data exists 
+    manual-tests/wrcf_Secondary_Work_Object.playwright.spec.ts:274:7 › Secondary Work Object sheet-aligned coverage › SWO-E2E-020 @future @p2 @swo new SWO becomes selectable for downstream CI mapping after successful create 
+    manual-tests/wrcf_Skills.playwright.spec.ts:250:7 › Skills sheet-aligned coverage › SKL-E2E-001 @stable @p1 @skills shows the add icon for Skills when a valid CI context is selected 
+    manual-tests/wrcf_Task.playwright.spec.ts:382:7 › Task sheet-aligned coverage › TSK-E2E-001 @stable @p0 @task shows the add icon for Task when a skill is selected 
+    manual-tests/wrcf-dashboard.playwright.spec.ts:311:7 › WRCF dashboard › DASH-E2E-004 @stable @p1 @dashboard displays Industry Sector options in alphabetical order 
+    manual-tests/wrcf-dashboard.playwright.spec.ts:402:7 › WRCF dashboard › DASH-E2E-024 @stable @p1 @dashboard renders all quick action tiles and their current behaviors 
+    manual-tests/wrcf-dashboard.playwright.spec.ts:441:7 › WRCF dashboard › DASH-E2E-007 @stable @p1 @dashboard hides inactive Industry Sectors from the dashboard filter 
+    manual-tests/wrcf-dashboard.playwright.spec.ts:472:7 › WRCF dashboard › DASH-E2E-008 @stable @p1 @dashboard hides inactive industries from the Industry dropdown 
+    manual-tests/wrcf-dashboard.playwright.spec.ts:518:7 › WRCF dashboard › DASH-E2E-010 @stable @p1 @dashboard uses only published version data for displayed metrics 
+    manual-tests/wrcf-dashboard.playwright.spec.ts:523:7 › WRCF dashboard › DASH-E2E-012 @stable @p1 @dashboard shows -- when no draft version exists 
+    manual-tests/wrcf-dashboard.playwright.spec.ts:527:7 › WRCF dashboard › DASH-E2E-013 @stable @p1 @dashboard shows a no-data state when the selected industry has no published WRCF data 
+    manual-tests/wrcf-dashboard.playwright.spec.ts:534:7 › WRCF dashboard › DASH-E2E-017 @stable @p1 @dashboard keeps Last Updated aligned with the selected industry version state 
+    manual-tests/wrcf-dashboard.playwright.spec.ts:538:7 › WRCF dashboard › DASH-E2E-018 @stable @p1 @dashboard keeps Validation Status aligned with the selected industry version state 
+    manual-tests/wrcf-dashboard.playwright.spec.ts:574:7 › WRCF dashboard › DASH-E2E-026 @stable @p1 @dashboard clicking Edit Structure redirects user to Manage Industry WRCF with same selected Industry Sector and Industry carried forward from Dashboard 
+    manual-tests/wrcf-dashboard.playwright.spec.ts:585:7 › WRCF dashboard › DASH-E2E-025 @future @p1 @dashboard @blocked-role blocks unauthorized users from restricted dashboard actions 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:171:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-002 @stable @p0 @manage-wrcf shows active Industry Sectors in alphabetical order 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:176:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-003 @stable @p0 @manage-wrcf selects a default Industry Sector on initial load 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:187:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-005 @stable @p0 @manage-wrcf selects a default Industry on initial load 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:192:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-006 @stable @p0 @manage-wrcf auto-loads data for the default selected sector and industry without clicking Apply first 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-007 @future @p1 @manage-wrcf clicking Apply loads data according to selected Industry Sector and Industry 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-010 @future @p1 @manage-wrcf first FG is selected by default and edit icon is shown 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-012 @future @p1 @manage-wrcf first PWO is selected by default and edit icon is visible 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-013 @future @p1 @manage-wrcf changing FG resets PWO, SWO, capability and proficiency to a new valid state 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-015 @future @p1 @manage-wrcf first SWO is selected by default and edit icon is shown 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-016 @future @p1 @manage-wrcf changing PWO resets SWO, capability and proficiency to valid data only 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-018 @future @p1 @manage-wrcf capabilities that are already part of at least one CI are visually marked 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-019 @future @p1 @manage-wrcf inactive capabilities are not shown even if historic CI exists 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-021 @future @p1 @manage-wrcf proficiencies already part of CI are visually marked for the selected path and capability 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-022 @future @p1 @manage-wrcf marking exactly matches DB CI combinations for the selected path 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-023 @future @p1 @manage-wrcf same capability/proficiency combination is not shown twice due to joins/version leakage 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-024 @future @p1 @manage-wrcf draft FG/PWO/SWO changes are not shown in the live page 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-025 @future @p1 @manage-wrcf inactive FG/PWO/SWO are excluded from display 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-026 @future @p1 @manage-wrcf page handles selected industry with no active published FG 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-027 @future @p1 @manage-wrcf page handles selected FG with no child PWO 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-028 @future @p1 @manage-wrcf page handles selected PWO with no child SWO 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-029 @future @p1 @manage-wrcf displayed data belongs only to the selected industry tenant/version context 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-030 @future @p1 @manage-wrcf edit icons/actions are hidden or disabled for non-editor roles 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-031 @future @p1 @manage-wrcf lower hierarchy refreshes only after Apply when user changes sector/industry 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-032 @future @p1 @manage-wrcf not all capabilities must necessarily be marked for a SWO 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-033 @future @p1 @manage-wrcf UI never allows or indicates duplicate CI state for the same FG+PWO+SWO+Capability+Proficiency 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-034 @future @p2 @manage-wrcf page remains usable when industry has large FG/PWO/SWO and CI volume 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:280:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-035 @stable @p1 @manage-wrcf selected FG highlight remains visible until parent filter changes 
+    manual-tests/wrcf-manage-wrcf.playwright.spec.ts:127:7 › Manage Industry WRCF sheet-aligned coverage › MIWRCF-E2E-036 @future @p1 @manage-wrcf changing capability updates proficiency markings correctly 
+  152 did not run
+  62 passed (13.5m)

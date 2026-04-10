@@ -112,47 +112,89 @@ async function ensureAuthenticatedPage(browser: Browser): Promise<{ context: Bro
 }
 
 async function openWrcf(page: Page): Promise<void> {
-  await page.goto(`${appUrl}/industry-wrcf`);
-  await expect(page.getByRole('heading', { name: 'Manage Industry WRCF' })).toBeVisible();
+  await page.goto(`${appUrl}/dashboard`);
+  await expect(page).toHaveURL(/\/dashboard/);
+  const manageIndustryLink = page.locator('a').filter({ hasText: /^Manage Industry$/ }).first();
+  await expect(manageIndustryLink).toBeVisible();
+  await manageIndustryLink.click();
+  await expect(page).toHaveURL(/\/industry-wrcf/);
+  await expect(page.getByText('Manage Industry WRCF', { exact: true }).first()).toBeVisible();
+  await expect(page.getByText('Industry Sector', { exact: true }).first()).toBeVisible();
 }
 
-async function dropdownOptions(select: Locator, placeholderPattern: RegExp): Promise<string[]> {
-  return select.locator('option').evaluateAll(
-    (options, patternSource) =>
-      options
-        .map(option => (option as HTMLOptionElement).textContent?.trim() || '')
-        .filter(text => text && !(new RegExp(patternSource, 'i')).test(text)),
-    placeholderPattern.source
+async function selectedLabel(select: Locator): Promise<string> {
+  return ((await select.textContent()) || '').replace(/\s+/g, ' ').trim();
+}
+
+function isPlaceholderLabel(label: string): boolean {
+  return !label || /^Select (Sector|Industry)/i.test(label);
+}
+
+async function matOptionTexts(page: Page, select: Locator, placeholderPattern: RegExp): Promise<string[]> {
+  await select.click();
+  await expect.poll(async () => await page.locator('mat-option').count()).toBeGreaterThan(0);
+  const texts = await page.locator('mat-option').evaluateAll(options =>
+    options
+      .map(option => option.textContent?.trim() || '')
+      .filter(text => text)
   );
+  await page.keyboard.press('Escape').catch(() => undefined);
+  return texts.filter(text => !placeholderPattern.test(text));
+}
+
+async function selectFirstAvailableMatOption(page: Page, select: Locator, placeholderPattern: RegExp): Promise<string> {
+  await select.click();
+  await expect.poll(async () => await page.locator('mat-option').count()).toBeGreaterThan(0);
+  const options = page.locator('mat-option');
+  const count = await options.count();
+  for (let i = 0; i < count; i += 1) {
+    const option = options.nth(i);
+    const text = ((await option.textContent()) || '').replace(/\s+/g, ' ').trim();
+    if (!text || placeholderPattern.test(text)) {
+      continue;
+    }
+    await option.click();
+    return text;
+  }
+  await page.keyboard.press('Escape').catch(() => undefined);
+  throw new Error('No selectable options were available.');
 }
 
 async function selectIndustryContext(page: Page): Promise<void> {
-  const filters = page.locator('.filter-bar .filter-select');
-  const sectorSelect = filters.nth(0);
-  const industrySelect = filters.nth(1);
+  const sectorSelect = page.locator('mat-select').nth(0);
+  const industrySelect = page.locator('mat-select').nth(1);
 
-  await expect.poll(
-    async () => dropdownOptions(sectorSelect, /^select sector/),
-    { timeout: 10000, message: 'Waiting for sector options to load' }
-  ).not.toHaveLength(0);
-
-  if (!(await sectorSelect.inputValue())) {
-    const sectors = await dropdownOptions(sectorSelect, /^select sector/);
-    await sectorSelect.selectOption({ label: sectors[0] });
+  if (isPlaceholderLabel(await selectedLabel(sectorSelect))) {
+    await selectFirstAvailableMatOption(page, sectorSelect, /^Select Sector/i);
   }
 
-  await expect.poll(
-    async () => dropdownOptions(industrySelect, /^select industry/),
-    { timeout: 10000, message: 'Waiting for industry options to load' }
-  ).not.toHaveLength(0);
+  await expect
+    .poll(async () => await matOptionTexts(page, industrySelect, /^Select Industry/i), {
+      timeout: 10000,
+      message: 'Waiting for industry options to load',
+    })
+    .not.toHaveLength(0);
 
-  if (!(await industrySelect.inputValue())) {
-    const industries = await dropdownOptions(industrySelect, /^select industry/);
-    await industrySelect.selectOption({ label: industries[0] });
+  if (isPlaceholderLabel(await selectedLabel(industrySelect))) {
+    await selectFirstAvailableMatOption(page, industrySelect, /^Select Industry/i);
+  }
+}
+
+async function openWrcfAndSelectIndustryContext(page: Page): Promise<void> {
+  let lastError: unknown;
+
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    try {
+      await openWrcf(page);
+      await selectIndustryContext(page);
+      return;
+    } catch (error) {
+      lastError = error;
+      await page.reload({ waitUntil: 'domcontentloaded' }).catch(() => undefined);
+    }
   }
 
-  await expect(sectorSelect).toHaveValue(/.+/);
-  await expect(industrySelect).toHaveValue(/.+/);
+  throw lastError;
 }
 
 async function waitForWrcfReady(page: Page): Promise<void> {
@@ -165,6 +207,23 @@ async function waitForWrcfReady(page: Page): Promise<void> {
 
   await expect(column(page, 'Functional Group').locator('.item').first()).toBeVisible();
   await expect(column(page, 'Primary Work Obj.').getByTitle('Add')).toBeVisible();
+}
+
+async function openWrcfAndWaitForReady(page: Page): Promise<void> {
+  let lastError: unknown;
+
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    try {
+      await openWrcf(page);
+      await waitForWrcfReady(page);
+      return;
+    } catch (error) {
+      lastError = error;
+      await page.reload({ waitUntil: 'domcontentloaded' }).catch(() => undefined);
+    }
+  }
+
+  throw lastError;
 }
 
 async function selectFunctionalGroup(page: Page, preferredName?: string): Promise<string> {
@@ -233,10 +292,31 @@ async function deletePwo(page: Page, name: string): Promise<void> {
   await expect(pwoRow(page, name)).toHaveCount(0);
 }
 
+async function createSwoUnderPwo(page: Page, swoName: string): Promise<void> {
+  await column(page, 'Secondary Work Obj.').getByTitle('Add').click();
+  await expect(panel(page)).toBeVisible();
+  await panel(page).getByPlaceholder('Enter Name...').fill(swoName);
+  await panel(page).getByPlaceholder('Enter Description...').fill('Created for PWO dependency visibility check');
+  const combos = panel(page).getByRole('combobox');
+  await combos.nth(0).selectOption({ label: 'Medium' });
+  await combos.nth(1).selectOption({ label: 'Medium' });
+  await combos.nth(2).selectOption({ label: 'Low' });
+  await savePanel(page);
+  await expect(panel(page)).not.toBeVisible();
+  await expect(column(page, 'Secondary Work Obj.')).toContainText(swoName);
+}
+
+async function deleteSwoFromPwo(page: Page, swoName: string): Promise<void> {
+  await column(page, 'Secondary Work Obj.').locator('.item').filter({ hasText: swoName }).first().click();
+  await column(page, 'Secondary Work Obj.').getByTitle('Edit').click();
+  await expect(panel(page)).toBeVisible();
+  await panel(page).getByTitle('Delete').click();
+  await expect(panel(page)).not.toBeVisible();
+  await expect(column(page, 'Secondary Work Obj.')).not.toContainText(swoName);
+}
+
 async function selectPwoContext(page: Page): Promise<{ fgName: string }> {
-  await openWrcf(page);
-  await selectIndustryContext(page);
-  await waitForWrcfReady(page);
+  await openWrcfAndWaitForReady(page);
   const fgName = await selectFunctionalGroup(page);
   await expect(column(page, 'Primary Work Obj.')).toBeVisible();
   await expect(pwoItems(page).first()).toBeVisible();
@@ -410,4 +490,55 @@ test.describe('Primary Work Object sheet-aligned coverage', () => {
   });
 
   futurePwoCase('PWO-E2E-020', 'allows Dependency Links to remain blank while saving', 'Needs confirmed Dependency Links field presence in the current local PWO popup.', 'p2');
+
+  test('PWO-E2E-021 @stable @p1 @pwo persists the PWO description across create and edit flows', async () => {
+    const name = uniqueName('PWO Description');
+    const description = 'Created description for persistence coverage.';
+    const updatedDescription = 'Updated description for persistence coverage.';
+
+    await createPwo(page, name, description);
+    await openEditPanel(page, name);
+    await expect(panel(page).getByPlaceholder('Enter Description...')).toHaveValue(description);
+    await panel(page).getByPlaceholder('Enter Description...').fill(updatedDescription);
+    await savePanel(page);
+    await openEditPanel(page, name);
+    await expect(panel(page).getByPlaceholder('Enter Description...')).toHaveValue(updatedDescription);
+    await closePanel(page);
+    await deletePwo(page, name);
+  });
+
+  test('PWO-E2E-022 @stable @p1 @pwo keeps the delete warning clearly visible when deleting a PWO with dependent SWO rows', async () => {
+    const pwoName = uniqueName('PWO Warning');
+    const swoName = uniqueName('SWO Warning');
+
+    await createPwo(page, pwoName);
+    await column(page, 'Primary Work Obj.').locator('.item').filter({ hasText: pwoName }).first().click();
+    await createSwoUnderPwo(page, swoName);
+    await openEditPanel(page, pwoName);
+    await panel(page).locator('.panel-body').evaluate(node => {
+      node.scrollTop = node.scrollHeight;
+    });
+    await panel(page).getByTitle('Delete').click();
+
+    await expect(page.getByText('Delete this Primary Work Obj.?')).toBeVisible();
+    await expect(page.getByText('This action cannot be undone.')).toBeVisible();
+
+    await page.getByRole('button', { name: 'Cancel' }).click();
+    await closePanel(page);
+    await column(page, 'Primary Work Obj.').locator('.item').filter({ hasText: pwoName }).first().click();
+    await deleteSwoFromPwo(page, swoName);
+    await deletePwo(page, pwoName);
+  });
+
+  futurePwoCase(
+    'PWO-MBUG-003',
+    'CreatedOn and UpdatedOn use the agreed timezone',
+    'Audit timestamp timezone verification needs persisted data or API/database evidence beyond current browser-only PWO coverage.'
+  );
+
+  futurePwoCase(
+    'PWO-MBUG-004',
+    'CreatedBy and UpdatedBy capture the acting user id',
+    'Audit user-capture verification needs persisted data or API/database evidence beyond current browser-only PWO coverage.'
+  );
 });

@@ -1,0 +1,861 @@
+{
+  "config": {
+    "configFile": "/home/sama/new-repo/whizard-platform/playwright.config.ts",
+    "rootDir": "/home/sama/new-repo/whizard-platform",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/home/sama/new-repo/whizard-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/home/sama/new-repo/whizard-platform",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "manual-tests/wrcf_Task.playwright.spec.ts",
+      "file": "manual-tests/wrcf_Task.playwright.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Task sheet-aligned coverage",
+          "file": "manual-tests/wrcf_Task.playwright.spec.ts",
+          "line": 354,
+          "column": 6,
+          "specs": [
+            {
+              "title": "TSK-E2E-001 @stable @p0 @task shows the add icon for Task when a skill is selected",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "task"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5693,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:27:48.320Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "fa1a82a924210119267a-08f736b660eac59c2108",
+              "file": "manual-tests/wrcf_Task.playwright.spec.ts",
+              "line": 382,
+              "column": 7
+            },
+            {
+              "title": "TSK-E2E-002 @stable @p0 @task opens the Create New Task popup from the Task add icon",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "task"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5582,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:27:58.217Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "fa1a82a924210119267a-d09dd3ae9032e40be855",
+              "file": "manual-tests/wrcf_Task.playwright.spec.ts",
+              "line": 388,
+              "column": 7
+            },
+            {
+              "title": "TSK-E2E-003 @stable @p0 @task blocks task save when required fields are missing",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "task"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 7312,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:28:03.817Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "fa1a82a924210119267a-37b7017b3aba69ac75c5",
+              "file": "manual-tests/wrcf_Task.playwright.spec.ts",
+              "line": 395,
+              "column": 7
+            },
+            {
+              "title": "TSK-E2E-004 @stable @p0 @task creates a task successfully with valid data",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "task"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6366,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:28:11.166Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "fa1a82a924210119267a-645a71546a04317bdfa9",
+              "file": "manual-tests/wrcf_Task.playwright.spec.ts",
+              "line": 405,
+              "column": 7
+            },
+            {
+              "title": "TSK-E2E-005 @future @p1 @task @blocked-data blocks duplicate task creation under the same skill",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "task",
+                "blocked-data"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 5375,
+                      "error": {
+                        "message": "Error: No deterministic existing task row is available under the selected skill for duplicate validation.",
+                        "stack": "Error: No deterministic existing task row is available under the selected skill for duplicate validation.\n    at firstExistingTaskName (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:340:11)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:414:26",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts",
+                          "column": 11,
+                          "line": 340
+                        },
+                        "snippet": "  338 |   const count = await taskItems(page).count();\n  339 |   if (!count) {\n> 340 |     throw new Error(blocker);\n      |           ^\n  341 |   }\n  342 |   const text = (await taskNames(page).first().textContent())?.trim();\n  343 |   if (!text) {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts",
+                            "column": 11,
+                            "line": 340
+                          },
+                          "message": "Error: No deterministic existing task row is available under the selected skill for duplicate validation.\n\n  338 |   const count = await taskItems(page).count();\n  339 |   if (!count) {\n> 340 |     throw new Error(blocker);\n      |           ^\n  341 |   }\n  342 |   const text = (await taskNames(page).first().textContent())?.trim();\n  343 |   if (!text) {\n    at firstExistingTaskName (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:340:11)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:414:26"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:28:17.597Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Task.pla-9b2c5-eation-under-the-same-skill/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts",
+                        "column": 11,
+                        "line": 340
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fa1a82a924210119267a-13790d1481b102826b82",
+              "file": "manual-tests/wrcf_Task.playwright.spec.ts",
+              "line": 411,
+              "column": 7
+            },
+            {
+              "title": "TSK-E2E-006 @future @p1 @task @blocked-data blocks trim-aware duplicate task creation under the same skill",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "task",
+                "blocked-data"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 5022,
+                      "error": {
+                        "message": "Error: No deterministic existing task row is available under the selected skill for duplicate validation.",
+                        "stack": "Error: No deterministic existing task row is available under the selected skill for duplicate validation.\n    at firstExistingTaskName (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:340:11)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:428:26",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts",
+                          "column": 11,
+                          "line": 340
+                        },
+                        "snippet": "  338 |   const count = await taskItems(page).count();\n  339 |   if (!count) {\n> 340 |     throw new Error(blocker);\n      |           ^\n  341 |   }\n  342 |   const text = (await taskNames(page).first().textContent())?.trim();\n  343 |   if (!text) {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts",
+                            "column": 11,
+                            "line": 340
+                          },
+                          "message": "Error: No deterministic existing task row is available under the selected skill for duplicate validation.\n\n  338 |   const count = await taskItems(page).count();\n  339 |   if (!count) {\n> 340 |     throw new Error(blocker);\n      |           ^\n  341 |   }\n  342 |   const text = (await taskNames(page).first().textContent())?.trim();\n  343 |   if (!text) {\n    at firstExistingTaskName (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:340:11)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:428:26"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:28:24.577Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Task.pla-b6a9c-eation-under-the-same-skill/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts",
+                        "column": 11,
+                        "line": 340
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fa1a82a924210119267a-42b76dc7a8053a06ff9a",
+              "file": "manual-tests/wrcf_Task.playwright.spec.ts",
+              "line": 425,
+              "column": 7
+            },
+            {
+              "title": "TSK-E2E-007 @stable @p2 @task does not create a task when the create panel is closed without save",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p2",
+                "task"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 11510,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.column').filter({ has: locator('.column-title').filter({ hasText: 'Task' }) }).locator('.item')\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.column').filter({ has: locator('.column-title').filter({ hasText: 'Task' }) }).locator('.item')\u001b[22m\n\u001b[2m    9 × locator resolved to 1 element\u001b[22m\n\u001b[2m      - unexpected value \"1\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.column').filter({ has: locator('.column-title').filter({ hasText: 'Task' }) }).locator('.item')\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.column').filter({ has: locator('.column-title').filter({ hasText: 'Task' }) }).locator('.item')\u001b[22m\n\u001b[2m    9 × locator resolved to 1 element\u001b[22m\n\u001b[2m      - unexpected value \"1\"\u001b[22m\n\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:446:35",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts",
+                          "column": 35,
+                          "line": 446
+                        },
+                        "snippet": "  444 |     await panel(page).getByPlaceholder('Enter task name...').fill(`Task Unsaved ${Date.now()}`);\n  445 |     await closePanel(page);\n> 446 |     await expect(taskItems(page)).toHaveCount(beforeCount);\n      |                                   ^\n  447 |   });\n  448 |\n  449 |   test('TSK-E2E-008 @future @p1 @task @blocked-data preloads all existing values on task edit', async () => {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts",
+                            "column": 35,
+                            "line": 446
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.column').filter({ has: locator('.column-title').filter({ hasText: 'Task' }) }).locator('.item')\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.column').filter({ has: locator('.column-title').filter({ hasText: 'Task' }) }).locator('.item')\u001b[22m\n\u001b[2m    9 × locator resolved to 1 element\u001b[22m\n\u001b[2m      - unexpected value \"1\"\u001b[22m\n\n\n  444 |     await panel(page).getByPlaceholder('Enter task name...').fill(`Task Unsaved ${Date.now()}`);\n  445 |     await closePanel(page);\n> 446 |     await expect(taskItems(page)).toHaveCount(beforeCount);\n      |                                   ^\n  447 |   });\n  448 |\n  449 |   test('TSK-E2E-008 @future @p1 @task @blocked-data preloads all existing values on task edit', async () => {\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:446:35"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:28:32.594Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Task.pla-23aed-anel-is-closed-without-save/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts",
+                        "column": 35,
+                        "line": 446
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fa1a82a924210119267a-9214884ef04ec3ed3c8e",
+              "file": "manual-tests/wrcf_Task.playwright.spec.ts",
+              "line": 439,
+              "column": 7
+            },
+            {
+              "title": "TSK-E2E-008 @future @p1 @task @blocked-data preloads all existing values on task edit",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "task",
+                "blocked-data"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 6524,
+                      "error": {
+                        "message": "Error: No deterministic existing task row is available under the selected skill for edit/delete coverage.",
+                        "stack": "Error: No deterministic existing task row is available under the selected skill for edit/delete coverage.\n    at firstExistingTaskName (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:340:11)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:452:26",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts",
+                          "column": 11,
+                          "line": 340
+                        },
+                        "snippet": "  338 |   const count = await taskItems(page).count();\n  339 |   if (!count) {\n> 340 |     throw new Error(blocker);\n      |           ^\n  341 |   }\n  342 |   const text = (await taskNames(page).first().textContent())?.trim();\n  343 |   if (!text) {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts",
+                            "column": 11,
+                            "line": 340
+                          },
+                          "message": "Error: No deterministic existing task row is available under the selected skill for edit/delete coverage.\n\n  338 |   const count = await taskItems(page).count();\n  339 |   if (!count) {\n> 340 |     throw new Error(blocker);\n      |           ^\n  341 |   }\n  342 |   const text = (await taskNames(page).first().textContent())?.trim();\n  343 |   if (!text) {\n    at firstExistingTaskName (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:340:11)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:452:26"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:28:47.147Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Task.pla-9a130-xisting-values-on-task-edit/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts",
+                        "column": 11,
+                        "line": 340
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fa1a82a924210119267a-001401ad351a65b13218",
+              "file": "manual-tests/wrcf_Task.playwright.spec.ts",
+              "line": 449,
+              "column": 7
+            },
+            {
+              "title": "TSK-E2E-009 @future @p1 @task @blocked-data shows updated task values after edit save",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "task",
+                "blocked-data"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 5079,
+                      "error": {
+                        "message": "Error: No deterministic existing task row is available under the selected skill for edit/delete coverage.",
+                        "stack": "Error: No deterministic existing task row is available under the selected skill for edit/delete coverage.\n    at firstExistingTaskName (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:340:11)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:463:26",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts",
+                          "column": 11,
+                          "line": 340
+                        },
+                        "snippet": "  338 |   const count = await taskItems(page).count();\n  339 |   if (!count) {\n> 340 |     throw new Error(blocker);\n      |           ^\n  341 |   }\n  342 |   const text = (await taskNames(page).first().textContent())?.trim();\n  343 |   if (!text) {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts",
+                            "column": 11,
+                            "line": 340
+                          },
+                          "message": "Error: No deterministic existing task row is available under the selected skill for edit/delete coverage.\n\n  338 |   const count = await taskItems(page).count();\n  339 |   if (!count) {\n> 340 |     throw new Error(blocker);\n      |           ^\n  341 |   }\n  342 |   const text = (await taskNames(page).first().textContent())?.trim();\n  343 |   if (!text) {\n    at firstExistingTaskName (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:340:11)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:463:26"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:28:56.439Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Task.pla-a7885-task-values-after-edit-save/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts",
+                        "column": 11,
+                        "line": 340
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fa1a82a924210119267a-76d2418bc2c105bdd52f",
+              "file": "manual-tests/wrcf_Task.playwright.spec.ts",
+              "line": 460,
+              "column": 7
+            },
+            {
+              "title": "TSK-E2E-010 @future @p1 @task @blocked-data shows the delete icon in the edit task panel",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "task",
+                "blocked-data"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 6044,
+                      "error": {
+                        "message": "Error: No deterministic existing task row is available under the selected skill for edit/delete coverage.",
+                        "stack": "Error: No deterministic existing task row is available under the selected skill for edit/delete coverage.\n    at firstExistingTaskName (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:340:11)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:475:26",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts",
+                          "column": 11,
+                          "line": 340
+                        },
+                        "snippet": "  338 |   const count = await taskItems(page).count();\n  339 |   if (!count) {\n> 340 |     throw new Error(blocker);\n      |           ^\n  341 |   }\n  342 |   const text = (await taskNames(page).first().textContent())?.trim();\n  343 |   if (!text) {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts",
+                            "column": 11,
+                            "line": 340
+                          },
+                          "message": "Error: No deterministic existing task row is available under the selected skill for edit/delete coverage.\n\n  338 |   const count = await taskItems(page).count();\n  339 |   if (!count) {\n> 340 |     throw new Error(blocker);\n      |           ^\n  341 |   }\n  342 |   const text = (await taskNames(page).first().textContent())?.trim();\n  343 |   if (!text) {\n    at firstExistingTaskName (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:340:11)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:475:26"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:29:04.349Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Task.pla-1ec73-icon-in-the-edit-task-panel/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts",
+                        "column": 11,
+                        "line": 340
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fa1a82a924210119267a-183a7130f6e353096e12",
+              "file": "manual-tests/wrcf_Task.playwright.spec.ts",
+              "line": 472,
+              "column": 7
+            },
+            {
+              "title": "TSK-E2E-011 @future @p1 @task @blocked-data blocks task delete when control points exist",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "task",
+                "blocked-data"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 5446,
+                      "error": {
+                        "message": "Error: No deterministic existing task row is available under the selected skill for edit/delete coverage.",
+                        "stack": "Error: No deterministic existing task row is available under the selected skill for edit/delete coverage.\n    at firstExistingTaskName (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:340:11)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:483:26",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts",
+                          "column": 11,
+                          "line": 340
+                        },
+                        "snippet": "  338 |   const count = await taskItems(page).count();\n  339 |   if (!count) {\n> 340 |     throw new Error(blocker);\n      |           ^\n  341 |   }\n  342 |   const text = (await taskNames(page).first().textContent())?.trim();\n  343 |   if (!text) {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts",
+                            "column": 11,
+                            "line": 340
+                          },
+                          "message": "Error: No deterministic existing task row is available under the selected skill for edit/delete coverage.\n\n  338 |   const count = await taskItems(page).count();\n  339 |   if (!count) {\n> 340 |     throw new Error(blocker);\n      |           ^\n  341 |   }\n  342 |   const text = (await taskNames(page).first().textContent())?.trim();\n  343 |   if (!text) {\n    at firstExistingTaskName (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:340:11)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:483:26"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:29:13.283Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Task.pla-fe6c1-e-when-control-points-exist/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts",
+                        "column": 11,
+                        "line": 340
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fa1a82a924210119267a-bdbaa12adc241e6ee5c4",
+              "file": "manual-tests/wrcf_Task.playwright.spec.ts",
+              "line": 480,
+              "column": 7
+            },
+            {
+              "title": "TSK-E2E-012 @future @p1 @task @blocked-data deletes a task successfully when no control points exist",
+              "ok": true,
+              "tags": [
+                "future",
+                "p1",
+                "task",
+                "blocked-data"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 10531,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:29:21.566Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "fa1a82a924210119267a-518598504f094f6ea2f2",
+              "file": "manual-tests/wrcf_Task.playwright.spec.ts",
+              "line": 489,
+              "column": 7
+            },
+            {
+              "title": "TSK-E2E-013 @stable @p2 @task validates required proficiency level against allowed values",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p2",
+                "task"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5930,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:29:33.336Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "fa1a82a924210119267a-76ef4e0780b225b6d854",
+              "file": "manual-tests/wrcf_Task.playwright.spec.ts",
+              "line": 499,
+              "column": 7
+            },
+            {
+              "title": "TSK-E2E-014 @stable @p2 @task allows standard duration to remain blank when the field is optional",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p2",
+                "task"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 9872,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.panel')\nExpected: not visible\nReceived: visible\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"not toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.panel')\u001b[22m\n\u001b[2m    9 × locator resolved to <div class=\"panel\" _ngcontent-ng-c1331223626=\"\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"visible\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.panel')\nExpected: not visible\nReceived: visible\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"not toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.panel')\u001b[22m\n\u001b[2m    9 × locator resolved to <div class=\"panel\" _ngcontent-ng-c1331223626=\"\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"visible\"\u001b[22m\n\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:524:35",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts",
+                          "column": 35,
+                          "line": 524
+                        },
+                        "snippet": "  522 |     await panel(page).getByPlaceholder('Optional').fill('');\n  523 |     await savePanel(page);\n> 524 |     await expect(panel(page)).not.toBeVisible();\n      |                                   ^\n  525 |   });\n  526 | });\n  527 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts",
+                            "column": 35,
+                            "line": 524
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.panel')\nExpected: not visible\nReceived: visible\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"not toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.panel')\u001b[22m\n\u001b[2m    9 × locator resolved to <div class=\"panel\" _ngcontent-ng-c1331223626=\"\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"visible\"\u001b[22m\n\n\n  522 |     await panel(page).getByPlaceholder('Optional').fill('');\n  523 |     await savePanel(page);\n> 524 |     await expect(panel(page)).not.toBeVisible();\n      |                                   ^\n  525 |   });\n  526 | });\n  527 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts:524:35"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:29:39.286Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Task.pla-6caab--when-the-field-is-optional/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Task.playwright.spec.ts",
+                        "column": 35,
+                        "line": 524
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fa1a82a924210119267a-cae6c5df5bc7cd6b4dce",
+              "file": "manual-tests/wrcf_Task.playwright.spec.ts",
+              "line": 514,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-04-03T17:27:46.255Z",
+    "duration": 122998.539,
+    "expected": 6,
+    "skipped": 0,
+    "unexpected": 8,
+    "flaky": 0
+  }
+}

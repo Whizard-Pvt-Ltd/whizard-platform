@@ -142,6 +142,12 @@ function quickAction(page: Page, label: string) {
   return page.getByRole('button', { name: new RegExp(label) });
 }
 
+function quickActionCards(page: Page) {
+  return page.locator('button').filter({
+    has: page.locator('span', { hasText: /Edit Structure|Manage Roles|Version History|Publish Draft/ }),
+  });
+}
+
 function selectTrigger(page: Page, index: number) {
   return page.locator('mat-form-field.wrcf-select').nth(index).locator('.mat-mdc-select-trigger');
 }
@@ -204,6 +210,31 @@ async function selectDashboardContext(page: Page, sectorLabel: string, industryL
 
 async function expectStatCount(page: Page, label: string, value: number): Promise<void> {
   await expect(statCard(page, label)).toContainText(String(value));
+}
+
+async function openProfileMenu(page: Page): Promise<void> {
+  const candidates = [
+    page.getByRole('button', { name: /profile|account|user/i }).first(),
+    page.locator('.avatar-wrapper button').first(),
+    page.locator('.avatar').first(),
+    page.getByRole('button').filter({ hasText: /^[A-Z]$/ }).last(),
+  ];
+
+  for (const locator of candidates) {
+    if ((await locator.count()) === 0) {
+      continue;
+    }
+    try {
+      await locator.click({ timeout: 2000 });
+      if ((await page.getByText(/logout|sign out/i).count()) > 0) {
+        return;
+      }
+    } catch {
+      // Try the next available profile trigger.
+    }
+  }
+
+  throw new Error('Could not open a profile menu on the dashboard shell.');
 }
 
 async function mockDashboardApis(page: Page): Promise<void> {
@@ -584,5 +615,85 @@ test.describe('WRCF dashboard', () => {
 
   test('DASH-E2E-025 @future @p1 @dashboard @blocked-role blocks unauthorized users from restricted dashboard actions', async () => {
     throw new Error('Pending until a lower-privilege user is available.');
+  });
+
+  test('DASH-E2E-027 @stable @p1 @dashboard loads the dashboard from the top of the page', async () => {
+    await gotoDashboard(page);
+
+    const scrollY = await page.evaluate(() => Math.round(window.scrollY));
+    expect(scrollY).toBeLessThanOrEqual(5);
+  });
+
+  test('DASH-E2E-028 @stable @p1 @dashboard renders a single dropdown arrow on each dashboard filter', async () => {
+    await gotoDashboard(page);
+
+    const sectorArrowCount = await sectorDropdown(page).locator('.mat-mdc-select-arrow-wrapper').count();
+    const industryArrowCount = await industryDropdown(page).locator('.mat-mdc-select-arrow-wrapper').count();
+
+    expect(sectorArrowCount).toBe(1);
+    expect(industryArrowCount).toBe(1);
+  });
+
+  test('DASH-E2E-029 @stable @p1 @dashboard keeps the dashboard header blocks aligned on the shared WRCF layout grid', async () => {
+    await gotoDashboard(page);
+
+    const filterRowBox = await page.locator('div.px-8.py-5').first().boundingBox();
+    const industryBlockBox = await page.locator('div.px-8.pb-4').first().boundingBox();
+    const quickActionsHeadingBox = await page.getByRole('heading', { name: 'Quick Actions' }).boundingBox();
+
+    expect(filterRowBox).not.toBeNull();
+    expect(industryBlockBox).not.toBeNull();
+    expect(quickActionsHeadingBox).not.toBeNull();
+
+    expect(Math.abs((filterRowBox?.x ?? 0) - (industryBlockBox?.x ?? 0))).toBeLessThanOrEqual(4);
+    expect(Math.abs((industryBlockBox?.x ?? 0) - (quickActionsHeadingBox?.x ?? 0))).toBeLessThanOrEqual(4);
+  });
+
+  test('DASH-E2E-030 @stable @p1 @dashboard avoids an unnecessary page scrollbar in a standard desktop viewport', async () => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await gotoDashboard(page);
+
+    const scrollMetrics = await page.evaluate(() => ({
+      viewport: window.innerHeight,
+      docHeight: document.documentElement.scrollHeight,
+    }));
+
+    expect(scrollMetrics.docHeight).toBeLessThanOrEqual(scrollMetrics.viewport + 8);
+  });
+
+  test('DASH-E2E-031 @stable @p1 @dashboard keeps all quick action tiles visually aligned', async () => {
+    await gotoDashboard(page);
+
+    const cards = quickActionCards(page);
+    await expect(cards).toHaveCount(4);
+
+    const boxes = await cards.evaluateAll(nodes =>
+      nodes.map(node => {
+        const rect = (node as HTMLElement).getBoundingClientRect();
+        const divider = (node as HTMLElement).querySelector('div[class*="border-t"]');
+        const icon = (node as HTMLElement).querySelector('mat-icon');
+        return {
+          top: Math.round(rect.top),
+          height: Math.round(rect.height),
+          hasDivider: Boolean(divider),
+          hasIcon: Boolean(icon),
+        };
+      })
+    );
+
+    const reference = boxes[0];
+    for (const box of boxes) {
+      expect(box.hasDivider).toBeTruthy();
+      expect(box.hasIcon).toBeTruthy();
+      expect(Math.abs(box.top - reference.top)).toBeLessThanOrEqual(2);
+      expect(Math.abs(box.height - reference.height)).toBeLessThanOrEqual(2);
+    }
+  });
+
+  test('DASH-E2E-032 @stable @p1 @dashboard exposes logout from the dashboard profile area', async () => {
+    await gotoDashboard(page);
+    await openProfileMenu(page);
+
+    await expect(page.getByText(/logout|sign out/i)).toBeVisible();
   });
 });

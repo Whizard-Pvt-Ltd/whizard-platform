@@ -1,0 +1,2320 @@
+{
+  "config": {
+    "configFile": "/home/sama/new-repo/whizard-platform/playwright.config.ts",
+    "rootDir": "/home/sama/new-repo/whizard-platform",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/home/sama/new-repo/whizard-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/home/sama/new-repo/whizard-platform",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+      "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Manage Industry WRCF sheet-aligned coverage",
+          "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+          "line": 138,
+          "column": 6,
+          "specs": [
+            {
+              "title": "MIWRCF-E2E-001 @stable @p0 @manage-wrcf page loads successfully after user navigates to Manage Industry WRCF",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1091,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:02:48.878Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-cf81b05a616d55a01532",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 157,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-002 @stable @p0 @manage-wrcf shows active Industry Sectors in alphabetical order",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1027,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:02:54.146Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-2f665e4800fea91fe81f",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 167,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-003 @stable @p0 @manage-wrcf selects a default Industry Sector on initial load",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p0",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 6045,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.filter-bar .filter-select').first()\nExpected pattern: \u001b[32m/.+/\u001b[39m\nReceived string:  \u001b[31m\"\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.filter-bar .filter-select').first()\u001b[22m\n\u001b[2m    9 × locator resolved to <select _ngcontent-ng-c2195223369=\"\" class=\"filter-select ng-untouched ng-pristine ng-valid\">…</select>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.filter-bar .filter-select').first()\nExpected pattern: \u001b[32m/.+/\u001b[39m\nReceived string:  \u001b[31m\"\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.filter-bar .filter-select').first()\u001b[22m\n\u001b[2m    9 × locator resolved to <select _ngcontent-ng-c2195223369=\"\" class=\"filter-select ng-untouched ng-pristine ng-valid\">…</select>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:173:41",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 41,
+                          "line": 173
+                        },
+                        "snippet": "  171 |\n  172 |   test('MIWRCF-E2E-003 @stable @p0 @manage-wrcf selects a default Industry Sector on initial load', async () => {\n> 173 |     await expect(filterSelect(page, 0)).toHaveValue(/.+/);\n      |                                         ^\n  174 |     expect(await selectedLabel(filterSelect(page, 0))).toMatch(/\\S/);\n  175 |   });\n  176 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 41,
+                            "line": 173
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.filter-bar .filter-select').first()\nExpected pattern: \u001b[32m/.+/\u001b[39m\nReceived string:  \u001b[31m\"\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.filter-bar .filter-select').first()\u001b[22m\n\u001b[2m    9 × locator resolved to <select _ngcontent-ng-c2195223369=\"\" class=\"filter-select ng-untouched ng-pristine ng-valid\">…</select>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n\n\n  171 |\n  172 |   test('MIWRCF-E2E-003 @stable @p0 @manage-wrcf selects a default Industry Sector on initial load', async () => {\n> 173 |     await expect(filterSelect(page, 0)).toHaveValue(/.+/);\n      |                                         ^\n  174 |     expect(await selectedLabel(filterSelect(page, 0))).toMatch(/\\S/);\n  175 |   });\n  176 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:173:41"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:02:55.193Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-844a8-stry-Sector-on-initial-load/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 41,
+                        "line": 173
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-637f23f8d2f992a17662",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 172,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-004 @stable @p0 @manage-wrcf shows active Industries for the selected sector in alphabetical order",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3060,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:03:02.914Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-d065244433bf59b12b31",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 177,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-005 @stable @p0 @manage-wrcf selects a default Industry on initial load",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p0",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 6324,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.filter-bar .filter-select').nth(1)\nExpected pattern: \u001b[32m/.+/\u001b[39m\nReceived string:  \u001b[31m\"\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.filter-bar .filter-select').nth(1)\u001b[22m\n\u001b[2m    9 × locator resolved to <select disabled _ngcontent-ng-c2195223369=\"\" class=\"filter-select ng-untouched ng-pristine\">…</select>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.filter-bar .filter-select').nth(1)\nExpected pattern: \u001b[32m/.+/\u001b[39m\nReceived string:  \u001b[31m\"\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.filter-bar .filter-select').nth(1)\u001b[22m\n\u001b[2m    9 × locator resolved to <select disabled _ngcontent-ng-c2195223369=\"\" class=\"filter-select ng-untouched ng-pristine\">…</select>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:184:41",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 41,
+                          "line": 184
+                        },
+                        "snippet": "  182 |\n  183 |   test('MIWRCF-E2E-005 @stable @p0 @manage-wrcf selects a default Industry on initial load', async () => {\n> 184 |     await expect(filterSelect(page, 1)).toHaveValue(/.+/);\n      |                                         ^\n  185 |     expect(await selectedLabel(filterSelect(page, 1))).toMatch(/\\S/);\n  186 |   });\n  187 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 41,
+                            "line": 184
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.filter-bar .filter-select').nth(1)\nExpected pattern: \u001b[32m/.+/\u001b[39m\nReceived string:  \u001b[31m\"\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.filter-bar .filter-select').nth(1)\u001b[22m\n\u001b[2m    9 × locator resolved to <select disabled _ngcontent-ng-c2195223369=\"\" class=\"filter-select ng-untouched ng-pristine\">…</select>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n\n\n  182 |\n  183 |   test('MIWRCF-E2E-005 @stable @p0 @manage-wrcf selects a default Industry on initial load', async () => {\n> 184 |     await expect(filterSelect(page, 1)).toHaveValue(/.+/);\n      |                                         ^\n  185 |     expect(await selectedLabel(filterSelect(page, 1))).toMatch(/\\S/);\n  186 |   });\n  187 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:184:41"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:03:07.107Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-a7ec6-lt-Industry-on-initial-load/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 41,
+                        "line": 184
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-1d01ba60814552038431",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 183,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-006 @stable @p0 @manage-wrcf auto-loads data for the default selected sector and industry without clicking Apply first",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p0",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 6102,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.column').filter({ has: locator('.column-title').filter({ hasText: 'Functional Group' }) }).locator('.item').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.column').filter({ has: locator('.column-title').filter({ hasText: 'Functional Group' }) }).locator('.item').first()\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.column').filter({ has: locator('.column-title').filter({ hasText: 'Functional Group' }) }).locator('.item').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.column').filter({ has: locator('.column-title').filter({ hasText: 'Functional Group' }) }).locator('.item').first()\u001b[22m\n\n    at expectNonEmptyItems (/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:119:56)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:189:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 56,
+                          "line": 119
+                        },
+                        "snippet": "  117 |\n  118 | async function expectNonEmptyItems(page: Page, title: string): Promise<void> {\n> 119 |   await expect(itemNames(column(page, title)).first()).toBeVisible();\n      |                                                        ^\n  120 | }\n  121 |\n  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 56,
+                            "line": 119
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.column').filter({ has: locator('.column-title').filter({ hasText: 'Functional Group' }) }).locator('.item').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.column').filter({ has: locator('.column-title').filter({ hasText: 'Functional Group' }) }).locator('.item').first()\u001b[22m\n\n\n  117 |\n  118 | async function expectNonEmptyItems(page: Page, title: string): Promise<void> {\n> 119 |   await expect(itemNames(column(page, title)).first()).toBeVisible();\n      |                                                        ^\n  120 | }\n  121 |\n  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n    at expectNonEmptyItems (/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:119:56)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:189:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:03:15.015Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-b9f03-ithout-clicking-Apply-first/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 56,
+                        "line": 119
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-935fd37978225b5a7070",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 188,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-007 @future @p1 @manage-wrcf clicking Apply loads data according to selected Industry Sector and Industry",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1134,
+                      "error": {
+                        "message": "Error: Current local Manage WRCF UI does not expose a stable Apply-button flow to exercise separately.",
+                        "stack": "Error: Current local Manage WRCF UI does not expose a stable Apply-button flow to exercise separately.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 11,
+                          "line": 124
+                        },
+                        "snippet": "  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 11,
+                            "line": 124
+                          },
+                          "message": "Error: Current local Manage WRCF UI does not expose a stable Apply-button flow to exercise separately.\n\n  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:03:23.892Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-b0ba9-ndustry-Sector-and-Industry/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 11,
+                        "line": 124
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-85c555888c6f95d54449",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 123,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-008 @stable @p0 @manage-wrcf Functional Group list shows data for the selected industry context",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2464,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:03:27.882Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-216cb95b22568172fa59",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 194,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-009 @stable @p1 @manage-wrcf Functional Group list is ordered alphabetically",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1161,
+                      "error": {
+                        "message": "Error: No selectable options were available.",
+                        "stack": "Error: No selectable options were available.\n    at selectFirstAvailableOption (/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:92:11)\n    at ensureSectorIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:104:5)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:200:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 11,
+                          "line": 92
+                        },
+                        "snippet": "  90 |\n  91 |   if (!options.length) {\n> 92 |     throw new Error('No selectable options were available.');\n     |           ^\n  93 |   }\n  94 |\n  95 |   await select.selectOption(options[0].value);"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 11,
+                            "line": 92
+                          },
+                          "message": "Error: No selectable options were available.\n\n  90 |\n  91 |   if (!options.length) {\n> 92 |     throw new Error('No selectable options were available.');\n     |           ^\n  93 |   }\n  94 |\n  95 |   await select.selectOption(options[0].value);\n    at selectFirstAvailableOption (/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:92:11)\n    at ensureSectorIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:104:5)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:200:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:03:31.508Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-b72dc-t-is-ordered-alphabetically/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 11,
+                        "line": 92
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-35e27ed9032a8d7e089a",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 199,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-010 @future @p1 @manage-wrcf first FG is selected by default and edit icon is shown",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1262,
+                      "error": {
+                        "message": "Error: The current UI does not expose a reliable default-selected FG state on initial page load.",
+                        "stack": "Error: The current UI does not expose a reliable default-selected FG state on initial page load.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 11,
+                          "line": 124
+                        },
+                        "snippet": "  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 11,
+                            "line": 124
+                          },
+                          "message": "Error: The current UI does not expose a reliable default-selected FG state on initial page load.\n\n  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:03:34.299Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-ab5bb-ault-and-edit-icon-is-shown/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 11,
+                        "line": 124
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-eb16e66485e6e0fdef3d",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 123,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-011 @stable @p0 @manage-wrcf PWO list loads based on selected FG, sector, and industry",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p0",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2039,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:03:38.329Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-3ac3afc863752dd7daff",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 209,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-012 @future @p1 @manage-wrcf first PWO is selected by default and edit icon is visible",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1001,
+                      "error": {
+                        "message": "Error: The current UI does not expose a reliable default-selected PWO state on initial page load.",
+                        "stack": "Error: The current UI does not expose a reliable default-selected PWO state on initial page load.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 11,
+                          "line": 124
+                        },
+                        "snippet": "  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 11,
+                            "line": 124
+                          },
+                          "message": "Error: The current UI does not expose a reliable default-selected PWO state on initial page load.\n\n  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:03:41.578Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-ff9e0-lt-and-edit-icon-is-visible/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 11,
+                        "line": 124
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-0d4a0939e21190ae7f4a",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 123,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-013 @future @p1 @manage-wrcf changing FG resets PWO, SWO, capability and proficiency to a new valid state",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1315,
+                      "error": {
+                        "message": "Error: Needs deterministic seeded hierarchy data and selection-reset assertions across all lower columns.",
+                        "stack": "Error: Needs deterministic seeded hierarchy data and selection-reset assertions across all lower columns.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 11,
+                          "line": 124
+                        },
+                        "snippet": "  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 11,
+                            "line": 124
+                          },
+                          "message": "Error: Needs deterministic seeded hierarchy data and selection-reset assertions across all lower columns.\n\n  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:03:44.260Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-70227-ciency-to-a-new-valid-state/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 11,
+                        "line": 124
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-5ae908b0099085e7e75f",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 123,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-014 @stable @p0 @manage-wrcf SWO list loads based on selected PWO",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p0",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1063,
+                      "error": {
+                        "message": "Error: No selectable options were available.",
+                        "stack": "Error: No selectable options were available.\n    at selectFirstAvailableOption (/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:92:11)\n    at ensureSectorIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:104:5)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:219:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 11,
+                          "line": 92
+                        },
+                        "snippet": "  90 |\n  91 |   if (!options.length) {\n> 92 |     throw new Error('No selectable options were available.');\n     |           ^\n  93 |   }\n  94 |\n  95 |   await select.selectOption(options[0].value);"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 11,
+                            "line": 92
+                          },
+                          "message": "Error: No selectable options were available.\n\n  90 |\n  91 |   if (!options.length) {\n> 92 |     throw new Error('No selectable options were available.');\n     |           ^\n  93 |   }\n  94 |\n  95 |   await select.selectOption(options[0].value);\n    at selectFirstAvailableOption (/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:92:11)\n    at ensureSectorIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:104:5)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:219:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:03:48.435Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-c46f9-loads-based-on-selected-PWO/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 11,
+                        "line": 92
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-8e19730de985b8d1880d",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 218,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-015 @future @p1 @manage-wrcf first SWO is selected by default and edit icon is shown",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1051,
+                      "error": {
+                        "message": "Error: The current UI does not expose a reliable default-selected SWO state on initial page load.",
+                        "stack": "Error: The current UI does not expose a reliable default-selected SWO state on initial page load.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 11,
+                          "line": 124
+                        },
+                        "snippet": "  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 11,
+                            "line": 124
+                          },
+                          "message": "Error: The current UI does not expose a reliable default-selected SWO state on initial page load.\n\n  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:03:52.223Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-c8825-ault-and-edit-icon-is-shown/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 11,
+                        "line": 124
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-4bbd0086e2b9b48888e4",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 123,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-016 @future @p1 @manage-wrcf changing PWO resets SWO, capability and proficiency to valid data only",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1231,
+                      "error": {
+                        "message": "Error: Needs deterministic seeded PWO/SWO hierarchy data to verify lower-column resets.",
+                        "stack": "Error: Needs deterministic seeded PWO/SWO hierarchy data to verify lower-column resets.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 11,
+                          "line": 124
+                        },
+                        "snippet": "  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 11,
+                            "line": 124
+                          },
+                          "message": "Error: Needs deterministic seeded PWO/SWO hierarchy data to verify lower-column resets.\n\n  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:03:56.263Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-12e15-ficiency-to-valid-data-only/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 11,
+                        "line": 124
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-46ff392c2c330eb10d03",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 123,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-017 @stable @p1 @manage-wrcf all active capabilities are shown for the selected SWO in capability-code order",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3787,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:04:00.966Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-2dc256cc41b45fdde121",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 231,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-018 @future @p1 @manage-wrcf capabilities that are already part of at least one CI are visually marked",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1460,
+                      "error": {
+                        "message": "Error: Requires seeded CI marking data and a stable UI indicator contract for marked capabilities.",
+                        "stack": "Error: Requires seeded CI marking data and a stable UI indicator contract for marked capabilities.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 11,
+                          "line": 124
+                        },
+                        "snippet": "  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 11,
+                            "line": 124
+                          },
+                          "message": "Error: Requires seeded CI marking data and a stable UI indicator contract for marked capabilities.\n\n  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:04:05.848Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-4eec1--one-CI-are-visually-marked/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 11,
+                        "line": 124
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-2f4372f3273ca7342652",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 123,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-019 @future @p1 @manage-wrcf inactive capabilities are not shown even if historic CI exists",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 12,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1620,
+                      "error": {
+                        "message": "Error: Requires mixed active/inactive capability fixtures across published history.",
+                        "stack": "Error: Requires mixed active/inactive capability fixtures across published history.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 11,
+                          "line": 124
+                        },
+                        "snippet": "  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 11,
+                            "line": 124
+                          },
+                          "message": "Error: Requires mixed active/inactive capability fixtures across published history.\n\n  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:04:09.301Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-de759--even-if-historic-CI-exists/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 11,
+                        "line": 124
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-bfde4a5d36ba4743f06e",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 123,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-020 @stable @p1 @manage-wrcf proficiencies are shown in ascending level order for the selected capability area",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 13,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 4938,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 2\u001b[39m\n\u001b[31m+ Received  + 2\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[2m    \"L1 Plant Awareness\",\u001b[22m\n\u001b[2m    \"L2 Assisted Execution\",\u001b[22m\n\u001b[32m-   \"L3 Conditional Independence Supervised\",\u001b[39m\n\u001b[32m-   \"L4 Conditional Independence Scoped\",\u001b[39m\n\u001b[31m+   \"L3 Conditional Independence - Supervised\",\u001b[39m\n\u001b[31m+   \"L4 Conditional Independence - Scoped\",\u001b[39m\n\u001b[2m    \"L5 Full Independence\",\u001b[22m\n\u001b[2m  ]\u001b[22m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 2\u001b[39m\n\u001b[31m+ Received  + 2\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[2m    \"L1 Plant Awareness\",\u001b[22m\n\u001b[2m    \"L2 Assisted Execution\",\u001b[22m\n\u001b[32m-   \"L3 Conditional Independence Supervised\",\u001b[39m\n\u001b[32m-   \"L4 Conditional Independence Scoped\",\u001b[39m\n\u001b[31m+   \"L3 Conditional Independence - Supervised\",\u001b[39m\n\u001b[31m+   \"L4 Conditional Independence - Scoped\",\u001b[39m\n\u001b[2m    \"L5 Full Independence\",\u001b[22m\n\u001b[2m  ]\u001b[22m\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:252:27",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 27,
+                          "line": 252
+                        },
+                        "snippet": "  250 |       .map(value => value.trim())\n  251 |       .filter(Boolean);\n> 252 |     expect(proficiencies).toEqual([\n      |                           ^\n  253 |       'L1 Plant Awareness',\n  254 |       'L2 Assisted Execution',\n  255 |       'L3 Conditional Independence Supervised',"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 27,
+                            "line": 252
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 2\u001b[39m\n\u001b[31m+ Received  + 2\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[2m    \"L1 Plant Awareness\",\u001b[22m\n\u001b[2m    \"L2 Assisted Execution\",\u001b[22m\n\u001b[32m-   \"L3 Conditional Independence Supervised\",\u001b[39m\n\u001b[32m-   \"L4 Conditional Independence Scoped\",\u001b[39m\n\u001b[31m+   \"L3 Conditional Independence - Supervised\",\u001b[39m\n\u001b[31m+   \"L4 Conditional Independence - Scoped\",\u001b[39m\n\u001b[2m    \"L5 Full Independence\",\u001b[22m\n\u001b[2m  ]\u001b[22m\n\n  250 |       .map(value => value.trim())\n  251 |       .filter(Boolean);\n> 252 |     expect(proficiencies).toEqual([\n      |                           ^\n  253 |       'L1 Plant Awareness',\n  254 |       'L2 Assisted Execution',\n  255 |       'L3 Conditional Independence Supervised',\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:252:27"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:04:14.524Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-9a47e-he-selected-capability-area/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 27,
+                        "line": 252
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-982e2223f922bbdabe00",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 243,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-021 @future @p1 @manage-wrcf proficiencies already part of CI are visually marked for the selected path and capability",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 14,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1626,
+                      "error": {
+                        "message": "Error: Requires seeded CI/proficiency marking data and a stable UI marker contract.",
+                        "stack": "Error: Requires seeded CI/proficiency marking data and a stable UI marker contract.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 11,
+                          "line": 124
+                        },
+                        "snippet": "  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 11,
+                            "line": 124
+                          },
+                          "message": "Error: Requires seeded CI/proficiency marking data and a stable UI marker contract.\n\n  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:04:22.606Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-e7718-elected-path-and-capability/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 11,
+                        "line": 124
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-d6b9d686d65e8d0593e2",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 123,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-022 @future @p1 @manage-wrcf marking exactly matches DB CI combinations for the selected path",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 15,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1489,
+                      "error": {
+                        "message": "Error: Needs DB-backed comparison between UI marks and authoritative CI combinations.",
+                        "stack": "Error: Needs DB-backed comparison between UI marks and authoritative CI combinations.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 11,
+                          "line": 124
+                        },
+                        "snippet": "  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 11,
+                            "line": 124
+                          },
+                          "message": "Error: Needs DB-backed comparison between UI marks and authoritative CI combinations.\n\n  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:04:27.675Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-35551-tions-for-the-selected-path/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 11,
+                        "line": 124
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-485f7e03c056c451e279",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 123,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-023 @future @p1 @manage-wrcf same capability/proficiency combination is not shown twice due to joins/version leakage",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 16,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1039,
+                      "error": {
+                        "message": "Error: Needs duplicate-like seeded data across versions to prove visual inflation does not happen.",
+                        "stack": "Error: Needs duplicate-like seeded data across versions to prove visual inflation does not happen.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 11,
+                          "line": 124
+                        },
+                        "snippet": "  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 11,
+                            "line": 124
+                          },
+                          "message": "Error: Needs duplicate-like seeded data across versions to prove visual inflation does not happen.\n\n  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:04:32.403Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-e7ce0-ue-to-joins-version-leakage/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 11,
+                        "line": 124
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-856e6e1abfece39e3e76",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 123,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-024 @future @p1 @manage-wrcf draft FG/PWO/SWO changes are not shown in the live page",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 17,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1158,
+                      "error": {
+                        "message": "Error: Needs published-vs-draft split data in the local environment.",
+                        "stack": "Error: Needs published-vs-draft split data in the local environment.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 11,
+                          "line": 124
+                        },
+                        "snippet": "  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 11,
+                            "line": 124
+                          },
+                          "message": "Error: Needs published-vs-draft split data in the local environment.\n\n  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:04:36.554Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-7090e--not-shown-in-the-live-page/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 11,
+                        "line": 124
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-af11dcd2796eb2c358e9",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 123,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-025 @future @p1 @manage-wrcf inactive FG/PWO/SWO are excluded from display",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 18,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1984,
+                      "error": {
+                        "message": "Error: Needs mixed active/inactive hierarchy fixtures in the selected industry.",
+                        "stack": "Error: Needs mixed active/inactive hierarchy fixtures in the selected industry.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 11,
+                          "line": 124
+                        },
+                        "snippet": "  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 11,
+                            "line": 124
+                          },
+                          "message": "Error: Needs mixed active/inactive hierarchy fixtures in the selected industry.\n\n  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:04:40.773Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-89586-O-are-excluded-from-display/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 11,
+                        "line": 124
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-8466ef0ecf65d9837e96",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 123,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-026 @future @p1 @manage-wrcf page handles selected industry with no active published FG",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 19,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1301,
+                      "error": {
+                        "message": "Error: Needs a seeded industry that has no active published FG.",
+                        "stack": "Error: Needs a seeded industry that has no active published FG.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 11,
+                          "line": 124
+                        },
+                        "snippet": "  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 11,
+                            "line": 124
+                          },
+                          "message": "Error: Needs a seeded industry that has no active published FG.\n\n  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:04:45.635Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-a6158-with-no-active-published-FG/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 11,
+                        "line": 124
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-ac5d5d0d9bb9a7a42f57",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 123,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-027 @future @p1 @manage-wrcf page handles selected FG with no child PWO",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 20,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1370,
+                      "error": {
+                        "message": "Error: Needs a seeded FG that has no PWO children.",
+                        "stack": "Error: Needs a seeded FG that has no PWO children.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 11,
+                          "line": 124
+                        },
+                        "snippet": "  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 11,
+                            "line": 124
+                          },
+                          "message": "Error: Needs a seeded FG that has no PWO children.\n\n  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:04:49.844Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-20865-lected-FG-with-no-child-PWO/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 11,
+                        "line": 124
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-8841ddae8e8e8ac9004e",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 123,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-028 @future @p1 @manage-wrcf page handles selected PWO with no child SWO",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 21,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2040,
+                      "error": {
+                        "message": "Error: Needs a seeded PWO that has no SWO children.",
+                        "stack": "Error: Needs a seeded PWO that has no SWO children.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 11,
+                          "line": 124
+                        },
+                        "snippet": "  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 11,
+                            "line": 124
+                          },
+                          "message": "Error: Needs a seeded PWO that has no SWO children.\n\n  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:04:54.302Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-acccd-ected-PWO-with-no-child-SWO/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 11,
+                        "line": 124
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-ff52080e835bcd535ee3",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 123,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-029 @future @p1 @manage-wrcf displayed data belongs only to the selected industry tenant/version context",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 22,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1316,
+                      "error": {
+                        "message": "Error: Needs cross-tenant seeded data and an authoritative comparison source.",
+                        "stack": "Error: Needs cross-tenant seeded data and an authoritative comparison source.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 11,
+                          "line": 124
+                        },
+                        "snippet": "  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 11,
+                            "line": 124
+                          },
+                          "message": "Error: Needs cross-tenant seeded data and an authoritative comparison source.\n\n  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:05:00.433Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-6ccfb-stry-tenant-version-context/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 11,
+                        "line": 124
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-d3c0d9d09315a0f677c5",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 123,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-030 @future @p1 @manage-wrcf edit icons/actions are hidden or disabled for non-editor roles",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 23,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1916,
+                      "error": {
+                        "message": "Error: Needs a lower-privilege user account for authorization checks.",
+                        "stack": "Error: Needs a lower-privilege user account for authorization checks.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 11,
+                          "line": 124
+                        },
+                        "snippet": "  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 11,
+                            "line": 124
+                          },
+                          "message": "Error: Needs a lower-privilege user account for authorization checks.\n\n  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:05:05.100Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-b88fa-sabled-for-non-editor-roles/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 11,
+                        "line": 124
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-c1f2fe4f05ac8aa098aa",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 123,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-031 @future @p1 @manage-wrcf lower hierarchy refreshes only after Apply when user changes sector/industry",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 24,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1299,
+                      "error": {
+                        "message": "Error: Needs a stable Apply-based filtering workflow in the current UI.",
+                        "stack": "Error: Needs a stable Apply-based filtering workflow in the current UI.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 11,
+                          "line": 124
+                        },
+                        "snippet": "  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 11,
+                            "line": 124
+                          },
+                          "message": "Error: Needs a stable Apply-based filtering workflow in the current UI.\n\n  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:05:10.497Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-d4866-ser-changes-sector-industry/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 11,
+                        "line": 124
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-7ebd1478251349663b2e",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 123,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-032 @future @p1 @manage-wrcf not all capabilities must necessarily be marked for a SWO",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 25,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1218,
+                      "error": {
+                        "message": "Error: Needs seeded partial-CI business-rule data for the selected SWO.",
+                        "stack": "Error: Needs seeded partial-CI business-rule data for the selected SWO.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 11,
+                          "line": 124
+                        },
+                        "snippet": "  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 11,
+                            "line": 124
+                          },
+                          "message": "Error: Needs seeded partial-CI business-rule data for the selected SWO.\n\n  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:05:15.197Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-44a9f-ssarily-be-marked-for-a-SWO/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 11,
+                        "line": 124
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-fb6cf8ffdaf893757b88",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 123,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-033 @future @p1 @manage-wrcf UI never allows or indicates duplicate CI state for the same FG+PWO+SWO+Capability+Proficiency",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 26,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1059,
+                      "error": {
+                        "message": "Error: Needs CI creation or a DB-backed mark-validation workflow.",
+                        "stack": "Error: Needs CI creation or a DB-backed mark-validation workflow.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 11,
+                          "line": 124
+                        },
+                        "snippet": "  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 11,
+                            "line": 124
+                          },
+                          "message": "Error: Needs CI creation or a DB-backed mark-validation workflow.\n\n  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:05:19.285Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-d2467--SWO-Capability-Proficiency/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 11,
+                        "line": 124
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-573ad4536400280d7665",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 123,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-034 @future @p2 @manage-wrcf page remains usable when industry has large FG/PWO/SWO and CI volume",
+              "ok": false,
+              "tags": [
+                "future",
+                "p2",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 27,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1164,
+                      "error": {
+                        "message": "Error: Needs a high-volume seeded industry dataset and explicit performance thresholds.",
+                        "stack": "Error: Needs a high-volume seeded industry dataset and explicit performance thresholds.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 11,
+                          "line": 124
+                        },
+                        "snippet": "  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 11,
+                            "line": 124
+                          },
+                          "message": "Error: Needs a high-volume seeded industry dataset and explicit performance thresholds.\n\n  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:05:23.284Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-4a9ce-ge-FG-PWO-SWO-and-CI-volume/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 11,
+                        "line": 124
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-ed8622d6b32abe3b6425",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 123,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-035 @stable @p1 @manage-wrcf selected FG highlight remains visible until parent filter changes",
+              "ok": true,
+              "tags": [
+                "stable",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 28,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2490,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:05:27.275Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-4281c5fb42cb6e225ec9",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 276,
+              "column": 7
+            },
+            {
+              "title": "MIWRCF-E2E-036 @future @p1 @manage-wrcf changing capability updates proficiency markings correctly",
+              "ok": false,
+              "tags": [
+                "future",
+                "p1",
+                "manage-wrcf"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 28,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1175,
+                      "error": {
+                        "message": "Error: Needs multiple capability mark states with seeded CI data to validate stale-mark cleanup.",
+                        "stack": "Error: Needs multiple capability mark states with seeded CI data to validate stale-mark cleanup.\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                          "column": 11,
+                          "line": 124
+                        },
+                        "snippet": "  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                            "column": 11,
+                            "line": 124
+                          },
+                          "message": "Error: Needs multiple capability mark states with seeded CI data to validate stale-mark cleanup.\n\n  122 | function futureManageCase(id: string, title: string, reason: string, priority: 'p0' | 'p1' | 'p2' = 'p1'): void {\n  123 |   test(`${id} @future @${priority} @manage-wrcf ${title}`, async () => {\n> 124 |     throw new Error(reason);\n      |           ^\n  125 |   });\n  126 | }\n  127 |\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts:124:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:05:30.991Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf-manage-w-e9718-ficiency-markings-correctly/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+                        "column": 11,
+                        "line": 124
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fffac44a9cabb9743078-8ddb99d26fb2db77181f",
+              "file": "manual-tests/wrcf-manage-wrcf.playwright.spec.ts",
+              "line": 123,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-04-03T17:02:46.921Z",
+    "duration": 165366.051,
+    "expected": 7,
+    "skipped": 0,
+    "unexpected": 29,
+    "flaky": 0
+  }
+}

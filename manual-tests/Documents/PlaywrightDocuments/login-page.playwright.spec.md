@@ -4,31 +4,28 @@
 
 ## Purpose
 
-Smoke coverage for the unauthenticated login page.
+Sheet-aligned SignIn coverage for the unauthenticated login page.
 
 ## Covered Tests
 
-- renders the login heading
-- renders the email field
-- renders the password field
-- renders the sign-in button
-- renders the Google sign-in button
-- renders the create account link to signup
-- renders the forgot password link
-- supports the current keyboard tab order for primary controls
+- `LOGIN-E2E-001` login page load with expected auth controls
+- `LOGIN-E2E-002` Create now -> signup navigation
+- `LOGIN-E2E-003` login email validation
+- `LOGIN-E2E-004` blank password validation
+- `LOGIN-E2E-005` Remember me default
+- `LOGIN-E2E-006` password show/hide toggle
 
 ## Flow Diagram
 
 ```text
-Open /
-  -> redirect to /login
-  -> verify heading and fields
-  -> verify buttons and links
-  -> verify keyboard tab order
+Open /login
+  -> verify auth controls and branding
+  -> validate Create now navigation
+  -> validate email/password UI rules
+  -> validate Remember me and password visibility
 ```
 
 ## Notes
 
 - Does not attempt real authentication
-- Focuses on UI presence and structure
-- No skipped or blocked cases are tracked in this spec right now
+- Focuses on UI presence, navigation, and current validation behavior

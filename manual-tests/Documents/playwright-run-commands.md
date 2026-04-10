@@ -2,6 +2,10 @@
 
 This file is the quick copy-paste reference for running the current `manual-tests/` specs from a bash shell.
 
+Preferred workflow:
+- use these commands for large/full-suite or repeated reruns and paste the output back into Codex
+- use Codex-run mainly for short targeted reruns, reproducing a few failures, or validating a fresh patch
+
 ## Authenticated Runs
 
 Most WRCF suites need credentials.

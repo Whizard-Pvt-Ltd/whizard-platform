@@ -1,0 +1,748 @@
+Yes. I went through `temp/wrcf-manual-testing.pdf` and compared it against `temp/WRCF End-to-End Test Cases_reverified.xlsx`.
+ 
+**1. Tests that are exclusive to the PDF**
+
+These are in the PDF but not currently tracked as workbook cases.
+ 
+- `Navigation`
+
+  - Remove `Manage Skill` option
+
+  - Manage Company icon not showing
+ 
+- `Login Page`
+
+  - Login page should show without scroll
+
+  - Blank password message should say `Enter a valid password` instead of the current text
+ 
+- `Create New User`
+
+  - Show/hide password alignment
+
+  - `E-mail` vs `Email Address` wording inconsistency
+
+  - Confirm password should exist
+ 
+- `Dashboard` UI-only items not explicitly in workbook
+
+  - Page should display from top on load
+
+  - Duplicate dropdown arrows in filters
+
+  - Header spacing/layout mismatch
+
+  - Dashboard scrollbar concern
+
+  - Quick Action visual mismatch
+
+  - Logout option missing in profile
+ 
+- `Manage Industry WRCF` UI-only items not explicitly in workbook
+
+  - Proficiency label format like `Capability Label (Level)`
+
+  - Upload/download template icon change
+ 
+- `FG`
+
+  - Delete warning text not clearly visible when scrolled
+
+  - DB `CreatedOn/UpdatedOn` timezone issue
+
+  - DB `CreatedBy/UpdatedBy` not capturing user id
+ 
+- `PWO`
+
+  - Description not getting saved
+
+  - Delete warning text not clearly visible when scrolled
+
+  - DB audit/timezone issues
+ 
+- `SWO`
+
+  - Description not getting saved
+
+  - DB audit/timezone issues
+
+  - Proper delete error text when capability-instance mapping exists
+ 
+- `CI Mapping`
+
+  - `CreatedOn/UpdatedOn` timezone issue
+
+  - `CreatedBy/UpdatedBy` not capturing user id
+ 
+- `Manage WRCF Skills`
+
+  - Capability filter should show code in bracket at end
+
+  - Proficiency filter should show level in bracket at end
+ 
+- `Skills`
+
+  - Description and Recertification values not saved
+
+  - Cognitive Type should be ascending in Add/Edit
+ 
+- `Task`
+
+  - Remove mandatory from Description
+
+  - Description and Recertification values not saved
+ 
+- `Control Point`
+
+  - PDF only says `Unable to test`; no concrete cases
+ 
+- `Sandeep` section
+
+  - capability instance deletion question
+
+  - whether FG/PWO/SWO attributes can change after CI mapping
+
+  - DB timezone question
+
+  - need sector/industry on Manage Skills page
+
+  - whether required proficiency level and standard duration are mandatory
+ 
+**2. Tests that are in both, with workbook/latest result comparison**
+
+Below, “result” means the latest workbook status.
+ 
+- `Dashboard`
+
+  - Industry Sector/Industry alphabetical order
+
+    - workbook: `DASH-E2E-004`, `005`, `006`
+
+    - latest: `pass`
+
+  - Default filters selected on load / carry-forward behavior
+
+    - workbook: `DASH-E2E-002`, `003`, `026`
+
+    - latest: `pass`, `pass`, `fail`
+
+  - Quick Action `Edit Structure` carry-forward
+
+    - workbook: `DASH-E2E-026`
+
+    - latest: `fail`
+ 
+- `Manage Industry WRCF`
+
+  - Default sector/industry selected
+
+    - workbook: `MIWRCF-E2E-003`, `005`, `006`
+
+    - latest: `fail`
+
+  - Sector/industry sorted
+
+    - workbook: `MIWRCF-E2E-002`, `004`
+
+    - latest: `pass`
+
+  - Default FG/PWO/SWO/capability/proficiency selected
+
+    - workbook closest: `010`, `012`, `015`, `017`, `020`
+
+    - latest: mostly `fail`, except `017` is `pass`
+
+  - FG/PWO/SWO alphabetical order
+
+    - workbook: `009`, `011`, `014`
+
+    - latest: `pass`, `pass`, `pass`
+ 
+- `FG`
+
+  - Name max 50 chars
+
+    - workbook: `FG-E2E-006`
+
+    - latest: `pass`
+
+  - Domain Type ascending
+
+    - workbook: closest coverage exists around create/edit validation, but not a perfect explicit row
+
+    - latest: not directly tracked as a dedicated pass/fail row
+
+  - Duplicate not allowed
+
+    - workbook: `FG-E2E-009`, `010`, `019`
+
+    - latest: `fail`, `pass`, `fail`
+
+  - Delete confirmation
+
+    - workbook: `FG-E2E-022`
+
+    - latest: `pass`
+ 
+- `PWO`
+
+  - Name max 50 chars
+
+    - workbook: implicit in create/edit validation, not a clearly separate row
+
+  - Duplicate not allowed
+
+    - workbook: `PWO-E2E-006`, `007`, `012`
+
+    - latest: `pass`, `pass`, `pass`
+
+  - Delete confirmation
+
+    - workbook: `PWO-E2E-015`
+
+    - latest: `fail`
+ 
+- `SWO`
+
+  - Name max 50 chars
+
+    - workbook: implicit in create/edit validation, not a separate dedicated row
+
+  - Duplicate not allowed
+
+    - workbook: `SWO-E2E-006`, `007`, `012`
+
+    - latest: `pass`, `pass`, `pass`
+
+  - Delete confirmation
+
+    - workbook: `SWO-E2E-015`
+
+    - latest: `fail`
+ 
+- `CI Mapping`
+
+  - Popup should not close when clicking outside
+
+    - workbook: `CIMAP-E2E-026`
+
+    - latest: `fail`
+
+  - Level shown twice / level formatting
+
+    - workbook closest: `CIMAP-E2E-017`
+
+    - latest: `pass` for readable list, but PDF’s exact “level twice” defect is not tracked verbatim
+
+  - Filters not working properly
+
+    - workbook: `CIMAP-E2E-031`, `032`, `033`
+
+    - latest: `fail`
+
+  - Industry sector/industry/FG in accordion for all filters
+
+    - workbook: `CIMAP-E2E-012`, `013`, `014`
+
+    - latest: `pass`
+
+  - PWO accordion first expanded
+
+    - workbook: `CIMAP-E2E-015`
+
+    - latest: `pass`
+
+  - Unable to delete capability instance
+
+    - workbook: `CIMAP-E2E-021` to `024`
+
+    - latest: `fail`
+ 
+- `Manage WRCF Skills`
+
+  - Filters default selected as per Manage WRCF
+
+    - workbook: `WSKILL-E2E-001`
+
+    - latest: `fail`
+
+  - First values selected from navigation
+
+    - workbook: `WSKILL-E2E-002`
+
+    - latest: `fail`
+
+  - Skills/Task/Control Point first item selected
+
+    - workbook closest: `006`, `007`, `008`
+
+    - latest: `pass`, `fail`, `fail`
+
+  - FG/PWO/SWO alphabetical order in filters
+
+    - workbook: `WSKILL-E2E-004`
+
+    - latest: `fail`
+ 
+- `Skills`
+
+  - Duplicate skill not allowed
+
+    - workbook: `SKL-E2E-006`, `007`, `015`
+
+    - latest: `fail`
+
+  - Delete blocked if task exists
+
+    - workbook: `SKL-E2E-013`
+
+    - latest: `fail`
+ 
+- `Task`
+
+  - Duplicate task not allowed
+
+    - workbook: `TSK-E2E-005`, `006`
+
+    - latest: `fail`
+
+  - Delete blocked if control point exists
+
+    - workbook: `TSK-E2E-011`
+
+    - latest: `fail`
+ 
+**Important notes**
+
+- The PDF is broader and more defect-oriented than the workbook. It includes:
+
+  - UI polish issues
+
+  - wording issues
+
+  - DB audit/timezone concerns
+
+  - open product questions
+
+  Those are mostly not represented in the workbook yet.
+
+- Some PDF bullets overlap only partially with workbook rows. In those cases I matched the closest workbook scenario rather than claiming a perfect 1:1 mapping.
+
+- `Roles`, `Role Mapping`, and `Companies` are workbook-driven but not meaningfully covered in this PDF.
+ 
+If you want, next I can turn this into a clean add-plan for Excel:
+
+- `PDF-only candidates to add`
+
+- `already covered in workbook`
+
+- `covered but wording should be adjusted`
+ 
+Yes. I reran only the overlapping workbook cases from `wrcf-manual-testing.pdf` so this comparison uses fresh results from today, not older workbook status.
+ 
+Run scope:
+
+- `55` overlapping cases rerun
+
+- time: `02:28 PM @ 03/04/26`
+
+- I did **not** update the Excel yet for this pass
+ 
+**Overlap Results**
+
+`Dashboard`
+
+- PDF: sector/industry sorted
+
+  - `DASH-E2E-004`, `005`, `006` → `pass`
+
+- PDF: default filters selected / sometimes missing on redirect
+
+  - `DASH-E2E-002` → `pass`
+
+- PDF: Edit Structure should carry forward selected values
+
+  - `DASH-E2E-026` → `fail`
+ 
+`Manage Industry WRCF`
+
+- PDF: sector/industry sorted ascending
+
+  - `MIWRCF-E2E-002`, `004` → `pass`
+
+- PDF: default sector/industry selected
+
+  - `MIWRCF-E2E-003`, `005`, `006` → `fail`
+
+- PDF: FG/PWO/SWO alphabetical/default first selected
+
+  - alphabetical FG: `MIWRCF-E2E-009` → `pass`
+
+  - default first FG/PWO/SWO: `MIWRCF-E2E-010`, `012`, `015` → `fail`
+
+- PDF: capability/proficiency default view
+
+  - capabilities list/order: `MIWRCF-E2E-017` → `pass`
+
+  - proficiency order: `MIWRCF-E2E-020` → `fail`
+ 
+`Functional Group`
+
+- PDF: name allows only 50 chars
+
+  - `FG-E2E-006` → `fail`
+
+- PDF: duplicate name not allowed
+
+  - `FG-E2E-009`, `010` → `fail`
+
+- PDF: delete confirmation
+
+  - `FG-E2E-022` → `fail`
+ 
+`Primary Work Object`
+
+- PDF: duplicate name not allowed
+
+  - `PWO-E2E-006`, `007`, `012` → `pass`
+
+- PDF: delete confirmation
+
+  - `PWO-E2E-015` → `fail`
+ 
+`Secondary Work Object`
+
+- PDF: duplicate name not allowed
+
+  - `SWO-E2E-006`, `007`, `012` → `pass`
+
+- PDF: delete confirmation / delete blocked with downstream mapping
+
+  - `SWO-E2E-015`, `017` → `fail`
+ 
+`CI Mapping`
+
+- PDF: popup inherits selected sector/industry/FG and shows accordion grouping
+
+  - `CIMAP-E2E-012`, `014`, `015`, `017` → `pass`
+
+- PDF: filter values / PWO order / level formatting issues
+
+  - `CIMAP-E2E-013`, `016` → `fail`
+
+- PDF: capability instance delete issues
+
+  - `CIMAP-E2E-021`, `022`, `023`, `024` → `fail`
+
+- PDF: popup should not close on outside click
+
+  - `CIMAP-E2E-026` → `fail`
+
+- PDF: filters/accordion refresh problems
+
+  - `CIMAP-E2E-031`, `032`, `033` → `fail`
+ 
+`Manage WRCF Skills`
+
+- PDF: default selected filters from Manage WRCF / navigation
+
+  - `WSKILL-E2E-001`, `002` → `fail`
+
+- PDF: filter alphabetical order
+
+  - `WSKILL-E2E-004` → `fail`
+
+- PDF: Skills / Task / Control Point default first selection
+
+  - skills column resolves: `WSKILL-E2E-006` → `pass`
+
+  - task/control point list dependency: `WSKILL-E2E-007`, `008` → `fail`
+ 
+`Skills`
+
+- PDF: duplicate skill not allowed / delete blocked if task exists
+
+  - `SKL-E2E-006`, `007`, `013` → `fail`
+ 
+`Task`
+
+- PDF: duplicate task not allowed / delete blocked if control point exists
+
+  - `TSK-E2E-005`, `006`, `011` → `fail`
+ 
+**Important Note**
+
+Some PDF bugs do **not** have a direct workbook case yet, so they were not part of this rerun. Examples:
+
+- logout option missing
+
+- upload/download icon changes
+
+- description/recertification not saving in PWO/SWO/Skills/Task
+
+- DB timezone / createdBy / updatedBy issues
+
+- cognitive type sorting
+
+- task description mandatory indicator
+
+- several UI-only layout issues
+ 
+So the clean takeaway is:
+
+- a good portion of overlap is already covered in the workbook
+
+- several of those overlap cases still fail in the latest run
+
+- the PDF still contains additional bug items that are **not yet** represented in `WRCF End-to-End Test Cases_reverified.xlsx`
+ 
+If you want, next I can turn this into:
+
+1. `Overlaps already covered and current latest result`
+
+2. `PDF-only bugs to add into WRCF End-to-End Test Cases_reverified.xlsx`
+ 
+For the PDF-overlap rerun only:
+ 
+- `55` total tests
+
+- `19` passed
+
+- `36` failed
+ 
+By module:
+
+- `Dashboard`: `4 pass`, `1 fail`
+
+- `Manage Industry WRCF`: `4 pass`, `7 fail`
+
+- `FG`: `0 pass`, `4 fail`
+
+- `PWO`: `3 pass`, `1 fail`
+
+- `SWO`: `3 pass`, `2 fail`
+
+- `CI Mapping`: `4 pass`, `10 fail`
+
+- `Manage WRCF Skills`: `1 pass`, `5 fail`
+
+- `Skills`: `0 pass`, `3 fail`
+
+- `Task`: `0 pass`, `3 fail`
+ 
+If you want, I can next give you the `PDF-only` list in a clean add-to-excel format.
+ 
+Yes. These are the PDF bugs that do **not** currently have a direct workbook case in `WRCF End-to-End Test Cases_reverified.xlsx`.
+ 
+**PDF-Only Bugs**
+ 
+`Navigation`
+
+- Remove `Manage Skill` option
+
+- Manage Company icon not showing
+ 
+`Login Page`
+
+- Login page should show without scroll
+
+- Blank password should show `Enter a valid password` instead of `Password must be at least 8 characters.`
+ 
+`Create New User`
+
+- Password show/hide should align with the box
+
+- `E-mail` and `Email Address` wording inconsistency
+
+- Confirm password option should exist
+ 
+`Industry WRCF Dashboard`
+
+- On page load, page should display from top
+
+- Industry Sector and Industry filters show two dropdown arrows
+
+- Header spacing/layout is different from other pages
+
+- Dashboard should display without scrollbar
+
+- Quick Action UI is not as per mockup
+
+- Logout option is not showing in profile
+ 
+`Manage Industry WRCF`
+
+- Proficiency level should show like capability label with level in brackets
+
+- Change icon for upload and download template
+ 
+`Functional Group`
+
+- Delete message is not clearly visible when deleting FG with existing PWO after scrolling
+
+- DB `CreatedOn` and `UpdatedOn` time is in UTC
+
+- DB `CreatedBy` and `UpdatedBy` are not capturing user id
+ 
+`Primary Work Object`
+
+- Description is not getting saved
+
+- Delete message is not clearly visible when deleting PWO with existing SWO after scrolling
+
+- DB `CreatedOn` and `UpdatedOn` time is in UTC
+
+- DB `CreatedBy` and `UpdatedBy` are not capturing user id
+ 
+`Secondary Work Object`
+
+- Description is not getting saved
+
+- DB `CreatedOn` and `UpdatedOn` time is in UTC
+
+- DB `CreatedBy` and `UpdatedBy` are not capturing user id
+
+- Proper error message should be shown while removing SWO when capability instance mapping exists
+ 
+`CI Mappings`
+
+- DB `CreatedOn` and `UpdatedOn` time is in UTC
+
+- DB `CreatedBy` and `UpdatedBy` are not capturing user id
+ 
+`Manage WRCF Skills`
+
+- Capability filter should show code in brackets at the end
+
+- Proficiency filter should show level in brackets at the end
+ 
+`Skills`
+
+- Description and Recertification values are not saved in Add/Edit
+
+- Cognitive Type should be shown in ascending order in Add/Edit
+ 
+`Task`
+
+- Remove mandatory indicator from Description
+
+- Description and Recertification values are not saved in Add/Edit
+ 
+`Control Point`
+
+- Unable to test manually
+ 
+`Open Questions`
+
+- How to delete capability instance
+
+- Whether FG/PWO/SWO attributes can be changed after capability instance mapping
+
+- What time zone should be considered in DB
+
+- Need to show industry sector and industry in Manage Skills page
+
+- Whether required proficiency level and standard duration are mandatory in Skills
+ 
+If you want, I can next convert this into ready-to-add workbook rows with:
+
+- module
+
+- feature
+
+- scenario
+
+- preconditions
+
+- expected result
+
+- proposed priority
+ 
+Yes, I put them on the appropriate module sheets, but to be precise: they were appended at the end of each respective sheet, not interleaved among older rows.
+ 
+Added IDs:
+ 
+`Dashboard`
+
+- `DASH-MBUG-001`
+
+- `DASH-MBUG-002`
+
+- `DASH-MBUG-003`
+
+- `DASH-MBUG-004`
+
+- `DASH-MBUG-005`
+
+- `DASH-MBUG-006`
+ 
+`Manage WRCF`
+
+- `MIWRCF-MBUG-001`
+
+- `MIWRCF-MBUG-002`
+ 
+`FG`
+
+- `FG-MBUG-001`
+
+- `FG-MBUG-002`
+
+- `FG-MBUG-003`
+ 
+`PWO`
+
+- `PWO-MBUG-001`
+
+- `PWO-MBUG-002`
+
+- `PWO-MBUG-003`
+
+- `PWO-MBUG-004`
+ 
+`SWO`
+
+- `SWO-MBUG-001`
+
+- `SWO-MBUG-002`
+
+- `SWO-MBUG-003`
+
+- `SWO-MBUG-004`
+ 
+`CI Mapping`
+
+- `CIMAP-MBUG-001`
+
+- `CIMAP-MBUG-002`
+ 
+`Manage WRCF Skills`
+
+- `WSKILL-MBUG-001`
+
+- `WSKILL-MBUG-002`
+ 
+`Skills`
+
+- `SKL-MBUG-001`
+
+- `SKL-MBUG-002`
+
+- `SKL-MBUG-003`
+ 
+`Task`
+
+- `TSK-MBUG-001`
+
+- `TSK-MBUG-002`
+
+- `TSK-MBUG-003`
+ 
+`Control Point`
+
+- `CP-MBUG-001`
+ 
+Total added: `32`
+ 
+If you want, I can next also move them into more exact positions within each sheet instead of keeping them appended at the bottom.
+ 

@@ -1,0 +1,1782 @@
+{
+  "config": {
+    "configFile": "/home/sama/new-repo/whizard-platform/playwright.config.ts",
+    "rootDir": "/home/sama/new-repo/whizard-platform",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/home/sama/new-repo/whizard-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/home/sama/new-repo/whizard-platform",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+      "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "WRCF Functional Group",
+          "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+          "line": 265,
+          "column": 6,
+          "specs": [
+            {
+              "title": "FG-E2E-001 @stable @p0 @fg lists functional groups for the selected industry context",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p0",
+                "fg"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 29593,
+                      "error": {
+                        "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded",
+                        "stack": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                          "column": 3,
+                          "line": 135
+                        },
+                        "snippet": "  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                            "column": 3,
+                            "line": 135
+                          },
+                          "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n\n  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:05:36.999Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Function-de6ca-e-selected-industry-context/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                        "column": 3,
+                        "line": 135
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a0919bc1ffd1efeab727-cc08966d93dce33f1fde",
+              "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+              "line": 294,
+              "column": 7
+            },
+            {
+              "title": "FG-E2E-002 @stable @p0 @fg shows the add icon in the Functional Group column header",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p0",
+                "fg"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 29660,
+                      "error": {
+                        "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded",
+                        "stack": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                          "column": 3,
+                          "line": 135
+                        },
+                        "snippet": "  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                            "column": 3,
+                            "line": 135
+                          },
+                          "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n\n  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:06:12.620Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Function-61e9f-ctional-Group-column-header/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                        "column": 3,
+                        "line": 135
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a0919bc1ffd1efeab727-b4c673cab687363daa04",
+              "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+              "line": 299,
+              "column": 7
+            },
+            {
+              "title": "FG-E2E-003 @stable @p0 @fg opens the Create Functional Group popup from the add icon",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p0",
+                "fg"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 29442,
+                      "error": {
+                        "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded",
+                        "stack": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                          "column": 3,
+                          "line": 135
+                        },
+                        "snippet": "  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                            "column": 3,
+                            "line": 135
+                          },
+                          "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n\n  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:06:45.140Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Function-b07bd-oup-popup-from-the-add-icon/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                        "column": 3,
+                        "line": 135
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a0919bc1ffd1efeab727-301fa62c733ed3945dce",
+              "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+              "line": 303,
+              "column": 7
+            },
+            {
+              "title": "FG-E2E-004 @stable @p1 @fg shows Create Functional Group as the popup title",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "fg"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 29507,
+                      "error": {
+                        "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded",
+                        "stack": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                          "column": 3,
+                          "line": 135
+                        },
+                        "snippet": "  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                            "column": 3,
+                            "line": 135
+                          },
+                          "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n\n  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:07:17.260Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Function-02997-al-Group-as-the-popup-title/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                        "column": 3,
+                        "line": 135
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a0919bc1ffd1efeab727-f904eb96788bd207023e",
+              "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+              "line": 308,
+              "column": 7
+            },
+            {
+              "title": "FG-E2E-005 @stable @p0 @fg keeps Name mandatory while Description and Domain Type remain optional",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p0",
+                "fg"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 29175,
+                      "error": {
+                        "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded",
+                        "stack": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                          "column": 3,
+                          "line": 135
+                        },
+                        "snippet": "  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                            "column": 3,
+                            "line": 135
+                          },
+                          "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n\n  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:07:49.554Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Function-2c519-Domain-Type-remain-optional/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                        "column": 3,
+                        "line": 135
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a0919bc1ffd1efeab727-9f107f01ca92ebbe7601",
+              "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+              "line": 313,
+              "column": 7
+            },
+            {
+              "title": "FG-E2E-006 @stable @p1 @fg accepts a 50 character name and blocks a 51 character name",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "fg"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 29088,
+                      "error": {
+                        "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded",
+                        "stack": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                          "column": 3,
+                          "line": 135
+                        },
+                        "snippet": "  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                            "column": 3,
+                            "line": 135
+                          },
+                          "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n\n  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:08:21.341Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Function-48094--blocks-a-51-character-name/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                        "column": 3,
+                        "line": 135
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a0919bc1ffd1efeab727-581ed5d556cb662a445b",
+              "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+              "line": 324,
+              "column": 7
+            },
+            {
+              "title": "FG-E2E-007 @stable @p0 @fg saves a functional group with Name only",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p0",
+                "fg"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 29769,
+                      "error": {
+                        "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded",
+                        "stack": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                          "column": 3,
+                          "line": 135
+                        },
+                        "snippet": "  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                            "column": 3,
+                            "line": 135
+                          },
+                          "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n\n  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:08:53.136Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Function-2314c-tional-group-with-Name-only/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                        "column": 3,
+                        "line": 135
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a0919bc1ffd1efeab727-e6763826f94c9f952540",
+              "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+              "line": 340,
+              "column": 7
+            },
+            {
+              "title": "FG-E2E-008 @stable @p0 @fg does not save a blank functional group name",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p0",
+                "fg"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 29139,
+                      "error": {
+                        "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded",
+                        "stack": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                          "column": 3,
+                          "line": 135
+                        },
+                        "snippet": "  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                            "column": 3,
+                            "line": 135
+                          },
+                          "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n\n  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:09:25.832Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Function-fbf5f-blank-functional-group-name/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                        "column": 3,
+                        "line": 135
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a0919bc1ffd1efeab727-207818a39ec895eba5f1",
+              "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+              "line": 348,
+              "column": 7
+            },
+            {
+              "title": "FG-E2E-009 @stable @p0 @fg blocks duplicate functional group names on add",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p0",
+                "fg"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 29694,
+                      "error": {
+                        "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded",
+                        "stack": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                          "column": 3,
+                          "line": 135
+                        },
+                        "snippet": "  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                            "column": 3,
+                            "line": 135
+                          },
+                          "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n\n  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:09:57.838Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Function-7e00f-nctional-group-names-on-add/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                        "column": 3,
+                        "line": 135
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a0919bc1ffd1efeab727-3d98ce6813427a8e6355",
+              "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+              "line": 358,
+              "column": 7
+            },
+            {
+              "title": "FG-E2E-010 @stable @p1 @fg blocks duplicates that differ only by trailing spaces",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "fg"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 29187,
+                      "error": {
+                        "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded",
+                        "stack": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                          "column": 3,
+                          "line": 135
+                        },
+                        "snippet": "  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                            "column": 3,
+                            "line": 135
+                          },
+                          "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n\n  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:10:30.583Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Function-42990-fer-only-by-trailing-spaces/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                        "column": 3,
+                        "line": 135
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a0919bc1ffd1efeab727-4c2c211812c46b278c95",
+              "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+              "line": 367,
+              "column": 7
+            },
+            {
+              "title": "FG-E2E-011 @stable @p1 @fg handles apostrophes and special characters in the name",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "fg"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 29340,
+                      "error": {
+                        "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded",
+                        "stack": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                          "column": 3,
+                          "line": 135
+                        },
+                        "snippet": "  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                            "column": 3,
+                            "line": 135
+                          },
+                          "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n\n  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:11:02.579Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Function-0d5ab-cial-characters-in-the-name/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                        "column": 3,
+                        "line": 135
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a0919bc1ffd1efeab727-a2f042fa14d6e93a6894",
+              "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+              "line": 376,
+              "column": 7
+            },
+            {
+              "title": "FG-E2E-012 @stable @p1 @fg closes the add panel without saving when cancel is used",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "fg"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 29696,
+                      "error": {
+                        "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded",
+                        "stack": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                          "column": 3,
+                          "line": 135
+                        },
+                        "snippet": "  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                            "column": 3,
+                            "line": 135
+                          },
+                          "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n\n  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:11:34.719Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Function-5296d--saving-when-cancel-is-used/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                        "column": 3,
+                        "line": 135
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a0919bc1ffd1efeab727-ec01050a8c5b52bbb67a",
+              "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+              "line": 384,
+              "column": 7
+            },
+            {
+              "title": "FG-E2E-013 @stable @p1 @fg refreshes the list immediately after add",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "fg"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 12,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 29074,
+                      "error": {
+                        "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded",
+                        "stack": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                          "column": 3,
+                          "line": 135
+                        },
+                        "snippet": "  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                            "column": 3,
+                            "line": 135
+                          },
+                          "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n\n  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:12:06.995Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Function-9a1de--list-immediately-after-add/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                        "column": 3,
+                        "line": 135
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a0919bc1ffd1efeab727-75a120e251670dc1458e",
+              "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+              "line": 396,
+              "column": 7
+            },
+            {
+              "title": "FG-E2E-014 @stable @p1 @fg keeps the Functional Group list in alphabetical order",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "fg"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 13,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 29277,
+                      "error": {
+                        "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded",
+                        "stack": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                          "column": 3,
+                          "line": 135
+                        },
+                        "snippet": "  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                            "column": 3,
+                            "line": 135
+                          },
+                          "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n\n  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:12:38.587Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Function-87390--list-in-alphabetical-order/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                        "column": 3,
+                        "line": 135
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a0919bc1ffd1efeab727-d03cf88db0ce771753f2",
+              "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+              "line": 404,
+              "column": 7
+            },
+            {
+              "title": "FG-E2E-015 @stable @p1 @fg shows the edit icon when a Functional Group row is selected",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "fg"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 14,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 29850,
+                      "error": {
+                        "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded",
+                        "stack": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                          "column": 3,
+                          "line": 135
+                        },
+                        "snippet": "  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                            "column": 3,
+                            "line": 135
+                          },
+                          "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n\n  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:13:10.602Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Function-69fcb-ional-Group-row-is-selected/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                        "column": 3,
+                        "line": 135
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a0919bc1ffd1efeab727-ef0fcb427dd61ffa0943",
+              "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+              "line": 412,
+              "column": 7
+            },
+            {
+              "title": "FG-E2E-016 @stable @p1 @fg shows Edit Functional Group as the edit popup title",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "fg"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 15,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 29048,
+                      "error": {
+                        "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded",
+                        "stack": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                          "column": 3,
+                          "line": 135
+                        },
+                        "snippet": "  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                            "column": 3,
+                            "line": 135
+                          },
+                          "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n\n  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:13:43.180Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Function-da319-oup-as-the-edit-popup-title/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                        "column": 3,
+                        "line": 135
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a0919bc1ffd1efeab727-66f292b524d70dbd61f3",
+              "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+              "line": 417,
+              "column": 7
+            },
+            {
+              "title": "FG-E2E-017 @stable @p1 @fg preloads the selected Functional Group details in the edit popup",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "fg"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 16,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 29124,
+                      "error": {
+                        "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded",
+                        "stack": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                          "column": 3,
+                          "line": 135
+                        },
+                        "snippet": "  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                            "column": 3,
+                            "line": 135
+                          },
+                          "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n\n  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:14:15.096Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Function-499ce-p-details-in-the-edit-popup/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                        "column": 3,
+                        "line": 135
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a0919bc1ffd1efeab727-b5eaaddc694bc791eb0e",
+              "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+              "line": 426,
+              "column": 7
+            },
+            {
+              "title": "FG-E2E-018 @stable @p1 @fg shows delete, save, and close actions in the edit popup",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "fg"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 17,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 29078,
+                      "error": {
+                        "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded",
+                        "stack": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                          "column": 3,
+                          "line": 135
+                        },
+                        "snippet": "  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                            "column": 3,
+                            "line": 135
+                          },
+                          "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n\n  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:14:46.861Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Function-833ea-e-actions-in-the-edit-popup/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                        "column": 3,
+                        "line": 135
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a0919bc1ffd1efeab727-41edc9fc626dccef84d7",
+              "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+              "line": 436,
+              "column": 7
+            },
+            {
+              "title": "FG-E2E-019 @stable @p1 @fg blocks blank-name and duplicate validation on edit",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "fg"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 18,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 29380,
+                      "error": {
+                        "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded",
+                        "stack": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                          "column": 3,
+                          "line": 135
+                        },
+                        "snippet": "  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                            "column": 3,
+                            "line": 135
+                          },
+                          "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n\n  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:15:18.558Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Function-1bf2d-uplicate-validation-on-edit/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                        "column": 3,
+                        "line": 135
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a0919bc1ffd1efeab727-ae055813d75edc84a00e",
+              "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+              "line": 447,
+              "column": 7
+            },
+            {
+              "title": "FG-E2E-020 @stable @p1 @fg saves unchanged edits without showing duplicate validation",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "fg"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 19,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 29472,
+                      "error": {
+                        "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded",
+                        "stack": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                          "column": 3,
+                          "line": 135
+                        },
+                        "snippet": "  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                            "column": 3,
+                            "line": 135
+                          },
+                          "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n\n  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:15:50.832Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Function-4b667-howing-duplicate-validation/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                        "column": 3,
+                        "line": 135
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a0919bc1ffd1efeab727-be9c696736e26cb2bffd",
+              "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+              "line": 468,
+              "column": 7
+            },
+            {
+              "title": "FG-E2E-021 @stable @p1 @fg shows updated functional group values in the list after save",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "fg"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 20,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 29900,
+                      "error": {
+                        "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded",
+                        "stack": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                          "column": 3,
+                          "line": 135
+                        },
+                        "snippet": "  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                            "column": 3,
+                            "line": 135
+                          },
+                          "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n\n  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:16:22.885Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Function-81499-lues-in-the-list-after-save/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                        "column": 3,
+                        "line": 135
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a0919bc1ffd1efeab727-237a23243e233c781a18",
+              "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+              "line": 481,
+              "column": 7
+            },
+            {
+              "title": "FG-E2E-022 @stable @p1 @fg asks for confirmation before deleting a functional group",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "fg"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 21,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 29974,
+                      "error": {
+                        "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded",
+                        "stack": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                          "column": 3,
+                          "line": 135
+                        },
+                        "snippet": "  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                            "column": 3,
+                            "line": 135
+                          },
+                          "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n\n  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:16:55.661Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Function-2d4fa-deleting-a-functional-group/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                        "column": 3,
+                        "line": 135
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a0919bc1ffd1efeab727-e929f84875bbf3ad2932",
+              "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+              "line": 497,
+              "column": 7
+            },
+            {
+              "title": "FG-E2E-023 @stable @p1 @fg deletes a functional group when it has no child PWO",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "fg"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 22,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 29223,
+                      "error": {
+                        "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded",
+                        "stack": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                          "column": 3,
+                          "line": 135
+                        },
+                        "snippet": "  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                            "column": 3,
+                            "line": 135
+                          },
+                          "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n\n  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:17:28.351Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Function-7dc63-up-when-it-has-no-child-PWO/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                        "column": 3,
+                        "line": 135
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a0919bc1ffd1efeab727-9c610b85fe5f8de448f5",
+              "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+              "line": 507,
+              "column": 7
+            },
+            {
+              "title": "FG-E2E-024 @stable @p1 @fg blocks delete when the functional group has linked PWO records",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "fg"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 23,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 29228,
+                      "error": {
+                        "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded",
+                        "stack": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                          "column": 3,
+                          "line": 135
+                        },
+                        "snippet": "  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                            "column": 3,
+                            "line": 135
+                          },
+                          "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n\n  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:18:00.293Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Function-4574b-roup-has-linked-PWO-records/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                        "column": 3,
+                        "line": 135
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a0919bc1ffd1efeab727-6bc3cf97ff6fd07b7cfb",
+              "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+              "line": 514,
+              "column": 7
+            },
+            {
+              "title": "FG-E2E-025 @stable @p1 @fg shows toaster feedback for validation and success paths",
+              "ok": false,
+              "tags": [
+                "stable",
+                "p1",
+                "fg"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 24,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 29337,
+                      "error": {
+                        "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded",
+                        "stack": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5",
+                        "location": {
+                          "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                          "column": 3,
+                          "line": 135
+                        },
+                        "snippet": "  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                            "column": 3,
+                            "line": 135
+                          },
+                          "message": "Error: Waiting for Functional Group rows after selecting sector \"Manufacturing\" and industry \"Steel Manufacturing\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\nCall Log:\n- Test timeout of 30000ms exceeded\n\n  133 |\n  134 |   const fgItems = column(page, 'Functional Group').locator('.item');\n> 135 |   await expect\n      |   ^\n  136 |     .poll(async () => fgItems.count(), {\n  137 |       timeout: 10000,\n  138 |       message: `Waiting for Functional Group rows after selecting sector \"${sectorName}\" and industry \"${industryName}\"`,\n    at selectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:135:3)\n    at openWrcfAndSelectIndustryContext (/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:78:7)\n    at /home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts:291:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-03T17:18:32.195Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/sama/new-repo/whizard-platform/test-results/manual-tests-wrcf_Function-fd412-alidation-and-success-paths/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/sama/new-repo/whizard-platform/manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+                        "column": 3,
+                        "line": 135
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "a0919bc1ffd1efeab727-fb3f48dd4c6320441c3a",
+              "file": "manual-tests/wrcf_Functional_Group.playwright.spec.ts",
+              "line": 530,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-04-03T17:05:34.771Z",
+    "duration": 808347.425,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 25,
+    "flaky": 0
+  }
+}

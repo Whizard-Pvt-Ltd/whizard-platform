@@ -1,29 +1,30 @@
-# WRCF
+# WRCF Dashboard Ordered Results
 
 | Test Case ID | Test Name | Status | Failure Type | Duration | Notes |
 | --- | --- | --- | --- | ---: | --- |
-| WD-001 | uses dashboard as the default page after login | Passed | Verified | 1.0 s |  |
-| WD-002 | auto-selects the default Industry Sector and Industry on page load | Passed | Verified | 1.8 s |  |
-| WD-003 | loads dashboard cards for the default selected sector and industry | Passed | Verified | 908 ms |  |
-| WD-004 | displays Industry Sector options in alphabetical order | Passed | Verified | 1.2 s |  |
-| WD-005 | shows industries only for the selected Industry Sector and keeps them alphabetically ordered | Passed | Verified | 1.5 s |  |
-| WD-006 | refreshes all cards when the user changes Industry within the same sector | Passed | Verified | 1.2 s |  |
-| WD-007 | resets Industry and refreshes dashboard data when Industry Sector changes | Passed | Verified | 1.4 s |  |
-| WD-008 | does not retain the previous industry metrics after sector or industry selection changes | Passed | Verified | 1.5 s |  |
-| WD-009 | renders the current version, draft version, last updated, and validation status fields | Passed | Verified | 989 ms |  |
-| WD-010 | renders all quick action tiles and their current behaviors | Passed | Verified | 1.5 s |  |
-| WD-011 | handles partial zero-count states without breaking the dashboard layout | Passed | Verified | 1.2 s |  |
-| WD-012 | hides inactive Industry Sectors from the dashboard filter | Failed | Product Gap | 1.2 s | Error: [2mexpect([22m[31mreceived[39m[2m).[22mnot[2m.[22mtoContain[2m([22m[32mexpected[39m[2m) // indexOf[22m Expected value: not [32m"ZZ Inactive Sector"[39m Received array: [31m["Manufacturing", [7m"ZZ Inactive Sector"[27m][39m |
-| WD-013 | hides inactive industries from the Industry dropdown | Failed | Product Gap | 1.5 s | Error: [2mexpect([22m[31mreceived[39m[2m).[22mnot[2m.[22mtoContain[2m([22m[32mexpected[39m[2m) // indexOf[22m Expected value: not [32m"ZZ Inactive Industry"[39m Received array: [31m["Steel Manufacturing", [7m"ZZ Inactive Industry"[27m][39m |
-| WD-014 | excludes inactive FG PWO SWO CI Skill Task Role and Department records from dashboard counts | Passed | Verified | 1.4 s |  |
-| WD-015 | uses only published version data for displayed metrics | Passed | Verified | 942 ms |  |
-| WD-016 | shows -- when no draft version exists | Failed | Product Gap | 6.0 s | Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed Locator: locator('.version-row') Expected substring: [32m"--"[39m Received string: [31m"Current Version4.1 Published Draft Version4.2 In Progress Last Updated28 Feb 2026Validation Status Validated "[39m Timeout: 5000ms Call log: [2m - Expect "toContainText" with timeout 5000ms[22m [2m - waiting for locator('.version-row')[22m [2m 9 × locator resolved to <div class="version-row" _ngcontent-ng-c1105593656="">…</div>[22m [2m - unexpected value "Current Version4.1 Published Draft Version4.2 In Progress Last Updated28 Feb 2026Validation Status Validated "[22m |
-| WD-017 | shows a no-data state when the selected industry has no published WRCF data | Failed | Product Gap | 6.3 s | Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed Locator: getByText('No published WRCF data') Expected: visible Timeout: 5000ms Error: element(s) not found Call log: [2m - Expect "toBeVisible" with timeout 5000ms[22m [2m - waiting for getByText('No published WRCF data')[22m |
-| WD-018 | keeps Last Updated aligned with the selected industry version state | Failed | Product Gap | 5.9 s | Error: [2mexpect([22m[31mlocator[39m[2m).not.[22mtoHaveText[2m([22m[32mexpected[39m[2m)[22m failed Locator: locator('.version-date') Expected: not [32m"28 Feb 2026"[39m Received: [31m"[7m28 Feb 2026[27m"[39m Timeout: 5000ms Call log: [2m - Expect "not toHaveText" with timeout 5000ms[22m [2m - waiting for locator('.version-date')[22m [2m 9 × locator resolved to <span class="version-date" _ngcontent-ng-c1105593656="">28 Feb 2026</span>[22m [2m - unexpected value "28 Feb 2026"[22m |
-| WD-019 | keeps Validation Status aligned with the selected industry version state | Failed | Product Gap | 5.9 s | Error: [2mexpect([22m[31mlocator[39m[2m).not.[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed Locator: locator('.version-row') Expected substring: not [32m"Validated"[39m Received string: [31m"Current Version4.1 Published Draft Version4.2 In Progress Last Updated28 Feb 2026Validation Status [7mValidated[27m "[39m Timeout: 5000ms Call log: [2m - Expect "not toContainText" with timeout 5000ms[22m [2m - waiting for locator('.version-row')[22m [2m 9 × locator resolved to <div class="version-row" _ngcontent-ng-c1105593656="">…</div>[22m [2m - unexpected value "Current Version4.1 Published Draft Version4.2 In Progress Last Updated28 Feb 2026Validation Status Validated "[22m |
-| WD-020 | uses published active Capability Instance counts only | Passed | Verified | 1.3 s |  |
-| WD-021 | uses published active linked records only for Skills and Tasks counts | Passed | Verified | 1.2 s |  |
-| WD-022 | keeps hierarchy card totals aligned to published active counts | Passed | Verified | 1.2 s |  |
-| WD-023 | uses active published counts for Roles and Departments cards | Passed | Verified | 1.2 s |  |
-| WD-024 | clicking Edit Structure redirects user to Manage Industry WRCF with same selected Industry Sector and Industry carried forward from Dashboard | Failed | Product Gap | 6.3 s | Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveValue[2m([22m[32mexpected[39m[2m)[22m failed Locator: locator('.filter-bar .filter-select').first() Expected: [32m"sector-energy"[39m Received: [31m""[39m Timeout: 5000ms Call log: [2m - Expect "toHaveValue" with timeout 5000ms[22m [2m - waiting for locator('.filter-bar .filter-select').first()[22m [2m 9 × locator resolved to <select ng-reflect-model="" _ngcontent-ng-c2195223369="" class="filter-select ng-untouched ng-pristine ng-valid">…</select>[22m [2m - unexpected value ""[22m |
-| WD-025 | blocks unauthorized users from restricted dashboard actions | Skipped | Pending / Blocked | 825 ms |  |
+| DASH-E2E-001 | DASH-E2E-001 uses dashboard as the default page after login | Failed | Environment / Auth Flake | 1 ms | Error: TEST_LOGIN_EMAIL and TEST_LOGIN_PASSWORD are required |
+| DASH-E2E-002 | DASH-E2E-002 auto-selects the default Industry Sector and Industry on page load | Skipped | Pending / Blocked | 0 ms |  |
+| DASH-E2E-003 | DASH-E2E-003 loads dashboard cards for the default selected sector and industry | Skipped | Pending / Blocked | 0 ms |  |
+| DASH-E2E-004 | DASH-E2E-004 displays Industry Sector options in alphabetical order | Skipped | Pending / Blocked | 0 ms |  |
+| DASH-E2E-005 | DASH-E2E-005 shows industries only for the selected Industry Sector | Skipped | Pending / Blocked | 0 ms |  |
+| DASH-E2E-006 | DASH-E2E-006 keeps industries under the selected sector in alphabetical order | Skipped | Pending / Blocked | 0 ms |  |
+| DASH-E2E-007 | DASH-E2E-007 hides inactive Industry Sectors from the dashboard filter | Skipped | Pending / Blocked | 0 ms |  |
+| DASH-E2E-008 | DASH-E2E-008 hides inactive industries from the Industry dropdown | Skipped | Pending / Blocked | 0 ms |  |
+| DASH-E2E-009 | DASH-E2E-009 excludes inactive FG PWO SWO CI Skill Task Role and Department records from dashboard counts | Skipped | Pending / Blocked | 0 ms |  |
+| DASH-E2E-010 | DASH-E2E-010 uses only published version data for displayed metrics | Skipped | Pending / Blocked | 0 ms |  |
+| DASH-E2E-011 | DASH-E2E-011 renders the current version, draft version, last updated, and validation status fields | Skipped | Pending / Blocked | 0 ms |  |
+| DASH-E2E-012 | DASH-E2E-012 shows -- when no draft version exists | Skipped | Pending / Blocked | 0 ms |  |
+| DASH-E2E-013 | DASH-E2E-013 shows a no-data state when the selected industry has no published WRCF data | Skipped | Pending / Blocked | 0 ms |  |
+| DASH-E2E-014 | DASH-E2E-014 refreshes all cards when the user changes Industry within the same sector | Skipped | Pending / Blocked | 0 ms |  |
+| DASH-E2E-015 | DASH-E2E-015 resets Industry and refreshes dashboard data when Industry Sector changes | Skipped | Pending / Blocked | 0 ms |  |
+| DASH-E2E-016 | DASH-E2E-016 does not retain the previous industry metrics after sector or industry selection changes | Skipped | Pending / Blocked | 0 ms |  |
+| DASH-E2E-017 | DASH-E2E-017 keeps Last Updated aligned with the selected industry version state | Skipped | Pending / Blocked | 0 ms |  |
+| DASH-E2E-018 | DASH-E2E-018 keeps Validation Status aligned with the selected industry version state | Skipped | Pending / Blocked | 0 ms |  |
+| DASH-E2E-019 | DASH-E2E-019 uses published active Capability Instance counts only | Skipped | Pending / Blocked | 0 ms |  |
+| DASH-E2E-020 | DASH-E2E-020 uses published active linked records only for Skills and Tasks counts | Skipped | Pending / Blocked | 0 ms |  |
+| DASH-E2E-021 | DASH-E2E-021 keeps hierarchy card totals aligned to published active counts | Skipped | Pending / Blocked | 0 ms |  |
+| DASH-E2E-022 | DASH-E2E-022 uses active published counts for Roles and Departments cards | Skipped | Pending / Blocked | 0 ms |  |
+| DASH-E2E-023 | DASH-E2E-023 handles partial zero-count states without breaking the dashboard layout | Skipped | Pending / Blocked | 0 ms |  |
+| DASH-E2E-024 | DASH-E2E-024 renders all quick action tiles and their current behaviors | Skipped | Pending / Blocked | 0 ms |  |
+| DASH-E2E-025 | DASH-E2E-025 blocks unauthorized users from restricted dashboard actions | Skipped | Pending / Blocked | 0 ms |  |
+| DASH-E2E-026 | DASH-E2E-026 clicking Edit Structure redirects user to Manage Industry WRCF with same selected Industry Sector and Industry carried forward from Dashboard | Skipped | Pending / Blocked | 0 ms |  |
