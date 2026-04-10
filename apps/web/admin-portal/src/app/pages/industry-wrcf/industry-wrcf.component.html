@@ -43,43 +43,6 @@
     </div>
   </div>
 
-  @if (dashboardStats(); as stats) {
-    <div class="stats-bar">
-      <div class="stat-card">
-        <span class="stat-value">{{ stats.functionalGroups }}</span>
-        <span class="stat-label">Functional Groups</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-value">{{ stats.primaryWorkObjects }}</span>
-        <span class="stat-label">Primary Work Obj.</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-value">{{ stats.secondaryWorkObjects }}</span>
-        <span class="stat-label">Secondary Work Obj.</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-value">{{ stats.capabilityInstances }}</span>
-        <span class="stat-label">Capability Instances</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-value">{{ stats.skills }}</span>
-        <span class="stat-label">Skills</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-value">{{ stats.tasks }}</span>
-        <span class="stat-label">Tasks</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-value">{{ stats.departments }}</span>
-        <span class="stat-label">Departments</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-value">{{ stats.roles }}</span>
-        <span class="stat-label">Roles</span>
-      </div>
-    </div>
-  }
-
   @if (errorMessage()) {
     <div class="error-banner">
       <span>⚠ {{ errorMessage() }}</span>
