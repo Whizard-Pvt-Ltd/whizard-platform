@@ -49,3 +49,15 @@ export class DeleteTaskCommandHandler {
     await this.repo.delete(cmd.id);
   }
 }
+
+export class CheckTaskDeletableQueryHandler {
+  constructor(private readonly repo: ITaskRepository) {}
+
+  async execute(id: string): Promise<{ canDelete: boolean; reason?: string }> {
+    const hasControlPoints = await this.repo.hasControlPoints(id);
+    if (hasControlPoints) {
+      return { canDelete: false, reason: 'Cannot delete Task with existing Control Point available.' };
+    }
+    return { canDelete: true };
+  }
+}

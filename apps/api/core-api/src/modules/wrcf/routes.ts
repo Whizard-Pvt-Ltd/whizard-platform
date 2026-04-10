@@ -634,6 +634,18 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
   });
 
   app.route({
+    method: 'GET',
+    url: '/tasks/:id/can-delete',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const { id } = (request.params as { id: string });
+      logger.debug('Checking task deletable', { ...getLogContext(request), taskId: id });
+      const data = await deps.checkTaskDeletable.execute(id);
+      reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
+    }
+  });
+
+  app.route({
     method: 'DELETE',
     url: '/tasks/:id',
     preHandler: authorizationPreHandler('WRCF.MANAGE'),

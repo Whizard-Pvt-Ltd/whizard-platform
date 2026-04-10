@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, ActivatedRoute } from '@angular/router';
 import { ScrollbarDirective } from '@whizard/shared-ui';
@@ -18,6 +18,8 @@ import { WrcfSkillsApiService } from './services/wrcf-skills-api.service';
   styleUrl: './wrcf-skills.component.css'
 })
 export class WrcfSkillsComponent implements OnInit {
+  @ViewChild('panelRef') private panelRef?: SkillsPanelComponent;
+
   private readonly route = inject(ActivatedRoute);
   private readonly wrcfApi = inject(WrcfApiService);
   private readonly skillsApi = inject(WrcfSkillsApiService);
@@ -57,6 +59,7 @@ export class WrcfSkillsComponent implements OnInit {
 
   protected panel = signal<SkillsPanelState>({ open: false, mode: 'create', entity: 'Skill' });
   protected errorMessage = signal('');
+  protected panelError = signal('');
   protected toastMessage = signal('');
   protected noIndustry = signal(false);
 
@@ -208,6 +211,9 @@ export class WrcfSkillsComponent implements OnInit {
     this.selectedProficiencyId.set('');
     this.resolvedCiId.set(null);
     this.clearSkillsDown();
+    if (swoId) {
+      this.restoreSelectionFromQuery();
+    }
   }
 
   protected onCapabilityChange(capabilityId: string): void {
@@ -305,14 +311,38 @@ export class WrcfSkillsComponent implements OnInit {
   }
 
   private loadSkills(ciId: string): void {
-    this.skillsApi.listSkills(ciId).subscribe({
-      next: skills => this.skills.set(skills),
-      error: () => this.skills.set([])
-    });
     this.selectedSkill.set(null);
     this.tasks.set([]);
     this.selectedTask.set(null);
     this.controlPoints.set([]);
+    this.skillsApi.listSkills(ciId).subscribe({
+      next: skills => {
+        this.skills.set(skills);
+        if (skills.length > 0) this.selectSkill(skills[0]);
+      },
+      error: () => this.skills.set([])
+    });
+  }
+
+  private selectSkill(skill: SkillItem): void {
+    this.selectedSkill.set(skill);
+    this.selectedTask.set(null);
+    this.controlPoints.set([]);
+    this.skillsApi.listTasks(skill.id).subscribe({
+      next: tasks => {
+        this.tasks.set(tasks);
+        if (tasks.length > 0) this.selectTask(tasks[0]);
+      },
+      error: () => this.tasks.set([])
+    });
+  }
+
+  private selectTask(task: TaskItem): void {
+    this.selectedTask.set(task);
+    this.skillsApi.listControlPoints(task.id).subscribe({
+      next: cps => this.controlPoints.set(cps),
+      error: () => this.controlPoints.set([])
+    });
   }
 
   private clearSkillsDown(): void {
@@ -325,28 +355,22 @@ export class WrcfSkillsComponent implements OnInit {
 
   protected onSkillSelect(item: WrcfEntity): void {
     const skill = this.skills().find(s => s.id === item.id) ?? null;
-    this.selectedSkill.set(skill);
-    this.selectedTask.set(null);
-    this.controlPoints.set([]);
     if (skill) {
-      this.skillsApi.listTasks(skill.id).subscribe({
-        next: tasks => this.tasks.set(tasks),
-        error: () => this.tasks.set([])
-      });
+      this.selectSkill(skill);
     } else {
+      this.selectedSkill.set(null);
       this.tasks.set([]);
+      this.selectedTask.set(null);
+      this.controlPoints.set([]);
     }
   }
 
   protected onTaskSelect(item: WrcfEntity): void {
     const task = this.tasks().find(t => t.id === item.id) ?? null;
-    this.selectedTask.set(task);
     if (task) {
-      this.skillsApi.listControlPoints(task.id).subscribe({
-        next: cps => this.controlPoints.set(cps),
-        error: () => this.controlPoints.set([])
-      });
+      this.selectTask(task);
     } else {
+      this.selectedTask.set(null);
       this.controlPoints.set([]);
     }
   }
@@ -366,7 +390,35 @@ export class WrcfSkillsComponent implements OnInit {
   }
 
   protected closePanel(): void {
+    this.panelError.set('');
     this.panel.set({ ...this.panel(), open: false });
+  }
+
+  protected onPanelDeleteRequested(): void {
+    const { entity, data } = this.panel();
+    if (entity === 'Skill') {
+      if (this.tasks().length > 0) {
+        this.panelError.set('Cannot delete Skill with existing Task available.');
+      } else {
+        this.panelError.set('');
+        this.panelRef?.showDeleteConfirmation();
+      }
+    } else if (entity === 'Task' && data) {
+      this.skillsApi.checkTaskDeletable(data.id).subscribe({
+        next: ({ canDelete, reason }) => {
+          if (!canDelete) {
+            this.panelError.set(reason ?? 'Cannot delete Task with existing Control Point available.');
+          } else {
+            this.panelError.set('');
+            this.panelRef?.showDeleteConfirmation();
+          }
+        },
+        error: () => this.panelError.set('Failed to check delete eligibility.')
+      });
+    } else {
+      this.panelError.set('');
+      this.panelRef?.showDeleteConfirmation();
+    }
   }
 
   protected onPanelSave(payload: Partial<SkillItem | TaskItem | ControlPointItem>): void {

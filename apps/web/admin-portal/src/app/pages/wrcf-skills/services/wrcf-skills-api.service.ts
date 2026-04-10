@@ -46,6 +46,10 @@ export class WrcfSkillsApiService {
     return this.http.delete<void>(`${this.base}/tasks/${id}`);
   }
 
+  checkTaskDeletable(id: string): Observable<{ canDelete: boolean; reason?: string }> {
+    return this.http.get<ApiEnvelope<{ canDelete: boolean; reason?: string }>>(`${this.base}/tasks/${id}/can-delete`).pipe(map(r => r.data));
+  }
+
   listControlPoints(taskId: string): Observable<ControlPointItem[]> {
     return this.http.get<ApiEnvelope<ControlPointItem[]>>(`${this.base}/control-points?taskId=${taskId}`).pipe(map(r => r.data));
   }
