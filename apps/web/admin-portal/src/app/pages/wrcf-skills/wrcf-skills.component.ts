@@ -473,15 +473,15 @@ export class WrcfSkillsComponent implements OnInit {
   }
 
   protected get skillsAsEntities(): WrcfEntity[] {
-    return this.skills().map(s => ({ id: s.id, name: s.name }));
+    return this.skills().map(s => ({ id: s.id, name: s.name, canEdit: s.canEdit }));
   }
 
   protected get tasksAsEntities(): WrcfEntity[] {
-    return this.tasks().map(t => ({ id: t.id, name: t.name }));
+    return this.tasks().map(t => ({ id: t.id, name: t.name, canEdit: t.canEdit }));
   }
 
   protected get controlPointsAsEntities(): WrcfEntity[] {
-    return this.controlPoints().map(cp => ({ id: cp.id, name: cp.name }));
+    return this.controlPoints().map(cp => ({ id: cp.id, name: cp.name, canEdit: cp.canEdit }));
   }
 
   protected onSkillEditClicked(item: WrcfEntity): void {

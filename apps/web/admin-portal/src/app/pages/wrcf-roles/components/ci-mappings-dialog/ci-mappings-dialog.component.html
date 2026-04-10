@@ -19,15 +19,51 @@
       <div class="filter-display">{{ roleName || '—' }}</div>
     </div>
     <div class="filter-save">
-      <button class="btn-save" (click)="save.emit()" [disabled]="mappings.length === 0">
+      <button class="btn-save" (click)="save.emit()" [disabled]="!hasSaveableChanges">
         Save {{ mappings.length > 0 ? '(' + mappings.length + ')' : '' }}
       </button>
     </div>
   </div>
 
   <div class="dialog-body">
-    @if (pwoGroups.length === 0) {
-      <p class="empty-msg">No pending CI mappings. Select proficiency levels from the columns.</p>
+    @if (savedPwoGroups.length > 0) {
+      <div class="section-header">
+        <span class="section-title">Saved Mappings</span>
+        <span class="section-badge">{{ savedMappings.length }}</span>
+      </div>
+      @for (group of savedPwoGroups; track group.pwoName) {
+        <div class="pwo-group pwo-group--saved">
+          <button class="pwo-header" (click)="toggleSavedPwo(group.pwoName)">
+            <span class="pwo-name">PWO: {{ group.pwoName }}</span>
+            <span class="pwo-badge">{{ group.items.length }}</span>
+            <span class="chevron">{{ isSavedPwoExpanded(group.pwoName) ? '▲' : '▼' }}</span>
+          </button>
+          @if (isSavedPwoExpanded(group.pwoName)) {
+            <ul class="ci-list">
+              @for (item of group.items; track item.index) {
+                <li class="ci-item ci-item--saved">
+                  <span class="ci-num">{{ $index + 1 }}.</span>
+                  <span class="ci-label">{{ item.swoName }} · {{ item.capabilityName }} · {{ item.proficiencyLabel }}</span>
+                  <span class="ci-saved-badge">saved</span>
+                </li>
+              }
+            </ul>
+          }
+        </div>
+      }
+    }
+
+    @if (pwoGroups.length > 0) {
+      <div class="section-header">
+        <span class="section-title">Pending New Mappings</span>
+        <span class="section-badge">{{ mappings.length }}</span>
+      </div>
+    }
+    @if (pwoGroups.length === 0 && savedPwoGroups.length === 0) {
+      <p class="empty-msg">No CI mappings. Select proficiency levels from the columns.</p>
+    }
+    @if (pwoGroups.length === 0 && savedPwoGroups.length > 0) {
+      <p class="empty-msg-sub">No pending changes. Uncheck proficiencies in the columns to remove existing mappings.</p>
     }
     @for (group of pwoGroups; track group.pwoName) {
       <div class="pwo-group">
@@ -57,7 +93,7 @@
 
   <div class="dialog-footer">
     <button class="btn-cancel" (click)="close.emit()">Cancel</button>
-    <button class="btn-save" (click)="save.emit()" [disabled]="mappings.length === 0">
+    <button class="btn-save" (click)="save.emit()" [disabled]="!hasSaveableChanges">
       Save {{ mappings.length > 0 ? '(' + mappings.length + ' pending)' : '' }}
     </button>
   </div>

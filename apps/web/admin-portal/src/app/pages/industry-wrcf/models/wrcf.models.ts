@@ -11,6 +11,7 @@ export interface WrcfEntity {
   name: string;
   description?: string;
   code?: string;
+  canEdit?: boolean;
 }
 
 export interface IndustrySector extends WrcfEntity {}
@@ -61,6 +62,7 @@ export interface DeleteResult {
 export interface CapabilityInstance {
   id: string;
   functionalGroupId: string;
+  canEdit?: boolean;
   fgName?: string;
   pwoId?: string;
   pwoName?: string;

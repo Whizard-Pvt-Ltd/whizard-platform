@@ -46,6 +46,12 @@ export class WrcfRolesApiService {
     return this.http.delete<void>(`${this.base}/roles/${id}`);
   }
 
+  listRoleCIMappings(roleId: string): Observable<{ id: string; capabilityInstanceId: string }[]> {
+    return this.http.get<ApiEnvelope<{ id: string; capabilityInstanceId: string }[]>>(
+      `${this.base}/role-capability-instances?roleId=${roleId}`
+    ).pipe(map(r => r.data));
+  }
+
   saveRoleCIMappings(roleId: string, capabilityInstanceIds: string[]): Observable<void> {
     return this.http.post<void>(`${this.base}/role-capability-instances`, { roleId, capabilityInstanceIds });
   }

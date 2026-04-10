@@ -153,7 +153,11 @@ async function stackAuthPlugin(fastify: FastifyInstance) {
         request.headers['x-actor-user-account-id'] = localUser.id.value;
         request.headers['x-actor-email'] = stackAuthUser.email ?? '';
         request.headers['x-tenant-type'] = localUser.tenant.tenantType;
-        request.headers['x-tenant-id'] = localUser.tenant.tenantId;
+        // SYSTEM users always map to the system tenant (id 0) regardless of DB mapping
+        const systemTenantId = process.env['SYSTEM_TENANT_ID'] ?? '0';
+        request.headers['x-tenant-id'] = localUser.tenant.tenantType === 'SYSTEM'
+          ? systemTenantId
+          : localUser.tenant.tenantId;
 
         // Bind userId, username and tenantId to the per-request logger so all subsequent
         // log calls on this request (including onResponse) automatically carry this context

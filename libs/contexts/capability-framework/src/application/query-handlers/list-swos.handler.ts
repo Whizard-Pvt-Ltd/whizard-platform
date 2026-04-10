@@ -7,20 +7,9 @@ const logger = getOrCreateAppLogger({ service: 'capability-framework' }).child({
 export class ListSWOsQueryHandler {
   constructor(private readonly swoRepo: ISwoRepository) {}
 
-  async execute(pwoId: string, actorUserId?: string): Promise<SwoDto[]> {
-    logger.debug('Listing SWOs', { userId: actorUserId, pwoId });
-    const swos = await this.swoRepo.findByPWO(pwoId);
-    const result = swos.filter(s => s.isActive).map(swo => ({
-      id: swo.id,
-      tenantId: swo.tenantId,
-      pwoId: swo.pwoId,
-      name: swo.name,
-      description: swo.description,
-      operationalComplexity: swo.operationalComplexity,
-      assetCriticality: swo.assetCriticality,
-      failureFrequency: swo.failureFrequency,
-      isActive: swo.isActive
-    }));
+  async execute(pwoId: string, tenantIds: string[], ownedTenantIds: string[], actorUserId?: string): Promise<SwoDto[]> {
+    logger.debug('Listing SWOs', { userId: actorUserId, pwoId, tenantIds });
+    const result = await this.swoRepo.findByPWOWithTenants(pwoId, tenantIds, ownedTenantIds);
     logger.debug('Listed SWOs', { userId: actorUserId, pwoId, count: result.length });
     return result;
   }

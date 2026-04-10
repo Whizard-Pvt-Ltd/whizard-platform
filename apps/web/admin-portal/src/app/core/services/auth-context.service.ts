@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
+import type { TenantOption } from '@whizard/shared-ui';
 import { Observable, map, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
@@ -23,6 +24,22 @@ export class AuthContextService {
   readonly userId     = signal<string>('');
   readonly isLoaded   = signal(false);
   readonly selectedCompanyTenantId = signal<string | null>(null);
+  readonly selectedTenantId = signal<string | null>(null);
+  readonly tenantOptions = signal<TenantOption[]>([]);
+  readonly isAdmin = computed(() => this.tenantType() === 'SYSTEM');
+
+  setSelectedTenantId(id: string | null): void {
+    this.selectedTenantId.set(id);
+  }
+
+  reset(): void {
+    this.tenantType.set('SYSTEM');
+    this.tenantId.set('');
+    this.userId.set('');
+    this.isLoaded.set(false);
+    this.selectedTenantId.set(null);
+    this.tenantOptions.set([]);
+  }
 
   load(): Observable<void> {
     return this.http
@@ -33,8 +50,17 @@ export class AuthContextService {
           this.tenantId.set(r.data.tenantId ?? '');
           this.userId.set(r.data.userAccountId ?? '');
           this.isLoaded.set(true);
+          if ((r.data.tenantType ?? 'SYSTEM') === 'SYSTEM') {
+            this.loadTenants();
+          }
         }),
         map(() => undefined),
       );
+  }
+
+  private loadTenants(): void {
+    this.http
+      .get<ApiEnvelope<TenantOption[]>>(`${environment.bffApiUrl}/wrcf/admin/tenants`)
+      .subscribe({ next: r => this.tenantOptions.set(r.data ?? []) });
   }
 }

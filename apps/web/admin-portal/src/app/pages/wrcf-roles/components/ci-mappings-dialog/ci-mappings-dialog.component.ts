@@ -15,6 +15,7 @@ interface PwoGroup {
 })
 export class CIMappingsDialogComponent {
   @Input() mappings: PendingCIMapping[] = [];
+  @Input() savedMappings: PendingCIMapping[] = [];
   @Input() industryName = '';
   @Input() departmentName = '';
   @Input() roleName = '';
@@ -23,6 +24,11 @@ export class CIMappingsDialogComponent {
   @Output() close = new EventEmitter<void>();
 
   private expandedPwos = new Set<string>();
+  private expandedSavedPwos = new Set<string>();
+
+  protected get hasSaveableChanges(): boolean {
+    return this.mappings.length > 0;
+  }
 
   protected get pwoGroups(): PwoGroup[] {
     const groups = new Map<string, PwoGroup>();
@@ -36,15 +42,33 @@ export class CIMappingsDialogComponent {
     return Array.from(groups.values());
   }
 
+  protected get savedPwoGroups(): PwoGroup[] {
+    const groups = new Map<string, PwoGroup>();
+    this.savedMappings.forEach((m, i) => {
+      if (!groups.has(m.pwoName)) {
+        groups.set(m.pwoName, { pwoName: m.pwoName, items: [] });
+        this.expandedSavedPwos.add(m.pwoName);
+      }
+      groups.get(m.pwoName)!.items.push({ ...m, index: i });
+    });
+    return Array.from(groups.values());
+  }
+
   protected isPwoExpanded(pwoName: string): boolean {
     return this.expandedPwos.has(pwoName);
   }
 
   protected togglePwo(pwoName: string): void {
-    if (this.expandedPwos.has(pwoName)) {
-      this.expandedPwos.delete(pwoName);
-    } else {
-      this.expandedPwos.add(pwoName);
-    }
+    if (this.expandedPwos.has(pwoName)) this.expandedPwos.delete(pwoName);
+    else this.expandedPwos.add(pwoName);
+  }
+
+  protected isSavedPwoExpanded(pwoName: string): boolean {
+    return this.expandedSavedPwos.has(pwoName);
+  }
+
+  protected toggleSavedPwo(pwoName: string): void {
+    if (this.expandedSavedPwos.has(pwoName)) this.expandedSavedPwos.delete(pwoName);
+    else this.expandedSavedPwos.add(pwoName);
   }
 }

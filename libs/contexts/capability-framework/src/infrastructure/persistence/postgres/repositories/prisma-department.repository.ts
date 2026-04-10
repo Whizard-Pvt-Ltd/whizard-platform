@@ -44,6 +44,41 @@ export class PrismaDepartmentRepository implements IDepartmentRepository {
     }));
   }
 
+  async findByTenantIds(tenantIds: string[], ownedTenantIds: string[], industryId?: string): Promise<{
+    id: string;
+    name: string;
+    tenantId: string;
+    industryId?: string;
+    functionalGroupIds: string[];
+    operationalCriticalityScore?: number;
+    revenueContributionWeight?: number;
+    regulatoryExposureLevel?: number;
+    canEdit: boolean;
+  }[]> {
+    const rows = await this.prisma.department.findMany({
+      where: {
+        isActive: true,
+        tenantId: { in: tenantIds.map(BigInt) },
+        ...(industryId ? { industryId: BigInt(industryId) } : {}),
+      },
+      include: {
+        functionalGroups: { select: { functionalGroupId: true } }
+      },
+      orderBy: [{ tenantId: 'asc' }, { name: 'asc' }],
+    });
+    return rows.map(r => ({
+      id: r.id.toString(),
+      name: r.name,
+      tenantId: r.tenantId.toString(),
+      industryId: r.industryId?.toString() ?? undefined,
+      functionalGroupIds: r.functionalGroups.map(m => m.functionalGroupId.toString()),
+      operationalCriticalityScore: r.operationalCriticalityScore ?? undefined,
+      revenueContributionWeight: r.revenueContributionWeight ?? undefined,
+      regulatoryExposureLevel: r.regulatoryExposureLevel ?? undefined,
+      canEdit: ownedTenantIds.includes(r.tenantId.toString()),
+    }));
+  }
+
   async findById(id: string): Promise<Department | null> {
     const r = await this.prisma.department.findUnique({
       where: { id: BigInt(id) },
@@ -66,10 +101,11 @@ export class PrismaDepartmentRepository implements IDepartmentRepository {
     });
   }
 
-  async save(dept: Department, functionalGroupIds: string[]): Promise<void> {
+  async save(dept: Department, functionalGroupIds: string[]): Promise<{ id: string }> {
     const tenantId = BigInt(dept.tenantId);
     const industryId = dept.industryId ? BigInt(dept.industryId) : null;
 
+    let generatedId: string = dept.id;
     await this.prisma.$transaction(async tx => {
       const created = await tx.department.create({
         data: {
@@ -82,6 +118,7 @@ export class PrismaDepartmentRepository implements IDepartmentRepository {
         },
         select: { id: true }
       });
+      generatedId = created.id.toString();
       if (functionalGroupIds.length > 0) {
         await tx.departmentFunctionalGroup.createMany({
           data: functionalGroupIds.map(fgId => ({
@@ -92,6 +129,7 @@ export class PrismaDepartmentRepository implements IDepartmentRepository {
         });
       }
     });
+    return { id: generatedId };
   }
 
   async update(dept: Department, functionalGroupIds: string[]): Promise<void> {

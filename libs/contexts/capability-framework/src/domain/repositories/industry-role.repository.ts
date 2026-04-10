@@ -9,8 +9,16 @@ export interface IIndustryRoleRepository {
     reportingTo?: string;
     roleCriticalityScore?: number;
   }[]>;
+  findByDepartmentWithTenants(departmentId: string, tenantIds: string[], ownedTenantIds: string[]): Promise<{
+    id: string;
+    name: string;
+    tenantId: string;
+    departmentId: string;
+    description?: string;
+    canEdit: boolean;
+  }[]>;
   findById(id: string): Promise<IndustryRole | null>;
-  save(role: IndustryRole): Promise<void>;
+  save(role: IndustryRole): Promise<{ id: string }>;
   update(role: IndustryRole): Promise<void>;
   delete(id: string): Promise<void>;
 }

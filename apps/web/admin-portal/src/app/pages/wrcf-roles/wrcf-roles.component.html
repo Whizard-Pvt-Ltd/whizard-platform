@@ -53,12 +53,12 @@
       </div>
 
       <div class="add-split-btn">
-        <button class="btn-action" (click)="openEditDepartment()" [disabled]="!selectedDepartmentId()">Edit</button>
+        <button class="btn-action" (click)="openEditDepartment()" [disabled]="!selectedDepartmentId() || !canEditSelectedDept()">Edit</button>
         <button class="btn-action-caret" (click)="openEditDropdown()" [disabled]="!selectedDepartmentId()">▾</button>
         @if (editDropdownOpen()) {
           <div class="add-dropdown">
-            <button class="add-dropdown-item" [disabled]="!selectedDepartmentId()" (click)="openEditDepartment()">Edit Department</button>
-            <button class="add-dropdown-item" [disabled]="!selectedRoleId()" (click)="openEditRole()">Edit Role</button>
+            <button class="add-dropdown-item" [disabled]="!selectedDepartmentId() || !canEditSelectedDept()" (click)="openEditDepartment()">Edit Department</button>
+            <button class="add-dropdown-item" [disabled]="!selectedRoleId() || !canEditSelectedRole()" (click)="openEditRole()">Edit Role</button>
           </div>
         }
       </div>
@@ -129,7 +129,7 @@
         [selectedId]="null"
         [readonly]="!selectedCapabilityId()"
         [checkboxMode]="true"
-        [checkedIds]="checkedProficiencyIds()"
+        [checkedIds]="allCheckedProficiencyIds()"
         [showAdd]="false"
         (checkboxToggled)="toggleProficiency($event.id)"
       />
@@ -150,6 +150,7 @@
   @if (mappingsDialogOpen()) {
     <whizard-ci-mappings-dialog
       [mappings]="pendingMappings()"
+      [savedMappings]="existingSavedMappingEntries()"
       [industryName]="selectedIndustryName"
       [departmentName]="selectedDepartmentName"
       [roleName]="selectedRoleName"

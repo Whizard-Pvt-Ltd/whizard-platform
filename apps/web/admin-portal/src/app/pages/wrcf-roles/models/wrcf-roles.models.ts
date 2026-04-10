@@ -6,6 +6,7 @@ export interface Department {
   operationalCriticalityScore?: number;
   revenueContributionWeight?: number;
   regulatoryExposureLevel?: number;
+  canEdit?: boolean;
 }
 
 export interface IndustryRole {
@@ -13,9 +14,10 @@ export interface IndustryRole {
   name: string;
   departmentId: string;
   description?: string;
-    seniorityLevel: string;
+  seniorityLevel: string;
   reportingTo?: string;
   roleCriticalityScore?: number;
+  canEdit?: boolean;
 }
 
 export interface PendingCIMapping {

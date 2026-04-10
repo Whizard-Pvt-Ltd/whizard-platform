@@ -14,7 +14,8 @@ const toDto = (fg: FunctionalGroup): FunctionalGroupDto => ({
   name: fg.name,
   description: fg.description,
   domainType: fg.domainType,
-  isActive: fg.isActive
+  isActive: fg.isActive,
+  canEdit: true
 });
 
 export class CreateFGCommandHandler {

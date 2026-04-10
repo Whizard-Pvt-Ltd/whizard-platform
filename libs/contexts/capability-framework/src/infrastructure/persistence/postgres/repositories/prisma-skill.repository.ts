@@ -26,11 +26,11 @@ export class PrismaSkillRepository implements ISkillRepository {
     }));
   }
 
-  async findAllDtos(capabilityInstanceId: string, tenantId?: string): Promise<SkillDto[]> {
+  async findAllDtos(capabilityInstanceId: string, tenantIds: string[], ownedTenantIds: string[]): Promise<SkillDto[]> {
     const rows = await this.prisma.skill.findMany({
       where: {
         capabilityInstanceId: BigInt(capabilityInstanceId),
-        ...(tenantId ? { tenantId: BigInt(tenantId) } : {}),
+        tenantId: { in: tenantIds.map(BigInt) },
         isActive: true
       },
       orderBy: { name: 'asc' }
@@ -42,7 +42,8 @@ export class PrismaSkillRepository implements ISkillRepository {
       cognitiveType: r.cognitiveType,
       skillCriticality: r.skillCriticality,
       recertificationCycleMonths: r.recertificationCycleMonths,
-      aiImpact: r.aiImpact
+      aiImpact: r.aiImpact,
+      canEdit: ownedTenantIds.includes(r.tenantId.toString())
     }));
   }
 

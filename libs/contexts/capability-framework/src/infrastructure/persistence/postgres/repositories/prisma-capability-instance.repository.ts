@@ -45,11 +45,12 @@ export class PrismaCapabilityInstanceRepository implements ICapabilityInstanceRe
     });
   }
 
-  async findByContextWithDetails(industryId?: string, fgId?: string): Promise<CapabilityInstanceDto[]> {
+  async findByContextWithDetails(industryId?: string, fgId?: string, tenantIds?: string[], ownedTenantIds?: string[]): Promise<CapabilityInstanceDto[]> {
     const rows = await this.prisma.capabilityInstance.findMany({
       where: {
         ...(industryId ? { functionalGroup: { industryId: BigInt(industryId) } } : {}),
-        ...(fgId ? { functionalGroupId: BigInt(fgId) } : {})
+        ...(fgId ? { functionalGroupId: BigInt(fgId) } : {}),
+        ...(tenantIds && tenantIds.length > 0 ? { tenantId: { in: tenantIds.map(BigInt) } } : {}),
       },
       include: {
         pwo: { select: { name: true, id: true } },
@@ -61,6 +62,7 @@ export class PrismaCapabilityInstanceRepository implements ICapabilityInstanceRe
     });
     return rows.map(row => ({
       id: row.id.toString(),
+      tenantId: row.tenantId.toString(),
       functionalGroupId: row.functionalGroup.id.toString(),
       fgName: row.functionalGroup.name,
       pwoId: row.pwo?.id.toString() ?? undefined,
@@ -72,7 +74,8 @@ export class PrismaCapabilityInstanceRepository implements ICapabilityInstanceRe
       capabilityName: row.capability.name,
       proficiencyId: row.proficiency.id.toString(),
       proficiencyLevel: row.proficiency.level,
-      proficiencyLabel: row.proficiency.label
+      proficiencyLabel: row.proficiency.label,
+      canEdit: ownedTenantIds ? ownedTenantIds.includes(row.tenantId.toString()) : true,
     }));
   }
 

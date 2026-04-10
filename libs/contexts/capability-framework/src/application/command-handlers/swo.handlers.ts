@@ -16,7 +16,8 @@ const toDto = (swo: SecondaryWorkObject): SwoDto => ({
   operationalComplexity: swo.operationalComplexity,
   assetCriticality: swo.assetCriticality,
   failureFrequency: swo.failureFrequency,
-  isActive: swo.isActive
+  isActive: swo.isActive,
+  canEdit: true
 });
 
 export class CreateSWOCommandHandler {

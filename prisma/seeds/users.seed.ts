@@ -14,10 +14,8 @@ const PEOPLE = [
 
 async function seedUsers(): Promise<void> {
   // ── System (whizard.com) admins ──────────────────────────────────────────
-  // The system tenant is seeded by college-operations.seed.ts with this fixed UUID
-  const SYSTEM_TENANT_UUID = 'a0000000-0000-0000-0000-000000000001';
-  const systemTenant = await prisma.tenant.findUnique({ where: { publicUuid: SYSTEM_TENANT_UUID } });
-  if (!systemTenant) throw new Error('System tenant not found — run college-operations.seed.ts first');
+  const systemTenant = await prisma.tenant.findUnique({ where: { id: BigInt(0) } });
+  if (!systemTenant) throw new Error('System tenant (id=0) not found — run wrcf-roles.seed.ts first');
 
   for (const person of PEOPLE) {
     const email = `${person.slug}@whizard.com`;

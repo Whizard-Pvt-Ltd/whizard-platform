@@ -1,5 +1,6 @@
 export interface CapabilityInstanceDto {
   id: string;
+  tenantId: string;
   functionalGroupId: string;
   fgName?: string;
   pwoId?: string;
@@ -12,4 +13,5 @@ export interface CapabilityInstanceDto {
   proficiencyId: string;
   proficiencyLevel: string;
   proficiencyLabel: string;
+  canEdit: boolean;
 }

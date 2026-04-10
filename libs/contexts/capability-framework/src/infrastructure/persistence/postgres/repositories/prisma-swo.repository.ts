@@ -1,4 +1,5 @@
 import { getPrisma } from '@whizard/shared-infrastructure';
+import type { SwoDto } from '../../../../application/dto/swo.dto';
 import type { ISwoRepository } from '../../../../domain/repositories/swo.repository';
 import { SecondaryWorkObject } from '../../../../domain/aggregates/secondary-work-object.aggregate';
 import { resolveImpactLevel, CRITICALITY_LEVELS, COMPLEXITY_LEVELS, FREQUENCY_LEVELS } from '../../../../domain/value-objects/impact-level.vo';
@@ -31,6 +32,29 @@ export class PrismaSwoRepository implements ISwoRepository {
       failureFrequency: resolveImpactLevel(row.failureFrequency, FREQUENCY_LEVELS),
       isActive: row.isActive
     });
+  }
+
+  async findByPWOWithTenants(pwoId: string, tenantIds: string[], ownedTenantIds: string[]): Promise<SwoDto[]> {
+    const rows = await this.prisma.secondaryWorkObject.findMany({
+      where: {
+        pwoId: BigInt(pwoId),
+        tenantId: { in: tenantIds.map(BigInt) },
+        isActive: true,
+      },
+      orderBy: [{ tenantId: 'asc' }, { name: 'asc' }],
+    });
+    return rows.map(r => ({
+      id: r.id.toString(),
+      tenantId: r.tenantId.toString(),
+      pwoId: r.pwoId.toString(),
+      name: r.name,
+      description: r.description ?? undefined,
+      operationalComplexity: resolveImpactLevel(r.operationalComplexity, COMPLEXITY_LEVELS),
+      assetCriticality: resolveImpactLevel(r.assetCriticality, CRITICALITY_LEVELS),
+      failureFrequency: resolveImpactLevel(r.failureFrequency, FREQUENCY_LEVELS),
+      isActive: r.isActive,
+      canEdit: ownedTenantIds.includes(r.tenantId.toString()),
+    }));
   }
 
   async findByPWO(pwoId: string): Promise<SecondaryWorkObject[]> {

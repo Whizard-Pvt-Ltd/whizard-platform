@@ -3,7 +3,7 @@ import { PrismaClient, InternshipType, InternshipStatus } from '@prisma/client';
 const prisma = new PrismaClient();
 
 // ── Existing UUIDs (from company-organization.seed.ts) ────────────────────────
-const TENANT_SYSTEM_UUID   = 'a0000000-0000-0000-0000-000000000001'; // id=1, default tenant
+const SYSTEM_TENANT_ID = BigInt(0);
 const TENANT_TCS_UUID      = 'b1000000-0000-0000-0000-000000000001';
 const TENANT_TECHNOVA_UUID = 'b1000000-0000-0000-0000-000000000002';
 const TENANT_HDFC_UUID     = 'b1000000-0000-0000-0000-000000000003';
@@ -36,14 +36,14 @@ async function seedInternshipHiring(): Promise<void> {
 
   // ── Resolve existing tenant IDs ───────────────────────────────────────────
   const tenantRecords = await prisma.tenant.findMany({
-    where: { publicUuid: { in: [TENANT_SYSTEM_UUID, TENANT_TCS_UUID, TENANT_TECHNOVA_UUID, TENANT_HDFC_UUID, TENANT_AMAZON_UUID] } },
+    where: { publicUuid: { in: [TENANT_TCS_UUID, TENANT_TECHNOVA_UUID, TENANT_HDFC_UUID, TENANT_AMAZON_UUID] } },
     select: { id: true, publicUuid: true },
   });
   if (tenantRecords.length === 0) {
     throw new Error('Tenants not found — run seeds in order');
   }
   const tenantMap = new Map(tenantRecords.map(r => [r.publicUuid, r.id]));
-  const systemTenantId   = tenantMap.get(TENANT_SYSTEM_UUID)!;
+  const systemTenantId   = SYSTEM_TENANT_ID;
   const tcsTenantId      = tenantMap.get(TENANT_TCS_UUID)!;
   const technovaTenantId = tenantMap.get(TENANT_TECHNOVA_UUID)!;
   const hdfcTenantId     = tenantMap.get(TENANT_HDFC_UUID) ?? null;
@@ -96,8 +96,8 @@ async function seedInternshipHiring(): Promise<void> {
       update: {},
       create: {
         publicUuid: fg.uuid,
-        tenantId: fg.tenantId,
-        industryId,
+        tenant: { connect: { id: fg.tenantId } },
+        industry: { connect: { id: industryId } },
         name: fg.name,
         domainType: fg.domainType,
         isActive: true,

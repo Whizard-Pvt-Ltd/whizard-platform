@@ -19,6 +19,7 @@ const cpDto = (overrides: Partial<ControlPointDto> = {}): ControlPointDto => ({
   riskLevel: 'High',
   failureImpactType: 'Safety',
   escalationRequired: false,
+  canEdit: true,
   ...overrides
 });
 
@@ -31,10 +32,10 @@ describe('ListControlPointsQueryHandler', () => {
     handler = new ListControlPointsQueryHandler(repo);
   });
 
-  it('delegates to findAllDtos with correct tenantId and taskId', async () => {
+  it('delegates to findAllDtos with correct taskId, tenantIds, and ownedTenantIds', async () => {
     vi.mocked(repo.findAllDtos).mockResolvedValue([]);
-    await handler.execute('tenant-1', 'task-1');
-    expect(repo.findAllDtos).toHaveBeenCalledWith('tenant-1', 'task-1');
+    await handler.execute('task-1', ['0'], ['0']);
+    expect(repo.findAllDtos).toHaveBeenCalledWith('task-1', ['0'], ['0']);
   });
 
   it('returns the list of ControlPointDtos from the repository', async () => {
@@ -44,7 +45,7 @@ describe('ListControlPointsQueryHandler', () => {
     ];
     vi.mocked(repo.findAllDtos).mockResolvedValue(dtos);
 
-    const result = await handler.execute('tenant-1', 'task-1');
+    const result = await handler.execute('task-1', ['0'], ['0']);
 
     expect(result).toHaveLength(2);
     expect(result[0].name).toBe('Pressure within threshold');
@@ -54,20 +55,20 @@ describe('ListControlPointsQueryHandler', () => {
 
   it('returns an empty array when no control points exist for the task', async () => {
     vi.mocked(repo.findAllDtos).mockResolvedValue([]);
-    const result = await handler.execute('tenant-1', 'task-empty');
+    const result = await handler.execute('task-empty', ['0'], ['0']);
     expect(result).toEqual([]);
   });
 
   it('propagates repository errors', async () => {
     vi.mocked(repo.findAllDtos).mockRejectedValue(new Error('DB error'));
-    await expect(handler.execute('tenant-1', 'task-1')).rejects.toThrow('DB error');
+    await expect(handler.execute('task-1', ['0'], ['0'])).rejects.toThrow('DB error');
   });
 
   it('passes through optional dto fields unchanged', async () => {
     const dto = cpDto({ description: 'Must be within tolerance', kpiThreshold: 95 });
     vi.mocked(repo.findAllDtos).mockResolvedValue([dto]);
 
-    const result = await handler.execute('tenant-1', 'task-1');
+    const result = await handler.execute('task-1', ['0'], ['0']);
 
     expect(result[0].description).toBe('Must be within tolerance');
     expect(result[0].kpiThreshold).toBe(95);

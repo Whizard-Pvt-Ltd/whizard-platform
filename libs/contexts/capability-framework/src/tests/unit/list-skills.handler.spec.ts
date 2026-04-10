@@ -20,6 +20,7 @@ const skillDto = (overrides: Partial<SkillDto> = {}): SkillDto => ({
   skillCriticality: 'High',
   recertificationCycleMonths: 6,
   aiImpact: 'Medium',
+  canEdit: true,
   ...overrides
 });
 
@@ -32,17 +33,17 @@ describe('ListSkillsQueryHandler', () => {
     handler = new ListSkillsQueryHandler(repo);
   });
 
-  it('delegates to findAllDtos with correct tenantId and capabilityInstanceId', async () => {
+  it('delegates to findAllDtos with correct capabilityInstanceId, tenantIds, and ownedTenantIds', async () => {
     vi.mocked(repo.findAllDtos).mockResolvedValue([]);
-    await handler.execute('tenant-1', 'ci-1');
-    expect(repo.findAllDtos).toHaveBeenCalledWith('tenant-1', 'ci-1');
+    await handler.execute('ci-1', ['0'], ['0']);
+    expect(repo.findAllDtos).toHaveBeenCalledWith('ci-1', ['0'], ['0']);
   });
 
   it('returns the list of SkillDtos from the repository', async () => {
     const dtos = [skillDto(), skillDto({ id: 'skill-2', name: 'Pump Alignment' })];
     vi.mocked(repo.findAllDtos).mockResolvedValue(dtos);
 
-    const result = await handler.execute('tenant-1', 'ci-1');
+    const result = await handler.execute('ci-1', ['0'], ['0']);
 
     expect(result).toHaveLength(2);
     expect(result[0].name).toBe('Valve Inspection');
@@ -51,12 +52,12 @@ describe('ListSkillsQueryHandler', () => {
 
   it('returns an empty array when no skills exist for the CI', async () => {
     vi.mocked(repo.findAllDtos).mockResolvedValue([]);
-    const result = await handler.execute('tenant-1', 'ci-empty');
+    const result = await handler.execute('ci-empty', ['0'], ['0']);
     expect(result).toEqual([]);
   });
 
   it('propagates repository errors', async () => {
     vi.mocked(repo.findAllDtos).mockRejectedValue(new Error('DB error'));
-    await expect(handler.execute('tenant-1', 'ci-1')).rejects.toThrow('DB error');
+    await expect(handler.execute('ci-1', ['0'], ['0'])).rejects.toThrow('DB error');
   });
 });

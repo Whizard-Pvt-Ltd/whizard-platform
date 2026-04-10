@@ -16,6 +16,7 @@ export class WrcfColumnComponent {
   @Input() selectedId: string | null = null;
   @Input() showAdd = true;
   @Input() showEdit = true;
+  @Input() showEditAlways = false;
   @Input() readonly = false;
   @Input() checkboxMode = false;
   @Input() checkedIds: string[] = [];

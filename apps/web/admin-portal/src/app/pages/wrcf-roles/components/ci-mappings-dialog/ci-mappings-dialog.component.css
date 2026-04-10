@@ -111,6 +111,55 @@
   padding: 40px 0;
 }
 
+.empty-msg-sub {
+  color: #7F94AE;
+  font-size: 13px;
+  font-style: italic;
+  padding: 8px 0 16px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0 6px;
+  margin-bottom: 6px;
+}
+
+.section-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: #7F94AE;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.section-badge {
+  font-size: 12px;
+  color: #7F94AE;
+}
+
+.pwo-group--saved .pwo-header {
+  background: #1E293B;
+}
+
+.pwo-group--saved .pwo-header:hover {
+  background: #253347;
+}
+
+.ci-item--saved {
+  opacity: 0.8;
+}
+
+.ci-saved-badge {
+  font-size: 11px;
+  color: #00BFFF;
+  border: 1px solid #00BFFF;
+  border-radius: 4px;
+  padding: 1px 6px;
+  flex-shrink: 0;
+}
+
 .pwo-group {
   margin-bottom: 8px;
   border: 1px solid #484E5D;

@@ -48,13 +48,40 @@ export class WrcfRolesComponent implements OnInit {
   protected checkedProficiencyIds = signal<string[]>([]);
 
   protected pendingMappings = signal<PendingCIMapping[]>([]);
-  protected mappingCount = computed(() => this.pendingMappings().length);
+  protected existingMappedCIIds = signal<string[]>([]);
+  protected existingSavedMappingEntries = signal<PendingCIMapping[]>([]);
+  private removedExistingCount = signal(0);
+
+  protected mappingCount = computed(() => this.pendingMappings().length + this.removedExistingCount());
+
+  protected allCheckedProficiencyIds = computed(() => {
+    const newlyChecked = this.checkedProficiencyIds();
+    const existingCIIds = this.existingMappedCIIds();
+    if (existingCIIds.length === 0) return newlyChecked;
+    const swoId = this.selectedSWOId();
+    const capId = this.selectedCapabilityId();
+    if (!swoId || !capId) return newlyChecked;
+    const existingProfIds = this.allCIs()
+      .filter(ci => existingCIIds.includes(ci.id) && ci.swoId === swoId && ci.capabilityId === capId)
+      .map(ci => ci.proficiencyId);
+    return [...new Set([...newlyChecked, ...existingProfIds])];
+  });
 
   protected panel = signal<RolesPanelState>({ open: false, mode: 'create', entity: 'Department' });
   protected mappingsDialogOpen = signal(false);
   protected addDropdownOpen = signal(false);
   protected editDropdownOpen = signal(false);
   protected errorMessage = signal<string | null>(null);
+
+  protected canEditSelectedDept = computed(() => {
+    const dept = this.departments().find(d => d.id === this.selectedDepartmentId());
+    return dept?.canEdit !== false;
+  });
+
+  protected canEditSelectedRole = computed(() => {
+    const role = this.roles().find(r => r.id === this.selectedRoleId());
+    return role?.canEdit !== false;
+  });
 
   protected get availableCapabilities(): Capability[] {
     const swoId = this.selectedSWOId();
@@ -185,8 +212,12 @@ export class WrcfRolesComponent implements OnInit {
     if (guard && this.pendingMappings().length > 0) {
       const proceed = confirm('You have unsaved CI mappings. Discard and continue?');
       if (!proceed) return;
-      this.pendingMappings.set([]);
     }
+    this.pendingMappings.set([]);
+    this.checkedProficiencyIds.set([]);
+    this.existingMappedCIIds.set([]);
+    this.existingSavedMappingEntries.set([]);
+    this.removedExistingCount.set(0);
     this.selectedDepartmentId.set(deptId);
     this.roles.set([]);
     this.selectedRoleId.set(null);
@@ -206,6 +237,7 @@ export class WrcfRolesComponent implements OnInit {
         this.roles.set(roles);
         if (roles.length > 0) {
           this.selectedRoleId.set(roles[0].id);
+          this.loadExistingMappings(roles[0].id);
         }
       },
       error: () => {}
@@ -217,12 +249,47 @@ export class WrcfRolesComponent implements OnInit {
   }
 
   protected onRoleChange(roleId: string): void {
-    if (this.pendingMappings().length > 0) {
+    if (this.pendingMappings().length > 0 || this.removedExistingCount() > 0) {
       const proceed = confirm('You have unsaved CI mappings. Discard and continue?');
       if (!proceed) return;
-      this.pendingMappings.set([]);
     }
+    this.pendingMappings.set([]);
+    this.checkedProficiencyIds.set([]);
+    this.existingMappedCIIds.set([]);
+    this.existingSavedMappingEntries.set([]);
+    this.removedExistingCount.set(0);
     this.selectedRoleId.set(roleId);
+    if (roleId) this.loadExistingMappings(roleId);
+  }
+
+  private loadExistingMappings(roleId: string): void {
+    this.rolesApi.listRoleCIMappings(roleId).subscribe({
+      next: mappings => {
+        const ciIds = mappings.map(m => m.capabilityInstanceId);
+        this.existingMappedCIIds.set(ciIds);
+        if (ciIds.length === 0) return;
+        const industryId = this.selectedIndustryId();
+        if (!industryId) return;
+        this.wrcfApi.listCIs(industryId).subscribe({
+          next: allCIs => {
+            const entries: PendingCIMapping[] = ciIds
+              .map(id => allCIs.find(ci => ci.id === id))
+              .filter((ci): ci is CapabilityInstance => !!ci)
+              .map(ci => ({
+                capabilityInstanceId: ci.id,
+                fgName: ci.fgName ?? '',
+                pwoName: ci.pwoName ?? '',
+                swoName: ci.swoName ?? '',
+                capabilityName: ci.capabilityName,
+                proficiencyLabel: ci.proficiencyLabel,
+              }));
+            this.existingSavedMappingEntries.set(entries);
+          },
+          error: () => {}
+        });
+      },
+      error: () => {}
+    });
   }
 
   protected onFGSelect(fgId: string): void {
@@ -281,7 +348,12 @@ export class WrcfRolesComponent implements OnInit {
   }
 
   protected isProficiencyChecked(profId: string): boolean {
-    return this.checkedProficiencyIds().includes(profId);
+    if (this.checkedProficiencyIds().includes(profId)) return true;
+    const swoId = this.selectedSWOId();
+    const capId = this.selectedCapabilityId();
+    if (!swoId || !capId) return false;
+    const ci = this.allCIs().find(c => c.swoId === swoId && c.capabilityId === capId && c.proficiencyId === profId);
+    return !!ci && this.existingMappedCIIds().includes(ci.id);
   }
 
   protected toggleProficiency(profId: string): void {
@@ -289,15 +361,18 @@ export class WrcfRolesComponent implements OnInit {
     const capId = this.selectedCapabilityId();
     if (!swoId || !capId) return;
 
-    if (this.checkedProficiencyIds().includes(profId)) {
+    const ci = this.allCIs().find(c => c.swoId === swoId && c.capabilityId === capId && c.proficiencyId === profId);
+
+    if (this.isProficiencyChecked(profId)) {
       this.checkedProficiencyIds.update(ids => ids.filter(id => id !== profId));
-      this.pendingMappings.update(m => {
-        const ci = this.allCIs().find(c => c.swoId === swoId && c.capabilityId === capId && c.proficiencyId === profId);
-        if (!ci) return m;
-        return m.filter(p => p.capabilityInstanceId !== ci.id);
-      });
+      if (ci) {
+        const wasExisting = this.existingMappedCIIds().includes(ci.id);
+        this.pendingMappings.update(m => m.filter(p => p.capabilityInstanceId !== ci.id));
+        this.existingSavedMappingEntries.update(e => e.filter(p => p.capabilityInstanceId !== ci.id));
+        this.existingMappedCIIds.update(ids => ids.filter(id => id !== ci.id));
+        if (wasExisting) this.removedExistingCount.update(n => n + 1);
+      }
     } else {
-      const ci = this.allCIs().find(c => c.swoId === swoId && c.capabilityId === capId && c.proficiencyId === profId);
       if (!ci) return;
 
       const fg = this.deptFGs().find(f => f.id === this.selectedFGId());
@@ -491,12 +566,17 @@ export class WrcfRolesComponent implements OnInit {
   protected onSaveMappings(): void {
     const roleId = this.selectedRoleId();
     if (!roleId) return;
-    const capabilityInstanceIds = this.pendingMappings().map(m => m.capabilityInstanceId);
-    this.rolesApi.saveRoleCIMappings(roleId, capabilityInstanceIds).subscribe({
+    const pendingCIIds = this.pendingMappings().map(m => m.capabilityInstanceId);
+    const allCIIds = [...new Set([...this.existingMappedCIIds(), ...pendingCIIds])];
+    this.rolesApi.saveRoleCIMappings(roleId, allCIIds).subscribe({
       next: () => {
+        this.existingMappedCIIds.set(allCIIds);
         this.pendingMappings.set([]);
         this.checkedProficiencyIds.set([]);
+        this.removedExistingCount.set(0);
         this.mappingsDialogOpen.set(false);
+        const roleId = this.selectedRoleId();
+        if (roleId) this.loadExistingMappings(roleId);
       },
       error: () => this.showError('Failed to save CI mappings.')
     });

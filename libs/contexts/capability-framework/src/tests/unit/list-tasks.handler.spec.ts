@@ -20,6 +20,7 @@ const taskDto = (overrides: Partial<TaskDto> = {}): TaskDto => ({
   complexity: 'Medium',
   standardDuration: 30,
   requiredProficiencyLevel: 'L1',
+  canEdit: true,
   ...overrides
 });
 
@@ -32,10 +33,10 @@ describe('ListTasksQueryHandler', () => {
     handler = new ListTasksQueryHandler(repo);
   });
 
-  it('delegates to findAllDtos with correct tenantId and skillId', async () => {
+  it('delegates to findAllDtos with correct skillId, tenantIds, and ownedTenantIds', async () => {
     vi.mocked(repo.findAllDtos).mockResolvedValue([]);
-    await handler.execute('tenant-1', 'skill-1');
-    expect(repo.findAllDtos).toHaveBeenCalledWith('tenant-1', 'skill-1');
+    await handler.execute('skill-1', ['0'], ['0']);
+    expect(repo.findAllDtos).toHaveBeenCalledWith('skill-1', ['0'], ['0']);
   });
 
   it('returns the list of TaskDtos from the repository', async () => {
@@ -45,7 +46,7 @@ describe('ListTasksQueryHandler', () => {
     ];
     vi.mocked(repo.findAllDtos).mockResolvedValue(dtos);
 
-    const result = await handler.execute('tenant-1', 'skill-1');
+    const result = await handler.execute('skill-1', ['0'], ['0']);
 
     expect(result).toHaveLength(2);
     expect(result[0].name).toBe('Check pressure gauge');
@@ -54,20 +55,20 @@ describe('ListTasksQueryHandler', () => {
 
   it('returns an empty array when no tasks exist for the skill', async () => {
     vi.mocked(repo.findAllDtos).mockResolvedValue([]);
-    const result = await handler.execute('tenant-1', 'skill-empty');
+    const result = await handler.execute('skill-empty', ['0'], ['0']);
     expect(result).toEqual([]);
   });
 
   it('propagates repository errors', async () => {
     vi.mocked(repo.findAllDtos).mockRejectedValue(new Error('DB error'));
-    await expect(handler.execute('tenant-1', 'skill-1')).rejects.toThrow('DB error');
+    await expect(handler.execute('skill-1', ['0'], ['0'])).rejects.toThrow('DB error');
   });
 
   it('passes through optional dto fields unchanged', async () => {
     const dto = taskDto({ standardDuration: 45, requiredProficiencyLevel: 'L3' });
     vi.mocked(repo.findAllDtos).mockResolvedValue([dto]);
 
-    const result = await handler.execute('tenant-1', 'skill-1');
+    const result = await handler.execute('skill-1', ['0'], ['0']);
 
     expect(result[0].standardDuration).toBe(45);
     expect(result[0].requiredProficiencyLevel).toBe('L3');

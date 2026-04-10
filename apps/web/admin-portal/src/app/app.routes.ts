@@ -28,6 +28,7 @@ export const routes: Routes = [
     path: '',
     component: AdminLayoutComponent,
     canActivate: [authGuard],
+    data: { reuse: true },
     children: [
       {
         path: 'dashboard',

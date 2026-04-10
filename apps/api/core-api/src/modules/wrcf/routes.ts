@@ -1,5 +1,6 @@
 import type { StrategicImportance, DomainType } from '@whizard/capability-framework';
 import { resolveImpactLevel, CRITICALITY_LEVELS, COMPLEXITY_LEVELS, FREQUENCY_LEVELS } from '@whizard/capability-framework';
+import { getPrisma } from '@whizard/shared-infrastructure';
 import { getOrCreateAppLogger } from '@whizard/shared-logging';
 import type { WrcfModuleDependencies } from './runtime';
 import { authorizationPreHandler } from '../iam/shared/authorization-prehandler';
@@ -11,6 +12,27 @@ const isDomainException = (err: unknown): err is Error =>
   err instanceof Error && err.name === 'DomainException';
 
 export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDependencies): void => {
+
+  app.route({
+    method: 'GET',
+    url: '/admin/tenants',
+    preHandler: authorizationPreHandler('WRCF.MANAGE'),
+    handler: async (request, reply) => {
+      const ctx = getRequestContext(request);
+      if (ctx.tenantType !== 'SYSTEM') {
+        reply.status(403).send({ success: false, error: { message: 'Forbidden' } });
+        return;
+      }
+      const prisma = getPrisma();
+      const rows = await prisma.tenant.findMany({
+        where: { isActive: true, NOT: { type: 'SYSTEM' } },
+        select: { id: true, name: true, type: true },
+        orderBy: { name: 'asc' }
+      });
+      const data = rows.map(r => ({ id: r.id.toString(), name: r.name, type: r.type }));
+      reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
+    }
+  });
 
   app.route({
     method: 'GET',
@@ -57,7 +79,7 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
       const { industryId } = (request.params as { industryId: string });
       logger.debug('Listing functional groups', { ...getLogContext(request), industryId });
       const ctx = getRequestContext(request);
-      const data = await deps.listFGs.execute(industryId, ctx.tenantId, ctx.actorUserAccountId);
+      const data = await deps.listFGs.execute(industryId, ctx.tenantIds, ctx.ownedTenantIds, ctx.actorUserAccountId);
       logger.debug('Listed functional groups', { ...getLogContext(request), industryId, count: data.length });
       reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
     }
@@ -159,7 +181,7 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
       const { fgId } = (request.params as { fgId: string });
       logger.debug('Listing PWOs', { ...getLogContext(request), fgId });
       const ctx = getRequestContext(request);
-      const data = await deps.listPWOs.execute(fgId, ctx.actorUserAccountId);
+      const data = await deps.listPWOs.execute(fgId, ctx.tenantIds, ctx.ownedTenantIds, ctx.actorUserAccountId);
       logger.debug('Listed PWOs', { ...getLogContext(request), fgId, count: data.length });
       reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
     }
@@ -264,7 +286,7 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
       const { pwoId } = (request.params as { pwoId: string });
       logger.debug('Listing SWOs', { ...getLogContext(request), pwoId });
       const ctx = getRequestContext(request);
-      const data = await deps.listSWOs.execute(pwoId, ctx.actorUserAccountId);
+      const data = await deps.listSWOs.execute(pwoId, ctx.tenantIds, ctx.ownedTenantIds, ctx.actorUserAccountId);
       logger.debug('Listed SWOs', { ...getLogContext(request), pwoId, count: data.length });
       reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
     }
@@ -393,7 +415,7 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
       const industryId = query['industryId'];
       const fgId = query['fgId'];
       logger.debug('Listing capability instances', { ...getLogContext(request), industryId, fgId });
-      const data = await deps.listCIs.execute(industryId, fgId);
+      const data = await deps.listCIs.execute(industryId, fgId, ctx.tenantIds, ctx.ownedTenantIds);
       logger.debug('Listed capability instances', { ...getLogContext(request), count: data.length });
       reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
     }
@@ -462,9 +484,8 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
       const ctx = getRequestContext(request);
       const query = request.query as Record<string, string>;
       const capabilityInstanceId = query['capabilityInstanceId'] ?? '';
-      const tenantId = ctx.tenantType !== 'SYSTEM' ? ctx.tenantId : undefined;
       logger.debug('Listing skills', { ...getLogContext(request), capabilityInstanceId });
-      const data = await deps.listSkills.execute(capabilityInstanceId, tenantId);
+      const data = await deps.listSkills.execute(capabilityInstanceId, ctx.tenantIds, ctx.ownedTenantIds);
       logger.debug('Listed skills', { ...getLogContext(request), capabilityInstanceId, count: data.length });
       reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
     }
@@ -551,9 +572,8 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
       const ctx = getRequestContext(request);
       const query = request.query as Record<string, string>;
       const skillId = query['skillId'] ?? '';
-      const tenantId = ctx.tenantType !== 'SYSTEM' ? ctx.tenantId : undefined;
       logger.debug('Listing tasks', { ...getLogContext(request), skillId });
-      const data = await deps.listTasks.execute(skillId, tenantId);
+      const data = await deps.listTasks.execute(skillId, ctx.tenantIds, ctx.ownedTenantIds);
       logger.debug('Listed tasks', { ...getLogContext(request), skillId, count: data.length });
       reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
     }
@@ -642,9 +662,8 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
       const ctx = getRequestContext(request);
       const query = request.query as Record<string, string>;
       const taskId = query['taskId'] ?? '';
-      const tenantId = ctx.tenantType !== 'SYSTEM' ? ctx.tenantId : undefined;
       logger.debug('Listing control points', { ...getLogContext(request), taskId });
-      const data = await deps.listControlPoints.execute(taskId, tenantId);
+      const data = await deps.listControlPoints.execute(taskId, ctx.tenantIds, ctx.ownedTenantIds);
       logger.debug('Listed control points', { ...getLogContext(request), taskId, count: data.length });
       reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
     }
@@ -734,9 +753,8 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
       const ctx = getRequestContext(request);
       const query = request.query as Record<string, string>;
       const industryId = query['industryId'] || undefined;
-      const scopeToTenant = ctx.tenantType === 'COMPANY';
-      logger.debug('Listing departments', { ...getLogContext(request), userId: ctx.actorUserAccountId, tenantId: ctx.tenantId, industryId, scopeToTenant });
-      const data = await deps.listDepartments.execute(ctx.tenantId, industryId, scopeToTenant);
+      logger.debug('Listing departments', { ...getLogContext(request), userId: ctx.actorUserAccountId, tenantIds: ctx.tenantIds, industryId });
+      const data = await deps.listDepartments.execute(ctx.tenantIds, ctx.ownedTenantIds, industryId);
       logger.debug('Listed departments', { ...getLogContext(request), industryId, count: data.length });
       reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
     }
@@ -827,9 +845,8 @@ export const registerWrcfRoutes = (app: FastifyInstanceLike, deps: WrcfModuleDep
       const ctx = getRequestContext(request);
       const query = request.query as Record<string, string>;
       const departmentId = query['departmentId'] ?? '';
-      const tenantId = ctx.tenantType === 'COMPANY' ? ctx.tenantId : undefined;
-      logger.debug('Listing roles', { ...getLogContext(request), userId: ctx.actorUserAccountId, tenantId: ctx.tenantId, departmentId, scopedTenantId: tenantId });
-      const data = await deps.listIndustryRoles.execute(departmentId, tenantId);
+      logger.debug('Listing roles', { ...getLogContext(request), userId: ctx.actorUserAccountId, tenantIds: ctx.tenantIds, departmentId });
+      const data = await deps.listIndustryRoles.execute(departmentId, ctx.tenantIds, ctx.ownedTenantIds);
       logger.debug('Listed roles', { ...getLogContext(request), departmentId, count: data.length });
       reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
     }

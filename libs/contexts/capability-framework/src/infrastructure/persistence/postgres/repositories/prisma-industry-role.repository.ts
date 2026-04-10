@@ -31,6 +31,32 @@ export class PrismaIndustryRoleRepository implements IIndustryRoleRepository {
     }));
   }
 
+  async findByDepartmentWithTenants(departmentId: string, tenantIds: string[], ownedTenantIds: string[]): Promise<{
+    id: string;
+    name: string;
+    tenantId: string;
+    departmentId: string;
+    description?: string;
+    canEdit: boolean;
+  }[]> {
+    const rows = await this.prisma.role.findMany({
+      where: {
+        departmentId: BigInt(departmentId),
+        tenantId: { in: tenantIds.map(BigInt) },
+        isActive: true,
+      },
+      orderBy: [{ tenantId: 'asc' }, { name: 'asc' }],
+    });
+    return rows.map(r => ({
+      id: r.id.toString(),
+      name: r.name,
+      tenantId: r.tenantId.toString(),
+      departmentId: r.departmentId.toString(),
+      description: r.description ?? undefined,
+      canEdit: ownedTenantIds.includes(r.tenantId.toString()),
+    }));
+  }
+
   async findById(id: string): Promise<IndustryRole | null> {
     const r = await this.prisma.role.findUnique({
       where: { id: BigInt(id) }
@@ -50,9 +76,9 @@ export class PrismaIndustryRoleRepository implements IIndustryRoleRepository {
     });
   }
 
-  async save(role: IndustryRole): Promise<void> {
+  async save(role: IndustryRole): Promise<{ id: string }> {
     const reportingToId = role.reportingTo ? BigInt(role.reportingTo) : null;
-    await this.prisma.role.create({
+    const created = await this.prisma.role.create({
       data: {
         tenantId: BigInt(role.tenantId),
         departmentId: BigInt(role.departmentId),
@@ -62,8 +88,10 @@ export class PrismaIndustryRoleRepository implements IIndustryRoleRepository {
         seniorityLevel: role.seniorityLevel,
         reportingTo: reportingToId,
         roleCriticalityScore: role.roleCriticalityScore
-      }
+      },
+      select: { id: true }
     });
+    return { id: created.id.toString() };
   }
 
   async update(role: IndustryRole): Promise<void> {

@@ -53,7 +53,7 @@ export class UserAccount {
       credentials: [],
       mfaEnrollments: [],
       tenantMemberships: [],
-      actorLinks: []
+      actorLinks: [],
     });
 
     account.raise({
@@ -64,8 +64,8 @@ export class UserAccount {
         email: account.email.value,
         tenantType: account.tenant.tenantType,
         tenantId: account.tenant.tenantId,
-        mfaRequired: account.mfaRequired
-      }
+        mfaRequired: account.mfaRequired,
+      },
     });
 
     return account;
@@ -86,10 +86,17 @@ export class UserAccount {
     actorLinks?: ActorLink[];
   }): UserAccount {
     const memberships = input.tenantMemberships ?? [];
-    const primary = memberships.find((m) => m.status === 'ACTIVE') ?? memberships[0];
+    const primary =
+      memberships.find((m) => m.status === 'ACTIVE') ?? memberships[0];
     const primaryTenant = primary
-      ? TenantRef.create({ tenantType: primary.tenantType, tenantId: primary.tenantId })
-      : TenantRef.create({ tenantType: 'SYSTEM', tenantId: process.env['SYSTEM_TENANT_ID'] ?? '1' });
+      ? TenantRef.create({
+          tenantType: primary.tenantType,
+          tenantId: primary.tenantId,
+        })
+      : TenantRef.create({
+          tenantType: 'SYSTEM',
+          tenantId: process.env['SYSTEM_TENANT_ID'] ?? '0',
+        });
 
     return new UserAccount({
       id: UserAccountId.create(input.id),
@@ -104,7 +111,7 @@ export class UserAccount {
       credentials: input.credentials ?? [],
       mfaEnrollments: input.mfaEnrollments ?? [],
       tenantMemberships: memberships,
-      actorLinks: input.actorLinks ?? []
+      actorLinks: input.actorLinks ?? [],
     });
   }
 
@@ -119,7 +126,7 @@ export class UserAccount {
     this.raise({
       type: 'iam.user-account-activated.v1',
       occurredAt: now,
-      payload: { userAccountId: this.id.value }
+      payload: { userAccountId: this.id.value },
     });
   }
 
@@ -137,8 +144,8 @@ export class UserAccount {
       payload: {
         userAccountId: this.id.value,
         previousEmail,
-        newEmail: nextEmail.value
-      }
+        newEmail: nextEmail.value,
+      },
     });
   }
 
@@ -151,7 +158,7 @@ export class UserAccount {
     const now = input.now ?? new Date();
 
     const existsActive = this.state.mfaEnrollments.some(
-      (mfa) => mfa.factorType === input.factorType && mfa.status === 'ACTIVE'
+      (mfa) => mfa.factorType === input.factorType && mfa.status === 'ACTIVE',
     );
 
     if (existsActive) {
@@ -164,7 +171,7 @@ export class UserAccount {
       secretRef: input.secretRef,
       status: 'ACTIVE',
       enrolledAt: now,
-      revokedAt: null
+      revokedAt: null,
     });
 
     this.raise({
@@ -173,13 +180,15 @@ export class UserAccount {
       payload: {
         userAccountId: this.id.value,
         enrollmentId: input.enrollmentId,
-        factorType: input.factorType
-      }
+        factorType: input.factorType,
+      },
     });
   }
 
   revokeMfaFactor(enrollmentId: string, now: Date = new Date()): void {
-    const enrollment = this.state.mfaEnrollments.find((item) => item.enrollmentId === enrollmentId);
+    const enrollment = this.state.mfaEnrollments.find(
+      (item) => item.enrollmentId === enrollmentId,
+    );
 
     if (!enrollment || enrollment.status === 'REVOKED') {
       return;
@@ -193,8 +202,8 @@ export class UserAccount {
       occurredAt: now,
       payload: {
         userAccountId: this.id.value,
-        enrollmentId
-      }
+        enrollmentId,
+      },
     });
   }
 
@@ -209,7 +218,7 @@ export class UserAccount {
       (membership) =>
         membership.tenantType === input.tenantType &&
         membership.tenantId === input.tenantId &&
-        membership.status === 'ACTIVE'
+        membership.status === 'ACTIVE',
     );
 
     if (exists) {
@@ -222,7 +231,7 @@ export class UserAccount {
       tenantId: input.tenantId,
       status: 'ACTIVE',
       joinedAt: now,
-      revokedAt: null
+      revokedAt: null,
     });
 
     this.raise({
@@ -232,8 +241,8 @@ export class UserAccount {
         userAccountId: this.id.value,
         membershipId: input.membershipId,
         tenantType: input.tenantType,
-        tenantId: input.tenantId
-      }
+        tenantId: input.tenantId,
+      },
     });
   }
 
@@ -247,7 +256,10 @@ export class UserAccount {
     const now = input.now ?? new Date();
 
     if (input.isPrimary) {
-      this.state.actorLinks = this.state.actorLinks.map((link) => ({ ...link, isPrimary: false }));
+      this.state.actorLinks = this.state.actorLinks.map((link) => ({
+        ...link,
+        isPrimary: false,
+      }));
     }
 
     this.state.actorLinks.push({
@@ -255,7 +267,7 @@ export class UserAccount {
       actorType: input.actorType,
       actorEntityId: input.actorEntityId,
       isPrimary: input.isPrimary ?? false,
-      linkedAt: now
+      linkedAt: now,
     });
   }
 
@@ -289,7 +301,7 @@ export class UserAccount {
       createdAt: this.state.createdAt,
       activatedAt: this.state.activatedAt,
       lastLoginAt: this.state.lastLoginAt,
-      tenantMemberships: this.state.tenantMemberships
+      tenantMemberships: this.state.tenantMemberships,
     };
   }
 

@@ -45,5 +45,5 @@ export { NotificationsComponent } from './layout/notifications.component.js';
 export { UserMenuComponent } from './layout/user-menu.component.js';
 export type { NavigationItem } from './layout/navigation.types.js';
 export { NAVIGATION_ITEMS } from './layout/navigation.types.js';
-export type { LayoutUser, LayoutAuthService } from './layout/auth.token.js';
-export { LAYOUT_AUTH_SERVICE } from './layout/auth.token.js';
+export type { LayoutUser, LayoutAuthService, LayoutTenantService, TenantOption } from './layout/auth.token.js';
+export { LAYOUT_AUTH_SERVICE, LAYOUT_TENANT_SERVICE } from './layout/auth.token.js';

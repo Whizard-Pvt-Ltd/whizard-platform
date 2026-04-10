@@ -27,11 +27,11 @@ export class PrismaTaskRepository implements ITaskRepository {
     }));
   }
 
-  async findAllDtos(skillId: string, tenantId?: string): Promise<TaskDto[]> {
+  async findAllDtos(skillId: string, tenantIds: string[], ownedTenantIds: string[]): Promise<TaskDto[]> {
     const rows = await this.prisma.task.findMany({
       where: {
         skillId: BigInt(skillId),
-        ...(tenantId ? { tenantId: BigInt(tenantId) } : {}),
+        tenantId: { in: tenantIds.map(BigInt) },
         isActive: true
       },
       orderBy: { name: 'asc' }
@@ -44,7 +44,8 @@ export class PrismaTaskRepository implements ITaskRepository {
       frequency: r.frequency,
       complexity: r.complexity,
       standardDuration: r.standardDuration,
-      requiredProficiencyLevel: r.requiredProficiencyLevel ?? undefined
+      requiredProficiencyLevel: r.requiredProficiencyLevel ?? undefined,
+      canEdit: ownedTenantIds.includes(r.tenantId.toString())
     }));
   }
 

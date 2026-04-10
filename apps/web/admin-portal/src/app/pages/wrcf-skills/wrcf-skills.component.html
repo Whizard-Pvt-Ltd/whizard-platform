@@ -88,7 +88,7 @@
         (editClicked)="onTaskEditClicked($event)" style="height: 90vh;" whizardScrollbar />
 
       <whizard-wrcf-column title="Control Point" [items]="controlPointsAsEntities" [selectedId]="null"
-        [readonly]="!selectedTask()" (itemSelected)="onControlPointSelect($event)"
+        [readonly]="!selectedTask()" [showEditAlways]="true" (itemSelected)="onControlPointSelect($event)"
         (addClicked)="openControlPointPanel('create')" (editClicked)="onControlPointEditClicked($event)" style="height: 90vh;" whizardScrollbar />
     </div>
   </div>

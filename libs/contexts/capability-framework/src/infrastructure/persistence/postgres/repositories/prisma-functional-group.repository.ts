@@ -1,4 +1,5 @@
 import { getPrisma } from '@whizard/shared-infrastructure';
+import type { FunctionalGroupDto } from '../../../../application/dto/functional-group.dto';
 import type { IFunctionalGroupRepository } from '../../../../domain/repositories/functional-group.repository';
 import type { DomainType } from '../../../../domain/value-objects/domain-type.vo';
 import { FunctionalGroup } from '../../../../domain/aggregates/functional-group.aggregate';
@@ -29,6 +30,27 @@ export class PrismaFunctionalGroupRepository implements IFunctionalGroupReposito
       domainType: row.domainType as DomainType,
       isActive: row.isActive
     });
+  }
+
+  async findByIndustryWithTenants(industryId: string, tenantIds: string[], ownedTenantIds: string[]): Promise<FunctionalGroupDto[]> {
+    const rows = await this.prisma.functionalGroup.findMany({
+      where: {
+        industryId: BigInt(industryId),
+        tenantId: { in: tenantIds.map(BigInt) },
+        isActive: true,
+      },
+      orderBy: [{ tenantId: 'asc' }, { name: 'asc' }],
+    });
+    return rows.map(r => ({
+      id: r.id.toString(),
+      tenantId: r.tenantId.toString(),
+      industryId: r.industryId.toString(),
+      name: r.name,
+      description: r.description ?? undefined,
+      domainType: r.domainType as DomainType,
+      isActive: r.isActive,
+      canEdit: ownedTenantIds.includes(r.tenantId.toString()),
+    }));
   }
 
   async findByIndustry(industryId: string): Promise<FunctionalGroup[]> {

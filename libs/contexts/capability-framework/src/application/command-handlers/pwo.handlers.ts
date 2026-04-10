@@ -16,7 +16,8 @@ const toDto = (pwo: PrimaryWorkObject): PwoDto => ({
   strategicImportance: pwo.strategicImportance,
   revenueImpact: pwo.revenueImpact,
   downtimeSensitivity: pwo.downtimeSensitivity,
-  isActive: pwo.isActive
+  isActive: pwo.isActive,
+  canEdit: true
 });
 
 export class CreatePWOCommandHandler {

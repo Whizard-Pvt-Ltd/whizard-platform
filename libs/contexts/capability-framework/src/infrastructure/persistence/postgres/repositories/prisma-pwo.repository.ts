@@ -1,4 +1,5 @@
 import { getPrisma } from '@whizard/shared-infrastructure';
+import type { PwoDto } from '../../../../application/dto/pwo.dto';
 import type { IPwoRepository } from '../../../../domain/repositories/pwo.repository';
 import type { StrategicImportance } from '../../../../domain/value-objects/strategic-importance.vo';
 import { PrimaryWorkObject } from '../../../../domain/aggregates/primary-work-object.aggregate';
@@ -32,6 +33,29 @@ export class PrismaPwoRepository implements IPwoRepository {
       downtimeSensitivity: resolveImpactLevel(row.downtimeSensitivity, CRITICALITY_LEVELS),
       isActive: row.isActive
     });
+  }
+
+  async findByFGWithTenants(fgId: string, tenantIds: string[], ownedTenantIds: string[]): Promise<PwoDto[]> {
+    const rows = await this.prisma.primaryWorkObject.findMany({
+      where: {
+        functionalGroupId: BigInt(fgId),
+        tenantId: { in: tenantIds.map(BigInt) },
+        isActive: true,
+      },
+      orderBy: [{ tenantId: 'asc' }, { name: 'asc' }],
+    });
+    return rows.map(r => ({
+      id: r.id.toString(),
+      tenantId: r.tenantId.toString(),
+      functionalGroupId: r.functionalGroupId.toString(),
+      name: r.name,
+      description: r.description ?? undefined,
+      strategicImportance: r.strategicImportanceLevel as StrategicImportance,
+      revenueImpact: resolveImpactLevel(r.revenueImpactLevel, CRITICALITY_LEVELS),
+      downtimeSensitivity: resolveImpactLevel(r.downtimeSensitivity, CRITICALITY_LEVELS),
+      isActive: r.isActive,
+      canEdit: ownedTenantIds.includes(r.tenantId.toString()),
+    }));
   }
 
   async findByFG(fgId: string): Promise<PrimaryWorkObject[]> {

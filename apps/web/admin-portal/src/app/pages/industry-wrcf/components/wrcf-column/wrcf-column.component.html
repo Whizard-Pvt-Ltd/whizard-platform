@@ -19,7 +19,7 @@
             <br /><span class="item-code">({{ item.code }})</span>
           }
         </span>
-        @if (!readonly && showEdit && item.id === selectedId) {
+        @if (!readonly && showEdit && (showEditAlways || item.id === selectedId) && item.canEdit !== false) {
           <button
             class="edit-btn"
             (click)="$event.stopPropagation(); editClicked.emit(item)"

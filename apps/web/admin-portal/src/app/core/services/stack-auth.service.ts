@@ -23,6 +23,7 @@ import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 // import { environment } from '../../../environments/environment';
 import { environment } from '../../../environments/environment';
+import { AuthContextService } from './auth-context.service';
 import { TokenStorageService } from './token-storage.service';
 
 export interface StackAuthUser {
@@ -65,6 +66,7 @@ export class StackAuthService {
   private readonly tokenStorage = inject(TokenStorageService);
   private readonly router = inject(Router);
   private readonly http = inject(HttpClient);
+  private readonly authContext = inject(AuthContextService);
 
   // Stack Auth API base URL
   private readonly stackAuthApiUrl = 'https://api.stack-auth.com';
@@ -203,6 +205,7 @@ export class StackAuthService {
         });
       }
 
+      await firstValueFrom(this.authContext.load());
       await this.router.navigate(['/']);
     } catch (error: unknown) {
       console.error('Sign in failed:', error);
@@ -285,6 +288,7 @@ export class StackAuthService {
     try {
       this.tokenStorage.clearTokens();
       this.currentUserSignal.set(null);
+      this.authContext.reset();
       await this.router.navigate(['/login']);
     } catch (error) {
       console.error('Sign out failed:', error);

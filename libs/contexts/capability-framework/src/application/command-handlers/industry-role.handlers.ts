@@ -10,7 +10,11 @@ export class CreateIndustryRoleCommandHandler {
     private readonly deptRepo: IDepartmentRepository
   ) {}
 
-  async execute(cmd: CreateIndustryRoleCommand): Promise<{ id: string; name: string }> {
+  async execute(cmd: CreateIndustryRoleCommand): Promise<{
+    id: string; name: string; tenantId: string; departmentId: string;
+    description?: string; seniorityLevel?: string; reportingTo?: string;
+    roleCriticalityScore?: number; canEdit: boolean;
+  }> {
     const dept = await this.deptRepo.findById(cmd.departmentId);
     if (!dept) {
       throw new DomainException(`Department ${cmd.departmentId} not found`);
@@ -26,8 +30,18 @@ export class CreateIndustryRoleCommandHandler {
       roleCriticalityScore: cmd.roleCriticalityScore,
       createdBy: cmd.createdBy
     });
-    await this.repo.save(role);
-    return { id: role.id, name: role.name };
+    const { id } = await this.repo.save(role);
+    return {
+      id,
+      name: role.name,
+      tenantId: role.tenantId,
+      departmentId: role.departmentId,
+      description: role.description,
+      seniorityLevel: role.seniorityLevel,
+      reportingTo: role.reportingTo,
+      roleCriticalityScore: role.roleCriticalityScore,
+      canEdit: true,
+    };
   }
 }
 

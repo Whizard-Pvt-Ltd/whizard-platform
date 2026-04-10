@@ -8,11 +8,12 @@ export interface SkillDto {
   skillCriticality: string;
   recertificationCycleMonths: number;
   aiImpact: string;
+  canEdit: boolean;
 }
 
 export interface ISkillRepository {
   findByCapabilityInstanceId(tenantId: string, capabilityInstanceId: string): Promise<Skill[]>;
-  findAllDtos(capabilityInstanceId: string, tenantId?: string): Promise<SkillDto[]>;
+  findAllDtos(capabilityInstanceId: string, tenantIds: string[], ownedTenantIds: string[]): Promise<SkillDto[]>;
   findById(id: string): Promise<Skill | null>;
   save(skill: Skill): Promise<void>;
   update(skill: Skill): Promise<void>;

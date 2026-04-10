@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-const SYSTEM_TENANT_UUID = 'a0000000-0000-0000-0000-000000000001';
+const SYSTEM_TENANT_ID = BigInt(0);
 
 // ── College tenant UUIDs ──────────────────────────────────────────────────────
 const TENANT_IITB_UUID    = 'e1000000-0000-0000-0000-000000000001';
@@ -51,18 +51,15 @@ async function seedCollegeOperations(): Promise<void> {
   });
   const createdBy = seedUserRecord.id;
 
-  // ── System Tenant (for clubs & colleges) ─────────────────────────────────
-  await prisma.tenant.upsert({
-    where: { publicUuid: SYSTEM_TENANT_UUID },
-    update: {},
-    create: { publicUuid: SYSTEM_TENANT_UUID, name: 'Whizard Admin', type: 'ADMIN', isActive: true },
-  });
-  const systemTenantRecord = await prisma.tenant.findUniqueOrThrow({
-    where: { publicUuid: SYSTEM_TENANT_UUID },
-    select: { id: true },
-  });
-  const systemTenantId = systemTenantRecord.id;
-  console.log('System tenant seeded.');
+  // ── System Tenant (id=0, seeded by wrcf-roles.seed.ts) ──────────────────
+  await prisma.$executeRawUnsafe(`
+    INSERT INTO tenants (id, public_uuid, name, type, is_active, created_on)
+    OVERRIDING SYSTEM VALUE
+    VALUES (0, gen_random_uuid(), 'System', 'SYSTEM', true, now())
+    ON CONFLICT (id) DO NOTHING
+  `);
+  const systemTenantId = SYSTEM_TENANT_ID;
+  console.log('System tenant (id=0) ensured.');
 
   // ── Cities ────────────────────────────────────────────────────────────────
   const cities = [

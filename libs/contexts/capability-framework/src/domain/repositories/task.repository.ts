@@ -9,11 +9,12 @@ export interface TaskDto {
   complexity: string;
   standardDuration: number;
   requiredProficiencyLevel: string;
+  canEdit: boolean;
 }
 
 export interface ITaskRepository {
   findBySkillId(tenantId: string, skillId: string): Promise<Task[]>;
-  findAllDtos(skillId: string, tenantId?: string): Promise<TaskDto[]>;
+  findAllDtos(skillId: string, tenantIds: string[], ownedTenantIds: string[]): Promise<TaskDto[]>;
   findById(id: string): Promise<Task | null>;
   save(task: Task): Promise<void>;
   update(task: Task): Promise<void>;

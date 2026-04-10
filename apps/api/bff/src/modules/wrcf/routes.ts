@@ -3,12 +3,13 @@ import type { FastifyInstanceLike, FastifyRequestLike, FastifyReplyLike } from '
 const CORE_API_URL = (process.env.CORE_API_URL || 'http://localhost:3001').replace(/\/$/, '');
 
 const buildCoreApiHeaders = (request: FastifyRequestLike): Record<string, string> => {
-  const headers: Record<string, string> = {
-    'X-Tenant-Type': String(request.headers['x-tenant-type'] ?? 'SYSTEM'),
-    'X-Tenant-Id': String(request.headers['x-tenant-id'] ?? process.env['SYSTEM_TENANT_ID'] ?? '1')
-  };
+  const headers: Record<string, string> = {};
+
   if (request.headers['authorization']) {
     headers['Authorization'] = String(request.headers['authorization']);
+  }
+  if (request.headers['x-selected-tenant-id']) {
+    headers['X-Selected-Tenant-Id'] = String(request.headers['x-selected-tenant-id']);
   }
   return headers;
 };
@@ -49,6 +50,7 @@ const forwardToCore = async (
 };
 
 export const registerWrcfBffRoutes = (app: FastifyInstanceLike): void => {
+  app.route({ method: 'GET', url: '/admin/tenants', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/admin/tenants', req, rep) });
   app.route({ method: 'GET', url: '/sectors', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/sectors', req, rep) });
   app.route({ method: 'GET', url: '/sectors/:sectorId/industries', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/sectors/:sectorId/industries', req, rep) });
   app.route({ method: 'GET', url: '/industries/:industryId/dashboard-stats', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/industries/:industryId/dashboard-stats', req, rep) });

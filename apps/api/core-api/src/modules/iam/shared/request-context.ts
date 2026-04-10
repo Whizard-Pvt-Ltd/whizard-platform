@@ -46,24 +46,41 @@ export interface IamRequestContext {
   readonly actorUserAccountId: string;
   readonly tenantType: TenantType;
   readonly tenantId: string;
+  readonly tenantIds: string[];
+  readonly ownedTenantIds: string[];
   readonly permissions: readonly string[];
   readonly requestId?: string;
 }
 
+const splitHeader = (value: string): string[] =>
+  value.split(',').map(s => s.trim()).filter(Boolean);
+
 export const getRequestContext = (request: FastifyRequestLike): IamRequestContext => {
   const actorUserAccountId = String(request.headers['x-actor-user-account-id'] ?? 'anonymous');
   const tenantType = String(request.headers['x-tenant-type'] ?? 'SYSTEM') as TenantType;
-  const tenantId = String(request.headers['x-tenant-id'] ?? process.env['SYSTEM_TENANT_ID'] ?? '1');
+  const systemTenantId = process.env['SYSTEM_TENANT_ID'] ?? '0';
+  const tenantId = String(request.headers['x-tenant-id'] ?? systemTenantId);
   const permissionsHeader = String(request.headers['x-permissions'] ?? '');
+  const selectedTenantId = request.headers['x-selected-tenant-id']
+    ? String(request.headers['x-selected-tenant-id'])
+    : null;
+
+  const isAdmin = tenantType === 'SYSTEM';
+  const tenantIdSet = new Set<string>([systemTenantId]);
+  if (!isAdmin) tenantIdSet.add(tenantId);
+  if (selectedTenantId) tenantIdSet.add(selectedTenantId);
+
+  const tenantIds = [...tenantIdSet];
+  const ownedTenantIds = isAdmin ? tenantIds : [tenantId];
+  const effectiveTenantId = isAdmin && selectedTenantId ? selectedTenantId : tenantId;
 
   return {
     actorUserAccountId,
     tenantType,
-    tenantId,
-    permissions: permissionsHeader
-      .split(',')
-      .map((value) => value.trim())
-      .filter((value) => value.length > 0),
+    tenantId: effectiveTenantId,
+    tenantIds,
+    ownedTenantIds,
+    permissions: splitHeader(permissionsHeader),
     requestId: request.headers['x-request-id']
       ? String(request.headers['x-request-id'])
       : undefined

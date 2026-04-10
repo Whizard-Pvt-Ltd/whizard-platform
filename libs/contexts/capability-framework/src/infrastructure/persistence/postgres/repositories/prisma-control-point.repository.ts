@@ -28,11 +28,11 @@ export class PrismaControlPointRepository implements IControlPointRepository {
     }));
   }
 
-  async findAllDtos(taskId: string, tenantId?: string): Promise<ControlPointDto[]> {
+  async findAllDtos(taskId: string, tenantIds: string[], ownedTenantIds: string[]): Promise<ControlPointDto[]> {
     const rows = await this.prisma.controlPoint.findMany({
       where: {
         taskId: BigInt(taskId),
-        ...(tenantId ? { tenantId: BigInt(tenantId) } : {}),
+        tenantId: { in: tenantIds.map(BigInt) },
         isActive: true
       },
       orderBy: { name: 'asc' }
@@ -45,7 +45,9 @@ export class PrismaControlPointRepository implements IControlPointRepository {
       riskLevel: r.riskLevel,
       failureImpactType: r.failureImpactType,
       kpiThreshold: r.kpiThreshold ?? undefined,
-      escalationRequired: r.escalationRequired
+      escalationRequired: r.escalationRequired,
+      evidenceType: r.evidenceType ?? undefined,
+      canEdit: ownedTenantIds.includes(r.tenantId.toString())
     }));
   }
 

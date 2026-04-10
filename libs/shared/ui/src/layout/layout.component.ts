@@ -1,6 +1,7 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatDivider } from '@angular/material/divider';
 import { MatIcon } from '@angular/material/icon';
@@ -18,9 +19,8 @@ import {
   RouterOutlet,
 } from '@angular/router';
 import { filter, map } from 'rxjs';
-import { ScrollbarDirective } from "../directives/scrollbar/scrollbar.directive";
-import { LAYOUT_AUTH_SERVICE } from './auth.token';
-import { NotificationsComponent } from './notifications.component';
+import { ScrollbarDirective } from '../directives/scrollbar/scrollbar.directive';
+import { LAYOUT_AUTH_SERVICE, LAYOUT_TENANT_SERVICE } from './auth.token';
 import { PageActionsService } from './page-actions.service';
 import { SchemeSwitcherComponent } from './scheme-switcher.component';
 import { AdminSidebarComponent } from './sidebar.component';
@@ -28,6 +28,7 @@ import { AdminSidebarComponent } from './sidebar.component';
 @Component({
   selector: 'whizard-admin-layout',
   imports: [
+    FormsModule,
     MatIconButton,
     MatIcon,
     MatMenu,
@@ -55,10 +56,14 @@ import { AdminSidebarComponent } from './sidebar.component';
         fixedInViewport
         #sidenav="matSidenav"
       >
-        <whizard-admin-sidebar class="w-full" whizardScrollbar="true"  [whizardScrollbarOptions]="{
-          suppressScrollX: true,
-          wheelPropagation: true,
-        }"/>
+        <whizard-admin-sidebar
+          class="w-full"
+          whizardScrollbar="true"
+          [whizardScrollbarOptions]="{
+            suppressScrollX: true,
+            wheelPropagation: true,
+          }"
+        />
       </mat-sidenav>
 
       <mat-sidenav-content
@@ -114,7 +119,29 @@ import { AdminSidebarComponent } from './sidebar.component';
           }
 
           <!-- Right actions -->
-          <div class="flex items-center gap-x-1 shrink-0">
+          <div class="flex items-center gap-x-2 shrink-0">
+            <!-- Admin tenant selector — only for SYSTEM users -->
+            @if (tenantSvc && tenantSvc.isAdmin()) {
+              <div class="flex items-center gap-x-1">
+                <span
+                  class="text-xs shrink-0"
+                  style="color: #7F94AE; font-family: Poppins, sans-serif;"
+                  >Tenant:</span
+                >
+                <select
+                  [ngModel]="tenantSvc.selectedTenantId() ?? 0"
+                  (ngModelChange)="onTenantChange($event)"
+                  class="h-8 px-2 rounded-md text-xs"
+                  style="background: #0F253F; color: #E8F0FA; border: 1px solid #484E5D; font-family: Poppins, sans-serif; outline: none; min-width: 140px;"
+                >
+                  <option [value]="0">SYSTEM</option>
+                  @for (t of tenantSvc.tenantOptions(); track t.id) {
+                    <option [value]="t.id">{{ t.name }}</option>
+                  }
+                </select>
+              </div>
+            }
+
             <!-- <whizard-notifications /> -->
             <!-- <whizard-scheme-switcher /> -->
 
@@ -154,6 +181,9 @@ export class AdminLayoutComponent {
   private router = inject(Router);
   private authService = inject(LAYOUT_AUTH_SERVICE);
   protected readonly pageActions = inject(PageActionsService);
+  protected readonly tenantSvc = inject(LAYOUT_TENANT_SERVICE, {
+    optional: true,
+  });
 
   protected isMobile = toSignal(
     this.breakpointObserver
@@ -181,6 +211,11 @@ export class AdminLayoutComponent {
     const name = user?.displayName ?? user?.email ?? 'U';
     return name.charAt(0).toUpperCase();
   });
+
+  protected onTenantChange(id: string | null): void {
+    this.tenantSvc!.setSelectedTenantId(id || null);
+    this.router.navigateByUrl(this.router.url);
+  }
 
   async signOut(): Promise<void> {
     await this.authService.signOut();

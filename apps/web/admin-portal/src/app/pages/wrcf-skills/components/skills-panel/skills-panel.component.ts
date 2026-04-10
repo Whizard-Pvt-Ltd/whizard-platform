@@ -40,8 +40,11 @@ export class SkillsPanelComponent implements OnChanges {
   protected cpRiskLevel = 'Medium';
   protected cpFailureImpactType = 'Safety';
   protected cpKpiThreshold: number | null = null;
-  protected cpEscalationRequired = false;
+  protected cpEscalationRequired = 'No';
+  protected cpEvidenceType = 'Log';
 
+  protected readonly escalationOptions = ['Yes', 'No'];
+  protected readonly evidenceTypeOptions = ['Log', 'Email', 'Picture', 'Consent Of Validator'];
   protected readonly cognitiveTypeOptions = ['Procedural', 'Decision', 'Diagnostic'];
   protected readonly criticalityOptions = ['Low', 'Medium', 'High'];
   protected readonly aiImpactOptions = ['Low', 'Medium', 'High'];
@@ -88,7 +91,8 @@ export class SkillsPanelComponent implements OnChanges {
         this.cpRiskLevel = d.riskLevel;
         this.cpFailureImpactType = d.failureImpactType;
         this.cpKpiThreshold = d.kpiThreshold ?? null;
-        this.cpEscalationRequired = d.escalationRequired;
+        this.cpEscalationRequired = d.escalationRequired ? 'Yes' : 'No';
+        this.cpEvidenceType = d.evidenceType ?? 'Log';
       }
     } else {
       this.skillName = '';
@@ -107,7 +111,8 @@ export class SkillsPanelComponent implements OnChanges {
       this.cpRiskLevel = 'Medium';
       this.cpFailureImpactType = 'Safety';
       this.cpKpiThreshold = null;
-      this.cpEscalationRequired = false;
+      this.cpEscalationRequired = 'No';
+      this.cpEvidenceType = 'Log';
     }
   }
 
@@ -160,7 +165,8 @@ export class SkillsPanelComponent implements OnChanges {
         riskLevel: this.cpRiskLevel,
         failureImpactType: this.cpFailureImpactType,
         kpiThreshold: this.cpKpiThreshold ?? undefined,
-        escalationRequired: this.cpEscalationRequired
+        escalationRequired: this.cpEscalationRequired === 'Yes',
+        evidenceType: this.cpEvidenceType
       };
       payload = p;
     }

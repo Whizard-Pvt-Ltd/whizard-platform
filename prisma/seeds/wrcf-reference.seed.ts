@@ -6,6 +6,8 @@ const prisma = new PrismaClient();
 
 async function seedWrcfReference(): Promise<void> {
   // Truncate all WRCF tables in reverse-dependency order and reset sequences
+  // NOTE: TRUNCATE ... CASCADE on `industries` also cascades to `tenants` (via tenants.industry_id).
+  // The system tenant (id=0) is therefore re-created in wrcf-roles.seed.ts, which runs after this.
   await prisma.$executeRawUnsafe(`
     TRUNCATE TABLE
       tasks,

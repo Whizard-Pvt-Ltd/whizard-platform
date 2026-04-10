@@ -6,7 +6,11 @@ import { DomainException } from '../domain-exception';
 export class CreateDepartmentCommandHandler {
   constructor(private readonly repo: IDepartmentRepository) {}
 
-  async execute(cmd: CreateDepartmentCommand): Promise<{ id: string; name: string }> {
+  async execute(cmd: CreateDepartmentCommand): Promise<{
+    id: string; name: string; tenantId: string; industryId?: string;
+    functionalGroupIds: string[]; operationalCriticalityScore?: number;
+    revenueContributionWeight?: number; regulatoryExposureLevel?: number; canEdit: boolean;
+  }> {
     const dept = Department.create({
       tenantId: cmd.tenantId,
       industryId: cmd.industryId,
@@ -16,8 +20,18 @@ export class CreateDepartmentCommandHandler {
       revenueContributionWeight: cmd.revenueContributionWeight,
       regulatoryExposureLevel: cmd.regulatoryExposureLevel
     });
-    await this.repo.save(dept, cmd.functionalGroupIds);
-    return { id: dept.id, name: dept.name };
+    const { id } = await this.repo.save(dept, cmd.functionalGroupIds);
+    return {
+      id,
+      name: dept.name,
+      tenantId: dept.tenantId,
+      industryId: dept.industryId,
+      functionalGroupIds: dept.functionalGroupIds,
+      operationalCriticalityScore: dept.operationalCriticalityScore,
+      revenueContributionWeight: dept.revenueContributionWeight,
+      regulatoryExposureLevel: dept.regulatoryExposureLevel,
+      canEdit: true,
+    };
   }
 }
 
