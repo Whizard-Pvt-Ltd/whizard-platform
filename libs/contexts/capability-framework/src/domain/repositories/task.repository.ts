@@ -19,4 +19,5 @@ export interface ITaskRepository {
   save(task: Task): Promise<void>;
   update(task: Task): Promise<void>;
   delete(id: string): Promise<void>;
+  hasControlPoints(id: string): Promise<boolean>;
 }

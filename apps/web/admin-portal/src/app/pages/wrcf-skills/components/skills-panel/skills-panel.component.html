@@ -3,24 +3,68 @@
     <span class="panel-title">{{ title }}</span>
     <div class="panel-actions">
       @if (state.mode === 'edit' && state.data?.canEdit !== false) {
-        <button class="action-btn delete-btn" (click)="onDelete()" title="Delete">🗑</button>
+        <button class="action-btn delete-btn" (click)="onDelete()" title="Delete">
+          <mat-icon svgIcon="lucideIcons:trash-2" class="size-4" />
+        </button>
       }
       @if (state.mode === 'create' || state.data?.canEdit !== false) {
-        <button class="action-btn save-btn" (click)="onSave()" title="Save">✓</button>
+        <button class="action-btn save-btn" (click)="onSave()" title="Save">
+          <mat-icon svgIcon="lucideIcons:check" class="size-4" />
+        </button>
       }
-      <button class="action-btn close-btn" (click)="close.emit()" title="Close">✕</button>
+      <button class="action-btn close-btn" (click)="close.emit()" title="Close">
+        <mat-icon svgIcon="lucideIcons:x" class="size-4" />
+      </button>
     </div>
   </div>
 
+  @if (confirmingDelete) {
+    <div class="absolute inset-0 z-10 flex items-center justify-center bg-[var(--bg-primary)]/80">
+      <div class="flex w-80 flex-col gap-5 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-6">
+        <div class="flex flex-col items-center gap-2">
+          <mat-icon svgIcon="lucideIcons:triangle-alert" class="size-8 text-error-400" />
+          <p class="m-0 text-center text-base text-[var(--text-primary)]">Delete this {{ state.entity }}?</p>
+          <p class="m-0 text-center text-sm text-[var(--text-secondary)]">This action cannot be undone.</p>
+        </div>
+        <div class="flex gap-3">
+          <button
+            class="h-10 flex-1 cursor-pointer rounded-[10px] border border-[var(--border)] bg-transparent text-sm text-[var(--text-primary)] transition-colors hover:bg-white/10"
+            (click)="onCancelDelete()"
+          >Cancel</button>
+          <button
+            class="h-10 flex-1 cursor-pointer rounded-[10px] border-none bg-error-600 text-sm text-white transition-colors hover:bg-error-700"
+            (click)="onConfirmDelete()"
+          >Delete</button>
+        </div>
+      </div>
+    </div>
+  }
+
   <div class="panel-body">
+    @if (panelError) {
+      <div class="flex items-start gap-2 rounded-lg border border-error-500/50 bg-error-900/20 px-3 py-2.5 text-sm text-error-400">
+        <mat-icon svgIcon="lucideIcons:circle-alert" class="size-4 shrink-0 mt-0.5" />
+        <span>{{ panelError }}</span>
+      </div>
+    }
     @if (errorMsg) {
-      <div class="error-msg">{{ errorMsg }}</div>
+      <div class="flex items-start gap-2 rounded-lg border border-error-500/50 bg-error-900/20 px-3 py-2.5 text-sm text-error-400">
+        <mat-icon svgIcon="lucideIcons:circle-alert" class="size-4 shrink-0 mt-0.5" />
+        <span>{{ errorMsg }}</span>
+      </div>
     }
 
     @if (state.entity === 'Skill') {
       <div class="field">
         <label class="field-label">Name <span class="required">*</span></label>
-        <input class="field-input" type="text" placeholder="Enter skill name..." [(ngModel)]="skillName" />
+        <input
+          class="field-input"
+          [class.field-input--readonly]="state.mode === 'edit'"
+          type="text"
+          placeholder="Enter skill name..."
+          [(ngModel)]="skillName"
+          [readonly]="state.mode === 'edit'"
+        />
       </div>
       <div class="field">
         <label class="field-label">Description</label>
@@ -59,7 +103,14 @@
     @if (state.entity === 'Task') {
       <div class="field">
         <label class="field-label">Name <span class="required">*</span></label>
-        <input class="field-input" type="text" placeholder="Enter task name..." [(ngModel)]="taskName" />
+        <input
+          class="field-input"
+          [class.field-input--readonly]="state.mode === 'edit'"
+          type="text"
+          placeholder="Enter task name..."
+          [(ngModel)]="taskName"
+          [readonly]="state.mode === 'edit'"
+        />
       </div>
       <div class="field">
         <label class="field-label">Description <span class="required">*</span></label>
@@ -99,7 +150,14 @@
     @if (state.entity === 'ControlPoint') {
       <div class="field">
         <label class="field-label">Name <span class="required">*</span></label>
-        <input class="field-input" type="text" placeholder="Enter control point name..." [(ngModel)]="cpName" />
+        <input
+          class="field-input"
+          [class.field-input--readonly]="state.mode === 'edit'"
+          type="text"
+          placeholder="Enter control point name..."
+          [(ngModel)]="cpName"
+          [readonly]="state.mode === 'edit'"
+        />
       </div>
       <div class="field">
         <label class="field-label">Description</label>

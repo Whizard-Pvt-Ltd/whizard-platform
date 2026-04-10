@@ -95,7 +95,8 @@
 
   @if (panel().open) {
   <div class="panel-backdrop" (click)="closePanel()"></div>
-  <whizard-skills-panel [state]="panel()" [proficiencyLevels]="allProficienciesPublic" (save)="onPanelSave($event)"
+  <whizard-skills-panel #panelRef [state]="panel()" [proficiencyLevels]="allProficienciesPublic"
+    [panelError]="panelError()" (save)="onPanelSave($event)" (deleteRequested)="onPanelDeleteRequested()"
     (delete)="onPanelDelete($event)" (close)="closePanel()" />
   }
 

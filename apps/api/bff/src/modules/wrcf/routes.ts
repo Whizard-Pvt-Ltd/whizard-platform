@@ -80,6 +80,7 @@ export const registerWrcfBffRoutes = (app: FastifyInstanceLike): void => {
   app.route({ method: 'DELETE', url: '/skills/:id', handler: (req, rep) => forwardToCore('DELETE', '/api/wrcf/skills/:id', req, rep) });
   app.route({ method: 'GET', url: '/tasks', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/tasks', req, rep) });
   app.route({ method: 'POST', url: '/tasks', handler: (req, rep) => forwardToCore('POST', '/api/wrcf/tasks', req, rep) });
+  app.route({ method: 'GET', url: '/tasks/:id/can-delete', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/tasks/:id/can-delete', req, rep) });
   app.route({ method: 'PATCH', url: '/tasks/:id', handler: (req, rep) => forwardToCore('PATCH', '/api/wrcf/tasks/:id', req, rep) });
   app.route({ method: 'DELETE', url: '/tasks/:id', handler: (req, rep) => forwardToCore('DELETE', '/api/wrcf/tasks/:id', req, rep) });
   app.route({ method: 'GET', url: '/control-points', handler: (req, rep) => forwardToCore('GET', '/api/wrcf/control-points', req, rep) });

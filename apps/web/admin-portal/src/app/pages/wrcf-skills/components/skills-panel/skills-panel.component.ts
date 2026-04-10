@@ -1,23 +1,27 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 import type { ProficiencyLevel } from '../../../industry-wrcf/models/wrcf.models';
 import type { SkillsPanelState, SkillItem, TaskItem, ControlPointItem } from '../../models/wrcf-skills.models';
 
 @Component({
   selector: 'whizard-skills-panel',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, MatIconModule],
   templateUrl: './skills-panel.component.html',
   styleUrl: './skills-panel.component.css'
 })
 export class SkillsPanelComponent implements OnChanges {
   @Input() state!: SkillsPanelState;
   @Input() proficiencyLevels: ProficiencyLevel[] = [];
+  @Input() panelError = '';
   @Output() save = new EventEmitter<Partial<SkillItem | TaskItem | ControlPointItem>>();
+  @Output() deleteRequested = new EventEmitter<void>();
   @Output() delete = new EventEmitter<string>();
   @Output() close = new EventEmitter<void>();
 
   protected errorMsg = '';
+  protected confirmingDelete = false;
 
   // Skill fields
   protected skillName = '';
@@ -62,6 +66,7 @@ export class SkillsPanelComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['state']) {
       this.errorMsg = '';
+      this.confirmingDelete = false;
       this.populateForm();
     }
   }
@@ -179,8 +184,21 @@ export class SkillsPanelComponent implements OnChanges {
   }
 
   protected onDelete(): void {
+    this.deleteRequested.emit();
+  }
+
+  public showDeleteConfirmation(): void {
+    this.confirmingDelete = true;
+  }
+
+  protected onConfirmDelete(): void {
     if (this.state.data) {
       this.delete.emit(this.state.data.id);
     }
+    this.confirmingDelete = false;
+  }
+
+  protected onCancelDelete(): void {
+    this.confirmingDelete = false;
   }
 }

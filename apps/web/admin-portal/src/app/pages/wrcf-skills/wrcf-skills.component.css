@@ -292,7 +292,10 @@
 
 .panel-backdrop {
   position: fixed;
-  inset: 0;
+  top: 64px;
+  left: 0;
+  right: 0;
+  bottom: 48px;
   background: rgba(15, 23, 42, 0.6);
   z-index: 190;
 }

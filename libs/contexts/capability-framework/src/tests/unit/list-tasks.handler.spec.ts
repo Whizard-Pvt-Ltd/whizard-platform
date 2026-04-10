@@ -9,7 +9,8 @@ const makeRepo = (): ITaskRepository => ({
   findById: vi.fn(),
   save: vi.fn(),
   update: vi.fn(),
-  delete: vi.fn()
+  delete: vi.fn(),
+  hasControlPoints: vi.fn()
 });
 
 const taskDto = (overrides: Partial<TaskDto> = {}): TaskDto => ({

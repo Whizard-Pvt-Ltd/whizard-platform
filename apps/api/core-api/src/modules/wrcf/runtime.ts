@@ -49,6 +49,7 @@ import {
   CreateTaskCommandHandler,
   UpdateTaskCommandHandler,
   DeleteTaskCommandHandler,
+  CheckTaskDeletableQueryHandler,
   CreateControlPointCommandHandler,
   UpdateControlPointCommandHandler,
   DeleteControlPointCommandHandler,
@@ -96,6 +97,7 @@ export interface WrcfModuleDependencies {
   readonly createTask: CreateTaskCommandHandler;
   readonly updateTask: UpdateTaskCommandHandler;
   readonly deleteTask: DeleteTaskCommandHandler;
+  readonly checkTaskDeletable: CheckTaskDeletableQueryHandler;
   readonly listControlPoints: ListControlPointsQueryHandler;
   readonly createControlPoint: CreateControlPointCommandHandler;
   readonly updateControlPoint: UpdateControlPointCommandHandler;
@@ -162,6 +164,7 @@ export const registerWrcfCoreApiRuntime = async (app: FastifyInstanceLike): Prom
     createTask: new CreateTaskCommandHandler(taskRepo),
     updateTask: new UpdateTaskCommandHandler(taskRepo),
     deleteTask: new DeleteTaskCommandHandler(taskRepo),
+    checkTaskDeletable: new CheckTaskDeletableQueryHandler(taskRepo),
     listControlPoints: new ListControlPointsQueryHandler(cpRepo),
     createControlPoint: new CreateControlPointCommandHandler(cpRepo),
     updateControlPoint: new UpdateControlPointCommandHandler(cpRepo),
