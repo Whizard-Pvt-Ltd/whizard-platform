@@ -116,6 +116,13 @@ export class PrismaPwoRepository implements IPwoRepository {
     await this.prisma.primaryWorkObject.delete({ where: { id: BigInt(id) } });
   }
 
+  async existsByName(name: string, functionalGroupId: string, tenantId: string): Promise<boolean> {
+    const count = await this.prisma.primaryWorkObject.count({
+      where: { name, functionalGroupId: BigInt(functionalGroupId), tenantId: BigInt(tenantId), isActive: true }
+    });
+    return count > 0;
+  }
+
   async hasSWOs(pwoId: string): Promise<boolean> {
     const count = await this.prisma.secondaryWorkObject.count({
       where: { pwoId: BigInt(pwoId), isActive: true }

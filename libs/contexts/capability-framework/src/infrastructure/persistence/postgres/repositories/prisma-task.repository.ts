@@ -100,6 +100,13 @@ export class PrismaTaskRepository implements ITaskRepository {
     await this.prisma.task.update({ where: { id: BigInt(id) }, data: { isActive: false } });
   }
 
+  async existsByName(name: string, skillId: string, tenantId: string): Promise<boolean> {
+    const count = await this.prisma.task.count({
+      where: { name, skillId: BigInt(skillId), tenantId: BigInt(tenantId), isActive: true }
+    });
+    return count > 0;
+  }
+
   async hasControlPoints(id: string): Promise<boolean> {
     const count = await this.prisma.controlPoint.count({
       where: { taskId: BigInt(id), isActive: true }

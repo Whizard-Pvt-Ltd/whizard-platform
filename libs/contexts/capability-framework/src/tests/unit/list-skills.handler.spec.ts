@@ -7,6 +7,7 @@ const makeRepo = (): ISkillRepository => ({
   findByCapabilityInstanceId: vi.fn(),
   findAllDtos: vi.fn(),
   findById: vi.fn(),
+  existsByName: vi.fn(),
   save: vi.fn(),
   update: vi.fn(),
   delete: vi.fn()

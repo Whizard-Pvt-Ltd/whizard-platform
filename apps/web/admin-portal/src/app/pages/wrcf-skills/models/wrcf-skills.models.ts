@@ -2,6 +2,7 @@ export interface SkillItem {
   id: string;
   name: string;
   capabilityInstanceId: string;
+  description?: string;
   cognitiveType: string;
   skillCriticality: string;
   recertificationCycleMonths: number;

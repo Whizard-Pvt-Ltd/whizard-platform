@@ -19,13 +19,6 @@
   </div>
 
   <div class="panel-body">
-    @if (errorMsg) {
-      <div class="flex items-start gap-2 rounded-lg border border-error-500/50 bg-error-900/20 px-3 py-2.5 text-sm text-error-400">
-        <mat-icon svgIcon="lucideIcons:circle-alert" class="size-4 shrink-0 mt-0.5" />
-        <span>{{ errorMsg }}</span>
-      </div>
-    }
-
     @if (state.entity === 'Skill') {
       <div class="field">
         <label class="field-label">Name <span class="required">*</span></label>
@@ -60,7 +53,7 @@
       </div>
       <div class="field">
         <label class="field-label">Recertification Cycle (months) <span class="required">*</span></label>
-        <input class="field-input" type="number" min="1" max="12" [(ngModel)]="skillRecertificationCycle" />
+        <input class="field-input" type="number" min="1" max="12" [(ngModel)]="skillRecertificationCycleMonths" />
       </div>
       <div class="field">
         <label class="field-label">AI Impact <span class="required">*</span></label>
@@ -105,11 +98,11 @@
         </select>
       </div>
       <div class="field">
-        <label class="field-label">Standard Duration (minutes)</label>
-        <input class="field-input" type="number" min="0" placeholder="Optional" [(ngModel)]="taskStandardDuration" />
+        <label class="field-label">Standard Duration (minutes) <span class="required">*</span></label>
+        <input class="field-input" type="number" min="0" placeholder="Enter duration..." [(ngModel)]="taskStandardDuration" />
       </div>
       <div class="field">
-        <label class="field-label">Required Proficiency Level</label>
+        <label class="field-label">Required Proficiency Level <span class="required">*</span></label>
         <select class="field-select" [(ngModel)]="taskRequiredProficiencyId">
           <option value="">Select level...</option>
           @for (p of proficiencyLevels; track p.id) {
@@ -153,7 +146,7 @@
       </div>
       <div class="field">
         <label class="field-label">KPI Threshold</label>
-        <input class="field-input" type="text" placeholder="Optional" [(ngModel)]="cpKpiThreshold" />
+        <input class="field-input" type="number" min="0" placeholder="Optional" [(ngModel)]="cpKpiThreshold" />
       </div>
       <div class="field">
         <label class="field-label">Escalation Required <span class="required">*</span></label>

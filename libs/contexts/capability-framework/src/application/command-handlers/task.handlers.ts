@@ -7,6 +7,8 @@ export class CreateTaskCommandHandler {
   constructor(private readonly repo: ITaskRepository) {}
 
   async execute(cmd: CreateTaskCommand): Promise<void> {
+    const exists = await this.repo.existsByName(cmd.name, cmd.skillId, cmd.tenantId);
+    if (exists) throw new DomainException(`A Task named "${cmd.name}" already exists in this skill`);
     const task = Task.create({
       tenantId: cmd.tenantId,
       skillId: cmd.skillId,

@@ -5,6 +5,7 @@ export interface SkillProps {
   tenantId: string;
   capabilityInstanceId: string;
   name: string;
+  description?: string;
   cognitiveType: string;
   skillCriticality: string;
   recertificationCycleMonths: number;
@@ -45,6 +46,7 @@ export class Skill {
   readonly tenantId: string;
   readonly capabilityInstanceId: string;
   name: string;
+  description?: string;
   cognitiveType: string;
   skillCriticality: string;
   recertificationCycleMonths: number;
@@ -55,6 +57,7 @@ export class Skill {
     this.tenantId = props.tenantId;
     this.capabilityInstanceId = props.capabilityInstanceId;
     this.name = props.name;
+    this.description = props.description;
     this.cognitiveType = props.cognitiveType;
     this.skillCriticality = props.skillCriticality;
     this.recertificationCycleMonths = props.recertificationCycleMonths;
@@ -73,6 +76,7 @@ export class Skill {
 
   update(partial: Partial<Omit<SkillProps, 'id' | 'tenantId' | 'capabilityInstanceId'>>): void {
     if (partial.name !== undefined) this.name = partial.name;
+    if (partial.description !== undefined) this.description = partial.description;
     if (partial.cognitiveType !== undefined) this.cognitiveType = partial.cognitiveType;
     if (partial.skillCriticality !== undefined) this.skillCriticality = partial.skillCriticality;
     if (partial.recertificationCycleMonths !== undefined) this.recertificationCycleMonths = partial.recertificationCycleMonths;

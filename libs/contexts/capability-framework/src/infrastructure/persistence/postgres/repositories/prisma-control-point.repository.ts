@@ -99,6 +99,13 @@ export class PrismaControlPointRepository implements IControlPointRepository {
     });
   }
 
+  async existsByName(name: string, taskId: string, tenantId: string): Promise<boolean> {
+    const count = await this.prisma.controlPoint.count({
+      where: { name, taskId: BigInt(taskId), tenantId: BigInt(tenantId), isActive: true }
+    });
+    return count > 0;
+  }
+
   async delete(id: string): Promise<void> {
     await this.prisma.controlPoint.update({ where: { id: BigInt(id) }, data: { isActive: false } });
   }
