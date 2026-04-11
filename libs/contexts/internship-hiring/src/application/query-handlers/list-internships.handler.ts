@@ -10,6 +10,7 @@ export class ListInternshipsQueryHandler {
     const internships = await this.repo.findAll({
       tenantId:        query.tenantId,
       companyTenantId: query.companyTenantId,
+      allTenants:      query.allTenants,
       search:          query.search,
       status:          query.status,
     });

@@ -23,7 +23,6 @@ export class AuthContextService {
   readonly tenantId   = signal<string>('');
   readonly userId     = signal<string>('');
   readonly isLoaded   = signal(false);
-  readonly selectedCompanyTenantId = signal<string | null>(null);
   readonly selectedTenantId = signal<string | null>(null);
   readonly tenantOptions = signal<TenantOption[]>([]);
   readonly isAdmin = computed(() => this.tenantType() === 'SYSTEM');

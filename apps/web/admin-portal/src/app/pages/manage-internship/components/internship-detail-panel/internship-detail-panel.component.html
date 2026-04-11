@@ -41,13 +41,13 @@
           <div class="flex items-center gap-3 mb-3">
             @if (internship()!.bannerImageUrl) {
               <img
-                [src]="internship()!.bannerImageUrl | signedUrl"
+                [src]="internship().bannerImageUrl | signedUrl"
                 [alt]="internship()!.title"
                 class="w-15 h-15 rounded-lg object-cover shrink-0"
               />
             } @else {
               <div
-                class="w-15 h-15 rounded-lg bg-whizard-action flex items-center justify-center text-whizard-text-primary text-2xl font-bold shrink-0"
+                class="w-[60px] h-[60px] rounded-lg bg-whizard-action flex items-center justify-center text-whizard-text-primary text-2xl font-bold shrink-0"
               >
                 {{ internship()!.title.charAt(0).toUpperCase() }}
               </div>
@@ -889,19 +889,29 @@
                 </mat-expansion-panel-header>
 
                 <div class="space-y-5 pt-2">
-                  <!-- Capability Instance + Skill -->
+                  <!-- Skill -->
                   <div>
                     <p
                       class="text-[15px] font-medium text-whizard-text-tertiary tracking-[0.15px]"
                     >
-                      Capability Instance + Skill
+                      Skill
                     </p>
-                    <p
-                      class="text-[14px] text-whizard-text-primary leading-5.5 mt-1"
-                    >
-                      {{ week.capabilityInstanceName
-                      }}{{ week.skillNames ? '+' + week.skillNames : '' }}
-                    </p>
+                    <div class="flex items-center gap-2 mt-1">
+                      <p
+                        class="text-[14px] text-whizard-text-primary leading-5.5"
+                      >
+                        {{ week.skillNames || '—' }}
+                      </p>
+                      <a
+                        href="https://s3.eu-central-2.wasabisys.com/dbdumps/html/Rotor_Blade_L1_Course.html"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="ml-auto inline-flex items-center gap-1.5 h-8 px-3 rounded-lg bg-whizard-action hover:bg-whizard-action-hover text-whizard-text-primary text-[13px] font-medium shrink-0 transition-colors"
+                      >
+                        <mat-icon class="!text-[16px] !w-4 !h-4">open_in_new</mat-icon>
+                        View Course
+                      </a>
+                    </div>
                   </div>
 
                   <!-- Tasks -->

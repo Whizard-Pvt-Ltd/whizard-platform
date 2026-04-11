@@ -57,9 +57,12 @@ export class PrismaInternshipRepository implements IInternshipRepository {
     // When a company is selected, scope by companyTenantId alone so results include
     // both company-owned internships (tenantId = company) and system-owned internships
     // assigned to that company (tenantId = system, companyTenantId = company).
-    const scopeFilter = filter.companyTenantId
-      ? { companyTenantId: BigInt(filter.companyTenantId) }
-      : { tenantId };
+    // When allTenants is set (SYSTEM admin viewing global scope), skip scope filter entirely.
+    const scopeFilter = filter.allTenants
+      ? {}
+      : filter.companyTenantId
+        ? { companyTenantId: BigInt(filter.companyTenantId) }
+        : { tenantId };
     const rows = await this.prisma.internship.findMany({
       where: {
         ...scopeFilter,

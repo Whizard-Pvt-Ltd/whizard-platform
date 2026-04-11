@@ -9,13 +9,21 @@ const logger = getOrCreateAppLogger({ service: 'core-api' }).child({ component: 
 const isDomainException = (err: unknown): err is Error =>
   err instanceof Error && err.name === 'DomainException';
 
+const SYSTEM_TENANT_ID = process.env['SYSTEM_TENANT_ID'] ?? '0';
+
+// ctx.tenantId is already the effective tenant resolved from x-selected-tenant-id
+// (see getRequestContext). For a COMPANY user it is their own tenant; for a SYSTEM
+// admin it is either the selected tenant or the system tenant when nothing selected.
 const resolveCompanyTenantId = (
   ctx: ReturnType<typeof getRequestContext>,
-  request: Parameters<typeof getRequestContext>[0],
 ): string | undefined =>
-  ctx.tenantType === 'COMPANY'
-    ? ctx.tenantId
-    : ((request.headers['x-company-tenant-id'] as string | undefined) || undefined);
+  ctx.tenantId !== SYSTEM_TENANT_ID ? ctx.tenantId : undefined;
+
+// Owner tenant of an internship record — SYSTEM for admin-created, company for company-created.
+const resolveOwnerTenantId = (
+  ctx: ReturnType<typeof getRequestContext>,
+): string =>
+  ctx.tenantType === 'COMPANY' ? ctx.tenantId : SYSTEM_TENANT_ID;
 
 export const registerInternshipHiringRoutes = (
   app: FastifyInstanceLike,
@@ -30,11 +38,15 @@ export const registerInternshipHiringRoutes = (
     handler: async (request, reply) => {
       const ctx = getRequestContext(request);
       const { search, status } = (request.query as Record<string, string | undefined>);
-      const companyTenantId = resolveCompanyTenantId(ctx, request);
-      logger.debug('Listing internships', { ...getLogContext(request), userId: ctx.actorUserAccountId, tenantId: ctx.tenantId, companyTenantId });
+      const companyTenantId = resolveCompanyTenantId(ctx);
+      const ownerTenantId = resolveOwnerTenantId(ctx);
+      // SYSTEM admin with no company selected → return internships across all tenants.
+      const allTenants = ctx.tenantType === 'SYSTEM' && !companyTenantId;
+      logger.debug('Listing internships', { ...getLogContext(request), userId: ctx.actorUserAccountId, tenantId: ownerTenantId, companyTenantId, allTenants });
       const data = await deps.listInternships.execute({
-        tenantId: ctx.tenantId,
+        tenantId: ownerTenantId,
         companyTenantId,
+        allTenants,
         search,
         status,
       });
@@ -50,12 +62,13 @@ export const registerInternshipHiringRoutes = (
     handler: async (request, reply) => {
       const ctx  = getRequestContext(request);
       const body = request.body as Record<string, unknown>;
-      const companyTenantId = resolveCompanyTenantId(ctx, request);
-      logger.debug('Creating internship', { ...getLogContext(request), userId: ctx.actorUserAccountId, tenantId: ctx.tenantId, companyTenantId });
+      const companyTenantId = resolveCompanyTenantId(ctx);
+      const ownerTenantId = resolveOwnerTenantId(ctx);
+      logger.debug('Creating internship', { ...getLogContext(request), userId: ctx.actorUserAccountId, tenantId: ownerTenantId, companyTenantId });
       const data = await deps.createInternship.execute({
         ...(body as Record<string, unknown>),
         actorUserId:     ctx.actorUserAccountId,
-        tenantId:        ctx.tenantId,
+        tenantId:        ownerTenantId,
         companyTenantId: companyTenantId ?? null,
       } as never);
       reply.status(201).send({ success: true, data, meta: toApiMeta(request) });
@@ -69,7 +82,7 @@ export const registerInternshipHiringRoutes = (
     preHandler: authorizationPreHandler('INTERNSHIP.MANAGE'),
     handler: async (request, reply) => {
       const ctx = getRequestContext(request);
-      const companyTenantId = resolveCompanyTenantId(ctx, request)
+      const companyTenantId = resolveCompanyTenantId(ctx)
         ?? (request.query as Record<string, string>)['companyTenantId'];
 
       if (!companyTenantId) {
@@ -101,22 +114,33 @@ export const registerInternshipHiringRoutes = (
     },
   });
 
-  // GET /api/internships/roles — industry roles scoped to the company's tenant
+  // GET /api/internships/roles — industry roles scoped to the company's tenant.
+  // SYSTEM admin with no company selected → returns all active roles across tenants.
   app.route({
     method: 'GET',
     url: '/roles',
     preHandler: authorizationPreHandler('INTERNSHIP.MANAGE'),
     handler: async (request, reply) => {
       const ctx = getRequestContext(request);
-      const companyTenantId = resolveCompanyTenantId(ctx, request);
+      const companyTenantId = resolveCompanyTenantId(ctx);
+      const prisma = getPrisma();
 
       if (!companyTenantId) {
-        return reply
-          .status(400)
-          .send({ success: false, error: 'companyTenantId is required' });
+        if (ctx.tenantType !== 'SYSTEM') {
+          return reply
+            .status(400)
+            .send({ success: false, error: 'companyTenantId is required' });
+        }
+
+        const roles = await prisma.role.findMany({
+          where: { isActive: true },
+          orderBy: { name: 'asc' },
+          select: { publicUuid: true, name: true },
+        });
+        const data = roles.map(r => ({ id: r.publicUuid, name: r.name }));
+        return reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
       }
 
-      const prisma = getPrisma();
       const company = await prisma.company.findFirst({
         where: { tenantId: BigInt(companyTenantId) },
         select: { industryId: true },
@@ -129,16 +153,20 @@ export const registerInternshipHiringRoutes = (
       }
 
       const roles = await prisma.role.findMany({
-        where: { industryId: company.industryId, tenantId: BigInt(companyTenantId), isActive: true },
+        where: {
+          industryId: company.industryId,
+          tenantId: BigInt(companyTenantId),
+          isActive: true,
+        },
         orderBy: { name: 'asc' },
-        select: { publicUuid: true, name: true , id: true},
+        select: { publicUuid: true, name: true, id: true },
       });
 
       const data = roles.map((r: { publicUuid: string; name: string }) => ({
         id: r.publicUuid,
         name: r.name,
       }));
-      reply.status(200).send({ success: true, data, meta: toApiMeta(request) });
+      reply.status(200).send({ success: true, data, meta: toApiMeta(request), companyTenantId });
     },
   });
 
@@ -149,7 +177,7 @@ export const registerInternshipHiringRoutes = (
     preHandler: authorizationPreHandler('INTERNSHIP.MANAGE'),
     handler: async (request, reply) => {
       const ctx = getRequestContext(request);
-      const companyTenantId = resolveCompanyTenantId(ctx, request);
+      const companyTenantId = resolveCompanyTenantId(ctx);
       const { roleId } = (request.query as Record<string, string | undefined>);
 
       if (!companyTenantId) {
@@ -208,7 +236,7 @@ export const registerInternshipHiringRoutes = (
       const fgs = await prisma.functionalGroup.findMany({
         where: {
           industryId: company.industryId,
-          tenantId: BigInt(companyTenantId),
+          tenantId: { in: ctx.tenantIds.map(BigInt) },
           isActive: true,
         },
         orderBy: { name: 'asc' },
@@ -228,7 +256,7 @@ export const registerInternshipHiringRoutes = (
     handler: async (request, reply) => {
       const ctx = getRequestContext(request);
       const { functionalGroupId, roleId } = request.query as Record<string, string | undefined>;
-      const companyTenantId = resolveCompanyTenantId(ctx, request);
+      const companyTenantId = resolveCompanyTenantId(ctx);
       logger.debug('Listing PWOs for internship', { ...getLogContext(request), userId: ctx.actorUserAccountId, tenantId: ctx.tenantId });
 
       if (!companyTenantId || !functionalGroupId) {
@@ -459,13 +487,21 @@ export const registerInternshipHiringRoutes = (
         },
       });
 
-      // Resolve mentor names
+      // Resolve mentor names (derive a friendly name from email: john.doe@x → "John Doe")
       const mentorIds = [...new Set(plans.map(p => p.mentorUserId))];
       const mentorUsers = await prisma.userAccount.findMany({
         where: { id: { in: mentorIds } },
         select: { id: true, publicUuid: true, primaryEmail: true },
       });
-      const mentorMap = new Map(mentorUsers.map(u => [u.id, { id: u.publicUuid, name: u.primaryEmail }]));
+      const mentorMap = new Map(
+        mentorUsers.map(u => {
+          const name = u.primaryEmail.split('@')[0]
+            .split(/[._-]/)
+            .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+            .join(' ');
+          return [u.id, { id: u.publicUuid, name }];
+        }),
+      );
 
       const data = plans.map(p => {
         const ciParts = [p.capabilityInstance.swo?.name, p.capabilityInstance.capability.name, p.capabilityInstance.proficiency.label].filter(Boolean);
